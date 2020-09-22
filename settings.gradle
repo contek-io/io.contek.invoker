@@ -1,0 +1,12 @@
+include 'binancefutures-api'
+include 'bitmex-api'
+include 'bitstamp-api'
+include 'bybit-api'
+include 'coinbasepro-api'
+include 'commons-api'
+
+rootProject.name = 'io.contek.invoker'
+rootProject.children.each { project ->
+    project.buildFileName = "${project.name}.gradle"
+}
+

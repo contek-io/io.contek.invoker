@@ -1,0 +1,10 @@
+.gradle
+.idea
+*.iml
+.temp
+
+build
+classes
+out
+
+!.gitkeep

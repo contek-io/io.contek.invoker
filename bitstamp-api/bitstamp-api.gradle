@@ -1,0 +1,7 @@
+dependencies {
+    implementation project(':commons-api')
+
+    implementation "com.google.code.gson:gson:${gsonVersion}"
+}
+
+description = 'Bitstamp Java API'
