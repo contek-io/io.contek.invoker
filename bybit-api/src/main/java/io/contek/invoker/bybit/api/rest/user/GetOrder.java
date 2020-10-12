@@ -23,9 +23,8 @@ public final class GetOrder extends UserRestRequest<Response> {
   public String order_link_id;
   public String symbol;
 
-  GetOrder(IActor actor, RestContext context, String symbol) {
+  GetOrder(IActor actor, RestContext context) {
     super(actor, context);
-    this.symbol = symbol;
   }
 
   public GetOrder setOrderId(String order_id) {
@@ -50,7 +49,7 @@ public final class GetOrder extends UserRestRequest<Response> {
 
   @Override
   protected String getEndpointPath() {
-    return "/v2/private/position/list";
+    return "/v2/private/order";
   }
 
   @Override

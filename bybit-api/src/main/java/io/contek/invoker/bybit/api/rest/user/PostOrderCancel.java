@@ -13,7 +13,7 @@ import javax.annotation.concurrent.NotThreadSafe;
 
 import static io.contek.invoker.bybit.api.ApiFactory.RateLimits.ONE_REST_POST_REQUEST;
 import static io.contek.invoker.bybit.api.rest.user.PostOrderCancel.Response;
-import static io.contek.invoker.commons.api.rest.RestMethod.GET;
+import static io.contek.invoker.commons.api.rest.RestMethod.POST;
 import static java.util.Objects.requireNonNull;
 
 @NotThreadSafe
@@ -23,9 +23,8 @@ public final class PostOrderCancel extends UserRestRequest<Response> {
   public String order_link_id;
   public String symbol;
 
-  PostOrderCancel(IActor actor, RestContext context, String symbol) {
+  PostOrderCancel(IActor actor, RestContext context) {
     super(actor, context);
-    this.symbol = symbol;
   }
 
   public PostOrderCancel setOrderId(String order_id) {
@@ -45,7 +44,7 @@ public final class PostOrderCancel extends UserRestRequest<Response> {
 
   @Override
   protected RestMethod getMethod() {
-    return GET;
+    return POST;
   }
 
   @Override

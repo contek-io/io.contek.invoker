@@ -22,9 +22,8 @@ public final class GetOrderList extends UserRestRequest<Response> {
 
   public String symbol;
 
-  GetOrderList(IActor actor, RestContext context, String symbol) {
+  GetOrderList(IActor actor, RestContext context) {
     super(actor, context);
-    this.symbol = symbol;
   }
 
   public GetOrderList setSymbol(String symbol) {

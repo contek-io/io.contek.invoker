@@ -21,9 +21,8 @@ public final class GetPositionList extends UserRestRequest<Response> {
 
   public String symbol;
 
-  GetPositionList(IActor actor, RestContext context, String symbol) {
+  GetPositionList(IActor actor, RestContext context) {
     super(actor, context);
-    this.symbol = symbol;
   }
 
   public GetPositionList setSymbol(String symbol) {
