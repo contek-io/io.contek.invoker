@@ -19,4 +19,8 @@ public final class MarketRestApi {
   public GetOrderBookL2 getOrderBookL2() {
     return new GetOrderBookL2(actor, context);
   }
+
+  public GetTickers getTickers() {
+    return new GetTickers(actor, context);
+  }
 }
