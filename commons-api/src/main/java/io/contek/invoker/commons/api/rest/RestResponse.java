@@ -1,6 +1,7 @@
 package io.contek.invoker.commons.api.rest;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
@@ -28,7 +29,11 @@ public final class RestResponse {
   }
 
   @Nullable
-  public <T> T getAs(Class<T> type) {
-    return stringValue == null ? null : gson.fromJson(stringValue, type);
+  public <T> T getAs(Class<T> type) throws RestParsingException {
+    try {
+      return stringValue == null ? null : gson.fromJson(stringValue, type);
+    } catch (JsonSyntaxException e) {
+      throw new RestParsingException(this, type);
+    }
   }
 }
