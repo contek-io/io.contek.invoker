@@ -40,6 +40,6 @@ public enum RestMediaType {
   }
 
   private static String toFormString(RestParams params) {
-    return params.getUrlEncodedString();
+    return params.getQueryString();
   }
 }

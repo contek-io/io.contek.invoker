@@ -74,9 +74,9 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
   private String buildUrlParamsString(ICredential credential) {
     RestParams params = getParams();
     if (credential.isAnonymous()) {
-      return params.getUrlEncodedString();
+      return params.getQueryString();
     }
-    return addSignature(params, "", credential).getUrlEncodedString();
+    return addSignature(params, "", credential).getQueryString();
   }
 
   private String buildUrlWithoutParams(String bodyString, ICredential credential) {
@@ -84,13 +84,12 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
     if (credential.isAnonymous()) {
       return url;
     }
-    return url
-        + "?"
-        + addSignature(RestParams.empty(), bodyString, credential).getUrlEncodedString();
+    return url + "?" + addSignature(RestParams.empty(), bodyString, credential).getQueryString();
   }
 
-  private RestParams addSignature(RestParams params, String bodyString, ICredential credential) {
-    String payload = params.getUrlEncodedString() + bodyString;
+  private static RestParams addSignature(
+      RestParams params, String bodyString, ICredential credential) {
+    String payload = params.getQueryString() + bodyString;
     String signature = credential.sign(payload);
     return RestParams.newBuilder().addAll(params.getValues()).add(SIGNATURE, signature).build();
   }
