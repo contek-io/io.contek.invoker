@@ -5,6 +5,7 @@ import io.contek.invoker.commons.api.actor.security.ICredential;
 import io.contek.invoker.commons.api.rest.*;
 
 import javax.annotation.concurrent.ThreadSafe;
+import java.time.Clock;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -15,13 +16,16 @@ import static io.contek.invoker.commons.api.rest.RestParams.toQueryString;
 public abstract class RestRequest<R> extends BaseRestRequest<R> {
 
   private static final String API_KEY = "api_key";
+  private static final String TIMESTAMP = "timestamp";
   private static final String SIGN = "sign";
 
   private final RestContext context;
+  private final Clock clock;
 
   protected RestRequest(IActor actor, RestContext context) {
     super(actor);
     this.context = context;
+    clock = actor.getClock();
   }
 
   protected abstract RestMethod getMethod();
@@ -76,12 +80,11 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
     return JSON.createBody(params);
   }
 
-  private static RestParams addSignature(RestParams params, ICredential credential) {
-    // add "api_key" value and sort.
+  private RestParams addSignature(RestParams params, ICredential credential) {
     Map<String, String> paramMap = new TreeMap<>(params.getValues());
     paramMap.put(API_KEY, credential.getApiKeyId());
+    paramMap.put(TIMESTAMP, Long.toString(clock.millis()));
 
-    // append "sign" value at the end.
     String queryString = toQueryString(paramMap);
     String sign = credential.sign(queryString);
     return RestParams.newBuilder().addAll(paramMap).add(SIGN, sign).build();

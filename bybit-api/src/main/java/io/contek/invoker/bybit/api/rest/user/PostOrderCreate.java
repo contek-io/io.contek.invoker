@@ -31,7 +31,7 @@ public final class PostOrderCreate extends UserRestRequest<Response> {
   private Boolean close_on_trigger;
   private String order_link_id;
 
-  public PostOrderCreate(IActor actor, RestContext context) {
+  PostOrderCreate(IActor actor, RestContext context) {
     super(actor, context);
   }
 
