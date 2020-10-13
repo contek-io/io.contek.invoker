@@ -7,6 +7,7 @@ public class _Order {
 
   public long user_id;
   public String order_id;
+  public String symbol;
   public String side;
   public String order_type;
   public double price;
