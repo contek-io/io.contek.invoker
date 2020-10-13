@@ -1,5 +1,13 @@
 package io.contek.invoker.bitmex.api;
 
+import static com.google.common.io.BaseEncoding.base16;
+import static io.contek.invoker.bitmex.api.ApiFactory.RateLimits.API_KEY_REST_REQUEST_RULE;
+import static io.contek.invoker.bitmex.api.ApiFactory.RateLimits.IP_REST_REQUEST_RULE;
+import static io.contek.invoker.bitmex.api.ApiFactory.RateLimits.IP_WEB_SOCKET_CONNECTION_RULE;
+import static io.contek.invoker.commons.api.actor.ratelimit.RateLimitType.API_KEY;
+import static io.contek.invoker.commons.api.actor.ratelimit.RateLimitType.IP;
+import static io.contek.invoker.commons.api.actor.security.SecretKeyAlgorithm.HMAC_SHA256;
+
 import com.google.common.collect.ImmutableList;
 import io.contek.invoker.bitmex.api.rest.market.MarketRestApi;
 import io.contek.invoker.bitmex.api.rest.user.UserRestApi;
@@ -18,20 +26,25 @@ import io.contek.invoker.commons.api.actor.security.ApiKey;
 import io.contek.invoker.commons.api.actor.security.SimpleCredentialFactory;
 import io.contek.invoker.commons.api.rest.RestContext;
 import io.contek.invoker.commons.api.websocket.WebSocketContext;
-
+import java.time.Duration;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.ThreadSafe;
-import java.time.Duration;
-
-import static com.google.common.io.BaseEncoding.base16;
-import static io.contek.invoker.bitmex.api.ApiFactory.RateLimits.*;
-import static io.contek.invoker.commons.api.actor.ratelimit.RateLimitType.API_KEY;
-import static io.contek.invoker.commons.api.actor.ratelimit.RateLimitType.IP;
-import static io.contek.invoker.commons.api.actor.security.SecretKeyAlgorithm.HMAC_SHA256;
 
 @ThreadSafe
 public final class ApiFactory {
+
+  public static final ApiContext MAIN_NET_CONTEXT =
+      ApiContext.newBuilder()
+          .setRestContext(RestContext.forBaseUrl("https://www.bitmex.com"))
+          .setWebSocketContext(WebSocketContext.forBaseUrl("wss://www.bitmex.com"))
+          .build();
+
+  public static final ApiContext TEST_NET_CONTEXT =
+      ApiContext.newBuilder()
+          .setRestContext(RestContext.forBaseUrl("https://testnet.bitmex.com"))
+          .setWebSocketContext(WebSocketContext.forBaseUrl("wss://testnet.bitmex.com"))
+          .build();
 
   private final ApiContext context;
   private final IActorFactory actorFactory;
@@ -39,6 +52,14 @@ public final class ApiFactory {
   private ApiFactory(ApiContext context, IActorFactory actorFactory) {
     this.context = context;
     this.actorFactory = actorFactory;
+  }
+
+  public static ApiFactory getMainNetDefault() {
+    return fromContext(MAIN_NET_CONTEXT);
+  }
+
+  public static ApiFactory getTestNetDefault() {
+    return fromContext(TEST_NET_CONTEXT);
   }
 
   public static ApiFactory fromContext(ApiContext context) {

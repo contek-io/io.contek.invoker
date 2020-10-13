@@ -1,11 +1,10 @@
 package io.contek.invoker.commons.api.websocket;
 
 import io.contek.invoker.commons.api.actor.http.BaseHttpContext;
-
+import java.time.Duration;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
-import java.time.Duration;
 
 @Immutable
 public final class WebSocketContext extends BaseHttpContext {
@@ -15,6 +14,10 @@ public final class WebSocketContext extends BaseHttpContext {
   private WebSocketContext(String baseUrl, @Nullable Duration pingInterval) {
     super(baseUrl);
     this.pingInterval = pingInterval;
+  }
+
+  public static WebSocketContext forBaseUrl(String baseUrl) {
+    return WebSocketContext.newBuilder().setBaseUrl(baseUrl).build();
   }
 
   public static Builder newBuilder() {

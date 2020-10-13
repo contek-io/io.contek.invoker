@@ -1,11 +1,10 @@
 package io.contek.invoker.commons.api.rest;
 
 import io.contek.invoker.commons.api.actor.http.BaseHttpContext;
-
+import java.time.Duration;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
-import java.time.Duration;
 
 @Immutable
 public final class RestContext extends BaseHttpContext {
@@ -23,6 +22,10 @@ public final class RestContext extends BaseHttpContext {
     this.connectionTimeout = connectionTimeout;
     this.readTimeout = readTimeout;
     this.writeTimeout = writeTimeout;
+  }
+
+  public static RestContext forBaseUrl(String baseUrl) {
+    return RestContext.newBuilder().setBaseUrl(baseUrl).build();
   }
 
   public static Builder newBuilder() {

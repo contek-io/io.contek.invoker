@@ -1,5 +1,12 @@
 package io.contek.invoker.coinbasepro.api;
 
+import static com.google.common.io.BaseEncoding.base16;
+import static io.contek.invoker.coinbasepro.api.ApiFactory.RateLimits.IP_REST_PRIVATE_REQUEST_RULE;
+import static io.contek.invoker.coinbasepro.api.ApiFactory.RateLimits.IP_REST_PUBLIC_REQUEST_RULE;
+import static io.contek.invoker.coinbasepro.api.ApiFactory.RateLimits.IP_WEB_SOCKET_CONNECTION_RULE;
+import static io.contek.invoker.commons.api.actor.ratelimit.RateLimitType.IP;
+import static io.contek.invoker.commons.api.actor.security.SecretKeyAlgorithm.HMAC_SHA256;
+
 import com.google.common.collect.ImmutableList;
 import io.contek.invoker.coinbasepro.api.rest.market.MarketRestApi;
 import io.contek.invoker.coinbasepro.api.rest.user.UserRestApi;
@@ -18,18 +25,18 @@ import io.contek.invoker.commons.api.actor.security.ApiKey;
 import io.contek.invoker.commons.api.actor.security.SimpleCredentialFactory;
 import io.contek.invoker.commons.api.rest.RestContext;
 import io.contek.invoker.commons.api.websocket.WebSocketContext;
-
+import java.time.Duration;
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.ThreadSafe;
-import java.time.Duration;
-
-import static com.google.common.io.BaseEncoding.base16;
-import static io.contek.invoker.coinbasepro.api.ApiFactory.RateLimits.*;
-import static io.contek.invoker.commons.api.actor.ratelimit.RateLimitType.IP;
-import static io.contek.invoker.commons.api.actor.security.SecretKeyAlgorithm.HMAC_SHA256;
 
 @ThreadSafe
 public final class ApiFactory {
+
+  public static final ApiContext MAIN_NET_CONTEXT =
+      ApiContext.newBuilder()
+          .setRestContext(RestContext.forBaseUrl("https://api.pro.coinbase.com"))
+          .setWebSocketContext(WebSocketContext.forBaseUrl("wss://ws-feed.pro.coinbase.com"))
+          .build();
 
   private final ApiContext context;
   private final IActorFactory actorFactory;
@@ -37,6 +44,10 @@ public final class ApiFactory {
   private ApiFactory(ApiContext context, IActorFactory actorFactory) {
     this.context = context;
     this.actorFactory = actorFactory;
+  }
+
+  public static ApiFactory getMainNetDefault() {
+    return fromContext(MAIN_NET_CONTEXT);
   }
 
   public static ApiFactory fromContext(ApiContext context) {
