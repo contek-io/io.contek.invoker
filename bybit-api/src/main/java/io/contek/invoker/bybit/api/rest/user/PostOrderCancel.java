@@ -55,11 +55,15 @@ public final class PostOrderCancel extends UserRestRequest<Response> {
   protected RestParams getParams() {
     RestParams.Builder builder = RestParams.newBuilder();
 
-    if (order_id == null || order_link_id == null) {
+    if (order_id == null && order_link_id == null) {
       throw new IllegalArgumentException();
     }
-    builder.add("order_id", order_id);
-    builder.add("order_link_id", order_link_id);
+    if (order_id != null) {
+      builder.add("order_id", order_id);
+    }
+    if (order_link_id != null) {
+      builder.add("order_link_id", order_link_id);
+    }
 
     requireNonNull(symbol);
     builder.add("symbol", symbol);
