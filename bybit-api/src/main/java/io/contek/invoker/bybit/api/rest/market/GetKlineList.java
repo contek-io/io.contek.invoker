@@ -16,10 +16,10 @@ public final class GetKlineList extends MarketRestRequest<Response> {
 
   public static final int MAX_LIMIT = 200;
 
-  public String symbol;
-  public String interval;
-  public Long from;
-  public Integer limit;
+  private String symbol;
+  private String interval;
+  private Long from;
+  private Integer limit;
 
   GetKlineList(IActor actor, RestContext context) {
     super(actor, context);

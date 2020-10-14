@@ -1,5 +1,10 @@
 package io.contek.invoker.bybit.api.rest.user;
 
+import static io.contek.invoker.bybit.api.ApiFactory.RateLimits.ONE_REST_POST_REQUEST;
+import static io.contek.invoker.bybit.api.rest.user.PostOrderCancel.Response;
+import static io.contek.invoker.commons.api.rest.RestMethod.POST;
+import static java.util.Objects.requireNonNull;
+
 import com.google.common.collect.ImmutableList;
 import io.contek.invoker.bybit.api.common._Order;
 import io.contek.invoker.bybit.api.rest.common.RestResponse;
@@ -8,20 +13,14 @@ import io.contek.invoker.commons.api.actor.ratelimit.RateLimitQuota;
 import io.contek.invoker.commons.api.rest.RestContext;
 import io.contek.invoker.commons.api.rest.RestMethod;
 import io.contek.invoker.commons.api.rest.RestParams;
-
 import javax.annotation.concurrent.NotThreadSafe;
-
-import static io.contek.invoker.bybit.api.ApiFactory.RateLimits.ONE_REST_POST_REQUEST;
-import static io.contek.invoker.bybit.api.rest.user.PostOrderCancel.Response;
-import static io.contek.invoker.commons.api.rest.RestMethod.POST;
-import static java.util.Objects.requireNonNull;
 
 @NotThreadSafe
 public final class PostOrderCancel extends UserRestRequest<Response> {
 
-  public String order_id;
-  public String order_link_id;
-  public String symbol;
+  private String order_id;
+  private String order_link_id;
+  private String symbol;
 
   PostOrderCancel(IActor actor, RestContext context) {
     super(actor, context);

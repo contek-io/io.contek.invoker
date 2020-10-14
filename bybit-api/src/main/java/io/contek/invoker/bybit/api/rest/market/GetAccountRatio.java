@@ -16,9 +16,9 @@ public final class GetAccountRatio extends MarketRestRequest<Response> {
 
   public static final int MAX_LIMIT = 500;
 
-  public String symbol;
-  public String period;
-  public Integer limit;
+  private String symbol;
+  private String period;
+  private Integer limit;
 
   GetAccountRatio(IActor actor, RestContext context) {
     super(actor, context);

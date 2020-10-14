@@ -1,20 +1,19 @@
 package io.contek.invoker.bybit.api.rest.market;
 
+import static io.contek.invoker.bybit.api.rest.market.GetTickers.Response;
+
 import io.contek.invoker.bybit.api.common._Ticker;
 import io.contek.invoker.bybit.api.rest.common.RestResponse;
 import io.contek.invoker.commons.api.actor.IActor;
 import io.contek.invoker.commons.api.rest.RestContext;
 import io.contek.invoker.commons.api.rest.RestParams;
-
-import javax.annotation.concurrent.NotThreadSafe;
 import java.util.List;
-
-import static io.contek.invoker.bybit.api.rest.market.GetTickers.Response;
+import javax.annotation.concurrent.NotThreadSafe;
 
 @NotThreadSafe
 public final class GetTickers extends MarketRestRequest<Response> {
 
-  public String symbol;
+  private String symbol;
 
   GetTickers(IActor actor, RestContext context) {
     super(actor, context);

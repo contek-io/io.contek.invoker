@@ -19,7 +19,7 @@ import javax.annotation.concurrent.NotThreadSafe;
 @NotThreadSafe
 public final class GetOrderList extends UserRestRequest<Response> {
 
-  public String symbol;
+  private String symbol;
 
   GetOrderList(IActor actor, RestContext context) {
     super(actor, context);
