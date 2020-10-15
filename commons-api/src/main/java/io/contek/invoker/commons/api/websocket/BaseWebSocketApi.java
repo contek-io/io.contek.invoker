@@ -11,8 +11,8 @@ import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 
 import javax.annotation.concurrent.ThreadSafe;
-import javax.net.ssl.SSLException;
 import java.io.EOFException;
+import java.io.IOException;
 import java.net.SocketTimeoutException;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -171,7 +171,7 @@ public abstract class BaseWebSocketApi implements IWebSocketApi {
         log.warn("Shutting down inactive session.", t);
       } else if (t instanceof EOFException) {
         log.warn("Server closed connection.", t);
-      } else if (t instanceof SSLException) {
+      } else if (t instanceof IOException) {
         log.warn("Connection interrupted.", t);
       } else {
         log.error("Encountered unknown error: {}.", response, t);

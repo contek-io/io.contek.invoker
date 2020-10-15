@@ -92,7 +92,7 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
     if (params.isEmpty()) {
       return "";
     }
-    return "?" + urlFragmentEscaper().escape(params.getUrlEncodedString());
+    return "?" + urlFragmentEscaper().escape(params.getQueryString());
   }
 
   private String buildUrlString(String paramsString) {

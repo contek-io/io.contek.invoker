@@ -1,15 +1,98 @@
 # io.contek.invoker
 A Java library to connect cryptocurrency exchanges.
 
+## Maven
+``` xml
+<dependency>
+    <groupId>io.contek.invoker</groupId>
+    <artifactId>binancefutures-api</artifactId>
+    <version>1.2.1</version>
+</dependency>
+
+<dependency>
+    <groupId>io.contek.invoker</groupId>
+    <artifactId>bitmex-api</artifactId>
+    <version>1.2.1</version>
+</dependency>
+
+<dependency>
+    <groupId>io.contek.invoker</groupId>
+    <artifactId>bitstamp-api</artifactId>
+    <version>1.2.1</version>
+</dependency>
+
+<dependency>
+    <groupId>io.contek.invoker</groupId>
+    <artifactId>bybit-api</artifactId>
+    <version>1.2.1</version>
+</dependency>
+
+<dependency>
+    <groupId>io.contek.invoker</groupId>
+    <artifactId>coinbasepro-api</artifactId>
+    <version>1.2.1</version>
+</dependency>
+```
+
+## Examples
+### Binance Futures Main Net Get Order Book
+``` java
+MarketRestApi api = ApiFactory.getMainNetDefault().rest().market();
+GetDepth.Response response = api.getDepth().setSymbol("BTCUSDT").setLimit(100).submit();
+double bestBid = response.bids.get(0).get(0);
+double bestAsk = response.asks.get(0).get(0);
+System.out.println("Best bid: " + bestBid + ", best ask: " + bestAsk);
+```
+
+### Binance Futures Test Net Place Order
+``` java
+ApiKey key = ApiKey.newBuilder().setId("foo").setSecret("bar").build();
+UserRestApi api = ApiFactory.getTestNetDefault().rest().user(key);
+PostOrder.Response response =
+    api.postOrder()
+        .setSymbol("BTCUSDT")
+        .setSide(OrderSides.BUY)
+        .setType(OrderTypes.LIMIT)
+        .setPrice(9981.05d)
+        .setQuantity(0.03d)
+        .submit();
+System.out.println("My order ID is: " + response.orderId);
+```
+
+### Binance Futures Main Net Subscribe Trades
+``` java
+ISubscribingConsumer<Message> consumer =
+    new ISubscribingConsumer<Message>() {
+      @Override
+      public void onNext(AggTradeChannel.Message message) {
+        double price = message.data.p;
+        double quantity = message.data.q;
+        System.out.println("New trade price: " + price + ", quantity: " + quantity);
+      }
+
+      @Override
+      public void onStateChange(SubscriptionState state) {
+        if (state == SubscriptionState.SUBSCRIBED) {
+          System.out.println("Start receiving trade data");
+        }
+      }
+
+      @Override
+      public ConsumerState getState() {
+        return ConsumerState.ACTIVE;
+      }
+    };
+MarketWebSocketApi api = ApiFactory.getMainNetDefault().ws().market();
+api.getAggTradeChannel("BTCUSDT").addConsumer(consumer);
+```
 
 ## Goals
-
 This project aims to provide a neat solution to connect cryptocurrency exchanges via their REST and WebSocket APIs.
 
 It handles tedious things that are common in many exchanges, for example: rate limit, authentication, reconnection etc.
 
 
-## Non Goals
+## Non-goals
 This project does not make money for you. It does not contain any logic that predicts the market.
 
 This project does not explain the usages of API endpoints. It is absolutely necessary to read the official API document before using an endpoint.

@@ -35,8 +35,12 @@ public final class RestParams {
     return values;
   }
 
-  public String getUrlEncodedString() {
-    return values.entrySet().stream()
+  public String getQueryString() {
+    return toQueryString(values);
+  }
+
+  public static String toQueryString(Map<String, String> params) {
+    return params.entrySet().stream()
         .map(entry -> entry.getKey() + "=" + entry.getValue())
         .collect(joining("&"));
   }

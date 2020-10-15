@@ -2,7 +2,6 @@ package io.contek.invoker.commons.api;
 
 import io.contek.invoker.commons.api.rest.RestContext;
 import io.contek.invoker.commons.api.websocket.WebSocketContext;
-
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
@@ -43,9 +42,17 @@ public final class ApiContext {
     private RestContext restContext;
     private WebSocketContext webSocketContext;
 
+    public Builder setRestContext(@Nullable RestContext.Builder builder) {
+      return setRestContext(builder == null ? null : builder.build());
+    }
+
     public Builder setRestContext(@Nullable RestContext restContext) {
       this.restContext = restContext;
       return this;
+    }
+
+    public Builder setWebSocketContext(@Nullable WebSocketContext.Builder builder) {
+      return setWebSocketContext(builder == null ? null : builder.build());
     }
 
     public Builder setWebSocketContext(@Nullable WebSocketContext webSocketContext) {
