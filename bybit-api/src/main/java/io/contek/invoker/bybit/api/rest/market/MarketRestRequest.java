@@ -9,7 +9,7 @@ import io.contek.invoker.commons.api.rest.RestMethod;
 
 import javax.annotation.concurrent.NotThreadSafe;
 
-import static io.contek.invoker.bybit.api.ApiFactory.RateLimits.ONE_REST_GET_REQUEST;
+import static io.contek.invoker.bybit.api.ApiFactory.RateLimits.ONE_REST_PUBLIC_GET_REQUEST;
 import static io.contek.invoker.commons.api.rest.RestMethod.GET;
 
 @NotThreadSafe
@@ -26,6 +26,6 @@ abstract class MarketRestRequest<T> extends RestRequest<T> {
 
   @Override
   protected ImmutableList<RateLimitQuota> getRequiredQuotas() {
-    return ONE_REST_GET_REQUEST;
+    return ONE_REST_PUBLIC_GET_REQUEST;
   }
 }

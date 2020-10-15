@@ -1,7 +1,6 @@
 package io.contek.invoker.bybit.api.rest.user;
 
 import com.google.common.collect.ImmutableList;
-import io.contek.invoker.bybit.api.common._WalletBalance;
 import io.contek.invoker.bybit.api.rest.common.RestResponse;
 import io.contek.invoker.commons.api.actor.IActor;
 import io.contek.invoker.commons.api.actor.ratelimit.RateLimitQuota;
@@ -10,50 +9,58 @@ import io.contek.invoker.commons.api.rest.RestMethod;
 import io.contek.invoker.commons.api.rest.RestParams;
 
 import javax.annotation.concurrent.NotThreadSafe;
-import java.util.Map;
 
-import static io.contek.invoker.bybit.api.ApiFactory.RateLimits.ONE_REST_PRIVATE_POSITION_READ_REQUEST;
-import static io.contek.invoker.bybit.api.rest.user.GetWalletBalance.Response;
-import static io.contek.invoker.commons.api.rest.RestMethod.GET;
+import static io.contek.invoker.bybit.api.ApiFactory.RateLimits.ONE_REST_PRIVATE_POSITION_WRITE_REQUEST;
+import static io.contek.invoker.bybit.api.rest.user.PostLeverageSave.Response;
+import static io.contek.invoker.commons.api.rest.RestMethod.POST;
+import static java.util.Objects.requireNonNull;
 
 @NotThreadSafe
-public final class GetWalletBalance extends UserRestRequest<Response> {
+public final class PostLeverageSave extends UserRestRequest<Response> {
 
-  private String coin;
+  private String symbol;
+  private Double leverage;
 
-  GetWalletBalance(IActor actor, RestContext context) {
+  PostLeverageSave(IActor actor, RestContext context) {
     super(actor, context);
   }
 
-  public GetWalletBalance setCoin(String coin) {
-    this.coin = coin;
+  public PostLeverageSave setSymbol(String symbol) {
+    this.symbol = symbol;
+    return this;
+  }
+
+  public PostLeverageSave setLeverage(Double leverage) {
+    this.leverage = leverage;
     return this;
   }
 
   @Override
   protected RestMethod getMethod() {
-    return GET;
+    return POST;
   }
 
   @Override
   protected String getEndpointPath() {
-    return "/v2/private/wallet/balance";
+    return "/user/leverage/save";
   }
 
   @Override
   protected RestParams getParams() {
     RestParams.Builder builder = RestParams.newBuilder();
 
-    if (coin != null) {
-      builder.add("coin", coin);
-    }
+    requireNonNull(symbol);
+    builder.add("symbol", symbol);
+
+    requireNonNull(leverage);
+    builder.add("leverage", leverage);
 
     return builder.build();
   }
 
   @Override
   protected ImmutableList<RateLimitQuota> getRequiredQuotas() {
-    return ONE_REST_PRIVATE_POSITION_READ_REQUEST;
+    return ONE_REST_PRIVATE_POSITION_WRITE_REQUEST;
   }
 
   @Override
@@ -62,5 +69,5 @@ public final class GetWalletBalance extends UserRestRequest<Response> {
   }
 
   @NotThreadSafe
-  public static final class Response extends RestResponse<Map<String, _WalletBalance>> {}
+  public static final class Response extends RestResponse<Double> {}
 }

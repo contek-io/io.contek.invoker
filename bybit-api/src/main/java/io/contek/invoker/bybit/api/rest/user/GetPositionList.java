@@ -1,10 +1,5 @@
 package io.contek.invoker.bybit.api.rest.user;
 
-import static io.contek.invoker.bybit.api.ApiFactory.RateLimits.ONE_REST_GET_REQUEST;
-import static io.contek.invoker.bybit.api.rest.user.GetPositionList.Response;
-import static io.contek.invoker.commons.api.rest.RestMethod.GET;
-import static java.util.Objects.requireNonNull;
-
 import com.google.common.collect.ImmutableList;
 import io.contek.invoker.bybit.api.common._Position;
 import io.contek.invoker.bybit.api.rest.common.RestResponse;
@@ -13,7 +8,13 @@ import io.contek.invoker.commons.api.actor.ratelimit.RateLimitQuota;
 import io.contek.invoker.commons.api.rest.RestContext;
 import io.contek.invoker.commons.api.rest.RestMethod;
 import io.contek.invoker.commons.api.rest.RestParams;
+
 import javax.annotation.concurrent.NotThreadSafe;
+
+import static io.contek.invoker.bybit.api.ApiFactory.RateLimits.ONE_REST_PRIVATE_POSITION_READ_REQUEST;
+import static io.contek.invoker.bybit.api.rest.user.GetPositionList.Response;
+import static io.contek.invoker.commons.api.rest.RestMethod.GET;
+import static java.util.Objects.requireNonNull;
 
 @NotThreadSafe
 public final class GetPositionList extends UserRestRequest<Response> {
@@ -51,7 +52,7 @@ public final class GetPositionList extends UserRestRequest<Response> {
 
   @Override
   protected ImmutableList<RateLimitQuota> getRequiredQuotas() {
-    return ONE_REST_GET_REQUEST;
+    return ONE_REST_PRIVATE_POSITION_READ_REQUEST;
   }
 
   @Override

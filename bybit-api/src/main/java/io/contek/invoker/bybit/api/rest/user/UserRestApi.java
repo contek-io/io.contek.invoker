@@ -2,6 +2,7 @@ package io.contek.invoker.bybit.api.rest.user;
 
 import io.contek.invoker.commons.api.actor.IActor;
 import io.contek.invoker.commons.api.rest.RestContext;
+
 import javax.annotation.concurrent.ThreadSafe;
 
 @ThreadSafe
@@ -13,6 +14,14 @@ public final class UserRestApi {
   public UserRestApi(IActor actor, RestContext context) {
     this.actor = actor;
     this.context = context;
+  }
+
+  public GetApiKey getApiKey() {
+    return new GetApiKey(actor, context);
+  }
+
+  public GetExecutionList getExecutionList() {
+    return new GetExecutionList(actor, context);
   }
 
   public GetOrder getOrder() {
@@ -29,6 +38,14 @@ public final class UserRestApi {
 
   public GetWalletBalance getWalletBalance() {
     return new GetWalletBalance(actor, context);
+  }
+
+  public GetWalletFundRecords getWalletFundRecords() {
+    return new GetWalletFundRecords(actor, context);
+  }
+
+  public PostLeverageSave postLeverageSave() {
+    return new PostLeverageSave(actor, context);
   }
 
   public PostOrderCancel postOrderCancel() {

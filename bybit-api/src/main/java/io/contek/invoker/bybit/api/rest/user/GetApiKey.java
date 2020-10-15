@@ -1,7 +1,7 @@
 package io.contek.invoker.bybit.api.rest.user;
 
 import com.google.common.collect.ImmutableList;
-import io.contek.invoker.bybit.api.common._WalletBalance;
+import io.contek.invoker.bybit.api.common._ApiKey;
 import io.contek.invoker.bybit.api.rest.common.RestResponse;
 import io.contek.invoker.commons.api.actor.IActor;
 import io.contek.invoker.commons.api.actor.ratelimit.RateLimitQuota;
@@ -10,24 +10,16 @@ import io.contek.invoker.commons.api.rest.RestMethod;
 import io.contek.invoker.commons.api.rest.RestParams;
 
 import javax.annotation.concurrent.NotThreadSafe;
-import java.util.Map;
 
-import static io.contek.invoker.bybit.api.ApiFactory.RateLimits.ONE_REST_PRIVATE_POSITION_READ_REQUEST;
-import static io.contek.invoker.bybit.api.rest.user.GetWalletBalance.Response;
+import static io.contek.invoker.bybit.api.ApiFactory.RateLimits.ONE_REST_PRIVATE_KEY_INFO_READ_REQUEST;
+import static io.contek.invoker.bybit.api.rest.user.GetApiKey.Response;
 import static io.contek.invoker.commons.api.rest.RestMethod.GET;
 
 @NotThreadSafe
-public final class GetWalletBalance extends UserRestRequest<Response> {
+public final class GetApiKey extends UserRestRequest<Response> {
 
-  private String coin;
-
-  GetWalletBalance(IActor actor, RestContext context) {
+  GetApiKey(IActor actor, RestContext context) {
     super(actor, context);
-  }
-
-  public GetWalletBalance setCoin(String coin) {
-    this.coin = coin;
-    return this;
   }
 
   @Override
@@ -37,23 +29,19 @@ public final class GetWalletBalance extends UserRestRequest<Response> {
 
   @Override
   protected String getEndpointPath() {
-    return "/v2/private/wallet/balance";
+    return "/open-api/api-key";
   }
 
   @Override
   protected RestParams getParams() {
     RestParams.Builder builder = RestParams.newBuilder();
 
-    if (coin != null) {
-      builder.add("coin", coin);
-    }
-
     return builder.build();
   }
 
   @Override
   protected ImmutableList<RateLimitQuota> getRequiredQuotas() {
-    return ONE_REST_PRIVATE_POSITION_READ_REQUEST;
+    return ONE_REST_PRIVATE_KEY_INFO_READ_REQUEST;
   }
 
   @Override
@@ -62,5 +50,5 @@ public final class GetWalletBalance extends UserRestRequest<Response> {
   }
 
   @NotThreadSafe
-  public static final class Response extends RestResponse<Map<String, _WalletBalance>> {}
+  public static final class Response extends RestResponse<_ApiKey> {}
 }
