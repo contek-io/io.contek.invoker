@@ -6,18 +6,18 @@ import javax.annotation.concurrent.NotThreadSafe;
 public class _Ticker {
 
   public String symbol;
-  public double bid_price;
-  public double ask_price;
-  public double last_price;
+  public String bid_price; // Empty if none
+  public String ask_price; // Empty if none
+  public String last_price; // Empty if none
   public String last_tick_direction;
-  public double prev_price_24h;
-  public double price_24h_pcnt;
-  public double high_price_24h;
-  public double low_price_24h;
-  public double prev_price_1h;
-  public double price_1h_pcnt;
-  public double mark_price;
-  public double index_price;
+  public String prev_price_24h; // Empty if none
+  public String price_24h_pcnt; // Empty if none
+  public String high_price_24h; // Empty if none
+  public String low_price_24h; // Empty if none
+  public String prev_price_1h; // Empty if none
+  public String price_1h_pcnt; // Empty if none
+  public String mark_price; // Empty if none
+  public String index_price; // Empty if none
   public double open_interest;
   public double open_value;
   public double total_turnover;

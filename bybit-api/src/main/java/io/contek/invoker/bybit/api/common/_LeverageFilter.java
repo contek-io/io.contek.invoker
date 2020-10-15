@@ -5,7 +5,7 @@ import javax.annotation.concurrent.NotThreadSafe;
 @NotThreadSafe
 public class _LeverageFilter {
 
-  public int min_leverage;
-  public int max_leverage;
+  public double min_leverage;
+  public double max_leverage;
   public double leverage_step;
 }
