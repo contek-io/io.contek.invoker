@@ -5,12 +5,15 @@ import javax.annotation.concurrent.NotThreadSafe;
 @NotThreadSafe
 public class _AccountPosition {
 
-  public Boolean isolated;
-  public Integer leverage;
+  public String symbol;
   public Double initialMargin;
   public Double maintMargin;
-  public Double openOrderInitialMargin;
-  public Double positionInitialMargin;
-  public String symbol;
   public Double unrealizedProfit;
+  public Double positionInitialMargin;
+  public Integer leverage;
+  public Boolean isolated;
+  public Double openOrderInitialMargin;
+  public Double entryPrice;
+  public Double maxNotional;
+  public String positionSide;
 }

@@ -6,19 +6,22 @@ import java.util.List;
 @NotThreadSafe
 public class _Account {
 
+  public Integer feeTier;
   public Boolean canDeposit;
   public Boolean canTrade;
   public Boolean canWithdraw;
-  public Integer feeTier;
-  public Double maxWithdrawAmount;
+  public Long updateTime;
   public Double totalInitialMargin;
   public Double totalMaintMargin;
-  public Double totalMarginBalance;
-  public Double totalOpenOrderInitialMargin;
-  public Double totalPositionInitialMargin;
-  public Double totalUnrealizedProfit;
   public Double totalWalletBalance;
-  public Long updateTime;
+  public Double totalUnrealizedProfit;
+  public Double totalMarginBalance;
+  public Double totalPositionInitialMargin;
+  public Double totalOpenOrderInitialMargin;
+  public Double totalCrossWalletBalance;
+  public Double totalCrossUnPnl;
+  public Double availableBalance;
+  public Double maxWithdrawAmount;
   public List<_AccountAsset> assets;
   public List<_AccountPosition> positions;
 }

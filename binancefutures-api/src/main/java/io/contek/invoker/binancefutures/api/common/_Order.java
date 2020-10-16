@@ -15,7 +15,10 @@ public class _Order {
   public String status;
   public String timeInForce;
   public String type;
+  public Boolean reduceOnly;
   public String side;
+  public String positionSide;
   public Double stopPrice;
   public Long updateTime;
+  public String workingType;
 }
