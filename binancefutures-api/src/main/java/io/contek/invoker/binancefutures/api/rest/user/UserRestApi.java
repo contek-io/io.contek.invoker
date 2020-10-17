@@ -31,6 +31,14 @@ public final class UserRestApi {
     return new GetOpenOrders(actor, context);
   }
 
+  public PostLeverage postLeverage() {
+    return new PostLeverage(actor, context);
+  }
+
+  public PostMarginType postMarginType() {
+    return new PostMarginType(actor, context);
+  }
+
   public GetOrder getOrder() {
     return new GetOrder(actor, context);
   }
