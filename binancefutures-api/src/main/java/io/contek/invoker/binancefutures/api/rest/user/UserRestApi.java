@@ -47,8 +47,16 @@ public final class UserRestApi {
     return new GetPositionRisk(actor, context);
   }
 
+  public GetPositionSideDual getPositionSideDual() {
+    return new GetPositionSideDual(actor, context);
+  }
+
   public PostOrder postOrder() {
     return new PostOrder(actor, context);
+  }
+
+  public PostPositionSideDual postPositionSideDual() {
+    return new PostPositionSideDual(actor, context);
   }
 
   public PostStream postStream() {
