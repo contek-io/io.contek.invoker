@@ -2,6 +2,7 @@ package io.contek.invoker.bitmex.api.rest.user;
 
 import io.contek.invoker.commons.api.actor.IActor;
 import io.contek.invoker.commons.api.rest.RestContext;
+
 import javax.annotation.concurrent.ThreadSafe;
 
 @ThreadSafe
@@ -37,5 +38,17 @@ public final class UserRestApi {
 
   public PostOrder postOrder() {
     return new PostOrder(actor, context);
+  }
+
+  public PostPositionIsolate postPositionIsolate() {
+    return new PostPositionIsolate(actor, context);
+  }
+
+  public PostPositionLeverage postPositionLeverage() {
+    return new PostPositionLeverage(actor, context);
+  }
+
+  public PostPositionRiskLimit postPositionRiskLimit() {
+    return new PostPositionRiskLimit(actor, context);
   }
 }
