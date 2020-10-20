@@ -44,7 +44,7 @@ public final class PostPositionLeverage extends UserRestRequest<Response> {
 
   @Override
   protected String getEndpointPath() {
-    return "/position/leverage";
+    return "/api/v1/position/leverage";
   }
 
   @Override

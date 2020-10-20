@@ -44,7 +44,7 @@ public final class PostPositionRiskLimit extends UserRestRequest<Response> {
 
   @Override
   protected String getEndpointPath() {
-    return "/position/riskLimit";
+    return "/api/v1/position/riskLimit";
   }
 
   @Override

@@ -44,7 +44,7 @@ public final class PostPositionIsolate extends UserRestRequest<Response> {
 
   @Override
   protected String getEndpointPath() {
-    return "/position/isolate";
+    return "/api/v1/position/isolate";
   }
 
   @Override
