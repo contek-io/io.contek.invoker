@@ -13,6 +13,7 @@ public class _Position {
   public int size;
   public double position_value;
   public double entry_price;
+  public boolean is_isolated;
   public int auto_add_margin;
   public double leverage;
   public double effective_leverage;
