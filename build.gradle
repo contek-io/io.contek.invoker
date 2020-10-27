@@ -35,7 +35,7 @@ subprojects {
     }
 
     group = 'io.contek.invoker'
-    version = '1.3.6'
+    version = '2.0.0'
 
     task sourcesJar(type: Jar) {
         from sourceSets.main.allSource
@@ -71,8 +71,8 @@ subprojects {
 
                     licenses {
                         license {
-                            name = 'The Apache License, Version 2.0'
-                            url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                            name = 'MIT License'
+                            url = 'https://opensource.org/licenses/MIT'
                         }
                     }
 
