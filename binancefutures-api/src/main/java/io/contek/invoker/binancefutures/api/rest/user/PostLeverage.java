@@ -1,7 +1,7 @@
 package io.contek.invoker.binancefutures.api.rest.user;
 
 import com.google.common.collect.ImmutableList;
-import io.contek.invoker.binancefutures.api.rest.common.RestUpdateResponse;
+import io.contek.invoker.binancefutures.api.common._InitialLeverageInfo;
 import io.contek.invoker.binancefutures.api.rest.user.PostLeverage.Response;
 import io.contek.invoker.commons.api.actor.IActor;
 import io.contek.invoker.commons.api.actor.ratelimit.RateLimitQuota;
@@ -71,9 +71,5 @@ public final class PostLeverage extends UserRestRequest<Response> {
   }
 
   @NotThreadSafe
-  public static final class Response extends RestUpdateResponse {
-
-    public int leverage;
-    public double maxNotionalValue;
-  }
+  public static final class Response extends _InitialLeverageInfo {}
 }
