@@ -1,9 +1,5 @@
 package io.contek.invoker.binancefutures.api.rest.user;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-import static io.contek.invoker.binancefutures.api.ApiFactory.RateLimits.ONE_REST_REQUEST;
-import static io.contek.invoker.commons.api.rest.RestMethod.DELETE;
-
 import com.google.common.collect.ImmutableList;
 import io.contek.invoker.binancefutures.api.rest.common.RestUpdateResponse;
 import io.contek.invoker.binancefutures.api.rest.user.PostLeverage.Response;
@@ -12,7 +8,12 @@ import io.contek.invoker.commons.api.actor.ratelimit.RateLimitQuota;
 import io.contek.invoker.commons.api.rest.RestContext;
 import io.contek.invoker.commons.api.rest.RestMethod;
 import io.contek.invoker.commons.api.rest.RestParams;
+
 import javax.annotation.concurrent.NotThreadSafe;
+
+import static com.google.common.base.Preconditions.checkNotNull;
+import static io.contek.invoker.binancefutures.api.ApiFactory.RateLimits.ONE_REST_REQUEST;
+import static io.contek.invoker.commons.api.rest.RestMethod.POST;
 
 @NotThreadSafe
 public final class PostLeverage extends UserRestRequest<Response> {
@@ -41,7 +42,7 @@ public final class PostLeverage extends UserRestRequest<Response> {
 
   @Override
   protected RestMethod getMethod() {
-    return DELETE;
+    return POST;
   }
 
   @Override
