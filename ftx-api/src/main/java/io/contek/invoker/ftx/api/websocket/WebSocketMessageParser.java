@@ -3,15 +3,16 @@ package io.contek.invoker.ftx.api.websocket;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import io.contek.invoker.commons.api.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.api.websocket.IWebSocketMessageParser;
+import io.contek.invoker.ftx.api.websocket.common.WebSocketInboundMessage;
 import io.contek.invoker.ftx.api.websocket.common.WebSocketSubscriptionResponse;
+import io.contek.invoker.ftx.api.websocket.market.OrderBookChannel;
+import io.contek.invoker.ftx.api.websocket.market.TradesChannel;
 
 import javax.annotation.concurrent.Immutable;
 
-import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketKeys.type;
-import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketSubscriptionKeys.subscribed;
-import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketSubscriptionKeys.unsubscribed;
+import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketChannelKeys.*;
+import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketInboundKeys.*;
 
 @Immutable
 final class WebSocketMessageParser implements IWebSocketMessageParser {
@@ -23,24 +24,43 @@ final class WebSocketMessageParser implements IWebSocketMessageParser {
   }
 
   @Override
-  public AnyWebSocketMessage parse(String text) {
+  public WebSocketInboundMessage parse(String text) {
     JsonElement json = gson.fromJson(text, JsonElement.class);
     if (!json.isJsonObject()) {
       throw new IllegalArgumentException(text);
     }
     JsonObject obj = json.getAsJsonObject();
-    if (obj.has(type)) {
-      switch (obj.get(type).getAsString()) {
-        case subscribed:
-        case unsubscribed:
-          return toSubscriptionMessage(obj);
-      }
+    if (!obj.has(type)) {
+      throw new IllegalArgumentException(text);
     }
-    throw new IllegalArgumentException(text);
+    switch (obj.get(type).getAsString()) {
+      case subscribed:
+      case unsubscribed:
+        return toSubscriptionMessage(obj);
+      case partial:
+      case update:
+        return toChannelMessage(obj);
+      default:
+        throw new IllegalArgumentException(text);
+    }
   }
 
-  private AnyWebSocketMessage toSubscriptionMessage(JsonObject obj) {
+  private WebSocketInboundMessage toSubscriptionMessage(JsonObject obj) {
     return gson.fromJson(obj, WebSocketSubscriptionResponse.class);
+  }
+
+  private WebSocketInboundMessage toChannelMessage(JsonObject obj) {
+    if (!obj.has(channel)) {
+      throw new IllegalArgumentException(obj.toString());
+    }
+    switch (obj.get(channel).getAsString()) {
+      case orderbook:
+        return gson.fromJson(obj, OrderBookChannel.Message.class);
+      case trades:
+        return gson.fromJson(obj, TradesChannel.Message.class);
+      default:
+        throw new IllegalArgumentException(obj.toString());
+    }
   }
 
   private WebSocketMessageParser() {}

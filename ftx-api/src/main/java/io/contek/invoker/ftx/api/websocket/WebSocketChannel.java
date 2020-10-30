@@ -12,7 +12,8 @@ import javax.annotation.Nullable;
 import javax.annotation.concurrent.ThreadSafe;
 
 import static io.contek.invoker.commons.api.websocket.SubscriptionState.*;
-import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketSubscriptionKeys.*;
+import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketOutboundKeys.subscribe;
+import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketOutboundKeys.unsubscribe;
 
 @ThreadSafe
 public abstract class WebSocketChannel<Message extends WebSocketInboundMessage>
