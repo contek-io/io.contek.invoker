@@ -3,6 +3,8 @@ include 'bitmex-api'
 include 'bitstamp-api'
 include 'bybit-api'
 include 'coinbasepro-api'
+include 'ftx-api'
+
 include 'commons-api'
 
 rootProject.name = 'io.contek.invoker'
