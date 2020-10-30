@@ -1,6 +1,5 @@
 package io.contek.invoker.ftx.api.websocket;
 
-import com.google.common.base.Joiner;
 import io.contek.invoker.commons.api.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.api.websocket.BaseWebSocketChannel;
 import io.contek.invoker.commons.api.websocket.SubscriptionState;
@@ -19,25 +18,16 @@ import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketSubs
 public abstract class WebSocketChannel<Message extends WebSocketInboundMessage>
     extends BaseWebSocketChannel<Message> {
 
-  private final String channel;
-  private final String market;
+  protected abstract String getChannel();
 
-  public WebSocketChannel(String channel, String market) {
-    this.channel = channel;
-    this.market = market;
-  }
-
-  @Override
-  protected final String getDisplayName() {
-    return Joiner.on(':').join(channel, market);
-  }
+  protected abstract String getMarket();
 
   @Override
   protected final SubscriptionState subscribe(WebSocketSession session) {
     WebSocketSubscriptionRequest request = new WebSocketSubscriptionRequest();
     request.op = subscribe;
-    request.channel = channel;
-    request.market = market;
+    request.channel = getChannel();
+    request.market = getMarket();
     session.send(request);
     return SUBSCRIBING;
   }
@@ -46,8 +36,8 @@ public abstract class WebSocketChannel<Message extends WebSocketInboundMessage>
   protected final SubscriptionState unsubscribe(WebSocketSession session) {
     WebSocketSubscriptionRequest request = new WebSocketSubscriptionRequest();
     request.op = unsubscribe;
-    request.channel = channel;
-    request.market = market;
+    request.channel = getChannel();
+    request.market = getMarket();
     session.send(request);
     return UNSUBSCRIBING;
   }
@@ -57,7 +47,7 @@ public abstract class WebSocketChannel<Message extends WebSocketInboundMessage>
   protected final SubscriptionState getState(AnyWebSocketMessage message) {
     if (message instanceof WebSocketSubscriptionResponse) {
       WebSocketSubscriptionResponse confirmation = (WebSocketSubscriptionResponse) message;
-      if (!channel.equals(confirmation.channel) || !channel.equals(confirmation.market)) {
+      if (!getChannel().equals(confirmation.channel) || !getMarket().equals(confirmation.market)) {
         return null;
       }
       switch (confirmation.type) {
