@@ -13,6 +13,8 @@ import static java.util.stream.Collectors.joining;
 @Immutable
 public final class RestParams {
 
+  private static final RestParams EMPTY = RestParams.newBuilder().build();
+
   private final ImmutableMap<String, String> values;
 
   private RestParams(Map<String, String> values) {
@@ -24,7 +26,7 @@ public final class RestParams {
   }
 
   public static RestParams empty() {
-    return newBuilder().build();
+    return EMPTY;
   }
 
   public boolean isEmpty() {
