@@ -15,4 +15,12 @@ public final class MarketRestApi {
     this.actor = actor;
     this.context = context;
   }
+
+  public GetMarkets getMarkets() {
+    return new GetMarkets(actor, context);
+  }
+
+  public GetOrderBook getOrderBook() {
+    return new GetOrderBook(actor, context);
+  }
 }
