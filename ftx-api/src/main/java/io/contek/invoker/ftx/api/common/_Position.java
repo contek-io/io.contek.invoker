@@ -17,7 +17,7 @@ public class _Position {
   public Double realizedPnl;
   public Double shortOrderSize;
   public Double side;
-  public Double size;
+  public String size;
   public Double unrealizedPnl;
   public Double collateralUsed;
 }
