@@ -19,6 +19,6 @@ public class _AccountInformation {
   public Double takerFee;
   public Double totalAccountValue;
   public Double totalPositionSize;
-  public Double username;
+  public String username;
   public List<_Position> positions;
 }
