@@ -7,4 +7,5 @@ public abstract class RestResponse<T> {
 
   public Boolean success;
   public T result;
+  public String error;
 }
