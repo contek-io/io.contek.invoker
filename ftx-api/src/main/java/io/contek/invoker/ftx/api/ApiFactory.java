@@ -72,7 +72,7 @@ public final class ApiFactory {
   private static SimpleCredentialFactory createCredentialFactory() {
     return SimpleCredentialFactory.newBuilder()
         .setAlgorithm(HMAC_SHA256)
-        .setEncoding(base16().upperCase())
+        .setEncoding(base16().lowerCase())
         .build();
   }
 
