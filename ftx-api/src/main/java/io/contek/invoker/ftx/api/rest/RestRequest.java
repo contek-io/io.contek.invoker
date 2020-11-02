@@ -69,7 +69,7 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
       return ImmutableMap.of();
     }
     String ts = Long.toString(clock.millis());
-    String payload = ts + getEndpointPath() + paramsString + bodyString;
+    String payload = ts + getMethod() + getEndpointPath() + paramsString + bodyString;
     String signature = credential.sign(payload);
     return ImmutableMap.<String, String>builder()
         .put("FTX-KEY", credential.getApiKeyId())
