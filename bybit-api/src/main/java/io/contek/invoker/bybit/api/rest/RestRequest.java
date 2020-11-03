@@ -81,7 +81,7 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
   }
 
   private RestParams addSignature(RestParams params, ICredential credential) {
-    Map<String, String> paramMap = new TreeMap<>(params.getValues());
+    Map<String, Object> paramMap = new TreeMap<>(params.getValues());
     paramMap.put(API_KEY, credential.getApiKeyId());
     paramMap.put(TIMESTAMP, Long.toString(clock.millis()));
 

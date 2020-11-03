@@ -15,9 +15,9 @@ public final class RestParams {
 
   private static final RestParams EMPTY = RestParams.newBuilder().build();
 
-  private final ImmutableMap<String, String> values;
+  private final ImmutableMap<String, Object> values;
 
-  private RestParams(Map<String, String> values) {
+  private RestParams(Map<String, Object> values) {
     this.values = ImmutableMap.copyOf(values);
   }
 
@@ -33,7 +33,7 @@ public final class RestParams {
     return values.isEmpty();
   }
 
-  public ImmutableMap<String, String> getValues() {
+  public ImmutableMap<String, Object> getValues() {
     return values;
   }
 
@@ -41,7 +41,7 @@ public final class RestParams {
     return toQueryString(values);
   }
 
-  public static String toQueryString(Map<String, String> params) {
+  public static String toQueryString(Map<String, Object> params) {
     return params.entrySet().stream()
         .map(entry -> entry.getKey() + "=" + entry.getValue())
         .collect(joining("&"));
@@ -50,12 +50,13 @@ public final class RestParams {
   @NotThreadSafe
   public static final class Builder {
 
-    private final Map<String, String> values = new LinkedHashMap<>();
+    private final Map<String, Object> values = new LinkedHashMap<>();
 
     private Builder() {}
 
     public Builder add(String key, long value) {
-      return add(key, Long.toString(value));
+      values.put(key, value);
+      return this;
     }
 
     public Builder add(String key, double value) {
@@ -63,11 +64,8 @@ public final class RestParams {
     }
 
     public Builder add(String key, boolean value) {
-      return add(key, Boolean.toString(value));
-    }
-
-    public Builder add(String key, Enum<?> value) {
-      return add(key, value.name());
+      values.put(key, value);
+      return this;
     }
 
     public Builder add(String key, String value) {
@@ -75,7 +73,7 @@ public final class RestParams {
       return this;
     }
 
-    public Builder addAll(Map<String, String> values) {
+    public Builder addAll(Map<String, ?> values) {
       this.values.putAll(values);
       return this;
     }
