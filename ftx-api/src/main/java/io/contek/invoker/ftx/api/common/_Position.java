@@ -20,4 +20,7 @@ public class _Position {
   public Double size;
   public Double unrealizedPnl;
   public Double collateralUsed;
+  public Double recentAverageOpenPrice;
+  public Double recentBreakEvenPrice;
+  public Double recentPnl;
 }
