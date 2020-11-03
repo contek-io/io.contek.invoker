@@ -35,7 +35,7 @@ public final class GetOrdersByClientId extends UserRestRequest<GetOrdersByClient
   @Override
   protected String getEndpointPath() {
     requireNonNull(client_order_id);
-    return format("/api/orders/client_order_id/{0}", client_order_id);
+    return format("/api/orders/by_client_id/{0}", client_order_id);
   }
 
   @Override
