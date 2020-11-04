@@ -8,7 +8,7 @@ import io.contek.invoker.ftx.api.websocket.common.WebSocketChannelMessage;
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
 
-import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketChannelKeys.orderbook;
+import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketChannelKeys._orderbook;
 
 @ThreadSafe
 public final class OrderBookChannel extends WebSocketChannel<OrderBookChannel.Message> {
@@ -21,7 +21,7 @@ public final class OrderBookChannel extends WebSocketChannel<OrderBookChannel.Me
 
   @Override
   protected String getChannel() {
-    return orderbook;
+    return _orderbook;
   }
 
   @Override
@@ -31,7 +31,7 @@ public final class OrderBookChannel extends WebSocketChannel<OrderBookChannel.Me
 
   @Override
   protected String getDisplayName() {
-    return Joiner.on(':').join(orderbook, market);
+    return Joiner.on(':').join(_orderbook, market);
   }
 
   @Override

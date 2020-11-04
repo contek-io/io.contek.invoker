@@ -9,7 +9,7 @@ import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
 import java.util.ArrayList;
 
-import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketChannelKeys.trades;
+import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketChannelKeys._trades;
 
 @ThreadSafe
 public final class TradesChannel extends WebSocketChannel<TradesChannel.Message> {
@@ -22,7 +22,7 @@ public final class TradesChannel extends WebSocketChannel<TradesChannel.Message>
 
   @Override
   protected String getChannel() {
-    return trades;
+    return _trades;
   }
 
   @Override
@@ -32,7 +32,7 @@ public final class TradesChannel extends WebSocketChannel<TradesChannel.Message>
 
   @Override
   protected String getDisplayName() {
-    return Joiner.on(':').join(trades, market);
+    return Joiner.on(':').join(_trades, market);
   }
 
   @Override

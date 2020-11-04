@@ -5,11 +5,11 @@ import javax.annotation.concurrent.Immutable;
 @Immutable
 public final class WebSocketChannelKeys {
 
-  public static final String channel = "channel";
+  public static final String _channel = "channel";
 
-  public static final String trades = "trades";
+  public static final String _trades = "trades";
 
-  public static final String orderbook = "orderbook";
+  public static final String _orderbook = "orderbook";
 
   private WebSocketChannelKeys() {}
 }

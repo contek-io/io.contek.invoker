@@ -30,15 +30,15 @@ final class WebSocketMessageParser implements IWebSocketMessageParser {
       throw new IllegalArgumentException(text);
     }
     JsonObject obj = json.getAsJsonObject();
-    if (!obj.has(type)) {
+    if (!obj.has(_type)) {
       throw new IllegalArgumentException(text);
     }
-    switch (obj.get(type).getAsString()) {
-      case subscribed:
-      case unsubscribed:
+    switch (obj.get(_type).getAsString()) {
+      case _subscribed:
+      case _unsubscribed:
         return toSubscriptionMessage(obj);
-      case partial:
-      case update:
+      case _partial:
+      case _update:
         return toChannelMessage(obj);
       default:
         throw new IllegalArgumentException(text);
@@ -50,13 +50,13 @@ final class WebSocketMessageParser implements IWebSocketMessageParser {
   }
 
   private WebSocketInboundMessage toChannelMessage(JsonObject obj) {
-    if (!obj.has(channel)) {
+    if (!obj.has(_channel)) {
       throw new IllegalArgumentException(obj.toString());
     }
-    switch (obj.get(channel).getAsString()) {
-      case orderbook:
+    switch (obj.get(_channel).getAsString()) {
+      case _orderbook:
         return gson.fromJson(obj, OrderBookChannel.Message.class);
-      case trades:
+      case _trades:
         return gson.fromJson(obj, TradesChannel.Message.class);
       default:
         throw new IllegalArgumentException(obj.toString());

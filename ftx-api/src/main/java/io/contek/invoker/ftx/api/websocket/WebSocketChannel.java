@@ -12,10 +12,10 @@ import javax.annotation.Nullable;
 import javax.annotation.concurrent.ThreadSafe;
 
 import static io.contek.invoker.commons.api.websocket.SubscriptionState.*;
-import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketInboundKeys.subscribed;
-import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketInboundKeys.unsubscribed;
-import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketOutboundKeys.subscribe;
-import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketOutboundKeys.unsubscribe;
+import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketInboundKeys._subscribed;
+import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketInboundKeys._unsubscribed;
+import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketOutboundKeys._subscribe;
+import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketOutboundKeys._unsubscribe;
 
 @ThreadSafe
 public abstract class WebSocketChannel<Message extends WebSocketInboundMessage>
@@ -28,7 +28,7 @@ public abstract class WebSocketChannel<Message extends WebSocketInboundMessage>
   @Override
   protected final SubscriptionState subscribe(WebSocketSession session) {
     WebSocketSubscriptionRequest request = new WebSocketSubscriptionRequest();
-    request.op = subscribe;
+    request.op = _subscribe;
     request.channel = getChannel();
     request.market = getMarket();
     session.send(request);
@@ -38,7 +38,7 @@ public abstract class WebSocketChannel<Message extends WebSocketInboundMessage>
   @Override
   protected final SubscriptionState unsubscribe(WebSocketSession session) {
     WebSocketSubscriptionRequest request = new WebSocketSubscriptionRequest();
-    request.op = unsubscribe;
+    request.op = _unsubscribe;
     request.channel = getChannel();
     request.market = getMarket();
     session.send(request);
@@ -54,9 +54,9 @@ public abstract class WebSocketChannel<Message extends WebSocketInboundMessage>
         return null;
       }
       switch (confirmation.type) {
-        case subscribed:
+        case _subscribed:
           return SUBSCRIBED;
-        case unsubscribed:
+        case _unsubscribed:
           return UNSUBSCRIBED;
         default:
           throw new IllegalArgumentException(confirmation.type);
