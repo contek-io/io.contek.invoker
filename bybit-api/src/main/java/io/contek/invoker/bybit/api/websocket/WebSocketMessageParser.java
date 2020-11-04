@@ -13,8 +13,8 @@ import io.contek.invoker.commons.api.websocket.IWebSocketMessageParser;
 
 import javax.annotation.concurrent.Immutable;
 
-import static io.contek.invoker.bybit.api.websocket.common.constants.WebSocketDataMessageTypes.delta;
-import static io.contek.invoker.bybit.api.websocket.common.constants.WebSocketDataMessageTypes.snapshot;
+import static io.contek.invoker.bybit.api.websocket.common.constants.WebSocketDataMessageTypeKeys.delta;
+import static io.contek.invoker.bybit.api.websocket.common.constants.WebSocketDataMessageTypeKeys.snapshot;
 
 @Immutable
 final class WebSocketMessageParser implements IWebSocketMessageParser {

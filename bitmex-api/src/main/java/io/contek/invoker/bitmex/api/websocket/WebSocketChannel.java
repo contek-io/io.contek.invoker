@@ -13,8 +13,8 @@ import io.contek.invoker.commons.api.websocket.WebSocketSession;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.ThreadSafe;
 
-import static io.contek.invoker.bitmex.api.websocket.common.constants.WebSocketRequestOperations.subscribe;
-import static io.contek.invoker.bitmex.api.websocket.common.constants.WebSocketRequestOperations.unsubscribe;
+import static io.contek.invoker.bitmex.api.websocket.common.constants.WebSocketRequestOperationKeys._subscribe;
+import static io.contek.invoker.bitmex.api.websocket.common.constants.WebSocketRequestOperationKeys._unsubscribe;
 import static io.contek.invoker.commons.api.websocket.SubscriptionState.*;
 
 @ThreadSafe
@@ -31,7 +31,7 @@ public abstract class WebSocketChannel<Message extends WebSocketTableDataMessage
   @Override
   protected final SubscriptionState subscribe(WebSocketSession session) {
     WebSocketRequest request = new WebSocketRequest();
-    request.op = subscribe;
+    request.op = _subscribe;
     request.args = ImmutableList.of(getTopic());
     session.send(request);
     return SUBSCRIBING;
@@ -40,7 +40,7 @@ public abstract class WebSocketChannel<Message extends WebSocketTableDataMessage
   @Override
   protected final SubscriptionState unsubscribe(WebSocketSession session) {
     WebSocketRequest request = new WebSocketRequest();
-    request.op = unsubscribe;
+    request.op = _unsubscribe;
     request.args = ImmutableList.of(getTopic());
     session.send(request);
     return UNSUBSCRIBING;

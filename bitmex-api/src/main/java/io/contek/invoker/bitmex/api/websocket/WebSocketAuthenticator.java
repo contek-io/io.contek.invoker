@@ -3,7 +3,7 @@ package io.contek.invoker.bitmex.api.websocket;
 import com.google.common.collect.ImmutableList;
 import io.contek.invoker.bitmex.api.websocket.common.WebSocketAuthKeyExpiresConfirmation;
 import io.contek.invoker.bitmex.api.websocket.common.WebSocketRequest;
-import io.contek.invoker.bitmex.api.websocket.common.constants.WebSocketRequestOperations;
+import io.contek.invoker.bitmex.api.websocket.common.constants.WebSocketRequestOperationKeys;
 import io.contek.invoker.commons.api.actor.security.ICredential;
 import io.contek.invoker.commons.api.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.api.websocket.IWebSocketAuthenticator;
@@ -38,7 +38,7 @@ public final class WebSocketAuthenticator implements IWebSocketAuthenticator {
     String signature = credential.sign(payload);
 
     WebSocketRequest request = new WebSocketRequest();
-    request.op = WebSocketRequestOperations.authKeyExpires;
+    request.op = WebSocketRequestOperationKeys._authKeyExpires;
     request.args = ImmutableList.of(key, expires, signature);
 
     session.send(request);

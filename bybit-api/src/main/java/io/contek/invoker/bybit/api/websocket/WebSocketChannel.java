@@ -12,8 +12,8 @@ import io.contek.invoker.commons.api.websocket.WebSocketSession;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.ThreadSafe;
 
-import static io.contek.invoker.bybit.api.websocket.common.constants.WebSocketOperations.subscribe;
-import static io.contek.invoker.bybit.api.websocket.common.constants.WebSocketOperations.unsubscribe;
+import static io.contek.invoker.bybit.api.websocket.common.constants.WebSocketOperationKeys.subscribe;
+import static io.contek.invoker.bybit.api.websocket.common.constants.WebSocketOperationKeys.unsubscribe;
 import static io.contek.invoker.commons.api.websocket.SubscriptionState.*;
 
 @ThreadSafe
