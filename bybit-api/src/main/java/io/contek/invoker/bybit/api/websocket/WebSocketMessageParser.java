@@ -13,8 +13,8 @@ import io.contek.invoker.commons.api.websocket.IWebSocketMessageParser;
 
 import javax.annotation.concurrent.Immutable;
 
-import static io.contek.invoker.bybit.api.websocket.common.constants.WebSocketDataMessageTypeKeys.delta;
-import static io.contek.invoker.bybit.api.websocket.common.constants.WebSocketDataMessageTypeKeys.snapshot;
+import static io.contek.invoker.bybit.api.websocket.common.constants.WebSocketDataMessageTypeKeys._delta;
+import static io.contek.invoker.bybit.api.websocket.common.constants.WebSocketDataMessageTypeKeys._snapshot;
 
 @Immutable
 final class WebSocketMessageParser implements IWebSocketMessageParser {
@@ -46,9 +46,9 @@ final class WebSocketMessageParser implements IWebSocketMessageParser {
     if (topic.startsWith(OrderBook200Channel.TOPIC_PREFIX)
         || topic.startsWith(OrderBook25Channel.TOPIC_PREFIX)) {
       switch (obj.get("type").getAsString()) {
-        case snapshot:
+        case _snapshot:
           return gson.fromJson(obj, OrderBookChannel.SnapshotMessage.class);
-        case delta:
+        case _delta:
           return gson.fromJson(obj, OrderBookChannel.DeltaMessage.class);
         default:
           throw new IllegalStateException();

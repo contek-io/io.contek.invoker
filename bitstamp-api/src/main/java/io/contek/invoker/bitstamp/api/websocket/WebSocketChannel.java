@@ -12,8 +12,8 @@ import io.contek.invoker.commons.api.websocket.WebSocketSession;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.ThreadSafe;
 
-import static io.contek.invoker.bitstamp.api.websocket.common.constants.WebSocketEvents.*;
-import static io.contek.invoker.bitstamp.api.websocket.common.constants.WebSocketFields.channel;
+import static io.contek.invoker.bitstamp.api.websocket.common.constants.WebSocketEventKeys.*;
+import static io.contek.invoker.bitstamp.api.websocket.common.constants.WebSocketFieldKeys._channel;
 import static io.contek.invoker.commons.api.websocket.SubscriptionState.*;
 
 @ThreadSafe
@@ -34,8 +34,8 @@ public abstract class WebSocketChannel<Message extends WebSocketChannelMessage<?
   @Override
   protected final SubscriptionState subscribe(WebSocketSession session) {
     WebSocketRequestMessage request = new WebSocketRequestMessage();
-    request.event = bts_subscribe;
-    request.data = ImmutableMap.of(channel, channelName);
+    request.event = _bts_subscribe;
+    request.data = ImmutableMap.of(_channel, channelName);
     session.send(request);
     return SUBSCRIBING;
   }
@@ -43,8 +43,8 @@ public abstract class WebSocketChannel<Message extends WebSocketChannelMessage<?
   @Override
   protected final SubscriptionState unsubscribe(WebSocketSession session) {
     WebSocketRequestMessage request = new WebSocketRequestMessage();
-    request.event = bts_unsubscribe;
-    request.data = ImmutableMap.of(channel, channelName);
+    request.event = _bts_unsubscribe;
+    request.data = ImmutableMap.of(_channel, channelName);
     session.send(request);
     return UNSUBSCRIBING;
   }
@@ -59,10 +59,10 @@ public abstract class WebSocketChannel<Message extends WebSocketChannelMessage<?
     if (!channelName.equals(casted.channel)) {
       return null;
     }
-    if (bts_subscription_succeeded.equals(casted.event)) {
+    if (_bts_subscription_succeeded.equals(casted.event)) {
       return SUBSCRIBED;
     }
-    if (bts_unsubscription_succeeded.equals(casted.event)) {
+    if (_bts_unsubscription_succeeded.equals(casted.event)) {
       return UNSUBSCRIBED;
     }
     throw new IllegalStateException(casted.event);

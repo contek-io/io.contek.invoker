@@ -4,7 +4,6 @@ import com.google.common.collect.ImmutableList;
 import io.contek.invoker.coinbasepro.api.websocket.common.WebSocketChannelInfo;
 import io.contek.invoker.coinbasepro.api.websocket.common.WebSocketMessage;
 import io.contek.invoker.coinbasepro.api.websocket.common.WebSocketSubscriptionMessage;
-import io.contek.invoker.coinbasepro.api.websocket.common.constants.WebSocketMessageTypes;
 import io.contek.invoker.commons.api.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.api.websocket.BaseWebSocketChannel;
 import io.contek.invoker.commons.api.websocket.SubscriptionState;
@@ -14,6 +13,7 @@ import javax.annotation.Nullable;
 import javax.annotation.concurrent.ThreadSafe;
 import java.util.concurrent.atomic.AtomicReference;
 
+import static io.contek.invoker.coinbasepro.api.websocket.common.constants.WebSocketMessageKeys.*;
 import static io.contek.invoker.commons.api.websocket.SubscriptionState.*;
 
 @ThreadSafe
@@ -40,7 +40,7 @@ public abstract class WebSocketChannel<Message extends WebSocketMessage>
   protected final SubscriptionState subscribe(WebSocketSession session) {
     synchronized (pendingRequestHolder) {
       WebSocketSubscriptionMessage request = new WebSocketSubscriptionMessage();
-      request.type = WebSocketMessageTypes.subscribe;
+      request.type = _subscribe;
       request.channels = ImmutableList.of(getChannelInfo());
       session.send(request);
       pendingRequestHolder.set(request);
@@ -52,7 +52,7 @@ public abstract class WebSocketChannel<Message extends WebSocketMessage>
   protected final SubscriptionState unsubscribe(WebSocketSession session) {
     synchronized (pendingRequestHolder) {
       WebSocketSubscriptionMessage request = new WebSocketSubscriptionMessage();
-      request.type = WebSocketMessageTypes.unsubscribe;
+      request.type = _unsubscribe;
       request.channels = ImmutableList.of(getChannelInfo());
       session.send(request);
       pendingRequestHolder.set(request);
@@ -72,11 +72,11 @@ public abstract class WebSocketChannel<Message extends WebSocketMessage>
         return null;
       }
       WebSocketSubscriptionMessage casted = (WebSocketSubscriptionMessage) message;
-      if (!WebSocketMessageTypes.subscriptions.equals(casted.type)) {
+      if (!_subscriptions.equals(casted.type)) {
         return null;
       }
 
-      if (WebSocketMessageTypes.subscribe.equals(pendingRequest.type)) {
+      if (_subscribe.equals(pendingRequest.type)) {
         if (casted.channels.stream()
             .anyMatch(
                 channel -> channel.name.equals(name) && channel.product_ids.contains(productId))) {
@@ -85,7 +85,7 @@ public abstract class WebSocketChannel<Message extends WebSocketMessage>
         }
         return null;
       }
-      if (WebSocketMessageTypes.unsubscribe.equals(pendingRequest.type)) {
+      if (_unsubscribe.equals(pendingRequest.type)) {
         if (casted.channels.stream()
             .anyMatch(
                 channel -> channel.name.equals(name) && channel.product_ids.contains(productId))) {

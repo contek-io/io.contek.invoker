@@ -12,8 +12,8 @@ import io.contek.invoker.commons.api.websocket.WebSocketSession;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.ThreadSafe;
 
-import static io.contek.invoker.bybit.api.websocket.common.constants.WebSocketOperationKeys.subscribe;
-import static io.contek.invoker.bybit.api.websocket.common.constants.WebSocketOperationKeys.unsubscribe;
+import static io.contek.invoker.bybit.api.websocket.common.constants.WebSocketOperationKeys._subscribe;
+import static io.contek.invoker.bybit.api.websocket.common.constants.WebSocketOperationKeys._unsubscribe;
 import static io.contek.invoker.commons.api.websocket.SubscriptionState.*;
 
 @ThreadSafe
@@ -30,7 +30,7 @@ public abstract class WebSocketChannel<Message extends WebSocketTopicMessage>
   @Override
   protected final SubscriptionState subscribe(WebSocketSession session) {
     WebSocketRequest request = new WebSocketRequest();
-    request.op = subscribe;
+    request.op = _subscribe;
     request.args = ImmutableList.of(getTopic());
     session.send(request);
     return SUBSCRIBING;
@@ -39,7 +39,7 @@ public abstract class WebSocketChannel<Message extends WebSocketTopicMessage>
   @Override
   protected final SubscriptionState unsubscribe(WebSocketSession session) {
     WebSocketRequest request = new WebSocketRequest();
-    request.op = unsubscribe;
+    request.op = _unsubscribe;
     request.args = ImmutableList.of(getTopic());
     session.send(request);
     return UNSUBSCRIBING;
@@ -58,9 +58,9 @@ public abstract class WebSocketChannel<Message extends WebSocketTopicMessage>
         throw new IllegalStateException();
       }
       switch (request.op) {
-        case subscribe:
+        case _subscribe:
           return SUBSCRIBED;
-        case unsubscribe:
+        case _unsubscribe:
           return UNSUBSCRIBED;
         default:
           throw new IllegalStateException();

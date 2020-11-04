@@ -11,9 +11,9 @@ import io.contek.invoker.commons.api.websocket.IWebSocketMessageParser;
 
 import javax.annotation.concurrent.Immutable;
 
-import static io.contek.invoker.bitstamp.api.websocket.common.constants.WebSocketEvents.*;
-import static io.contek.invoker.bitstamp.api.websocket.common.constants.WebSocketFields.channel;
-import static io.contek.invoker.bitstamp.api.websocket.common.constants.WebSocketFields.event;
+import static io.contek.invoker.bitstamp.api.websocket.common.constants.WebSocketEventKeys.*;
+import static io.contek.invoker.bitstamp.api.websocket.common.constants.WebSocketFieldKeys._channel;
+import static io.contek.invoker.bitstamp.api.websocket.common.constants.WebSocketFieldKeys._event;
 
 @Immutable
 final class WebSocketMessageParser implements IWebSocketMessageParser {
@@ -31,18 +31,18 @@ final class WebSocketMessageParser implements IWebSocketMessageParser {
       throw new IllegalArgumentException(text);
     }
     JsonObject obj = json.getAsJsonObject();
-    if (obj.has(event) && obj.has(channel)) {
-      String eventValue = obj.get(event).getAsString();
-      String channelValue = obj.get(channel).getAsString();
-      if (eventValue.startsWith(bts)) {
+    if (obj.has(_event) && obj.has(_channel)) {
+      String eventValue = obj.get(_event).getAsString();
+      String channelValue = obj.get(_channel).getAsString();
+      if (eventValue.startsWith(_bts)) {
         return toRequestConfirmationMessage(obj);
       }
-      if (eventValue.equals(trade)) {
+      if (eventValue.equals(_trade)) {
         if (channelValue.startsWith(LiveTradesChannel.PREFIX)) {
           return toLiveTradesMessage(obj);
         }
       }
-      if (eventValue.equals(data)) {
+      if (eventValue.equals(_data)) {
         if (channelValue.startsWith(DiffOrderBookChannel.PREFIX)) {
           return toDiffOrderBookMessage(obj);
         }

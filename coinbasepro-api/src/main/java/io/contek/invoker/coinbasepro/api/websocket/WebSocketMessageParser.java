@@ -11,7 +11,7 @@ import io.contek.invoker.commons.api.websocket.IWebSocketMessageParser;
 
 import javax.annotation.concurrent.Immutable;
 
-import static io.contek.invoker.coinbasepro.api.websocket.common.constants.WebSocketMessageTypes.*;
+import static io.contek.invoker.coinbasepro.api.websocket.common.constants.WebSocketMessageKeys.*;
 
 @Immutable
 final class WebSocketMessageParser implements IWebSocketMessageParser {
@@ -29,16 +29,16 @@ final class WebSocketMessageParser implements IWebSocketMessageParser {
       throw new IllegalArgumentException(text);
     }
     JsonObject obj = json.getAsJsonObject();
-    if (obj.has(type)) {
-      switch (obj.get(type).getAsString()) {
-        case subscriptions:
+    if (obj.has(_type)) {
+      switch (obj.get(_type).getAsString()) {
+        case _subscriptions:
           return toSubscriptionMessage(obj);
-        case snapshot:
+        case _snapshot:
           return toSnapshotMessage(obj);
-        case l2update:
+        case _l2update:
           return toL2UpdateMessage(obj);
-        case match:
-        case last_match:
+        case _match:
+        case _last_match:
           return toMatchMessage(obj);
       }
     }
