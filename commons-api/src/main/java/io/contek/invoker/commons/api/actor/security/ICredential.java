@@ -1,5 +1,6 @@
 package io.contek.invoker.commons.api.actor.security;
 
+import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 
 @Immutable
@@ -12,6 +13,9 @@ public interface ICredential {
   boolean isAnonymous();
 
   String getApiKeyId();
+
+  @Nullable
+  String getSubAccount();
 
   String sign(String payload);
 
@@ -27,6 +31,12 @@ public interface ICredential {
 
     @Override
     public String getApiKeyId() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Nullable
+    @Override
+    public String getSubAccount() {
       throw new UnsupportedOperationException();
     }
 

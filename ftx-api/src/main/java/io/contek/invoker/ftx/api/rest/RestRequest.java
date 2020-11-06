@@ -71,11 +71,18 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
     String ts = Long.toString(clock.millis());
     String payload = ts + getMethod() + getEndpointPath() + paramsString + bodyString;
     String signature = credential.sign(payload);
-    return ImmutableMap.<String, String>builder()
-        .put("FTX-KEY", credential.getApiKeyId())
-        .put("FTX-SIGN", signature)
-        .put("FTX-TS", ts)
-        .build();
+
+    ImmutableMap.Builder<String, String> result =
+        ImmutableMap.<String, String>builder()
+            .put("FTX-KEY", credential.getApiKeyId())
+            .put("FTX-SIGN", signature)
+            .put("FTX-TS", ts);
+    String subAccount = credential.getSubAccount();
+    if (subAccount != null) {
+      result.put("FTX-SUBACCOUNT", subAccount);
+    }
+
+    return result.build();
   }
 
   private String buildParamsString() {

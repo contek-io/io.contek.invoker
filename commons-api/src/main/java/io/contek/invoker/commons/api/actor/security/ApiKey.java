@@ -1,5 +1,6 @@
 package io.contek.invoker.commons.api.actor.security;
 
+import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
 
@@ -8,10 +9,12 @@ public final class ApiKey {
 
   private final String id;
   private final String secret;
+  private final String subAccount;
 
-  private ApiKey(String id, String secret) {
+  private ApiKey(String id, String secret, @Nullable String subAccount) {
     this.id = id;
     this.secret = secret;
+    this.subAccount = subAccount;
   }
 
   public static Builder newBuilder() {
@@ -26,11 +29,17 @@ public final class ApiKey {
     return secret;
   }
 
+  @Nullable
+  public String getSubAccount() {
+    return subAccount;
+  }
+
   @NotThreadSafe
   public static final class Builder {
 
     private String id;
     private String secret;
+    private String subAccount;
 
     public Builder setId(String id) {
       this.id = id;
@@ -42,6 +51,11 @@ public final class ApiKey {
       return this;
     }
 
+    public Builder setSubAccount(String subAccount) {
+      this.subAccount = subAccount;
+      return this;
+    }
+
     public ApiKey build() {
       if (id == null) {
         throw new IllegalArgumentException("No API-Key ID specified");
@@ -49,7 +63,7 @@ public final class ApiKey {
       if (secret == null) {
         throw new IllegalArgumentException("No API-Key secret specified");
       }
-      return new ApiKey(id, secret);
+      return new ApiKey(id, secret, subAccount);
     }
 
     private Builder() {}
