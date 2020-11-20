@@ -64,14 +64,14 @@ final class WebSocketComponentManager {
   }
 
   void onMessage(AnyWebSocketMessage message) {
-    active.parallelStream().forEach(component -> component.onMessage(message));
+    active.forEach(component -> component.onMessage(message));
   }
 
   void afterDisconnect() {
-    active.parallelStream().forEach(IWebSocketListener::afterDisconnect);
+    active.forEach(IWebSocketListener::afterDisconnect);
     active.removeIf(component -> component.getState() == TERMINATED);
 
-    idle.parallelStream().forEach(IWebSocketListener::afterDisconnect);
+    idle.forEach(IWebSocketListener::afterDisconnect);
     idle.removeIf(component -> component.getState() == TERMINATED);
   }
 }
