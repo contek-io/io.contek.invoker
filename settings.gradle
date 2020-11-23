@@ -1,3 +1,4 @@
+include 'binancedelivery-api'
 include 'binancefutures-api'
 include 'bitmex-api'
 include 'bitstamp-api'
