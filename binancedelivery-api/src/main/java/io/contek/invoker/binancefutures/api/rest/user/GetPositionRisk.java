@@ -19,6 +19,8 @@ import static io.contek.invoker.commons.api.rest.RestMethod.GET;
 public final class GetPositionRisk extends UserRestRequest<Response> {
 
   private String symbol;
+  private String marginAsset;
+  private String pair;
 
   GetPositionRisk(IActor actor, RestContext context) {
     super(actor, context);
@@ -26,6 +28,16 @@ public final class GetPositionRisk extends UserRestRequest<Response> {
 
   public GetPositionRisk setSymbol(String symbol) {
     this.symbol = symbol;
+    return this;
+  }
+
+  public GetPositionRisk setMarginAsset(String marginAsset) {
+    this.marginAsset = marginAsset;
+    return this;
+  }
+
+  public GetPositionRisk setPair(String pair) {
+    this.pair = pair;
     return this;
   }
 
@@ -50,6 +62,14 @@ public final class GetPositionRisk extends UserRestRequest<Response> {
 
     if (symbol != null) {
       builder.add("symbol", symbol);
+    }
+
+    if (marginAsset != null) {
+      builder.add("marginAsset", marginAsset);
+    }
+
+    if (pair != null) {
+      builder.add("pair", pair);
     }
 
     builder.add("timestamp", getMillis());

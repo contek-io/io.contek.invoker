@@ -20,6 +20,7 @@ import static io.contek.invoker.commons.api.rest.RestMethod.GET;
 public final class GetOpenOrders extends UserRestRequest<Response> {
 
   private String symbol;
+  private String pair;
 
   GetOpenOrders(IActor actor, RestContext context) {
     super(actor, context);
@@ -27,6 +28,11 @@ public final class GetOpenOrders extends UserRestRequest<Response> {
 
   public GetOpenOrders setSymbol(String symbol) {
     this.symbol = symbol;
+    return this;
+  }
+
+  public GetOpenOrders setPair(String pair) {
+    this.pair = pair;
     return this;
   }
 
@@ -51,6 +57,9 @@ public final class GetOpenOrders extends UserRestRequest<Response> {
 
     checkNotNull(symbol);
     builder.add("symbol", symbol);
+
+    checkNotNull(pair);
+    builder.add("pair", pair);
 
     builder.add("timestamp", getMillis());
 
