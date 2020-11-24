@@ -47,7 +47,7 @@ public final class GetPositionRisk extends UserRestRequest<Response> {
 
   @Override
   protected String getEndpointPath() {
-    return "/dapi/v2/positionRisk";
+    return "/dapi/v1/positionRisk";
   }
 
   @Override
