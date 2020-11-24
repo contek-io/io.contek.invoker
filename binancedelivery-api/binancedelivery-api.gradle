@@ -4,4 +4,4 @@ dependencies {
     implementation "com.google.code.gson:gson:${gsonVersion}"
 }
 
-description = 'Binance Futures Java API'
+description = 'Binance Delivery Java API'
