@@ -18,17 +18,11 @@ import static io.contek.invoker.commons.api.rest.RestMethod.GET;
 @NotThreadSafe
 public final class GetPositionRisk extends UserRestRequest<Response> {
 
-  private String symbol;
   private String marginAsset;
   private String pair;
 
   GetPositionRisk(IActor actor, RestContext context) {
     super(actor, context);
-  }
-
-  public GetPositionRisk setSymbol(String symbol) {
-    this.symbol = symbol;
-    return this;
   }
 
   public GetPositionRisk setMarginAsset(String marginAsset) {
@@ -59,10 +53,6 @@ public final class GetPositionRisk extends UserRestRequest<Response> {
   @Override
   protected RestParams getParams() {
     RestParams.Builder builder = RestParams.newBuilder();
-
-    if (symbol != null) {
-      builder.add("symbol", symbol);
-    }
 
     if (marginAsset != null) {
       builder.add("marginAsset", marginAsset);
