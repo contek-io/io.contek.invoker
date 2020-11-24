@@ -9,10 +9,10 @@ import io.contek.invoker.commons.api.rest.RestContext;
 import io.contek.invoker.commons.api.rest.RestMethod;
 import io.contek.invoker.commons.api.rest.RestParams;
 
+import javax.annotation.Nullable;
 import javax.annotation.concurrent.NotThreadSafe;
 import java.util.ArrayList;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static io.contek.invoker.binancedelivery.api.ApiFactory.RateLimits.ONE_REST_REQUEST;
 import static io.contek.invoker.commons.api.rest.RestMethod.GET;
 
@@ -26,12 +26,12 @@ public final class GetOpenOrders extends UserRestRequest<Response> {
     super(actor, context);
   }
 
-  public GetOpenOrders setSymbol(String symbol) {
+  public GetOpenOrders setSymbol(@Nullable String symbol) {
     this.symbol = symbol;
     return this;
   }
 
-  public GetOpenOrders setPair(String pair) {
+  public GetOpenOrders setPair(@Nullable String pair) {
     this.pair = pair;
     return this;
   }
@@ -55,11 +55,13 @@ public final class GetOpenOrders extends UserRestRequest<Response> {
   protected RestParams getParams() {
     RestParams.Builder builder = RestParams.newBuilder();
 
-    checkNotNull(symbol);
-    builder.add("symbol", symbol);
+    if (symbol != null) {
+      builder.add("symbol", symbol);
+    }
 
-    checkNotNull(pair);
-    builder.add("pair", pair);
+    if (pair != null) {
+      builder.add("pair", pair);
+    }
 
     builder.add("timestamp", getMillis());
 

@@ -9,10 +9,11 @@ import io.contek.invoker.commons.api.rest.RestContext;
 import io.contek.invoker.commons.api.rest.RestMethod;
 import io.contek.invoker.commons.api.rest.RestParams;
 
+import javax.annotation.Nullable;
 import javax.annotation.concurrent.NotThreadSafe;
 import java.util.ArrayList;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static io.contek.invoker.binancefutures.api.ApiFactory.RateLimits.IP_REST_REQUEST_RULE;
 import static io.contek.invoker.binancefutures.api.ApiFactory.RateLimits.ONE_REST_REQUEST;
 import static io.contek.invoker.commons.api.rest.RestMethod.GET;
 
@@ -25,7 +26,7 @@ public final class GetOpenOrders extends UserRestRequest<Response> {
     super(actor, context);
   }
 
-  public GetOpenOrders setSymbol(String symbol) {
+  public GetOpenOrders setSymbol(@Nullable String symbol) {
     this.symbol = symbol;
     return this;
   }
@@ -49,8 +50,9 @@ public final class GetOpenOrders extends UserRestRequest<Response> {
   protected RestParams getParams() {
     RestParams.Builder builder = RestParams.newBuilder();
 
-    checkNotNull(symbol);
-    builder.add("symbol", symbol);
+    if (symbol != null) {
+      builder.add("symbol", symbol);
+    }
 
     builder.add("timestamp", getMillis());
 
@@ -59,7 +61,7 @@ public final class GetOpenOrders extends UserRestRequest<Response> {
 
   @Override
   protected ImmutableList<RateLimitQuota> getRequiredQuotas() {
-    return ONE_REST_REQUEST;
+    return symbol != null ? ONE_REST_REQUEST : ImmutableList.of(IP_REST_REQUEST_RULE.createRateLimitQuota(40));
   }
 
   @NotThreadSafe
