@@ -3,6 +3,7 @@ package io.contek.invoker.binancefutures.api.websocket;
 import com.google.common.collect.ImmutableList;
 import io.contek.invoker.commons.api.actor.IActor;
 import io.contek.invoker.commons.api.actor.ratelimit.RateLimitQuota;
+import io.contek.invoker.commons.api.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.api.websocket.BaseWebSocketApi;
 import io.contek.invoker.commons.api.websocket.IWebSocketAuthenticator;
 
@@ -25,4 +26,7 @@ public abstract class WebSocketApi extends BaseWebSocketApi {
   protected final ImmutableList<RateLimitQuota> getRequiredQuotas() {
     return ImmutableList.of();
   }
+
+  @Override
+  protected final void checkErrorMessage(AnyWebSocketMessage message) {}
 }

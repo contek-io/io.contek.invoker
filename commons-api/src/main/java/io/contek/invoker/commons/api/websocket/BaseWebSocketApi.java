@@ -1,12 +1,16 @@
 package io.contek.invoker.commons.api.websocket;
 
-import static java.util.concurrent.Executors.newSingleThreadScheduledExecutor;
-import static org.slf4j.LoggerFactory.getLogger;
-
 import com.google.common.collect.ImmutableList;
 import io.contek.invoker.commons.api.actor.IActor;
 import io.contek.invoker.commons.api.actor.ratelimit.RateLimitQuota;
 import io.contek.invoker.commons.api.actor.security.ICredential;
+import okhttp3.Response;
+import okhttp3.WebSocket;
+import okhttp3.WebSocketListener;
+import org.jetbrains.annotations.Nullable;
+import org.slf4j.Logger;
+
+import javax.annotation.concurrent.ThreadSafe;
 import java.io.EOFException;
 import java.io.IOException;
 import java.net.SocketTimeoutException;
@@ -14,12 +18,9 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
-import javax.annotation.concurrent.ThreadSafe;
-import okhttp3.Response;
-import okhttp3.WebSocket;
-import okhttp3.WebSocketListener;
-import org.jetbrains.annotations.Nullable;
-import org.slf4j.Logger;
+
+import static java.util.concurrent.Executors.newSingleThreadScheduledExecutor;
+import static org.slf4j.LoggerFactory.getLogger;
 
 @ThreadSafe
 public abstract class BaseWebSocketApi implements IWebSocketApi {
@@ -55,8 +56,11 @@ public abstract class BaseWebSocketApi implements IWebSocketApi {
 
   protected abstract WebSocketCall createCall(ICredential credential);
 
+  protected abstract void checkErrorMessage(AnyWebSocketMessage message);
+
   private void forwardMessage(String text) {
     AnyWebSocketMessage message = parser.parse(text);
+    checkErrorMessage(message);
 
     authenticator.onMessage(message);
     synchronized (components) {
@@ -172,8 +176,8 @@ public abstract class BaseWebSocketApi implements IWebSocketApi {
         log.warn("Server closed connection.", t);
       } else if (t instanceof IOException) {
         log.warn("Connection interrupted.", t);
-      } else if (t instanceof WebSocketIllegalMessageException) {
-        log.warn("Received illegal message.", t);
+      } else if (t instanceof WebSocketRuntimeException) {
+        log.warn("Encountered runtime exception.", t);
       } else {
         log.error("Encountered unknown error: {}.", response, t);
       }

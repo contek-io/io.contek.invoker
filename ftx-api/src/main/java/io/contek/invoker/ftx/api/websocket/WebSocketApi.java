@@ -4,10 +4,8 @@ import com.google.common.collect.ImmutableList;
 import io.contek.invoker.commons.api.actor.IActor;
 import io.contek.invoker.commons.api.actor.ratelimit.RateLimitQuota;
 import io.contek.invoker.commons.api.actor.security.ICredential;
-import io.contek.invoker.commons.api.websocket.BaseWebSocketApi;
-import io.contek.invoker.commons.api.websocket.IWebSocketAuthenticator;
-import io.contek.invoker.commons.api.websocket.WebSocketCall;
-import io.contek.invoker.commons.api.websocket.WebSocketContext;
+import io.contek.invoker.commons.api.websocket.*;
+import io.contek.invoker.ftx.api.websocket.common.WebSocketInfoMessage;
 
 import javax.annotation.concurrent.ThreadSafe;
 
@@ -29,5 +27,15 @@ public abstract class WebSocketApi extends BaseWebSocketApi {
   @Override
   protected WebSocketCall createCall(ICredential credential) {
     return WebSocketCall.fromUrl(context.getBaseUrl() + "/ws");
+  }
+
+  @Override
+  protected final void checkErrorMessage(AnyWebSocketMessage message) {
+    if (message instanceof WebSocketInfoMessage) {
+      WebSocketInfoMessage info = (WebSocketInfoMessage) message;
+      if (info.code == 20001) {
+        throw new WebSocketServerRestartException(info.code + ": " + info.msg);
+      }
+    }
   }
 }

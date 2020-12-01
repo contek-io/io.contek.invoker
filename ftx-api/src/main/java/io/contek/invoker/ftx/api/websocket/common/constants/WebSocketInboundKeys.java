@@ -16,4 +16,6 @@ public final class WebSocketInboundKeys {
   public static final String _partial = "partial";
 
   public static final String _update = "update";
+
+  public static final String _info = "info";
 }

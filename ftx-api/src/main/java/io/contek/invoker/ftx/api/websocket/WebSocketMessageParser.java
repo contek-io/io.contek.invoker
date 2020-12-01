@@ -5,6 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import io.contek.invoker.commons.api.websocket.IWebSocketMessageParser;
 import io.contek.invoker.ftx.api.websocket.common.WebSocketInboundMessage;
+import io.contek.invoker.ftx.api.websocket.common.WebSocketInfoMessage;
 import io.contek.invoker.ftx.api.websocket.common.WebSocketSubscriptionResponse;
 import io.contek.invoker.ftx.api.websocket.market.OrderBookChannel;
 import io.contek.invoker.ftx.api.websocket.market.TradesChannel;
@@ -40,6 +41,9 @@ final class WebSocketMessageParser implements IWebSocketMessageParser {
       case _partial:
       case _update:
         return toChannelMessage(obj);
+      case _error:
+      case _info:
+        return toInfoMessage(obj);
       default:
         throw new IllegalArgumentException(text);
     }
@@ -61,6 +65,10 @@ final class WebSocketMessageParser implements IWebSocketMessageParser {
       default:
         throw new IllegalArgumentException(obj.toString());
     }
+  }
+
+  private WebSocketInfoMessage toInfoMessage(JsonObject obj) {
+    return gson.fromJson(obj, WebSocketInfoMessage.class);
   }
 
   private WebSocketMessageParser() {}
