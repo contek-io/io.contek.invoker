@@ -5,38 +5,44 @@ A Java library to connect cryptocurrency exchanges.
 ``` xml
 <dependency>
     <groupId>io.contek.invoker</groupId>
+    <artifactId>binancedelivery-api</artifactId>
+    <version>2.3.6</version>
+</dependency>
+
+<dependency>
+    <groupId>io.contek.invoker</groupId>
     <artifactId>binancefutures-api</artifactId>
-    <version>2.2.1</version>
+    <version>2.3.6</version>
 </dependency>
 
 <dependency>
     <groupId>io.contek.invoker</groupId>
     <artifactId>bitmex-api</artifactId>
-    <version>2.2.1</version>
+    <version>2.3.6</version>
 </dependency>
 
 <dependency>
     <groupId>io.contek.invoker</groupId>
     <artifactId>bitstamp-api</artifactId>
-    <version>2.2.1</version>
+    <version>2.3.6</version>
 </dependency>
 
 <dependency>
     <groupId>io.contek.invoker</groupId>
     <artifactId>bybit-api</artifactId>
-    <version>2.2.1</version>
+    <version>2.3.6</version>
 </dependency>
 
 <dependency>
     <groupId>io.contek.invoker</groupId>
     <artifactId>coinbasepro-api</artifactId>
-    <version>2.2.1</version>
+    <version>2.3.6</version>
 </dependency>
 
 <dependency>
     <groupId>io.contek.invoker</groupId>
     <artifactId>ftx-api</artifactId>
-    <version>2.2.1</version>
+    <version>2.3.6</version>
 </dependency>
 ```
 
