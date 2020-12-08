@@ -7,9 +7,12 @@ public final class WebSocketChannelKeys {
 
   public static final String _channel = "channel";
 
+  public static final String _ticker = "ticker";
+
   public static final String _trades = "trades";
 
   public static final String _orderbook = "orderbook";
 
-  private WebSocketChannelKeys() {}
+  private WebSocketChannelKeys() {
+  }
 }
