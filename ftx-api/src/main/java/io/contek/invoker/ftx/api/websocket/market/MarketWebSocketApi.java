@@ -31,7 +31,7 @@ public final class MarketWebSocketApi extends WebSocketApi {
     }
   }
 
-  public TradesChannel getTickerChannel(String symbol) {
+  public TradesChannel getTradesChannel(String symbol) {
     synchronized (tradesChannels) {
       return tradesChannels.computeIfAbsent(
           symbol,
@@ -43,7 +43,7 @@ public final class MarketWebSocketApi extends WebSocketApi {
     }
   }
 
-  public TickerChannel getTradesChannel(String symbol) {
+  public TickerChannel getTickerChannel(String symbol) {
     synchronized (tickerChannels) {
       return tickerChannels.computeIfAbsent(
           symbol,
