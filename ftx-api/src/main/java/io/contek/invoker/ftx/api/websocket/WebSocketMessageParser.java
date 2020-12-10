@@ -8,6 +8,7 @@ import io.contek.invoker.ftx.api.websocket.common.WebSocketInboundMessage;
 import io.contek.invoker.ftx.api.websocket.common.WebSocketInfoMessage;
 import io.contek.invoker.ftx.api.websocket.common.WebSocketSubscriptionResponse;
 import io.contek.invoker.ftx.api.websocket.market.OrderBookChannel;
+import io.contek.invoker.ftx.api.websocket.market.TickerChannel;
 import io.contek.invoker.ftx.api.websocket.market.TradesChannel;
 
 import javax.annotation.concurrent.Immutable;
@@ -62,6 +63,8 @@ final class WebSocketMessageParser implements IWebSocketMessageParser {
         return gson.fromJson(obj, OrderBookChannel.Message.class);
       case _trades:
         return gson.fromJson(obj, TradesChannel.Message.class);
+      case _ticker:
+        return gson.fromJson(obj, TickerChannel.Message.class);
       default:
         throw new IllegalArgumentException(obj.toString());
     }
