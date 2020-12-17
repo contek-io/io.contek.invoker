@@ -2,6 +2,7 @@ package io.contek.invoker.commons.api.actor.ratelimit;
 
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.ThreadSafe;
+import java.util.List;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
@@ -25,10 +26,14 @@ public final class SimpleRateLimitThrottle implements IRateLimitThrottle {
     this.interceptor = interceptor;
   }
 
-  public void acquire(String requestName, RateLimitQuota quota) {
+  public void acquire(String requestName, List<RateLimitQuota> quota) {
     if (interceptor != null) {
       quota = interceptor.apply(requestName, quota);
     }
+    quota.forEach(this::acquire);
+  }
+
+  private void acquire(RateLimitQuota quota) {
     checkArgument(quota.getPermits() > 0);
 
     switch (quota.getType()) {

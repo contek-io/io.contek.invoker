@@ -78,8 +78,7 @@ public abstract class BaseWebSocketApi implements IWebSocketApi {
             }
             WebSocketCall call = createCall(actor.getCredential());
             IRateLimitThrottle throttle = actor.getRateLimitThrottle();
-            getRequiredQuotas()
-                .forEach(quota -> throttle.acquire(getClass().getSimpleName(), quota));
+            throttle.acquire(getClass().getSimpleName(), getRequiredQuotas());
 
             WebSocketSession session = call.submit(actor.getHttpClient(), handler);
             activate();

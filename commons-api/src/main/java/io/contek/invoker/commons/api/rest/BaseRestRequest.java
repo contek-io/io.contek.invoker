@@ -23,7 +23,7 @@ public abstract class BaseRestRequest<R> {
   public final R submit() throws AnyHttpException {
     RestCall call = createCall(actor.getCredential());
     IRateLimitThrottle throttle = actor.getRateLimitThrottle();
-    getRequiredQuotas().forEach(quota -> throttle.acquire(getClass().getSimpleName(), quota));
+    throttle.acquire(getClass().getSimpleName(), getRequiredQuotas());
 
     RestResponse response = call.submit(actor.getHttpClient());
     return requireNonNull(response.getAs(getResponseType()));
