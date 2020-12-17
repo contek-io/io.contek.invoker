@@ -2,6 +2,7 @@ package io.contek.invoker.commons.api.websocket;
 
 import com.google.common.collect.ImmutableList;
 import io.contek.invoker.commons.api.actor.IActor;
+import io.contek.invoker.commons.api.actor.ratelimit.IRateLimitThrottle;
 import io.contek.invoker.commons.api.actor.ratelimit.RateLimitQuota;
 import io.contek.invoker.commons.api.actor.security.ICredential;
 import okhttp3.Response;
@@ -76,6 +77,10 @@ public abstract class BaseWebSocketApi implements IWebSocketApi {
               return oldValue;
             }
             WebSocketCall call = createCall(actor.getCredential());
+            IRateLimitThrottle throttle = actor.getRateLimitThrottle();
+            getRequiredQuotas()
+                .forEach(quota -> throttle.acquire(getClass().getSimpleName(), quota));
+
             WebSocketSession session = call.submit(actor.getHttpClient(), handler);
             activate();
             return session;

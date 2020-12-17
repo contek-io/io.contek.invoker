@@ -12,15 +12,23 @@ public final class SimpleRateLimitThrottle implements IRateLimitThrottle {
   private final String apiKeyId;
 
   private final RateLimitCache cache;
+  private final IRateLimitQuotaInterceptor interceptor;
 
   SimpleRateLimitThrottle(
-      String boundLocalAddress, @Nullable String apiKeyId, RateLimitCache cache) {
+      String boundLocalAddress,
+      @Nullable String apiKeyId,
+      RateLimitCache cache,
+      @Nullable IRateLimitQuotaInterceptor interceptor) {
     this.boundLocalAddress = boundLocalAddress;
     this.apiKeyId = apiKeyId;
     this.cache = cache;
+    this.interceptor = interceptor;
   }
 
-  public void acquire(RateLimitQuota quota) {
+  public void acquire(String requestName, RateLimitQuota quota) {
+    if (interceptor != null) {
+      quota = interceptor.apply(requestName, quota);
+    }
     checkArgument(quota.getPermits() > 0);
 
     switch (quota.getType()) {

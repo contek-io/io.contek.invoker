@@ -1,7 +1,9 @@
 package io.contek.invoker.commons.api;
 
+import io.contek.invoker.commons.api.actor.ratelimit.IRateLimitQuotaInterceptor;
 import io.contek.invoker.commons.api.rest.RestContext;
 import io.contek.invoker.commons.api.websocket.WebSocketContext;
+
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
@@ -11,11 +13,15 @@ public final class ApiContext {
 
   private final RestContext restContext;
   private final WebSocketContext webSocketContext;
+  private final IRateLimitQuotaInterceptor interceptor;
 
   private ApiContext(
-      @Nullable RestContext restContext, @Nullable WebSocketContext webSocketContext) {
+      @Nullable RestContext restContext,
+      @Nullable WebSocketContext webSocketContext,
+      @Nullable IRateLimitQuotaInterceptor interceptor) {
     this.restContext = restContext;
     this.webSocketContext = webSocketContext;
+    this.interceptor = interceptor;
   }
 
   public static Builder newBuilder() {
@@ -36,11 +42,17 @@ public final class ApiContext {
     return webSocketContext;
   }
 
+  @Nullable
+  public IRateLimitQuotaInterceptor getInterceptor() {
+    return interceptor;
+  }
+
   @NotThreadSafe
   public static final class Builder {
 
     private RestContext restContext;
     private WebSocketContext webSocketContext;
+    private IRateLimitQuotaInterceptor interceptor;
 
     public Builder setRestContext(@Nullable RestContext.Builder builder) {
       return setRestContext(builder == null ? null : builder.build());
@@ -60,8 +72,13 @@ public final class ApiContext {
       return this;
     }
 
+    public Builder setInterceptor(@Nullable IRateLimitQuotaInterceptor interceptor) {
+      this.interceptor = interceptor;
+      return this;
+    }
+
     public ApiContext build() {
-      return new ApiContext(restContext, webSocketContext);
+      return new ApiContext(restContext, webSocketContext, interceptor);
     }
 
     private Builder() {}

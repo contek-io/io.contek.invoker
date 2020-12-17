@@ -10,15 +10,13 @@ import io.contek.invoker.commons.api.actor.IActor;
 import io.contek.invoker.commons.api.actor.IActorFactory;
 import io.contek.invoker.commons.api.actor.SimpleActorFactory;
 import io.contek.invoker.commons.api.actor.http.SimpleHttpClientFactory;
-import io.contek.invoker.commons.api.actor.ratelimit.RateLimitCache;
-import io.contek.invoker.commons.api.actor.ratelimit.RateLimitQuota;
-import io.contek.invoker.commons.api.actor.ratelimit.RateLimitRule;
-import io.contek.invoker.commons.api.actor.ratelimit.SimpleRateLimitThrottleFactory;
+import io.contek.invoker.commons.api.actor.ratelimit.*;
 import io.contek.invoker.commons.api.actor.security.ApiKey;
 import io.contek.invoker.commons.api.actor.security.SimpleCredentialFactory;
 import io.contek.invoker.commons.api.rest.RestContext;
 import io.contek.invoker.commons.api.websocket.WebSocketContext;
 
+import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.ThreadSafe;
 import java.time.Duration;
@@ -61,7 +59,7 @@ public final class ApiFactory {
   }
 
   public static ApiFactory fromContext(ApiContext context) {
-    return new ApiFactory(context, createActorFactory());
+    return new ApiFactory(context, createActorFactory(context.getInterceptor()));
   }
 
   public SelectingRestApi rest() {
@@ -72,12 +70,13 @@ public final class ApiFactory {
     return new SelectingWebSocketApi();
   }
 
-  private static SimpleActorFactory createActorFactory() {
+  private static SimpleActorFactory createActorFactory(
+      @Nullable IRateLimitQuotaInterceptor interceptor) {
     return SimpleActorFactory.newBuilder()
         .setCredentialFactory(createCredentialFactory())
         .setHttpClientFactory(SimpleHttpClientFactory.getInstance())
         .setRateLimitThrottleFactory(
-            SimpleRateLimitThrottleFactory.fromCache(createRateLimitCache()))
+            SimpleRateLimitThrottleFactory.create(createRateLimitCache(), interceptor))
         .build();
   }
 

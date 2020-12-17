@@ -5,5 +5,5 @@ import javax.annotation.concurrent.ThreadSafe;
 @ThreadSafe
 public interface IRateLimitThrottle {
 
-  void acquire(RateLimitQuota quota);
+  void acquire(String requestName, RateLimitQuota quota);
 }
