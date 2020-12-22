@@ -10,6 +10,7 @@ import io.contek.invoker.commons.api.rest.RestContext;
 import io.contek.invoker.commons.api.rest.RestMethod;
 import io.contek.invoker.commons.api.rest.RestParams;
 
+import javax.annotation.Nullable;
 import javax.annotation.concurrent.NotThreadSafe;
 
 import static io.contek.invoker.bybit.api.ApiFactory.RateLimits.ONE_REST_PRIVATE_ORDER_READ_REQUEST;
@@ -21,6 +22,11 @@ import static java.util.Objects.requireNonNull;
 public final class GetOrderList extends UserRestRequest<Response> {
 
   private String symbol;
+  private String order_status;
+  private String direction;
+  private Integer limit;
+  private String cursor;
+
 
   GetOrderList(IActor actor, RestContext context) {
     super(actor, context);
@@ -31,6 +37,26 @@ public final class GetOrderList extends UserRestRequest<Response> {
     return this;
   }
 
+  public GetOrderList setOrderStatus(@Nullable String order_status) {
+    this.order_status = order_status;
+    return this;
+  }
+
+  public GetOrderList setDirection(@Nullable String direction) {
+    this.direction = direction;
+    return this;
+  }
+
+  public GetOrderList setLimit(@Nullable Integer limit) {
+    this.limit = limit;
+    return this;
+  }
+
+  public GetOrderList setCursor(@Nullable String cursor) {
+    this.cursor = cursor;
+    return this;
+  }
+
   @Override
   protected RestMethod getMethod() {
     return GET;
@@ -38,7 +64,7 @@ public final class GetOrderList extends UserRestRequest<Response> {
 
   @Override
   protected String getEndpointPath() {
-    return "/open-api/order/list";
+    return "/v2/private/order/list";
   }
 
   @Override
@@ -47,6 +73,22 @@ public final class GetOrderList extends UserRestRequest<Response> {
 
     requireNonNull(symbol);
     builder.add("symbol", symbol);
+
+    if (order_status != null) {
+      builder.add("order_status", order_status);
+    }
+
+    if (direction != null) {
+      builder.add("direction", direction);
+    }
+
+    if (limit != null) {
+      builder.add("limit", limit);
+    }
+
+    if (cursor != null) {
+      builder.add("cursor", cursor);
+    }
 
     return builder.build();
   }
