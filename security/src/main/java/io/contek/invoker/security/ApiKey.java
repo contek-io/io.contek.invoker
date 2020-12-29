@@ -2,7 +2,6 @@ package io.contek.invoker.security;
 
 import com.google.common.collect.ImmutableMap;
 
-import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
 import java.util.HashMap;
@@ -33,9 +32,8 @@ public final class ApiKey {
     return secret;
   }
 
-  @Nullable
-  public String getProperty(String key) {
-    return properties.get(key);
+  public ImmutableMap<String, String> getProperties() {
+    return properties;
   }
 
   @NotThreadSafe

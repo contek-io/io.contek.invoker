@@ -1,6 +1,7 @@
 package io.contek.invoker.security;
 
-import javax.annotation.Nullable;
+import com.google.common.collect.ImmutableMap;
+
 import javax.annotation.concurrent.Immutable;
 
 @Immutable
@@ -14,8 +15,7 @@ public interface ICredential {
 
   String getApiKeyId();
 
-  @Nullable
-  String getSubAccount();
+  ImmutableMap<String, String> getProperties();
 
   String sign(String payload);
 
@@ -34,9 +34,8 @@ public interface ICredential {
       throw new UnsupportedOperationException();
     }
 
-    @Nullable
     @Override
-    public String getSubAccount() {
+    public ImmutableMap<String, String> getProperties() {
       throw new UnsupportedOperationException();
     }
 

@@ -17,6 +17,8 @@ import static io.contek.invoker.ftx.api.ApiFactory.RateLimits.ONE_REST_PUBLIC_RE
 @NotThreadSafe
 public abstract class RestRequest<R> extends BaseRestRequest<R> {
 
+  public static final String FTX_SUBACCOUNT_KEY = "FTX-SUBACCOUNT";
+
   private final RestContext context;
   private final Clock clock;
 
@@ -77,10 +79,7 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
             .put("FTX-KEY", credential.getApiKeyId())
             .put("FTX-SIGN", signature)
             .put("FTX-TS", ts);
-    String subAccount = credential.getSubAccount();
-    if (subAccount != null) {
-      result.put("FTX-SUBACCOUNT", subAccount);
-    }
+    credential.getProperties().forEach(result::put);
 
     return result.build();
   }
