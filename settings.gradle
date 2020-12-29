@@ -7,6 +7,7 @@ include 'coinbasepro-api'
 include 'ftx-api'
 
 include 'commons-api'
+include 'security'
 
 rootProject.name = 'io.contek.invoker'
 rootProject.children.each { project ->

@@ -5,7 +5,7 @@ import io.contek.invoker.commons.api.actor.IActor;
 import io.contek.invoker.commons.api.actor.http.AnyHttpException;
 import io.contek.invoker.commons.api.actor.ratelimit.IRateLimitThrottle;
 import io.contek.invoker.commons.api.actor.ratelimit.RateLimitQuota;
-import io.contek.invoker.commons.api.actor.security.ICredential;
+import io.contek.invoker.security.ICredential;
 
 import javax.annotation.concurrent.NotThreadSafe;
 

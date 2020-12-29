@@ -1,4 +1,4 @@
-package io.contek.invoker.commons.api.actor.security;
+package io.contek.invoker.security;
 
 import javax.annotation.concurrent.Immutable;
 import javax.crypto.Mac;

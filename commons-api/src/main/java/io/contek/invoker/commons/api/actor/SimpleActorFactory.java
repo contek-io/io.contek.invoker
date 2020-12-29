@@ -5,9 +5,9 @@ import io.contek.invoker.commons.api.actor.http.IHttpClientFactory;
 import io.contek.invoker.commons.api.actor.http.IHttpContext;
 import io.contek.invoker.commons.api.actor.ratelimit.IRateLimitThrottle;
 import io.contek.invoker.commons.api.actor.ratelimit.IRateLimitThrottleFactory;
-import io.contek.invoker.commons.api.actor.security.ApiKey;
-import io.contek.invoker.commons.api.actor.security.ICredential;
-import io.contek.invoker.commons.api.actor.security.ICredentialFactory;
+import io.contek.invoker.security.ApiKey;
+import io.contek.invoker.security.ICredential;
+import io.contek.invoker.security.ICredentialFactory;
 
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.NotThreadSafe;

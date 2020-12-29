@@ -1,6 +1,7 @@
-package io.contek.invoker.commons.api.actor.security;
+package io.contek.invoker.security;
 
 import com.google.common.io.BaseEncoding;
+
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
 

@@ -2,8 +2,8 @@ package io.contek.invoker.binancedelivery.api.rest;
 
 import com.google.common.collect.ImmutableMap;
 import io.contek.invoker.commons.api.actor.IActor;
-import io.contek.invoker.commons.api.actor.security.ICredential;
 import io.contek.invoker.commons.api.rest.*;
+import io.contek.invoker.security.ICredential;
 
 import javax.annotation.concurrent.ThreadSafe;
 

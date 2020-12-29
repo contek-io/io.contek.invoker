@@ -1,20 +1,24 @@
-package io.contek.invoker.commons.api.actor.security;
+package io.contek.invoker.security;
+
+import com.google.common.collect.ImmutableMap;
 
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
+import java.util.HashMap;
+import java.util.Map;
 
 @Immutable
 public final class ApiKey {
 
   private final String id;
   private final String secret;
-  private final String subAccount;
+  private final ImmutableMap<String, String> properties;
 
-  private ApiKey(String id, String secret, @Nullable String subAccount) {
+  private ApiKey(String id, String secret, ImmutableMap<String, String> properties) {
     this.id = id;
     this.secret = secret;
-    this.subAccount = subAccount;
+    this.properties = properties;
   }
 
   public static Builder newBuilder() {
@@ -30,8 +34,8 @@ public final class ApiKey {
   }
 
   @Nullable
-  public String getSubAccount() {
-    return subAccount;
+  public String getProperty(String key) {
+    return properties.get(key);
   }
 
   @NotThreadSafe
@@ -39,7 +43,7 @@ public final class ApiKey {
 
     private String id;
     private String secret;
-    private String subAccount;
+    private Map<String, String> properties = new HashMap<>();
 
     public Builder setId(String id) {
       this.id = id;
@@ -51,8 +55,13 @@ public final class ApiKey {
       return this;
     }
 
-    public Builder setSubAccount(String subAccount) {
-      this.subAccount = subAccount;
+    public Builder setProperties(Map<String, String> properties) {
+      this.properties = properties;
+      return this;
+    }
+
+    public Builder addProperty(String key, String value) {
+      properties.put(key, value);
       return this;
     }
 
@@ -63,7 +72,7 @@ public final class ApiKey {
       if (secret == null) {
         throw new IllegalArgumentException("No API-Key secret specified");
       }
-      return new ApiKey(id, secret, subAccount);
+      return new ApiKey(id, secret, ImmutableMap.copyOf(properties));
     }
 
     private Builder() {}

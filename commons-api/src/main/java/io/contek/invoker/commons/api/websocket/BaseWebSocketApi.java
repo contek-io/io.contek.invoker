@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableList;
 import io.contek.invoker.commons.api.actor.IActor;
 import io.contek.invoker.commons.api.actor.ratelimit.IRateLimitThrottle;
 import io.contek.invoker.commons.api.actor.ratelimit.RateLimitQuota;
-import io.contek.invoker.commons.api.actor.security.ICredential;
+import io.contek.invoker.security.ICredential;
 import okhttp3.Response;
 import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;

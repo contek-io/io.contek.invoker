@@ -11,10 +11,10 @@ import io.contek.invoker.commons.api.actor.IActorFactory;
 import io.contek.invoker.commons.api.actor.SimpleActorFactory;
 import io.contek.invoker.commons.api.actor.http.SimpleHttpClientFactory;
 import io.contek.invoker.commons.api.actor.ratelimit.*;
-import io.contek.invoker.commons.api.actor.security.ApiKey;
-import io.contek.invoker.commons.api.actor.security.SimpleCredentialFactory;
 import io.contek.invoker.commons.api.rest.RestContext;
 import io.contek.invoker.commons.api.websocket.WebSocketContext;
+import io.contek.invoker.security.ApiKey;
+import io.contek.invoker.security.SimpleCredentialFactory;
 
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
@@ -25,7 +25,7 @@ import static com.google.common.io.BaseEncoding.base16;
 import static io.contek.invoker.bitmex.api.ApiFactory.RateLimits.*;
 import static io.contek.invoker.commons.api.actor.ratelimit.RateLimitType.API_KEY;
 import static io.contek.invoker.commons.api.actor.ratelimit.RateLimitType.IP;
-import static io.contek.invoker.commons.api.actor.security.SecretKeyAlgorithm.HMAC_SHA256;
+import static io.contek.invoker.security.SecretKeyAlgorithm.HMAC_SHA256;
 
 @ThreadSafe
 public final class ApiFactory {

@@ -1,8 +1,8 @@
 package io.contek.invoker.bybit.api.rest;
 
 import io.contek.invoker.commons.api.actor.IActor;
-import io.contek.invoker.commons.api.actor.security.ICredential;
 import io.contek.invoker.commons.api.rest.*;
+import io.contek.invoker.security.ICredential;
 
 import javax.annotation.concurrent.ThreadSafe;
 import java.time.Clock;

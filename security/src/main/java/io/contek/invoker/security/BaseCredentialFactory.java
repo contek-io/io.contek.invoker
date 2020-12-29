@@ -1,4 +1,4 @@
-package io.contek.invoker.commons.api.actor.security;
+package io.contek.invoker.security;
 
 import com.google.common.io.BaseEncoding;
 

@@ -1,8 +1,8 @@
-package io.contek.invoker.commons.api.actor.security;
+package io.contek.invoker.security;
 
 import com.google.common.io.BaseEncoding;
-import org.jetbrains.annotations.Nullable;
 
+import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 
 import static com.google.common.base.Charsets.UTF_8;
@@ -33,7 +33,7 @@ public final class SimpleCredential implements ICredential {
   @Nullable
   @Override
   public String getSubAccount() {
-    return apiKey.getSubAccount();
+    return apiKey.getProperty("sub_account");
   }
 
   @Override

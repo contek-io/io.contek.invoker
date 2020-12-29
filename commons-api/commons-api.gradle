@@ -1,4 +1,6 @@
 dependencies {
+    implementation project(':security')
+
     implementation "com.google.code.gson:gson:${gsonVersion}"
     implementation "com.squareup.okhttp3:okhttp:${okhttpVersion}"
     implementation "io.github.resilience4j:resilience4j-ratelimiter:${resilience4jVersion}"

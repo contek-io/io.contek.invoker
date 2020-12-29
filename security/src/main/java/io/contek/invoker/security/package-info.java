@@ -1,6 +1,6 @@
 @ParametersAreNonnullByDefault
 @ReturnValuesAreNonnullByDefault
-package io.contek.invoker.commons.api.actor.security;
+package io.contek.invoker.security;
 
 import edu.umd.cs.findbugs.annotations.ReturnValuesAreNonnullByDefault;
 
