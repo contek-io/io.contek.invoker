@@ -1,5 +1,5 @@
 dependencies {
-    implementation project(':commons-api')
+    implementation project(':commons')
     implementation project(':security')
 
     implementation "com.google.code.gson:gson:${gsonVersion}"

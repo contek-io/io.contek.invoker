@@ -3,8 +3,8 @@ package io.contek.invoker.commons.api.actor.ratelimit;
 import com.google.common.base.Joiner;
 import io.github.resilience4j.ratelimiter.RateLimiter;
 import io.github.resilience4j.ratelimiter.RateLimiterConfig;
-import javax.annotation.concurrent.Immutable;
 
+import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
 import java.time.Duration;
 

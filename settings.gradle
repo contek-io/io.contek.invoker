@@ -6,7 +6,7 @@ include 'bybit-api'
 include 'coinbasepro-api'
 include 'ftx-api'
 
-include 'commons-api'
+include 'commons'
 include 'security'
 
 rootProject.name = 'io.contek.invoker'
