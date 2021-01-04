@@ -2,9 +2,9 @@ package io.contek.invoker.bitmex.api.rest.market;
 
 import io.contek.invoker.bitmex.api.common._OrderBook;
 import io.contek.invoker.bitmex.api.rest.market.GetOrderBookL2.Response;
-import io.contek.invoker.commons.api.actor.IActor;
-import io.contek.invoker.commons.api.rest.RestContext;
-import io.contek.invoker.commons.api.rest.RestParams;
+import io.contek.invoker.commons.actor.IActor;
+import io.contek.invoker.commons.rest.RestContext;
+import io.contek.invoker.commons.rest.RestParams;
 
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.NotThreadSafe;

@@ -1,14 +1,15 @@
 package io.contek.invoker.bybit.api.rest.market;
 
-import static io.contek.invoker.bybit.api.rest.market.GetOrderBookL2.Response;
-import static java.util.Objects.requireNonNull;
-
 import io.contek.invoker.bybit.api.common._OrderBook;
 import io.contek.invoker.bybit.api.rest.common.RestResponse;
-import io.contek.invoker.commons.api.actor.IActor;
-import io.contek.invoker.commons.api.rest.RestContext;
-import io.contek.invoker.commons.api.rest.RestParams;
+import io.contek.invoker.commons.actor.IActor;
+import io.contek.invoker.commons.rest.RestContext;
+import io.contek.invoker.commons.rest.RestParams;
+
 import javax.annotation.concurrent.NotThreadSafe;
+
+import static io.contek.invoker.bybit.api.rest.market.GetOrderBookL2.Response;
+import static java.util.Objects.requireNonNull;
 
 @NotThreadSafe
 public final class GetOrderBookL2 extends MarketRestRequest<Response> {

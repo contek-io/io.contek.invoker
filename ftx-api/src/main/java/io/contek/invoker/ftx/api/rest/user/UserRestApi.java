@@ -1,7 +1,7 @@
 package io.contek.invoker.ftx.api.rest.user;
 
-import io.contek.invoker.commons.api.actor.IActor;
-import io.contek.invoker.commons.api.rest.RestContext;
+import io.contek.invoker.commons.actor.IActor;
+import io.contek.invoker.commons.rest.RestContext;
 
 import javax.annotation.concurrent.ThreadSafe;
 

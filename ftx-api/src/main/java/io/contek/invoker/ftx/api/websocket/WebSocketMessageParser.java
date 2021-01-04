@@ -3,7 +3,7 @@ package io.contek.invoker.ftx.api.websocket;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import io.contek.invoker.commons.api.websocket.IWebSocketMessageParser;
+import io.contek.invoker.commons.websocket.IWebSocketMessageParser;
 import io.contek.invoker.ftx.api.websocket.common.WebSocketInboundMessage;
 import io.contek.invoker.ftx.api.websocket.common.WebSocketInfoMessage;
 import io.contek.invoker.ftx.api.websocket.common.WebSocketSubscriptionResponse;

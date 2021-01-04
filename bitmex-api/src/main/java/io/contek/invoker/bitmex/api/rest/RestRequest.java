@@ -2,9 +2,9 @@ package io.contek.invoker.bitmex.api.rest;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import io.contek.invoker.commons.api.actor.IActor;
-import io.contek.invoker.commons.api.actor.ratelimit.RateLimitQuota;
-import io.contek.invoker.commons.api.rest.*;
+import io.contek.invoker.commons.actor.IActor;
+import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
+import io.contek.invoker.commons.rest.*;
 import io.contek.invoker.security.ICredential;
 
 import javax.annotation.concurrent.NotThreadSafe;
@@ -14,7 +14,7 @@ import java.time.Duration;
 import static com.google.common.net.UrlEscapers.urlFragmentEscaper;
 import static io.contek.invoker.bitmex.api.ApiFactory.RateLimits.ONE_ANONYMOUS_REST_REQUEST;
 import static io.contek.invoker.bitmex.api.ApiFactory.RateLimits.ONE_AUTHENTICATED_REST_REQUEST;
-import static io.contek.invoker.commons.api.rest.RestMediaType.JSON;
+import static io.contek.invoker.commons.rest.RestMediaType.JSON;
 import static java.time.temporal.ChronoUnit.MINUTES;
 
 @NotThreadSafe

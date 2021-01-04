@@ -2,9 +2,9 @@ package io.contek.invoker.bybit.api.rest.market;
 
 import io.contek.invoker.bybit.api.common._Symbol;
 import io.contek.invoker.bybit.api.rest.common.RestResponse;
-import io.contek.invoker.commons.api.actor.IActor;
-import io.contek.invoker.commons.api.rest.RestContext;
-import io.contek.invoker.commons.api.rest.RestParams;
+import io.contek.invoker.commons.actor.IActor;
+import io.contek.invoker.commons.rest.RestContext;
+import io.contek.invoker.commons.rest.RestParams;
 
 import javax.annotation.concurrent.NotThreadSafe;
 import java.util.List;

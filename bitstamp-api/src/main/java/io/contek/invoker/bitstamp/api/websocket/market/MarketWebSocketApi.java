@@ -1,11 +1,12 @@
 package io.contek.invoker.bitstamp.api.websocket.market;
 
 import io.contek.invoker.bitstamp.api.websocket.WebSocketApi;
-import io.contek.invoker.commons.api.actor.IActor;
-import io.contek.invoker.commons.api.websocket.WebSocketContext;
+import io.contek.invoker.commons.actor.IActor;
+import io.contek.invoker.commons.websocket.WebSocketContext;
+
+import javax.annotation.concurrent.ThreadSafe;
 import java.util.HashMap;
 import java.util.Map;
-import javax.annotation.concurrent.ThreadSafe;
 
 @ThreadSafe
 public final class MarketWebSocketApi extends WebSocketApi {

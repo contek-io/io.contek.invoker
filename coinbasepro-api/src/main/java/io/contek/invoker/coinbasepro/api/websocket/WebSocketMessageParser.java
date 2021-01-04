@@ -6,8 +6,8 @@ import com.google.gson.JsonObject;
 import io.contek.invoker.coinbasepro.api.websocket.common.WebSocketSubscriptionMessage;
 import io.contek.invoker.coinbasepro.api.websocket.market.Level2Channel;
 import io.contek.invoker.coinbasepro.api.websocket.market.MatchesChannel;
-import io.contek.invoker.commons.api.websocket.AnyWebSocketMessage;
-import io.contek.invoker.commons.api.websocket.IWebSocketMessageParser;
+import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
+import io.contek.invoker.commons.websocket.IWebSocketMessageParser;
 
 import javax.annotation.concurrent.Immutable;
 

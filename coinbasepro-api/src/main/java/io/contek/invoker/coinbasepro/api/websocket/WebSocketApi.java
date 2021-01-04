@@ -1,9 +1,9 @@
 package io.contek.invoker.coinbasepro.api.websocket;
 
 import com.google.common.collect.ImmutableList;
-import io.contek.invoker.commons.api.actor.IActor;
-import io.contek.invoker.commons.api.actor.ratelimit.RateLimitQuota;
-import io.contek.invoker.commons.api.websocket.*;
+import io.contek.invoker.commons.actor.IActor;
+import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
+import io.contek.invoker.commons.websocket.*;
 import io.contek.invoker.security.ICredential;
 
 import javax.annotation.concurrent.ThreadSafe;

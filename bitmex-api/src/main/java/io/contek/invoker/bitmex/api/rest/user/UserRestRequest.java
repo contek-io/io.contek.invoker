@@ -1,11 +1,12 @@
 package io.contek.invoker.bitmex.api.rest.user;
 
-import static com.google.common.base.Preconditions.checkArgument;
-
 import io.contek.invoker.bitmex.api.rest.RestRequest;
-import io.contek.invoker.commons.api.actor.IActor;
-import io.contek.invoker.commons.api.rest.RestContext;
+import io.contek.invoker.commons.actor.IActor;
+import io.contek.invoker.commons.rest.RestContext;
+
 import javax.annotation.concurrent.NotThreadSafe;
+
+import static com.google.common.base.Preconditions.checkArgument;
 
 @NotThreadSafe
 abstract class UserRestRequest<T> extends RestRequest<T> {

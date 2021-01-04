@@ -1,13 +1,13 @@
 package io.contek.invoker.binancefutures.api.rest;
 
 import com.google.common.collect.ImmutableMap;
-import io.contek.invoker.commons.api.actor.IActor;
-import io.contek.invoker.commons.api.rest.*;
+import io.contek.invoker.commons.actor.IActor;
+import io.contek.invoker.commons.rest.*;
 import io.contek.invoker.security.ICredential;
 
 import javax.annotation.concurrent.ThreadSafe;
 
-import static io.contek.invoker.commons.api.rest.RestMediaType.FORM;
+import static io.contek.invoker.commons.rest.RestMediaType.FORM;
 
 @ThreadSafe
 public abstract class RestRequest<R> extends BaseRestRequest<R> {

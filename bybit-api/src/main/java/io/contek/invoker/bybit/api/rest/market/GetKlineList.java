@@ -1,15 +1,16 @@
 package io.contek.invoker.bybit.api.rest.market;
 
-import static io.contek.invoker.bybit.api.rest.market.GetKlineList.Response;
-import static java.util.Objects.requireNonNull;
-
 import io.contek.invoker.bybit.api.common._Kline;
 import io.contek.invoker.bybit.api.rest.common.RestResponse;
-import io.contek.invoker.commons.api.actor.IActor;
-import io.contek.invoker.commons.api.rest.RestContext;
-import io.contek.invoker.commons.api.rest.RestParams;
-import java.util.List;
+import io.contek.invoker.commons.actor.IActor;
+import io.contek.invoker.commons.rest.RestContext;
+import io.contek.invoker.commons.rest.RestParams;
+
 import javax.annotation.concurrent.NotThreadSafe;
+import java.util.List;
+
+import static io.contek.invoker.bybit.api.rest.market.GetKlineList.Response;
+import static java.util.Objects.requireNonNull;
 
 @NotThreadSafe
 public final class GetKlineList extends MarketRestRequest<Response> {

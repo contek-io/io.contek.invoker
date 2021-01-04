@@ -2,14 +2,14 @@ package io.contek.invoker.bitstamp.api.rest.market;
 
 import io.contek.invoker.bitstamp.api.common._OrderBook;
 import io.contek.invoker.bitstamp.api.rest.RestRequest;
-import io.contek.invoker.commons.api.actor.IActor;
-import io.contek.invoker.commons.api.rest.RestContext;
-import io.contek.invoker.commons.api.rest.RestMethod;
-import io.contek.invoker.commons.api.rest.RestParams;
+import io.contek.invoker.commons.actor.IActor;
+import io.contek.invoker.commons.rest.RestContext;
+import io.contek.invoker.commons.rest.RestMethod;
+import io.contek.invoker.commons.rest.RestParams;
 
 import javax.annotation.concurrent.NotThreadSafe;
 
-import static io.contek.invoker.commons.api.rest.RestMethod.GET;
+import static io.contek.invoker.commons.rest.RestMethod.GET;
 
 @NotThreadSafe
 public final class GetOrderBook extends RestRequest<GetOrderBook.Response> {

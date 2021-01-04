@@ -1,9 +1,9 @@
 package io.contek.invoker.ftx.api.websocket;
 
-import io.contek.invoker.commons.api.websocket.AnyWebSocketMessage;
-import io.contek.invoker.commons.api.websocket.BaseWebSocketChannel;
-import io.contek.invoker.commons.api.websocket.SubscriptionState;
-import io.contek.invoker.commons.api.websocket.WebSocketSession;
+import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
+import io.contek.invoker.commons.websocket.BaseWebSocketChannel;
+import io.contek.invoker.commons.websocket.SubscriptionState;
+import io.contek.invoker.commons.websocket.WebSocketSession;
 import io.contek.invoker.ftx.api.websocket.common.WebSocketInboundMessage;
 import io.contek.invoker.ftx.api.websocket.common.WebSocketSubscriptionRequest;
 import io.contek.invoker.ftx.api.websocket.common.WebSocketSubscriptionResponse;
@@ -11,7 +11,7 @@ import io.contek.invoker.ftx.api.websocket.common.WebSocketSubscriptionResponse;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.ThreadSafe;
 
-import static io.contek.invoker.commons.api.websocket.SubscriptionState.*;
+import static io.contek.invoker.commons.websocket.SubscriptionState.*;
 import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketInboundKeys._subscribed;
 import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketInboundKeys._unsubscribed;
 import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketOutboundKeys._subscribe;

@@ -4,17 +4,17 @@ import com.google.common.collect.ImmutableList;
 import io.contek.invoker.coinbasepro.api.websocket.common.WebSocketChannelInfo;
 import io.contek.invoker.coinbasepro.api.websocket.common.WebSocketMessage;
 import io.contek.invoker.coinbasepro.api.websocket.common.WebSocketSubscriptionMessage;
-import io.contek.invoker.commons.api.websocket.AnyWebSocketMessage;
-import io.contek.invoker.commons.api.websocket.BaseWebSocketChannel;
-import io.contek.invoker.commons.api.websocket.SubscriptionState;
-import io.contek.invoker.commons.api.websocket.WebSocketSession;
+import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
+import io.contek.invoker.commons.websocket.BaseWebSocketChannel;
+import io.contek.invoker.commons.websocket.SubscriptionState;
+import io.contek.invoker.commons.websocket.WebSocketSession;
 
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.ThreadSafe;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static io.contek.invoker.coinbasepro.api.websocket.common.constants.WebSocketMessageKeys.*;
-import static io.contek.invoker.commons.api.websocket.SubscriptionState.*;
+import static io.contek.invoker.commons.websocket.SubscriptionState.*;
 
 @ThreadSafe
 public abstract class WebSocketChannel<Message extends WebSocketMessage>

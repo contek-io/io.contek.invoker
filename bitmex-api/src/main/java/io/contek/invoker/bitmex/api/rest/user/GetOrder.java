@@ -3,10 +3,10 @@ package io.contek.invoker.bitmex.api.rest.user;
 import com.google.gson.Gson;
 import io.contek.invoker.bitmex.api.common._Order;
 import io.contek.invoker.bitmex.api.rest.user.GetOrder.Response;
-import io.contek.invoker.commons.api.actor.IActor;
-import io.contek.invoker.commons.api.rest.RestContext;
-import io.contek.invoker.commons.api.rest.RestMethod;
-import io.contek.invoker.commons.api.rest.RestParams;
+import io.contek.invoker.commons.actor.IActor;
+import io.contek.invoker.commons.rest.RestContext;
+import io.contek.invoker.commons.rest.RestMethod;
+import io.contek.invoker.commons.rest.RestParams;
 
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.NotThreadSafe;
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import static io.contek.invoker.commons.api.rest.RestMethod.GET;
+import static io.contek.invoker.commons.rest.RestMethod.GET;
 
 @NotThreadSafe
 public final class GetOrder extends UserRestRequest<Response> {

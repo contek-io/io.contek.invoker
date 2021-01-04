@@ -2,16 +2,16 @@ package io.contek.invoker.ftx.api.rest;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import io.contek.invoker.commons.api.actor.IActor;
-import io.contek.invoker.commons.api.actor.ratelimit.RateLimitQuota;
-import io.contek.invoker.commons.api.rest.*;
+import io.contek.invoker.commons.actor.IActor;
+import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
+import io.contek.invoker.commons.rest.*;
 import io.contek.invoker.security.ICredential;
 
 import javax.annotation.concurrent.NotThreadSafe;
 import java.time.Clock;
 
 import static com.google.common.net.UrlEscapers.urlFragmentEscaper;
-import static io.contek.invoker.commons.api.rest.RestMediaType.JSON;
+import static io.contek.invoker.commons.rest.RestMediaType.JSON;
 import static io.contek.invoker.ftx.api.ApiFactory.RateLimits.ONE_REST_PUBLIC_REQUEST;
 
 @NotThreadSafe

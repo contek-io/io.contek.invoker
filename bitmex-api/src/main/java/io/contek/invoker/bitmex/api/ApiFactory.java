@@ -5,14 +5,14 @@ import io.contek.invoker.bitmex.api.rest.market.MarketRestApi;
 import io.contek.invoker.bitmex.api.rest.user.UserRestApi;
 import io.contek.invoker.bitmex.api.websocket.market.MarketWebSocketApi;
 import io.contek.invoker.bitmex.api.websocket.user.UserWebSocketApi;
-import io.contek.invoker.commons.api.ApiContext;
-import io.contek.invoker.commons.api.actor.IActor;
-import io.contek.invoker.commons.api.actor.IActorFactory;
-import io.contek.invoker.commons.api.actor.SimpleActorFactory;
-import io.contek.invoker.commons.api.actor.http.SimpleHttpClientFactory;
-import io.contek.invoker.commons.api.actor.ratelimit.*;
-import io.contek.invoker.commons.api.rest.RestContext;
-import io.contek.invoker.commons.api.websocket.WebSocketContext;
+import io.contek.invoker.commons.ApiContext;
+import io.contek.invoker.commons.actor.IActor;
+import io.contek.invoker.commons.actor.IActorFactory;
+import io.contek.invoker.commons.actor.SimpleActorFactory;
+import io.contek.invoker.commons.actor.http.SimpleHttpClientFactory;
+import io.contek.invoker.commons.actor.ratelimit.*;
+import io.contek.invoker.commons.rest.RestContext;
+import io.contek.invoker.commons.websocket.WebSocketContext;
 import io.contek.invoker.security.ApiKey;
 import io.contek.invoker.security.SimpleCredentialFactory;
 
@@ -23,8 +23,8 @@ import java.time.Duration;
 
 import static com.google.common.io.BaseEncoding.base16;
 import static io.contek.invoker.bitmex.api.ApiFactory.RateLimits.*;
-import static io.contek.invoker.commons.api.actor.ratelimit.RateLimitType.API_KEY;
-import static io.contek.invoker.commons.api.actor.ratelimit.RateLimitType.IP;
+import static io.contek.invoker.commons.actor.ratelimit.RateLimitType.API_KEY;
+import static io.contek.invoker.commons.actor.ratelimit.RateLimitType.IP;
 import static io.contek.invoker.security.SecretKeyAlgorithm.HMAC_SHA256;
 
 @ThreadSafe

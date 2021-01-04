@@ -1,7 +1,7 @@
 package io.contek.invoker.bybit.api.rest;
 
-import io.contek.invoker.commons.api.actor.IActor;
-import io.contek.invoker.commons.api.rest.*;
+import io.contek.invoker.commons.actor.IActor;
+import io.contek.invoker.commons.rest.*;
 import io.contek.invoker.security.ICredential;
 
 import javax.annotation.concurrent.ThreadSafe;
@@ -9,8 +9,8 @@ import java.time.Clock;
 import java.util.Map;
 import java.util.TreeMap;
 
-import static io.contek.invoker.commons.api.rest.RestMediaType.JSON;
-import static io.contek.invoker.commons.api.rest.RestParams.toQueryString;
+import static io.contek.invoker.commons.rest.RestMediaType.JSON;
+import static io.contek.invoker.commons.rest.RestParams.toQueryString;
 
 @ThreadSafe
 public abstract class RestRequest<R> extends BaseRestRequest<R> {

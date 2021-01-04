@@ -8,8 +8,8 @@ import io.contek.invoker.bybit.api.websocket.market.OrderBook200Channel;
 import io.contek.invoker.bybit.api.websocket.market.OrderBook25Channel;
 import io.contek.invoker.bybit.api.websocket.market.OrderBookChannel;
 import io.contek.invoker.bybit.api.websocket.market.TradeChannel;
-import io.contek.invoker.commons.api.websocket.AnyWebSocketMessage;
-import io.contek.invoker.commons.api.websocket.IWebSocketMessageParser;
+import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
+import io.contek.invoker.commons.websocket.IWebSocketMessageParser;
 
 import javax.annotation.concurrent.Immutable;
 

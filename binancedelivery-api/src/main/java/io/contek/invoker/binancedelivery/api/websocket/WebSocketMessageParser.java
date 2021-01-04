@@ -8,8 +8,8 @@ import io.contek.invoker.binancedelivery.api.websocket.market.AggTradeChannel;
 import io.contek.invoker.binancedelivery.api.websocket.market.BookTickerEvent;
 import io.contek.invoker.binancedelivery.api.websocket.market.DepthUpdateChannel;
 import io.contek.invoker.binancedelivery.api.websocket.market.ForceOrderChannel;
-import io.contek.invoker.commons.api.websocket.AnyWebSocketMessage;
-import io.contek.invoker.commons.api.websocket.IWebSocketMessageParser;
+import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
+import io.contek.invoker.commons.websocket.IWebSocketMessageParser;
 
 import javax.annotation.concurrent.Immutable;
 
@@ -60,15 +60,13 @@ final class WebSocketMessageParser implements IWebSocketMessageParser {
     return gson.fromJson(obj, BookTickerEvent.class);
   }
 
-  private WebSocketMessageParser() {
-  }
+  private WebSocketMessageParser() {}
 
   @Immutable
   private static class InstanceHolder {
 
     private static final WebSocketMessageParser INSTANCE = new WebSocketMessageParser();
 
-    private InstanceHolder() {
-    }
+    private InstanceHolder() {}
   }
 }

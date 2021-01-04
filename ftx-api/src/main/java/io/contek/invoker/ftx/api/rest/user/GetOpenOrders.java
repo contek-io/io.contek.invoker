@@ -1,16 +1,16 @@
 package io.contek.invoker.ftx.api.rest.user;
 
-import io.contek.invoker.commons.api.actor.IActor;
-import io.contek.invoker.commons.api.rest.RestContext;
-import io.contek.invoker.commons.api.rest.RestMethod;
-import io.contek.invoker.commons.api.rest.RestParams;
+import io.contek.invoker.commons.actor.IActor;
+import io.contek.invoker.commons.rest.RestContext;
+import io.contek.invoker.commons.rest.RestMethod;
+import io.contek.invoker.commons.rest.RestParams;
 import io.contek.invoker.ftx.api.common._Order;
 import io.contek.invoker.ftx.api.rest.common.RestResponse;
 
 import javax.annotation.concurrent.NotThreadSafe;
 import java.util.List;
 
-import static io.contek.invoker.commons.api.rest.RestMethod.GET;
+import static io.contek.invoker.commons.rest.RestMethod.GET;
 
 @NotThreadSafe
 public final class GetOpenOrders extends UserRestRequest<GetOpenOrders.Response> {

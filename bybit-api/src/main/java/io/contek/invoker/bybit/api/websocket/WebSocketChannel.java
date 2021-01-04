@@ -4,17 +4,17 @@ import com.google.common.collect.ImmutableList;
 import io.contek.invoker.bybit.api.websocket.common.WebSocketRequest;
 import io.contek.invoker.bybit.api.websocket.common.WebSocketRequestConfirmation;
 import io.contek.invoker.bybit.api.websocket.common.WebSocketTopicMessage;
-import io.contek.invoker.commons.api.websocket.AnyWebSocketMessage;
-import io.contek.invoker.commons.api.websocket.BaseWebSocketChannel;
-import io.contek.invoker.commons.api.websocket.SubscriptionState;
-import io.contek.invoker.commons.api.websocket.WebSocketSession;
+import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
+import io.contek.invoker.commons.websocket.BaseWebSocketChannel;
+import io.contek.invoker.commons.websocket.SubscriptionState;
+import io.contek.invoker.commons.websocket.WebSocketSession;
 
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.ThreadSafe;
 
 import static io.contek.invoker.bybit.api.websocket.common.constants.WebSocketOperationKeys._subscribe;
 import static io.contek.invoker.bybit.api.websocket.common.constants.WebSocketOperationKeys._unsubscribe;
-import static io.contek.invoker.commons.api.websocket.SubscriptionState.*;
+import static io.contek.invoker.commons.websocket.SubscriptionState.*;
 
 @ThreadSafe
 public abstract class WebSocketChannel<Message extends WebSocketTopicMessage>

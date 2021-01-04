@@ -3,10 +3,10 @@ package io.contek.invoker.binancedelivery.api.websocket;
 import com.google.common.collect.ImmutableList;
 import io.contek.invoker.binancedelivery.api.websocket.common.WebSocketCommand;
 import io.contek.invoker.binancedelivery.api.websocket.common.WebSocketCommandConfirmation;
-import io.contek.invoker.commons.api.websocket.AnyWebSocketMessage;
-import io.contek.invoker.commons.api.websocket.BaseWebSocketChannel;
-import io.contek.invoker.commons.api.websocket.SubscriptionState;
-import io.contek.invoker.commons.api.websocket.WebSocketSession;
+import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
+import io.contek.invoker.commons.websocket.BaseWebSocketChannel;
+import io.contek.invoker.commons.websocket.SubscriptionState;
+import io.contek.invoker.commons.websocket.WebSocketSession;
 
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.ThreadSafe;
@@ -14,7 +14,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import static io.contek.invoker.binancedelivery.api.websocket.common.constants.WebSocketMethods.SUBSCRIBE;
 import static io.contek.invoker.binancedelivery.api.websocket.common.constants.WebSocketMethods.UNSUBSCRIBE;
-import static io.contek.invoker.commons.api.websocket.SubscriptionState.*;
+import static io.contek.invoker.commons.websocket.SubscriptionState.*;
 
 @ThreadSafe
 public abstract class WebSocketChannel<Message> extends BaseWebSocketChannel<Message> {

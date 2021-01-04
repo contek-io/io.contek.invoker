@@ -8,8 +8,8 @@ import io.contek.invoker.binancefutures.api.websocket.market.AggTradeChannel;
 import io.contek.invoker.binancefutures.api.websocket.market.BookTickerEvent;
 import io.contek.invoker.binancefutures.api.websocket.market.DepthUpdateChannel;
 import io.contek.invoker.binancefutures.api.websocket.market.ForceOrderChannel;
-import io.contek.invoker.commons.api.websocket.AnyWebSocketMessage;
-import io.contek.invoker.commons.api.websocket.IWebSocketMessageParser;
+import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
+import io.contek.invoker.commons.websocket.IWebSocketMessageParser;
 
 import javax.annotation.concurrent.Immutable;
 

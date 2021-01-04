@@ -4,17 +4,17 @@ import com.google.common.collect.ImmutableMap;
 import io.contek.invoker.bitstamp.api.websocket.common.WebSocketChannelMessage;
 import io.contek.invoker.bitstamp.api.websocket.common.WebSocketRequestConfirmationMessage;
 import io.contek.invoker.bitstamp.api.websocket.common.WebSocketRequestMessage;
-import io.contek.invoker.commons.api.websocket.AnyWebSocketMessage;
-import io.contek.invoker.commons.api.websocket.BaseWebSocketChannel;
-import io.contek.invoker.commons.api.websocket.SubscriptionState;
-import io.contek.invoker.commons.api.websocket.WebSocketSession;
+import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
+import io.contek.invoker.commons.websocket.BaseWebSocketChannel;
+import io.contek.invoker.commons.websocket.SubscriptionState;
+import io.contek.invoker.commons.websocket.WebSocketSession;
 
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.ThreadSafe;
 
 import static io.contek.invoker.bitstamp.api.websocket.common.constants.WebSocketEventKeys.*;
 import static io.contek.invoker.bitstamp.api.websocket.common.constants.WebSocketFieldKeys._channel;
-import static io.contek.invoker.commons.api.websocket.SubscriptionState.*;
+import static io.contek.invoker.commons.websocket.SubscriptionState.*;
 
 @ThreadSafe
 public abstract class WebSocketChannel<Message extends WebSocketChannelMessage<?>>

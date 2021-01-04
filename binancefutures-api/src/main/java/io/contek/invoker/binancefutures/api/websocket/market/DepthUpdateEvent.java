@@ -1,7 +1,7 @@
 package io.contek.invoker.binancefutures.api.websocket.market;
 
 import io.contek.invoker.binancefutures.api.common._OrderBookLevel;
-import io.contek.invoker.commons.api.websocket.AnyWebSocketMessage;
+import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 
 import javax.annotation.concurrent.NotThreadSafe;
 import java.util.List;

@@ -3,11 +3,12 @@ package io.contek.invoker.bitmex.api.websocket.market;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 import io.contek.invoker.bitmex.api.websocket.WebSocketApi;
-import io.contek.invoker.commons.api.actor.IActor;
-import io.contek.invoker.commons.api.websocket.WebSocketContext;
+import io.contek.invoker.commons.actor.IActor;
+import io.contek.invoker.commons.websocket.WebSocketContext;
+
+import javax.annotation.concurrent.ThreadSafe;
 import java.util.HashMap;
 import java.util.Map;
-import javax.annotation.concurrent.ThreadSafe;
 
 @ThreadSafe
 public final class MarketWebSocketApi extends WebSocketApi {

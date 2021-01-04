@@ -4,9 +4,9 @@ import com.google.common.collect.ImmutableList;
 import io.contek.invoker.bitmex.api.websocket.common.WebSocketAuthKeyExpiresConfirmation;
 import io.contek.invoker.bitmex.api.websocket.common.WebSocketRequest;
 import io.contek.invoker.bitmex.api.websocket.common.constants.WebSocketRequestOperationKeys;
-import io.contek.invoker.commons.api.websocket.AnyWebSocketMessage;
-import io.contek.invoker.commons.api.websocket.IWebSocketAuthenticator;
-import io.contek.invoker.commons.api.websocket.WebSocketSession;
+import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
+import io.contek.invoker.commons.websocket.IWebSocketAuthenticator;
+import io.contek.invoker.commons.websocket.WebSocketSession;
 import io.contek.invoker.security.ICredential;
 
 import javax.annotation.concurrent.ThreadSafe;

@@ -1,7 +1,7 @@
 package io.contek.invoker.ftx.api.websocket.market;
 
-import io.contek.invoker.commons.api.actor.IActor;
-import io.contek.invoker.commons.api.websocket.WebSocketContext;
+import io.contek.invoker.commons.actor.IActor;
+import io.contek.invoker.commons.websocket.WebSocketContext;
 import io.contek.invoker.ftx.api.websocket.WebSocketApi;
 
 import javax.annotation.concurrent.ThreadSafe;

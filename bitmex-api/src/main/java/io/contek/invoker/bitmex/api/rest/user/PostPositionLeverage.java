@@ -2,15 +2,15 @@ package io.contek.invoker.bitmex.api.rest.user;
 
 import io.contek.invoker.bitmex.api.common._Position;
 import io.contek.invoker.bitmex.api.rest.user.PostPositionLeverage.Response;
-import io.contek.invoker.commons.api.actor.IActor;
-import io.contek.invoker.commons.api.rest.RestContext;
-import io.contek.invoker.commons.api.rest.RestMethod;
-import io.contek.invoker.commons.api.rest.RestParams;
+import io.contek.invoker.commons.actor.IActor;
+import io.contek.invoker.commons.rest.RestContext;
+import io.contek.invoker.commons.rest.RestMethod;
+import io.contek.invoker.commons.rest.RestParams;
 
 import javax.annotation.concurrent.NotThreadSafe;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static io.contek.invoker.commons.api.rest.RestMethod.POST;
+import static io.contek.invoker.commons.rest.RestMethod.POST;
 
 @NotThreadSafe
 public final class PostPositionLeverage extends UserRestRequest<Response> {

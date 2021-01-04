@@ -1,6 +1,6 @@
 package io.contek.invoker.bybit.api.websocket.common;
 
-import io.contek.invoker.commons.api.websocket.AnyWebSocketMessage;
+import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 
 import javax.annotation.concurrent.NotThreadSafe;
 import java.util.ArrayList;

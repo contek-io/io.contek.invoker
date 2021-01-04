@@ -2,15 +2,15 @@ package io.contek.invoker.bybit.api.rest.market;
 
 import com.google.common.collect.ImmutableList;
 import io.contek.invoker.bybit.api.rest.RestRequest;
-import io.contek.invoker.commons.api.actor.IActor;
-import io.contek.invoker.commons.api.actor.ratelimit.RateLimitQuota;
-import io.contek.invoker.commons.api.rest.RestContext;
-import io.contek.invoker.commons.api.rest.RestMethod;
+import io.contek.invoker.commons.actor.IActor;
+import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
+import io.contek.invoker.commons.rest.RestContext;
+import io.contek.invoker.commons.rest.RestMethod;
 
 import javax.annotation.concurrent.NotThreadSafe;
 
 import static io.contek.invoker.bybit.api.ApiFactory.RateLimits.ONE_REST_PUBLIC_GET_REQUEST;
-import static io.contek.invoker.commons.api.rest.RestMethod.GET;
+import static io.contek.invoker.commons.rest.RestMethod.GET;
 
 @NotThreadSafe
 abstract class MarketRestRequest<T> extends RestRequest<T> {
