@@ -15,15 +15,15 @@ public final class RateLimitQuota {
     this.permits = permits;
   }
 
-  String getRuleName() {
+  public String getRuleName() {
     return ruleName;
   }
 
-  RateLimitType getType() {
+  public RateLimitType getType() {
     return type;
   }
 
-  int getPermits() {
+  public int getPermits() {
     return permits;
   }
 }
