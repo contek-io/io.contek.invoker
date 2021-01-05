@@ -48,6 +48,14 @@ public final class UserRestApi {
     return new GetPositions(actor, context);
   }
 
+  public GetWalletBalances getWalletBalances() {
+    return new GetWalletBalances(actor, context);
+  }
+
+  public GetWalletAllBalances getWalletAllBalances() {
+    return new GetWalletAllBalances(actor, context);
+  }
+
   public PostAccountLeverage postAccountLeverage() {
     return new PostAccountLeverage(actor, context);
   }
