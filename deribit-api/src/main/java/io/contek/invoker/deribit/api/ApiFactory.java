@@ -1,11 +1,6 @@
-package io.contek.invoker.binancefutures.api;
+package io.contek.invoker.deribit.api;
 
 import com.google.common.collect.ImmutableList;
-import io.contek.invoker.binancefutures.api.rest.market.GetDepth;
-import io.contek.invoker.binancefutures.api.rest.market.MarketRestApi;
-import io.contek.invoker.binancefutures.api.rest.user.UserRestApi;
-import io.contek.invoker.binancefutures.api.websocket.market.MarketWebSocketApi;
-import io.contek.invoker.binancefutures.api.websocket.user.UserWebSocketApi;
 import io.contek.invoker.commons.ApiContext;
 import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.actor.IActorFactory;
@@ -14,6 +9,11 @@ import io.contek.invoker.commons.actor.http.SimpleHttpClientFactory;
 import io.contek.invoker.commons.actor.ratelimit.*;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.websocket.WebSocketContext;
+import io.contek.invoker.deribit.api.rest.market.GetOrderBook;
+import io.contek.invoker.deribit.api.rest.market.MarketRestApi;
+import io.contek.invoker.deribit.api.rest.user.UserRestApi;
+import io.contek.invoker.deribit.api.websocket.market.MarketWebSocketApi;
+import io.contek.invoker.deribit.api.websocket.user.UserWebSocketApi;
 import io.contek.invoker.security.ApiKey;
 import io.contek.invoker.security.SimpleCredentialFactory;
 
@@ -23,10 +23,7 @@ import javax.annotation.concurrent.ThreadSafe;
 import java.time.Duration;
 
 import static com.google.common.io.BaseEncoding.base16;
-import static io.contek.invoker.binancefutures.api.ApiFactory.RateLimits.API_KEY_REST_ORDER_RULE;
-import static io.contek.invoker.binancefutures.api.ApiFactory.RateLimits.IP_REST_REQUEST_RULE;
 import static io.contek.invoker.commons.actor.ratelimit.RateLimitType.API_KEY;
-import static io.contek.invoker.commons.actor.ratelimit.RateLimitType.IP;
 import static io.contek.invoker.security.SecretKeyAlgorithm.HMAC_SHA256;
 
 @ThreadSafe
@@ -34,26 +31,25 @@ public final class ApiFactory {
 
   public static void main(String[] args) {
     MarketRestApi api = ApiFactory.getMainNetDefault().rest().market();
-    GetDepth.Response response = api.getDepth()
-            .setSymbol("BTCUSDT")
-            .setLimit(100)
+    GetOrderBook.Response response = api.getOrderBook()
+            .setInstrumentName("BTC-PERPETUAL")
+            .setDepth(5)
             .submit();
-    double bestBid = response.bids.get(0).get(0);
-    double bestAsk = response.asks.get(0).get(0);
-    System.out.println("Best bid: " + bestBid + ", best ask: " + bestAsk);
+    double bestBid = response.result.bids.get(0).get(0);
+    double bestAsk = response.result.asks.get(0).get(0);
   }
 
   public static final ApiContext MAIN_NET_CONTEXT =
       ApiContext.newBuilder()
-          .setRestContext(RestContext.forBaseUrl("https://fapi.binance.com"))
-          .setWebSocketContext(WebSocketContext.forBaseUrl("wss://fstream.binance.com"))
+          .setRestContext(RestContext.forBaseUrl("https://www.deribit.com"))
+          .setWebSocketContext(WebSocketContext.forBaseUrl("wss://www.deribit.com"))
           .build();
 
   public static final ApiContext TEST_NET_CONTEXT =
-      ApiContext.newBuilder()
-          .setRestContext(RestContext.forBaseUrl("https://testnet.binancefuture.com"))
-          .setWebSocketContext(WebSocketContext.forBaseUrl("wss://stream.binancefuture.com"))
-          .build();
+          ApiContext.newBuilder()
+                  .setRestContext(RestContext.forBaseUrl("https://test.deribit.com"))
+                  .setWebSocketContext(WebSocketContext.forBaseUrl("wss://test.deribit.com"))
+                  .build();
 
   private final ApiContext context;
   private final IActorFactory actorFactory;
@@ -65,10 +61,6 @@ public final class ApiFactory {
 
   public static ApiFactory getMainNetDefault() {
     return fromContext(MAIN_NET_CONTEXT);
-  }
-
-  public static ApiFactory getTestNetDefault() {
-    return fromContext(TEST_NET_CONTEXT);
   }
 
   public static ApiFactory fromContext(ApiContext context) {
@@ -101,10 +93,7 @@ public final class ApiFactory {
   }
 
   private static RateLimitCache createRateLimitCache() {
-    return RateLimitCache.newBuilder()
-        .addRule(IP_REST_REQUEST_RULE)
-        .addRule(API_KEY_REST_ORDER_RULE)
-        .build();
+    return RateLimitCache.newBuilder().addRule(RateLimits.API_KEY_REST_PUBLIC_REQUEST_RULE).build();
   }
 
   @ThreadSafe
@@ -146,29 +135,16 @@ public final class ApiFactory {
   @Immutable
   public static final class RateLimits {
 
-    public static final RateLimitRule IP_REST_REQUEST_RULE =
+    public static final RateLimitRule API_KEY_REST_PUBLIC_REQUEST_RULE =
         RateLimitRule.newBuilder()
-            .setName("ip_rest_request_rule")
-            .setType(IP)
-            .setMaxPermits(2400)
-            .setResetPeriod(Duration.ofMinutes(1))
+            .setName("api_key_rest_public_request_rule")
+            .setType(API_KEY) // should be subaccount actually
+            .setMaxPermits(30)
+            .setResetPeriod(Duration.ofSeconds(1))
             .build();
 
-    public static final RateLimitRule API_KEY_REST_ORDER_RULE =
-        RateLimitRule.newBuilder()
-            .setName("api_key_rest_order_rule")
-            .setType(API_KEY)
-            .setMaxPermits(1200)
-            .setResetPeriod(Duration.ofMinutes(1))
-            .build();
-
-    public static final ImmutableList<RateLimitQuota> ONE_REST_REQUEST =
-        ImmutableList.of(IP_REST_REQUEST_RULE.createRateLimitQuota(1));
-
-    public static final ImmutableList<RateLimitQuota> ONE_REST_ORDER_REQUEST =
-        ImmutableList.of(
-            IP_REST_REQUEST_RULE.createRateLimitQuota(1),
-            API_KEY_REST_ORDER_RULE.createRateLimitQuota(1));
+    public static final ImmutableList<RateLimitQuota> ONE_REST_PUBLIC_REQUEST =
+        ImmutableList.of(API_KEY_REST_PUBLIC_REQUEST_RULE.createRateLimitQuota(1));
 
     private RateLimits() {}
   }

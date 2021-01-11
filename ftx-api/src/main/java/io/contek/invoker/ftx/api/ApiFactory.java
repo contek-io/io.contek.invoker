@@ -9,6 +9,7 @@ import io.contek.invoker.commons.actor.http.SimpleHttpClientFactory;
 import io.contek.invoker.commons.actor.ratelimit.*;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.websocket.WebSocketContext;
+import io.contek.invoker.ftx.api.rest.market.GetOrderBook;
 import io.contek.invoker.ftx.api.rest.market.MarketRestApi;
 import io.contek.invoker.ftx.api.rest.user.UserRestApi;
 import io.contek.invoker.ftx.api.websocket.market.MarketWebSocketApi;
@@ -27,6 +28,13 @@ import static io.contek.invoker.security.SecretKeyAlgorithm.HMAC_SHA256;
 
 @ThreadSafe
 public final class ApiFactory {
+
+  public static void main(String[] args) {
+    MarketRestApi api = getMainNetDefault().rest().market();
+    GetOrderBook.Response orderBook = api.getOrderBook().setMarketName("BTC/USD").setDepth(35).submit();
+    System.out.println("print");
+    System.out.println(orderBook.result.bids);
+  }
 
   public static final ApiContext MAIN_NET_CONTEXT =
       ApiContext.newBuilder()

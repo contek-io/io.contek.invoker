@@ -4,6 +4,7 @@ include 'bitmex-api'
 include 'bitstamp-api'
 include 'bybit-api'
 include 'coinbasepro-api'
+include 'deribit-api'
 include 'ftx-api'
 
 include 'commons'
