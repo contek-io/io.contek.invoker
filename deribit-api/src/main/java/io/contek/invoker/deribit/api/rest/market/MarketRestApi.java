@@ -16,12 +16,8 @@ public final class MarketRestApi {
     this.context = context;
   }
 
-  public GetMarkets getMarkets() {
-    return new GetMarkets(actor, context);
-  }
-
-  public GetMarketsCandles getMarketsCandles() {
-    return new GetMarketsCandles(actor, context);
+  public GetInstruments getInstruments() {
+    return new GetInstruments(actor, context);
   }
 
   public GetOrderBook getOrderBook() {

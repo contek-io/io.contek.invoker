@@ -16,51 +16,21 @@ public final class UserRestApi {
     this.context = context;
   }
 
-  public DeleteAllOrders deleteAllOrders() {
-    return new DeleteAllOrders(actor, context);
+  public GetBuy getBuy() {
+    return new GetBuy(actor, context);
   }
 
-  public DeleteOrders deleteOrders() {
-    return new DeleteOrders(actor, context);
+  public GetSell getSell() {
+    return new GetSell(actor, context);
   }
 
-  public DeleteOrdersByClientOrderId deleteOrdersByClientOrderId() {
-    return new DeleteOrdersByClientOrderId(actor, context);
+  public GetCancel getCancel() {
+    return new GetCancel(actor, context);
   }
 
-  public GetAccount getAccount() {
-    return new GetAccount(actor, context);
+  public GetCancelAll getCancelAll() {
+    return new GetCancelAll(actor, context);
   }
 
-  public GetOpenOrders getOpenOrders() {
-    return new GetOpenOrders(actor, context);
-  }
 
-  public GetOrders getOrders() {
-    return new GetOrders(actor, context);
-  }
-
-  public GetOrdersByClientId getOrdersByClientId() {
-    return new GetOrdersByClientId(actor, context);
-  }
-
-  public GetPositions getPositions() {
-    return new GetPositions(actor, context);
-  }
-
-  public GetWalletBalances getWalletBalances() {
-    return new GetWalletBalances(actor, context);
-  }
-
-  public GetWalletAllBalances getWalletAllBalances() {
-    return new GetWalletAllBalances(actor, context);
-  }
-
-  public PostAccountLeverage postAccountLeverage() {
-    return new PostAccountLeverage(actor, context);
-  }
-
-  public PostOrders postOrders() {
-    return new PostOrders(actor, context);
-  }
 }

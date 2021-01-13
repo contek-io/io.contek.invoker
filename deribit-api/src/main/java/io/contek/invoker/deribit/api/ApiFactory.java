@@ -9,9 +9,8 @@ import io.contek.invoker.commons.actor.http.SimpleHttpClientFactory;
 import io.contek.invoker.commons.actor.ratelimit.*;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.websocket.WebSocketContext;
-import io.contek.invoker.deribit.api.rest.market.GetOrderBook;
 import io.contek.invoker.deribit.api.rest.market.MarketRestApi;
-import io.contek.invoker.deribit.api.rest.user.UserRestApi;
+import io.contek.invoker.deribit.api.rest.user.*;
 import io.contek.invoker.deribit.api.websocket.market.MarketWebSocketApi;
 import io.contek.invoker.deribit.api.websocket.user.UserWebSocketApi;
 import io.contek.invoker.security.ApiKey;
@@ -23,20 +22,25 @@ import javax.annotation.concurrent.ThreadSafe;
 import java.time.Duration;
 
 import static com.google.common.io.BaseEncoding.base16;
-import static io.contek.invoker.commons.actor.ratelimit.RateLimitType.API_KEY;
+import static io.contek.invoker.commons.actor.ratelimit.RateLimitType.IP;
 import static io.contek.invoker.security.SecretKeyAlgorithm.HMAC_SHA256;
 
 @ThreadSafe
 public final class ApiFactory {
 
   public static void main(String[] args) {
-    MarketRestApi api = ApiFactory.getMainNetDefault().rest().market();
-    GetOrderBook.Response response = api.getOrderBook()
-            .setInstrumentName("BTC-PERPETUAL")
-            .setDepth(5)
-            .submit();
-    double bestBid = response.result.bids.get(0).get(0);
-    double bestAsk = response.result.asks.get(0).get(0);
+    ApiKey key = ApiKey.newBuilder().setId("DKSwf9Wz").setSecret("3_Vt0AOGX3ZE8z9-4k3RwBhlzthziY7TxeE6dwIqvBM").build();
+    UserRestApi user = ApiFactory.getTestNetDefault().rest().user(key);
+//    GetBuy.Response res =  user
+//            .getBuy()
+//            .setAmount(10d)
+//            .setInstrument_name("BTC-PERPETUAL")
+//            .setType("market")
+//            .submit();
+//    System.out.println(res.result);
+
+    GetCancelAll.Response resCancelAll = user.getCancelAll().submit();
+    System.out.println(resCancelAll.result);
   }
 
   public static final ApiContext MAIN_NET_CONTEXT =
@@ -62,6 +66,12 @@ public final class ApiFactory {
   public static ApiFactory getMainNetDefault() {
     return fromContext(MAIN_NET_CONTEXT);
   }
+
+  public static ApiFactory getTestNetDefault() {
+    return fromContext(TEST_NET_CONTEXT);
+  }
+
+
 
   public static ApiFactory fromContext(ApiContext context) {
     return new ApiFactory(context, createActorFactory(context.getInterceptor()));
@@ -138,7 +148,7 @@ public final class ApiFactory {
     public static final RateLimitRule API_KEY_REST_PUBLIC_REQUEST_RULE =
         RateLimitRule.newBuilder()
             .setName("api_key_rest_public_request_rule")
-            .setType(API_KEY) // should be subaccount actually
+            .setType(IP) // should be subaccount actually
             .setMaxPermits(30)
             .setResetPeriod(Duration.ofSeconds(1))
             .build();

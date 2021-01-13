@@ -9,6 +9,7 @@ import io.contek.invoker.security.ICredential;
 
 import javax.annotation.concurrent.NotThreadSafe;
 import java.time.Clock;
+import java.util.UUID;
 
 import static com.google.common.net.UrlEscapers.urlFragmentEscaper;
 import static io.contek.invoker.commons.rest.RestMediaType.JSON;
@@ -49,7 +50,7 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
         return RestCall.newBuilder()
             .setUrl(buildUrlString(paramsString))
             .setMethod(method)
-            .setHeaders(generateHeaders(paramsString, "", credential))
+            .setHeaders(generateHeaders(method, paramsString, "", credential))
             .build();
       case POST:
       case PUT:
@@ -57,7 +58,7 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
         return RestCall.newBuilder()
             .setUrl(buildUrlString(""))
             .setMethod(method)
-            .setHeaders(generateHeaders("", body.getStringValue(), credential))
+            .setHeaders(generateHeaders(method, "", body.getStringValue(), credential))
             .setBody(body)
             .build();
       default:
@@ -66,22 +67,26 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
   }
 
   private ImmutableMap<String, String> generateHeaders(
-      String paramsString, String bodyString, ICredential credential) {
+          RestMethod method, String paramsString, String bodyString, ICredential credential) {
+
     if (credential.isAnonymous()) {
       return ImmutableMap.of();
     }
-    String ts = Long.toString(clock.millis());
-    String payload = ts + getMethod() + getEndpointPath() + paramsString + bodyString;
+    String clientId = credential.getApiKeyId();
+    String timestamp = String.valueOf(clock.millis());
+    String nonce = UUID.randomUUID().toString().substring(0, 8);
+    String URI = getEndpointPath() + paramsString;
+    String payload = timestamp + "\n"
+                    + nonce + "\n"
+                    + method + "\n"
+                    + URI + "\n"
+                    + bodyString + "\n";
     String signature = credential.sign(payload);
-
-    ImmutableMap.Builder<String, String> result =
-        ImmutableMap.<String, String>builder()
-            .put("FTX-KEY", credential.getApiKeyId())
-            .put("FTX-SIGN", signature)
-            .put("FTX-TS", ts);
-    credential.getProperties().forEach(result::put);
-
-    return result.build();
+    String authorizationValue = String.format(
+            "deri-hmac-sha256 id=%s,ts=%s,sig=%s,nonce=%s", clientId, timestamp, signature, nonce);
+    return ImmutableMap.<String, String>builder()
+            .put("Authorization", authorizationValue)
+            .build();
   }
 
   private String buildParamsString() {

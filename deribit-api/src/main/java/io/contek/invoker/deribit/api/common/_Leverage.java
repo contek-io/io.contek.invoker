@@ -5,5 +5,5 @@ import javax.annotation.concurrent.NotThreadSafe;
 @NotThreadSafe
 public class _Leverage {
 
-  public Double leverage;
+  public double leverage;
 }

@@ -34,7 +34,7 @@ public class _OrderBook {
   public double settlement_price;
   public String state;
   public _Stats stats;
-  public int timestamp;
+  public long timestamp;
   public double underlying_index;
   public double underlying_price;
 }

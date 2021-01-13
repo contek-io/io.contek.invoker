@@ -32,7 +32,7 @@ public final class GetOrderBook extends MarketRestRequest<GetOrderBook.Response>
 
   @Override
   protected String getEndpointPath() {
-    return "/public/get_order_book";
+    return "/api/v2/public/get_order_book";
   }
 
   @Override
