@@ -25,8 +25,16 @@ public final class PostOrder extends UserRestRequest<Response> {
   private String type;
   private String timeInForce;
   private Double quantity;
+  private Boolean reduceOnly;
   private Double price;
   private String newClientOrderId;
+  private String stopPrice;
+  private Boolean closePosition;
+  private Double activationPrice;
+  private Double callbackRate;
+  private String workingType;
+  private Boolean priceProtect;
+  private String newOrderRespType;
 
   PostOrder(IActor actor, RestContext context) {
     super(actor, context);
@@ -42,7 +50,7 @@ public final class PostOrder extends UserRestRequest<Response> {
     return this;
   }
 
-  public PostOrder setPositionSide(String positionSide) {
+  public PostOrder setPositionSide(@Nullable String positionSide) {
     this.positionSide = positionSide;
     return this;
   }
@@ -57,18 +65,58 @@ public final class PostOrder extends UserRestRequest<Response> {
     return this;
   }
 
-  public PostOrder setQuantity(double quantity) {
+  public PostOrder setQuantity(@Nullable Double quantity) {
     this.quantity = quantity;
     return this;
   }
 
-  public PostOrder setPrice(double price) {
+  public PostOrder setReduceOnly(@Nullable Boolean reduceOnly) {
+    this.reduceOnly = reduceOnly;
+    return this;
+  }
+
+  public PostOrder setPrice(@Nullable Double price) {
     this.price = price;
     return this;
   }
 
   public PostOrder setNewClientOrderId(@Nullable String newClientOrderId) {
     this.newClientOrderId = newClientOrderId;
+    return this;
+  }
+
+  public PostOrder setStopPrice(@Nullable String stopPrice) {
+    this.stopPrice = stopPrice;
+    return this;
+  }
+
+  public PostOrder setClosePosition(@Nullable Boolean closePosition) {
+    this.closePosition = closePosition;
+    return this;
+  }
+
+  public PostOrder setActivationPrice(@Nullable Double activationPrice) {
+    this.activationPrice = activationPrice;
+    return this;
+  }
+
+  public PostOrder setCallbackRate(@Nullable Double callbackRate) {
+    this.callbackRate = callbackRate;
+    return this;
+  }
+
+  public PostOrder setWorkingType(@Nullable String workingType) {
+    this.workingType = workingType;
+    return this;
+  }
+
+  public PostOrder setPriceProtect(@Nullable Boolean priceProtect) {
+    this.priceProtect = priceProtect;
+    return this;
+  }
+
+  public PostOrder setNewOrderRespType(@Nullable String newOrderRespType) {
+    this.newOrderRespType = newOrderRespType;
     return this;
   }
 
@@ -100,11 +148,17 @@ public final class PostOrder extends UserRestRequest<Response> {
     checkNotNull(type);
     builder.add("type", type);
 
-    checkNotNull(quantity);
-    builder.add("quantity", quantity);
+    if (quantity != null) {
+      builder.add("quantity", quantity);
+    }
 
-    checkNotNull(price);
-    builder.add("price", price);
+    if (reduceOnly != null) {
+      builder.add("reduceOnly", reduceOnly);
+    }
+
+    if (price != null) {
+      builder.add("price", price);
+    }
 
     if (positionSide != null) {
       builder.add("positionSide", positionSide);
@@ -116,6 +170,34 @@ public final class PostOrder extends UserRestRequest<Response> {
 
     if (newClientOrderId != null) {
       builder.add("newClientOrderId", newClientOrderId);
+    }
+
+    if (stopPrice != null) {
+      builder.add("stopPrice", stopPrice);
+    }
+
+    if (closePosition != null) {
+      builder.add("closePosition", closePosition);
+    }
+
+    if (activationPrice != null) {
+      builder.add("activationPrice", activationPrice);
+    }
+
+    if (callbackRate != null) {
+      builder.add("callbackRate", callbackRate);
+    }
+
+    if (workingType != null) {
+      builder.add("workingType", workingType);
+    }
+
+    if (priceProtect != null) {
+      builder.add("priceProtect", priceProtect);
+    }
+
+    if (newOrderRespType != null) {
+      builder.add("newOrderRespType", newOrderRespType);
     }
 
     builder.add("timestamp", getMillis());

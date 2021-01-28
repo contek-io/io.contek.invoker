@@ -25,6 +25,7 @@ public final class PostOrder extends UserRestRequest<Response> {
   private String type;
   private String timeInForce;
   private Double quantity;
+  private Double reduceOnly;
   private Double price;
   private String newClientOrderId;
   private Double stopPrice;
@@ -66,6 +67,11 @@ public final class PostOrder extends UserRestRequest<Response> {
 
   public PostOrder setQuantity(@Nullable Double quantity) {
     this.quantity = quantity;
+    return this;
+  }
+
+  public PostOrder setReduceOnly(@Nullable Double reduceOnly) {
+    this.reduceOnly = reduceOnly;
     return this;
   }
 
@@ -146,6 +152,10 @@ public final class PostOrder extends UserRestRequest<Response> {
       builder.add("quantity", quantity);
     }
 
+    if (reduceOnly != null) {
+      builder.add("reduceOnly", reduceOnly);
+    }
+
     if (price != null) {
       builder.add("price", price);
     }
@@ -201,6 +211,5 @@ public final class PostOrder extends UserRestRequest<Response> {
   }
 
   @NotThreadSafe
-  public static final class Response extends _Order {
-  }
+  public static final class Response extends _Order {}
 }
