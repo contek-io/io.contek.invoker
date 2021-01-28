@@ -25,7 +25,7 @@ public final class PostOrder extends UserRestRequest<Response> {
   private String type;
   private String timeInForce;
   private Double quantity;
-  private Double reduceOnly;
+  private Boolean reduceOnly;
   private Double price;
   private String newClientOrderId;
   private Double stopPrice;
@@ -70,7 +70,7 @@ public final class PostOrder extends UserRestRequest<Response> {
     return this;
   }
 
-  public PostOrder setReduceOnly(@Nullable Double reduceOnly) {
+  public PostOrder setReduceOnly(@Nullable Boolean reduceOnly) {
     this.reduceOnly = reduceOnly;
     return this;
   }
