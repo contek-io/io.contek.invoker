@@ -49,11 +49,11 @@ public final class RateLimitRule {
     return resetPeriod;
   }
 
-  RateLimiter createRateLimiter(String key) {
+  RateLimiter createRateLimiter(String key, double cushion) {
     return RateLimiter.of(
         Joiner.on('_').join(type, name, key),
         RateLimiterConfig.custom()
-            .limitForPeriod(2400)
+            .limitForPeriod((int) (maxPermits * (1d - cushion)))
             .limitRefreshPeriod(Duration.of(1, MINUTES))
             .build());
   }

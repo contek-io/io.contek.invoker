@@ -32,7 +32,13 @@ public final class RateLimitCache {
   @NotThreadSafe
   public static final class Builder {
 
+    private double cushion = 0.1;
     private final List<RateLimitRule> rules = new ArrayList<>();
+
+    public Builder setCushion(double cushion) {
+      this.cushion = cushion;
+      return this;
+    }
 
     public Builder addRule(RateLimitRule rule) {
       rules.add(rule);
@@ -41,7 +47,10 @@ public final class RateLimitCache {
 
     public RateLimitCache build() {
       return new RateLimitCache(
-          rules.stream().collect(toImmutableMap(RateLimitRule::getName, RuleBasedLimiter::new)));
+          rules.stream()
+              .collect(
+                  toImmutableMap(
+                      RateLimitRule::getName, rule -> new RuleBasedLimiter(rule, cushion))));
     }
   }
 
@@ -49,18 +58,24 @@ public final class RateLimitCache {
   private static final class RuleBasedLimiter {
 
     private final RateLimitRule rule;
+    private final double cushion;
 
     private final Map<String, RateLimiter> limiters = new HashMap<>();
 
-    private RuleBasedLimiter(RateLimitRule rule) {
+    private RuleBasedLimiter(RateLimitRule rule, double cushion) {
       this.rule = rule;
+      this.cushion = cushion;
     }
 
     private void acquire(String key, int permits) {
       synchronized (limiters) {
-        RateLimiter limiter = limiters.computeIfAbsent(key, rule::createRateLimiter);
+        RateLimiter limiter = limiters.computeIfAbsent(key, this::createRateLimiter);
         limiter.acquirePermission(permits);
       }
+    }
+
+    private RateLimiter createRateLimiter(String key) {
+      return rule.createRateLimiter(key, cushion);
     }
   }
 }

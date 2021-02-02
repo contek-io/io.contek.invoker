@@ -11,14 +11,17 @@ import javax.annotation.concurrent.NotThreadSafe;
 @Immutable
 public final class ApiContext {
 
+  private final double rateLimitCushion;
   private final RestContext restContext;
   private final WebSocketContext webSocketContext;
   private final IRateLimitQuotaInterceptor interceptor;
 
   private ApiContext(
+      double rateLimitCushion,
       @Nullable RestContext restContext,
       @Nullable WebSocketContext webSocketContext,
       @Nullable IRateLimitQuotaInterceptor interceptor) {
+    this.rateLimitCushion = rateLimitCushion;
     this.restContext = restContext;
     this.webSocketContext = webSocketContext;
     this.interceptor = interceptor;
@@ -26,6 +29,10 @@ public final class ApiContext {
 
   public static Builder newBuilder() {
     return new Builder();
+  }
+
+  public double getRateLimitCushion() {
+    return rateLimitCushion;
   }
 
   public RestContext getRestContext() {
@@ -50,9 +57,15 @@ public final class ApiContext {
   @NotThreadSafe
   public static final class Builder {
 
+    private double rateLimitCushion = 0.1;
     private RestContext restContext;
     private WebSocketContext webSocketContext;
     private IRateLimitQuotaInterceptor interceptor;
+
+    public Builder setRateLimitCushion(double rateLimitCushion) {
+      this.rateLimitCushion = rateLimitCushion;
+      return this;
+    }
 
     public Builder setRestContext(@Nullable RestContext.Builder builder) {
       return setRestContext(builder == null ? null : builder.build());
@@ -78,7 +91,7 @@ public final class ApiContext {
     }
 
     public ApiContext build() {
-      return new ApiContext(restContext, webSocketContext, interceptor);
+      return new ApiContext(rateLimitCushion, restContext, webSocketContext, interceptor);
     }
 
     private Builder() {}
