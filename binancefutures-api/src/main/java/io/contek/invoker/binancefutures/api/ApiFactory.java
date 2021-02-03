@@ -1,7 +1,6 @@
 package io.contek.invoker.binancefutures.api;
 
 import com.google.common.collect.ImmutableList;
-import io.contek.invoker.binancefutures.api.rest.market.GetDepth;
 import io.contek.invoker.binancefutures.api.rest.market.MarketRestApi;
 import io.contek.invoker.binancefutures.api.rest.user.UserRestApi;
 import io.contek.invoker.binancefutures.api.websocket.market.MarketWebSocketApi;
@@ -31,17 +30,6 @@ import static io.contek.invoker.security.SecretKeyAlgorithm.HMAC_SHA256;
 
 @ThreadSafe
 public final class ApiFactory {
-
-  public static void main(String[] args) {
-    MarketRestApi api = ApiFactory.getMainNetDefault().rest().market();
-    GetDepth.Response response = api.getDepth()
-            .setSymbol("BTCUSDT")
-            .setLimit(100)
-            .submit();
-    double bestBid = response.bids.get(0).get(0);
-    double bestAsk = response.asks.get(0).get(0);
-    System.out.println("Best bid: " + bestBid + ", best ask: " + bestAsk);
-  }
 
   public static final ApiContext MAIN_NET_CONTEXT =
       ApiContext.newBuilder()
