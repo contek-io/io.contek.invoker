@@ -8,10 +8,17 @@ import io.contek.invoker.commons.actor.SimpleActorFactory;
 import io.contek.invoker.commons.actor.http.SimpleHttpClientFactory;
 import io.contek.invoker.commons.actor.ratelimit.*;
 import io.contek.invoker.commons.rest.RestContext;
+import io.contek.invoker.commons.websocket.ConsumerState;
+import io.contek.invoker.commons.websocket.ISubscribingConsumer;
+import io.contek.invoker.commons.websocket.SubscriptionState;
 import io.contek.invoker.commons.websocket.WebSocketContext;
+import io.contek.invoker.deribit.api.common._OrderBookLevel;
 import io.contek.invoker.deribit.api.rest.market.MarketRestApi;
 import io.contek.invoker.deribit.api.rest.user.*;
+import io.contek.invoker.deribit.api.websocket.WebSocketApi;
 import io.contek.invoker.deribit.api.websocket.market.MarketWebSocketApi;
+import io.contek.invoker.deribit.api.websocket.market.OrderBookChannel;
+import io.contek.invoker.deribit.api.websocket.market.TradesChannel;
 import io.contek.invoker.deribit.api.websocket.user.UserWebSocketApi;
 import io.contek.invoker.security.ApiKey;
 import io.contek.invoker.security.SimpleCredentialFactory;
@@ -20,6 +27,7 @@ import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.ThreadSafe;
 import java.time.Duration;
+import java.util.List;
 
 import static com.google.common.io.BaseEncoding.base16;
 import static io.contek.invoker.commons.actor.ratelimit.RateLimitType.IP;
@@ -30,7 +38,7 @@ public final class ApiFactory {
 
   public static void main(String[] args) {
     ApiKey key = ApiKey.newBuilder().setId("DKSwf9Wz").setSecret("3_Vt0AOGX3ZE8z9-4k3RwBhlzthziY7TxeE6dwIqvBM").build();
-    UserRestApi user = ApiFactory.getTestNetDefault().rest().user(key);
+//    UserRestApi user = ApiFactory.getTestNetDefault().rest().user(key);
 //    GetBuy.Response res =  user
 //            .getBuy()
 //            .setAmount(10d)
@@ -39,8 +47,53 @@ public final class ApiFactory {
 //            .submit();
 //    System.out.println(res.result);
 
-    GetCancelAll.Response resCancelAll = user.getCancelAll().submit();
-    System.out.println(resCancelAll.result);
+//    GetCancelAll.Response resCancelAll = user.getCancelAll().submit();
+//    System.out.println(resCancelAll.result);
+
+    MarketWebSocketApi wsApi = ApiFactory.getTestNetDefault().ws().market();
+//    wsApi.getOrderBookChannel("BTC-PERPETUAL").addConsumer(new ISubscribingConsumer<OrderBookChannel.Message>() {
+//      @Override
+//      public void onStateChange(SubscriptionState state) {
+//        if (state == SubscriptionState.SUBSCRIBED) {
+//          System.out.println("Starting to receive order book data.");
+//        }
+//      }
+//
+//      @Override
+//      public void onNext(OrderBookChannel.Message message) {
+//        for (_OrderBookLevel priceAndAmount : message.params.data.asks) {
+//          System.out.println("price: " + priceAndAmount.get(0) + " amount: " + priceAndAmount.get(1));
+//        }
+//      }
+//
+//      @Override
+//      public ConsumerState getState() {
+//        return ConsumerState.ACTIVE;
+//      }
+//    });
+
+    wsApi.getTradesChannel("BTC-PERPETUAL").addConsumer(
+            new ISubscribingConsumer<TradesChannel.Message>() {
+              @Override
+              public void onStateChange(SubscriptionState state) {
+                if (state == SubscriptionState.SUBSCRIBED) {
+                  System.out.println("Starting to receive trade data.");
+                }
+              }
+
+              @Override
+              public void onNext(TradesChannel.Message message) {
+                for (TradesChannel.Trade trade : message.params.data) {
+                  System.out.println("price: " + trade.price + " amount: " + trade.amount);
+                }
+              }
+
+              @Override
+              public ConsumerState getState() {
+                return ConsumerState.ACTIVE;
+              }
+            }
+    );
   }
 
   public static final ApiContext MAIN_NET_CONTEXT =
@@ -148,8 +201,8 @@ public final class ApiFactory {
     public static final RateLimitRule API_KEY_REST_PUBLIC_REQUEST_RULE =
         RateLimitRule.newBuilder()
             .setName("api_key_rest_public_request_rule")
-            .setType(IP) // should be subaccount actually
-            .setMaxPermits(30)
+            .setType(IP) // should be sub-account actually
+            .setMaxPermits(20)
             .setResetPeriod(Duration.ofSeconds(1))
             .build();
 

@@ -5,7 +5,7 @@ import javax.annotation.concurrent.NotThreadSafe;
 @NotThreadSafe
 public abstract class WebSocketChannelMessage<T> extends WebSocketInboundMessage {
 
-  public String channel;
-  public String market;
-  public T data;
+  public String jsonrpc;
+  public String method;
+  public T params;
 }

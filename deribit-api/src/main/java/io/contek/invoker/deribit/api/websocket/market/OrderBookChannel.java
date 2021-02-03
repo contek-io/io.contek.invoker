@@ -1,36 +1,37 @@
 package io.contek.invoker.deribit.api.websocket.market;
 
 import com.google.common.base.Joiner;
-import io.contek.invoker.deribit.api.websocket.common.constants.WebSocketChannelKeys;
 import io.contek.invoker.deribit.api.common._OrderBook;
+import io.contek.invoker.deribit.api.common._OrderBookLevel;
 import io.contek.invoker.deribit.api.websocket.WebSocketChannel;
 import io.contek.invoker.deribit.api.websocket.common.WebSocketChannelMessage;
 
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static io.contek.invoker.deribit.api.websocket.common.constants.WebSocketChannelKeys._orderbook;
+
 @ThreadSafe
 public final class OrderBookChannel extends WebSocketChannel<OrderBookChannel.Message> {
 
-  private final String market;
+  private final String instrumentName;
 
-  OrderBookChannel(String market) {
-    this.market = market;
+  OrderBookChannel(String instrumentName) {
+    this.instrumentName = instrumentName;
   }
 
   @Override
   protected String getChannel() {
-    return WebSocketChannelKeys._orderbook;
-  }
-
-  @Override
-  protected String getMarket() {
-    return market;
+    // "book.BTC-24SEP21.none.1.100ms"
+    return String.format("%s.%s.%s.%d.%s", _orderbook, instrumentName, "none", 20, "100ms");
   }
 
   @Override
   protected String getDisplayName() {
-    return Joiner.on(':').join(WebSocketChannelKeys._orderbook, market);
+    return Joiner.on(':').join(_orderbook, instrumentName);
   }
 
   @Override
@@ -40,19 +41,34 @@ public final class OrderBookChannel extends WebSocketChannel<OrderBookChannel.Me
 
   @Override
   protected boolean accepts(OrderBookChannel.Message message) {
-    return market.equals(message.market);
+    return instrumentName.equals(parseInstrumentName(message.params.channel));
+  }
+
+  private String parseInstrumentName(String name) {
+    String[] parts = name.split("\\.");
+    if (parts.length != 5) {
+      return "";
+    }
+    return parts[1];
   }
 
   @NotThreadSafe
-  public static final class Data extends _OrderBook {
+  public static final class _Data {
 
-    public String action;
+    public long timestamp;
+    public String instrument_name;
+    public long change_id;
+    public List<_OrderBookLevel> bids;
+    public List<_OrderBookLevel> asks;
+  }
 
-    public Long checksum;
-
-    public Double time;
+  public static final class Params {
+    public String channel;
+    public OrderBookChannel._Data data;
   }
 
   @NotThreadSafe
-  public static final class Message extends WebSocketChannelMessage<OrderBookChannel.Data> {}
+  public static final class Message extends WebSocketChannelMessage<OrderBookChannel.Params> {}
 }
+
+

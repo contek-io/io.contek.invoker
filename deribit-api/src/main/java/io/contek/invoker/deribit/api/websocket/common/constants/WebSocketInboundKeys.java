@@ -9,13 +9,9 @@ public final class WebSocketInboundKeys {
 
   public static final String _error = "error";
 
-  public static final String _subscribed = "subscribed";
+  public static final String _subscribed = "subscription";
 
-  public static final String _unsubscribed = "unsubscribed";
-
-  public static final String _partial = "partial";
-
-  public static final String _update = "update";
+  public static final String _unsubscribed = "unsubscription";
 
   public static final String _info = "info";
 }

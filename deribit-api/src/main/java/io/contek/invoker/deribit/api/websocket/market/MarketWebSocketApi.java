@@ -12,7 +12,6 @@ import java.util.Map;
 public final class MarketWebSocketApi extends WebSocketApi {
 
   private final Map<String, OrderBookChannel> orderBookChannels = new HashMap<>();
-  private final Map<String, TickerChannel> tickerChannels = new HashMap<>();
   private final Map<String, TradesChannel> tradesChannels = new HashMap<>();
 
   public MarketWebSocketApi(IActor actor, WebSocketContext context) {
@@ -37,18 +36,6 @@ public final class MarketWebSocketApi extends WebSocketApi {
           symbol,
           k -> {
             TradesChannel result = new TradesChannel(k);
-            attach(result);
-            return result;
-          });
-    }
-  }
-
-  public TickerChannel getTickerChannel(String symbol) {
-    synchronized (tickerChannels) {
-      return tickerChannels.computeIfAbsent(
-          symbol,
-          k -> {
-            TickerChannel result = new TickerChannel(k);
             attach(result);
             return result;
           });

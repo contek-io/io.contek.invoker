@@ -10,7 +10,6 @@ import io.contek.invoker.deribit.api.websocket.common.WebSocketSubscriptionRespo
 import io.contek.invoker.deribit.api.websocket.common.constants.WebSocketChannelKeys;
 import io.contek.invoker.deribit.api.websocket.common.constants.WebSocketInboundKeys;
 import io.contek.invoker.deribit.api.websocket.market.OrderBookChannel;
-import io.contek.invoker.deribit.api.websocket.market.TickerChannel;
 import io.contek.invoker.deribit.api.websocket.market.TradesChannel;
 
 import javax.annotation.concurrent.Immutable;
@@ -31,47 +30,32 @@ final class WebSocketMessageParser implements IWebSocketMessageParser {
       throw new IllegalArgumentException(text);
     }
     JsonObject obj = json.getAsJsonObject();
-    if (!obj.has(WebSocketInboundKeys._type)) {
-      throw new IllegalArgumentException(text);
-    }
-    switch (obj.get(WebSocketInboundKeys._type).getAsString()) {
-      case WebSocketInboundKeys._subscribed:
-      case WebSocketInboundKeys._unsubscribed:
-        return toSubscriptionMessage(obj);
-      case WebSocketInboundKeys._partial:
-      case WebSocketInboundKeys._update:
-        return toChannelMessage(obj);
-      case WebSocketInboundKeys._error:
-      case WebSocketInboundKeys._info:
-        return toInfoMessage(obj);
-      default:
-        throw new IllegalArgumentException(text);
+    if (obj.has("result")) {
+      return toConfirmationMessage(obj);
+    } else if (obj.has("params")) {
+      return toDataMessage(obj);
+    } else {
+      System.err.println("Error");
+      return null;
     }
   }
 
-  private WebSocketInboundMessage toSubscriptionMessage(JsonObject obj) {
+  private WebSocketInboundMessage toConfirmationMessage(JsonObject obj) {
     return gson.fromJson(obj, WebSocketSubscriptionResponse.class);
   }
 
-  private WebSocketInboundMessage toChannelMessage(JsonObject obj) {
-    if (!obj.has(WebSocketChannelKeys._channel)) {
-      throw new IllegalArgumentException(obj.toString());
-    }
-    switch (obj.get(WebSocketChannelKeys._channel).getAsString()) {
-      case WebSocketChannelKeys._orderbook:
-        return gson.fromJson(obj, OrderBookChannel.Message.class);
-      case WebSocketChannelKeys._trades:
-        return gson.fromJson(obj, TradesChannel.Message.class);
-      case WebSocketChannelKeys._ticker:
-        return gson.fromJson(obj, TickerChannel.Message.class);
-      default:
-        throw new IllegalArgumentException(obj.toString());
+  private WebSocketInboundMessage toDataMessage(JsonObject obj) {
+    String instrumentName = obj.get("params").getAsJsonObject().get("channel").getAsString();
+    if (instrumentName.startsWith(WebSocketChannelKeys._orderbook)) {
+      return gson.fromJson(obj, OrderBookChannel.Message.class);
+    } else if (instrumentName.startsWith(WebSocketChannelKeys._trades)) {
+      return gson.fromJson(obj, TradesChannel.Message.class);
+    } else {
+      System.err.println("Error!!!!");
+      return null;
     }
   }
 
-  private WebSocketInfoMessage toInfoMessage(JsonObject obj) {
-    return gson.fromJson(obj, WebSocketInfoMessage.class);
-  }
 
   private WebSocketMessageParser() {}
 
