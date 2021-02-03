@@ -1,13 +1,13 @@
 package io.contek.invoker.deribit.api.websocket.market;
 
 import com.google.common.base.Joiner;
-import io.contek.invoker.deribit.api.common._OrderBookLevel;
 import io.contek.invoker.deribit.api.websocket.WebSocketChannel;
+import io.contek.invoker.deribit.api.websocket.common.OrderBook;
+import io.contek.invoker.deribit.api.websocket.common.Params;
 import io.contek.invoker.deribit.api.websocket.common.WebSocketChannelMessage;
 
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
-import java.util.List;
 
 import static io.contek.invoker.deribit.api.websocket.common.constants.WebSocketChannelKeys._orderbook;
 
@@ -49,23 +49,9 @@ public final class OrderBookChannel extends WebSocketChannel<OrderBookChannel.Me
     return parts[1];
   }
 
-  @NotThreadSafe
-  public static final class _Data {
-
-    public long timestamp;
-    public String instrument_name;
-    public long change_id;
-    public List<_OrderBookLevel> bids;
-    public List<_OrderBookLevel> asks;
-  }
-
-  public static final class Params {
-    public String channel;
-    public OrderBookChannel._Data data;
-  }
 
   @NotThreadSafe
-  public static final class Message extends WebSocketChannelMessage<OrderBookChannel.Params> {
+  public static final class Message extends WebSocketChannelMessage<Params<OrderBook>> {
   }
 }
 

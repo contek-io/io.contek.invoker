@@ -5,7 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import io.contek.invoker.commons.websocket.IWebSocketMessageParser;
 import io.contek.invoker.deribit.api.websocket.common.WebSocketInboundMessage;
-import io.contek.invoker.deribit.api.websocket.common.WebSocketSubscriptionResponse;
+import io.contek.invoker.deribit.api.websocket.common.WebSocketResponse;
 import io.contek.invoker.deribit.api.websocket.common.constants.WebSocketChannelKeys;
 import io.contek.invoker.deribit.api.websocket.market.OrderBookChannel;
 import io.contek.invoker.deribit.api.websocket.market.TradesChannel;
@@ -40,7 +40,7 @@ final class WebSocketMessageParser implements IWebSocketMessageParser {
   }
 
   private WebSocketInboundMessage toConfirmationMessage(JsonObject obj) {
-    return gson.fromJson(obj, WebSocketSubscriptionResponse.class);
+    return gson.fromJson(obj, WebSocketResponse.class);
   }
 
   private WebSocketInboundMessage toDataMessage(JsonObject obj) {

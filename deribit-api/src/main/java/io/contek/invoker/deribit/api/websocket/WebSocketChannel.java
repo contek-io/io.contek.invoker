@@ -5,8 +5,8 @@ import io.contek.invoker.commons.websocket.BaseWebSocketChannel;
 import io.contek.invoker.commons.websocket.SubscriptionState;
 import io.contek.invoker.commons.websocket.WebSocketSession;
 import io.contek.invoker.deribit.api.websocket.common.WebSocketInboundMessage;
-import io.contek.invoker.deribit.api.websocket.common.WebSocketSubscriptionRequest;
-import io.contek.invoker.deribit.api.websocket.common.WebSocketSubscriptionResponse;
+import io.contek.invoker.deribit.api.websocket.common.WebSocketRequest;
+import io.contek.invoker.deribit.api.websocket.common.WebSocketResponse;
 import io.contek.invoker.deribit.api.websocket.common.constants.WebSocketOutboundKeys;
 
 import javax.annotation.Nullable;
@@ -20,7 +20,7 @@ import static io.contek.invoker.commons.websocket.SubscriptionState.*;
 public abstract class WebSocketChannel<Message extends WebSocketInboundMessage>
   extends BaseWebSocketChannel<Message> {
 
-  private final AtomicReference<WebSocketSubscriptionRequest> pendingSubscriptionHolder = new AtomicReference<>();
+  private final AtomicReference<WebSocketRequest> pendingSubscriptionHolder = new AtomicReference<>();
 
   protected abstract String getChannel();
 
@@ -31,7 +31,7 @@ public abstract class WebSocketChannel<Message extends WebSocketInboundMessage>
       if (pendingSubscriptionHolder.get() != null) {
         throw new IllegalStateException();
       }
-      WebSocketSubscriptionRequest request = new WebSocketSubscriptionRequest();
+      WebSocketRequest request = new WebSocketRequest();
       request.method = "public/" + WebSocketOutboundKeys._subscribe;
       request.params.put("channels", Collections.singletonList(getChannel()));
       session.send(request);
@@ -47,7 +47,7 @@ public abstract class WebSocketChannel<Message extends WebSocketInboundMessage>
       if (pendingSubscriptionHolder.get() != null) {
         throw new IllegalStateException();
       }
-      WebSocketSubscriptionRequest request = new WebSocketSubscriptionRequest();
+      WebSocketRequest request = new WebSocketRequest();
       request.method = "public/" + WebSocketOutboundKeys._unsubscribe;
       request.params.put("channels", Collections.singletonList(getChannel()));
       session.send(request);
@@ -61,14 +61,14 @@ public abstract class WebSocketChannel<Message extends WebSocketInboundMessage>
   @Override
   protected final SubscriptionState getState(AnyWebSocketMessage message) {
     synchronized (pendingSubscriptionHolder) {
-      WebSocketSubscriptionRequest command = pendingSubscriptionHolder.get();
+      WebSocketRequest command = pendingSubscriptionHolder.get();
       if (command == null) {
         return null;
       }
-      if (!(message instanceof WebSocketSubscriptionResponse)) {
+      if (!(message instanceof WebSocketResponse)) {
         return null;
       }
-      WebSocketSubscriptionResponse confirmation = (WebSocketSubscriptionResponse) message;
+      WebSocketResponse confirmation = (WebSocketResponse) message;
       if (confirmation.id == null || !confirmation.id.equals(command.id) || confirmation.result.isEmpty()) {
         return null;
       }

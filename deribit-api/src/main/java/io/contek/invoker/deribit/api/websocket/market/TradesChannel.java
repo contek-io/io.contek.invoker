@@ -2,6 +2,8 @@ package io.contek.invoker.deribit.api.websocket.market;
 
 import com.google.common.base.Joiner;
 import io.contek.invoker.deribit.api.websocket.WebSocketChannel;
+import io.contek.invoker.deribit.api.websocket.common.Params;
+import io.contek.invoker.deribit.api.websocket.common.Trade;
 import io.contek.invoker.deribit.api.websocket.common.WebSocketChannelMessage;
 import io.contek.invoker.deribit.api.websocket.common.constants.WebSocketChannelKeys;
 
@@ -48,29 +50,7 @@ public final class TradesChannel extends WebSocketChannel<TradesChannel.Message>
     return parts[1];
   }
 
-  public static final class Trade {
-    public long amount;
-    public String block_trade_id;
-    public String direction;
-    public double index_price;
-    public String instrument_name;
-    public double iv;
-    public String liquidation;
-    public double mark_price;
-    public double price;
-    public int tick_direction;
-    public long timestamp;
-    public String trade_id;
-    public long trade_seq;
-  }
-
-
-  public static final class Params {
-    public String channel;
-    public List<Trade> data;
-  }
-
   @NotThreadSafe
-  public static final class Message extends WebSocketChannelMessage<TradesChannel.Params> {
+  public static final class Message extends WebSocketChannelMessage<Params<List<Trade>>> {
   }
 }
