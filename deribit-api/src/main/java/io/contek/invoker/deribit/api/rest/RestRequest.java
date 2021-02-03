@@ -48,26 +48,26 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
       case DELETE:
         String paramsString = buildParamsString();
         return RestCall.newBuilder()
-            .setUrl(buildUrlString(paramsString))
-            .setMethod(method)
-            .setHeaders(generateHeaders(method, paramsString, "", credential))
-            .build();
+          .setUrl(buildUrlString(paramsString))
+          .setMethod(method)
+          .setHeaders(generateHeaders(method, paramsString, "", credential))
+          .build();
       case POST:
       case PUT:
         RestMediaBody body = JSON.createBody(getParams());
         return RestCall.newBuilder()
-            .setUrl(buildUrlString(""))
-            .setMethod(method)
-            .setHeaders(generateHeaders(method, "", body.getStringValue(), credential))
-            .setBody(body)
-            .build();
+          .setUrl(buildUrlString(""))
+          .setMethod(method)
+          .setHeaders(generateHeaders(method, "", body.getStringValue(), credential))
+          .setBody(body)
+          .build();
       default:
         throw new IllegalStateException(getMethod().name());
     }
   }
 
   private ImmutableMap<String, String> generateHeaders(
-          RestMethod method, String paramsString, String bodyString, ICredential credential) {
+    RestMethod method, String paramsString, String bodyString, ICredential credential) {
 
     if (credential.isAnonymous()) {
       return ImmutableMap.of();
@@ -77,16 +77,16 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
     String nonce = UUID.randomUUID().toString().substring(0, 8);
     String URI = getEndpointPath() + paramsString;
     String payload = timestamp + "\n"
-                    + nonce + "\n"
-                    + method + "\n"
-                    + URI + "\n"
-                    + bodyString + "\n";
+      + nonce + "\n"
+      + method + "\n"
+      + URI + "\n"
+      + bodyString + "\n";
     String signature = credential.sign(payload);
     String authorizationValue = String.format(
-            "deri-hmac-sha256 id=%s,ts=%s,sig=%s,nonce=%s", clientId, timestamp, signature, nonce);
+      "deri-hmac-sha256 id=%s,ts=%s,sig=%s,nonce=%s", clientId, timestamp, signature, nonce);
     return ImmutableMap.<String, String>builder()
-            .put("Authorization", authorizationValue)
-            .build();
+      .put("Authorization", authorizationValue)
+      .build();
   }
 
   private String buildParamsString() {

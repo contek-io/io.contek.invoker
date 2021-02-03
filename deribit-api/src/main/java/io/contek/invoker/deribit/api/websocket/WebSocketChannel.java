@@ -1,6 +1,5 @@
 package io.contek.invoker.deribit.api.websocket;
 
-import com.google.common.collect.ImmutableList;
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.BaseWebSocketChannel;
 import io.contek.invoker.commons.websocket.SubscriptionState;
@@ -8,12 +7,10 @@ import io.contek.invoker.commons.websocket.WebSocketSession;
 import io.contek.invoker.deribit.api.websocket.common.WebSocketInboundMessage;
 import io.contek.invoker.deribit.api.websocket.common.WebSocketSubscriptionRequest;
 import io.contek.invoker.deribit.api.websocket.common.WebSocketSubscriptionResponse;
-import io.contek.invoker.deribit.api.websocket.common.constants.WebSocketInboundKeys;
 import io.contek.invoker.deribit.api.websocket.common.constants.WebSocketOutboundKeys;
 
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.ThreadSafe;
-
 import java.util.Collections;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -21,7 +18,7 @@ import static io.contek.invoker.commons.websocket.SubscriptionState.*;
 
 @ThreadSafe
 public abstract class WebSocketChannel<Message extends WebSocketInboundMessage>
-    extends BaseWebSocketChannel<Message> {
+  extends BaseWebSocketChannel<Message> {
 
   private final AtomicReference<WebSocketSubscriptionRequest> pendingSubscriptionHolder = new AtomicReference<>();
 
@@ -88,5 +85,6 @@ public abstract class WebSocketChannel<Message extends WebSocketInboundMessage>
   }
 
   @Override
-  protected final void reset() {}
+  protected final void reset() {
+  }
 }

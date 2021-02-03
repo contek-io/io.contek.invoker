@@ -15,7 +15,7 @@ import static java.util.Objects.requireNonNull;
 public final class GetInstruments extends MarketRestRequest<GetInstruments.Response> {
 
   private String currency;
-  // can only be either `future` or `option`.
+  // Either `future` or `option`.
   private String kind;
   private boolean expired;
 
@@ -65,5 +65,6 @@ public final class GetInstruments extends MarketRestRequest<GetInstruments.Respo
   }
 
   @NotThreadSafe
-  public static final class Response extends RestResponse<List<_Instrument>> {}
+  public static final class Response extends RestResponse<List<_Instrument>> {
+  }
 }

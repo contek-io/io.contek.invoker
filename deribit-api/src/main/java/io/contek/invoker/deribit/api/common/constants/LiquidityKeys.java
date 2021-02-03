@@ -9,5 +9,6 @@ public final class LiquidityKeys {
 
   public static final String _maker = "maker";
 
-  private LiquidityKeys() {}
+  private LiquidityKeys() {
+  }
 }

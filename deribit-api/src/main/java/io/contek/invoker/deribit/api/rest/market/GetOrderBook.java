@@ -53,5 +53,6 @@ public final class GetOrderBook extends MarketRestRequest<GetOrderBook.Response>
   }
 
   @NotThreadSafe
-  public static final class Response extends RestResponse<_OrderBook> {}
+  public static final class Response extends RestResponse<_OrderBook> {
+  }
 }

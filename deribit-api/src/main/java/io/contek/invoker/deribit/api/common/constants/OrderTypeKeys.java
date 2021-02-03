@@ -9,5 +9,6 @@ public final class OrderTypeKeys {
 
   public static final String _market = "market";
 
-  private OrderTypeKeys() {}
+  private OrderTypeKeys() {
+  }
 }

@@ -9,5 +9,6 @@ public final class SideKeys {
 
   public static final String _sell = "sell";
 
-  private SideKeys() {}
+  private SideKeys() {
+  }
 }

@@ -21,24 +21,24 @@ public final class MarketWebSocketApi extends WebSocketApi {
   public OrderBookChannel getOrderBookChannel(String symbol) {
     synchronized (orderBookChannels) {
       return orderBookChannels.computeIfAbsent(
-          symbol,
-          k -> {
-            OrderBookChannel result = new OrderBookChannel(k);
-            attach(result);
-            return result;
-          });
+        symbol,
+        k -> {
+          OrderBookChannel result = new OrderBookChannel(k);
+          attach(result);
+          return result;
+        });
     }
   }
 
   public TradesChannel getTradesChannel(String symbol) {
     synchronized (tradesChannels) {
       return tradesChannels.computeIfAbsent(
-          symbol,
-          k -> {
-            TradesChannel result = new TradesChannel(k);
-            attach(result);
-            return result;
-          });
+        symbol,
+        k -> {
+          TradesChannel result = new TradesChannel(k);
+          attach(result);
+          return result;
+        });
     }
   }
 }

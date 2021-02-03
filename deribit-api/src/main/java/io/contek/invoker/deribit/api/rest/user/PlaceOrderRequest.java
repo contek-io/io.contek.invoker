@@ -50,6 +50,11 @@ public abstract class PlaceOrderRequest extends UserRestRequest<PlaceOrderReques
     return this;
   }
 
+  public PlaceOrderRequest setLabel(String label) {
+    this.label = label;
+    return this;
+  }
+
   public PlaceOrderRequest setPrice(double price) {
     this.price = price;
     return this;
@@ -170,5 +175,6 @@ public abstract class PlaceOrderRequest extends UserRestRequest<PlaceOrderReques
   }
 
   @NotThreadSafe
-  public static final class Response extends RestResponse<_PlaceOrderResponse> {}
+  public static final class Response extends RestResponse<_PlaceOrderResponse> {
+  }
 }

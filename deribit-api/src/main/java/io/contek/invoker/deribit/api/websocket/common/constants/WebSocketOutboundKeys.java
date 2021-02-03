@@ -9,5 +9,6 @@ public final class WebSocketOutboundKeys {
 
   public static final String _unsubscribe = "unsubscribe";
 
-  private WebSocketOutboundKeys() {}
+  private WebSocketOutboundKeys() {
+  }
 }

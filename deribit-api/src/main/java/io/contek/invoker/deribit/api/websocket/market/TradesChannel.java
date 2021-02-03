@@ -1,16 +1,14 @@
 package io.contek.invoker.deribit.api.websocket.market;
 
 import com.google.common.base.Joiner;
-import io.contek.invoker.deribit.api.websocket.common.constants.WebSocketChannelKeys;
 import io.contek.invoker.deribit.api.websocket.WebSocketChannel;
 import io.contek.invoker.deribit.api.websocket.common.WebSocketChannelMessage;
+import io.contek.invoker.deribit.api.websocket.common.constants.WebSocketChannelKeys;
 
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
-import java.util.ArrayList;
 import java.util.List;
 
-import static io.contek.invoker.deribit.api.websocket.common.constants.WebSocketChannelKeys._orderbook;
 import static io.contek.invoker.deribit.api.websocket.common.constants.WebSocketChannelKeys._trades;
 
 @ThreadSafe
@@ -73,5 +71,6 @@ public final class TradesChannel extends WebSocketChannel<TradesChannel.Message>
   }
 
   @NotThreadSafe
-  public static final class Message extends WebSocketChannelMessage<TradesChannel.Params> {}
+  public static final class Message extends WebSocketChannelMessage<TradesChannel.Params> {
+  }
 }

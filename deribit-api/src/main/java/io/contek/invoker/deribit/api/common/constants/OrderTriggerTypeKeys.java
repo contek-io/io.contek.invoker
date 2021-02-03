@@ -11,5 +11,6 @@ public final class OrderTriggerTypeKeys {
 
   public static final String _takeProfit = "takeProfit";
 
-  private OrderTriggerTypeKeys() {}
+  private OrderTriggerTypeKeys() {
+  }
 }

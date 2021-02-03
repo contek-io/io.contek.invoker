@@ -9,5 +9,6 @@ public final class MarketTypeKeys {
 
   public static final String _spot = "spot";
 
-  private MarketTypeKeys() {}
+  private MarketTypeKeys() {
+  }
 }

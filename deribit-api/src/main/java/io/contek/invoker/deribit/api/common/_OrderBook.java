@@ -1,10 +1,7 @@
 package io.contek.invoker.deribit.api.common;
 
-import com.google.common.math.Stats;
-
 import javax.annotation.concurrent.NotThreadSafe;
 import java.util.List;
-import java.util.Optional;
 
 // Note that we used the same naming convention as in the API documentation, since Deribit uses snake case so we use it
 // here as well.

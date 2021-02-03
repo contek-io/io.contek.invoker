@@ -32,5 +32,8 @@ public final class UserRestApi {
     return new GetCancelAll(actor, context);
   }
 
+  public GetDeposits getDeposits() {
+    return new GetDeposits(actor, context);
+  }
 
 }

@@ -5,13 +5,12 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import io.contek.invoker.commons.websocket.IWebSocketMessageParser;
 import io.contek.invoker.deribit.api.websocket.common.WebSocketInboundMessage;
-import io.contek.invoker.deribit.api.websocket.common.WebSocketInfoMessage;
 import io.contek.invoker.deribit.api.websocket.common.WebSocketSubscriptionResponse;
 import io.contek.invoker.deribit.api.websocket.common.constants.WebSocketChannelKeys;
-import io.contek.invoker.deribit.api.websocket.common.constants.WebSocketInboundKeys;
 import io.contek.invoker.deribit.api.websocket.market.OrderBookChannel;
 import io.contek.invoker.deribit.api.websocket.market.TradesChannel;
 
+import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 
 @Immutable
@@ -23,6 +22,7 @@ final class WebSocketMessageParser implements IWebSocketMessageParser {
     return InstanceHolder.INSTANCE;
   }
 
+  @Nullable
   @Override
   public WebSocketInboundMessage parse(String text) {
     JsonElement json = gson.fromJson(text, JsonElement.class);
@@ -35,8 +35,7 @@ final class WebSocketMessageParser implements IWebSocketMessageParser {
     } else if (obj.has("params")) {
       return toDataMessage(obj);
     } else {
-      System.err.println("Error");
-      return null;
+      throw new IllegalArgumentException(text);
     }
   }
 
@@ -51,19 +50,20 @@ final class WebSocketMessageParser implements IWebSocketMessageParser {
     } else if (instrumentName.startsWith(WebSocketChannelKeys._trades)) {
       return gson.fromJson(obj, TradesChannel.Message.class);
     } else {
-      System.err.println("Error!!!!");
-      return null;
+      throw new IllegalArgumentException(obj.toString());
     }
   }
 
 
-  private WebSocketMessageParser() {}
+  private WebSocketMessageParser() {
+  }
 
   @Immutable
   private static final class InstanceHolder {
 
     private static final WebSocketMessageParser INSTANCE = new WebSocketMessageParser();
 
-    private InstanceHolder() {}
+    private InstanceHolder() {
+    }
   }
 }

@@ -11,5 +11,6 @@ public final class OrderStatusKeys {
 
   public static final String _closed = "closed";
 
-  private OrderStatusKeys() {}
+  private OrderStatusKeys() {
+  }
 }

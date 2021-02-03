@@ -1,15 +1,12 @@
 package io.contek.invoker.deribit.api.websocket.market;
 
 import com.google.common.base.Joiner;
-import io.contek.invoker.deribit.api.common._OrderBook;
 import io.contek.invoker.deribit.api.common._OrderBookLevel;
 import io.contek.invoker.deribit.api.websocket.WebSocketChannel;
 import io.contek.invoker.deribit.api.websocket.common.WebSocketChannelMessage;
 
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import static io.contek.invoker.deribit.api.websocket.common.constants.WebSocketChannelKeys._orderbook;
@@ -68,7 +65,8 @@ public final class OrderBookChannel extends WebSocketChannel<OrderBookChannel.Me
   }
 
   @NotThreadSafe
-  public static final class Message extends WebSocketChannelMessage<OrderBookChannel.Params> {}
+  public static final class Message extends WebSocketChannelMessage<OrderBookChannel.Params> {
+  }
 }
 
 

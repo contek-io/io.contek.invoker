@@ -13,42 +13,43 @@ import static io.contek.invoker.commons.rest.RestMethod.GET;
 import static java.util.Objects.requireNonNull;
 
 public final class GetCancel extends UserRestRequest<GetCancel.Response> {
-    private String orderId;
+  private String orderId;
 
-    GetCancel(IActor actor, RestContext context) {
-        super(actor, context);
-    }
+  GetCancel(IActor actor, RestContext context) {
+    super(actor, context);
+  }
 
-    GetCancel setOrderId(String orderId) {
-        this.orderId = orderId;
-        return this;
-    }
+  public GetCancel setOrderId(String orderId) {
+    this.orderId = orderId;
+    return this;
+  }
 
-    @Override
-    protected Class<GetCancel.Response> getResponseType() {
-        return Response.class;
-    }
+  @Override
+  protected Class<GetCancel.Response> getResponseType() {
+    return Response.class;
+  }
 
-    @Override
-    protected RestMethod getMethod() {
-        return GET;
-    }
+  @Override
+  protected RestMethod getMethod() {
+    return GET;
+  }
 
-    @Override
-    protected String getEndpointPath() {
-        return "/api/v2/private/cancel";
-    }
+  @Override
+  protected String getEndpointPath() {
+    return "/api/v2/private/cancel";
+  }
 
-    @Override
-    protected RestParams getParams() {
-        RestParams.Builder builder = RestParams.newBuilder();
+  @Override
+  protected RestParams getParams() {
+    RestParams.Builder builder = RestParams.newBuilder();
 
-        requireNonNull(orderId);
-        builder.add("order_id", orderId);
+    requireNonNull(orderId);
+    builder.add("order_id", orderId);
 
-        return builder.build();
-    }
+    return builder.build();
+  }
 
-    @NotThreadSafe
-    public static final class Response extends RestResponse<_Order> {}
+  @NotThreadSafe
+  public static final class Response extends RestResponse<_Order> {
+  }
 }
