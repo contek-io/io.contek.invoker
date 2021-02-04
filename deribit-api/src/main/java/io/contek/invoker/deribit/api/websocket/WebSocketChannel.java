@@ -1,5 +1,7 @@
 package io.contek.invoker.deribit.api.websocket;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.BaseWebSocketChannel;
 import io.contek.invoker.commons.websocket.SubscriptionState;
@@ -11,7 +13,6 @@ import io.contek.invoker.deribit.api.websocket.common.constants.WebSocketOutboun
 
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.ThreadSafe;
-import java.util.Collections;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static io.contek.invoker.commons.websocket.SubscriptionState.*;
@@ -20,6 +21,7 @@ import static io.contek.invoker.commons.websocket.SubscriptionState.*;
 public abstract class WebSocketChannel<Message extends WebSocketInboundMessage>
   extends BaseWebSocketChannel<Message> {
 
+  public static final String CHANNELS_KEY = "channels";
   private final AtomicReference<WebSocketRequest> pendingSubscriptionHolder = new AtomicReference<>();
 
   protected abstract String getChannel();
@@ -33,11 +35,10 @@ public abstract class WebSocketChannel<Message extends WebSocketInboundMessage>
       }
       WebSocketRequest request = new WebSocketRequest();
       request.method = "public/" + WebSocketOutboundKeys._subscribe;
-      request.params.put("channels", Collections.singletonList(getChannel()));
+      request.params = ImmutableMap.of(CHANNELS_KEY, ImmutableList.of(getChannel()));
       session.send(request);
       pendingSubscriptionHolder.set(request);
     }
-
     return SUBSCRIBING;
   }
 
@@ -49,7 +50,7 @@ public abstract class WebSocketChannel<Message extends WebSocketInboundMessage>
       }
       WebSocketRequest request = new WebSocketRequest();
       request.method = "public/" + WebSocketOutboundKeys._unsubscribe;
-      request.params.put("channels", Collections.singletonList(getChannel()));
+      request.params = ImmutableMap.of(CHANNELS_KEY, ImmutableList.of(getChannel()));
       session.send(request);
       pendingSubscriptionHolder.set(request);
     }

@@ -22,7 +22,7 @@ import javax.annotation.concurrent.ThreadSafe;
 import java.time.Duration;
 
 import static com.google.common.io.BaseEncoding.base16;
-import static io.contek.invoker.commons.actor.ratelimit.RateLimitType.IP;
+import static io.contek.invoker.commons.actor.ratelimit.RateLimitType.API_KEY;
 import static io.contek.invoker.security.SecretKeyAlgorithm.HMAC_SHA256;
 
 @ThreadSafe
@@ -134,8 +134,8 @@ public final class ApiFactory {
     public static final RateLimitRule API_KEY_REST_PUBLIC_REQUEST_RULE =
       RateLimitRule.newBuilder()
         .setName("api_key_rest_public_request_rule")
-        .setType(IP) // should be sub-account actually
-        .setMaxPermits(20)
+        .setType(API_KEY) // per sub-account
+        .setMaxPermits(5)
         .setResetPeriod(Duration.ofSeconds(1))
         .build();
 

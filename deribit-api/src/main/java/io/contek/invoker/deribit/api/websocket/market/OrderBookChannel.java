@@ -1,6 +1,5 @@
 package io.contek.invoker.deribit.api.websocket.market;
 
-import com.google.common.base.Joiner;
 import io.contek.invoker.deribit.api.websocket.WebSocketChannel;
 import io.contek.invoker.deribit.api.websocket.common.OrderBook;
 import io.contek.invoker.deribit.api.websocket.common.Params;
@@ -14,21 +13,22 @@ import static io.contek.invoker.deribit.api.websocket.common.constants.WebSocket
 @ThreadSafe
 public final class OrderBookChannel extends WebSocketChannel<OrderBookChannel.Message> {
 
-  private final String instrumentName;
+  private final String fullChannelName;
 
   OrderBookChannel(String instrumentName) {
-    this.instrumentName = instrumentName;
+    // "book.BTC-24SEP21.none.1.100ms"
+    this.fullChannelName = String.format(
+      "%s.%s.%s.%d.%s", _orderbook, instrumentName, "none", 20, "100ms");
   }
 
   @Override
   protected String getChannel() {
-    // "book.BTC-24SEP21.none.1.100ms"
-    return String.format("%s.%s.%s.%d.%s", _orderbook, instrumentName, "none", 20, "100ms");
+    return fullChannelName;
   }
 
   @Override
   protected String getDisplayName() {
-    return Joiner.on(':').join(_orderbook, instrumentName);
+    return fullChannelName;
   }
 
   @Override
@@ -38,17 +38,8 @@ public final class OrderBookChannel extends WebSocketChannel<OrderBookChannel.Me
 
   @Override
   protected boolean accepts(OrderBookChannel.Message message) {
-    return instrumentName.equals(parseInstrumentName(message.params.channel));
+    return fullChannelName.equals(message.params.channel);
   }
-
-  private String parseInstrumentName(String name) {
-    String[] parts = name.split("\\.");
-    if (parts.length != 5) {
-      return "";
-    }
-    return parts[1];
-  }
-
 
   @NotThreadSafe
   public static final class Message extends WebSocketChannelMessage<Params<OrderBook>> {

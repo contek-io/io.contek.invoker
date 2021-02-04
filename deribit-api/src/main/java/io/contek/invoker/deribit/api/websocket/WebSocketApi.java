@@ -4,7 +4,6 @@ import com.google.common.collect.ImmutableList;
 import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
 import io.contek.invoker.commons.websocket.*;
-import io.contek.invoker.deribit.api.websocket.common.WebSocketInfoMessage;
 import io.contek.invoker.security.ICredential;
 
 import javax.annotation.concurrent.ThreadSafe;
@@ -31,11 +30,5 @@ public abstract class WebSocketApi extends BaseWebSocketApi {
 
   @Override
   protected final void checkErrorMessage(AnyWebSocketMessage message) {
-    if (message instanceof WebSocketInfoMessage) {
-      WebSocketInfoMessage info = (WebSocketInfoMessage) message;
-      if (info.code == 20001) {
-        throw new WebSocketServerRestartException(info.code + ": " + info.msg);
-      }
-    }
   }
 }

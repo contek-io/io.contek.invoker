@@ -16,19 +16,19 @@ import static java.util.Objects.requireNonNull;
 public abstract class PlaceOrderRequest extends UserRestRequest<PlaceOrderRequest.Response> {
 
   private String instrument_name;
-  private double amount;
+  private Double amount;
   private String type = "limit";
   private String label;
-  private double price = -1;
+  private Double price;
   private String time_in_force;
-  private double max_show = -1;
-  private boolean post_only;
-  private boolean reject_post_only;
-  private boolean reduce_only;
-  private double stop_price = -1;
+  private Double max_show;
+  private Boolean post_only;
+  private Boolean reject_post_only;
+  private Boolean reduce_only;
+  private Double stop_price;
   private String trigger;
   private String advanced;
-  private boolean mmp;
+  private Boolean mmp;
 
   PlaceOrderRequest(IActor actor, RestContext context) {
     super(actor, context);
@@ -126,7 +126,11 @@ public abstract class PlaceOrderRequest extends UserRestRequest<PlaceOrderReques
     requireNonNull(type);
     builder.add("type", type);
 
-    if (price != -1) {
+    if (label != null) {
+      builder.add("label", label);
+    }
+
+    if (price != null) {
       builder.add("price", price);
     }
 
@@ -134,23 +138,23 @@ public abstract class PlaceOrderRequest extends UserRestRequest<PlaceOrderReques
       builder.add("time_in_force", time_in_force);
     }
 
-    if (max_show >= 0) {
+    if (max_show != null) {
       builder.add("max_show", max_show);
     }
 
-    if (post_only) {
-      builder.add("postOnly", true);
+    if (post_only != null) {
+      builder.add("postOnly", post_only);
     }
 
-    if (reject_post_only) {
-      builder.add("reject_post_only", true);
+    if (reject_post_only != null) {
+      builder.add("reject_post_only", reject_post_only);
     }
 
-    if (reduce_only) {
-      builder.add("reduceOnly", true);
+    if (reduce_only != null) {
+      builder.add("reduceOnly", reduce_only);
     }
 
-    if (stop_price >= 0) {
+    if (stop_price != null) {
       builder.add("stop_price", stop_price);
     }
 
@@ -162,8 +166,8 @@ public abstract class PlaceOrderRequest extends UserRestRequest<PlaceOrderReques
       builder.add("advanced", advanced);
     }
 
-    if (mmp) {
-      builder.add("mmp", true);
+    if (mmp != null) {
+      builder.add("mmp", mmp);
     }
 
     return builder.build();

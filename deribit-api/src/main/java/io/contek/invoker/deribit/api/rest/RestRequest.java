@@ -2,6 +2,7 @@ package io.contek.invoker.deribit.api.rest;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.io.BaseEncoding;
 import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
 import io.contek.invoker.commons.rest.*;
@@ -9,7 +10,7 @@ import io.contek.invoker.security.ICredential;
 
 import javax.annotation.concurrent.NotThreadSafe;
 import java.time.Clock;
-import java.util.UUID;
+import java.util.Random;
 
 import static com.google.common.net.UrlEscapers.urlFragmentEscaper;
 import static io.contek.invoker.commons.rest.RestMediaType.JSON;
@@ -17,8 +18,6 @@ import static io.contek.invoker.deribit.api.ApiFactory.RateLimits.ONE_REST_PUBLI
 
 @NotThreadSafe
 public abstract class RestRequest<R> extends BaseRestRequest<R> {
-
-  public static final String FTX_SUBACCOUNT_KEY = "FTX-SUBACCOUNT";
 
   private final RestContext context;
   private final Clock clock;
@@ -74,12 +73,12 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
     }
     String clientId = credential.getApiKeyId();
     String timestamp = String.valueOf(clock.millis());
-    String nonce = UUID.randomUUID().toString().substring(0, 8);
-    String URI = getEndpointPath() + paramsString;
+    String nonce = generateNounce();
+    String uri = getEndpointPath() + paramsString;
     String payload = timestamp + "\n"
       + nonce + "\n"
       + method + "\n"
-      + URI + "\n"
+      + uri + "\n"
       + bodyString + "\n";
     String signature = credential.sign(payload);
     String authorizationValue = String.format(
@@ -87,6 +86,12 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
     return ImmutableMap.<String, String>builder()
       .put("Authorization", authorizationValue)
       .build();
+  }
+
+  private static String generateNounce() {
+    byte[] randomBytes = new byte[8];
+    (new Random()).nextBytes(randomBytes);
+    return BaseEncoding.base32().encode(randomBytes);
   }
 
   private String buildParamsString() {

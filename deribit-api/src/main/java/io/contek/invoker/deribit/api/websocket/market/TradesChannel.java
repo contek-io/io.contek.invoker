@@ -1,11 +1,9 @@
 package io.contek.invoker.deribit.api.websocket.market;
 
-import com.google.common.base.Joiner;
 import io.contek.invoker.deribit.api.websocket.WebSocketChannel;
 import io.contek.invoker.deribit.api.websocket.common.Params;
 import io.contek.invoker.deribit.api.websocket.common.Trade;
 import io.contek.invoker.deribit.api.websocket.common.WebSocketChannelMessage;
-import io.contek.invoker.deribit.api.websocket.common.constants.WebSocketChannelKeys;
 
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
@@ -16,20 +14,20 @@ import static io.contek.invoker.deribit.api.websocket.common.constants.WebSocket
 @ThreadSafe
 public final class TradesChannel extends WebSocketChannel<TradesChannel.Message> {
 
-  private final String instrumentName;
+  private final String fullChannelName;
 
   TradesChannel(String instrumentName) {
-    this.instrumentName = instrumentName;
+    this.fullChannelName = String.format("%s.%s.%s", _trades, instrumentName, "100ms");
   }
 
   @Override
   protected String getChannel() {
-    return String.format("%s.%s.%s", _trades, instrumentName, "100ms");
+    return fullChannelName;
   }
 
   @Override
   protected String getDisplayName() {
-    return Joiner.on(':').join(WebSocketChannelKeys._trades, instrumentName);
+    return fullChannelName;
   }
 
   @Override
@@ -39,15 +37,7 @@ public final class TradesChannel extends WebSocketChannel<TradesChannel.Message>
 
   @Override
   protected boolean accepts(TradesChannel.Message message) {
-    return instrumentName.equals(parseInstrumentName(message.params.channel));
-  }
-
-  private String parseInstrumentName(String name) {
-    String[] parts = name.split("\\.");
-    if (parts.length != 3) {
-      return "";
-    }
-    return parts[1];
+    return fullChannelName.equals(message.params.channel);
   }
 
   @NotThreadSafe
