@@ -3,12 +3,14 @@ package io.contek.invoker.bitmex.api.websocket;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import io.contek.invoker.bitmex.api.common._OrderBookLevel;
 import io.contek.invoker.bitmex.api.websocket.common.*;
 import io.contek.invoker.bitmex.api.websocket.market.*;
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.IWebSocketMessageParser;
 
 import javax.annotation.concurrent.Immutable;
+import java.util.HashMap;
 
 import static io.contek.invoker.bitmex.api.websocket.common.constants.WebSocketRequestOperationKeys.*;
 import static io.contek.invoker.bitmex.api.websocket.common.constants.WebSocketTableKeys.*;
@@ -17,6 +19,7 @@ import static io.contek.invoker.bitmex.api.websocket.common.constants.WebSocketT
 final class WebSocketMessageParser implements IWebSocketMessageParser {
 
   private final Gson gson = new Gson();
+  private HashMap<Long, Double> orderbookIds = new HashMap<>();
 
   static WebSocketMessageParser getInstance() {
     return InstanceHolder.INSTANCE;
@@ -45,7 +48,28 @@ final class WebSocketMessageParser implements IWebSocketMessageParser {
     String tableName = obj.get("table").getAsString();
     switch (tableName) {
       case _orderBookL2:
-        return gson.fromJson(obj, OrderBookL2Channel.Message.class);
+        WebSocketTableDataMessage<_OrderBookLevel> parsedMessage = gson.fromJson(obj, OrderBookL2Channel.Message.class);
+        if ("partial".equals(parsedMessage.action)) {
+          orderbookIds.clear();
+          for (_OrderBookLevel datum : parsedMessage.data) {
+            orderbookIds.put(datum.id, datum.price);
+          }
+        } else if ("delete".equals(parsedMessage.action)) {
+          for (_OrderBookLevel datum : parsedMessage.data) {
+            datum.price = orderbookIds.get(datum.id);
+            datum.size = 0D;
+            orderbookIds.remove(datum.id);
+          }
+        } else if ("insert".equals(parsedMessage.action)) {
+          for (_OrderBookLevel datum : parsedMessage.data) {
+            orderbookIds.put(datum.id, datum.price);
+          }
+        } else if ("update".equals(parsedMessage.action)) {
+          for (_OrderBookLevel datum : parsedMessage.data) {
+            datum.price = orderbookIds.get(datum.id);
+          }
+        }
+        return parsedMessage;
       case _quote:
         return gson.fromJson(obj, QuoteChannel.Message.class);
       case _trade:
