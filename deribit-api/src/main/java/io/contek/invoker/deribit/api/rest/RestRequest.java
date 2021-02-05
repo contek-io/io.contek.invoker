@@ -14,7 +14,6 @@ import java.util.Random;
 
 import static com.google.common.net.UrlEscapers.urlFragmentEscaper;
 import static io.contek.invoker.commons.rest.RestMediaType.JSON;
-import static io.contek.invoker.deribit.api.ApiFactory.RateLimits.ONE_REST_PUBLIC_REQUEST;
 
 @NotThreadSafe
 public abstract class RestRequest<R> extends BaseRestRequest<R> {
@@ -34,10 +33,7 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
 
   protected abstract RestParams getParams();
 
-  @Override
-  protected final ImmutableList<RateLimitQuota> getRequiredQuotas() {
-    return ONE_REST_PUBLIC_REQUEST;
-  }
+  protected abstract ImmutableList<RateLimitQuota> getRequiredQuotas();
 
   @Override
   protected final RestCall createCall(ICredential credential) {

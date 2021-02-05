@@ -1,6 +1,8 @@
 package io.contek.invoker.deribit.api.rest.user;
 
+import com.google.common.collect.ImmutableList;
 import io.contek.invoker.commons.actor.IActor;
+import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
@@ -11,6 +13,7 @@ import javax.annotation.concurrent.NotThreadSafe;
 import java.util.List;
 
 import static io.contek.invoker.commons.rest.RestMethod.GET;
+import static io.contek.invoker.deribit.api.ApiFactory.RateLimits.ONE_NON_MATCHING_ENGINE_REQUEST;
 import static java.util.Objects.requireNonNull;
 
 public final class GetDeposits extends UserRestRequest<GetDeposits.Response> {
@@ -38,6 +41,12 @@ public final class GetDeposits extends UserRestRequest<GetDeposits.Response> {
   @Override
   protected String getEndpointPath() {
     return "/api/v2/private/get_deposits";
+  }
+
+
+  @Override
+  protected ImmutableList<RateLimitQuota> getRequiredQuotas() {
+    return ONE_NON_MATCHING_ENGINE_REQUEST;
   }
 
   @Override
