@@ -1,6 +1,8 @@
 package io.contek.invoker.deribit.api.rest.user;
 
+import com.google.common.collect.ImmutableList;
 import io.contek.invoker.commons.actor.IActor;
+import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
@@ -10,6 +12,7 @@ import io.contek.invoker.deribit.api.rest.common.RestResponse;
 import javax.annotation.concurrent.NotThreadSafe;
 
 import static io.contek.invoker.commons.rest.RestMethod.GET;
+import static io.contek.invoker.deribit.api.ApiFactory.RateLimits.ONE_MATCHING_ENGINE_REQUEST;
 import static java.util.Objects.requireNonNull;
 
 @NotThreadSafe
@@ -176,6 +179,11 @@ public abstract class PlaceOrderRequest extends UserRestRequest<PlaceOrderReques
   @Override
   protected Class<Response> getResponseType() {
     return Response.class;
+  }
+
+  @Override
+  protected ImmutableList<RateLimitQuota> getRequiredQuotas() {
+    return ONE_MATCHING_ENGINE_REQUEST;
   }
 
   @NotThreadSafe
