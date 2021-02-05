@@ -20,6 +20,10 @@ public final class MarketRestApi {
     return new GetMarkets(actor, context);
   }
 
+  public GetFutures getFutures() {
+    return new GetFutures(actor, context);
+  }
+
   public GetMarketsCandles getMarketsCandles() {
     return new GetMarketsCandles(actor, context);
   }
