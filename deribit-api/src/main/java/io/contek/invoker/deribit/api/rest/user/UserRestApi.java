@@ -36,4 +36,15 @@ public final class UserRestApi {
     return new GetDeposits(actor, context);
   }
 
+  public GetPosition getPosition() {
+    return new GetPosition(actor, context);
+  }
+
+  public GetPositions getPositions() {
+    return new GetPositions(actor, context);
+  }
+
+  public GetOrderState getOrderState() {
+    return new GetOrderState(actor, context);
+  }
 }
