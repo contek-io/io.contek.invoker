@@ -47,4 +47,8 @@ public final class UserRestApi {
   public GetOrderState getOrderState() {
     return new GetOrderState(actor, context);
   }
+
+  public GetAccountSummary getAccountSummary() {
+    return new GetAccountSummary(actor, context);
+  }
 }

@@ -15,7 +15,10 @@ import javax.annotation.Nullable;
 import javax.annotation.concurrent.ThreadSafe;
 import java.util.concurrent.atomic.AtomicReference;
 
-import static io.contek.invoker.commons.websocket.SubscriptionState.*;
+import static io.contek.invoker.commons.websocket.SubscriptionState.SUBSCRIBED;
+import static io.contek.invoker.commons.websocket.SubscriptionState.SUBSCRIBING;
+import static io.contek.invoker.commons.websocket.SubscriptionState.UNSUBSCRIBED;
+import static io.contek.invoker.commons.websocket.SubscriptionState.UNSUBSCRIBING;
 
 @ThreadSafe
 public abstract class WebSocketChannel<Message extends WebSocketInboundMessage>

@@ -6,31 +6,31 @@ import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
-import io.contek.invoker.deribit.api.common._Deposit;
+import io.contek.invoker.deribit.api.common.constants._AccountSummary;
 import io.contek.invoker.deribit.api.rest.common.RestResponse;
 
 import javax.annotation.concurrent.NotThreadSafe;
-import java.util.List;
 
 import static io.contek.invoker.commons.rest.RestMethod.GET;
 import static io.contek.invoker.deribit.api.ApiFactory.RateLimits.ONE_NON_MATCHING_ENGINE_REQUEST;
 import static java.util.Objects.requireNonNull;
 
-public final class GetDeposits extends UserRestRequest<GetDeposits.Response> {
+public class GetAccountSummary extends UserRestRequest<GetAccountSummary.Response> {
   private String currency;
+  private Boolean extended;
 
-  GetDeposits(IActor actor, RestContext context) {
+  GetAccountSummary(IActor actor, RestContext context) {
     super(actor, context);
   }
 
-  public GetDeposits setCurrency(String currency) {
+  public GetAccountSummary setCurrency(String currency) {
     this.currency = currency;
     return this;
   }
 
-  @Override
-  protected Class<Response> getResponseType() {
-    return Response.class;
+  public GetAccountSummary setExtended(boolean extended) {
+    this.extended = extended;
+    return this;
   }
 
   @Override
@@ -40,13 +40,7 @@ public final class GetDeposits extends UserRestRequest<GetDeposits.Response> {
 
   @Override
   protected String getEndpointPath() {
-    return "/api/v2/private/get_deposits";
-  }
-
-
-  @Override
-  protected ImmutableList<RateLimitQuota> getRequiredQuotas() {
-    return ONE_NON_MATCHING_ENGINE_REQUEST;
+    return "/api/v2/private/get_account_summary";
   }
 
   @Override
@@ -56,15 +50,24 @@ public final class GetDeposits extends UserRestRequest<GetDeposits.Response> {
     requireNonNull(currency);
     builder.add("currency", currency);
 
+    if (extended != null) {
+      builder.add("extended", extended);
+    }
+
     return builder.build();
   }
 
-  public static final class Result {
-    public int count;
-    public List<_Deposit> data;
+  @Override
+  protected ImmutableList<RateLimitQuota> getRequiredQuotas() {
+    return ONE_NON_MATCHING_ENGINE_REQUEST;
+  }
+
+  @Override
+  protected Class<Response> getResponseType() {
+    return Response.class;
   }
 
   @NotThreadSafe
-  public static final class Response extends RestResponse<Result> {
+  public static final class Response extends RestResponse<_AccountSummary> {
   }
 }

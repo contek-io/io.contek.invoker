@@ -6,7 +6,7 @@ import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
-import io.contek.invoker.deribit.api.common.Deposit;
+import io.contek.invoker.deribit.api.common._Deposit;
 import io.contek.invoker.deribit.api.common._Position;
 import io.contek.invoker.deribit.api.rest.common.RestResponse;
 
@@ -72,7 +72,7 @@ public class GetPositions extends UserRestRequest<GetPositions.Response> {
 
   public static final class Result {
     public int count;
-    public List<Deposit> data;
+    public List<_Deposit> data;
   }
 
   @NotThreadSafe
