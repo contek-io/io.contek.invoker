@@ -54,7 +54,7 @@ public class GetOrderState extends UserRestRequest<GetOrderState.Response> {
     return ONE_NON_MATCHING_ENGINE_REQUEST;
   }
 
-  GetOrderState setOrderId(String orderId) {
+  public GetOrderState setOrderId(String orderId) {
     this.orderId = orderId;
     return this;
   }
