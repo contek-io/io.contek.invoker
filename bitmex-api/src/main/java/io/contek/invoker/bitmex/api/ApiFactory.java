@@ -20,6 +20,7 @@ import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.ThreadSafe;
 import java.time.Duration;
+import java.time.temporal.ChronoUnit;
 
 import static com.google.common.io.BaseEncoding.base16;
 import static io.contek.invoker.bitmex.api.ApiFactory.RateLimits.*;
@@ -34,6 +35,12 @@ public final class ApiFactory {
       ApiContext.newBuilder()
           .setRestContext(RestContext.forBaseUrl("https://www.bitmex.com"))
           .setWebSocketContext(WebSocketContext.forBaseUrl("wss://www.bitmex.com"))
+          .build();
+
+  public static final ApiContext MAIN_NET_CONTEXT_RESILIENT =
+      ApiContext.newBuilder()
+          .setRestContext(RestContext.forBaseUrl("https://www.bitmex.com"))
+          .setWebSocketContext(WebSocketContext.forBaseUrlAndPingInterval("wss://www.bitmex.com", Duration.of(5, ChronoUnit.SECONDS)))
           .build();
 
   public static final ApiContext TEST_NET_CONTEXT =
@@ -53,6 +60,8 @@ public final class ApiFactory {
   public static ApiFactory getMainNetDefault() {
     return fromContext(MAIN_NET_CONTEXT);
   }
+
+  public static ApiFactory getMainNetDefaultResilient() { return fromContext(MAIN_NET_CONTEXT_RESILIENT); }
 
   public static ApiFactory getTestNetDefault() {
     return fromContext(TEST_NET_CONTEXT);

@@ -21,6 +21,9 @@ public final class WebSocketContext extends BaseHttpContext {
     return WebSocketContext.newBuilder().setBaseUrl(baseUrl).build();
   }
 
+  public static WebSocketContext forBaseUrlAndPingInterval(String baseUrl, Duration pingInterval) {
+    return WebSocketContext.newBuilder().setBaseUrl(baseUrl).setPingInterval(pingInterval).build();
+  }
   public static Builder newBuilder() {
     return new Builder();
   }
