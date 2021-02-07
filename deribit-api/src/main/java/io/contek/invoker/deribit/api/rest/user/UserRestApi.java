@@ -28,6 +28,10 @@ public final class UserRestApi {
     return new GetCancel(actor, context);
   }
 
+  public GetCancelByLabel getCancelByLabel() {
+    return new GetCancelByLabel(actor, context);
+  }
+
   public GetCancelAll getCancelAll() {
     return new GetCancelAll(actor, context);
   }
