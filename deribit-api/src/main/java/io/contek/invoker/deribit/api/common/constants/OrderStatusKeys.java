@@ -8,13 +8,13 @@ public final class OrderStatusKeys {
 
   public static final String _open = "open";
 
-  public static final String filled = "filled";
+  public static final String _filled = "filled";
 
-  public static final String rejected = "rejected";
+  public static final String _rejected = "rejected";
 
-  public static final String cancelled = "cancelled";
+  public static final String _cancelled = "cancelled";
 
-  public static final String untriggered = "untriggered";
+  public static final String _untriggered = "untriggered";
 
   private OrderStatusKeys() {
   }
