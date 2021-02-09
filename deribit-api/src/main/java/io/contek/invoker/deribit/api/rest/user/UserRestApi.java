@@ -55,4 +55,8 @@ public final class UserRestApi {
   public GetAccountSummary getAccountSummary() {
     return new GetAccountSummary(actor, context);
   }
+
+  public GetOpenOrdersByInstrument getOpenOrdersByInstrument() {
+    return new GetOpenOrdersByInstrument(actor, context);
+  }
 }

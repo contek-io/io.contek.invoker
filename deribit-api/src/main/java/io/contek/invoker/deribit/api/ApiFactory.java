@@ -14,6 +14,7 @@ import io.contek.invoker.commons.actor.ratelimit.SimpleRateLimitThrottleFactory;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.websocket.WebSocketContext;
 import io.contek.invoker.deribit.api.rest.market.MarketRestApi;
+import io.contek.invoker.deribit.api.rest.user.GetDeposits;
 import io.contek.invoker.deribit.api.rest.user.UserRestApi;
 import io.contek.invoker.deribit.api.websocket.market.MarketWebSocketApi;
 import io.contek.invoker.deribit.api.websocket.user.UserWebSocketApi;
