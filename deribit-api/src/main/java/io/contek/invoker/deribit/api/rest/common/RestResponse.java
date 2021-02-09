@@ -7,4 +7,5 @@ public abstract class RestResponse<T> {
 
   public String jsonrpc;
   public T result;
+  public Error error;
 }

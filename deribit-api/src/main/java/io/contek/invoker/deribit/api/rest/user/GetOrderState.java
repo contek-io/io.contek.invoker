@@ -59,11 +59,6 @@ public class GetOrderState extends UserRestRequest<GetOrderState.Response> {
     return this;
   }
 
-  public static final class Result {
-    public int count;
-    public List<_Deposit> data;
-  }
-
   @NotThreadSafe
   public static final class Response extends RestResponse<_Order> {
   }
