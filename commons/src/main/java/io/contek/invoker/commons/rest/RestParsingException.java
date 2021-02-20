@@ -2,9 +2,9 @@ package io.contek.invoker.commons.rest;
 
 import io.contek.invoker.commons.actor.http.AnyHttpException;
 
-import javax.annotation.concurrent.Immutable;
+import javax.annotation.concurrent.NotThreadSafe;
 
-@Immutable
+@NotThreadSafe
 public final class RestParsingException extends AnyHttpException {
 
   private final RestResponse response;
