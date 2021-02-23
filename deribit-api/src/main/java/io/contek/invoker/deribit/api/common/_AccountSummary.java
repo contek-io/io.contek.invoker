@@ -1,10 +1,11 @@
-package io.contek.invoker.deribit.api.common.constants;
+package io.contek.invoker.deribit.api.common;
 
 import javax.annotation.concurrent.NotThreadSafe;
 import java.util.List;
 
 @NotThreadSafe
 public final class _AccountSummary {
+
   public double options_gamma;
   public double projected_maintenance_margin;
   public String system_name;
