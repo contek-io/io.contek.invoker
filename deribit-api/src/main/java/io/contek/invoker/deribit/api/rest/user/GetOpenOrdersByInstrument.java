@@ -6,7 +6,7 @@ import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
-import io.contek.invoker.deribit.api.common._Position;
+import io.contek.invoker.deribit.api.common._Order;
 import io.contek.invoker.deribit.api.rest.common.RestResponse;
 
 import javax.annotation.concurrent.NotThreadSafe;
@@ -16,21 +16,21 @@ import static io.contek.invoker.commons.rest.RestMethod.GET;
 import static io.contek.invoker.deribit.api.ApiFactory.RateLimits.ONE_NON_MATCHING_ENGINE_REQUEST;
 import static java.util.Objects.requireNonNull;
 
-public class GetPositions extends UserRestRequest<GetPositions.Response> {
-  private String currency;
-  private String kind;
+public class GetOpenOrdersByInstrument extends UserRestRequest<GetOpenOrdersByInstrument.Response> {
+  private String instrument_name;
+  private String type;
 
-  GetPositions(IActor actor, RestContext context) {
+  GetOpenOrdersByInstrument(IActor actor, RestContext context) {
     super(actor, context);
   }
 
-  public GetPositions setCurrency(String currency) {
-    this.currency = currency;
+  public GetOpenOrdersByInstrument setInstrumentName(String instrument_name) {
+    this.instrument_name = instrument_name;
     return this;
   }
 
-  public GetPositions setKind(String kind) {
-    this.kind = kind;
+  public GetOpenOrdersByInstrument setType(String type) {
+    this.type = type;
     return this;
   }
 
@@ -41,18 +41,18 @@ public class GetPositions extends UserRestRequest<GetPositions.Response> {
 
   @Override
   protected String getEndpointPath() {
-    return "/api/v2/private/get_positions";
+    return "/api/v2/private/get_open_orders_by_instrument";
   }
 
   @Override
   protected RestParams getParams() {
     RestParams.Builder builder = RestParams.newBuilder();
 
-    requireNonNull(currency);
-    builder.add("currency", currency);
+    requireNonNull(instrument_name);
+    builder.add("instrument_name", instrument_name);
 
-    if (kind != null) {
-      builder.add("kind", kind);
+    if (type != null) {
+      builder.add("type", type);
     }
 
     return builder.build();
@@ -69,6 +69,6 @@ public class GetPositions extends UserRestRequest<GetPositions.Response> {
   }
 
   @NotThreadSafe
-  public static final class Response extends RestResponse<List<_Position>> {
+  public static final class Response extends RestResponse<List<_Order>> {
   }
 }

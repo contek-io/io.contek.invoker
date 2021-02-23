@@ -6,12 +6,10 @@ import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
-import io.contek.invoker.deribit.api.common.Deposit;
 import io.contek.invoker.deribit.api.common._Order;
 import io.contek.invoker.deribit.api.rest.common.RestResponse;
 
 import javax.annotation.concurrent.NotThreadSafe;
-import java.util.List;
 
 import static io.contek.invoker.commons.rest.RestMethod.GET;
 import static io.contek.invoker.deribit.api.ApiFactory.RateLimits.ONE_NON_MATCHING_ENGINE_REQUEST;
@@ -54,14 +52,9 @@ public class GetOrderState extends UserRestRequest<GetOrderState.Response> {
     return ONE_NON_MATCHING_ENGINE_REQUEST;
   }
 
-  GetOrderState setOrderId(String orderId) {
+  public GetOrderState setOrderId(String orderId) {
     this.orderId = orderId;
     return this;
-  }
-
-  public static final class Result {
-    public int count;
-    public List<Deposit> data;
   }
 
   @NotThreadSafe

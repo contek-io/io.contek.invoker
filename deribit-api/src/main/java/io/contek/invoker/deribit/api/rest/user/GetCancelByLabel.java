@@ -6,32 +6,29 @@ import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
-import io.contek.invoker.deribit.api.common._Position;
 import io.contek.invoker.deribit.api.rest.common.RestResponse;
 
 import javax.annotation.concurrent.NotThreadSafe;
-import java.util.List;
 
 import static io.contek.invoker.commons.rest.RestMethod.GET;
-import static io.contek.invoker.deribit.api.ApiFactory.RateLimits.ONE_NON_MATCHING_ENGINE_REQUEST;
+import static io.contek.invoker.deribit.api.ApiFactory.RateLimits.ONE_MATCHING_ENGINE_REQUEST;
 import static java.util.Objects.requireNonNull;
 
-public class GetPositions extends UserRestRequest<GetPositions.Response> {
-  private String currency;
-  private String kind;
+public final class GetCancelByLabel extends UserRestRequest<GetCancelByLabel.Response> {
+  private String label;
 
-  GetPositions(IActor actor, RestContext context) {
+  GetCancelByLabel(IActor actor, RestContext context) {
     super(actor, context);
   }
 
-  public GetPositions setCurrency(String currency) {
-    this.currency = currency;
+  public GetCancelByLabel setLabel(String label) {
+    this.label = label;
     return this;
   }
 
-  public GetPositions setKind(String kind) {
-    this.kind = kind;
-    return this;
+  @Override
+  protected Class<GetCancelByLabel.Response> getResponseType() {
+    return Response.class;
   }
 
   @Override
@@ -41,34 +38,25 @@ public class GetPositions extends UserRestRequest<GetPositions.Response> {
 
   @Override
   protected String getEndpointPath() {
-    return "/api/v2/private/get_positions";
+    return "/api/v2/private/cancel_by_label";
   }
 
   @Override
   protected RestParams getParams() {
     RestParams.Builder builder = RestParams.newBuilder();
 
-    requireNonNull(currency);
-    builder.add("currency", currency);
-
-    if (kind != null) {
-      builder.add("kind", kind);
-    }
+    requireNonNull(label);
+    builder.add("label", label);
 
     return builder.build();
   }
 
   @Override
   protected ImmutableList<RateLimitQuota> getRequiredQuotas() {
-    return ONE_NON_MATCHING_ENGINE_REQUEST;
-  }
-
-  @Override
-  protected Class<Response> getResponseType() {
-    return Response.class;
+    return ONE_MATCHING_ENGINE_REQUEST;
   }
 
   @NotThreadSafe
-  public static final class Response extends RestResponse<List<_Position>> {
+  public static final class Response extends RestResponse<Integer> {
   }
 }

@@ -6,31 +6,30 @@ import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
-import io.contek.invoker.deribit.api.common._Position;
+import io.contek.invoker.deribit.api.common.constants._AccountSummary;
 import io.contek.invoker.deribit.api.rest.common.RestResponse;
 
 import javax.annotation.concurrent.NotThreadSafe;
-import java.util.List;
 
 import static io.contek.invoker.commons.rest.RestMethod.GET;
 import static io.contek.invoker.deribit.api.ApiFactory.RateLimits.ONE_NON_MATCHING_ENGINE_REQUEST;
 import static java.util.Objects.requireNonNull;
 
-public class GetPositions extends UserRestRequest<GetPositions.Response> {
+public class GetAccountSummary extends UserRestRequest<GetAccountSummary.Response> {
   private String currency;
-  private String kind;
+  private Boolean extended;
 
-  GetPositions(IActor actor, RestContext context) {
+  GetAccountSummary(IActor actor, RestContext context) {
     super(actor, context);
   }
 
-  public GetPositions setCurrency(String currency) {
+  public GetAccountSummary setCurrency(String currency) {
     this.currency = currency;
     return this;
   }
 
-  public GetPositions setKind(String kind) {
-    this.kind = kind;
+  public GetAccountSummary setExtended(boolean extended) {
+    this.extended = extended;
     return this;
   }
 
@@ -41,7 +40,7 @@ public class GetPositions extends UserRestRequest<GetPositions.Response> {
 
   @Override
   protected String getEndpointPath() {
-    return "/api/v2/private/get_positions";
+    return "/api/v2/private/get_account_summary";
   }
 
   @Override
@@ -51,8 +50,8 @@ public class GetPositions extends UserRestRequest<GetPositions.Response> {
     requireNonNull(currency);
     builder.add("currency", currency);
 
-    if (kind != null) {
-      builder.add("kind", kind);
+    if (extended != null) {
+      builder.add("extended", extended);
     }
 
     return builder.build();
@@ -69,6 +68,6 @@ public class GetPositions extends UserRestRequest<GetPositions.Response> {
   }
 
   @NotThreadSafe
-  public static final class Response extends RestResponse<List<_Position>> {
+  public static final class Response extends RestResponse<_AccountSummary> {
   }
 }
