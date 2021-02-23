@@ -84,15 +84,15 @@ public final class MarketWebSocketApi extends WebSocketApi {
     }
   }
 
- public InstrumentChannel getInstrumentChannel(String instrument) {
-    synchronized (quoteChannels) {
+  public InstrumentChannel getInstrumentChannel(String instrument) {
+    synchronized (instrumentChannels) {
       return instrumentChannels.computeIfAbsent(
-        instrument,
-        k -> {
-          InstrumentChannel result = new InstrumentChannel(k);
-          attach(result);
-          return result;
-        });
+          instrument,
+          k -> {
+            InstrumentChannel result = new InstrumentChannel(k);
+            attach(result);
+            return result;
+          });
     }
   }
 }
