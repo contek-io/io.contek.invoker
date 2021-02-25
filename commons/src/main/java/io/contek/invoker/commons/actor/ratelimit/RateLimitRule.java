@@ -8,8 +8,6 @@ import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
 import java.time.Duration;
 
-import static java.time.temporal.ChronoUnit.MINUTES;
-
 @Immutable
 public final class RateLimitRule {
 
@@ -54,7 +52,7 @@ public final class RateLimitRule {
         Joiner.on('_').join(type, name, key),
         RateLimiterConfig.custom()
             .limitForPeriod((int) (maxPermits * (1d - cushion)))
-            .limitRefreshPeriod(Duration.of(1, MINUTES))
+            .limitRefreshPeriod(resetPeriod)
             .build());
   }
 
