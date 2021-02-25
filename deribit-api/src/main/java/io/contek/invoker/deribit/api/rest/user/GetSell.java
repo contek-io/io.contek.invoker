@@ -10,6 +10,6 @@ public final class GetSell extends PlaceOrderRequest {
 
   @Override
   protected String getEndpointPath() {
-    return "/api/v2/private/buy";
+    return "/api/v2/private/sell";
   }
 }

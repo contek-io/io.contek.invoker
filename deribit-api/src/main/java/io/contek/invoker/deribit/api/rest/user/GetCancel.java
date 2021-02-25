@@ -15,7 +15,9 @@ import static io.contek.invoker.commons.rest.RestMethod.GET;
 import static io.contek.invoker.deribit.api.ApiFactory.RateLimits.ONE_MATCHING_ENGINE_REQUEST;
 import static java.util.Objects.requireNonNull;
 
+@NotThreadSafe
 public final class GetCancel extends UserRestRequest<GetCancel.Response> {
+
   private String orderId;
 
   GetCancel(IActor actor, RestContext context) {
@@ -58,6 +60,5 @@ public final class GetCancel extends UserRestRequest<GetCancel.Response> {
   }
 
   @NotThreadSafe
-  public static final class Response extends RestResponse<_Order> {
-  }
+  public static final class Response extends RestResponse<_Order> {}
 }

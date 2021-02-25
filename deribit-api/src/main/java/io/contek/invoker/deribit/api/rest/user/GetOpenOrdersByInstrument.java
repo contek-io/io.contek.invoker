@@ -16,7 +16,10 @@ import static io.contek.invoker.commons.rest.RestMethod.GET;
 import static io.contek.invoker.deribit.api.ApiFactory.RateLimits.ONE_NON_MATCHING_ENGINE_REQUEST;
 import static java.util.Objects.requireNonNull;
 
-public class GetOpenOrdersByInstrument extends UserRestRequest<GetOpenOrdersByInstrument.Response> {
+@NotThreadSafe
+public final class GetOpenOrdersByInstrument
+    extends UserRestRequest<GetOpenOrdersByInstrument.Response> {
+
   private String instrument_name;
   private String type;
 
@@ -69,6 +72,5 @@ public class GetOpenOrdersByInstrument extends UserRestRequest<GetOpenOrdersByIn
   }
 
   @NotThreadSafe
-  public static final class Response extends RestResponse<List<_Order>> {
-  }
+  public static final class Response extends RestResponse<List<_Order>> {}
 }

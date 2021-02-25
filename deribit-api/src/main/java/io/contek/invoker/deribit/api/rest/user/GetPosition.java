@@ -15,7 +15,8 @@ import static io.contek.invoker.commons.rest.RestMethod.GET;
 import static io.contek.invoker.deribit.api.ApiFactory.RateLimits.ONE_NON_MATCHING_ENGINE_REQUEST;
 import static java.util.Objects.requireNonNull;
 
-public class GetPosition extends UserRestRequest<GetPosition.Response> {
+@NotThreadSafe
+public final class GetPosition extends UserRestRequest<GetPosition.Response> {
 
   private String instrumentName;
 
@@ -59,6 +60,5 @@ public class GetPosition extends UserRestRequest<GetPosition.Response> {
   }
 
   @NotThreadSafe
-  public static final class Response extends RestResponse<_Position> {
-  }
+  public static final class Response extends RestResponse<_Position> {}
 }

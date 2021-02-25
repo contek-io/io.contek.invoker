@@ -13,6 +13,7 @@ import javax.annotation.concurrent.NotThreadSafe;
 import static io.contek.invoker.commons.rest.RestMethod.GET;
 import static io.contek.invoker.deribit.api.ApiFactory.RateLimits.ONE_MATCHING_ENGINE_REQUEST;
 
+@NotThreadSafe
 public final class GetCancelAll extends UserRestRequest<GetCancelAll.Response> {
 
   GetCancelAll(IActor actor, RestContext context) {
@@ -47,6 +48,5 @@ public final class GetCancelAll extends UserRestRequest<GetCancelAll.Response> {
   }
 
   @NotThreadSafe
-  public static final class Response extends RestResponse<Integer> {
-  }
+  public static final class Response extends RestResponse<Integer> {}
 }

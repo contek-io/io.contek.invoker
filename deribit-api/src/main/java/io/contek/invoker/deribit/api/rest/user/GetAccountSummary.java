@@ -15,7 +15,9 @@ import static io.contek.invoker.commons.rest.RestMethod.GET;
 import static io.contek.invoker.deribit.api.ApiFactory.RateLimits.ONE_NON_MATCHING_ENGINE_REQUEST;
 import static java.util.Objects.requireNonNull;
 
-public class GetAccountSummary extends UserRestRequest<GetAccountSummary.Response> {
+@NotThreadSafe
+public final class GetAccountSummary extends UserRestRequest<GetAccountSummary.Response> {
+
   private String currency;
   private Boolean extended;
 

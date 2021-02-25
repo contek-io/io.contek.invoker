@@ -16,7 +16,9 @@ import static io.contek.invoker.commons.rest.RestMethod.GET;
 import static io.contek.invoker.deribit.api.ApiFactory.RateLimits.ONE_NON_MATCHING_ENGINE_REQUEST;
 import static java.util.Objects.requireNonNull;
 
+@NotThreadSafe
 public final class GetDeposits extends UserRestRequest<GetDeposits.Response> {
+
   private String currency;
 
   GetDeposits(IActor actor, RestContext context) {
@@ -43,7 +45,6 @@ public final class GetDeposits extends UserRestRequest<GetDeposits.Response> {
     return "/api/v2/private/get_deposits";
   }
 
-
   @Override
   protected ImmutableList<RateLimitQuota> getRequiredQuotas() {
     return ONE_NON_MATCHING_ENGINE_REQUEST;
@@ -65,6 +66,5 @@ public final class GetDeposits extends UserRestRequest<GetDeposits.Response> {
   }
 
   @NotThreadSafe
-  public static final class Response extends RestResponse<Result> {
-  }
+  public static final class Response extends RestResponse<Result> {}
 }

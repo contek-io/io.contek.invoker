@@ -14,6 +14,7 @@ import static io.contek.invoker.commons.rest.RestMethod.GET;
 import static io.contek.invoker.deribit.api.ApiFactory.RateLimits.ONE_MATCHING_ENGINE_REQUEST;
 import static java.util.Objects.requireNonNull;
 
+@NotThreadSafe
 public final class GetCancelByLabel extends UserRestRequest<GetCancelByLabel.Response> {
   private String label;
 
@@ -57,6 +58,5 @@ public final class GetCancelByLabel extends UserRestRequest<GetCancelByLabel.Res
   }
 
   @NotThreadSafe
-  public static final class Response extends RestResponse<Integer> {
-  }
+  public static final class Response extends RestResponse<Integer> {}
 }

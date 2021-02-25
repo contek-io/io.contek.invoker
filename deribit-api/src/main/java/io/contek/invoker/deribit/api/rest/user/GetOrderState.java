@@ -15,7 +15,9 @@ import static io.contek.invoker.commons.rest.RestMethod.GET;
 import static io.contek.invoker.deribit.api.ApiFactory.RateLimits.ONE_NON_MATCHING_ENGINE_REQUEST;
 import static java.util.Objects.requireNonNull;
 
-public class GetOrderState extends UserRestRequest<GetOrderState.Response> {
+@NotThreadSafe
+public final class GetOrderState extends UserRestRequest<GetOrderState.Response> {
+
   private String orderId;
 
   GetOrderState(IActor actor, RestContext context) {
@@ -58,6 +60,5 @@ public class GetOrderState extends UserRestRequest<GetOrderState.Response> {
   }
 
   @NotThreadSafe
-  public static final class Response extends RestResponse<_Order> {
-  }
+  public static final class Response extends RestResponse<_Order> {}
 }
