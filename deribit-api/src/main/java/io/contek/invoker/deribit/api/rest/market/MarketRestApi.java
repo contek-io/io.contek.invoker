@@ -16,6 +16,18 @@ public final class MarketRestApi {
     this.context = context;
   }
 
+  public GetBookSummaryByCurrency getBookSummaryByCurrency() {
+    return new GetBookSummaryByCurrency(actor, context);
+  }
+
+  public GetBookSummaryByInstrument getBookSummaryByInstrument() {
+    return new GetBookSummaryByInstrument(actor, context);
+  }
+
+  public GetCurrencies getCurrencies() {
+    return new GetCurrencies(actor, context);
+  }
+
   public GetInstruments getInstruments() {
     return new GetInstruments(actor, context);
   }
@@ -27,6 +39,4 @@ public final class MarketRestApi {
   public GetTicker getTicker() {
     return new GetTicker(actor, context);
   }
-
-
 }
