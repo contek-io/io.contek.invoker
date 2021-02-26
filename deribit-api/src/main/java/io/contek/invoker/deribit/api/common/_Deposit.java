@@ -4,6 +4,7 @@ import javax.annotation.concurrent.NotThreadSafe;
 
 @NotThreadSafe
 public class _Deposit {
+
   public String address;
   public long amount;
   public String currency;

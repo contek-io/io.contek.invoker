@@ -60,7 +60,9 @@ public final class GetDeposits extends UserRestRequest<GetDeposits.Response> {
     return builder.build();
   }
 
+  @NotThreadSafe
   public static final class Result {
+
     public int count;
     public List<_Deposit> data;
   }

@@ -6,7 +6,7 @@ import io.contek.invoker.commons.rest.RestContext;
 import javax.annotation.concurrent.NotThreadSafe;
 
 @NotThreadSafe
-public final class GetBuy extends PlaceOrderRequest {
+public final class GetBuy extends BasePlaceOrderRequest {
 
   GetBuy(IActor actor, RestContext context) {
     super(actor, context);
