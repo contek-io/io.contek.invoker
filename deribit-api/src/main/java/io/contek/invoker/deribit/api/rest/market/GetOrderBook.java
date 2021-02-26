@@ -10,7 +10,7 @@ import io.contek.invoker.deribit.api.rest.common.RestResponse;
 
 import javax.annotation.concurrent.NotThreadSafe;
 
-import static io.contek.invoker.deribit.api.ApiFactory.RateLimits.ONE_NON_MATCHING_ENGINE_REQUEST;
+import static io.contek.invoker.deribit.api.ApiFactory.RateLimits.ONE_IP_NON_MATCHING_ENGINE_REQUEST;
 import static java.util.Objects.requireNonNull;
 
 @NotThreadSafe
@@ -57,10 +57,9 @@ public final class GetOrderBook extends MarketRestRequest<GetOrderBook.Response>
 
   @Override
   protected ImmutableList<RateLimitQuota> getRequiredQuotas() {
-    return ONE_NON_MATCHING_ENGINE_REQUEST;
+    return ONE_IP_NON_MATCHING_ENGINE_REQUEST;
   }
 
   @NotThreadSafe
-  public static final class Response extends RestResponse<_OrderBook> {
-  }
+  public static final class Response extends RestResponse<_OrderBook> {}
 }
