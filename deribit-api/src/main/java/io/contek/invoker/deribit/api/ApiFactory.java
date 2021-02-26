@@ -89,6 +89,7 @@ public final class ApiFactory {
   private static RateLimitCache createRateLimitCache() {
     return RateLimitCache.newBuilder()
         .addRule(RateLimits.API_KEY_MATCHING_ENGINE_REQUEST_RULE)
+        .addRule(RateLimits.API_KEY_NON_MATCHING_ENGINE_REQUEST_RULE)
         .addRule(RateLimits.IP_NON_MATCHING_ENGINE_REQUEST_RULE)
         .build();
   }
