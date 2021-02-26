@@ -48,6 +48,14 @@ public final class UserRestApi {
     return new GetPositions(actor, context);
   }
 
+  public GetOrderHistoryByCurrency getOrderHistoryByCurrency() {
+    return new GetOrderHistoryByCurrency(actor, context);
+  }
+
+  public GetOrderHistoryByInstrument getOrderHistoryByInstrument() {
+    return new GetOrderHistoryByInstrument(actor, context);
+  }
+
   public GetOrderState getOrderState() {
     return new GetOrderState(actor, context);
   }

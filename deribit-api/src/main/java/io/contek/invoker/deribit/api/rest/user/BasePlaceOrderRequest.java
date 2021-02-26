@@ -12,7 +12,7 @@ import io.contek.invoker.deribit.api.rest.common.RestResponse;
 import javax.annotation.concurrent.NotThreadSafe;
 
 import static io.contek.invoker.commons.rest.RestMethod.GET;
-import static io.contek.invoker.deribit.api.ApiFactory.RateLimits.ONE_MATCHING_ENGINE_REQUEST;
+import static io.contek.invoker.deribit.api.ApiFactory.RateLimits.ONE_API_KEY_MATCHING_ENGINE_REQUEST;
 import static java.util.Objects.requireNonNull;
 
 @NotThreadSafe
@@ -183,7 +183,7 @@ public abstract class BasePlaceOrderRequest
 
   @Override
   protected final ImmutableList<RateLimitQuota> getRequiredQuotas() {
-    return ONE_MATCHING_ENGINE_REQUEST;
+    return ONE_API_KEY_MATCHING_ENGINE_REQUEST;
   }
 
   @NotThreadSafe

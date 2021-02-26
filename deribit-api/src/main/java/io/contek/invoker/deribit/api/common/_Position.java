@@ -3,7 +3,8 @@ package io.contek.invoker.deribit.api.common;
 import javax.annotation.concurrent.NotThreadSafe;
 
 @NotThreadSafe
-public final class _Position {
+public class _Position {
+
   public double average_price;
   public double average_price_usd;
   public double delta;

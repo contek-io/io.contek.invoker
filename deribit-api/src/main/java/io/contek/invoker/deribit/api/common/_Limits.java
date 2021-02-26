@@ -3,7 +3,7 @@ package io.contek.invoker.deribit.api.common;
 import javax.annotation.concurrent.NotThreadSafe;
 
 @NotThreadSafe
-public final class _Limits {
+public class _Limits {
 
   public _Limit non_matching_engine;
   public _Limit matching_engine;

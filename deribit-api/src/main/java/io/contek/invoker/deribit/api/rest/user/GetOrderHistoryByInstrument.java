@@ -17,23 +17,41 @@ import static io.contek.invoker.deribit.api.ApiFactory.RateLimits.ONE_API_KEY_NO
 import static java.util.Objects.requireNonNull;
 
 @NotThreadSafe
-public final class GetOpenOrdersByInstrument
-    extends UserRestRequest<GetOpenOrdersByInstrument.Response> {
+public final class GetOrderHistoryByInstrument
+    extends UserRestRequest<GetOrderHistoryByInstrument.Response> {
 
   private String instrument_name;
-  private String type;
+  private Integer count;
+  private Integer offset;
+  private Boolean include_old;
+  private Boolean include_unfilled;
 
-  GetOpenOrdersByInstrument(IActor actor, RestContext context) {
+  GetOrderHistoryByInstrument(IActor actor, RestContext context) {
     super(actor, context);
   }
 
-  public GetOpenOrdersByInstrument setInstrumentName(String instrument_name) {
+  public GetOrderHistoryByInstrument setInstrumentName(String instrument_name) {
     this.instrument_name = instrument_name;
     return this;
   }
 
-  public GetOpenOrdersByInstrument setType(String type) {
-    this.type = type;
+  public GetOrderHistoryByInstrument setCount(Integer count) {
+    this.count = count;
+    return this;
+  }
+
+  public GetOrderHistoryByInstrument setOffset(Integer offset) {
+    this.offset = offset;
+    return this;
+  }
+
+  public GetOrderHistoryByInstrument setIncludeOld(Boolean include_old) {
+    this.include_old = include_old;
+    return this;
+  }
+
+  public GetOrderHistoryByInstrument setIncludeUnfilled(Boolean include_unfilled) {
+    this.include_unfilled = include_unfilled;
     return this;
   }
 
@@ -54,8 +72,20 @@ public final class GetOpenOrdersByInstrument
     requireNonNull(instrument_name);
     builder.add("instrument_name", instrument_name);
 
-    if (type != null) {
-      builder.add("type", type);
+    if (count != null) {
+      builder.add("count", count);
+    }
+
+    if (offset != null) {
+      builder.add("offset", offset);
+    }
+
+    if (include_old != null) {
+      builder.add("include_old", include_old);
+    }
+
+    if (include_unfilled != null) {
+      builder.add("include_unfilled", include_unfilled);
     }
 
     return builder.build();

@@ -4,7 +4,7 @@ import javax.annotation.concurrent.NotThreadSafe;
 import java.util.List;
 
 @NotThreadSafe
-public final class _AccountSummary {
+public class _AccountSummary {
 
   public double options_gamma;
   public double projected_maintenance_margin;

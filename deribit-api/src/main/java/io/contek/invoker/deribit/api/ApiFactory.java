@@ -6,15 +6,10 @@ import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.actor.IActorFactory;
 import io.contek.invoker.commons.actor.SimpleActorFactory;
 import io.contek.invoker.commons.actor.http.SimpleHttpClientFactory;
-import io.contek.invoker.commons.actor.ratelimit.IRateLimitQuotaInterceptor;
-import io.contek.invoker.commons.actor.ratelimit.RateLimitCache;
-import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
-import io.contek.invoker.commons.actor.ratelimit.RateLimitRule;
-import io.contek.invoker.commons.actor.ratelimit.SimpleRateLimitThrottleFactory;
+import io.contek.invoker.commons.actor.ratelimit.*;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.websocket.WebSocketContext;
 import io.contek.invoker.deribit.api.rest.market.MarketRestApi;
-import io.contek.invoker.deribit.api.rest.user.GetDeposits;
 import io.contek.invoker.deribit.api.rest.user.UserRestApi;
 import io.contek.invoker.deribit.api.websocket.market.MarketWebSocketApi;
 import io.contek.invoker.deribit.api.websocket.user.UserWebSocketApi;
@@ -35,16 +30,16 @@ import static io.contek.invoker.security.SecretKeyAlgorithm.HMAC_SHA256;
 public final class ApiFactory {
 
   public static final ApiContext MAIN_NET_CONTEXT =
-    ApiContext.newBuilder()
-      .setRestContext(RestContext.forBaseUrl("https://www.deribit.com"))
-      .setWebSocketContext(WebSocketContext.forBaseUrl("wss://www.deribit.com"))
-      .build();
+      ApiContext.newBuilder()
+          .setRestContext(RestContext.forBaseUrl("https://www.deribit.com"))
+          .setWebSocketContext(WebSocketContext.forBaseUrl("wss://www.deribit.com"))
+          .build();
 
   public static final ApiContext TEST_NET_CONTEXT =
-    ApiContext.newBuilder()
-      .setRestContext(RestContext.forBaseUrl("https://test.deribit.com"))
-      .setWebSocketContext(WebSocketContext.forBaseUrl("wss://test.deribit.com"))
-      .build();
+      ApiContext.newBuilder()
+          .setRestContext(RestContext.forBaseUrl("https://test.deribit.com"))
+          .setWebSocketContext(WebSocketContext.forBaseUrl("wss://test.deribit.com"))
+          .build();
 
   private final ApiContext context;
   private final IActorFactory actorFactory;
@@ -62,7 +57,6 @@ public final class ApiFactory {
     return fromContext(TEST_NET_CONTEXT);
   }
 
-
   public static ApiFactory fromContext(ApiContext context) {
     return new ApiFactory(context, createActorFactory(context.getInterceptor()));
   }
@@ -76,34 +70,33 @@ public final class ApiFactory {
   }
 
   private static SimpleActorFactory createActorFactory(
-    @Nullable IRateLimitQuotaInterceptor interceptor) {
+      @Nullable IRateLimitQuotaInterceptor interceptor) {
     return SimpleActorFactory.newBuilder()
-      .setCredentialFactory(createCredentialFactory())
-      .setHttpClientFactory(SimpleHttpClientFactory.getInstance())
-      .setRateLimitThrottleFactory(
-        SimpleRateLimitThrottleFactory.create(createRateLimitCache(), interceptor))
-      .build();
+        .setCredentialFactory(createCredentialFactory())
+        .setHttpClientFactory(SimpleHttpClientFactory.getInstance())
+        .setRateLimitThrottleFactory(
+            SimpleRateLimitThrottleFactory.create(createRateLimitCache(), interceptor))
+        .build();
   }
 
   private static SimpleCredentialFactory createCredentialFactory() {
     return SimpleCredentialFactory.newBuilder()
-      .setAlgorithm(HMAC_SHA256)
-      .setEncoding(base16().lowerCase())
-      .build();
+        .setAlgorithm(HMAC_SHA256)
+        .setEncoding(base16().lowerCase())
+        .build();
   }
 
   private static RateLimitCache createRateLimitCache() {
     return RateLimitCache.newBuilder()
-      .addRule(RateLimits.MATCHING_ENGINE_REQUEST_RULE)
-      .addRule(RateLimits.NON_MATCHING_ENGINE_REQUEST_RULE)
-      .build();
+        .addRule(RateLimits.API_KEY_MATCHING_ENGINE_REQUEST_RULE)
+        .addRule(RateLimits.IP_NON_MATCHING_ENGINE_REQUEST_RULE)
+        .build();
   }
 
   @ThreadSafe
   public final class SelectingRestApi {
 
-    private SelectingRestApi() {
-    }
+    private SelectingRestApi() {}
 
     public MarketRestApi market() {
       RestContext restContext = context.getRestContext();
@@ -121,8 +114,7 @@ public final class ApiFactory {
   @ThreadSafe
   public final class SelectingWebSocketApi {
 
-    private SelectingWebSocketApi() {
-    }
+    private SelectingWebSocketApi() {}
 
     public MarketWebSocketApi market() {
       WebSocketContext wsContext = context.getWebSocketContext();
@@ -140,30 +132,39 @@ public final class ApiFactory {
   @Immutable
   public static final class RateLimits {
 
-    public static final RateLimitRule MATCHING_ENGINE_REQUEST_RULE =
-      RateLimitRule.newBuilder()
-        .setName("matching_engine_request_rule")
-        .setType(API_KEY) // per sub-account
-        .setMaxPermits(5)
-        .setResetPeriod(Duration.ofSeconds(1))
-        .build();
+    public static final RateLimitRule API_KEY_MATCHING_ENGINE_REQUEST_RULE =
+        RateLimitRule.newBuilder()
+            .setName("api_key_matching_engine_request_rule")
+            .setType(API_KEY) // per sub-account
+            .setMaxPermits(5)
+            .setResetPeriod(Duration.ofSeconds(1))
+            .build();
 
-    public static final RateLimitRule NON_MATCHING_ENGINE_REQUEST_RULE =
-      RateLimitRule.newBuilder()
-        .setName("non_matching_engine_request_rule")
-        .setType(IP)
-        .setMaxPermits(20)
-        .setResetPeriod(Duration.ofSeconds(1))
-        .build();
+    public static final RateLimitRule API_KEY_NON_MATCHING_ENGINE_REQUEST_RULE =
+        RateLimitRule.newBuilder()
+            .setName("api_key_non_matching_engine_request_rule")
+            .setType(API_KEY)
+            .setMaxPermits(20)
+            .setResetPeriod(Duration.ofSeconds(1))
+            .build();
 
-    public static final ImmutableList<RateLimitQuota> ONE_MATCHING_ENGINE_REQUEST =
-      ImmutableList.of(MATCHING_ENGINE_REQUEST_RULE.createRateLimitQuota(1));
+    public static final RateLimitRule IP_NON_MATCHING_ENGINE_REQUEST_RULE =
+        RateLimitRule.newBuilder()
+            .setName("ip_non_matching_engine_request_rule")
+            .setType(IP)
+            .setMaxPermits(20)
+            .setResetPeriod(Duration.ofSeconds(1))
+            .build();
 
+    public static final ImmutableList<RateLimitQuota> ONE_API_KEY_MATCHING_ENGINE_REQUEST =
+        ImmutableList.of(API_KEY_MATCHING_ENGINE_REQUEST_RULE.createRateLimitQuota(1));
 
-    public static final ImmutableList<RateLimitQuota> ONE_NON_MATCHING_ENGINE_REQUEST =
-      ImmutableList.of(NON_MATCHING_ENGINE_REQUEST_RULE.createRateLimitQuota(1));
+    public static final ImmutableList<RateLimitQuota> ONE_API_KEY_NON_MATCHING_ENGINE_REQUEST =
+        ImmutableList.of(API_KEY_NON_MATCHING_ENGINE_REQUEST_RULE.createRateLimitQuota(1));
 
-    private RateLimits() {
-    }
+    public static final ImmutableList<RateLimitQuota> ONE_IP_NON_MATCHING_ENGINE_REQUEST =
+        ImmutableList.of(IP_NON_MATCHING_ENGINE_REQUEST_RULE.createRateLimitQuota(1));
+
+    private RateLimits() {}
   }
 }
