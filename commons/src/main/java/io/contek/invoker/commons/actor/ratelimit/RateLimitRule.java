@@ -53,6 +53,7 @@ public final class RateLimitRule {
         RateLimiterConfig.custom()
             .limitForPeriod((int) (maxPermits * (1d - cushion)))
             .limitRefreshPeriod(resetPeriod)
+            .timeoutDuration(resetPeriod)
             .build());
   }
 
