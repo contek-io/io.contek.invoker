@@ -37,53 +37,6 @@ import static io.contek.invoker.security.SecretKeyAlgorithm.HMAC_SHA256;
 @ThreadSafe
 public final class ApiFactory {
 
-  public static void main(String[] args) {
-    ISubscribingConsumer<TradesChannel.Message> consumer =
-      new ISubscribingConsumer<TradesChannel.Message>() {
-        @Override
-        public void onNext(TradesChannel.Message message) {
-          _Trade trade = message.params.get(0);
-          double price = trade.price;
-          double quantity = trade.volume;
-          System.out.println("New trade price: " + price + ", quantity: " + quantity);
-        }
-
-        @Override
-        public void onStateChange(SubscriptionState state) {
-          if (state == SubscriptionState.SUBSCRIBED) {
-            System.out.println("Start receiving trade data");
-          }
-        }
-
-        @Override
-        public ConsumerState getState() {
-          return ConsumerState.ACTIVE;
-        }
-      };
-    ISubscribingConsumer<OrderBookChannel.Message> orderBookConsumer =
-      new ISubscribingConsumer<OrderBookChannel.Message>() {
-        @Override
-        public void onNext(OrderBookChannel.Message message) {
-          _OrderBook orderbook = message.params;
-          System.out.println("OrderBook: " + orderbook.toString());
-        }
-
-        @Override
-        public void onStateChange(SubscriptionState state) {
-          if (state == SubscriptionState.SUBSCRIBED) {
-            System.out.println("Start receiving order book data");
-          }
-        }
-
-        @Override
-        public ConsumerState getState() {
-          return ConsumerState.ACTIVE;
-        }
-      };
-    MarketWebSocketApi api = ApiFactory.getMainNetDefault().ws().market();
-    api.getOrderBookChannel("XBT/USD").addConsumer(orderBookConsumer);
-  }
-
   public static final ApiContext MAIN_NET_CONTEXT =
     ApiContext.newBuilder()
       .setWebSocketContext(WebSocketContext.forBaseUrl("wss://ws.kraken.com"))
