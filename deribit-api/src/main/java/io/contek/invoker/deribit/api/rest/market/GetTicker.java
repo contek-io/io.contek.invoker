@@ -5,7 +5,7 @@ import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestParams;
-import io.contek.invoker.deribit.api.common._OrderBook;
+import io.contek.invoker.deribit.api.common._Ticker;
 import io.contek.invoker.deribit.api.rest.common.RestResponse;
 
 import javax.annotation.concurrent.NotThreadSafe;
@@ -14,38 +14,30 @@ import static io.contek.invoker.deribit.api.ApiFactory.RateLimits.ONE_IP_NON_MAT
 import static java.util.Objects.requireNonNull;
 
 @NotThreadSafe
-public final class GetOrderBook extends MarketRestRequest<GetOrderBook.Response> {
+public final class GetTicker extends MarketRestRequest<GetTicker.Response> {
 
-  private String instrument_name;
-  private Integer depth;
+  private String instrumentName;
 
-  GetOrderBook(IActor actor, RestContext context) {
+  GetTicker(IActor actor, RestContext context) {
     super(actor, context);
-  }
-
-  public GetOrderBook setInstrumentName(String market_name) {
-    this.instrument_name = market_name;
-    return this;
-  }
-
-  public GetOrderBook setDepth(Integer depth) {
-    this.depth = depth;
-    return this;
   }
 
   @Override
   protected String getEndpointPath() {
-    return "/api/v2/public/get_order_book";
+    return "/api/v2/public/ticker";
+  }
+
+  public GetTicker setInstrumentName(String instrumentName) {
+    this.instrumentName = instrumentName;
+    return this;
   }
 
   @Override
   protected RestParams getParams() {
     RestParams.Builder builder = RestParams.newBuilder();
 
-    requireNonNull(depth);
-    builder.add("depth", depth);
-    requireNonNull(instrument_name);
-    builder.add("instrument_name", instrument_name);
+    requireNonNull(instrumentName);
+    builder.add("instrument_name", instrumentName);
 
     return builder.build();
   }
@@ -61,5 +53,5 @@ public final class GetOrderBook extends MarketRestRequest<GetOrderBook.Response>
   }
 
   @NotThreadSafe
-  public static final class Response extends RestResponse<_OrderBook> {}
+  public static final class Response extends RestResponse<_Ticker> {}
 }

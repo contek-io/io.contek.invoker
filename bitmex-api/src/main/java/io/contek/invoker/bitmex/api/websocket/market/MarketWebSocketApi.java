@@ -16,6 +16,7 @@ public final class MarketWebSocketApi extends WebSocketApi {
   private final Map<String, LiquidationChannel> liquidationChannels = new HashMap<>();
   private final Map<String, OrderBookL2Channel> orderBookL2Channels = new HashMap<>();
   private final Map<String, QuoteChannel> quoteChannels = new HashMap<>();
+  private final Map<String, InstrumentChannel> instrumentChannels = new HashMap<>();
   private final Map<String, TradeChannel> tradeChannels = new HashMap<>();
   private final Table<String, String, TradeBinChannel> tradeBinChannels = HashBasedTable.create();
 
@@ -80,6 +81,18 @@ public final class MarketWebSocketApi extends WebSocketApi {
         tradeBinChannels.put(binSize, instrument, result);
       }
       return result;
+    }
+  }
+
+  public InstrumentChannel getInstrumentChannel(String instrument) {
+    synchronized (instrumentChannels) {
+      return instrumentChannels.computeIfAbsent(
+          instrument,
+          k -> {
+            InstrumentChannel result = new InstrumentChannel(k);
+            attach(result);
+            return result;
+          });
     }
   }
 }

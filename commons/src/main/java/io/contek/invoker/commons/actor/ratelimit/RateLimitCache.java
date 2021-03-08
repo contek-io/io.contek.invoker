@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.google.common.collect.ImmutableMap.toImmutableMap;
+import static io.github.resilience4j.ratelimiter.RateLimiter.waitForPermission;
 
 @ThreadSafe
 public final class RateLimitCache {
@@ -70,7 +71,7 @@ public final class RateLimitCache {
     private void acquire(String key, int permits) {
       synchronized (limiters) {
         RateLimiter limiter = limiters.computeIfAbsent(key, this::createRateLimiter);
-        limiter.acquirePermission(permits);
+        waitForPermission(limiter, permits);
       }
     }
 

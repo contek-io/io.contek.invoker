@@ -5,10 +5,17 @@ import javax.annotation.concurrent.Immutable;
 @Immutable
 public final class OrderTypeKeys {
 
+  public static final String _all = "all";
+
   public static final String _limit = "limit";
 
   public static final String _market = "market";
 
-  private OrderTypeKeys() {
-  }
+  public static final String _stop_all = "stop_all";
+
+  public static final String _stop_limit = "stop_limit";
+
+  public static final String _stop_market = "stop_market";
+
+  private OrderTypeKeys() {}
 }

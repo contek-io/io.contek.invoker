@@ -12,15 +12,16 @@ import io.contek.invoker.deribit.api.rest.common.RestResponse;
 import javax.annotation.concurrent.NotThreadSafe;
 
 import static io.contek.invoker.commons.rest.RestMethod.GET;
-import static io.contek.invoker.deribit.api.ApiFactory.RateLimits.ONE_MATCHING_ENGINE_REQUEST;
+import static io.contek.invoker.deribit.api.ApiFactory.RateLimits.ONE_API_KEY_MATCHING_ENGINE_REQUEST;
 import static java.util.Objects.requireNonNull;
 
 @NotThreadSafe
-public abstract class PlaceOrderRequest extends UserRestRequest<PlaceOrderRequest.Response> {
+public abstract class BasePlaceOrderRequest
+    extends UserRestRequest<BasePlaceOrderRequest.Response> {
 
   private String instrument_name;
   private Double amount;
-  private String type = "limit";
+  private String type;
   private String label;
   private Double price;
   private String time_in_force;
@@ -33,84 +34,82 @@ public abstract class PlaceOrderRequest extends UserRestRequest<PlaceOrderReques
   private String advanced;
   private Boolean mmp;
 
-  PlaceOrderRequest(IActor actor, RestContext context) {
+  BasePlaceOrderRequest(IActor actor, RestContext context) {
     super(actor, context);
   }
 
-  public PlaceOrderRequest setInstrument_name(String instrument_name) {
+  public final BasePlaceOrderRequest setInstrumentName(String instrument_name) {
     this.instrument_name = instrument_name;
     return this;
   }
 
-
-  public PlaceOrderRequest setAmount(Double amount) {
+  public final BasePlaceOrderRequest setAmount(Double amount) {
     this.amount = amount;
     return this;
   }
 
-  public PlaceOrderRequest setType(String type) {
+  public final BasePlaceOrderRequest setType(String type) {
     this.type = type;
     return this;
   }
 
-  public PlaceOrderRequest setLabel(String label) {
+  public final BasePlaceOrderRequest setLabel(String label) {
     this.label = label;
     return this;
   }
 
-  public PlaceOrderRequest setPrice(double price) {
+  public final BasePlaceOrderRequest setPrice(double price) {
     this.price = price;
     return this;
   }
 
-  public PlaceOrderRequest setTimeInForce(String timeInForce) {
+  public final BasePlaceOrderRequest setTimeInForce(String timeInForce) {
     this.time_in_force = timeInForce;
     return this;
   }
 
-  public PlaceOrderRequest setMaxShow(double maxShow) {
+  public final BasePlaceOrderRequest setMaxShow(double maxShow) {
     this.max_show = maxShow;
     return this;
   }
 
-
-  public PlaceOrderRequest setPostOnly(Boolean postOnly) {
+  public final BasePlaceOrderRequest setPostOnly(Boolean postOnly) {
     this.post_only = postOnly;
     return this;
   }
 
-  public PlaceOrderRequest setRejectPostOnly(Boolean rejectPostOnly) {
+  public final BasePlaceOrderRequest setRejectPostOnly(Boolean rejectPostOnly) {
     this.reject_post_only = rejectPostOnly;
     return this;
   }
 
-  public PlaceOrderRequest setReduceOnly(Boolean reduceOnly) {
+  public final BasePlaceOrderRequest setReduceOnly(Boolean reduceOnly) {
     this.reduce_only = reduceOnly;
     return this;
   }
 
-  public PlaceOrderRequest setStopPrice(double stopPrice) {
+  public final BasePlaceOrderRequest setStopPrice(double stopPrice) {
     this.stop_price = stopPrice;
     return this;
   }
 
-  public PlaceOrderRequest setTrigger(String trigger) {
+  public final BasePlaceOrderRequest setTrigger(String trigger) {
     this.trigger = trigger;
     return this;
   }
 
-  public PlaceOrderRequest setAdvanced(String advanced) {
+  public final BasePlaceOrderRequest setAdvanced(String advanced) {
     this.advanced = advanced;
     return this;
   }
 
-  public PlaceOrderRequest setMmp(boolean mmp) {
+  public final BasePlaceOrderRequest setMmp(boolean mmp) {
     this.mmp = mmp;
     return this;
   }
 
   @Override
-  protected RestMethod getMethod() {
+  protected final RestMethod getMethod() {
     return GET;
   }
 
@@ -118,12 +117,13 @@ public abstract class PlaceOrderRequest extends UserRestRequest<PlaceOrderReques
   protected abstract String getEndpointPath();
 
   @Override
-  protected RestParams getParams() {
+  protected final RestParams getParams() {
     RestParams.Builder builder = RestParams.newBuilder();
 
     requireNonNull(instrument_name);
     builder.add("instrument_name", instrument_name);
 
+    requireNonNull(amount);
     builder.add("amount", amount);
 
     requireNonNull(type);
@@ -146,7 +146,7 @@ public abstract class PlaceOrderRequest extends UserRestRequest<PlaceOrderReques
     }
 
     if (post_only != null) {
-      builder.add("postOnly", post_only);
+      builder.add("post_only", post_only);
     }
 
     if (reject_post_only != null) {
@@ -154,7 +154,7 @@ public abstract class PlaceOrderRequest extends UserRestRequest<PlaceOrderReques
     }
 
     if (reduce_only != null) {
-      builder.add("reduceOnly", reduce_only);
+      builder.add("reduce_only", reduce_only);
     }
 
     if (stop_price != null) {
@@ -177,16 +177,15 @@ public abstract class PlaceOrderRequest extends UserRestRequest<PlaceOrderReques
   }
 
   @Override
-  protected Class<Response> getResponseType() {
+  protected final Class<Response> getResponseType() {
     return Response.class;
   }
 
   @Override
-  protected ImmutableList<RateLimitQuota> getRequiredQuotas() {
-    return ONE_MATCHING_ENGINE_REQUEST;
+  protected final ImmutableList<RateLimitQuota> getRequiredQuotas() {
+    return ONE_API_KEY_MATCHING_ENGINE_REQUEST;
   }
 
   @NotThreadSafe
-  public static final class Response extends RestResponse<_PlaceOrderResponse> {
-  }
+  public static final class Response extends RestResponse<_PlaceOrderResponse> {}
 }

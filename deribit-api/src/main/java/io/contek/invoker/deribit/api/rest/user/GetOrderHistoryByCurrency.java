@@ -6,7 +6,7 @@ import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
-import io.contek.invoker.deribit.api.common._Position;
+import io.contek.invoker.deribit.api.common._Order;
 import io.contek.invoker.deribit.api.rest.common.RestResponse;
 
 import javax.annotation.concurrent.NotThreadSafe;
@@ -17,22 +17,47 @@ import static io.contek.invoker.deribit.api.ApiFactory.RateLimits.ONE_API_KEY_NO
 import static java.util.Objects.requireNonNull;
 
 @NotThreadSafe
-public final class GetPositions extends UserRestRequest<GetPositions.Response> {
+public final class GetOrderHistoryByCurrency
+    extends UserRestRequest<GetOrderHistoryByCurrency.Response> {
 
   private String currency;
   private String kind;
+  private Integer count;
+  private Integer offset;
+  private Boolean include_old;
+  private Boolean include_unfilled;
 
-  GetPositions(IActor actor, RestContext context) {
+  GetOrderHistoryByCurrency(IActor actor, RestContext context) {
     super(actor, context);
   }
 
-  public GetPositions setCurrency(String currency) {
+  public GetOrderHistoryByCurrency setCurrency(String currency) {
     this.currency = currency;
     return this;
   }
 
-  public GetPositions setKind(String kind) {
+  public GetOrderHistoryByCurrency setKind(String kind) {
     this.kind = kind;
+    return this;
+  }
+
+  public GetOrderHistoryByCurrency setCount(Integer count) {
+    this.count = count;
+    return this;
+  }
+
+  public GetOrderHistoryByCurrency setOffset(Integer offset) {
+    this.offset = offset;
+    return this;
+  }
+
+  public GetOrderHistoryByCurrency setIncludeOld(Boolean include_old) {
+    this.include_old = include_old;
+    return this;
+  }
+
+  public GetOrderHistoryByCurrency setIncludeUnfilled(Boolean include_unfilled) {
+    this.include_unfilled = include_unfilled;
     return this;
   }
 
@@ -43,7 +68,7 @@ public final class GetPositions extends UserRestRequest<GetPositions.Response> {
 
   @Override
   protected String getEndpointPath() {
-    return "/api/v2/private/get_positions";
+    return "/api/v2/private/get_order_history_by_currency";
   }
 
   @Override
@@ -55,6 +80,22 @@ public final class GetPositions extends UserRestRequest<GetPositions.Response> {
 
     if (kind != null) {
       builder.add("kind", kind);
+    }
+
+    if (count != null) {
+      builder.add("count", count);
+    }
+
+    if (offset != null) {
+      builder.add("offset", offset);
+    }
+
+    if (include_old != null) {
+      builder.add("include_old", include_old);
+    }
+
+    if (include_unfilled != null) {
+      builder.add("include_unfilled", include_unfilled);
     }
 
     return builder.build();
@@ -71,5 +112,5 @@ public final class GetPositions extends UserRestRequest<GetPositions.Response> {
   }
 
   @NotThreadSafe
-  public static final class Response extends RestResponse<List<_Position>> {}
+  public static final class Response extends RestResponse<List<_Order>> {}
 }
