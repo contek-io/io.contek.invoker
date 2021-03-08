@@ -42,12 +42,13 @@ final class WebSocketMessageParser implements IWebSocketMessageParser {
     return gson.fromJson(obj, WebSocketResponse.class);
   }
 
-  private WebSocketInboundMessage toDataMessage(JsonArray obj) {
-    String type = obj.get(2).getAsString();
+  private WebSocketInboundMessage toDataMessage(JsonArray jsonArray) {
+    // The type of the response is in the second to the last position.
+    String type = jsonArray.get(jsonArray.size() - 2).getAsString();
     if (type.equals("trade")) {
-      return toTrades(obj);
+      return toTrades(jsonArray);
     } else if (type.startsWith("book")) {
-      return toOrderBook(obj);
+      return toOrderBook(jsonArray);
     } else {
       throw new RuntimeException(String.format("Invalid type %s", type));
     }

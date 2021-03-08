@@ -24,6 +24,7 @@ public final class OrderBookChannel extends WebSocketChannel<OrderBookChannel.Me
   public static final String ASK_SNAPSHOT_KEY = "as";
   public static final String BID_INCREMENTAL_KEY = "b";
   public static final String ASK_INCREMENTAL_KEY = "a";
+  public static final String CHECK_SUM_KEY = "c";
   private final String symbolName;
 
   OrderBookChannel(String symbolName) {
@@ -89,6 +90,10 @@ public final class OrderBookChannel extends WebSocketChannel<OrderBookChannel.Me
 
     if (jsonObject.has(ASK_INCREMENTAL_KEY)) {
       res.params.a = toOrderBookEntries(jsonObject.get(ASK_INCREMENTAL_KEY));
+    }
+
+    if (jsonObject.has(CHECK_SUM_KEY)) {
+      res.params.c = jsonObject.get(CHECK_SUM_KEY).getAsString();
     }
 
     return res;

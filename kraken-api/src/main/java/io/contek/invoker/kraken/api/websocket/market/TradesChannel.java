@@ -25,7 +25,7 @@ public final class TradesChannel extends WebSocketChannel<TradesChannel.Message>
 
   @Override
   protected String getDisplayName() {
-    return String.format("%s_trades", symbolName);
+    return String.format("trades_%s", symbolName);
   }
 
   @Override
