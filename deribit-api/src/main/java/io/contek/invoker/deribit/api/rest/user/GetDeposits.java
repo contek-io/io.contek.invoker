@@ -6,17 +6,19 @@ import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
-import io.contek.invoker.deribit.api.common.Deposit;
+import io.contek.invoker.deribit.api.common._Deposit;
 import io.contek.invoker.deribit.api.rest.common.RestResponse;
 
 import javax.annotation.concurrent.NotThreadSafe;
 import java.util.List;
 
 import static io.contek.invoker.commons.rest.RestMethod.GET;
-import static io.contek.invoker.deribit.api.ApiFactory.RateLimits.ONE_NON_MATCHING_ENGINE_REQUEST;
+import static io.contek.invoker.deribit.api.ApiFactory.RateLimits.ONE_API_KEY_NON_MATCHING_ENGINE_REQUEST;
 import static java.util.Objects.requireNonNull;
 
+@NotThreadSafe
 public final class GetDeposits extends UserRestRequest<GetDeposits.Response> {
+
   private String currency;
 
   GetDeposits(IActor actor, RestContext context) {
@@ -43,10 +45,9 @@ public final class GetDeposits extends UserRestRequest<GetDeposits.Response> {
     return "/api/v2/private/get_deposits";
   }
 
-
   @Override
   protected ImmutableList<RateLimitQuota> getRequiredQuotas() {
-    return ONE_NON_MATCHING_ENGINE_REQUEST;
+    return ONE_API_KEY_NON_MATCHING_ENGINE_REQUEST;
   }
 
   @Override
@@ -59,12 +60,13 @@ public final class GetDeposits extends UserRestRequest<GetDeposits.Response> {
     return builder.build();
   }
 
+  @NotThreadSafe
   public static final class Result {
+
     public int count;
-    public List<Deposit> data;
+    public List<_Deposit> data;
   }
 
   @NotThreadSafe
-  public static final class Response extends RestResponse<Result> {
-  }
+  public static final class Response extends RestResponse<Result> {}
 }

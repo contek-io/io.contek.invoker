@@ -50,6 +50,8 @@ final class WebSocketMessageParser implements IWebSocketMessageParser {
         return gson.fromJson(obj, QuoteChannel.Message.class);
       case _trade:
         return gson.fromJson(obj, TradeChannel.Message.class);
+      case _instrument:
+        return gson.fromJson(obj, InstrumentChannel.Message.class);
       case _tradeBin1m:
       case _tradeBin5m:
       case _tradeBin1h:

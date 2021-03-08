@@ -12,10 +12,11 @@ import io.contek.invoker.deribit.api.rest.common.RestResponse;
 import javax.annotation.concurrent.NotThreadSafe;
 
 import static io.contek.invoker.commons.rest.RestMethod.GET;
-import static io.contek.invoker.deribit.api.ApiFactory.RateLimits.ONE_NON_MATCHING_ENGINE_REQUEST;
+import static io.contek.invoker.deribit.api.ApiFactory.RateLimits.ONE_API_KEY_NON_MATCHING_ENGINE_REQUEST;
 import static java.util.Objects.requireNonNull;
 
-public class GetPosition extends UserRestRequest<GetPositions.Response>{
+@NotThreadSafe
+public final class GetPosition extends UserRestRequest<GetPosition.Response> {
 
   private String instrumentName;
 
@@ -50,15 +51,14 @@ public class GetPosition extends UserRestRequest<GetPositions.Response>{
 
   @Override
   protected ImmutableList<RateLimitQuota> getRequiredQuotas() {
-    return ONE_NON_MATCHING_ENGINE_REQUEST;
+    return ONE_API_KEY_NON_MATCHING_ENGINE_REQUEST;
   }
 
   @Override
-  protected Class<GetPositions.Response> getResponseType() {
-    return GetPositions.Response.class;
+  protected Class<GetPosition.Response> getResponseType() {
+    return GetPosition.Response.class;
   }
 
   @NotThreadSafe
-  public static final class Response extends RestResponse<_Position> {
-  }
+  public static final class Response extends RestResponse<_Position> {}
 }

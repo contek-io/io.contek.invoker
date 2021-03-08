@@ -3,7 +3,8 @@ package io.contek.invoker.deribit.api.common;
 import javax.annotation.concurrent.NotThreadSafe;
 
 @NotThreadSafe
-public class Deposit {
+public class _Deposit {
+
   public String address;
   public long amount;
   public String currency;
