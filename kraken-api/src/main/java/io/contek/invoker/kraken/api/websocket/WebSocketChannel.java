@@ -72,7 +72,7 @@ public abstract class WebSocketChannel<Message extends WebSocketInboundMessage>
       case "unsubscribed":
         return UNSUBSCRIBED;
       default:
-        throw new IllegalStateException();
+        throw new IllegalStateException(res.status);
     }
   }
 

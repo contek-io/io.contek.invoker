@@ -20,6 +20,10 @@ import static io.contek.invoker.kraken.api.common._OrderBookLevel.toOrderBookLev
 @ThreadSafe
 public final class OrderBookChannel extends WebSocketChannel<OrderBookChannel.Message> {
 
+  public static final String BID_SNAPSHOT_KEY = "bs";
+  public static final String ASK_SNAPSHOT_KEY = "as";
+  public static final String BID_INCREMENTAL_KEY = "b";
+  public static final String ASK_INCREMENTAL_KEY = "a";
   private final String symbolName;
 
   OrderBookChannel(String symbolName) {
@@ -65,22 +69,26 @@ public final class OrderBookChannel extends WebSocketChannel<OrderBookChannel.Me
     res.channelName = jsonArray.get(2).getAsString();
     res.pair = jsonArray.get(3).getAsString();
     res.params = new _OrderBook();
+    res.params.bs = Collections.emptyList();
+    res.params.as = Collections.emptyList();
+    res.params.b = Collections.emptyList();
+    res.params.a = Collections.emptyList();
     JsonObject jsonObject = jsonElement.getAsJsonObject();
 
-    if (jsonObject.has("bs")) {
-      res.params.bs = toOrderBookEntries(jsonObject.get("bs"));
+    if (jsonObject.has(BID_SNAPSHOT_KEY)) {
+      res.params.bs = toOrderBookEntries(jsonObject.get(BID_SNAPSHOT_KEY));
     }
 
-    if (jsonObject.has("as")) {
-      res.params.as = toOrderBookEntries(jsonObject.get("as"));
+    if (jsonObject.has(ASK_SNAPSHOT_KEY)) {
+      res.params.as = toOrderBookEntries(jsonObject.get(ASK_SNAPSHOT_KEY));
     }
 
-    if (jsonObject.has("b")) {
-      res.params.b = toOrderBookEntries(jsonObject.get("b"));
+    if (jsonObject.has(BID_INCREMENTAL_KEY)) {
+      res.params.b = toOrderBookEntries(jsonObject.get(BID_INCREMENTAL_KEY));
     }
 
-    if (jsonObject.has("a")) {
-      res.params.a = toOrderBookEntries(jsonObject.get("a"));
+    if (jsonObject.has(ASK_INCREMENTAL_KEY)) {
+      res.params.a = toOrderBookEntries(jsonObject.get(ASK_INCREMENTAL_KEY));
     }
 
     return res;
