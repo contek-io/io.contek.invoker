@@ -67,8 +67,8 @@ public final class OrderBookChannel extends WebSocketChannel<OrderBookChannel.Me
 
     Message res = new Message();
     res.channelID = jsonArray.get(0).getAsInt();
-    res.channelName = jsonArray.get(2).getAsString();
-    res.pair = jsonArray.get(3).getAsString();
+    res.channelName = jsonArray.get(jsonArray.size() - 2).getAsString();
+    res.pair = jsonArray.get(jsonArray.size() - 1).getAsString();
     res.params = new _OrderBook();
     res.params.bs = Collections.emptyList();
     res.params.as = Collections.emptyList();
@@ -92,8 +92,11 @@ public final class OrderBookChannel extends WebSocketChannel<OrderBookChannel.Me
       res.params.a = toOrderBookEntries(jsonObject.get(ASK_INCREMENTAL_KEY));
     }
 
-    if (jsonObject.has(CHECK_SUM_KEY)) {
-      res.params.c = jsonObject.get(CHECK_SUM_KEY).getAsString();
+    if (jsonArray.size() == 5) {
+      jsonObject = jsonArray.get(2).getAsJsonObject();
+      if (jsonObject.has(BID_INCREMENTAL_KEY)) {
+        res.params.b = toOrderBookEntries(jsonObject.get(BID_INCREMENTAL_KEY));
+      }
     }
 
     return res;

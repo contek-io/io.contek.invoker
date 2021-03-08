@@ -12,5 +12,4 @@ public final class _OrderBook {
   // update payload
   public List<_OrderBookLevel> a;
   public List<_OrderBookLevel> b;
-  public String c;
 }
