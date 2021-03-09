@@ -24,7 +24,6 @@ public final class OrderBookChannel extends WebSocketChannel<OrderBookChannel.Me
   public static final String ASK_SNAPSHOT_KEY = "as";
   public static final String BID_INCREMENTAL_KEY = "b";
   public static final String ASK_INCREMENTAL_KEY = "a";
-  public static final String CHECK_SUM_KEY = "c";
   private final String symbolName;
 
   OrderBookChannel(String symbolName) {
@@ -63,18 +62,19 @@ public final class OrderBookChannel extends WebSocketChannel<OrderBookChannel.Me
   public static final class Message extends WebSocketChannelMessage<_OrderBook> {}
 
   public static Message toOrderBook(JsonArray jsonArray) {
-    JsonElement jsonElement = jsonArray.get(1);
 
     Message res = new Message();
     res.channelID = jsonArray.get(0).getAsInt();
     res.channelName = jsonArray.get(jsonArray.size() - 2).getAsString();
     res.pair = jsonArray.get(jsonArray.size() - 1).getAsString();
+
     res.params = new _OrderBook();
     res.params.bs = Collections.emptyList();
     res.params.as = Collections.emptyList();
     res.params.b = Collections.emptyList();
     res.params.a = Collections.emptyList();
-    JsonObject jsonObject = jsonElement.getAsJsonObject();
+
+    JsonObject jsonObject = jsonArray.get(1).getAsJsonObject();
 
     if (jsonObject.has(BID_SNAPSHOT_KEY)) {
       res.params.bs = toOrderBookEntries(jsonObject.get(BID_SNAPSHOT_KEY));
