@@ -7,6 +7,7 @@ import com.google.gson.JsonObject;
 import io.contek.invoker.commons.websocket.IWebSocketMessageParser;
 import io.contek.invoker.kraken.api.websocket.common.WebSocketInboundMessage;
 import io.contek.invoker.kraken.api.websocket.common.WebSocketResponse;
+import io.contek.invoker.kraken.api.websocket.common.constants.WebSocketChannelKeys;
 
 
 import javax.annotation.Nullable;
@@ -45,9 +46,9 @@ final class WebSocketMessageParser implements IWebSocketMessageParser {
   private WebSocketInboundMessage toDataMessage(JsonArray jsonArray) {
     // The type of the response is in the second to the last position.
     String type = jsonArray.get(jsonArray.size() - 2).getAsString();
-    if (type.equals("trade")) {
+    if (type.equals(WebSocketChannelKeys._trade)) {
       return toTrades(jsonArray);
-    } else if (type.startsWith("book")) {
+    } else if (type.startsWith(WebSocketChannelKeys._orderbook)) {
       return toOrderBook(jsonArray);
     } else {
       throw new RuntimeException(String.format("Invalid type %s", type));

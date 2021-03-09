@@ -8,6 +8,7 @@ import io.contek.invoker.kraken.api.common._OrderBook;
 import io.contek.invoker.kraken.api.common._OrderBookLevel;
 import io.contek.invoker.kraken.api.websocket.common.Subscription;
 import io.contek.invoker.kraken.api.websocket.common.WebSocketChannelMessage;
+import io.contek.invoker.kraken.api.websocket.common.constants.WebSocketChannelKeys;
 
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
@@ -33,7 +34,7 @@ public final class OrderBookChannel extends WebSocketChannel<OrderBookChannel.Me
   @Override
   protected Subscription getSubscription() {
     Subscription subscription = new Subscription();
-    subscription.name = "book";
+    subscription.name = WebSocketChannelKeys._orderbook;
     subscription.depth = 1000;
     return subscription;
   }
@@ -45,7 +46,7 @@ public final class OrderBookChannel extends WebSocketChannel<OrderBookChannel.Me
 
   @Override
   protected String getDisplayName() {
-    return String.format("order_book_%s", symbolName);
+    return String.format("%s_%s", WebSocketChannelKeys._orderbook, symbolName);
   }
 
   @Override

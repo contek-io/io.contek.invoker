@@ -6,6 +6,7 @@ import io.contek.invoker.kraken.api.websocket.WebSocketChannel;
 import io.contek.invoker.kraken.api.websocket.common.Subscription;
 import io.contek.invoker.kraken.api.common._Trade;
 import io.contek.invoker.kraken.api.websocket.common.WebSocketChannelMessage;
+import io.contek.invoker.kraken.api.websocket.common.constants.WebSocketChannelKeys;
 
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
@@ -25,7 +26,7 @@ public final class TradesChannel extends WebSocketChannel<TradesChannel.Message>
 
   @Override
   protected String getDisplayName() {
-    return String.format("trades_%s", symbolName);
+    return String.format("%s_%s", WebSocketChannelKeys._trade, symbolName);
   }
 
   @Override
@@ -41,7 +42,7 @@ public final class TradesChannel extends WebSocketChannel<TradesChannel.Message>
   @Override
   protected Subscription getSubscription() {
     Subscription subscription = new Subscription();
-    subscription.name = "trade";
+    subscription.name = WebSocketChannelKeys._trade;
     return subscription;
   }
 
