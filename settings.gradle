@@ -6,6 +6,7 @@ include 'bybit-api'
 include 'coinbasepro-api'
 include 'deribit-api'
 include 'ftx-api'
+include 'kraken-api'
 
 include 'commons'
 include 'security'
