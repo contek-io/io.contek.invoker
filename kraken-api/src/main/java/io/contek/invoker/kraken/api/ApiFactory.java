@@ -52,6 +52,10 @@ public final class ApiFactory {
     return new ApiFactory(context, createActorFactory(context.getInterceptor()));
   }
 
+  public SelectingWebSocketApi ws() {
+    return new SelectingWebSocketApi();
+  }
+
   private static SimpleActorFactory createActorFactory(
     @Nullable IRateLimitQuotaInterceptor interceptor) {
     return SimpleActorFactory.newBuilder()
@@ -72,10 +76,6 @@ public final class ApiFactory {
   private static RateLimitCache createRateLimitCache() {
     return RateLimitCache.newBuilder()
       .build();
-  }
-
-  public SelectingWebSocketApi ws() {
-    return new SelectingWebSocketApi();
   }
 
   @ThreadSafe

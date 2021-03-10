@@ -20,8 +20,6 @@ final class WebSocketMessageParser implements IWebSocketMessageParser {
 
   private final Gson gson = new Gson();
 
-  private WebSocketMessageParser() {}
-
   static WebSocketMessageParser getInstance() {
     return InstanceHolder.INSTANCE;
   }
@@ -54,6 +52,9 @@ final class WebSocketMessageParser implements IWebSocketMessageParser {
     } else {
       throw new RuntimeException(String.format("Invalid type %s", type));
     }
+  }
+
+  private WebSocketMessageParser() {
   }
 
   @Immutable
