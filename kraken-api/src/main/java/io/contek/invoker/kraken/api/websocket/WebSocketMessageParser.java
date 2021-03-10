@@ -54,15 +54,13 @@ final class WebSocketMessageParser implements IWebSocketMessageParser {
     }
   }
 
-  private WebSocketMessageParser() {
-  }
+  private WebSocketMessageParser() {}
 
   @Immutable
   private static final class InstanceHolder {
 
     private static final WebSocketMessageParser INSTANCE = new WebSocketMessageParser();
 
-    private InstanceHolder() {
-    }
+    private InstanceHolder() {}
   }
 }

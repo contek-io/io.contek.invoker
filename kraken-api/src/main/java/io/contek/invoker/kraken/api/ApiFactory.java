@@ -81,14 +81,13 @@ public final class ApiFactory {
   @ThreadSafe
   public final class SelectingWebSocketApi {
 
-    private SelectingWebSocketApi() {
-    }
-
     public MarketWebSocketApi market() {
       WebSocketContext wsContext = context.getWebSocketContext();
       IActor actor = actorFactory.create(null, wsContext);
       return new MarketWebSocketApi(actor, wsContext);
     }
+
+    private SelectingWebSocketApi() {}
 
   }
 
