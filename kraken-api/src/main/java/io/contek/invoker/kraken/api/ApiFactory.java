@@ -7,19 +7,15 @@ import io.contek.invoker.commons.actor.SimpleActorFactory;
 import io.contek.invoker.commons.actor.http.SimpleHttpClientFactory;
 import io.contek.invoker.commons.actor.ratelimit.IRateLimitQuotaInterceptor;
 import io.contek.invoker.commons.actor.ratelimit.RateLimitCache;
-import io.contek.invoker.commons.actor.ratelimit.RateLimitRule;
 import io.contek.invoker.commons.actor.ratelimit.SimpleRateLimitThrottleFactory;
 import io.contek.invoker.commons.websocket.WebSocketContext;
 import io.contek.invoker.kraken.api.websocket.market.MarketWebSocketApi;
 import io.contek.invoker.security.SimpleCredentialFactory;
 
 import javax.annotation.Nullable;
-import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.ThreadSafe;
-import java.time.Duration;
 
 import static com.google.common.io.BaseEncoding.base16;
-import static io.contek.invoker.commons.actor.ratelimit.RateLimitType.IP;
 import static io.contek.invoker.security.SecretKeyAlgorithm.HMAC_SHA256;
 
 @ThreadSafe
@@ -56,11 +52,6 @@ public final class ApiFactory {
     return new ApiFactory(context, createActorFactory(context.getInterceptor()));
   }
 
-
-  public SelectingWebSocketApi ws() {
-    return new SelectingWebSocketApi();
-  }
-
   private static SimpleActorFactory createActorFactory(
     @Nullable IRateLimitQuotaInterceptor interceptor) {
     return SimpleActorFactory.newBuilder()
@@ -80,8 +71,11 @@ public final class ApiFactory {
 
   private static RateLimitCache createRateLimitCache() {
     return RateLimitCache.newBuilder()
-      .addRule(RateLimits.REQUEST_RULE)
       .build();
+  }
+
+  public SelectingWebSocketApi ws() {
+    return new SelectingWebSocketApi();
   }
 
   @ThreadSafe
@@ -98,18 +92,4 @@ public final class ApiFactory {
 
   }
 
-  @Immutable
-  public static final class RateLimits {
-
-    public static final RateLimitRule REQUEST_RULE =
-      RateLimitRule.newBuilder()
-        .setName("non_matching_engine_request_rule")
-        .setType(IP)
-        .setMaxPermits(20)
-        .setResetPeriod(Duration.ofSeconds(1))
-        .build();
-
-    private RateLimits() {
-    }
-  }
 }

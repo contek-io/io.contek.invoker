@@ -1,11 +1,12 @@
 package io.contek.invoker.kraken.api.websocket.market;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import io.contek.invoker.kraken.api.websocket.WebSocketChannel;
 import io.contek.invoker.kraken.api.common._OrderBook;
 import io.contek.invoker.kraken.api.common._OrderBookLevel;
+import io.contek.invoker.kraken.api.websocket.WebSocketChannel;
 import io.contek.invoker.kraken.api.websocket.common.Subscription;
 import io.contek.invoker.kraken.api.websocket.common.WebSocketChannelMessage;
 import io.contek.invoker.kraken.api.websocket.common.constants.WebSocketChannelKeys;
@@ -25,10 +26,22 @@ public final class OrderBookChannel extends WebSocketChannel<OrderBookChannel.Me
   public static final String ASK_SNAPSHOT_KEY = "as";
   public static final String BID_INCREMENTAL_KEY = "b";
   public static final String ASK_INCREMENTAL_KEY = "a";
+
   private final String symbolName;
 
   OrderBookChannel(String symbolName) {
     this.symbolName = symbolName;
+  }
+
+  private static List<_OrderBookLevel> toOrderBookEntries(JsonElement jsonArray) {
+
+    List<_OrderBookLevel> orderBookEntries = new ArrayList<>();
+    for (JsonElement jsonElement : jsonArray.getAsJsonArray()) {
+
+      orderBookEntries.add(toOrderBookLevel(jsonElement.getAsJsonArray()));
+
+    }
+    return orderBookEntries;
   }
 
   @Override
@@ -60,58 +73,47 @@ public final class OrderBookChannel extends WebSocketChannel<OrderBookChannel.Me
   }
 
   @NotThreadSafe
-  public static final class Message extends WebSocketChannelMessage<_OrderBook> {}
+  public static final class Message extends WebSocketChannelMessage<_OrderBook> {
+    public static Message fromJsonArray(JsonArray jsonArray) {
 
-  public static Message toOrderBook(JsonArray jsonArray) {
+      Message res = new Message();
+      res.channelID = jsonArray.get(0).getAsInt();
+      res.channelName = jsonArray.get(jsonArray.size() - 2).getAsString();
+      res.pair = jsonArray.get(jsonArray.size() - 1).getAsString();
 
-    Message res = new Message();
-    res.channelID = jsonArray.get(0).getAsInt();
-    res.channelName = jsonArray.get(jsonArray.size() - 2).getAsString();
-    res.pair = jsonArray.get(jsonArray.size() - 1).getAsString();
+      res.params = new _OrderBook();
+      res.params.bs = ImmutableList.of();
+      res.params.as = ImmutableList.of();
+      res.params.b = ImmutableList.of();
+      res.params.a = ImmutableList.of();
 
-    res.params = new _OrderBook();
-    res.params.bs = Collections.emptyList();
-    res.params.as = Collections.emptyList();
-    res.params.b = Collections.emptyList();
-    res.params.a = Collections.emptyList();
+      JsonObject jsonObject = jsonArray.get(1).getAsJsonObject();
 
-    JsonObject jsonObject = jsonArray.get(1).getAsJsonObject();
+      if (jsonObject.has(BID_SNAPSHOT_KEY)) {
+        res.params.bs = toOrderBookEntries(jsonObject.get(BID_SNAPSHOT_KEY));
+      }
 
-    if (jsonObject.has(BID_SNAPSHOT_KEY)) {
-      res.params.bs = toOrderBookEntries(jsonObject.get(BID_SNAPSHOT_KEY));
-    }
+      if (jsonObject.has(ASK_SNAPSHOT_KEY)) {
+        res.params.as = toOrderBookEntries(jsonObject.get(ASK_SNAPSHOT_KEY));
+      }
 
-    if (jsonObject.has(ASK_SNAPSHOT_KEY)) {
-      res.params.as = toOrderBookEntries(jsonObject.get(ASK_SNAPSHOT_KEY));
-    }
-
-    if (jsonObject.has(BID_INCREMENTAL_KEY)) {
-      res.params.b = toOrderBookEntries(jsonObject.get(BID_INCREMENTAL_KEY));
-    }
-
-    if (jsonObject.has(ASK_INCREMENTAL_KEY)) {
-      res.params.a = toOrderBookEntries(jsonObject.get(ASK_INCREMENTAL_KEY));
-    }
-
-    if (jsonArray.size() == 5) {
-      jsonObject = jsonArray.get(2).getAsJsonObject();
       if (jsonObject.has(BID_INCREMENTAL_KEY)) {
         res.params.b = toOrderBookEntries(jsonObject.get(BID_INCREMENTAL_KEY));
       }
+
+      if (jsonObject.has(ASK_INCREMENTAL_KEY)) {
+        res.params.a = toOrderBookEntries(jsonObject.get(ASK_INCREMENTAL_KEY));
+      }
+
+      if (jsonArray.size() == 5) {
+        jsonObject = jsonArray.get(2).getAsJsonObject();
+        if (jsonObject.has(BID_INCREMENTAL_KEY)) {
+          res.params.b = toOrderBookEntries(jsonObject.get(BID_INCREMENTAL_KEY));
+        }
+      }
+
+      return res;
     }
-
-    return res;
-  }
-
-  private static List<_OrderBookLevel> toOrderBookEntries(JsonElement jsonArray) {
-
-    List<_OrderBookLevel> orderBookEntries = new ArrayList<>();
-    for (JsonElement jsonElement : jsonArray.getAsJsonArray()) {
-
-      orderBookEntries.add(toOrderBookLevel(jsonElement.getAsJsonArray()));
-
-    }
-    return orderBookEntries;
   }
 }
 

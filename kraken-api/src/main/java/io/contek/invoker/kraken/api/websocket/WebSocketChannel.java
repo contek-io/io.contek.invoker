@@ -61,7 +61,6 @@ public abstract class WebSocketChannel<Message extends WebSocketInboundMessage>
     if (!(message instanceof WebSocketResponse)) {
       return null;
     }
-    reset();
     WebSocketResponse res = (WebSocketResponse) message;
     if (!res.event.equals("subscriptionStatus")) {
       return null;
