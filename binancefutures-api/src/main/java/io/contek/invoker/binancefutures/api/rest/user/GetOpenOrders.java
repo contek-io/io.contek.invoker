@@ -1,5 +1,9 @@
 package io.contek.invoker.binancefutures.api.rest.user;
 
+import static io.contek.invoker.binancefutures.api.ApiFactory.RateLimits.IP_REST_REQUEST_RULE;
+import static io.contek.invoker.binancefutures.api.ApiFactory.RateLimits.ONE_REST_REQUEST;
+import static io.contek.invoker.commons.rest.RestMethod.GET;
+
 import com.google.common.collect.ImmutableList;
 import io.contek.invoker.binancefutures.api.common._Order;
 import io.contek.invoker.binancefutures.api.rest.user.GetOpenOrders.Response;
@@ -8,17 +12,15 @@ import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
-
+import java.util.ArrayList;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.NotThreadSafe;
-import java.util.ArrayList;
-
-import static io.contek.invoker.binancefutures.api.ApiFactory.RateLimits.IP_REST_REQUEST_RULE;
-import static io.contek.invoker.binancefutures.api.ApiFactory.RateLimits.ONE_REST_REQUEST;
-import static io.contek.invoker.commons.rest.RestMethod.GET;
 
 @NotThreadSafe
 public final class GetOpenOrders extends UserRestRequest<Response> {
+
+  private static final ImmutableList<RateLimitQuota> ALL_SYMBOLS_REQUIRED_QUOTA =
+      ImmutableList.of(IP_REST_REQUEST_RULE.createRateLimitQuota(40));
 
   private String symbol;
 
@@ -61,7 +63,7 @@ public final class GetOpenOrders extends UserRestRequest<Response> {
 
   @Override
   protected ImmutableList<RateLimitQuota> getRequiredQuotas() {
-    return symbol != null ? ONE_REST_REQUEST : ImmutableList.of(IP_REST_REQUEST_RULE.createRateLimitQuota(40));
+    return symbol != null ? ONE_REST_REQUEST : ALL_SYMBOLS_REQUIRED_QUOTA;
   }
 
   @NotThreadSafe

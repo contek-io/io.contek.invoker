@@ -1,5 +1,8 @@
 package io.contek.invoker.binancefutures.api.rest.user;
 
+import static io.contek.invoker.binancefutures.api.ApiFactory.RateLimits.IP_REST_REQUEST_RULE;
+import static io.contek.invoker.commons.rest.RestMethod.GET;
+
 import com.google.common.collect.ImmutableList;
 import io.contek.invoker.binancefutures.api.common._PositionMode;
 import io.contek.invoker.binancefutures.api.rest.user.GetPositionSideDual.Response;
@@ -8,14 +11,13 @@ import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
-
 import javax.annotation.concurrent.NotThreadSafe;
-
-import static io.contek.invoker.binancefutures.api.ApiFactory.RateLimits.ONE_REST_REQUEST;
-import static io.contek.invoker.commons.rest.RestMethod.GET;
 
 @NotThreadSafe
 public final class GetPositionSideDual extends UserRestRequest<Response> {
+
+  private static final ImmutableList<RateLimitQuota> REQUIRED_QUOTA =
+      ImmutableList.of(IP_REST_REQUEST_RULE.createRateLimitQuota(30));
 
   GetPositionSideDual(IActor actor, RestContext context) {
     super(actor, context);
@@ -47,7 +49,7 @@ public final class GetPositionSideDual extends UserRestRequest<Response> {
 
   @Override
   protected ImmutableList<RateLimitQuota> getRequiredQuotas() {
-    return ONE_REST_REQUEST;
+    return REQUIRED_QUOTA;
   }
 
   @NotThreadSafe
