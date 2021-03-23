@@ -92,6 +92,9 @@ public abstract class BaseWebSocketApi implements IWebSocketApi {
       sessionHolder.set(null);
       synchronized (components) {
         components.afterDisconnect();
+        synchronized (authenticator) {
+          authenticator.afterDisconnect();
+        }
       }
     }
   }
