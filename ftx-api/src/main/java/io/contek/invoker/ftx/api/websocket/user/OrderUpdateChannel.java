@@ -32,6 +32,7 @@ public class OrderUpdateChannel extends WebSocketChannel<OrderUpdateChannel.Mess
 
   @Override
   protected String getMarket() {
+    // This is a dummy value since order channel default to track all orders.
     return "all";
   }
 

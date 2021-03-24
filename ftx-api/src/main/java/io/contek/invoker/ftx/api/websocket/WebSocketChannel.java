@@ -17,6 +17,7 @@ import static io.contek.invoker.commons.websocket.SubscriptionState.SUBSCRIBED;
 import static io.contek.invoker.commons.websocket.SubscriptionState.SUBSCRIBING;
 import static io.contek.invoker.commons.websocket.SubscriptionState.UNSUBSCRIBED;
 import static io.contek.invoker.commons.websocket.SubscriptionState.UNSUBSCRIBING;
+import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketChannelKeys._orders;
 import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketInboundKeys._subscribed;
 import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketInboundKeys._unsubscribed;
 import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketOutboundKeys._subscribe;
@@ -26,7 +27,7 @@ import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketOutb
 public abstract class WebSocketChannel<Message extends WebSocketInboundMessage>
     extends BaseWebSocketChannel<Message> {
 
-  private final Set<String> privateChannels = ImmutableSet.of("orders", "fills");
+  private final Set<String> privateChannels = ImmutableSet.of(_orders);
 
   protected abstract String getChannel();
 
@@ -57,9 +58,10 @@ public abstract class WebSocketChannel<Message extends WebSocketInboundMessage>
   protected final SubscriptionState getState(AnyWebSocketMessage message) {
     if (message instanceof WebSocketSubscriptionResponse) {
       WebSocketSubscriptionResponse confirmation = (WebSocketSubscriptionResponse) message;
-      if (!privateChannels.contains(confirmation.channel)
-          && (!getChannel().equals(confirmation.channel)
-              || !getMarket().equals(confirmation.market))) {
+      if (!getChannel().equals(confirmation.channel)
+          // Only check market name if it's public channel.
+          || (!privateChannels.contains(confirmation.channel)
+              && !getMarket().equals(confirmation.market))) {
         return null;
       }
       switch (confirmation.type) {
