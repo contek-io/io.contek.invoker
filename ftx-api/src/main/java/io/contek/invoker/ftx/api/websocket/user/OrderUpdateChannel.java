@@ -1,14 +1,13 @@
 package io.contek.invoker.ftx.api.websocket.user;
 
 import io.contek.invoker.ftx.api.common._Order;
-import io.contek.invoker.ftx.api.websocket.WebSocketChannel;
 import io.contek.invoker.ftx.api.websocket.common.WebSocketChannelMessage;
 
 import javax.annotation.concurrent.NotThreadSafe;
 
 import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketChannelKeys._orders;
 
-public class OrderUpdateChannel extends WebSocketChannel<OrderUpdateChannel.Message> {
+public class OrderUpdateChannel extends UserWebSocketChannel<OrderUpdateChannel.Message> {
 
   @Override
   protected String getDisplayName() {
@@ -28,12 +27,6 @@ public class OrderUpdateChannel extends WebSocketChannel<OrderUpdateChannel.Mess
   @Override
   protected String getChannel() {
     return _orders;
-  }
-
-  @Override
-  protected String getMarket() {
-    // This is a dummy value since order channel default to track all orders.
-    return "all";
   }
 
   @NotThreadSafe

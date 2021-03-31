@@ -3,7 +3,6 @@ package io.contek.invoker.ftx.api.websocket;
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.IWebSocketAuthenticator;
 import io.contek.invoker.commons.websocket.WebSocketSession;
-import io.contek.invoker.ftx.api.websocket.common.Args;
 import io.contek.invoker.ftx.api.websocket.common.WebSocketAuthenticationMessage;
 import io.contek.invoker.ftx.api.websocket.common.constants.WebSocketOutboundKeys;
 import io.contek.invoker.security.ICredential;
@@ -36,7 +35,7 @@ public final class WebSocketAuthenticator implements IWebSocketAuthenticator {
     WebSocketAuthenticationMessage request = new WebSocketAuthenticationMessage();
     long currentTimeStamp = clock.instant().getEpochSecond() * 1000;
     request.op = WebSocketOutboundKeys._login;
-    request.args = new Args();
+    request.args = new WebSocketAuthenticationMessage.Args();
     request.args.key = credential.getApiKeyId();
     request.args.sign = credential.sign(currentTimeStamp + WEBSOCKET_LOGIN);
     request.args.time = currentTimeStamp;

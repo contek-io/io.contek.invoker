@@ -31,6 +31,7 @@ import static io.contek.invoker.security.SecretKeyAlgorithm.HMAC_SHA256;
 
 @ThreadSafe
 public final class ApiFactory {
+
   public static final ApiContext MAIN_NET_CONTEXT =
       ApiContext.newBuilder()
           .setRestContext(RestContext.forBaseUrl("https://ftx.com"))
