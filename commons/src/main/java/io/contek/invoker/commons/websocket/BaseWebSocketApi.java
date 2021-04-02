@@ -63,9 +63,11 @@ public abstract class BaseWebSocketApi implements IWebSocketApi {
     AnyWebSocketMessage message = parser.parse(text);
     checkErrorMessage(message);
 
-    authenticator.onMessage(message);
-    synchronized (components) {
-      components.onMessage(message);
+    synchronized (authenticator) {
+      authenticator.onMessage(message);
+      synchronized (components) {
+        components.onMessage(message);
+      }
     }
   }
 
@@ -90,10 +92,10 @@ public abstract class BaseWebSocketApi implements IWebSocketApi {
   private void afterDisconnect() {
     synchronized (sessionHolder) {
       sessionHolder.set(null);
-      synchronized (components) {
-        components.afterDisconnect();
-        synchronized (authenticator) {
-          authenticator.afterDisconnect();
+      synchronized (authenticator) {
+        authenticator.afterDisconnect();
+        synchronized (components) {
+          components.afterDisconnect();
         }
       }
     }
