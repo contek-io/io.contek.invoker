@@ -2,7 +2,6 @@ package io.contek.invoker.ftx.api.websocket.market;
 
 import com.google.common.base.Joiner;
 import io.contek.invoker.ftx.api.common._Trade;
-import io.contek.invoker.ftx.api.websocket.WebSocketChannel;
 import io.contek.invoker.ftx.api.websocket.common.WebSocketChannelMessage;
 
 import javax.annotation.concurrent.NotThreadSafe;
@@ -12,7 +11,7 @@ import java.util.ArrayList;
 import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketChannelKeys._trades;
 
 @ThreadSafe
-public final class TradesChannel extends WebSocketChannel<TradesChannel.Message> {
+public final class TradesChannel extends MarketWebSocketChannel<TradesChannel.Message> {
 
   private final String market;
 

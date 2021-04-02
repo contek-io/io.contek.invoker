@@ -6,7 +6,11 @@ import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.actor.IActorFactory;
 import io.contek.invoker.commons.actor.SimpleActorFactory;
 import io.contek.invoker.commons.actor.http.SimpleHttpClientFactory;
-import io.contek.invoker.commons.actor.ratelimit.*;
+import io.contek.invoker.commons.actor.ratelimit.IRateLimitQuotaInterceptor;
+import io.contek.invoker.commons.actor.ratelimit.RateLimitCache;
+import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
+import io.contek.invoker.commons.actor.ratelimit.RateLimitRule;
+import io.contek.invoker.commons.actor.ratelimit.SimpleRateLimitThrottleFactory;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.websocket.WebSocketContext;
 import io.contek.invoker.ftx.api.rest.market.MarketRestApi;
@@ -31,7 +35,7 @@ public final class ApiFactory {
   public static final ApiContext MAIN_NET_CONTEXT =
       ApiContext.newBuilder()
           .setRestContext(RestContext.forBaseUrl("https://ftx.com"))
-          .setWebSocketContext(WebSocketContext.forBaseUrl("wss://ftx.com"))
+          .setWebSocketContext(WebSocketContext.forBaseUrl("wss://ftx.com", Duration.ofSeconds(15)))
           .build();
 
   private final ApiContext context;
