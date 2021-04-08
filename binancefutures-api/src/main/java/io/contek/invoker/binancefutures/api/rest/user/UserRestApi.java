@@ -60,11 +60,11 @@ public final class UserRestApi {
     return new PostPositionSideDual(actor, context);
   }
 
-  public PostStream postStream() {
-    return new PostStream(actor, context);
+  public PostListenKey postListenKey() {
+    return new PostListenKey(actor, context);
   }
 
-  public PutStream putStream() {
-    return new PutStream(actor, context);
+  public PutListenKey putListenKey() {
+    return new PutListenKey(actor, context);
   }
 }

@@ -1,8 +1,5 @@
 package io.contek.invoker.binancefutures.api.rest.user;
 
-import static io.contek.invoker.binancefutures.api.ApiFactory.RateLimits.IP_REST_REQUEST_RULE;
-import static io.contek.invoker.commons.rest.RestMethod.GET;
-
 import com.google.common.collect.ImmutableList;
 import io.contek.invoker.binancefutures.api.common._PositionRisk;
 import io.contek.invoker.binancefutures.api.rest.user.GetPositionRisk.Response;
@@ -11,8 +8,12 @@ import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
-import java.util.ArrayList;
+
 import javax.annotation.concurrent.NotThreadSafe;
+import java.util.ArrayList;
+
+import static io.contek.invoker.binancefutures.api.ApiFactory.RateLimits.IP_REST_REQUEST_RULE;
+import static io.contek.invoker.commons.rest.RestMethod.GET;
 
 @NotThreadSafe
 public final class GetPositionRisk extends UserRestRequest<Response> {

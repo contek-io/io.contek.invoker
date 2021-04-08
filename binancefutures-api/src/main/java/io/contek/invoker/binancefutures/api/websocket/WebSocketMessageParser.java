@@ -8,6 +8,10 @@ import io.contek.invoker.binancefutures.api.websocket.market.AggTradeChannel;
 import io.contek.invoker.binancefutures.api.websocket.market.BookTickerEvent;
 import io.contek.invoker.binancefutures.api.websocket.market.DepthUpdateChannel;
 import io.contek.invoker.binancefutures.api.websocket.market.ForceOrderChannel;
+import io.contek.invoker.binancefutures.api.websocket.user.AccountUpdateEvent;
+import io.contek.invoker.binancefutures.api.websocket.user.LeverageUpdateEvent;
+import io.contek.invoker.binancefutures.api.websocket.user.MarginCallEvent;
+import io.contek.invoker.binancefutures.api.websocket.user.OrderUpdateEvent;
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.IWebSocketMessageParser;
 
@@ -35,6 +39,9 @@ final class WebSocketMessageParser implements IWebSocketMessageParser {
     if (obj.has("stream")) {
       return toStreamData(obj);
     }
+    if (obj.has("e")) {
+      return toUserData(obj);
+    }
     return toBookTicker(obj);
   }
 
@@ -54,6 +61,22 @@ final class WebSocketMessageParser implements IWebSocketMessageParser {
       return gson.fromJson(obj, ForceOrderChannel.Message.class);
     }
     throw new IllegalStateException();
+  }
+
+  private AnyWebSocketMessage toUserData(JsonObject obj) {
+    String eventType = obj.get("e").getAsString();
+    switch (eventType) {
+      case "ACCOUNT_UPDATE":
+        return gson.fromJson(obj, AccountUpdateEvent.class);
+      case "ORDER_TRADE_UPDATE":
+        return gson.fromJson(obj, OrderUpdateEvent.class);
+      case "ACCOUNT_CONFIG_UPDATE":
+        return gson.fromJson(obj, LeverageUpdateEvent.class);
+      case "MARGIN_CALL":
+        return gson.fromJson(obj, MarginCallEvent.class);
+      default:
+        throw new IllegalStateException("Unrecognized event type: " + eventType);
+    }
   }
 
   private AnyWebSocketMessage toBookTicker(JsonObject obj) {

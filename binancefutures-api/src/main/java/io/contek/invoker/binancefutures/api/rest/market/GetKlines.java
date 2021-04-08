@@ -1,9 +1,5 @@
 package io.contek.invoker.binancefutures.api.rest.market;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
-import static io.contek.invoker.binancefutures.api.ApiFactory.RateLimits.IP_REST_REQUEST_RULE;
-
 import com.google.common.collect.ImmutableList;
 import io.contek.invoker.binancefutures.api.common._Candlestick;
 import io.contek.invoker.binancefutures.api.rest.market.GetKlines.Response;
@@ -11,9 +7,14 @@ import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestParams;
-import java.util.ArrayList;
+
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.NotThreadSafe;
+import java.util.ArrayList;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static io.contek.invoker.binancefutures.api.ApiFactory.RateLimits.IP_REST_REQUEST_RULE;
 
 /**
  * Default {@code limit} is 500. Time filters are inclusive.

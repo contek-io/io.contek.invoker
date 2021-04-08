@@ -1,7 +1,7 @@
 package io.contek.invoker.binancefutures.api.rest.user;
 
 import com.google.common.collect.ImmutableList;
-import io.contek.invoker.binancefutures.api.rest.user.PutStream.BinanceRestUserDataPutStreamResponse;
+import io.contek.invoker.binancefutures.api.rest.user.PutListenKey.BinanceRestUserDataPutStreamResponse;
 import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
 import io.contek.invoker.commons.rest.RestContext;
@@ -15,15 +15,15 @@ import static io.contek.invoker.binancefutures.api.ApiFactory.RateLimits.ONE_RES
 import static io.contek.invoker.commons.rest.RestMethod.PUT;
 
 @NotThreadSafe
-public final class PutStream extends UserRestRequest<BinanceRestUserDataPutStreamResponse> {
+public final class PutListenKey extends UserRestRequest<BinanceRestUserDataPutStreamResponse> {
 
   private String listenKey;
 
-  PutStream(IActor actor, RestContext context) {
+  PutListenKey(IActor actor, RestContext context) {
     super(actor, context);
   }
 
-  public PutStream setListenKey(String listenKey) {
+  public PutListenKey setListenKey(String listenKey) {
     this.listenKey = listenKey;
     return this;
   }
@@ -40,7 +40,7 @@ public final class PutStream extends UserRestRequest<BinanceRestUserDataPutStrea
 
   @Override
   protected String getEndpointPath() {
-    return "/fapi/v1/userDataStream";
+    return "/fapi/v1/listenKey";
   }
 
   @Override
