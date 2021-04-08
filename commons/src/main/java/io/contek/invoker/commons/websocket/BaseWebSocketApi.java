@@ -100,6 +100,7 @@ public abstract class BaseWebSocketApi implements IWebSocketApi {
     try {
       synchronized (sessionHolder) {
         synchronized (components) {
+          preHeartBeat();
           components.refresh();
           WebSocketSession session = sessionHolder.get();
           if (session == null) {
@@ -131,6 +132,8 @@ public abstract class BaseWebSocketApi implements IWebSocketApi {
       log.error("Heartbeat failed.", t);
     }
   }
+
+  protected void preHeartBeat() {}
 
   private void activate() {
     synchronized (scheduleHolder) {

@@ -8,8 +8,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
-import static io.contek.invoker.commons.websocket.ConsumerState.*;
-import static io.contek.invoker.commons.websocket.SubscriptionState.*;
+import static io.contek.invoker.commons.websocket.ConsumerState.ACTIVE;
+import static io.contek.invoker.commons.websocket.ConsumerState.IDLE;
+import static io.contek.invoker.commons.websocket.ConsumerState.TERMINATED;
+import static io.contek.invoker.commons.websocket.SubscriptionState.SUBSCRIBED;
+import static io.contek.invoker.commons.websocket.SubscriptionState.SUBSCRIBING;
+import static io.contek.invoker.commons.websocket.SubscriptionState.UNSUBSCRIBED;
+import static io.contek.invoker.commons.websocket.SubscriptionState.UNSUBSCRIBING;
 import static org.slf4j.LoggerFactory.getLogger;
 
 @ThreadSafe
@@ -42,6 +47,7 @@ public abstract class BaseWebSocketChannel<Message> implements IWebSocketCompone
         if (currentState == SUBSCRIBED && childConsumerState == IDLE) {
           log.info("Unsubscribing channel {}.", getDisplayName());
           newState = unsubscribe(session);
+          heartbeatAction();
           if (newState == SUBSCRIBED || newState == SUBSCRIBING) {
             log.error(
                 "Channel {} has invalid state after unsubscribe: {}.", getDisplayName(), newState);
@@ -61,6 +67,8 @@ public abstract class BaseWebSocketChannel<Message> implements IWebSocketCompone
       }
     }
   }
+
+  protected void heartbeatAction() {}
 
   @Override
   public final ConsumerState getState() {
