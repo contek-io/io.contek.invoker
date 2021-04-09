@@ -47,7 +47,6 @@ public abstract class BaseWebSocketChannel<Message> implements IWebSocketCompone
         if (currentState == SUBSCRIBED && childConsumerState == IDLE) {
           log.info("Unsubscribing channel {}.", getDisplayName());
           newState = unsubscribe(session);
-          heartbeatAction();
           if (newState == SUBSCRIBED || newState == SUBSCRIBING) {
             log.error(
                 "Channel {} has invalid state after unsubscribe: {}.", getDisplayName(), newState);
@@ -67,8 +66,6 @@ public abstract class BaseWebSocketChannel<Message> implements IWebSocketCompone
       }
     }
   }
-
-  protected void heartbeatAction() {}
 
   @Override
   public final ConsumerState getState() {
