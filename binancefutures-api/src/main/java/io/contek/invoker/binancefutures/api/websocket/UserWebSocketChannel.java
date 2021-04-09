@@ -36,7 +36,4 @@ public abstract class UserWebSocketChannel<Message> extends BaseWebSocketChannel
 
   @Override
   protected void reset() {}
-
-  @Override
-  protected void heartbeatAction() {}
 }
