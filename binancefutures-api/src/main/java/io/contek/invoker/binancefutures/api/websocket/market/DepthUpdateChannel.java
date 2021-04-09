@@ -1,6 +1,5 @@
 package io.contek.invoker.binancefutures.api.websocket.market;
 
-import io.contek.invoker.binancefutures.api.websocket.MarketWebSocketChannel;
 import io.contek.invoker.binancefutures.api.websocket.WebSocketRequestIdGenerator;
 import io.contek.invoker.binancefutures.api.websocket.common.WebSocketStreamMessage;
 import io.contek.invoker.binancefutures.api.websocket.market.DepthUpdateChannel.Message;

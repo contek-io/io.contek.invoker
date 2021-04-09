@@ -12,6 +12,7 @@ import io.contek.invoker.binancefutures.api.websocket.user.AccountUpdateEvent;
 import io.contek.invoker.binancefutures.api.websocket.user.LeverageUpdateEvent;
 import io.contek.invoker.binancefutures.api.websocket.user.MarginCallEvent;
 import io.contek.invoker.binancefutures.api.websocket.user.OrderUpdateEvent;
+import io.contek.invoker.binancefutures.api.websocket.user.UserDataStreamExpiredEvent;
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.IWebSocketMessageParser;
 
@@ -74,6 +75,8 @@ final class WebSocketMessageParser implements IWebSocketMessageParser {
         return gson.fromJson(obj, LeverageUpdateEvent.class);
       case "MARGIN_CALL":
         return gson.fromJson(obj, MarginCallEvent.class);
+      case "listenKeyExpired":
+        return gson.fromJson(obj, UserDataStreamExpiredEvent.class);
       default:
         throw new IllegalStateException("Unrecognized event type: " + eventType);
     }

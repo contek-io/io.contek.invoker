@@ -2,7 +2,10 @@ package io.contek.invoker.binancefutures.api.websocket.user;
 
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 
-public class LeverageUpdateEvent extends AnyWebSocketMessage {
+import javax.annotation.concurrent.NotThreadSafe;
+
+@NotThreadSafe
+public final class LeverageUpdateEvent extends AnyWebSocketMessage {
   public String e; // event type
   public Long E; // event time
   public Long T; // transaction time

@@ -9,17 +9,23 @@ import io.contek.invoker.commons.websocket.WebSocketContext;
 import io.contek.invoker.security.ICredential;
 
 import javax.annotation.concurrent.ThreadSafe;
+import java.util.Date;
 
 @ThreadSafe
 public final class UserWebSocketApi extends WebSocketApi {
 
-  private final WebSocketContext context;
-  private final UserRestApi userRestApi;
+  public static final int HALF_HOUR_IN_MILLIS = 30 * 60 * 1000;
+
   public AccountUpdateChannel accountUpdateChannel;
   public OrderUpdateChannel orderUpdateChannel;
   public MarginCallChannel marginCallChannel;
   public LeverageUpdateChannel leverageUpdateChannel;
-  public String listenKey;
+
+  private final WebSocketContext context;
+  private final UserRestApi userRestApi;
+
+  private String listenKey;
+  private long lastRefreshMillis;
 
   public UserWebSocketApi(IActor actor, WebSocketContext context, UserRestApi userRestApi) {
     super(actor);
@@ -63,11 +69,24 @@ public final class UserWebSocketApi extends WebSocketApi {
   protected WebSocketCall createCall(ICredential credential) {
     PostListenKey.Response newListenKey = userRestApi.postListenKey().submit();
     listenKey = newListenKey.listenKey;
+    lastRefreshMillis = currentTimeMillis();
     return WebSocketCall.fromUrl(context.getBaseUrl() + "/ws/" + listenKey);
   }
 
   @Override
   protected void preHeartBeat() {
-    userRestApi.putListenKey().setListenKey(listenKey).submit();
+    long currentMillis = currentTimeMillis();
+    if (listenKey != null && shouldRefreshConnection(currentMillis)) {
+      lastRefreshMillis = currentMillis;
+      userRestApi.putListenKey().setListenKey(listenKey).submit();
+    }
+  }
+
+  private boolean shouldRefreshConnection(long currentMillis) {
+    return currentMillis - lastRefreshMillis > HALF_HOUR_IN_MILLIS;
+  }
+
+  private long currentTimeMillis() {
+    return (new Date()).getTime();
   }
 }

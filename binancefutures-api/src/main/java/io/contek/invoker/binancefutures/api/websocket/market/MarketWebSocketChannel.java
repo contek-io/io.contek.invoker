@@ -1,6 +1,7 @@
-package io.contek.invoker.binancefutures.api.websocket;
+package io.contek.invoker.binancefutures.api.websocket.market;
 
 import com.google.common.collect.ImmutableList;
+import io.contek.invoker.binancefutures.api.websocket.WebSocketRequestIdGenerator;
 import io.contek.invoker.binancefutures.api.websocket.common.WebSocketCommand;
 import io.contek.invoker.binancefutures.api.websocket.common.WebSocketCommandConfirmation;
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;

@@ -1,5 +1,6 @@
 package io.contek.invoker.binancefutures.api.websocket;
 
+import io.contek.invoker.binancefutures.api.websocket.user.UserDataStreamExpiredEvent;
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.BaseWebSocketChannel;
 import io.contek.invoker.commons.websocket.SubscriptionState;
@@ -27,7 +28,10 @@ public abstract class UserWebSocketChannel<Message> extends BaseWebSocketChannel
   @Nullable
   @Override
   protected SubscriptionState getState(AnyWebSocketMessage message) {
-    return SubscriptionState.SUBSCRIBED;
+    if (message instanceof UserDataStreamExpiredEvent) {
+      return SubscriptionState.UNSUBSCRIBED;
+    }
+    return null;
   }
 
   @Override
