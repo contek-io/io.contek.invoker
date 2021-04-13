@@ -3,7 +3,7 @@ package io.contek.invoker.hbdmlinear.api.common;
 import javax.annotation.concurrent.NotThreadSafe;
 
 @NotThreadSafe
-public class _SwapContractInfo {
+public class _ContractInfo {
 
   public String symbol;
   public String contract_code;

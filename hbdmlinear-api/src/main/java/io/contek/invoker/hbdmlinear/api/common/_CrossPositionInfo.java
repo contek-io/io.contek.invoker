@@ -3,7 +3,7 @@ package io.contek.invoker.hbdmlinear.api.common;
 import javax.annotation.concurrent.NotThreadSafe;
 
 @NotThreadSafe
-public class _SwapCrossPositionInfo {
+public class _CrossPositionInfo {
 
   public String symbol;
   public String contract_code;
@@ -14,7 +14,7 @@ public class _SwapCrossPositionInfo {
   public double cost_hold;
   public double profit_unreal;
   public double profit_rate;
-  public double lever_rate;
+  public int lever_rate;
   public double position_margin;
   public String direction;
   public double profit;

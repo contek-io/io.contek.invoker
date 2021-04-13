@@ -3,7 +3,7 @@ package io.contek.invoker.hbdmlinear.api.common;
 import javax.annotation.concurrent.NotThreadSafe;
 
 @NotThreadSafe
-public class _SwapCrossAccountContractDetail {
+public class _CrossAccountContractDetail {
 
   public String symbol;
   public String contract_code;
@@ -12,6 +12,6 @@ public class _SwapCrossAccountContractDetail {
   public double margin_available;
   public double profit_unreal;
   public Double liquidation_price;
-  public double lever_rate;
+  public int lever_rate;
   public double adjust_factor;
 }
