@@ -28,7 +28,7 @@ public final class UserWebSocketApi extends WebSocketApi {
   private long lastRefreshMillis;
 
   public UserWebSocketApi(IActor actor, WebSocketContext context, UserRestApi userRestApi) {
-    super(actor);
+    super(actor, UserWebSocketParser.getInstance());
     this.context = context;
     this.userRestApi = userRestApi;
   }

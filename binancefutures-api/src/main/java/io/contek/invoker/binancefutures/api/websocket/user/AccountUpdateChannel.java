@@ -1,7 +1,5 @@
 package io.contek.invoker.binancefutures.api.websocket.user;
 
-import io.contek.invoker.binancefutures.api.websocket.UserWebSocketChannel;
-
 public class AccountUpdateChannel extends UserWebSocketChannel<AccountUpdateEvent> {
 
   @Override
