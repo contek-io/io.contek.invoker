@@ -1,6 +1,7 @@
-package io.contek.invoker.binancefutures.api.websocket;
+package io.contek.invoker.binancefutures.api.websocket.market;
 
 import com.google.common.collect.ImmutableList;
+import io.contek.invoker.binancefutures.api.websocket.WebSocketRequestIdGenerator;
 import io.contek.invoker.binancefutures.api.websocket.common.WebSocketCommand;
 import io.contek.invoker.binancefutures.api.websocket.common.WebSocketCommandConfirmation;
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
@@ -14,16 +15,19 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import static io.contek.invoker.binancefutures.api.websocket.common.constants.WebSocketMethods.SUBSCRIBE;
 import static io.contek.invoker.binancefutures.api.websocket.common.constants.WebSocketMethods.UNSUBSCRIBE;
-import static io.contek.invoker.commons.websocket.SubscriptionState.*;
+import static io.contek.invoker.commons.websocket.SubscriptionState.SUBSCRIBED;
+import static io.contek.invoker.commons.websocket.SubscriptionState.SUBSCRIBING;
+import static io.contek.invoker.commons.websocket.SubscriptionState.UNSUBSCRIBED;
+import static io.contek.invoker.commons.websocket.SubscriptionState.UNSUBSCRIBING;
 
 @ThreadSafe
-public abstract class WebSocketChannel<Message> extends BaseWebSocketChannel<Message> {
+public abstract class MarketWebSocketChannel<Message> extends BaseWebSocketChannel<Message> {
 
   private final WebSocketRequestIdGenerator requestIdGenerator;
 
   private final AtomicReference<WebSocketCommand> pendingCommandHolder = new AtomicReference<>();
 
-  protected WebSocketChannel(WebSocketRequestIdGenerator requestIdGenerator) {
+  protected MarketWebSocketChannel(WebSocketRequestIdGenerator requestIdGenerator) {
     this.requestIdGenerator = requestIdGenerator;
   }
 

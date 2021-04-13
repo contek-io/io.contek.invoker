@@ -20,7 +20,7 @@ public final class MarketWebSocketApi extends WebSocketApi {
   private final Map<String, ForceOrderChannel> forceOrderChannels = new HashMap<>();
 
   public MarketWebSocketApi(IActor actor, WebSocketContext context) {
-    super(actor);
+    super(actor, MarketWebSocketMessageParser.getInstance());
     this.context = context;
   }
 

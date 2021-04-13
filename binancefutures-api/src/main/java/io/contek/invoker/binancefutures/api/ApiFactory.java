@@ -10,7 +10,11 @@ import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.actor.IActorFactory;
 import io.contek.invoker.commons.actor.SimpleActorFactory;
 import io.contek.invoker.commons.actor.http.SimpleHttpClientFactory;
-import io.contek.invoker.commons.actor.ratelimit.*;
+import io.contek.invoker.commons.actor.ratelimit.IRateLimitQuotaInterceptor;
+import io.contek.invoker.commons.actor.ratelimit.RateLimitCache;
+import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
+import io.contek.invoker.commons.actor.ratelimit.RateLimitRule;
+import io.contek.invoker.commons.actor.ratelimit.SimpleRateLimitThrottleFactory;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.websocket.WebSocketContext;
 import io.contek.invoker.security.ApiKey;
@@ -130,7 +134,9 @@ public final class ApiFactory {
     public UserWebSocketApi user(ApiKey apiKey) {
       WebSocketContext wsContext = context.getWebSocketContext();
       IActor actor = actorFactory.create(apiKey, wsContext);
-      return new UserWebSocketApi(actor, wsContext);
+      RestContext restContext = context.getRestContext();
+      return new UserWebSocketApi(
+          actor, context.getWebSocketContext(), new UserRestApi(actor, restContext));
     }
   }
 

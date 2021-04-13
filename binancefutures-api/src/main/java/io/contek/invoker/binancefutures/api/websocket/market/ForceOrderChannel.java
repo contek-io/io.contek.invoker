@@ -1,6 +1,5 @@
 package io.contek.invoker.binancefutures.api.websocket.market;
 
-import io.contek.invoker.binancefutures.api.websocket.WebSocketChannel;
 import io.contek.invoker.binancefutures.api.websocket.WebSocketRequestIdGenerator;
 import io.contek.invoker.binancefutures.api.websocket.common.WebSocketStreamMessage;
 import io.contek.invoker.binancefutures.api.websocket.market.ForceOrderChannel.Message;
@@ -11,7 +10,7 @@ import javax.annotation.concurrent.ThreadSafe;
 import static java.text.MessageFormat.format;
 
 @ThreadSafe
-public final class ForceOrderChannel extends WebSocketChannel<Message> {
+public final class ForceOrderChannel extends MarketWebSocketChannel<Message> {
 
   private final String symbol;
 
