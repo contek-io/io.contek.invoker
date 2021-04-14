@@ -31,6 +31,11 @@ public final class SimpleCredential implements ICredential {
   }
 
   @Override
+  public SecretKeyAlgorithm getAlgorithm() {
+    return algorithm;
+  }
+
+  @Override
   public ImmutableMap<String, String> getProperties() {
     return apiKey.getProperties();
   }

@@ -12,7 +12,7 @@ import java.net.URI;
 import java.time.Clock;
 import java.util.UUID;
 
-import static com.google.common.net.UrlEscapers.urlFragmentEscaper;
+import static com.google.common.net.UrlEscapers.urlPathSegmentEscaper;
 import static io.contek.invoker.bitstamp.api.ApiFactory.RateLimits.ONE_REST_REQUEST;
 import static io.contek.invoker.commons.rest.RestMediaType.FORM;
 
@@ -105,7 +105,7 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
     if (params.isEmpty()) {
       return "";
     }
-    return "?" + urlFragmentEscaper().escape(params.getQueryString());
+    return "?" + params.getQueryString(urlPathSegmentEscaper());
   }
 
   private String buildUrlString(String paramsString) {

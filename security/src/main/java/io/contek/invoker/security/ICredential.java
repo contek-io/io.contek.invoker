@@ -15,6 +15,8 @@ public interface ICredential {
 
   String getApiKeyId();
 
+  SecretKeyAlgorithm getAlgorithm();
+
   ImmutableMap<String, String> getProperties();
 
   String sign(String payload);
@@ -31,6 +33,11 @@ public interface ICredential {
 
     @Override
     public String getApiKeyId() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public SecretKeyAlgorithm getAlgorithm() {
       throw new UnsupportedOperationException();
     }
 

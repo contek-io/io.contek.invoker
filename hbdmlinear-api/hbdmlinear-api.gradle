@@ -5,4 +5,4 @@ dependencies {
     implementation "com.google.code.gson:gson:${gsonVersion}"
 }
 
-description = 'HBDM Linear Java API'
+description = 'Huobi Derivative Linear Java API'

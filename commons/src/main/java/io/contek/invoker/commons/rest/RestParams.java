@@ -1,6 +1,9 @@
 package io.contek.invoker.commons.rest;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSortedMap;
+import com.google.common.escape.Escaper;
+import com.google.common.escape.Escapers;
 
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
@@ -17,8 +20,8 @@ public final class RestParams {
 
   private final ImmutableMap<String, Object> values;
 
-  private RestParams(Map<String, Object> values) {
-    this.values = ImmutableMap.copyOf(values);
+  private RestParams(ImmutableMap<String, Object> values) {
+    this.values = values;
   }
 
   public static Builder newBuilder() {
@@ -27,6 +30,10 @@ public final class RestParams {
 
   public static RestParams empty() {
     return EMPTY;
+  }
+
+  public Builder toBuilder() {
+    return newBuilder().addAll(values);
   }
 
   public boolean isEmpty() {
@@ -38,12 +45,16 @@ public final class RestParams {
   }
 
   public String getQueryString() {
-    return toQueryString(values);
+    return getQueryString(Escapers.nullEscaper());
   }
 
-  public static String toQueryString(Map<String, Object> params) {
+  public String getQueryString(Escaper escaper) {
+    return toQueryString(values, escaper);
+  }
+
+  private static String toQueryString(Map<String, Object> params, Escaper escaper) {
     return params.entrySet().stream()
-        .map(entry -> entry.getKey() + "=" + entry.getValue())
+        .map(entry -> entry.getKey() + "=" + escaper.escape(entry.getValue().toString()))
         .collect(joining("&"));
   }
 
@@ -79,7 +90,14 @@ public final class RestParams {
     }
 
     public RestParams build() {
-      return new RestParams(values);
+      return build(false);
+    }
+
+    public RestParams build(boolean sort) {
+      if (sort) {
+        return new RestParams(ImmutableSortedMap.copyOf(values));
+      }
+      return new RestParams(ImmutableMap.copyOf(values));
     }
   }
 }

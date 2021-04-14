@@ -2,20 +2,15 @@ package io.contek.invoker.ftx.api.rest;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.net.UrlEscapers;
 import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
-import io.contek.invoker.commons.rest.BaseRestRequest;
-import io.contek.invoker.commons.rest.RestCall;
-import io.contek.invoker.commons.rest.RestContext;
-import io.contek.invoker.commons.rest.RestMediaBody;
-import io.contek.invoker.commons.rest.RestMethod;
-import io.contek.invoker.commons.rest.RestParams;
+import io.contek.invoker.commons.rest.*;
 import io.contek.invoker.security.ICredential;
 
 import javax.annotation.concurrent.NotThreadSafe;
 import java.time.Clock;
 
-import static com.google.common.net.UrlEscapers.urlFragmentEscaper;
 import static io.contek.invoker.commons.rest.RestMediaType.JSON;
 import static io.contek.invoker.ftx.api.ApiFactory.RateLimits.ONE_REST_PUBLIC_REQUEST;
 
@@ -94,7 +89,7 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
     if (params.isEmpty()) {
       return "";
     }
-    return "?" + urlFragmentEscaper().escape(params.getQueryString());
+    return "?" + params.getQueryString(UrlEscapers.urlPathSegmentEscaper());
   }
 
   private String buildUrlString(String paramsString) {

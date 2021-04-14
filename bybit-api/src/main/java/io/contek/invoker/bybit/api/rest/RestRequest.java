@@ -6,11 +6,8 @@ import io.contek.invoker.security.ICredential;
 
 import javax.annotation.concurrent.ThreadSafe;
 import java.time.Clock;
-import java.util.Map;
-import java.util.TreeMap;
 
 import static io.contek.invoker.commons.rest.RestMediaType.JSON;
-import static io.contek.invoker.commons.rest.RestParams.toQueryString;
 
 @ThreadSafe
 public abstract class RestRequest<R> extends BaseRestRequest<R> {
@@ -81,12 +78,13 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
   }
 
   private RestParams addSignature(RestParams params, ICredential credential) {
-    Map<String, Object> paramMap = new TreeMap<>(params.getValues());
-    paramMap.put(API_KEY, credential.getApiKeyId());
-    paramMap.put(TIMESTAMP, Long.toString(clock.millis()));
+    RestParams.Builder builder = params.toBuilder();
+    builder.add(API_KEY, credential.getApiKeyId());
+    builder.add(TIMESTAMP, Long.toString(clock.millis()));
+    RestParams withIdentity = builder.build(true);
 
-    String queryString = toQueryString(paramMap);
-    String sign = credential.sign(queryString);
-    return RestParams.newBuilder().addAll(paramMap).add(SIGN, sign).build();
+    String payload = withIdentity.getQueryString();
+    String sign = credential.sign(payload);
+    return withIdentity.toBuilder().add(SIGN, sign).build();
   }
 }

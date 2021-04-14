@@ -1,4 +1,4 @@
-package io.contek.invoker.deribit.api.rest;
+package io.contek.invoker.hbdmlinear.api.rest;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -9,14 +9,20 @@ import io.contek.invoker.commons.rest.*;
 import io.contek.invoker.security.ICredential;
 
 import javax.annotation.concurrent.NotThreadSafe;
+import java.net.URI;
 import java.time.Clock;
+import java.time.format.DateTimeFormatter;
 import java.util.Random;
 
 import static com.google.common.net.UrlEscapers.urlPathSegmentEscaper;
 import static io.contek.invoker.commons.rest.RestMediaType.JSON;
+import static java.time.ZoneOffset.UTC;
+import static java.time.format.DateTimeFormatter.ISO_DATE;
 
 @NotThreadSafe
 public abstract class RestRequest<R> extends BaseRestRequest<R> {
+
+  private static final DateTimeFormatter FORMATTER = ISO_DATE.withZone(UTC);
 
   private final RestContext context;
   private final Clock clock;
@@ -41,19 +47,16 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
     switch (method) {
       case GET:
       case DELETE:
-        String paramsString = buildParamsString();
         return RestCall.newBuilder()
-            .setUrl(buildUrlString(paramsString))
+            .setUrl(generateUrl(method, getEndpointPath(), getParams(), credential))
             .setMethod(method)
-            .setHeaders(generateHeaders(method, paramsString, "", credential))
             .build();
       case POST:
       case PUT:
         RestMediaBody body = JSON.createBody(getParams());
         return RestCall.newBuilder()
-            .setUrl(buildUrlString(""))
+            .setUrl(generateUrl(method, getEndpointPath(), RestParams.empty(), credential))
             .setMethod(method)
-            .setHeaders(generateHeaders(method, "", body.getStringValue(), credential))
             .setBody(body)
             .build();
       default:
@@ -86,15 +89,39 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
     return BaseEncoding.base32().encode(randomBytes);
   }
 
-  private String buildParamsString() {
-    RestParams params = getParams();
+  private String generateUrl(
+      RestMethod method, String endpointPath, RestParams endpointParams, ICredential credential) {
+    String paramString =
+        credential.isAnonymous()
+            ? generateParamString(endpointParams)
+            : generateSignedParamString(method, endpointPath, endpointParams, credential);
+    return context.getBaseUrl() + endpointPath + paramString;
+  }
+
+  private String generateParamString(RestParams params) {
     if (params.isEmpty()) {
       return "";
     }
-    return "?" + params.getQueryString(urlPathSegmentEscaper());
+    return params.getQueryString(urlPathSegmentEscaper());
   }
 
-  private String buildUrlString(String paramsString) {
-    return context.getBaseUrl() + getEndpointPath() + paramsString;
+  private String generateSignedParamString(
+      RestMethod method, String path, RestParams params, ICredential credential) {
+    RestParams.Builder builder = params.toBuilder();
+    builder.add("AccessKeyId", credential.getApiKeyId());
+    builder.add("SignatureMethod", credential.getAlgorithm().name());
+    builder.add("SignatureVersion", 2);
+    builder.add("Timestamp", FORMATTER.format(clock.instant()));
+    RestParams withIdentity = builder.build(true);
+
+    String payload =
+        String.join(
+            "\n",
+            method.name(),
+            URI.create(context.getBaseUrl()).getHost(),
+            path,
+            withIdentity.getQueryString(urlPathSegmentEscaper()));
+    String sign = credential.sign(payload);
+    return "?" + withIdentity.toBuilder().add("Signature", sign).build().getQueryString();
   }
 }
