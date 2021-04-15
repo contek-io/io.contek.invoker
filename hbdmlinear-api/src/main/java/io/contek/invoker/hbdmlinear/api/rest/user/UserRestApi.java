@@ -16,7 +16,27 @@ public final class UserRestApi {
     this.context = context;
   }
 
-  public GetSwapCrossAccountInfo getSwapCrossAccountInfo() {
-    return new GetSwapCrossAccountInfo(actor, context);
+  public PostSwapCrossAccountInfo postSwapCrossAccountInfo() {
+    return new PostSwapCrossAccountInfo(actor, context);
+  }
+
+  public PostSwapCrossAccountPositionInfo postSwapCrossAccountPositionInfo() {
+    return new PostSwapCrossAccountPositionInfo(actor, context);
+  }
+
+  public PostSwapCrossAvailableLevelRate postSwapCrossAvailableLevelRate() {
+    return new PostSwapCrossAvailableLevelRate(actor, context);
+  }
+
+  public PostSwapCrossOrder postSwapCrossOrder() {
+    return new PostSwapCrossOrder(actor, context);
+  }
+
+  public PostSwapCrossPositionInfo postSwapCrossPositionInfo() {
+    return new PostSwapCrossPositionInfo(actor, context);
+  }
+
+  public PostSwapCrossSwitchLeverRate postSwapCrossSwitchLeverRate() {
+    return new PostSwapCrossSwitchLeverRate(actor, context);
   }
 }
