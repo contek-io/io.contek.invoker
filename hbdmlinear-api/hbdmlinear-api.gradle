@@ -3,6 +3,7 @@ dependencies {
     implementation project(':security')
 
     implementation "com.google.code.gson:gson:${gsonVersion}"
+    implementation "io.contek.timbersaw:timbersaw-core-api:1.4.3-SNAPSHOT"
 }
 
 description = 'Huobi Derivative Linear Java API'

@@ -16,35 +16,7 @@ public final class MarketRestApi {
     this.context = context;
   }
 
-  public GetDepth getDepth() {
-    return new GetDepth(actor, context);
-  }
-
-  public GetExchangeInfo getExchangeInfo() {
-    return new GetExchangeInfo(actor, context);
-  }
-
-  public GetGlobalLongShortAccountRatio getGlobalLongShortAccountRatio() {
-    return new GetGlobalLongShortAccountRatio(actor, context);
-  }
-
-  public GetKlines getKlines() {
-    return new GetKlines(actor, context);
-  }
-
-  public GetOpenInterest getOpenInterest() {
-    return new GetOpenInterest(actor, context);
-  }
-
-  public GetMarketDetailMerged getTickerBookTicker() {
+  public GetMarketDetailMerged getMarketDetailMerged() {
     return new GetMarketDetailMerged(actor, context);
-  }
-
-  public GetTopLongShortAccountRatio getTopLongShortAccountRatio() {
-    return new GetTopLongShortAccountRatio(actor, context);
-  }
-
-  public GetTopLongShortPositionRatio getTopLongShortPositionRatio() {
-    return new GetTopLongShortPositionRatio(actor, context);
   }
 }

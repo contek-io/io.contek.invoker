@@ -31,8 +31,14 @@ public final class ApiFactory {
 
   public static final ApiContext MAIN_NET_CONTEXT =
       ApiContext.newBuilder()
-          .setRestContext(RestContext.forBaseUrl("https://fapi.binance.com"))
-          .setWebSocketContext(WebSocketContext.forBaseUrl("wss://fstream.binance.com"))
+          .setRestContext(RestContext.forBaseUrl("https://api.hbdm.com"))
+          .setWebSocketContext(WebSocketContext.forBaseUrl("wss://api.hbdm.com"))
+          .build();
+
+  public static final ApiContext INSECURE_MAIN_NET_CONTEXT =
+      ApiContext.newBuilder()
+          .setRestContext(RestContext.forBaseUrl("http://api.hbdm.com"))
+          .setWebSocketContext(WebSocketContext.forBaseUrl("ws://api.hbdm.com"))
           .build();
 
   private final ApiContext context;
@@ -45,6 +51,10 @@ public final class ApiFactory {
 
   public static ApiFactory getMainNetDefault() {
     return fromContext(MAIN_NET_CONTEXT);
+  }
+
+  public static ApiFactory getInsecureMainNetDefault() {
+    return fromContext(INSECURE_MAIN_NET_CONTEXT);
   }
 
   public static ApiFactory fromContext(ApiContext context) {

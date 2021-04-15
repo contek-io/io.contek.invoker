@@ -7,8 +7,8 @@ public class _MarketDetail {
 
   public long id;
   public long ts;
-  public _Depth ask;
-  public _Depth bid;
+  public _DepthLevel ask;
+  public _DepthLevel bid;
   public String contract_code;
   public String open;
   public String close;

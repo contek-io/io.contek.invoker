@@ -102,7 +102,7 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
     if (params.isEmpty()) {
       return "";
     }
-    return params.getQueryString(urlPathSegmentEscaper());
+    return "?" + params.getQueryString(urlPathSegmentEscaper());
   }
 
   private String generateSignedParamString(
