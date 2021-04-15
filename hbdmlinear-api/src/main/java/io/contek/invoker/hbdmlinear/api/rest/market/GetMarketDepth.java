@@ -5,25 +5,31 @@ import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestParams;
-import io.contek.invoker.hbdmlinear.api.common._MarketDetail;
+import io.contek.invoker.hbdmlinear.api.common._Depth;
 import io.contek.invoker.hbdmlinear.api.rest.common.RestChannelTickResponse;
 
 import javax.annotation.concurrent.NotThreadSafe;
-import java.util.Objects;
 
 import static io.contek.invoker.hbdmlinear.api.ApiFactory.RateLimits.ONE_IP_REST_PUBLIC_MARKET_DATA_REQUEST;
+import static java.util.Objects.requireNonNull;
 
 @NotThreadSafe
-public final class GetMarketDetailMerged extends MarketRestRequest<GetMarketDetailMerged.Response> {
+public final class GetMarketDepth extends MarketRestRequest<GetMarketDepth.Response> {
 
   private String contract_code;
+  private String type;
 
-  GetMarketDetailMerged(IActor actor, RestContext context) {
+  GetMarketDepth(IActor actor, RestContext context) {
     super(actor, context);
   }
 
-  public GetMarketDetailMerged setContractCode(String contract_code) {
+  public GetMarketDepth setContractCode(String contract_code) {
     this.contract_code = contract_code;
+    return this;
+  }
+
+  public GetMarketDepth setType(String type) {
+    this.type = type;
     return this;
   }
 
@@ -34,15 +40,18 @@ public final class GetMarketDetailMerged extends MarketRestRequest<GetMarketDeta
 
   @Override
   protected String getEndpointPath() {
-    return "/linear-swap-ex/market/detail/merged";
+    return "/linear-swap-ex/market/depth";
   }
 
   @Override
   protected RestParams getParams() {
     RestParams.Builder builder = RestParams.newBuilder();
 
-    Objects.requireNonNull(contract_code);
+    requireNonNull(contract_code);
     builder.add("contract_code", contract_code);
+
+    requireNonNull(type);
+    builder.add("type", type);
 
     return builder.build();
   }
@@ -53,5 +62,5 @@ public final class GetMarketDetailMerged extends MarketRestRequest<GetMarketDeta
   }
 
   @NotThreadSafe
-  public static final class Response extends RestChannelTickResponse<_MarketDetail> {}
+  public static final class Response extends RestChannelTickResponse<_Depth> {}
 }

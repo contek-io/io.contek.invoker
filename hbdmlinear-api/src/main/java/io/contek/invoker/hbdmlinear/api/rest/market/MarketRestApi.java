@@ -16,7 +16,19 @@ public final class MarketRestApi {
     this.context = context;
   }
 
+  public GetMarketDepth getMarketDepth() {
+    return new GetMarketDepth(actor, context);
+  }
+
   public GetMarketDetailMerged getMarketDetailMerged() {
     return new GetMarketDetailMerged(actor, context);
+  }
+
+  public GetMarketDetailBatchMerged getMarketDetailBatchMerged() {
+    return new GetMarketDetailBatchMerged(actor, context);
+  }
+
+  public GetSwapContractInfo getSwapContractInfo() {
+    return new GetSwapContractInfo(actor, context);
   }
 }

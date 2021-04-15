@@ -6,23 +6,23 @@ import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestParams;
 import io.contek.invoker.hbdmlinear.api.common._MarketDetail;
-import io.contek.invoker.hbdmlinear.api.rest.common.RestChannelTickResponse;
+import io.contek.invoker.hbdmlinear.api.rest.common.RestTickResponse;
 
 import javax.annotation.concurrent.NotThreadSafe;
-import java.util.Objects;
 
 import static io.contek.invoker.hbdmlinear.api.ApiFactory.RateLimits.ONE_IP_REST_PUBLIC_MARKET_DATA_REQUEST;
 
 @NotThreadSafe
-public final class GetMarketDetailMerged extends MarketRestRequest<GetMarketDetailMerged.Response> {
+public final class GetMarketDetailBatchMerged
+    extends MarketRestRequest<GetMarketDetailBatchMerged.Response> {
 
   private String contract_code;
 
-  GetMarketDetailMerged(IActor actor, RestContext context) {
+  GetMarketDetailBatchMerged(IActor actor, RestContext context) {
     super(actor, context);
   }
 
-  public GetMarketDetailMerged setContractCode(String contract_code) {
+  public GetMarketDetailBatchMerged setContractCode(String contract_code) {
     this.contract_code = contract_code;
     return this;
   }
@@ -34,15 +34,16 @@ public final class GetMarketDetailMerged extends MarketRestRequest<GetMarketDeta
 
   @Override
   protected String getEndpointPath() {
-    return "/linear-swap-ex/market/detail/merged";
+    return "/linear-swap-ex/market/detail/batch_merged";
   }
 
   @Override
   protected RestParams getParams() {
     RestParams.Builder builder = RestParams.newBuilder();
 
-    Objects.requireNonNull(contract_code);
-    builder.add("contract_code", contract_code);
+    if (contract_code != null) {
+      builder.add("contract_code", contract_code);
+    }
 
     return builder.build();
   }
@@ -53,5 +54,5 @@ public final class GetMarketDetailMerged extends MarketRestRequest<GetMarketDeta
   }
 
   @NotThreadSafe
-  public static final class Response extends RestChannelTickResponse<_MarketDetail> {}
+  public static final class Response extends RestTickResponse<_MarketDetail> {}
 }

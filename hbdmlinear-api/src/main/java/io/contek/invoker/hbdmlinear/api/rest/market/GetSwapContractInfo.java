@@ -5,25 +5,31 @@ import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestParams;
-import io.contek.invoker.hbdmlinear.api.common._MarketDetail;
-import io.contek.invoker.hbdmlinear.api.rest.common.RestChannelTickResponse;
+import io.contek.invoker.hbdmlinear.api.common._ContractInfo;
+import io.contek.invoker.hbdmlinear.api.rest.common.RestDataResponse;
 
 import javax.annotation.concurrent.NotThreadSafe;
-import java.util.Objects;
+import java.util.List;
 
 import static io.contek.invoker.hbdmlinear.api.ApiFactory.RateLimits.ONE_IP_REST_PUBLIC_MARKET_DATA_REQUEST;
 
 @NotThreadSafe
-public final class GetMarketDetailMerged extends MarketRestRequest<GetMarketDetailMerged.Response> {
+public final class GetSwapContractInfo extends MarketRestRequest<GetSwapContractInfo.Response> {
 
   private String contract_code;
+  private String support_margin_mode;
 
-  GetMarketDetailMerged(IActor actor, RestContext context) {
+  GetSwapContractInfo(IActor actor, RestContext context) {
     super(actor, context);
   }
 
-  public GetMarketDetailMerged setContractCode(String contract_code) {
+  public GetSwapContractInfo setContractCode(String contract_code) {
     this.contract_code = contract_code;
+    return this;
+  }
+
+  public GetSwapContractInfo setSupportMarginMode(String support_margin_mode) {
+    this.support_margin_mode = support_margin_mode;
     return this;
   }
 
@@ -34,15 +40,20 @@ public final class GetMarketDetailMerged extends MarketRestRequest<GetMarketDeta
 
   @Override
   protected String getEndpointPath() {
-    return "/linear-swap-ex/market/detail/merged";
+    return "/linear-swap-api/v1/swap_contract_info";
   }
 
   @Override
   protected RestParams getParams() {
     RestParams.Builder builder = RestParams.newBuilder();
 
-    Objects.requireNonNull(contract_code);
-    builder.add("contract_code", contract_code);
+    if (contract_code != null) {
+      builder.add("contract_code", contract_code);
+    }
+
+    if (support_margin_mode != null) {
+      builder.add("support_margin_mode", support_margin_mode);
+    }
 
     return builder.build();
   }
@@ -53,5 +64,5 @@ public final class GetMarketDetailMerged extends MarketRestRequest<GetMarketDeta
   }
 
   @NotThreadSafe
-  public static final class Response extends RestChannelTickResponse<_MarketDetail> {}
+  public static final class Response extends RestDataResponse<List<_ContractInfo>> {}
 }
