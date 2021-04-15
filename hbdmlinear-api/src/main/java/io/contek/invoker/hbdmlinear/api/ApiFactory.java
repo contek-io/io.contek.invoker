@@ -21,7 +21,7 @@ import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.ThreadSafe;
 import java.time.Duration;
 
-import static com.google.common.io.BaseEncoding.base16;
+import static com.google.common.io.BaseEncoding.base64;
 import static io.contek.invoker.commons.actor.ratelimit.RateLimitType.API_KEY;
 import static io.contek.invoker.commons.actor.ratelimit.RateLimitType.IP;
 import static io.contek.invoker.security.SecretKeyAlgorithm.HMAC_SHA256;
@@ -41,6 +41,18 @@ public final class ApiFactory {
           .setWebSocketContext(WebSocketContext.forBaseUrl("ws://api.hbdm.com"))
           .build();
 
+  public static final ApiContext BTCGATEWAY_CONTEXT =
+      ApiContext.newBuilder()
+          .setRestContext(RestContext.forBaseUrl("https://api.btcgateway.pro"))
+          .setWebSocketContext(WebSocketContext.forBaseUrl("wss://api.btcgateway.pro"))
+          .build();
+
+  public static final ApiContext INSECURE_BTCGATEWAY_CONTEXT =
+      ApiContext.newBuilder()
+          .setRestContext(RestContext.forBaseUrl("http://api.btcgateway.pro"))
+          .setWebSocketContext(WebSocketContext.forBaseUrl("ws://api.btcgateway.pro"))
+          .build();
+
   private final ApiContext context;
   private final IActorFactory actorFactory;
 
@@ -49,12 +61,20 @@ public final class ApiFactory {
     this.actorFactory = actorFactory;
   }
 
-  public static ApiFactory getMainNetDefault() {
+  public static ApiFactory getMainNet() {
     return fromContext(MAIN_NET_CONTEXT);
   }
 
-  public static ApiFactory getInsecureMainNetDefault() {
+  public static ApiFactory getInsecureMainNet() {
     return fromContext(INSECURE_MAIN_NET_CONTEXT);
+  }
+
+  public static ApiFactory getBtcGateway() {
+    return fromContext(BTCGATEWAY_CONTEXT);
+  }
+
+  public static ApiFactory getInsecureBtcGateway() {
+    return fromContext(INSECURE_BTCGATEWAY_CONTEXT);
   }
 
   public static ApiFactory fromContext(ApiContext context) {
@@ -84,7 +104,7 @@ public final class ApiFactory {
   private static SimpleCredentialFactory createCredentialFactory() {
     return SimpleCredentialFactory.newBuilder()
         .setAlgorithm(HMAC_SHA256)
-        .setEncoding(base16().lowerCase())
+        .setEncoding(base64())
         .build();
   }
 

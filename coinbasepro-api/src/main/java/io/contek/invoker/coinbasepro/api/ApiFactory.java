@@ -43,7 +43,7 @@ public final class ApiFactory {
     this.actorFactory = actorFactory;
   }
 
-  public static ApiFactory getMainNetDefault() {
+  public static ApiFactory getMainNet() {
     return fromContext(MAIN_NET_CONTEXT);
   }
 

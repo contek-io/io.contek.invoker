@@ -49,7 +49,7 @@ A Java library to connect cryptocurrency exchanges.
 ## Examples
 ### Binance Futures Main Net Get Order Book
 ``` java
-MarketRestApi api = ApiFactory.getMainNetDefault().rest().market();
+MarketRestApi api = ApiFactory.getMainNet().rest().market();
 GetDepth.Response response = api.getDepth().setSymbol("BTCUSDT").setLimit(100).submit();
 double bestBid = response.bids.get(0).get(0);
 double bestAsk = response.asks.get(0).get(0);
@@ -59,7 +59,7 @@ System.out.println("Best bid: " + bestBid + ", best ask: " + bestAsk);
 ### Binance Futures Test Net Place Order
 ``` java
 ApiKey key = ApiKey.newBuilder().setId("foo").setSecret("bar").build();
-UserRestApi api = ApiFactory.getTestNetDefault().rest().user(key);
+UserRestApi api = ApiFactory.getTestNet().rest().user(key);
 PostOrder.Response response =
     api.postOrder()
         .setSymbol("BTCUSDT")
@@ -94,7 +94,7 @@ ISubscribingConsumer<Message> consumer =
         return ConsumerState.ACTIVE;
       }
     };
-MarketWebSocketApi api = ApiFactory.getMainNetDefault().ws().market();
+MarketWebSocketApi api = ApiFactory.getMainNet().ws().market();
 api.getAggTradeChannel("BTCUSDT").addConsumer(consumer);
 ```
 

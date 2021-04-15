@@ -22,14 +22,14 @@ import static io.contek.invoker.security.SecretKeyAlgorithm.HMAC_SHA256;
 public final class ApiFactory {
 
   public static final ApiContext MAIN_NET_CONTEXT =
-    ApiContext.newBuilder()
-      .setWebSocketContext(WebSocketContext.forBaseUrl("wss://ws.kraken.com"))
-      .build();
+      ApiContext.newBuilder()
+          .setWebSocketContext(WebSocketContext.forBaseUrl("wss://ws.kraken.com"))
+          .build();
 
   public static final ApiContext TEST_NET_CONTEXT =
-    ApiContext.newBuilder()
-      .setWebSocketContext(WebSocketContext.forBaseUrl("wss://beta-ws.kraken.com"))
-      .build();
+      ApiContext.newBuilder()
+          .setWebSocketContext(WebSocketContext.forBaseUrl("wss://beta-ws.kraken.com"))
+          .build();
 
   private final ApiContext context;
   private final IActorFactory actorFactory;
@@ -39,14 +39,13 @@ public final class ApiFactory {
     this.actorFactory = actorFactory;
   }
 
-  public static ApiFactory getMainNetDefault() {
+  public static ApiFactory getMainNet() {
     return fromContext(MAIN_NET_CONTEXT);
   }
 
-  public static ApiFactory getTestNetDefault() {
+  public static ApiFactory getTestNet() {
     return fromContext(TEST_NET_CONTEXT);
   }
-
 
   public static ApiFactory fromContext(ApiContext context) {
     return new ApiFactory(context, createActorFactory(context.getInterceptor()));
@@ -57,25 +56,24 @@ public final class ApiFactory {
   }
 
   private static SimpleActorFactory createActorFactory(
-    @Nullable IRateLimitQuotaInterceptor interceptor) {
+      @Nullable IRateLimitQuotaInterceptor interceptor) {
     return SimpleActorFactory.newBuilder()
-      .setCredentialFactory(createCredentialFactory())
-      .setHttpClientFactory(SimpleHttpClientFactory.getInstance())
-      .setRateLimitThrottleFactory(
-        SimpleRateLimitThrottleFactory.create(createRateLimitCache(), interceptor))
-      .build();
+        .setCredentialFactory(createCredentialFactory())
+        .setHttpClientFactory(SimpleHttpClientFactory.getInstance())
+        .setRateLimitThrottleFactory(
+            SimpleRateLimitThrottleFactory.create(createRateLimitCache(), interceptor))
+        .build();
   }
 
   private static SimpleCredentialFactory createCredentialFactory() {
     return SimpleCredentialFactory.newBuilder()
-      .setAlgorithm(HMAC_SHA256)
-      .setEncoding(base16().lowerCase())
-      .build();
+        .setAlgorithm(HMAC_SHA256)
+        .setEncoding(base16().lowerCase())
+        .build();
   }
 
   private static RateLimitCache createRateLimitCache() {
-    return RateLimitCache.newBuilder()
-      .build();
+    return RateLimitCache.newBuilder().build();
   }
 
   @ThreadSafe
@@ -88,7 +86,5 @@ public final class ApiFactory {
     }
 
     private SelectingWebSocketApi() {}
-
   }
-
 }

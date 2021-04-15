@@ -17,10 +17,14 @@ public enum SecretKeyAlgorithm {
   HMAC_SHA512("HmacSHA512"),
   ;
 
-  private final String value;
+  private final String algorithmName;
 
-  SecretKeyAlgorithm(String value) {
-    this.value = value;
+  SecretKeyAlgorithm(String algorithmName) {
+    this.algorithmName = algorithmName;
+  }
+
+  public String getAlgorithmName() {
+    return algorithmName;
   }
 
   public Mac setupMac(String secret) {
@@ -29,8 +33,8 @@ public enum SecretKeyAlgorithm {
 
   public Mac setupMac(byte[] secret) {
     try {
-      Mac mac = Mac.getInstance(value);
-      Key spec = new SecretKeySpec(secret, value);
+      Mac mac = Mac.getInstance(algorithmName);
+      Key spec = new SecretKeySpec(secret, algorithmName);
       mac.init(spec);
       return mac;
     } catch (NoSuchAlgorithmException e) {

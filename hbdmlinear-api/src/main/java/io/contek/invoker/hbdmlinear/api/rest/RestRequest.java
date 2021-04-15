@@ -1,8 +1,6 @@
 package io.contek.invoker.hbdmlinear.api.rest;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.io.BaseEncoding;
 import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
 import io.contek.invoker.commons.rest.*;
@@ -12,17 +10,17 @@ import javax.annotation.concurrent.NotThreadSafe;
 import java.net.URI;
 import java.time.Clock;
 import java.time.format.DateTimeFormatter;
-import java.util.Random;
 
-import static com.google.common.net.UrlEscapers.urlPathSegmentEscaper;
+import static com.google.common.net.UrlEscapers.urlFormParameterEscaper;
 import static io.contek.invoker.commons.rest.RestMediaType.JSON;
 import static java.time.ZoneOffset.UTC;
-import static java.time.format.DateTimeFormatter.ISO_DATE;
+import static java.time.temporal.ChronoField.MILLI_OF_SECOND;
 
 @NotThreadSafe
 public abstract class RestRequest<R> extends BaseRestRequest<R> {
 
-  private static final DateTimeFormatter FORMATTER = ISO_DATE.withZone(UTC);
+  private static final DateTimeFormatter FORMATTER =
+      DateTimeFormatter.ISO_LOCAL_DATE_TIME.withZone(UTC);
 
   private final RestContext context;
   private final Clock clock;
@@ -64,31 +62,6 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
     }
   }
 
-  private ImmutableMap<String, String> generateHeaders(
-      RestMethod method, String paramsString, String bodyString, ICredential credential) {
-
-    if (credential.isAnonymous()) {
-      return ImmutableMap.of();
-    }
-    String clientId = credential.getApiKeyId();
-    String timestamp = String.valueOf(clock.millis());
-    String nonce = generateNounce();
-    String uri = getEndpointPath() + paramsString;
-    String payload =
-        timestamp + "\n" + nonce + "\n" + method + "\n" + uri + "\n" + bodyString + "\n";
-    String signature = credential.sign(payload);
-    String authorizationValue =
-        String.format(
-            "deri-hmac-sha256 id=%s,ts=%s,sig=%s,nonce=%s", clientId, timestamp, signature, nonce);
-    return ImmutableMap.<String, String>builder().put("Authorization", authorizationValue).build();
-  }
-
-  private static String generateNounce() {
-    byte[] randomBytes = new byte[8];
-    (new Random()).nextBytes(randomBytes);
-    return BaseEncoding.base32().encode(randomBytes);
-  }
-
   private String generateUrl(
       RestMethod method, String endpointPath, RestParams endpointParams, ICredential credential) {
     String paramString =
@@ -102,26 +75,22 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
     if (params.isEmpty()) {
       return "";
     }
-    return "?" + params.getQueryString(urlPathSegmentEscaper());
+    return "?" + params.getQueryString(urlFormParameterEscaper());
   }
 
   private String generateSignedParamString(
       RestMethod method, String path, RestParams params, ICredential credential) {
     RestParams.Builder builder = params.toBuilder();
     builder.add("AccessKeyId", credential.getApiKeyId());
-    builder.add("SignatureMethod", credential.getAlgorithm().name());
+    builder.add("SignatureMethod", credential.getAlgorithm().getAlgorithmName());
     builder.add("SignatureVersion", 2);
-    builder.add("Timestamp", FORMATTER.format(clock.instant()));
+    builder.add("Timestamp", FORMATTER.format(clock.instant().with(MILLI_OF_SECOND, 0)));
     RestParams withIdentity = builder.build(true);
-
+    String queryString = withIdentity.getQueryString(urlFormParameterEscaper());
     String payload =
         String.join(
-            "\n",
-            method.name(),
-            URI.create(context.getBaseUrl()).getHost(),
-            path,
-            withIdentity.getQueryString(urlPathSegmentEscaper()));
+            "\n", method.name(), URI.create(context.getBaseUrl()).getHost(), path, queryString);
     String sign = credential.sign(payload);
-    return "?" + withIdentity.toBuilder().add("Signature", sign).build().getQueryString();
+    return "?" + queryString + "&Signature=" + sign;
   }
 }

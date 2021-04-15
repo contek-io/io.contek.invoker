@@ -50,11 +50,11 @@ public final class ApiFactory {
     this.actorFactory = actorFactory;
   }
 
-  public static ApiFactory getMainNetDefault() {
+  public static ApiFactory getMainNet() {
     return fromContext(MAIN_NET_CONTEXT);
   }
 
-  public static ApiFactory getTestNetDefault() {
+  public static ApiFactory getTestNet() {
     return fromContext(TEST_NET_CONTEXT);
   }
 

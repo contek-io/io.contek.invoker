@@ -15,4 +15,8 @@ public final class UserRestApi {
     this.actor = actor;
     this.context = context;
   }
+
+  public GetSwapCrossAccountInfo getSwapCrossAccountInfo() {
+    return new GetSwapCrossAccountInfo(actor, context);
+  }
 }

@@ -10,11 +10,7 @@ import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.actor.IActorFactory;
 import io.contek.invoker.commons.actor.SimpleActorFactory;
 import io.contek.invoker.commons.actor.http.SimpleHttpClientFactory;
-import io.contek.invoker.commons.actor.ratelimit.IRateLimitQuotaInterceptor;
-import io.contek.invoker.commons.actor.ratelimit.RateLimitCache;
-import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
-import io.contek.invoker.commons.actor.ratelimit.RateLimitRule;
-import io.contek.invoker.commons.actor.ratelimit.SimpleRateLimitThrottleFactory;
+import io.contek.invoker.commons.actor.ratelimit.*;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.websocket.WebSocketContext;
 import io.contek.invoker.security.ApiKey;
@@ -55,11 +51,11 @@ public final class ApiFactory {
     this.actorFactory = actorFactory;
   }
 
-  public static ApiFactory getMainNetDefault() {
+  public static ApiFactory getMainNet() {
     return fromContext(MAIN_NET_CONTEXT);
   }
 
-  public static ApiFactory getTestNetDefault() {
+  public static ApiFactory getTestNet() {
     return fromContext(TEST_NET_CONTEXT);
   }
 
