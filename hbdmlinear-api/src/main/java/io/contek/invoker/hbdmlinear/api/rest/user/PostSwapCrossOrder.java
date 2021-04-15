@@ -5,7 +5,7 @@ import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestParams;
-import io.contek.invoker.hbdmlinear.api.common._LeverRate;
+import io.contek.invoker.hbdmlinear.api.common._Order;
 import io.contek.invoker.hbdmlinear.api.rest.common.RestDataResponse;
 
 import javax.annotation.concurrent.NotThreadSafe;
@@ -178,5 +178,5 @@ public final class PostSwapCrossOrder extends UserRestRequest<PostSwapCrossOrder
   }
 
   @NotThreadSafe
-  public static final class Response extends RestDataResponse<_LeverRate> {}
+  public static final class Response extends RestDataResponse<_Order> {}
 }

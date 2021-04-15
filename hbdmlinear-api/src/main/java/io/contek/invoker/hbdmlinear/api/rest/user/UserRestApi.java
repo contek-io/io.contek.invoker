@@ -28,8 +28,16 @@ public final class UserRestApi {
     return new PostSwapCrossAvailableLevelRate(actor, context);
   }
 
+  public PostSwapCrossCancel postSwapCrossCancel() {
+    return new PostSwapCrossCancel(actor, context);
+  }
+
   public PostSwapCrossOrder postSwapCrossOrder() {
     return new PostSwapCrossOrder(actor, context);
+  }
+
+  public PostSwapCrossOrderInfo postSwapCrossOrderInfo() {
+    return new PostSwapCrossOrderInfo(actor, context);
   }
 
   public PostSwapCrossPositionInfo postSwapCrossPositionInfo() {
