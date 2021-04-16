@@ -5,6 +5,6 @@ import javax.annotation.concurrent.NotThreadSafe;
 @NotThreadSafe
 public abstract class RestError {
 
-  public int err_code;
+  public Integer err_code;
   public String err_msg;
 }
