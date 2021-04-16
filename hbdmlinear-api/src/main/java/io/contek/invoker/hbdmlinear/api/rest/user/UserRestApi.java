@@ -32,6 +32,10 @@ public final class UserRestApi {
     return new PostSwapCrossCancel(actor, context);
   }
 
+  public PostSwapCrossHisorders postSwapCrossHisorders() {
+    return new PostSwapCrossHisorders(actor, context);
+  }
+
   public PostSwapCrossOpenorders postSwapCrossOpenorders() {
     return new PostSwapCrossOpenorders(actor, context);
   }
