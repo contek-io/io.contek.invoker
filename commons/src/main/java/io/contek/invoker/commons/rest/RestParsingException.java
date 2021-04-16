@@ -10,8 +10,8 @@ public final class RestParsingException extends AnyHttpException {
   private final RestResponse response;
   private final Class<?> type;
 
-  public RestParsingException(RestResponse response, Class<?> type) {
-    super(response.getStringValue());
+  public RestParsingException(RestResponse response, Class<?> type, Throwable t) {
+    super(response.getStringValue(), t);
     this.response = response;
     this.type = type;
   }

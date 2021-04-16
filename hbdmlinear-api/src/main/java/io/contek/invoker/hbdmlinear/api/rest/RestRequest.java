@@ -91,6 +91,6 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
         String.join(
             "\n", method.name(), URI.create(context.getBaseUrl()).getHost(), path, queryString);
     String sign = credential.sign(payload);
-    return "?" + queryString + "&Signature=" + sign;
+    return "?" + queryString + "&Signature=" + urlFormParameterEscaper().escape(sign);
   }
 }

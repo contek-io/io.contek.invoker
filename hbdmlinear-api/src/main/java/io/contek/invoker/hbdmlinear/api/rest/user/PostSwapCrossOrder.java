@@ -8,6 +8,7 @@ import io.contek.invoker.commons.rest.RestParams;
 import io.contek.invoker.hbdmlinear.api.common._Order;
 import io.contek.invoker.hbdmlinear.api.rest.common.RestDataResponse;
 
+import javax.annotation.Nullable;
 import javax.annotation.concurrent.NotThreadSafe;
 
 import static io.contek.invoker.hbdmlinear.api.ApiFactory.RateLimits.ONE_API_KEY_REST_PRIVATE_WRITE_REQUEST;
@@ -19,7 +20,7 @@ public final class PostSwapCrossOrder extends UserRestRequest<PostSwapCrossOrder
   private String contract_code;
   private Long client_order_id;
   private Double price;
-  private Long volume;
+  private Integer volume;
   private String direction;
   private String offset;
   private Integer lever_rate;
@@ -40,17 +41,17 @@ public final class PostSwapCrossOrder extends UserRestRequest<PostSwapCrossOrder
     return this;
   }
 
-  public PostSwapCrossOrder setClientOrderId(Long client_order_id) {
+  public PostSwapCrossOrder setClientOrderId(@Nullable Long client_order_id) {
     this.client_order_id = client_order_id;
     return this;
   }
 
-  public PostSwapCrossOrder setPrice(Double price) {
+  public PostSwapCrossOrder setPrice(@Nullable Double price) {
     this.price = price;
     return this;
   }
 
-  public PostSwapCrossOrder setVolume(Long volume) {
+  public PostSwapCrossOrder setVolume(int volume) {
     this.volume = volume;
     return this;
   }
@@ -75,32 +76,32 @@ public final class PostSwapCrossOrder extends UserRestRequest<PostSwapCrossOrder
     return this;
   }
 
-  public PostSwapCrossOrder setTpTriggerPrice(Double tp_trigger_price) {
+  public PostSwapCrossOrder setTpTriggerPrice(@Nullable Double tp_trigger_price) {
     this.tp_trigger_price = tp_trigger_price;
     return this;
   }
 
-  public PostSwapCrossOrder setTpOrderPrice(Double tp_order_price) {
+  public PostSwapCrossOrder setTpOrderPrice(@Nullable Double tp_order_price) {
     this.tp_order_price = tp_order_price;
     return this;
   }
 
-  public PostSwapCrossOrder setTpOrderPriceType(String tp_order_price_type) {
+  public PostSwapCrossOrder setTpOrderPriceType(@Nullable String tp_order_price_type) {
     this.tp_order_price_type = tp_order_price_type;
     return this;
   }
 
-  public PostSwapCrossOrder setSlTriggerPrice(Double sl_trigger_price) {
+  public PostSwapCrossOrder setSlTriggerPrice(@Nullable Double sl_trigger_price) {
     this.sl_trigger_price = sl_trigger_price;
     return this;
   }
 
-  public PostSwapCrossOrder setSlOrderPrice(Double sl_order_price) {
+  public PostSwapCrossOrder setSlOrderPrice(@Nullable Double sl_order_price) {
     this.sl_order_price = sl_order_price;
     return this;
   }
 
-  public PostSwapCrossOrder setSlOrderPriceType(String sl_order_price_type) {
+  public PostSwapCrossOrder setSlOrderPriceType(@Nullable String sl_order_price_type) {
     this.sl_order_price_type = sl_order_price_type;
     return this;
   }

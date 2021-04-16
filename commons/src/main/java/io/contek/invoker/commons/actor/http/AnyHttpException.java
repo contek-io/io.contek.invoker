@@ -13,4 +13,8 @@ public abstract class AnyHttpException extends RuntimeException {
   public AnyHttpException(Throwable cause) {
     super(cause);
   }
+
+  public AnyHttpException(@Nullable String message, Throwable cause) {
+    super(message, cause);
+  }
 }
