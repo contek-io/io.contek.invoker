@@ -6,6 +6,6 @@ import javax.annotation.concurrent.NotThreadSafe;
 public class _InitialLeverageInfo {
 
   public int leverage;
-  public double maxNotionalValue;
+  public String maxNotionalValue;
   public String symbol;
 }
