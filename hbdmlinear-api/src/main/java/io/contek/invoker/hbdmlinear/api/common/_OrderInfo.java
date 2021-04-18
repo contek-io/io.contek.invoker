@@ -15,7 +15,7 @@ public class _OrderInfo {
   public String offset;
   public int lever_rate;
   public long order_id;
-  public long client_order_id;
+  public Long client_order_id;
   public long created_at;
   public double trade_volume;
   public double trade_turnover;
