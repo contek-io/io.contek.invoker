@@ -9,6 +9,7 @@ import io.contek.invoker.hbdmlinear.api.common._CrossPositionInfo;
 import io.contek.invoker.hbdmlinear.api.rest.common.RestDataResponse;
 
 import javax.annotation.concurrent.NotThreadSafe;
+import java.util.List;
 
 import static io.contek.invoker.hbdmlinear.api.ApiFactory.RateLimits.ONE_API_KEY_REST_PRIVATE_READ_REQUEST;
 
@@ -54,5 +55,5 @@ public final class PostSwapCrossPositionInfo
   }
 
   @NotThreadSafe
-  public static final class Response extends RestDataResponse<_CrossPositionInfo> {}
+  public static final class Response extends RestDataResponse<List<_CrossPositionInfo>> {}
 }

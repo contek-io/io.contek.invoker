@@ -6,6 +6,7 @@ import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestParams;
 import io.contek.invoker.hbdmlinear.api.common._OrderInfo;
+import io.contek.invoker.hbdmlinear.api.rest.common.PaginatedData;
 import io.contek.invoker.hbdmlinear.api.rest.common.RestDataResponse;
 
 import javax.annotation.Nullable;
@@ -99,11 +100,8 @@ public final class PostSwapCrossOpenorders
   public static final class Response extends RestDataResponse<Data> {}
 
   @NotThreadSafe
-  public static final class Data {
+  public static final class Data extends PaginatedData {
 
     public List<_OrderInfo> orders;
-    public Integer total_page;
-    public Integer current_page;
-    public Integer total_size;
   }
 }

@@ -9,6 +9,7 @@ import io.contek.invoker.hbdmlinear.api.common._OrderInfo;
 import io.contek.invoker.hbdmlinear.api.rest.common.RestDataResponse;
 
 import javax.annotation.concurrent.NotThreadSafe;
+import java.util.List;
 
 import static io.contek.invoker.hbdmlinear.api.ApiFactory.RateLimits.ONE_API_KEY_REST_PRIVATE_WRITE_REQUEST;
 import static java.util.Objects.requireNonNull;
@@ -73,5 +74,5 @@ public final class PostSwapCrossOrderInfo extends UserRestRequest<PostSwapCrossO
   }
 
   @NotThreadSafe
-  public static final class Response extends RestDataResponse<_OrderInfo> {}
+  public static final class Response extends RestDataResponse<List<_OrderInfo>> {}
 }
