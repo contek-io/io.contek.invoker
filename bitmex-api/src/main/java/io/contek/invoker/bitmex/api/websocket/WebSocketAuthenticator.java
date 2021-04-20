@@ -33,7 +33,8 @@ public final class WebSocketAuthenticator implements IWebSocketAuthenticator {
     }
     String key = credential.getApiKeyId();
 
-    long expires = clock.instant().getEpochSecond();
+    // Add more time to account for network delay.
+    long expires = clock.instant().getEpochSecond() + 5;
     String payload = "GET/realtime" + expires;
     String signature = credential.sign(payload);
 
