@@ -95,9 +95,11 @@ final class WebSocketMessageParser implements IWebSocketMessageParser {
     if (obj.has(_unsubscribe)) {
       return gson.fromJson(obj, WebSocketUnsubscribeConfirmation.class);
     }
-    JsonObject requestObj = obj.get("request").getAsJsonObject();
-    if (requestObj.has("op") && requestObj.get("op").getAsString().equals(_authKeyExpires)) {
-      return gson.fromJson(obj, WebSocketAuthKeyExpiresConfirmation.class);
+    if (obj.has("success") && obj.get("success").getAsBoolean()) {
+      JsonObject requestObj = obj.get("request").getAsJsonObject();
+      if (requestObj.has("op") && requestObj.get("op").getAsString().equals(_authKeyExpires)) {
+        return gson.fromJson(obj, WebSocketAuthKeyExpiresConfirmation.class);
+      }
     }
     throw new IllegalArgumentException(obj.toString());
   }
