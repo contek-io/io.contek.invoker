@@ -9,15 +9,17 @@ import javax.annotation.concurrent.ThreadSafe;
 @ThreadSafe
 public final class UserWebSocketApi extends WebSocketApi {
 
-  private final OrderUpdateChannel orderUpdateChannel;
+  private OrderUpdateChannel orderUpdateChannel;
 
   public UserWebSocketApi(IActor actor, WebSocketContext context) {
     super(actor, context);
-    this.orderUpdateChannel = new OrderUpdateChannel();
-    attach(this.orderUpdateChannel);
   }
 
   public OrderUpdateChannel getOrderUpdateChannel() {
+    if (orderUpdateChannel == null) {
+      this.orderUpdateChannel = new OrderUpdateChannel();
+      attach(this.orderUpdateChannel);
+    }
     return orderUpdateChannel;
   }
 }
