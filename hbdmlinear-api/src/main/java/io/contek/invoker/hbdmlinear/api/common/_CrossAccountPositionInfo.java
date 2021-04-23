@@ -17,6 +17,6 @@ public class _CrossAccountPositionInfo {
   public double profit_unreal;
   public double withdraw_available;
   public double risk_rate;
-  public List<_CrossPositionInfo> positions;
+  public List<_PositionInfo> positions;
   public List<_CrossAccountContractDetail> contract_detail;
 }

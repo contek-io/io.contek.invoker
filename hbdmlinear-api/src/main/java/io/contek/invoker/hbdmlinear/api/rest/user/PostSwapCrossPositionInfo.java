@@ -5,7 +5,7 @@ import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestParams;
-import io.contek.invoker.hbdmlinear.api.common._CrossPositionInfo;
+import io.contek.invoker.hbdmlinear.api.common._PositionInfo;
 import io.contek.invoker.hbdmlinear.api.rest.common.RestDataResponse;
 
 import javax.annotation.concurrent.NotThreadSafe;
@@ -55,5 +55,5 @@ public final class PostSwapCrossPositionInfo
   }
 
   @NotThreadSafe
-  public static final class Response extends RestDataResponse<List<_CrossPositionInfo>> {}
+  public static final class Response extends RestDataResponse<List<_PositionInfo>> {}
 }
