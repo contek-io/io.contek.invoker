@@ -115,6 +115,7 @@ public final class ApiFactory {
         .addRule(RateLimits.IP_REST_PUBLIC_NON_MARKET_DATA_REQUEST_RULE)
         .addRule(RateLimits.API_KEY_REST_PRIVATE_READ_REQUEST_RULE)
         .addRule(RateLimits.API_KEY_REST_PRIVATE_WRITE_REQUEST_RULE)
+        .addRule(RateLimits.IP_WEB_SOCKET_CONNECTION_RULE)
         .build();
   }
 
@@ -189,6 +190,14 @@ public final class ApiFactory {
             .setResetPeriod(Duration.ofSeconds(3))
             .build();
 
+    public static final RateLimitRule IP_WEB_SOCKET_CONNECTION_RULE =
+        RateLimitRule.newBuilder()
+            .setName("ip_web_socket_connection_rule")
+            .setType(IP)
+            .setMaxPermits(50)
+            .setResetPeriod(Duration.ofSeconds(1))
+            .build();
+
     public static final ImmutableList<RateLimitQuota> ONE_IP_REST_PUBLIC_MARKET_DATA_REQUEST =
         ImmutableList.of(IP_REST_PUBLIC_MARKET_DATA_REQUEST_RULE.createRateLimitQuota(1));
 
@@ -199,6 +208,9 @@ public final class ApiFactory {
         ImmutableList.of(API_KEY_REST_PRIVATE_READ_REQUEST_RULE.createRateLimitQuota(1));
 
     public static final ImmutableList<RateLimitQuota> ONE_API_KEY_REST_PRIVATE_WRITE_REQUEST =
+        ImmutableList.of(API_KEY_REST_PRIVATE_WRITE_REQUEST_RULE.createRateLimitQuota(1));
+
+    public static final ImmutableList<RateLimitQuota> ONE_IP_WEB_SOCKET_CONNECTION_REQUEST =
         ImmutableList.of(API_KEY_REST_PRIVATE_WRITE_REQUEST_RULE.createRateLimitQuota(1));
 
     private RateLimits() {}

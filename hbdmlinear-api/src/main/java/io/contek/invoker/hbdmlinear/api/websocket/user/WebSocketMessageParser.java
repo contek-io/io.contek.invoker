@@ -1,4 +1,4 @@
-package io.contek.invoker.hbdmlinear.api.websocket;
+package io.contek.invoker.hbdmlinear.api.websocket.user;
 
 import com.google.gson.Gson;
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;

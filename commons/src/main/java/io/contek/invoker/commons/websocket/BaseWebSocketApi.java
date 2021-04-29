@@ -53,6 +53,10 @@ public abstract class BaseWebSocketApi implements IWebSocketApi {
     }
   }
 
+  public final IWebSocketMessageParser getParser() {
+    return parser;
+  }
+
   protected abstract ImmutableList<RateLimitQuota> getRequiredQuotas();
 
   protected abstract WebSocketCall createCall(ICredential credential);
