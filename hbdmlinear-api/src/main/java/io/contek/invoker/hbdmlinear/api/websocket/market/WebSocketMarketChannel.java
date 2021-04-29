@@ -1,21 +1,19 @@
-package io.contek.invoker.hbdmlinear.api.websocket;
+package io.contek.invoker.hbdmlinear.api.websocket.market;
 
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.BaseWebSocketChannel;
 import io.contek.invoker.commons.websocket.SubscriptionState;
 import io.contek.invoker.commons.websocket.WebSocketSession;
-import io.contek.invoker.hbdmlinear.api.websocket.common.WebSocketMarketDataMessage;
-import io.contek.invoker.hbdmlinear.api.websocket.common.WebSocketSubscribeRequest;
-import io.contek.invoker.hbdmlinear.api.websocket.common.WebSocketUnsubscribeRequest;
+import io.contek.invoker.hbdmlinear.api.websocket.common.*;
 
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.ThreadSafe;
 
-import static io.contek.invoker.commons.websocket.SubscriptionState.SUBSCRIBING;
-import static io.contek.invoker.commons.websocket.SubscriptionState.UNSUBSCRIBING;
+import static io.contek.invoker.commons.websocket.SubscriptionState.*;
+import static io.contek.invoker.hbdmlinear.api.websocket.common.constants.WebSocketStatusKeys._ok;
 
 @ThreadSafe
-public abstract class WebSocketChannel<Message extends WebSocketMarketDataMessage<?>>
+public abstract class WebSocketMarketChannel<Message extends WebSocketMarketDataMessage<?>>
     extends BaseWebSocketChannel<Message> {
 
   protected abstract String getTopic();
@@ -44,6 +42,24 @@ public abstract class WebSocketChannel<Message extends WebSocketMarketDataMessag
   @Nullable
   @Override
   protected final SubscriptionState getState(AnyWebSocketMessage message) {
+    if (message instanceof WebSocketSubscribeConfirmation) {
+      WebSocketSubscribeConfirmation confirmation = (WebSocketSubscribeConfirmation) message;
+      if (confirmation.subbed.equals(getTopic())) {
+        if (!_ok.equals(confirmation.status)) {
+          throw new IllegalStateException(confirmation.status);
+        }
+        return SUBSCRIBED;
+      }
+    }
+    if (message instanceof WebSocketUnsubscribeConfirmation) {
+      WebSocketUnsubscribeConfirmation confirmation = (WebSocketUnsubscribeConfirmation) message;
+      if (confirmation.unsubbed.equals(getTopic())) {
+        if (!_ok.equals(confirmation.status)) {
+          throw new IllegalStateException(confirmation.status);
+        }
+        return UNSUBSCRIBED;
+      }
+    }
     return null;
   }
 

@@ -1,7 +1,6 @@
 package io.contek.invoker.hbdmlinear.api.websocket.market;
 
 import io.contek.invoker.hbdmlinear.api.common._Depth;
-import io.contek.invoker.hbdmlinear.api.websocket.WebSocketChannel;
 import io.contek.invoker.hbdmlinear.api.websocket.common.WebSocketMarketDataMessage;
 
 import javax.annotation.concurrent.NotThreadSafe;
@@ -9,7 +8,7 @@ import javax.annotation.concurrent.ThreadSafe;
 
 @ThreadSafe
 public final class IncrementalMarketDepthChannel
-    extends WebSocketChannel<IncrementalMarketDepthChannel.Message> {
+    extends WebSocketMarketChannel<IncrementalMarketDepthChannel.Message> {
 
   private final String topic;
 
