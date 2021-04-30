@@ -11,7 +11,7 @@ import javax.annotation.concurrent.NotThreadSafe;
 import java.time.Clock;
 import java.time.Duration;
 
-import static com.google.common.net.UrlEscapers.urlFragmentEscaper;
+import static com.google.common.net.UrlEscapers.urlPathSegmentEscaper;
 import static io.contek.invoker.bitmex.api.ApiFactory.RateLimits.ONE_ANONYMOUS_REST_REQUEST;
 import static io.contek.invoker.bitmex.api.ApiFactory.RateLimits.ONE_AUTHENTICATED_REST_REQUEST;
 import static io.contek.invoker.commons.rest.RestMediaType.JSON;
@@ -92,7 +92,7 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
     if (params.isEmpty()) {
       return "";
     }
-    return "?" + params.getQueryString(urlFragmentEscaper());
+    return "?" + params.getQueryString(urlPathSegmentEscaper());
   }
 
   private String buildUrlString(String paramsString) {
