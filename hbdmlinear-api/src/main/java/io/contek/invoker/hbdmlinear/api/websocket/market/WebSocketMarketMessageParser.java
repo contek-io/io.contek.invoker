@@ -5,7 +5,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import io.contek.invoker.commons.websocket.IWebSocketMessageParser;
 import io.contek.invoker.hbdmlinear.api.websocket.common.WebSocketInboundMessage;
-import io.contek.invoker.hbdmlinear.api.websocket.common.WebSocketMarketDataMessage;
 import io.contek.invoker.hbdmlinear.api.websocket.common.WebSocketSubscribeConfirmation;
 import io.contek.invoker.hbdmlinear.api.websocket.common.WebSocketUnsubscribeConfirmation;
 

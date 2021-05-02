@@ -1,7 +1,6 @@
 package io.contek.invoker.hbdmlinear.api.websocket.market;
 
 import io.contek.invoker.hbdmlinear.api.common._Depth;
-import io.contek.invoker.hbdmlinear.api.websocket.common.WebSocketMarketDataMessage;
 
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
@@ -31,5 +30,5 @@ public final class MarketDepthChannel extends WebSocketMarketChannel<MarketDepth
   }
 
   @NotThreadSafe
-  public static final class Message extends WebSocketMarketDataMessage<_Depth> {}
+  public static final class Message extends WebSocketTickMessage<_Depth> {}
 }
