@@ -17,12 +17,12 @@ final class WebSocketMarketMessageParser implements IWebSocketMessageParser {
 
   private final Gson gson = new Gson();
 
-  private final Map<String, Class<? extends WebSocketMarketDataMessage<?>>> channelMessageTypes =
+  private final Map<String, Class<? extends WebSocketMarketDataMessage>> channelMessageTypes =
       new HashMap<>();
 
   WebSocketMarketMessageParser() {}
 
-  void register(String channel, Class<? extends WebSocketMarketDataMessage<?>> type) {
+  void register(String channel, Class<? extends WebSocketMarketDataMessage> type) {
     synchronized (channelMessageTypes) {
       channelMessageTypes.put(channel, type);
     }
@@ -50,10 +50,10 @@ final class WebSocketMarketMessageParser implements IWebSocketMessageParser {
     throw new UnsupportedOperationException(text);
   }
 
-  private WebSocketMarketDataMessage<?> toMarketDataMessage(JsonObject obj) {
+  private WebSocketMarketDataMessage toMarketDataMessage(JsonObject obj) {
     String ch = obj.get("ch").getAsString();
     synchronized (channelMessageTypes) {
-      Class<? extends WebSocketMarketDataMessage<?>> type = channelMessageTypes.get(ch);
+      Class<? extends WebSocketMarketDataMessage> type = channelMessageTypes.get(ch);
       return gson.fromJson(obj, type);
     }
   }

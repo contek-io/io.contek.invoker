@@ -4,7 +4,10 @@ import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.BaseWebSocketChannel;
 import io.contek.invoker.commons.websocket.SubscriptionState;
 import io.contek.invoker.commons.websocket.WebSocketSession;
-import io.contek.invoker.hbdmlinear.api.websocket.common.*;
+import io.contek.invoker.hbdmlinear.api.websocket.common.WebSocketSubscribeConfirmation;
+import io.contek.invoker.hbdmlinear.api.websocket.common.WebSocketSubscribeRequest;
+import io.contek.invoker.hbdmlinear.api.websocket.common.WebSocketUnsubscribeConfirmation;
+import io.contek.invoker.hbdmlinear.api.websocket.common.WebSocketUnsubscribeRequest;
 
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.ThreadSafe;
@@ -13,7 +16,7 @@ import static io.contek.invoker.commons.websocket.SubscriptionState.*;
 import static io.contek.invoker.hbdmlinear.api.websocket.common.constants.WebSocketStatusKeys._ok;
 
 @ThreadSafe
-public abstract class WebSocketMarketChannel<Message extends WebSocketMarketDataMessage<?>>
+public abstract class WebSocketMarketChannel<Message extends WebSocketMarketDataMessage>
     extends BaseWebSocketChannel<Message> {
 
   protected abstract String getTopic();
