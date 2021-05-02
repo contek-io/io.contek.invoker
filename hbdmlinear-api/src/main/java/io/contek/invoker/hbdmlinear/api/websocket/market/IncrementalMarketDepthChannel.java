@@ -31,5 +31,11 @@ public final class IncrementalMarketDepthChannel
   }
 
   @NotThreadSafe
-  public static final class Message extends WebSocketTickMessage<_Depth> {}
+  public static final class Message extends WebSocketTickMessage<Tick> {}
+
+  @NotThreadSafe
+  public static final class Tick extends _Depth {
+
+    public String event;
+  }
 }
