@@ -8,5 +8,4 @@ import javax.annotation.concurrent.NotThreadSafe;
 public abstract class WebSocketMarketDataMessage extends WebSocketInboundMessage {
 
   public String ch;
-  public Long ts;
 }
