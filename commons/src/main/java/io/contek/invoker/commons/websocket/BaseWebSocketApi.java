@@ -70,7 +70,7 @@ public abstract class BaseWebSocketApi implements IWebSocketApi {
   }
 
   private void forwardMessage(ByteString bytes) {
-    AnyWebSocketMessage message = parser.parse(bytes.asByteBuffer().array());
+    AnyWebSocketMessage message = parser.parse(bytes.toByteArray());
     forwardMessage(message);
   }
 
