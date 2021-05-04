@@ -8,6 +8,7 @@ import io.contek.invoker.security.ICredential;
 import okhttp3.Response;
 import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
+import okio.ByteString;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 
@@ -65,6 +66,15 @@ public abstract class BaseWebSocketApi implements IWebSocketApi {
 
   private void forwardMessage(String text) {
     AnyWebSocketMessage message = parser.parse(text);
+    forwardMessage(message);
+  }
+
+  private void forwardMessage(ByteString bytes) {
+    AnyWebSocketMessage message = parser.parse(bytes.asByteBuffer().array());
+    forwardMessage(message);
+  }
+
+  private void forwardMessage(AnyWebSocketMessage message) {
     checkErrorMessage(message);
 
     synchronized (authenticator) {
@@ -209,6 +219,11 @@ public abstract class BaseWebSocketApi implements IWebSocketApi {
     @Override
     public void onMessage(WebSocket ws, String text) {
       forwardMessage(text);
+    }
+
+    @Override
+    public void onMessage(WebSocket webSocket, ByteString bytes) {
+      forwardMessage(bytes);
     }
 
     @Override
