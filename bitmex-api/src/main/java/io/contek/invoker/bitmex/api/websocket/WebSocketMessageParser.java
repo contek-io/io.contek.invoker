@@ -3,15 +3,37 @@ package io.contek.invoker.bitmex.api.websocket;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import io.contek.invoker.bitmex.api.websocket.common.*;
-import io.contek.invoker.bitmex.api.websocket.market.*;
+import io.contek.invoker.bitmex.api.websocket.common.WebSocketAuthKeyExpiresConfirmation;
+import io.contek.invoker.bitmex.api.websocket.common.WebSocketInfo;
+import io.contek.invoker.bitmex.api.websocket.common.WebSocketRequestConfirmation;
+import io.contek.invoker.bitmex.api.websocket.common.WebSocketSubscribeConfirmation;
+import io.contek.invoker.bitmex.api.websocket.common.WebSocketTableDataMessage;
+import io.contek.invoker.bitmex.api.websocket.common.WebSocketUnsubscribeConfirmation;
+import io.contek.invoker.bitmex.api.websocket.market.InstrumentChannel;
+import io.contek.invoker.bitmex.api.websocket.market.LiquidationChannel;
+import io.contek.invoker.bitmex.api.websocket.market.OrderBookL2Channel;
+import io.contek.invoker.bitmex.api.websocket.market.QuoteChannel;
+import io.contek.invoker.bitmex.api.websocket.market.TradeBinChannel;
+import io.contek.invoker.bitmex.api.websocket.market.TradeChannel;
+import io.contek.invoker.bitmex.api.websocket.user.OrderUpdateChannel;
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.IWebSocketMessageParser;
 
 import javax.annotation.concurrent.Immutable;
 
-import static io.contek.invoker.bitmex.api.websocket.common.constants.WebSocketRequestOperationKeys.*;
-import static io.contek.invoker.bitmex.api.websocket.common.constants.WebSocketTableKeys.*;
+import static io.contek.invoker.bitmex.api.websocket.common.constants.WebSocketRequestOperationKeys._authKeyExpires;
+import static io.contek.invoker.bitmex.api.websocket.common.constants.WebSocketRequestOperationKeys._subscribe;
+import static io.contek.invoker.bitmex.api.websocket.common.constants.WebSocketRequestOperationKeys._unsubscribe;
+import static io.contek.invoker.bitmex.api.websocket.common.constants.WebSocketTableKeys._instrument;
+import static io.contek.invoker.bitmex.api.websocket.common.constants.WebSocketTableKeys._liquidation;
+import static io.contek.invoker.bitmex.api.websocket.common.constants.WebSocketTableKeys._order;
+import static io.contek.invoker.bitmex.api.websocket.common.constants.WebSocketTableKeys._orderBookL2;
+import static io.contek.invoker.bitmex.api.websocket.common.constants.WebSocketTableKeys._quote;
+import static io.contek.invoker.bitmex.api.websocket.common.constants.WebSocketTableKeys._trade;
+import static io.contek.invoker.bitmex.api.websocket.common.constants.WebSocketTableKeys._tradeBin1d;
+import static io.contek.invoker.bitmex.api.websocket.common.constants.WebSocketTableKeys._tradeBin1h;
+import static io.contek.invoker.bitmex.api.websocket.common.constants.WebSocketTableKeys._tradeBin1m;
+import static io.contek.invoker.bitmex.api.websocket.common.constants.WebSocketTableKeys._tradeBin5m;
 
 @Immutable
 final class WebSocketMessageParser implements IWebSocketMessageParser {
@@ -59,6 +81,8 @@ final class WebSocketMessageParser implements IWebSocketMessageParser {
         return gson.fromJson(obj, TradeBinChannel.Message.class);
       case _liquidation:
         return gson.fromJson(obj, LiquidationChannel.Message.class);
+      case _order:
+        return gson.fromJson(obj, OrderUpdateChannel.Message.class);
       default:
     }
     throw new IllegalArgumentException(obj.toString());
@@ -71,8 +95,11 @@ final class WebSocketMessageParser implements IWebSocketMessageParser {
     if (obj.has(_unsubscribe)) {
       return gson.fromJson(obj, WebSocketUnsubscribeConfirmation.class);
     }
-    if (obj.has(_authKeyExpires)) {
-      return gson.fromJson(obj, WebSocketAuthKeyExpiresConfirmation.class);
+    if (obj.has("success") && obj.get("success").getAsBoolean()) {
+      JsonObject requestObj = obj.get("request").getAsJsonObject();
+      if (requestObj.has("op") && requestObj.get("op").getAsString().equals(_authKeyExpires)) {
+        return gson.fromJson(obj, WebSocketAuthKeyExpiresConfirmation.class);
+      }
     }
     throw new IllegalArgumentException(obj.toString());
   }
