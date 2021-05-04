@@ -3,11 +3,7 @@ package io.contek.invoker.deribit.api.websocket;
 import com.google.common.collect.ImmutableList;
 import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
-import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
-import io.contek.invoker.commons.websocket.BaseWebSocketApi;
-import io.contek.invoker.commons.websocket.IWebSocketAuthenticator;
-import io.contek.invoker.commons.websocket.WebSocketCall;
-import io.contek.invoker.commons.websocket.WebSocketContext;
+import io.contek.invoker.commons.websocket.*;
 import io.contek.invoker.security.ICredential;
 
 import javax.annotation.concurrent.ThreadSafe;
@@ -18,7 +14,11 @@ public abstract class WebSocketApi extends BaseWebSocketApi {
   private final WebSocketContext context;
 
   protected WebSocketApi(IActor actor, WebSocketContext context) {
-    super(actor, WebSocketMessageParser.getInstance(), IWebSocketAuthenticator.noOp());
+    super(
+        actor,
+        WebSocketMessageParser.getInstance(),
+        IWebSocketAuthenticator.noOp(),
+        IWebSocketLiveKeeper.noOp());
     this.context = context;
   }
 
@@ -33,6 +33,5 @@ public abstract class WebSocketApi extends BaseWebSocketApi {
   }
 
   @Override
-  protected final void checkErrorMessage(AnyWebSocketMessage message) {
-  }
+  protected final void checkErrorMessage(AnyWebSocketMessage message) {}
 }

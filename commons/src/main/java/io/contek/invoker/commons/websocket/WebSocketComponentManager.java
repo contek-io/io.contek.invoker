@@ -63,8 +63,8 @@ final class WebSocketComponentManager {
     return !active.isEmpty() || !idle.isEmpty();
   }
 
-  void onMessage(AnyWebSocketMessage message) {
-    active.forEach(component -> component.onMessage(message));
+  void onMessage(AnyWebSocketMessage message, WebSocketSession session) {
+    active.forEach(component -> component.onMessage(message, session));
   }
 
   void afterDisconnect() {

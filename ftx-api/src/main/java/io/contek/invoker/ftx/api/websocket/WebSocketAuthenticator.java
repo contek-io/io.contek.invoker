@@ -52,7 +52,7 @@ public final class WebSocketAuthenticator implements IWebSocketAuthenticator {
   }
 
   @Override
-  public void onMessage(AnyWebSocketMessage message) {}
+  public void onMessage(AnyWebSocketMessage message, WebSocketSession session) {}
 
   @Override
   public void afterDisconnect() {

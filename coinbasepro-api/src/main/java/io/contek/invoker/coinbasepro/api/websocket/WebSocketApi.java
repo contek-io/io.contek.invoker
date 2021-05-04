@@ -16,7 +16,11 @@ public abstract class WebSocketApi extends BaseWebSocketApi {
   private final WebSocketContext context;
 
   protected WebSocketApi(IActor actor, WebSocketContext context) {
-    super(actor, WebSocketMessageParser.getInstance(), IWebSocketAuthenticator.noOp());
+    super(
+        actor,
+        WebSocketMessageParser.getInstance(),
+        IWebSocketAuthenticator.noOp(),
+        IWebSocketLiveKeeper.noOp());
     this.context = context;
   }
 

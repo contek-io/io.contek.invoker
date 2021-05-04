@@ -32,6 +32,7 @@ public abstract class BaseWebSocketApi implements IWebSocketApi {
   private final IActor actor;
   private final IWebSocketMessageParser parser;
   private final IWebSocketAuthenticator authenticator;
+  private final IWebSocketLiveKeeper liveKeeper;
 
   private final Handler handler = new Handler();
   private final ScheduledExecutorService scheduler = newSingleThreadScheduledExecutor();
@@ -41,10 +42,14 @@ public abstract class BaseWebSocketApi implements IWebSocketApi {
   private final WebSocketComponentManager components = new WebSocketComponentManager();
 
   protected BaseWebSocketApi(
-      IActor actor, IWebSocketMessageParser parser, IWebSocketAuthenticator authenticator) {
+      IActor actor,
+      IWebSocketMessageParser parser,
+      IWebSocketAuthenticator authenticator,
+      IWebSocketLiveKeeper liveKeeper) {
     this.actor = actor;
     this.parser = parser;
     this.authenticator = authenticator;
+    this.liveKeeper = liveKeeper;
   }
 
   public final void attach(IWebSocketComponent channel) {
@@ -77,10 +82,13 @@ public abstract class BaseWebSocketApi implements IWebSocketApi {
   private void forwardMessage(AnyWebSocketMessage message) {
     checkErrorMessage(message);
 
-    synchronized (authenticator) {
-      authenticator.onMessage(message);
-      synchronized (components) {
-        components.onMessage(message);
+    synchronized (sessionHolder) {
+      WebSocketSession session = sessionHolder.get();
+      synchronized (authenticator) {
+        authenticator.onMessage(message, session);
+        synchronized (components) {
+          components.onMessage(message, session);
+        }
       }
     }
   }
@@ -145,6 +153,7 @@ public abstract class BaseWebSocketApi implements IWebSocketApi {
           }
 
           components.heartbeat(session);
+          liveKeeper.onHeartbeat(session);
         }
       }
     } catch (Throwable t) {

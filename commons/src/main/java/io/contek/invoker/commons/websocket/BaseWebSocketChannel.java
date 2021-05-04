@@ -8,13 +8,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
-import static io.contek.invoker.commons.websocket.ConsumerState.ACTIVE;
-import static io.contek.invoker.commons.websocket.ConsumerState.IDLE;
-import static io.contek.invoker.commons.websocket.ConsumerState.TERMINATED;
-import static io.contek.invoker.commons.websocket.SubscriptionState.SUBSCRIBED;
-import static io.contek.invoker.commons.websocket.SubscriptionState.SUBSCRIBING;
-import static io.contek.invoker.commons.websocket.SubscriptionState.UNSUBSCRIBED;
-import static io.contek.invoker.commons.websocket.SubscriptionState.UNSUBSCRIBING;
+import static io.contek.invoker.commons.websocket.ConsumerState.*;
+import static io.contek.invoker.commons.websocket.SubscriptionState.*;
 import static org.slf4j.LoggerFactory.getLogger;
 
 @ThreadSafe
@@ -81,7 +76,7 @@ public abstract class BaseWebSocketChannel<Message> implements IWebSocketCompone
   }
 
   @Override
-  public final void onMessage(AnyWebSocketMessage message) {
+  public final void onMessage(AnyWebSocketMessage message, WebSocketSession session) {
     synchronized (consumers) {
       Message casted = tryCast(message);
       if (casted != null) {

@@ -5,7 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.IWebSocketMessageParser;
-import io.contek.invoker.hbdmlinear.api.websocket.common.WebSocketInboundMessage;
+import io.contek.invoker.hbdmlinear.api.websocket.common.WebSocketPing;
 import io.contek.invoker.hbdmlinear.api.websocket.common.WebSocketSubscribeConfirmation;
 import io.contek.invoker.hbdmlinear.api.websocket.common.WebSocketUnsubscribeConfirmation;
 
@@ -35,7 +35,7 @@ final class WebSocketMarketMessageParser implements IWebSocketMessageParser {
   }
 
   @Override
-  public WebSocketInboundMessage parse(String text) {
+  public AnyWebSocketMessage parse(String text) {
     JsonElement json = gson.fromJson(text, JsonElement.class);
     return parse(json);
   }
@@ -51,13 +51,17 @@ final class WebSocketMarketMessageParser implements IWebSocketMessageParser {
     }
   }
 
-  private WebSocketInboundMessage parse(JsonElement json) {
+  private AnyWebSocketMessage parse(JsonElement json) {
     if (!json.isJsonObject()) {
       throw new IllegalArgumentException(json.toString());
     }
     JsonObject obj = json.getAsJsonObject();
     if (obj.has("ch")) {
       return toMarketDataMessage(obj);
+    }
+
+    if (obj.has("ping")) {
+      return gson.fromJson(obj, WebSocketPing.class);
     }
 
     if (obj.has("subbed")) {

@@ -6,6 +6,7 @@ import com.google.common.collect.Table;
 import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
 import io.contek.invoker.commons.websocket.*;
+import io.contek.invoker.hbdmlinear.api.websocket.common.WebSocketLiveKeeper;
 import io.contek.invoker.security.ICredential;
 
 import javax.annotation.concurrent.ThreadSafe;
@@ -26,7 +27,11 @@ public final class MarketWebSocketApi extends BaseWebSocketApi {
   private final Map<String, TradeDetailChannel> tradeDetailChannels = new HashMap<>();
 
   public MarketWebSocketApi(IActor actor, WebSocketContext context) {
-    super(actor, new WebSocketMarketMessageParser(), IWebSocketAuthenticator.noOp());
+    super(
+        actor,
+        new WebSocketMarketMessageParser(),
+        IWebSocketAuthenticator.noOp(),
+        WebSocketLiveKeeper.getInstance());
     this.context = context;
   }
 
