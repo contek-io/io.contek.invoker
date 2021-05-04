@@ -9,26 +9,12 @@ import javax.annotation.concurrent.ThreadSafe;
 public final class IncrementalMarketDepthChannel
     extends WebSocketMarketChannel<IncrementalMarketDepthChannel.Message> {
 
-  private final String topic;
-
-  IncrementalMarketDepthChannel(String contractCode, int size, WebSocketMarketRequestIdGenerator requestIdGenerator) {
-    super(requestIdGenerator);
-    this.topic = String.format("market.%s.depth.size_%d.high_freq", contractCode, size);
-  }
-
-  @Override
-  protected String getTopic() {
-    return topic;
-  }
-
-  @Override
-  protected Class<Message> getMessageType() {
-    return Message.class;
-  }
-
-  @Override
-  protected boolean accepts(Message message) {
-    return topic.equals(message.ch);
+  IncrementalMarketDepthChannel(
+      String contractCode, int size, WebSocketMarketRequestIdGenerator requestIdGenerator) {
+    super(
+        String.format("market.%s.depth.size_%d.high_freq", contractCode, size),
+        IncrementalMarketDepthChannel.Message.class,
+        requestIdGenerator);
   }
 
   @NotThreadSafe

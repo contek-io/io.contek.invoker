@@ -8,26 +8,8 @@ import javax.annotation.concurrent.ThreadSafe;
 @ThreadSafe
 public final class TradeDetailChannel extends WebSocketMarketChannel<TradeDetailChannel.Message> {
 
-  private final String topic;
-
   TradeDetailChannel(String contractCode, WebSocketMarketRequestIdGenerator requestIdGenerator) {
-    super(requestIdGenerator);
-    this.topic = "market." + contractCode + ".trade.detail";
-  }
-
-  @Override
-  protected String getTopic() {
-    return topic;
-  }
-
-  @Override
-  protected Class<Message> getMessageType() {
-    return Message.class;
-  }
-
-  @Override
-  protected boolean accepts(Message message) {
-    return topic.equals(message.ch);
+    super("market." + contractCode + ".trade.detail", TradeDetailChannel.Message.class, requestIdGenerator);
   }
 
   @NotThreadSafe

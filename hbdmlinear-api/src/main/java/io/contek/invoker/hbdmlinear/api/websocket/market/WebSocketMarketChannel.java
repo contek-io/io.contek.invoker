@@ -16,26 +16,43 @@ import static io.contek.invoker.commons.websocket.SubscriptionState.*;
 import static io.contek.invoker.hbdmlinear.api.websocket.common.constants.WebSocketStatusKeys._ok;
 
 @ThreadSafe
-public abstract class WebSocketMarketChannel<Message extends WebSocketMarketDataMessage>
+abstract class WebSocketMarketChannel<Message extends WebSocketMarketDataMessage>
     extends BaseWebSocketChannel<Message> {
 
+  private final String topic;
+  private final Class<Message> type;
   private final WebSocketMarketRequestIdGenerator requestIdGenerator;
 
-  protected WebSocketMarketChannel(WebSocketMarketRequestIdGenerator requestIdGenerator) {
+  protected WebSocketMarketChannel(
+      String topic, Class<Message> type, WebSocketMarketRequestIdGenerator requestIdGenerator) {
+    this.topic = topic;
+    this.type = type;
     this.requestIdGenerator = requestIdGenerator;
   }
 
-  protected abstract String getTopic();
+  final void register(WebSocketMarketMessageParser parser) {
+    parser.register(topic, type);
+  }
 
   @Override
   protected final String getDisplayName() {
-    return getTopic();
+    return topic;
+  }
+
+  @Override
+  protected final Class<Message> getMessageType() {
+    return type;
+  }
+
+  @Override
+  protected final boolean accepts(Message message) {
+    return topic.equals(message.ch);
   }
 
   @Override
   protected final SubscriptionState subscribe(WebSocketSession session) {
     WebSocketSubscribeRequest request = new WebSocketSubscribeRequest();
-    request.sub = getTopic();
+    request.sub = topic;
     request.id = Long.toString(requestIdGenerator.generateNext());
     session.send(request);
     return SUBSCRIBING;
@@ -44,7 +61,7 @@ public abstract class WebSocketMarketChannel<Message extends WebSocketMarketData
   @Override
   protected final SubscriptionState unsubscribe(WebSocketSession session) {
     WebSocketUnsubscribeRequest request = new WebSocketUnsubscribeRequest();
-    request.unsub = getTopic();
+    request.unsub = topic;
     request.id = Long.toString(requestIdGenerator.generateNext());
     session.send(request);
     return UNSUBSCRIBING;
@@ -55,7 +72,7 @@ public abstract class WebSocketMarketChannel<Message extends WebSocketMarketData
   protected final SubscriptionState getState(AnyWebSocketMessage message) {
     if (message instanceof WebSocketSubscribeConfirmation) {
       WebSocketSubscribeConfirmation confirmation = (WebSocketSubscribeConfirmation) message;
-      if (confirmation.subbed.equals(getTopic())) {
+      if (confirmation.subbed.equals(topic)) {
         if (!_ok.equals(confirmation.status)) {
           throw new IllegalStateException(confirmation.status);
         }
@@ -64,7 +81,7 @@ public abstract class WebSocketMarketChannel<Message extends WebSocketMarketData
     }
     if (message instanceof WebSocketUnsubscribeConfirmation) {
       WebSocketUnsubscribeConfirmation confirmation = (WebSocketUnsubscribeConfirmation) message;
-      if (confirmation.unsubbed.equals(getTopic())) {
+      if (confirmation.unsubbed.equals(topic)) {
         if (!_ok.equals(confirmation.status)) {
           throw new IllegalStateException(confirmation.status);
         }
