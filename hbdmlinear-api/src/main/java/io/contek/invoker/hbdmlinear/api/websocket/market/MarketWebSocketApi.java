@@ -31,19 +31,24 @@ public final class MarketWebSocketApi extends BaseWebSocketApi {
   public IncrementalMarketDepthChannel getIncrementalMarketDepthChannel(
       String contractCode, int size) {
     synchronized (integerIncrementalMarketDepthChannels) {
-      IncrementalMarketDepthChannel channel =
+      IncrementalMarketDepthChannel result =
           integerIncrementalMarketDepthChannels.get(contractCode, size);
-      if (channel == null) {
-        channel = new IncrementalMarketDepthChannel(contractCode, size);
-        integerIncrementalMarketDepthChannels.put(contractCode, size, channel);
+      if (result == null) {
+        result = new IncrementalMarketDepthChannel(contractCode, size);
+        attach(result);
+        integerIncrementalMarketDepthChannels.put(contractCode, size, result);
       }
-      return channel;
+      return result;
     }
   }
 
   public TradeDetailChannel getTradeDetailChannel(String contractCode) {
     synchronized (tradeDetailChannels) {
-      return tradeDetailChannels.computeIfAbsent(contractCode, TradeDetailChannel::new);
+      return tradeDetailChannels.computeIfAbsent(contractCode, k -> {
+        TradeDetailChannel result = new TradeDetailChannel(k);
+        attach(result);
+        return result;
+      });
     }
   }
 
