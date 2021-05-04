@@ -10,7 +10,8 @@ public final class MarketDepthChannel extends WebSocketMarketChannel<MarketDepth
 
   private final String topic;
 
-  MarketDepthChannel(String contractCode, String type) {
+  MarketDepthChannel(String contractCode, String type, WebSocketMarketRequestIdGenerator requestIdGenerator) {
+    super(requestIdGenerator);
     this.topic = String.format("market.%s.depth.%s", contractCode, type);
   }
 

@@ -10,7 +10,8 @@ public final class TradeDetailChannel extends WebSocketMarketChannel<TradeDetail
 
   private final String topic;
 
-  TradeDetailChannel(String contractCode) {
+  TradeDetailChannel(String contractCode, WebSocketMarketRequestIdGenerator requestIdGenerator) {
+    super(requestIdGenerator);
     this.topic = "market." + contractCode + ".trade.detail";
   }
 

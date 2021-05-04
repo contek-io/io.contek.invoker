@@ -18,6 +18,7 @@ import static io.contek.invoker.hbdmlinear.api.ApiFactory.RateLimits.ONE_IP_WEB_
 public final class MarketWebSocketApi extends BaseWebSocketApi {
 
   private final WebSocketContext context;
+  private final WebSocketMarketRequestIdGenerator requestIdGenerator = new WebSocketMarketRequestIdGenerator();
 
   private final Table<String, Integer, IncrementalMarketDepthChannel>
       integerIncrementalMarketDepthChannels = HashBasedTable.create();
@@ -34,7 +35,7 @@ public final class MarketWebSocketApi extends BaseWebSocketApi {
       IncrementalMarketDepthChannel result =
           integerIncrementalMarketDepthChannels.get(contractCode, size);
       if (result == null) {
-        result = new IncrementalMarketDepthChannel(contractCode, size);
+        result = new IncrementalMarketDepthChannel(contractCode, size, requestIdGenerator);
         attach(result);
         integerIncrementalMarketDepthChannels.put(contractCode, size, result);
       }
@@ -45,7 +46,7 @@ public final class MarketWebSocketApi extends BaseWebSocketApi {
   public TradeDetailChannel getTradeDetailChannel(String contractCode) {
     synchronized (tradeDetailChannels) {
       return tradeDetailChannels.computeIfAbsent(contractCode, k -> {
-        TradeDetailChannel result = new TradeDetailChannel(k);
+        TradeDetailChannel result = new TradeDetailChannel(k, requestIdGenerator);
         attach(result);
         return result;
       });

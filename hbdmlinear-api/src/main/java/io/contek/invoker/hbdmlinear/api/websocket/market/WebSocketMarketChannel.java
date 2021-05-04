@@ -19,6 +19,12 @@ import static io.contek.invoker.hbdmlinear.api.websocket.common.constants.WebSoc
 public abstract class WebSocketMarketChannel<Message extends WebSocketMarketDataMessage>
     extends BaseWebSocketChannel<Message> {
 
+  private final WebSocketMarketRequestIdGenerator requestIdGenerator;
+
+  protected WebSocketMarketChannel(WebSocketMarketRequestIdGenerator requestIdGenerator) {
+    this.requestIdGenerator = requestIdGenerator;
+  }
+
   protected abstract String getTopic();
 
   @Override
@@ -30,6 +36,7 @@ public abstract class WebSocketMarketChannel<Message extends WebSocketMarketData
   protected final SubscriptionState subscribe(WebSocketSession session) {
     WebSocketSubscribeRequest request = new WebSocketSubscribeRequest();
     request.sub = getTopic();
+    request.id = Long.toString(requestIdGenerator.generateNext());
     session.send(request);
     return SUBSCRIBING;
   }
@@ -38,6 +45,7 @@ public abstract class WebSocketMarketChannel<Message extends WebSocketMarketData
   protected final SubscriptionState unsubscribe(WebSocketSession session) {
     WebSocketUnsubscribeRequest request = new WebSocketUnsubscribeRequest();
     request.unsub = getTopic();
+    request.id = Long.toString(requestIdGenerator.generateNext());
     session.send(request);
     return UNSUBSCRIBING;
   }

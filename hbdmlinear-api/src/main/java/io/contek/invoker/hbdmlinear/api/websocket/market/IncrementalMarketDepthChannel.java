@@ -11,7 +11,8 @@ public final class IncrementalMarketDepthChannel
 
   private final String topic;
 
-  IncrementalMarketDepthChannel(String contractCode, int size) {
+  IncrementalMarketDepthChannel(String contractCode, int size, WebSocketMarketRequestIdGenerator requestIdGenerator) {
+    super(requestIdGenerator);
     this.topic = String.format("market.%s.depth.size_%d.high_freq", contractCode, size);
   }
 
