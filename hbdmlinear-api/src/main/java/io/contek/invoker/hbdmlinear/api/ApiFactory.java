@@ -211,7 +211,7 @@ public final class ApiFactory {
         ImmutableList.of(API_KEY_REST_PRIVATE_WRITE_REQUEST_RULE.createRateLimitQuota(1));
 
     public static final ImmutableList<RateLimitQuota> ONE_IP_WEB_SOCKET_CONNECTION_REQUEST =
-        ImmutableList.of(API_KEY_REST_PRIVATE_WRITE_REQUEST_RULE.createRateLimitQuota(1));
+        ImmutableList.of(IP_WEB_SOCKET_CONNECTION_RULE.createRateLimitQuota(1));
 
     private RateLimits() {}
   }
