@@ -69,15 +69,16 @@ public abstract class WebSocketChannel<Message> extends BaseWebSocketChannel<Mes
   @Nullable
   @Override
   protected final SubscriptionState getState(AnyWebSocketMessage message) {
+    if (!(message instanceof WebSocketCommandConfirmation)) {
+      return null;
+    }
+
+    WebSocketCommandConfirmation confirmation = (WebSocketCommandConfirmation) message;
     synchronized (pendingCommandHolder) {
       WebSocketCommand command = pendingCommandHolder.get();
       if (command == null) {
         return null;
       }
-      if (!(message instanceof WebSocketCommandConfirmation)) {
-        return null;
-      }
-      WebSocketCommandConfirmation confirmation = (WebSocketCommandConfirmation) message;
       if (confirmation.id == null || !confirmation.id.equals(command.id)) {
         return null;
       }

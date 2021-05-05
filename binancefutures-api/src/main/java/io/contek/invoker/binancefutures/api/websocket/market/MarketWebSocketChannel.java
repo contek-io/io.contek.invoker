@@ -15,10 +15,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import static io.contek.invoker.binancefutures.api.websocket.common.constants.WebSocketMethods.SUBSCRIBE;
 import static io.contek.invoker.binancefutures.api.websocket.common.constants.WebSocketMethods.UNSUBSCRIBE;
-import static io.contek.invoker.commons.websocket.SubscriptionState.SUBSCRIBED;
-import static io.contek.invoker.commons.websocket.SubscriptionState.SUBSCRIBING;
-import static io.contek.invoker.commons.websocket.SubscriptionState.UNSUBSCRIBED;
-import static io.contek.invoker.commons.websocket.SubscriptionState.UNSUBSCRIBING;
+import static io.contek.invoker.commons.websocket.SubscriptionState.*;
 
 @ThreadSafe
 public abstract class MarketWebSocketChannel<Message> extends BaseWebSocketChannel<Message> {
@@ -44,6 +41,7 @@ public abstract class MarketWebSocketChannel<Message> extends BaseWebSocketChann
       if (pendingCommandHolder.get() != null) {
         throw new IllegalStateException();
       }
+
       WebSocketCommand command = new WebSocketCommand();
       command.method = SUBSCRIBE;
       command.params = ImmutableList.of(getTopic());
@@ -60,6 +58,7 @@ public abstract class MarketWebSocketChannel<Message> extends BaseWebSocketChann
       if (pendingCommandHolder.get() != null) {
         throw new IllegalStateException();
       }
+
       WebSocketCommand command = new WebSocketCommand();
       command.method = UNSUBSCRIBE;
       command.params = ImmutableList.of(getTopic());
@@ -73,15 +72,16 @@ public abstract class MarketWebSocketChannel<Message> extends BaseWebSocketChann
   @Nullable
   @Override
   protected final SubscriptionState getState(AnyWebSocketMessage message) {
+    if (!(message instanceof WebSocketCommandConfirmation)) {
+      return null;
+    }
+    WebSocketCommandConfirmation confirmation = (WebSocketCommandConfirmation) message;
+
     synchronized (pendingCommandHolder) {
       WebSocketCommand command = pendingCommandHolder.get();
       if (command == null) {
         return null;
       }
-      if (!(message instanceof WebSocketCommandConfirmation)) {
-        return null;
-      }
-      WebSocketCommandConfirmation confirmation = (WebSocketCommandConfirmation) message;
       if (confirmation.id == null || !confirmation.id.equals(command.id)) {
         return null;
       }

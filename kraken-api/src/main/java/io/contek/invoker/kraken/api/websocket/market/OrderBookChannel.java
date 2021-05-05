@@ -14,7 +14,6 @@ import io.contek.invoker.kraken.api.websocket.common.constants.WebSocketChannelK
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import static io.contek.invoker.kraken.api.common._OrderBookLevel.toOrderBookLevel;
@@ -27,10 +26,12 @@ public final class OrderBookChannel extends WebSocketChannel<OrderBookChannel.Me
   public static final String BID_INCREMENTAL_KEY = "b";
   public static final String ASK_INCREMENTAL_KEY = "a";
 
-  private final String symbolName;
+  private final String pair;
+  private final int depth;
 
-  OrderBookChannel(String symbolName) {
-    this.symbolName = symbolName;
+  OrderBookChannel(String pair, int depth) {
+    this.pair = pair;
+    this.depth = depth;
   }
 
   private static List<_OrderBookLevel> toOrderBookEntries(JsonElement jsonArray) {
@@ -45,18 +46,23 @@ public final class OrderBookChannel extends WebSocketChannel<OrderBookChannel.Me
   protected Subscription getSubscription() {
     Subscription subscription = new Subscription();
     subscription.name = WebSocketChannelKeys._orderbook;
-    subscription.depth = 1000;
+    subscription.depth = depth;
     return subscription;
   }
 
   @Override
-  protected List<String> getPair() {
-    return Collections.singletonList(symbolName);
+  protected String getPair() {
+    return pair;
+  }
+
+  @Override
+  protected boolean matches(Subscription response, Subscription request) {
+    return request.name.equals(response.name) && request.depth.equals(response.depth);
   }
 
   @Override
   protected String getDisplayName() {
-    return String.format("%s_%s", WebSocketChannelKeys._orderbook, symbolName);
+    return String.format("%s_%s", WebSocketChannelKeys._orderbook, pair);
   }
 
   @Override
@@ -66,7 +72,7 @@ public final class OrderBookChannel extends WebSocketChannel<OrderBookChannel.Me
 
   @Override
   protected boolean accepts(OrderBookChannel.Message message) {
-    return symbolName.equals(message.pair);
+    return pair.equals(message.pair);
   }
 
   @NotThreadSafe

@@ -11,9 +11,7 @@ import io.contek.invoker.kraken.api.websocket.common.constants.WebSocketChannelK
 import io.contek.invoker.kraken.api.websocket.market.OrderBookChannel;
 import io.contek.invoker.kraken.api.websocket.market.TradesChannel;
 
-import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
-
 
 @Immutable
 final class WebSocketMessageParser implements IWebSocketMessageParser {
@@ -24,7 +22,6 @@ final class WebSocketMessageParser implements IWebSocketMessageParser {
     return InstanceHolder.INSTANCE;
   }
 
-  @Nullable
   @Override
   public WebSocketInboundMessage parse(String text) {
     JsonElement json = gson.fromJson(text, JsonElement.class);

@@ -11,21 +11,20 @@ import io.contek.invoker.kraken.api.websocket.common.constants.WebSocketChannelK
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @ThreadSafe
 public final class TradesChannel extends WebSocketChannel<TradesChannel.Message> {
 
-  private final String symbolName;
+  private final String pair;
 
-  TradesChannel(String symbolName) {
-    this.symbolName = symbolName;
+  TradesChannel(String pair) {
+    this.pair = pair;
   }
 
   @Override
   protected String getDisplayName() {
-    return String.format("%s_%s", WebSocketChannelKeys._trade, symbolName);
+    return String.format("%s_%s", WebSocketChannelKeys._trade, pair);
   }
 
   @Override
@@ -35,7 +34,7 @@ public final class TradesChannel extends WebSocketChannel<TradesChannel.Message>
 
   @Override
   protected boolean accepts(TradesChannel.Message message) {
-    return message.pair.equals(symbolName);
+    return message.pair.equals(pair);
   }
 
   @Override
@@ -46,8 +45,13 @@ public final class TradesChannel extends WebSocketChannel<TradesChannel.Message>
   }
 
   @Override
-  protected List<String> getPair() {
-    return Collections.singletonList(this.symbolName);
+  protected String getPair() {
+    return pair;
+  }
+
+  @Override
+  protected boolean matches(Subscription response, Subscription request) {
+    return request.name.equals(response.name);
   }
 
   @NotThreadSafe
