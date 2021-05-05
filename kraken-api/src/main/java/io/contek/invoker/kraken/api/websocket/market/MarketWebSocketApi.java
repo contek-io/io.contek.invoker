@@ -25,7 +25,7 @@ public final class MarketWebSocketApi extends WebSocketApi {
     synchronized (orderBookChannels) {
       OrderBookChannel result = orderBookChannels.get(pair, depth);
       if (result == null) {
-        result = new OrderBookChannel(pair, depth);
+        result = new OrderBookChannel(pair, depth, getRequestIdGenerator());
         attach(result);
         orderBookChannels.put(pair, depth, result);
       }
@@ -38,7 +38,7 @@ public final class MarketWebSocketApi extends WebSocketApi {
       return tradesChannels.computeIfAbsent(
           symbol,
           k -> {
-            TradesChannel result = new TradesChannel(k);
+            TradesChannel result = new TradesChannel(k, getRequestIdGenerator());
             attach(result);
             return result;
           });

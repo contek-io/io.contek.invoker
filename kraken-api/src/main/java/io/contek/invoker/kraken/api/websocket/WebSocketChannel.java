@@ -20,14 +20,18 @@ import static io.contek.invoker.commons.websocket.SubscriptionState.*;
 public abstract class WebSocketChannel<Message extends WebSocketInboundMessage>
     extends BaseWebSocketChannel<Message> {
 
+  private final WebSocketRequestIdGenerator requestIdGenerator;
+
   private final AtomicReference<WebSocketRequest> pendingRequestHolder =
       new AtomicReference<>(null);
+
+  protected WebSocketChannel(WebSocketRequestIdGenerator requestIdGenerator) {
+    this.requestIdGenerator = requestIdGenerator;
+  }
 
   protected abstract Subscription getSubscription();
 
   protected abstract String getPair();
-
-  protected abstract boolean matches(Subscription response, Subscription request);
 
   @Override
   protected final SubscriptionState subscribe(WebSocketSession session) {
@@ -38,6 +42,7 @@ public abstract class WebSocketChannel<Message extends WebSocketInboundMessage>
 
       WebSocketRequest request = new WebSocketRequest();
       request.event = "subscribe";
+      request.reqid = requestIdGenerator.generateNext();
       request.pair = ImmutableList.of(getPair());
       request.subscription = getSubscription();
       session.send(request);
@@ -55,6 +60,7 @@ public abstract class WebSocketChannel<Message extends WebSocketInboundMessage>
 
       WebSocketRequest request = new WebSocketRequest();
       request.event = "unsubscribe";
+      request.reqid = requestIdGenerator.generateNext();
       request.pair = ImmutableList.of(getPair());
       request.subscription = getSubscription();
       session.send(request);
@@ -79,7 +85,7 @@ public abstract class WebSocketChannel<Message extends WebSocketInboundMessage>
       if (!response.event.equals("subscriptionStatus")) {
         return null;
       }
-      if (response.subscription == null || !matches(response.subscription, request.subscription)) {
+      if (response.reqid == null || response.reqid.equals(request.reqid)) {
         return null;
       }
       reset();

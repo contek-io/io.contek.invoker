@@ -4,6 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import io.contek.invoker.kraken.api.common._Trade;
 import io.contek.invoker.kraken.api.websocket.WebSocketChannel;
+import io.contek.invoker.kraken.api.websocket.WebSocketRequestIdGenerator;
 import io.contek.invoker.kraken.api.websocket.common.Subscription;
 import io.contek.invoker.kraken.api.websocket.common.WebSocketChannelMessage;
 import io.contek.invoker.kraken.api.websocket.common.constants.WebSocketChannelKeys;
@@ -18,7 +19,8 @@ public final class TradesChannel extends WebSocketChannel<TradesChannel.Message>
 
   private final String pair;
 
-  TradesChannel(String pair) {
+  TradesChannel(String pair, WebSocketRequestIdGenerator requestIdGenerator) {
+    super(requestIdGenerator);
     this.pair = pair;
   }
 
@@ -47,11 +49,6 @@ public final class TradesChannel extends WebSocketChannel<TradesChannel.Message>
   @Override
   protected String getPair() {
     return pair;
-  }
-
-  @Override
-  protected boolean matches(Subscription response, Subscription request) {
-    return request.name.equals(response.name);
   }
 
   @NotThreadSafe

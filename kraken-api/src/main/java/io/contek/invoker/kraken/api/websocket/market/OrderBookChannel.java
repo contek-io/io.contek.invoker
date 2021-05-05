@@ -7,6 +7,7 @@ import com.google.gson.JsonObject;
 import io.contek.invoker.kraken.api.common._OrderBook;
 import io.contek.invoker.kraken.api.common._OrderBookLevel;
 import io.contek.invoker.kraken.api.websocket.WebSocketChannel;
+import io.contek.invoker.kraken.api.websocket.WebSocketRequestIdGenerator;
 import io.contek.invoker.kraken.api.websocket.common.Subscription;
 import io.contek.invoker.kraken.api.websocket.common.WebSocketChannelMessage;
 import io.contek.invoker.kraken.api.websocket.common.constants.WebSocketChannelKeys;
@@ -29,7 +30,8 @@ public final class OrderBookChannel extends WebSocketChannel<OrderBookChannel.Me
   private final String pair;
   private final int depth;
 
-  OrderBookChannel(String pair, int depth) {
+  OrderBookChannel(String pair, int depth, WebSocketRequestIdGenerator requestIdGenerator) {
+    super(requestIdGenerator);
     this.pair = pair;
     this.depth = depth;
   }
@@ -53,11 +55,6 @@ public final class OrderBookChannel extends WebSocketChannel<OrderBookChannel.Me
   @Override
   protected String getPair() {
     return pair;
-  }
-
-  @Override
-  protected boolean matches(Subscription response, Subscription request) {
-    return request.name.equals(response.name) && request.depth.equals(response.depth);
   }
 
   @Override
