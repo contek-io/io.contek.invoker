@@ -6,8 +6,8 @@ import javax.annotation.concurrent.NotThreadSafe;
 
 @NotThreadSafe
 public abstract class WebSocketInboundMessage extends AnyWebSocketMessage {
+
   public Integer channelID;
   public String channelName;
   public String pair;
-
 }

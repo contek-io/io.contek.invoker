@@ -34,12 +34,9 @@ public final class OrderBookChannel extends WebSocketChannel<OrderBookChannel.Me
   }
 
   private static List<_OrderBookLevel> toOrderBookEntries(JsonElement jsonArray) {
-
     List<_OrderBookLevel> orderBookEntries = new ArrayList<>();
     for (JsonElement jsonElement : jsonArray.getAsJsonArray()) {
-
       orderBookEntries.add(toOrderBookLevel(jsonElement.getAsJsonArray()));
-
     }
     return orderBookEntries;
   }
@@ -74,6 +71,7 @@ public final class OrderBookChannel extends WebSocketChannel<OrderBookChannel.Me
 
   @NotThreadSafe
   public static final class Message extends WebSocketChannelMessage<_OrderBook> {
+
     public static Message fromJsonArray(JsonArray jsonArray) {
 
       Message res = new Message();
@@ -116,5 +114,3 @@ public final class OrderBookChannel extends WebSocketChannel<OrderBookChannel.Me
     }
   }
 }
-
-

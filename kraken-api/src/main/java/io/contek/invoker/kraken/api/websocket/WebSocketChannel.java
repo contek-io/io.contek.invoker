@@ -14,16 +14,14 @@ import javax.annotation.concurrent.ThreadSafe;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
-import static io.contek.invoker.commons.websocket.SubscriptionState.SUBSCRIBED;
-import static io.contek.invoker.commons.websocket.SubscriptionState.SUBSCRIBING;
-import static io.contek.invoker.commons.websocket.SubscriptionState.UNSUBSCRIBED;
-import static io.contek.invoker.commons.websocket.SubscriptionState.UNSUBSCRIBING;
+import static io.contek.invoker.commons.websocket.SubscriptionState.*;
 
 @ThreadSafe
 public abstract class WebSocketChannel<Message extends WebSocketInboundMessage>
-  extends BaseWebSocketChannel<Message> {
+    extends BaseWebSocketChannel<Message> {
 
-  private final AtomicReference<WebSocketRequest> pendingSubscriptionHolder = new AtomicReference<>();
+  private final AtomicReference<WebSocketRequest> pendingSubscriptionHolder =
+      new AtomicReference<>();
 
   protected abstract Subscription getSubscription();
 
@@ -31,7 +29,6 @@ public abstract class WebSocketChannel<Message extends WebSocketInboundMessage>
 
   @Override
   protected final SubscriptionState subscribe(WebSocketSession session) {
-
     WebSocketRequest request = new WebSocketRequest();
     request.event = "subscribe";
     request.pair = getPair();
@@ -44,7 +41,6 @@ public abstract class WebSocketChannel<Message extends WebSocketInboundMessage>
 
   @Override
   protected final SubscriptionState unsubscribe(WebSocketSession session) {
-
     WebSocketRequest request = new WebSocketRequest();
     request.event = "unsubscribe";
     request.pair = getPair();
@@ -57,7 +53,6 @@ public abstract class WebSocketChannel<Message extends WebSocketInboundMessage>
   @Nullable
   @Override
   protected final SubscriptionState getState(AnyWebSocketMessage message) {
-
     if (!(message instanceof WebSocketResponse)) {
       return null;
     }
@@ -76,6 +71,5 @@ public abstract class WebSocketChannel<Message extends WebSocketInboundMessage>
   }
 
   @Override
-  protected final void reset() {
-  }
+  protected final void reset() {}
 }

@@ -23,7 +23,6 @@ public final class TradesChannel extends WebSocketChannel<TradesChannel.Message>
     this.symbolName = symbolName;
   }
 
-
   @Override
   protected String getDisplayName() {
     return String.format("%s_%s", WebSocketChannelKeys._trade, symbolName);
@@ -53,6 +52,7 @@ public final class TradesChannel extends WebSocketChannel<TradesChannel.Message>
 
   @NotThreadSafe
   public static final class Message extends WebSocketChannelMessage<List<_Trade>> {
+
     public static Message fromJsonArray(JsonArray arr) {
       JsonElement trades_arr = arr.get(1);
 
@@ -73,8 +73,5 @@ public final class TradesChannel extends WebSocketChannel<TradesChannel.Message>
 
       return trades;
     }
-
   }
-
-
 }

@@ -4,6 +4,7 @@ import javax.annotation.concurrent.NotThreadSafe;
 
 @NotThreadSafe
 public class WebSocketResponse extends WebSocketInboundMessage {
+
   public String event;
   public Subscription subscription;
   public String errorMessage;
