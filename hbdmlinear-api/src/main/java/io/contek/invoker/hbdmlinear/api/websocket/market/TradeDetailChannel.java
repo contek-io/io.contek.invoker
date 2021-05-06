@@ -3,7 +3,6 @@ package io.contek.invoker.hbdmlinear.api.websocket.market;
 import io.contek.invoker.commons.websocket.SubscriptionState;
 import io.contek.invoker.commons.websocket.WebSocketSession;
 import io.contek.invoker.hbdmlinear.api.common._TradeDetail;
-import io.contek.invoker.hbdmlinear.api.websocket.common.WebSocketSubscribeRequest;
 import io.contek.invoker.hbdmlinear.api.websocket.common.WebSocketSubscribeTradeDetailRequest;
 
 import javax.annotation.concurrent.NotThreadSafe;
@@ -20,7 +19,7 @@ public final class TradeDetailChannel extends WebSocketMarketChannel<TradeDetail
 
   @Override
   protected final SubscriptionState subscribe(WebSocketSession session) {
-    WebSocketSubscribeRequest request = new WebSocketSubscribeTradeDetailRequest();
+    WebSocketSubscribeTradeDetailRequest request = new WebSocketSubscribeTradeDetailRequest();
     request.sub = getTopic();
     request.id = generateNextId();
     session.send(request);

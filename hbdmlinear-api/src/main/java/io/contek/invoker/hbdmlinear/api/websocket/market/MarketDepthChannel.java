@@ -4,7 +4,6 @@ import io.contek.invoker.commons.websocket.SubscriptionState;
 import io.contek.invoker.commons.websocket.WebSocketSession;
 import io.contek.invoker.hbdmlinear.api.common._Depth;
 import io.contek.invoker.hbdmlinear.api.websocket.common.WebSocketSubscribeMarketDepthRequest;
-import io.contek.invoker.hbdmlinear.api.websocket.common.WebSocketSubscribeRequest;
 
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
@@ -21,8 +20,8 @@ public final class MarketDepthChannel extends WebSocketMarketChannel<MarketDepth
   }
 
   @Override
-  protected final SubscriptionState subscribe(WebSocketSession session) {
-    WebSocketSubscribeRequest request = new WebSocketSubscribeMarketDepthRequest();
+  protected SubscriptionState subscribe(WebSocketSession session) {
+    WebSocketSubscribeMarketDepthRequest request = new WebSocketSubscribeMarketDepthRequest();
     request.sub = getTopic();
     request.id = generateNextId();
     session.send(request);
