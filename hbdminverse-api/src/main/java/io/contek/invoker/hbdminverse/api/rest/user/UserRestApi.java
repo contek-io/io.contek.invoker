@@ -16,43 +16,43 @@ public final class UserRestApi {
     this.context = context;
   }
 
-  public PostSwapAccountInfo postSwapCrossAccountInfo() {
+  public PostSwapAccountInfo postswapAccountInfo() {
     return new PostSwapAccountInfo(actor, context);
   }
 
-  public PostSwapAccountPositionInfo postSwapCrossAccountPositionInfo() {
+  public PostSwapAccountPositionInfo postswapAccountPositionInfo() {
     return new PostSwapAccountPositionInfo(actor, context);
   }
 
-  public PostSwapAvailableLevelRate postSwapCrossAvailableLevelRate() {
+  public PostSwapAvailableLevelRate postswapAvailableLevelRate() {
     return new PostSwapAvailableLevelRate(actor, context);
   }
 
-  public PostSwapCancel postSwapCrossCancel() {
+  public PostSwapCancel postswapCancel() {
     return new PostSwapCancel(actor, context);
   }
 
-  public PostSwapHisorders postSwapCrossHisorders() {
+  public PostSwapHisorders postswapHisorders() {
     return new PostSwapHisorders(actor, context);
   }
 
-  public PostSwapOpenorders postSwapCrossOpenorders() {
+  public PostSwapOpenorders postswapOpenorders() {
     return new PostSwapOpenorders(actor, context);
   }
 
-  public PostSwapOrder postSwapCrossOrder() {
+  public PostSwapOrder postswapOrder() {
     return new PostSwapOrder(actor, context);
   }
 
-  public PostSwapOrderInfo postSwapCrossOrderInfo() {
+  public PostSwapOrderInfo postswapOrderInfo() {
     return new PostSwapOrderInfo(actor, context);
   }
 
-  public PostSwapPositionInfo postSwapCrossPositionInfo() {
+  public PostSwapPositionInfo postswapPositionInfo() {
     return new PostSwapPositionInfo(actor, context);
   }
 
-  public PostSwapSwitchLeverRate postSwapCrossSwitchLeverRate() {
+  public PostSwapSwitchLeverRate postswapSwitchLeverRate() {
     return new PostSwapSwitchLeverRate(actor, context);
   }
 }
