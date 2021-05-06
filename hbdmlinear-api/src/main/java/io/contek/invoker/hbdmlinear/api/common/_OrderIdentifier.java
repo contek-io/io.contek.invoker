@@ -7,5 +7,5 @@ public class _OrderIdentifier {
 
   public long order_id;
   public String order_id_str;
-  public long client_order_id;
+  public Long client_order_id;
 }

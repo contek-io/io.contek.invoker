@@ -13,5 +13,4 @@ public class _ContractInfo {
   public String create_date;
   public int contract_status;
   public String settlement_date;
-  public String support_margin_mode;
 }

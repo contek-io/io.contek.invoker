@@ -16,43 +16,43 @@ public final class UserRestApi {
     this.context = context;
   }
 
-  public PostSwapCrossAccountInfo postSwapCrossAccountInfo() {
-    return new PostSwapCrossAccountInfo(actor, context);
+  public PostSwapAccountInfo postSwapCrossAccountInfo() {
+    return new PostSwapAccountInfo(actor, context);
   }
 
-  public PostSwapCrossAccountPositionInfo postSwapCrossAccountPositionInfo() {
-    return new PostSwapCrossAccountPositionInfo(actor, context);
+  public PostSwapAccountPositionInfo postSwapCrossAccountPositionInfo() {
+    return new PostSwapAccountPositionInfo(actor, context);
   }
 
-  public PostSwapCrossAvailableLevelRate postSwapCrossAvailableLevelRate() {
-    return new PostSwapCrossAvailableLevelRate(actor, context);
+  public PostSwapAvailableLevelRate postSwapCrossAvailableLevelRate() {
+    return new PostSwapAvailableLevelRate(actor, context);
   }
 
-  public PostSwapCrossCancel postSwapCrossCancel() {
-    return new PostSwapCrossCancel(actor, context);
+  public PostSwapCancel postSwapCrossCancel() {
+    return new PostSwapCancel(actor, context);
   }
 
-  public PostSwapCrossHisorders postSwapCrossHisorders() {
-    return new PostSwapCrossHisorders(actor, context);
+  public PostSwapHisorders postSwapCrossHisorders() {
+    return new PostSwapHisorders(actor, context);
   }
 
-  public PostSwapCrossOpenorders postSwapCrossOpenorders() {
-    return new PostSwapCrossOpenorders(actor, context);
+  public PostSwapOpenorders postSwapCrossOpenorders() {
+    return new PostSwapOpenorders(actor, context);
   }
 
-  public PostSwapCrossOrder postSwapCrossOrder() {
-    return new PostSwapCrossOrder(actor, context);
+  public PostSwapOrder postSwapCrossOrder() {
+    return new PostSwapOrder(actor, context);
   }
 
-  public PostSwapCrossOrderInfo postSwapCrossOrderInfo() {
-    return new PostSwapCrossOrderInfo(actor, context);
+  public PostSwapOrderInfo postSwapCrossOrderInfo() {
+    return new PostSwapOrderInfo(actor, context);
   }
 
-  public PostSwapCrossPositionInfo postSwapCrossPositionInfo() {
-    return new PostSwapCrossPositionInfo(actor, context);
+  public PostSwapPositionInfo postSwapCrossPositionInfo() {
+    return new PostSwapPositionInfo(actor, context);
   }
 
-  public PostSwapCrossSwitchLeverRate postSwapCrossSwitchLeverRate() {
-    return new PostSwapCrossSwitchLeverRate(actor, context);
+  public PostSwapSwitchLeverRate postSwapCrossSwitchLeverRate() {
+    return new PostSwapSwitchLeverRate(actor, context);
   }
 }

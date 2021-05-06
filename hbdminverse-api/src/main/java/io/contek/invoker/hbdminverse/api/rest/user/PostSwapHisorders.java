@@ -17,41 +17,58 @@ import static io.contek.invoker.hbdminverse.api.ApiFactory.RateLimits.ONE_API_KE
 import static java.util.Objects.requireNonNull;
 
 @NotThreadSafe
-public final class PostSwapCrossOpenorders
-    extends UserRestRequest<PostSwapCrossOpenorders.Response> {
+public final class PostSwapHisorders extends UserRestRequest<PostSwapHisorders.Response> {
 
   private String contract_code;
+  private Integer trade_type;
+  private Integer type;
+  private String status;
+  private Integer create_date;
   private Integer page_index;
   private Integer page_size;
   private String sort_by;
-  private Integer trade_type;
 
-  PostSwapCrossOpenorders(IActor actor, RestContext context) {
+  PostSwapHisorders(IActor actor, RestContext context) {
     super(actor, context);
   }
 
-  public PostSwapCrossOpenorders setContractCode(String contract_code) {
+  public PostSwapHisorders setContractCode(String contract_code) {
     this.contract_code = contract_code;
     return this;
   }
 
-  public PostSwapCrossOpenorders setPageIndex(@Nullable Integer page_index) {
+  public PostSwapHisorders setTradeType(Integer trade_type) {
+    this.trade_type = trade_type;
+    return this;
+  }
+
+  public PostSwapHisorders setType(Integer type) {
+    this.type = type;
+    return this;
+  }
+
+  public PostSwapHisorders setStatus(String status) {
+    this.status = status;
+    return this;
+  }
+
+  public PostSwapHisorders setCreateDate(Integer create_date) {
+    this.create_date = create_date;
+    return this;
+  }
+
+  public PostSwapHisorders setPageIndex(@Nullable Integer page_index) {
     this.page_index = page_index;
     return this;
   }
 
-  public PostSwapCrossOpenorders setPageSize(@Nullable Integer page_size) {
+  public PostSwapHisorders setPageSize(@Nullable Integer page_size) {
     this.page_size = page_size;
     return this;
   }
 
-  public PostSwapCrossOpenorders setSortBy(@Nullable String sort_by) {
+  public PostSwapHisorders setSortBy(@Nullable String sort_by) {
     this.sort_by = sort_by;
-    return this;
-  }
-
-  public PostSwapCrossOpenorders setTradeType(@Nullable Integer trade_type) {
-    this.trade_type = trade_type;
     return this;
   }
 
@@ -62,7 +79,7 @@ public final class PostSwapCrossOpenorders
 
   @Override
   protected String getEndpointPath() {
-    return "/swap-api/v1/swap_cross_openorders";
+    return "/swap-api/v1/swap_hisorders";
   }
 
   @Override
@@ -71,6 +88,18 @@ public final class PostSwapCrossOpenorders
 
     requireNonNull(contract_code);
     builder.add("contract_code", contract_code);
+
+    requireNonNull(trade_type);
+    builder.add("trade_type", trade_type);
+
+    requireNonNull(type);
+    builder.add("type", type);
+
+    requireNonNull(status);
+    builder.add("status", status);
+
+    requireNonNull(create_date);
+    builder.add("create_date", create_date);
 
     if (page_index != null) {
       builder.add("page_index", page_index);

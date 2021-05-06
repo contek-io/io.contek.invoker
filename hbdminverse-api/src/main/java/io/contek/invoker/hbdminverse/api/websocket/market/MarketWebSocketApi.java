@@ -68,7 +68,7 @@ public final class MarketWebSocketApi extends BaseWebSocketApi {
 
   @Override
   protected WebSocketCall createCall(ICredential credential) {
-    return WebSocketCall.fromUrl(context.getBaseUrl() + "/inverse-swap-ws");
+    return WebSocketCall.fromUrl(context.getBaseUrl() + "/swap-ws");
   }
 
   @Override

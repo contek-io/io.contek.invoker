@@ -5,7 +5,7 @@ import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestParams;
-import io.contek.invoker.hbdminverse.api.common._CrossAccountPositionInfo;
+import io.contek.invoker.hbdminverse.api.common._AvailableLevelRate;
 import io.contek.invoker.hbdminverse.api.rest.common.RestDataResponse;
 
 import javax.annotation.concurrent.NotThreadSafe;
@@ -13,17 +13,17 @@ import javax.annotation.concurrent.NotThreadSafe;
 import static io.contek.invoker.hbdminverse.api.ApiFactory.RateLimits.ONE_API_KEY_REST_PRIVATE_READ_REQUEST;
 
 @NotThreadSafe
-public final class PostSwapCrossAccountPositionInfo
-    extends UserRestRequest<PostSwapCrossAccountPositionInfo.Response> {
+public final class PostSwapAvailableLevelRate
+    extends UserRestRequest<PostSwapAvailableLevelRate.Response> {
 
-  private String margin_account;
+  private String contract_code;
 
-  PostSwapCrossAccountPositionInfo(IActor actor, RestContext context) {
+  PostSwapAvailableLevelRate(IActor actor, RestContext context) {
     super(actor, context);
   }
 
-  public PostSwapCrossAccountPositionInfo setMarginAccount(String margin_account) {
-    this.margin_account = margin_account;
+  public PostSwapAvailableLevelRate setContractCode(String contract_code) {
+    this.contract_code = contract_code;
     return this;
   }
 
@@ -34,15 +34,15 @@ public final class PostSwapCrossAccountPositionInfo
 
   @Override
   protected String getEndpointPath() {
-    return "/swap-api/v1/swap_cross_account_position_info";
+    return "/swap-api/v1/swap_available_level_rate";
   }
 
   @Override
   protected RestParams getParams() {
     RestParams.Builder builder = RestParams.newBuilder();
 
-    if (margin_account != null) {
-      builder.add("margin_account", margin_account);
+    if (contract_code != null) {
+      builder.add("contract_code", contract_code);
     }
 
     return builder.build();
@@ -54,5 +54,5 @@ public final class PostSwapCrossAccountPositionInfo
   }
 
   @NotThreadSafe
-  public static final class Response extends RestDataResponse<_CrossAccountPositionInfo> {}
+  public static final class Response extends RestDataResponse<_AvailableLevelRate> {}
 }

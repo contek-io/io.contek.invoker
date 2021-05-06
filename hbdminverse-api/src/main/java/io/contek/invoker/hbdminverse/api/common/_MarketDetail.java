@@ -17,5 +17,4 @@ public class _MarketDetail {
   public String amount;
   public int count;
   public String vol;
-  public String trade_turnover;
 }

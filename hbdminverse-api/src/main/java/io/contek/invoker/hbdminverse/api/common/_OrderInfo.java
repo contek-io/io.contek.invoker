@@ -29,9 +29,6 @@ public class _OrderInfo {
   public String fee_asset;
   public String liquidation_type;
   public long canceled_at;
-  public String margin_asset;
-  public String margin_mode;
-  public String margin_account;
-  public int is_tpsl;
   public double real_profit;
+  public int is_tpsl;
 }

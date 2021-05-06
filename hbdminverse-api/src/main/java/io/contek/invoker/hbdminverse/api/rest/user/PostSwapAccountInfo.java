@@ -5,7 +5,7 @@ import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestParams;
-import io.contek.invoker.hbdminverse.api.common._PositionInfo;
+import io.contek.invoker.hbdminverse.api.common._AccountInfo;
 import io.contek.invoker.hbdminverse.api.rest.common.RestDataResponse;
 
 import javax.annotation.concurrent.NotThreadSafe;
@@ -14,17 +14,16 @@ import java.util.List;
 import static io.contek.invoker.hbdminverse.api.ApiFactory.RateLimits.ONE_API_KEY_REST_PRIVATE_READ_REQUEST;
 
 @NotThreadSafe
-public final class PostSwapCrossPositionInfo
-    extends UserRestRequest<PostSwapCrossPositionInfo.Response> {
+public final class PostSwapAccountInfo extends UserRestRequest<PostSwapAccountInfo.Response> {
 
-  private String contract_code;
+  private String margin_account;
 
-  PostSwapCrossPositionInfo(IActor actor, RestContext context) {
+  PostSwapAccountInfo(IActor actor, RestContext context) {
     super(actor, context);
   }
 
-  public PostSwapCrossPositionInfo setContractCode(String contract_code) {
-    this.contract_code = contract_code;
+  public PostSwapAccountInfo setMarginAccount(String margin_account) {
+    this.margin_account = margin_account;
     return this;
   }
 
@@ -35,15 +34,15 @@ public final class PostSwapCrossPositionInfo
 
   @Override
   protected String getEndpointPath() {
-    return "/swap-api/v1/swap_cross_position_info";
+    return "/swap-api/v1/swap_account_info";
   }
 
   @Override
   protected RestParams getParams() {
     RestParams.Builder builder = RestParams.newBuilder();
 
-    if (contract_code != null) {
-      builder.add("contract_code", contract_code);
+    if (margin_account != null) {
+      builder.add("margin_account", margin_account);
     }
 
     return builder.build();
@@ -55,5 +54,5 @@ public final class PostSwapCrossPositionInfo
   }
 
   @NotThreadSafe
-  public static final class Response extends RestDataResponse<List<_PositionInfo>> {}
+  public static final class Response extends RestDataResponse<List<_AccountInfo>> {}
 }

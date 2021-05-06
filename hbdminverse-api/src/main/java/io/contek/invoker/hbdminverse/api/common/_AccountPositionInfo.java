@@ -4,18 +4,21 @@ import javax.annotation.concurrent.NotThreadSafe;
 import java.util.List;
 
 @NotThreadSafe
-public class _CrossAccountInfo {
+public class _AccountPositionInfo {
 
-  public String margin_mode;
-  public String margin_account;
-  public String margin_asset;
+  public String symbol;
+  public String contract_code;
   public double margin_balance;
-  public double margin_static;
   public double margin_position;
   public double margin_frozen;
+  public double margin_available;
   public double profit_real;
   public double profit_unreal;
-  public double withdraw_available;
   public Double risk_rate;
-  public List<_CrossAccountContractDetail> contract_detail;
+  public double withdraw_available;
+  public double liquidation_price;
+  public double lever_rate;
+  public double adjust_factor;
+  public double margin_static;
+  public List<_PositionInfo> positions;
 }

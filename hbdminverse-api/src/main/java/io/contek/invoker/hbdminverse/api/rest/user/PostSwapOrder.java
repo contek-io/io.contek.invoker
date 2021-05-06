@@ -15,7 +15,7 @@ import static io.contek.invoker.hbdminverse.api.ApiFactory.RateLimits.ONE_API_KE
 import static java.util.Objects.requireNonNull;
 
 @NotThreadSafe
-public final class PostSwapCrossOrder extends UserRestRequest<PostSwapCrossOrder.Response> {
+public final class PostSwapOrder extends UserRestRequest<PostSwapOrder.Response> {
 
   private String contract_code;
   private Long client_order_id;
@@ -32,76 +32,76 @@ public final class PostSwapCrossOrder extends UserRestRequest<PostSwapCrossOrder
   private Double sl_order_price;
   private String sl_order_price_type;
 
-  PostSwapCrossOrder(IActor actor, RestContext context) {
+  PostSwapOrder(IActor actor, RestContext context) {
     super(actor, context);
   }
 
-  public PostSwapCrossOrder setContractCode(String contract_code) {
+  public PostSwapOrder setContractCode(String contract_code) {
     this.contract_code = contract_code;
     return this;
   }
 
-  public PostSwapCrossOrder setClientOrderId(@Nullable Long client_order_id) {
+  public PostSwapOrder setClientOrderId(@Nullable Long client_order_id) {
     this.client_order_id = client_order_id;
     return this;
   }
 
-  public PostSwapCrossOrder setPrice(@Nullable Double price) {
+  public PostSwapOrder setPrice(@Nullable Double price) {
     this.price = price;
     return this;
   }
 
-  public PostSwapCrossOrder setVolume(int volume) {
+  public PostSwapOrder setVolume(int volume) {
     this.volume = volume;
     return this;
   }
 
-  public PostSwapCrossOrder setDirection(String direction) {
+  public PostSwapOrder setDirection(String direction) {
     this.direction = direction;
     return this;
   }
 
-  public PostSwapCrossOrder setOffset(String offset) {
+  public PostSwapOrder setOffset(String offset) {
     this.offset = offset;
     return this;
   }
 
-  public PostSwapCrossOrder setLeverRate(Integer lever_rate) {
+  public PostSwapOrder setLeverRate(Integer lever_rate) {
     this.lever_rate = lever_rate;
     return this;
   }
 
-  public PostSwapCrossOrder setOrderPriceType(String order_price_type) {
+  public PostSwapOrder setOrderPriceType(String order_price_type) {
     this.order_price_type = order_price_type;
     return this;
   }
 
-  public PostSwapCrossOrder setTpTriggerPrice(@Nullable Double tp_trigger_price) {
+  public PostSwapOrder setTpTriggerPrice(@Nullable Double tp_trigger_price) {
     this.tp_trigger_price = tp_trigger_price;
     return this;
   }
 
-  public PostSwapCrossOrder setTpOrderPrice(@Nullable Double tp_order_price) {
+  public PostSwapOrder setTpOrderPrice(@Nullable Double tp_order_price) {
     this.tp_order_price = tp_order_price;
     return this;
   }
 
-  public PostSwapCrossOrder setTpOrderPriceType(@Nullable String tp_order_price_type) {
+  public PostSwapOrder setTpOrderPriceType(@Nullable String tp_order_price_type) {
     this.tp_order_price_type = tp_order_price_type;
     return this;
   }
 
-  public PostSwapCrossOrder setSlTriggerPrice(@Nullable Double sl_trigger_price) {
+  public PostSwapOrder setSlTriggerPrice(@Nullable Double sl_trigger_price) {
     this.sl_trigger_price = sl_trigger_price;
     return this;
   }
 
-  public PostSwapCrossOrder setSlOrderPrice(@Nullable Double sl_order_price) {
+  public PostSwapOrder setSlOrderPrice(@Nullable Double sl_order_price) {
     this.sl_order_price = sl_order_price;
     return this;
   }
 
-  public PostSwapCrossOrder setSlOrderPriceType(@Nullable String sl_order_price_type) {
+  public PostSwapOrder setSlOrderPriceType(@Nullable String sl_order_price_type) {
     this.sl_order_price_type = sl_order_price_type;
     return this;
   }
@@ -113,7 +113,7 @@ public final class PostSwapCrossOrder extends UserRestRequest<PostSwapCrossOrder
 
   @Override
   protected String getEndpointPath() {
-    return "/swap-api/v1/swap_cross_order";
+    return "/swap-api/v1/swap_order";
   }
 
   @Override

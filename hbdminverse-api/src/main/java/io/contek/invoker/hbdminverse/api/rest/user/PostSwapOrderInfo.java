@@ -15,27 +15,27 @@ import static io.contek.invoker.hbdminverse.api.ApiFactory.RateLimits.ONE_API_KE
 import static java.util.Objects.requireNonNull;
 
 @NotThreadSafe
-public final class PostSwapCrossOrderInfo extends UserRestRequest<PostSwapCrossOrderInfo.Response> {
+public final class PostSwapOrderInfo extends UserRestRequest<PostSwapOrderInfo.Response> {
 
   private String order_id;
   private String client_order_id;
   private String contract_code;
 
-  PostSwapCrossOrderInfo(IActor actor, RestContext context) {
+  PostSwapOrderInfo(IActor actor, RestContext context) {
     super(actor, context);
   }
 
-  public PostSwapCrossOrderInfo setOrderId(String order_id) {
+  public PostSwapOrderInfo setOrderId(String order_id) {
     this.order_id = order_id;
     return this;
   }
 
-  public PostSwapCrossOrderInfo setClientOrderId(String client_order_id) {
+  public PostSwapOrderInfo setClientOrderId(String client_order_id) {
     this.client_order_id = client_order_id;
     return this;
   }
 
-  public PostSwapCrossOrderInfo setContractCode(String contract_code) {
+  public PostSwapOrderInfo setContractCode(String contract_code) {
     this.contract_code = contract_code;
     return this;
   }
@@ -47,7 +47,7 @@ public final class PostSwapCrossOrderInfo extends UserRestRequest<PostSwapCrossO
 
   @Override
   protected String getEndpointPath() {
-    return "/swap-api/v1/swap_cross_order_info";
+    return "/swap-api/v1/swap_order_info";
   }
 
   @Override
