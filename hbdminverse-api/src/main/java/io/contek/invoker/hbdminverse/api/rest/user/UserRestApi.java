@@ -16,43 +16,43 @@ public final class UserRestApi {
     this.context = context;
   }
 
-  public PostSwapAccountInfo postswapAccountInfo() {
+  public PostSwapAccountInfo postSwapAccountInfo() {
     return new PostSwapAccountInfo(actor, context);
   }
 
-  public PostSwapAccountPositionInfo postswapAccountPositionInfo() {
+  public PostSwapAccountPositionInfo postSwapAccountPositionInfo() {
     return new PostSwapAccountPositionInfo(actor, context);
   }
 
-  public PostSwapAvailableLevelRate postswapAvailableLevelRate() {
+  public PostSwapAvailableLevelRate postSwapAvailableLevelRate() {
     return new PostSwapAvailableLevelRate(actor, context);
   }
 
-  public PostSwapCancel postswapCancel() {
+  public PostSwapCancel postSwapCancel() {
     return new PostSwapCancel(actor, context);
   }
 
-  public PostSwapHisorders postswapHisorders() {
+  public PostSwapHisorders postSwapHisorders() {
     return new PostSwapHisorders(actor, context);
   }
 
-  public PostSwapOpenorders postswapOpenorders() {
+  public PostSwapOpenorders postSwapOpenorders() {
     return new PostSwapOpenorders(actor, context);
   }
 
-  public PostSwapOrder postswapOrder() {
+  public PostSwapOrder postSwapOrder() {
     return new PostSwapOrder(actor, context);
   }
 
-  public PostSwapOrderInfo postswapOrderInfo() {
+  public PostSwapOrderInfo postSwapOrderInfo() {
     return new PostSwapOrderInfo(actor, context);
   }
 
-  public PostSwapPositionInfo postswapPositionInfo() {
+  public PostSwapPositionInfo postSwapPositionInfo() {
     return new PostSwapPositionInfo(actor, context);
   }
 
-  public PostSwapSwitchLeverRate postswapSwitchLeverRate() {
+  public PostSwapSwitchLeverRate postSwapSwitchLeverRate() {
     return new PostSwapSwitchLeverRate(actor, context);
   }
 }
