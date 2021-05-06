@@ -5,7 +5,6 @@ import io.contek.invoker.commons.websocket.BaseWebSocketChannel;
 import io.contek.invoker.commons.websocket.SubscriptionState;
 import io.contek.invoker.commons.websocket.WebSocketSession;
 import io.contek.invoker.hbdmlinear.api.websocket.common.WebSocketSubscribeConfirmation;
-import io.contek.invoker.hbdmlinear.api.websocket.common.WebSocketSubscribeRequest;
 import io.contek.invoker.hbdmlinear.api.websocket.common.WebSocketUnsubscribeConfirmation;
 import io.contek.invoker.hbdmlinear.api.websocket.common.WebSocketUnsubscribeRequest;
 
@@ -50,19 +49,10 @@ abstract class WebSocketMarketChannel<Message extends WebSocketMarketDataMessage
   }
 
   @Override
-  protected final SubscriptionState subscribe(WebSocketSession session) {
-    WebSocketSubscribeRequest request = new WebSocketSubscribeRequest();
-    request.sub = topic;
-    request.id = Long.toString(requestIdGenerator.generateNext());
-    session.send(request);
-    return SUBSCRIBING;
-  }
-
-  @Override
   protected final SubscriptionState unsubscribe(WebSocketSession session) {
     WebSocketUnsubscribeRequest request = new WebSocketUnsubscribeRequest();
     request.unsub = topic;
-    request.id = Long.toString(requestIdGenerator.generateNext());
+    request.id = generateNextId();
     session.send(request);
     return UNSUBSCRIBING;
   }
@@ -93,4 +83,12 @@ abstract class WebSocketMarketChannel<Message extends WebSocketMarketDataMessage
 
   @Override
   protected final void reset() {}
+
+  String getTopic() {
+    return topic;
+  }
+
+  String generateNextId() {
+    return Integer.toString(requestIdGenerator.generateNext());
+  }
 }

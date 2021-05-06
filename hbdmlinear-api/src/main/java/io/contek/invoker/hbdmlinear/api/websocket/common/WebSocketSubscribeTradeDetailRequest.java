@@ -3,7 +3,7 @@ package io.contek.invoker.hbdmlinear.api.websocket.common;
 import javax.annotation.concurrent.NotThreadSafe;
 
 @NotThreadSafe
-public abstract class WebSocketSubscribeRequest extends WebSocketRequest {
+public final class WebSocketSubscribeTradeDetailRequest extends WebSocketSubscribeRequest {
 
-  public String sub;
+  public Integer size;
 }
