@@ -10,7 +10,9 @@ public final class LeverageUpdateEvent extends WebSocketEventData {
   public Long T; // transaction time
   public AccountConfig ac;
 
+  @NotThreadSafe
   public static class AccountConfig {
+
     public String s; // symbol
     public Integer l; // leverage
   }

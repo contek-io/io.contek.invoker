@@ -14,9 +14,4 @@ public final class AccountUpdateChannel extends UserWebSocketChannel<AccountUpda
   protected Class<AccountUpdateEvent> getMessageType() {
     return AccountUpdateEvent.class;
   }
-
-  @Override
-  protected boolean accepts(AccountUpdateEvent message) {
-    return true;
-  }
 }

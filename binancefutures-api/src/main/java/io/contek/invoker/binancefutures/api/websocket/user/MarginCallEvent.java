@@ -9,9 +9,11 @@ import java.util.List;
 public final class MarginCallEvent extends WebSocketEventData {
 
   public Double cw; // transaction time
-  List<PositionForMarginCall> p;
+  public List<PositionForMarginCall> p;
 
+  @NotThreadSafe
   public static class PositionForMarginCall {
+
     public String s; // symbol
     public String ps; // position side
     public String mt; // margin type

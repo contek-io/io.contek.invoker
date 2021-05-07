@@ -14,9 +14,4 @@ public final class OrderUpdateChannel extends UserWebSocketChannel<OrderUpdateEv
   protected Class<OrderUpdateEvent> getMessageType() {
     return OrderUpdateEvent.class;
   }
-
-  @Override
-  protected boolean accepts(OrderUpdateEvent message) {
-    return true;
-  }
 }

@@ -14,9 +14,4 @@ public final class MarginCallChannel extends UserWebSocketChannel<MarginCallEven
   protected Class<MarginCallEvent> getMessageType() {
     return MarginCallEvent.class;
   }
-
-  @Override
-  protected boolean accepts(MarginCallEvent marginCallEvent) {
-    return true;
-  }
 }

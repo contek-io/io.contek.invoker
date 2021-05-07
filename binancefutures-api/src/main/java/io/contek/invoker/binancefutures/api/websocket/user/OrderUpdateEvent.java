@@ -10,6 +10,7 @@ public final class OrderUpdateEvent extends WebSocketEventData {
   public long T; // trasnaction time
   public Order o;
 
+  @NotThreadSafe
   public static class Order {
 
     public String s; // symbol

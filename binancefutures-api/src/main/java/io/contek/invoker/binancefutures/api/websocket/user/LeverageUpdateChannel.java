@@ -14,9 +14,4 @@ public final class LeverageUpdateChannel extends UserWebSocketChannel<LeverageUp
   protected Class<LeverageUpdateEvent> getMessageType() {
     return LeverageUpdateEvent.class;
   }
-
-  @Override
-  protected boolean accepts(LeverageUpdateEvent leverageUpdateEvent) {
-    return true;
-  }
 }

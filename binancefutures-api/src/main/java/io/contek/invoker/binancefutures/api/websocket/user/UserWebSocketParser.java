@@ -3,7 +3,7 @@ package io.contek.invoker.binancefutures.api.websocket.user;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
+import io.contek.invoker.binancefutures.api.websocket.common.WebSocketEventData;
 import io.contek.invoker.commons.websocket.IWebSocketMessageParser;
 
 import javax.annotation.concurrent.Immutable;
@@ -19,21 +19,21 @@ public final class UserWebSocketParser implements IWebSocketMessageParser {
   }
 
   @Override
-  public AnyWebSocketMessage parse(String text) {
+  public WebSocketEventData parse(String text) {
     JsonElement json = gson.fromJson(text, JsonElement.class);
     if (!json.isJsonObject()) {
       throw new IllegalArgumentException(text);
     }
-    JsonObject obj = json.getAsJsonObject();
 
+    JsonObject obj = json.getAsJsonObject();
     if (obj.has("e")) {
       return toUserData(obj);
     }
 
-    throw new IllegalStateException("");
+    throw new IllegalStateException(text);
   }
 
-  private AnyWebSocketMessage toUserData(JsonObject obj) {
+  private WebSocketEventData toUserData(JsonObject obj) {
     String eventType = obj.get("e").getAsString();
     switch (eventType) {
       case "ACCOUNT_UPDATE":

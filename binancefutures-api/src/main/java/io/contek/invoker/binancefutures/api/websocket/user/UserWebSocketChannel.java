@@ -39,5 +39,10 @@ public abstract class UserWebSocketChannel<Message> extends BaseWebSocketChannel
   }
 
   @Override
+  protected final boolean accepts(Message message) {
+    return true;
+  }
+
+  @Override
   protected final void reset() {}
 }
