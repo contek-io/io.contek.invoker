@@ -1,6 +1,9 @@
 package io.contek.invoker.binancefutures.api.websocket.user;
 
-public class AccountUpdateChannel extends UserWebSocketChannel<AccountUpdateEvent> {
+import javax.annotation.concurrent.ThreadSafe;
+
+@ThreadSafe
+public final class AccountUpdateChannel extends UserWebSocketChannel<AccountUpdateEvent> {
 
   @Override
   protected String getDisplayName() {

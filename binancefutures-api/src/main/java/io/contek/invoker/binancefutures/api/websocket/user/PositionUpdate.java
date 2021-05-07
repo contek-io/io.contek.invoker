@@ -1,8 +1,11 @@
 package io.contek.invoker.binancefutures.api.websocket.user;
 
+import javax.annotation.concurrent.NotThreadSafe;
 import java.math.BigDecimal;
 
-public class PositionUpdate {
+@NotThreadSafe
+public final class PositionUpdate {
+
   public String s; // symbol
   public BigDecimal pa; // position amount
   public BigDecimal ep; // entry price

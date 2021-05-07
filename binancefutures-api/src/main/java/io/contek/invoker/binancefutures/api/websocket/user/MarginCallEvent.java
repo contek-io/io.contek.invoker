@@ -1,14 +1,13 @@
 package io.contek.invoker.binancefutures.api.websocket.user;
 
-import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
+import io.contek.invoker.binancefutures.api.websocket.common.WebSocketEventData;
 
 import javax.annotation.concurrent.NotThreadSafe;
 import java.util.List;
 
 @NotThreadSafe
-public final class MarginCallEvent extends AnyWebSocketMessage {
-  public String e; // event type
-  public Long E; // event time
+public final class MarginCallEvent extends WebSocketEventData {
+
   public Double cw; // transaction time
   List<PositionForMarginCall> p;
 

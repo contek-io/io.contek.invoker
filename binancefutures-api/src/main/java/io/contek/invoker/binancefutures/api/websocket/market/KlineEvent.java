@@ -1,14 +1,12 @@
 package io.contek.invoker.binancefutures.api.websocket.market;
 
-import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
+import io.contek.invoker.binancefutures.api.websocket.common.WebSocketEventData;
 
 import javax.annotation.concurrent.NotThreadSafe;
 
 @NotThreadSafe
-public class KlineEvent extends AnyWebSocketMessage {
+public class KlineEvent extends WebSocketEventData {
 
-  public String e;
-  public Long E; // Event time
   public String s; // Symbol
   public Candle k;
 

@@ -7,8 +7,11 @@ import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.IWebSocketMessageParser;
 
 import javax.annotation.concurrent.Immutable;
+import javax.annotation.concurrent.ThreadSafe;
 
-public class UserWebSocketParser implements IWebSocketMessageParser {
+@ThreadSafe
+public final class UserWebSocketParser implements IWebSocketMessageParser {
+
   private final Gson gson = new Gson();
 
   static UserWebSocketParser getInstance() {

@@ -1,5 +1,8 @@
 package io.contek.invoker.binancefutures.api.websocket.user;
 
+import javax.annotation.concurrent.ThreadSafe;
+
+@ThreadSafe
 public final class OrderUpdateChannel extends UserWebSocketChannel<OrderUpdateEvent> {
 
   @Override

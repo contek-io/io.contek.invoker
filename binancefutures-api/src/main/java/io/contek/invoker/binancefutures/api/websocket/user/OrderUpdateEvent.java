@@ -1,17 +1,17 @@
 package io.contek.invoker.binancefutures.api.websocket.user;
 
-import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
+import io.contek.invoker.binancefutures.api.websocket.common.WebSocketEventData;
 
 import javax.annotation.concurrent.NotThreadSafe;
 
 @NotThreadSafe
-public final class OrderUpdateEvent extends AnyWebSocketMessage {
-  public String e; // event type
-  public long E; // event time
+public final class OrderUpdateEvent extends WebSocketEventData {
+
   public long T; // trasnaction time
   public Order o;
 
   public static class Order {
+
     public String s; // symbol
     public String c; // client order id
     public String S; // side
