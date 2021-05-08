@@ -1,4 +1,4 @@
-package io.contek.invoker.hbdminverse.api.websocket.common.constants;
+package io.contek.invoker.hbdminverse.api.websocket.market.constants;
 
 import javax.annotation.concurrent.Immutable;
 

@@ -1,7 +1,5 @@
 package io.contek.invoker.kraken.api.websocket.market;
 
-import com.google.common.collect.HashBasedTable;
-import com.google.common.collect.Table;
 import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.websocket.WebSocketContext;
 import io.contek.invoker.kraken.api.websocket.WebSocketApi;
@@ -13,30 +11,29 @@ import java.util.Map;
 @ThreadSafe
 public final class MarketWebSocketApi extends WebSocketApi {
 
-  private final Table<String, Integer, OrderBookChannel> orderBookChannels =
-      HashBasedTable.create();
-  private final Map<String, TradesChannel> tradesChannels = new HashMap<>();
+  private final Map<OrderBookChannel.Topic, OrderBookChannel> orderBookChannels = new HashMap<>();
+  private final Map<TradesChannel.Topic, TradesChannel> tradesChannels = new HashMap<>();
 
   public MarketWebSocketApi(IActor actor, WebSocketContext context) {
     super(actor, context);
   }
 
-  public OrderBookChannel getOrderBookChannel(String pair, int depth) {
+  public OrderBookChannel getOrderBookChannel(OrderBookChannel.Topic topic) {
     synchronized (orderBookChannels) {
-      OrderBookChannel result = orderBookChannels.get(pair, depth);
-      if (result == null) {
-        result = new OrderBookChannel(pair, depth, getRequestIdGenerator());
-        attach(result);
-        orderBookChannels.put(pair, depth, result);
-      }
-      return result;
+      return orderBookChannels.computeIfAbsent(
+          topic,
+          k -> {
+            OrderBookChannel result = new OrderBookChannel(k, getRequestIdGenerator());
+            attach(result);
+            return result;
+          });
     }
   }
 
-  public TradesChannel getTradesChannel(String symbol) {
+  public TradesChannel getTradesChannel(TradesChannel.Topic topic) {
     synchronized (tradesChannels) {
       return tradesChannels.computeIfAbsent(
-          symbol,
+          topic,
           k -> {
             TradesChannel result = new TradesChannel(k, getRequestIdGenerator());
             attach(result);

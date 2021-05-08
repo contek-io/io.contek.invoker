@@ -10,14 +10,17 @@ import io.contek.invoker.kraken.api.websocket.WebSocketChannel;
 import io.contek.invoker.kraken.api.websocket.WebSocketRequestIdGenerator;
 import io.contek.invoker.kraken.api.websocket.common.Subscription;
 import io.contek.invoker.kraken.api.websocket.common.WebSocketChannelMessage;
-import io.contek.invoker.kraken.api.websocket.common.constants.WebSocketChannelKeys;
 
+import javax.annotation.Nullable;
+import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static io.contek.invoker.kraken.api.common._OrderBookLevel.toOrderBookLevel;
+import static io.contek.invoker.kraken.api.websocket.common.constants.WebSocketChannelKeys._orderbook;
 
 @ThreadSafe
 public final class OrderBookChannel extends WebSocketChannel<OrderBookChannel.Message> {
@@ -27,13 +30,11 @@ public final class OrderBookChannel extends WebSocketChannel<OrderBookChannel.Me
   public static final String BID_INCREMENTAL_KEY = "b";
   public static final String ASK_INCREMENTAL_KEY = "a";
 
-  private final String pair;
-  private final int depth;
+  private final Topic topic;
 
-  OrderBookChannel(String pair, int depth, WebSocketRequestIdGenerator requestIdGenerator) {
+  OrderBookChannel(Topic topic, WebSocketRequestIdGenerator requestIdGenerator) {
     super(requestIdGenerator);
-    this.pair = pair;
-    this.depth = depth;
+    this.topic = topic;
   }
 
   private static List<_OrderBookLevel> toOrderBookEntries(JsonElement jsonArray) {
@@ -47,19 +48,19 @@ public final class OrderBookChannel extends WebSocketChannel<OrderBookChannel.Me
   @Override
   protected Subscription getSubscription() {
     Subscription subscription = new Subscription();
-    subscription.name = WebSocketChannelKeys._orderbook;
-    subscription.depth = depth;
+    subscription.name = _orderbook;
+    subscription.depth = topic.getDepth();
     return subscription;
   }
 
   @Override
   protected String getPair() {
-    return pair;
+    return topic.getPair();
   }
 
   @Override
   protected String getDisplayName() {
-    return String.format("%s_%s", WebSocketChannelKeys._orderbook, pair);
+    return topic.toString();
   }
 
   @Override
@@ -69,14 +70,60 @@ public final class OrderBookChannel extends WebSocketChannel<OrderBookChannel.Me
 
   @Override
   protected boolean accepts(OrderBookChannel.Message message) {
-    return pair.equals(message.pair);
+    return topic.getPair().equals(message.pair);
+  }
+
+  @Immutable
+  public static final class Topic {
+
+    private final String pair;
+    private final int depth;
+
+    private String value;
+
+    private Topic(String pair, int depth) {
+      this.pair = pair;
+      this.depth = depth;
+    }
+
+    public static Topic of(String pair, int depth) {
+      return new Topic(pair, depth);
+    }
+
+    public String getPair() {
+      return pair;
+    }
+
+    public int getDepth() {
+      return depth;
+    }
+
+    @Override
+    public boolean equals(@Nullable Object o) {
+      if (this == o) return true;
+      if (o == null || getClass() != o.getClass()) return false;
+      Topic topic = (Topic) o;
+      return depth == topic.depth && Objects.equals(pair, topic.pair);
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(pair, depth);
+    }
+
+    @Override
+    public String toString() {
+      if (value == null) {
+        value = _orderbook + "." + pair + "." + depth;
+      }
+      return value;
+    }
   }
 
   @NotThreadSafe
   public static final class Message extends WebSocketChannelMessage<_OrderBook> {
 
     public static Message fromJsonArray(JsonArray jsonArray) {
-
       Message res = new Message();
       res.channelID = jsonArray.get(0).getAsInt();
       res.channelName = jsonArray.get(jsonArray.size() - 2).getAsString();
