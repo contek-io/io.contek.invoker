@@ -4,10 +4,7 @@ import com.google.common.collect.ImmutableList;
 import io.contek.invoker.coinbasepro.api.websocket.common.WebSocketChannelInfo;
 import io.contek.invoker.coinbasepro.api.websocket.common.WebSocketMessage;
 import io.contek.invoker.coinbasepro.api.websocket.common.WebSocketSubscriptionMessage;
-import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
-import io.contek.invoker.commons.websocket.BaseWebSocketChannel;
-import io.contek.invoker.commons.websocket.SubscriptionState;
-import io.contek.invoker.commons.websocket.WebSocketSession;
+import io.contek.invoker.commons.websocket.*;
 
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.ThreadSafe;
@@ -27,12 +24,13 @@ public abstract class WebSocketChannel<Message extends WebSocketMessage>
       new AtomicReference<>();
 
   protected WebSocketChannel(String name, String productId) {
+    super(id);
     this.name = name;
     this.productId = productId;
   }
 
   @Override
-  protected final String getDisplayName() {
+  protected final BaseWebSocketChannelId getId() {
     return name + ':' + productId;
   }
 

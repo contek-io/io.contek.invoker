@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import io.contek.invoker.commons.websocket.BaseWebSocketChannelId;
 import io.contek.invoker.kraken.api.common._OrderBook;
 import io.contek.invoker.kraken.api.common._OrderBookLevel;
 import io.contek.invoker.kraken.api.websocket.WebSocketChannel;
@@ -59,7 +60,7 @@ public final class OrderBookChannel extends WebSocketChannel<OrderBookChannel.Me
   }
 
   @Override
-  protected String getDisplayName() {
+  protected BaseWebSocketChannelId getId() {
     return topic.toString();
   }
 

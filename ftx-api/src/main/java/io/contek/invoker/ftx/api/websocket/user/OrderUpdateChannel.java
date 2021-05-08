@@ -1,17 +1,22 @@
 package io.contek.invoker.ftx.api.websocket.user;
 
 import io.contek.invoker.ftx.api.common._Order;
+import io.contek.invoker.ftx.api.websocket.WebSocketChannel;
+import io.contek.invoker.ftx.api.websocket.WebSocketChannelId;
 import io.contek.invoker.ftx.api.websocket.common.WebSocketChannelMessage;
 
+import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
+import javax.annotation.concurrent.ThreadSafe;
 
 import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketChannelKeys._orders;
 
-public class OrderUpdateChannel extends UserWebSocketChannel<OrderUpdateChannel.Message> {
+@ThreadSafe
+public final class OrderUpdateChannel
+    extends WebSocketChannel<OrderUpdateChannel.Id, OrderUpdateChannel.Message> {
 
-  @Override
-  protected String getDisplayName() {
-    return "orderUpdateChannel";
+  OrderUpdateChannel() {
+    super(Id.INSTANCE);
   }
 
   @Override
@@ -19,14 +24,14 @@ public class OrderUpdateChannel extends UserWebSocketChannel<OrderUpdateChannel.
     return OrderUpdateChannel.Message.class;
   }
 
-  @Override
-  protected boolean accepts(Message message) {
-    return true;
-  }
+  @Immutable
+  public static final class Id extends WebSocketChannelId {
 
-  @Override
-  protected String getChannel() {
-    return _orders;
+    private static final Id INSTANCE = new Id();
+
+    private Id() {
+      super(_orders, null);
+    }
   }
 
   @NotThreadSafe

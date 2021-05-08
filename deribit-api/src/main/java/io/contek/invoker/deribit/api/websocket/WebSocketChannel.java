@@ -15,17 +15,19 @@ import javax.annotation.Nullable;
 import javax.annotation.concurrent.ThreadSafe;
 import java.util.concurrent.atomic.AtomicReference;
 
-import static io.contek.invoker.commons.websocket.SubscriptionState.SUBSCRIBED;
-import static io.contek.invoker.commons.websocket.SubscriptionState.SUBSCRIBING;
-import static io.contek.invoker.commons.websocket.SubscriptionState.UNSUBSCRIBED;
-import static io.contek.invoker.commons.websocket.SubscriptionState.UNSUBSCRIBING;
+import static io.contek.invoker.commons.websocket.SubscriptionState.*;
 
 @ThreadSafe
 public abstract class WebSocketChannel<Message extends WebSocketInboundMessage>
-  extends BaseWebSocketChannel<Message> {
+    extends BaseWebSocketChannel<Message> {
 
   public static final String CHANNELS_KEY = "channels";
-  private final AtomicReference<WebSocketRequest> pendingSubscriptionHolder = new AtomicReference<>();
+  private final AtomicReference<WebSocketRequest> pendingSubscriptionHolder =
+      new AtomicReference<>();
+
+  public WebSocketChannel() {
+    super(id);
+  }
 
   protected abstract String getChannel();
 
@@ -73,7 +75,9 @@ public abstract class WebSocketChannel<Message extends WebSocketInboundMessage>
         return null;
       }
       WebSocketResponse confirmation = (WebSocketResponse) message;
-      if (confirmation.id == null || !confirmation.id.equals(command.id) || confirmation.result.isEmpty()) {
+      if (confirmation.id == null
+          || !confirmation.id.equals(command.id)
+          || confirmation.result.isEmpty()) {
         return null;
       }
       reset();
@@ -89,6 +93,5 @@ public abstract class WebSocketChannel<Message extends WebSocketInboundMessage>
   }
 
   @Override
-  protected final void reset() {
-  }
+  protected final void reset() {}
 }

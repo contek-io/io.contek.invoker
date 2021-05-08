@@ -3,10 +3,7 @@ package io.contek.invoker.binancedelivery.api.websocket;
 import com.google.common.collect.ImmutableList;
 import io.contek.invoker.binancedelivery.api.websocket.common.WebSocketCommand;
 import io.contek.invoker.binancedelivery.api.websocket.common.WebSocketCommandConfirmation;
-import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
-import io.contek.invoker.commons.websocket.BaseWebSocketChannel;
-import io.contek.invoker.commons.websocket.SubscriptionState;
-import io.contek.invoker.commons.websocket.WebSocketSession;
+import io.contek.invoker.commons.websocket.*;
 
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.ThreadSafe;
@@ -24,13 +21,14 @@ public abstract class WebSocketChannel<Message> extends BaseWebSocketChannel<Mes
   private final AtomicReference<WebSocketCommand> pendingCommandHolder = new AtomicReference<>();
 
   protected WebSocketChannel(WebSocketRequestIdGenerator requestIdGenerator) {
+    super(id);
     this.requestIdGenerator = requestIdGenerator;
   }
 
   protected abstract String getTopic();
 
   @Override
-  protected final String getDisplayName() {
+  protected final BaseWebSocketChannelId getId() {
     return getTopic();
   }
 

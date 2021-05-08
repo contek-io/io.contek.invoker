@@ -1,5 +1,6 @@
 package io.contek.invoker.deribit.api.websocket.market;
 
+import io.contek.invoker.commons.websocket.BaseWebSocketChannelId;
 import io.contek.invoker.deribit.api.websocket.WebSocketChannel;
 import io.contek.invoker.deribit.api.websocket.common.OrderBook;
 import io.contek.invoker.deribit.api.websocket.common.Params;
@@ -30,7 +31,7 @@ public final class BookChannel extends WebSocketChannel<BookChannel.Message> {
   }
 
   @Override
-  protected String getDisplayName() {
+  protected BaseWebSocketChannelId getId() {
     return topic.getValue();
   }
 

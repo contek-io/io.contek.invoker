@@ -5,10 +5,7 @@ import io.contek.invoker.bitmex.api.websocket.common.WebSocketOperationRequest;
 import io.contek.invoker.bitmex.api.websocket.common.WebSocketSubscribeResponse;
 import io.contek.invoker.bitmex.api.websocket.common.WebSocketTableDataMessage;
 import io.contek.invoker.bitmex.api.websocket.common.WebSocketUnsubscribeResponse;
-import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
-import io.contek.invoker.commons.websocket.BaseWebSocketChannel;
-import io.contek.invoker.commons.websocket.SubscriptionState;
-import io.contek.invoker.commons.websocket.WebSocketSession;
+import io.contek.invoker.commons.websocket.*;
 
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.ThreadSafe;
@@ -21,10 +18,14 @@ import static io.contek.invoker.commons.websocket.SubscriptionState.*;
 public abstract class WebSocketChannel<Message extends WebSocketTableDataMessage<?>>
     extends BaseWebSocketChannel<Message> {
 
+  public WebSocketChannel() {
+    super(id);
+  }
+
   protected abstract String getTopic();
 
   @Override
-  protected final String getDisplayName() {
+  protected final BaseWebSocketChannelId getId() {
     return getTopic();
   }
 

@@ -1,9 +1,6 @@
 package io.contek.invoker.hbdminverse.api.websocket.market;
 
-import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
-import io.contek.invoker.commons.websocket.BaseWebSocketChannel;
-import io.contek.invoker.commons.websocket.SubscriptionState;
-import io.contek.invoker.commons.websocket.WebSocketSession;
+import io.contek.invoker.commons.websocket.*;
 import io.contek.invoker.hbdminverse.api.websocket.common.WebSocketSubscribeConfirmation;
 import io.contek.invoker.hbdminverse.api.websocket.common.WebSocketUnsubscribeConfirmation;
 import io.contek.invoker.hbdminverse.api.websocket.common.WebSocketUnsubscribeRequest;
@@ -24,6 +21,7 @@ abstract class WebSocketMarketChannel<Message extends WebSocketMarketDataMessage
 
   protected WebSocketMarketChannel(
       String topic, Class<Message> type, WebSocketMarketRequestIdGenerator requestIdGenerator) {
+    super(id);
     this.topic = topic;
     this.type = type;
     this.requestIdGenerator = requestIdGenerator;
@@ -34,7 +32,7 @@ abstract class WebSocketMarketChannel<Message extends WebSocketMarketDataMessage
   }
 
   @Override
-  protected final String getDisplayName() {
+  protected final BaseWebSocketChannelId getId() {
     return topic;
   }
 

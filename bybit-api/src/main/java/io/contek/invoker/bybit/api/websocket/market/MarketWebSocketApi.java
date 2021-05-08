@@ -11,18 +11,20 @@ import java.util.Map;
 @ThreadSafe
 public final class MarketWebSocketApi extends WebSocketApi {
 
-  private final Map<String, OrderBook25Channel> orderBook25Channels = new HashMap<>();
-  private final Map<String, OrderBook200Channel> orderBook200Channels = new HashMap<>();
-  private final Map<String, TradeChannel> tradeChannels = new HashMap<>();
+  private final Map<OrderBook25Channel.Id, OrderBook25Channel> orderBook25Channels =
+      new HashMap<>();
+  private final Map<OrderBook200Channel.Id, OrderBook200Channel> orderBook200Channels =
+      new HashMap<>();
+  private final Map<TradeChannel.Id, TradeChannel> tradeChannels = new HashMap<>();
 
   public MarketWebSocketApi(IActor actor, WebSocketContext context) {
     super(actor, context);
   }
 
-  public OrderBook25Channel getOrderBook25Channel(String symbol) {
+  public OrderBook25Channel getOrderBook25Channel(OrderBook25Channel.Id id) {
     synchronized (orderBook25Channels) {
       return orderBook25Channels.computeIfAbsent(
-          symbol,
+          id,
           k -> {
             OrderBook25Channel result = new OrderBook25Channel(k);
             attach(result);
@@ -31,10 +33,10 @@ public final class MarketWebSocketApi extends WebSocketApi {
     }
   }
 
-  public OrderBook200Channel getOrderBook200Channel(String symbol) {
+  public OrderBook200Channel getOrderBook200Channel(OrderBook200Channel.Id id) {
     synchronized (orderBook200Channels) {
       return orderBook200Channels.computeIfAbsent(
-          symbol,
+          id,
           k -> {
             OrderBook200Channel result = new OrderBook200Channel(k);
             attach(result);
@@ -43,10 +45,10 @@ public final class MarketWebSocketApi extends WebSocketApi {
     }
   }
 
-  public TradeChannel getTradeChannel(String symbol) {
+  public TradeChannel getTradeChannel(TradeChannel.Id id) {
     synchronized (tradeChannels) {
       return tradeChannels.computeIfAbsent(
-          symbol,
+          id,
           k -> {
             TradeChannel result = new TradeChannel(k);
             attach(result);

@@ -13,13 +13,24 @@ import static io.contek.invoker.commons.websocket.SubscriptionState.*;
 import static org.slf4j.LoggerFactory.getLogger;
 
 @ThreadSafe
-public abstract class BaseWebSocketChannel<Message> implements IWebSocketComponent {
+public abstract class BaseWebSocketChannel<Id extends BaseWebSocketChannelId, Message>
+    implements IWebSocketComponent {
 
   private static final Logger log = getLogger(BaseWebSocketChannel.class);
+
+  private final Id id;
 
   private final AtomicReference<SubscriptionState> stateHolder =
       new AtomicReference<>(UNSUBSCRIBED);
   private final List<ISubscribingConsumer<Message>> consumers = new LinkedList<>();
+
+  protected BaseWebSocketChannel(Id id) {
+    this.id = id;
+  }
+
+  public final Id getId() {
+    return id;
+  }
 
   public final void addConsumer(ISubscribingConsumer<Message> consumer) {
     synchronized (consumers) {
@@ -40,18 +51,16 @@ public abstract class BaseWebSocketChannel<Message> implements IWebSocketCompone
         SubscriptionState currentState = stateHolder.get();
         SubscriptionState newState = null;
         if (currentState == SUBSCRIBED && childConsumerState == IDLE) {
-          log.info("Unsubscribing channel {}.", getDisplayName());
+          log.info("Unsubscribing channel {}.", id);
           newState = unsubscribe(session);
           if (newState == SUBSCRIBED || newState == SUBSCRIBING) {
-            log.error(
-                "Channel {} has invalid state after unsubscribe: {}.", getDisplayName(), newState);
+            log.error("Channel {} has invalid state after unsubscribe: {}.", id, newState);
           }
         } else if (currentState == UNSUBSCRIBED && childConsumerState == ACTIVE) {
-          log.info("Subscribing channel {}.", getDisplayName());
+          log.info("Subscribing channel {}.", id);
           newState = subscribe(session);
           if (newState == UNSUBSCRIBED || newState == UNSUBSCRIBING) {
-            log.error(
-                "Channel {} has invalid state after subscribe: {}.", getDisplayName(), newState);
+            log.error("Channel {} has invalid state after subscribe: {}.", id, newState);
           }
         }
 
@@ -86,7 +95,7 @@ public abstract class BaseWebSocketChannel<Message> implements IWebSocketCompone
 
     SubscriptionState newState = getState(message);
     if (newState != null) {
-      log.info("Channel {} is now {}.", getDisplayName(), newState);
+      log.info("Channel {} is now {}.", id, newState);
       setState(newState);
     }
   }
@@ -96,8 +105,6 @@ public abstract class BaseWebSocketChannel<Message> implements IWebSocketCompone
     reset();
     setState(UNSUBSCRIBED);
   }
-
-  protected abstract String getDisplayName();
 
   protected abstract SubscriptionState subscribe(WebSocketSession session);
 

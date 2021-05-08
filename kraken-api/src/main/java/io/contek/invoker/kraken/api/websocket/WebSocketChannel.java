@@ -26,6 +26,7 @@ public abstract class WebSocketChannel<Message extends WebSocketInboundMessage>
       new AtomicReference<>(null);
 
   protected WebSocketChannel(WebSocketRequestIdGenerator requestIdGenerator) {
+    super(id);
     this.requestIdGenerator = requestIdGenerator;
   }
 

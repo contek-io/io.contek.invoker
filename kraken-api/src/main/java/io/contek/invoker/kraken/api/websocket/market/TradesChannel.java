@@ -2,6 +2,7 @@ package io.contek.invoker.kraken.api.websocket.market;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import io.contek.invoker.commons.websocket.BaseWebSocketChannelId;
 import io.contek.invoker.kraken.api.common._Trade;
 import io.contek.invoker.kraken.api.websocket.WebSocketChannel;
 import io.contek.invoker.kraken.api.websocket.WebSocketRequestIdGenerator;
@@ -28,7 +29,7 @@ public final class TradesChannel extends WebSocketChannel<TradesChannel.Message>
   }
 
   @Override
-  protected String getDisplayName() {
+  protected BaseWebSocketChannelId getId() {
     return String.format("%s_%s", WebSocketChannelKeys._trade, topic.getPair());
   }
 

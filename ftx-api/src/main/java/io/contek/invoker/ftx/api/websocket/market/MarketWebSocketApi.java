@@ -11,18 +11,18 @@ import java.util.Map;
 @ThreadSafe
 public final class MarketWebSocketApi extends WebSocketApi {
 
-  private final Map<OrderBookChannel.Topic, OrderBookChannel> orderBookChannels = new HashMap<>();
-  private final Map<TickerChannel.Topic, TickerChannel> tickerChannels = new HashMap<>();
-  private final Map<TradesChannel.Topic, TradesChannel> tradesChannels = new HashMap<>();
+  private final Map<OrderBookChannel.Id, OrderBookChannel> orderBookChannels = new HashMap<>();
+  private final Map<TickerChannel.Id, TickerChannel> tickerChannels = new HashMap<>();
+  private final Map<TradesChannel.Id, TradesChannel> tradesChannels = new HashMap<>();
 
   public MarketWebSocketApi(IActor actor, WebSocketContext context) {
     super(actor, context);
   }
 
-  public OrderBookChannel getOrderBookChannel(OrderBookChannel.Topic topic) {
+  public OrderBookChannel getOrderBookChannel(OrderBookChannel.Id id) {
     synchronized (orderBookChannels) {
       return orderBookChannels.computeIfAbsent(
-          topic,
+          id,
           k -> {
             OrderBookChannel result = new OrderBookChannel(k);
             attach(result);
@@ -31,10 +31,10 @@ public final class MarketWebSocketApi extends WebSocketApi {
     }
   }
 
-  public TickerChannel getTickerChannel(TickerChannel.Topic topic) {
+  public TickerChannel getTickerChannel(TickerChannel.Id id) {
     synchronized (tickerChannels) {
       return tickerChannels.computeIfAbsent(
-          topic,
+          id,
           k -> {
             TickerChannel result = new TickerChannel(k);
             attach(result);
@@ -43,10 +43,10 @@ public final class MarketWebSocketApi extends WebSocketApi {
     }
   }
 
-  public TradesChannel getTradesChannel(TradesChannel.Topic topic) {
+  public TradesChannel getTradesChannel(TradesChannel.Id id) {
     synchronized (tradesChannels) {
       return tradesChannels.computeIfAbsent(
-          topic,
+          id,
           k -> {
             TradesChannel result = new TradesChannel(k);
             attach(result);

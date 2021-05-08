@@ -1,27 +1,19 @@
 package io.contek.invoker.bybit.api.websocket.market;
 
 import io.contek.invoker.bybit.api.websocket.WebSocketChannel;
+import io.contek.invoker.bybit.api.websocket.WebSocketChannelId;
 import io.contek.invoker.bybit.api.websocket.common.WebSocketTopicMessage;
-import io.contek.invoker.bybit.api.websocket.market.TradeChannel.Message;
 
+import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
 import java.util.ArrayList;
 
 @ThreadSafe
-public final class TradeChannel extends WebSocketChannel<Message> {
+public final class TradeChannel extends WebSocketChannel<TradeChannel.Id, TradeChannel.Message> {
 
-  public static final String TOPIC_PREFIX = "trade";
-
-  private final String topic;
-
-  public TradeChannel(String symbol) {
-    topic = TOPIC_PREFIX + '.' + symbol;
-  }
-
-  @Override
-  protected String getTopic() {
-    return topic;
+  TradeChannel(TradeChannel.Id id) {
+    super(id);
   }
 
   @Override
@@ -29,9 +21,16 @@ public final class TradeChannel extends WebSocketChannel<Message> {
     return Message.class;
   }
 
-  @Override
-  protected boolean accepts(Message message) {
-    return topic.equals(message.topic);
+  @Immutable
+  public static final class Id extends WebSocketChannelId {
+
+    private Id(String topic) {
+      super(topic);
+    }
+
+    public static Id of(String symbol) {
+      return new Id(String.format("trade.%s", symbol));
+    }
   }
 
   @NotThreadSafe

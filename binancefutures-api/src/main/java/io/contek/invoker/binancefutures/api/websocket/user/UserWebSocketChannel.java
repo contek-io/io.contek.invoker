@@ -14,6 +14,10 @@ import static io.contek.invoker.commons.websocket.SubscriptionState.UNSUBSCRIBED
 @ThreadSafe
 public abstract class UserWebSocketChannel<Message> extends BaseWebSocketChannel<Message> {
 
+  public UserWebSocketChannel() {
+    super(id);
+  }
+
   // We do no action during the subscription phase since the data will be pushed to our end when
   // opening the web socket connection.
   @Override

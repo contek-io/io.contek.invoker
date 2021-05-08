@@ -17,21 +17,19 @@ import static io.contek.invoker.bybit.api.websocket.common.constants.WebSocketOp
 import static io.contek.invoker.commons.websocket.SubscriptionState.*;
 
 @ThreadSafe
-public abstract class WebSocketChannel<Message extends WebSocketTopicMessage>
-    extends BaseWebSocketChannel<Message> {
+public abstract class WebSocketChannel<
+        Id extends WebSocketChannelId, Message extends WebSocketTopicMessage>
+    extends BaseWebSocketChannel<Id, Message> {
 
-  protected abstract String getTopic();
-
-  @Override
-  protected final String getDisplayName() {
-    return getTopic();
+  protected WebSocketChannel(Id id) {
+    super(id);
   }
 
   @Override
   protected final SubscriptionState subscribe(WebSocketSession session) {
     WebSocketOperationRequest request = new WebSocketOperationRequest();
     request.op = _subscribe;
-    request.args = ImmutableList.of(getTopic());
+    request.args = ImmutableList.of(getId().getTopic());
     session.send(request);
     return SUBSCRIBING;
   }
@@ -40,7 +38,7 @@ public abstract class WebSocketChannel<Message extends WebSocketTopicMessage>
   protected final SubscriptionState unsubscribe(WebSocketSession session) {
     WebSocketOperationRequest request = new WebSocketOperationRequest();
     request.op = _unsubscribe;
-    request.args = ImmutableList.of(getTopic());
+    request.args = ImmutableList.of(getId().getTopic());
     session.send(request);
     return UNSUBSCRIBING;
   }
@@ -51,7 +49,7 @@ public abstract class WebSocketChannel<Message extends WebSocketTopicMessage>
     if (message instanceof WebSocketOperationResponse) {
       WebSocketOperationResponse confirmation = (WebSocketOperationResponse) message;
       WebSocketOperationRequest request = confirmation.request;
-      if (!request.args.contains(getTopic())) {
+      if (!request.args.contains(getId().getTopic())) {
         return null;
       }
       if (!confirmation.success) {
@@ -67,6 +65,11 @@ public abstract class WebSocketChannel<Message extends WebSocketTopicMessage>
       }
     }
     return null;
+  }
+
+  @Override
+  protected final boolean accepts(Message message) {
+    return getId().getTopic().equals(message.topic);
   }
 
   @Override

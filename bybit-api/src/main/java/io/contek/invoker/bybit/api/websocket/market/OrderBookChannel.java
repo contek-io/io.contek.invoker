@@ -1,6 +1,7 @@
 package io.contek.invoker.bybit.api.websocket.market;
 
 import io.contek.invoker.bybit.api.websocket.WebSocketChannel;
+import io.contek.invoker.bybit.api.websocket.WebSocketChannelId;
 import io.contek.invoker.bybit.api.websocket.common.WebSocketTopicMessage;
 import io.contek.invoker.bybit.api.websocket.market.OrderBookChannel.Message;
 
@@ -9,27 +10,16 @@ import javax.annotation.concurrent.ThreadSafe;
 import java.util.List;
 
 @ThreadSafe
-public abstract class OrderBookChannel extends WebSocketChannel<Message> {
+public abstract class OrderBookChannel<Id extends WebSocketChannelId>
+    extends WebSocketChannel<Id, Message> {
 
-  private final String topic;
-
-  OrderBookChannel(String topic) {
-    this.topic = topic;
-  }
-
-  @Override
-  protected String getTopic() {
-    return topic;
+  OrderBookChannel(Id id) {
+    super(id);
   }
 
   @Override
   protected Class<Message> getMessageType() {
     return Message.class;
-  }
-
-  @Override
-  protected boolean accepts(Message message) {
-    return topic.equals(message.topic);
   }
 
   @NotThreadSafe

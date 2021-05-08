@@ -1,38 +1,21 @@
 package io.contek.invoker.ftx.api.websocket.market;
 
 import io.contek.invoker.ftx.api.common._Ticker;
+import io.contek.invoker.ftx.api.websocket.WebSocketChannel;
+import io.contek.invoker.ftx.api.websocket.WebSocketChannelId;
 import io.contek.invoker.ftx.api.websocket.common.WebSocketChannelMessage;
 
-import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
-import java.util.Objects;
 
 import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketChannelKeys._ticker;
 
 @ThreadSafe
-public final class TickerChannel extends MarketWebSocketChannel<TickerChannel.Message> {
+public final class TickerChannel extends WebSocketChannel<TickerChannel.Id, TickerChannel.Message> {
 
-  private final Topic topic;
-
-  TickerChannel(Topic topic) {
-    this.topic = topic;
-  }
-
-  @Override
-  protected String getChannel() {
-    return _ticker;
-  }
-
-  @Override
-  protected String getMarket() {
-    return topic.getMarket();
-  }
-
-  @Override
-  protected String getDisplayName() {
-    return topic.toString();
+  TickerChannel(TickerChannel.Id id) {
+    super(id);
   }
 
   @Override
@@ -40,49 +23,15 @@ public final class TickerChannel extends MarketWebSocketChannel<TickerChannel.Me
     return TickerChannel.Message.class;
   }
 
-  @Override
-  protected boolean accepts(TickerChannel.Message message) {
-    return topic.getMarket().equals(message.market);
-  }
-
   @Immutable
-  public static final class Topic {
+  public static final class Id extends WebSocketChannelId {
 
-    private final String market;
-
-    private String value;
-
-    private Topic(String market) {
-      this.market = market;
+    private Id(String market) {
+      super(_ticker, market);
     }
 
-    public static Topic of(String market) {
-      return new Topic(market);
-    }
-
-    public String getMarket() {
-      return market;
-    }
-
-    @Override
-    public boolean equals(@Nullable Object o) {
-      if (this == o) return true;
-      if (o == null || getClass() != o.getClass()) return false;
-      Topic topic = (Topic) o;
-      return Objects.equals(market, topic.market);
-    }
-
-    @Override
-    public int hashCode() {
-      return Objects.hash(market);
-    }
-
-    @Override
-    public String toString() {
-      if (value == null) {
-        value = _ticker + "." + market;
-      }
-      return value;
+    public static TickerChannel.Id of(String market) {
+      return new TickerChannel.Id(market);
     }
   }
 
