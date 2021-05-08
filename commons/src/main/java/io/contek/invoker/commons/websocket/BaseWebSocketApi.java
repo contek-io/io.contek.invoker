@@ -94,7 +94,9 @@ public abstract class BaseWebSocketApi implements IWebSocketApi {
     synchronized (sessionHolder) {
       WebSocketSession session = sessionHolder.get();
       synchronized (authenticator) {
-        authenticator.onMessage(message, session);
+        if (!authenticator.isCompleted()) {
+          authenticator.onMessage(message, session);
+        }
       }
       synchronized (liveKeeper) {
         liveKeeper.onMessage(message, session);

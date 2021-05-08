@@ -11,10 +11,13 @@ import io.contek.invoker.security.ICredential;
 
 import javax.annotation.concurrent.ThreadSafe;
 import java.time.Clock;
+import java.time.Duration;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 @ThreadSafe
 public final class WebSocketAuthenticator implements IWebSocketAuthenticator {
+
+  private static final Duration EXPIRE_DELAY = Duration.ofSeconds(5);
 
   private final ICredential credential;
   private final Clock clock;
@@ -34,7 +37,7 @@ public final class WebSocketAuthenticator implements IWebSocketAuthenticator {
     String key = credential.getApiKeyId();
 
     // Add more time to account for network delay.
-    long expires = clock.instant().getEpochSecond() + 5;
+    long expires = clock.instant().plus(EXPIRE_DELAY).getEpochSecond();
     String payload = "GET/realtime" + expires;
     String signature = credential.sign(payload);
 
@@ -61,6 +64,9 @@ public final class WebSocketAuthenticator implements IWebSocketAuthenticator {
 
     WebSocketAuthKeyExpiresConfirmation confirmation =
         (WebSocketAuthKeyExpiresConfirmation) message;
+    if (!confirmation.success) {
+      throw new IllegalStateException();
+    }
     authenticated.set(true);
   }
 
