@@ -13,7 +13,8 @@ import static io.contek.invoker.commons.websocket.SubscriptionState.*;
 import static org.slf4j.LoggerFactory.getLogger;
 
 @ThreadSafe
-public abstract class BaseWebSocketChannel<Id extends BaseWebSocketChannelId, Message>
+public abstract class BaseWebSocketChannel<
+        Id extends BaseWebSocketChannelId<Message>, Message extends AnyWebSocketMessage>
     implements IWebSocketComponent {
 
   private static final Logger log = getLogger(BaseWebSocketChannel.class);
@@ -115,8 +116,6 @@ public abstract class BaseWebSocketChannel<Id extends BaseWebSocketChannelId, Me
 
   protected abstract Class<Message> getMessageType();
 
-  protected abstract boolean accepts(Message message);
-
   protected abstract void reset();
 
   private ConsumerState getChildConsumerState() {
@@ -132,7 +131,7 @@ public abstract class BaseWebSocketChannel<Id extends BaseWebSocketChannelId, Me
       return null;
     }
     Message casted = getMessageType().cast(message);
-    return accepts(casted) ? casted : null;
+    return id.accepts(casted) ? casted : null;
   }
 
   private void setState(SubscriptionState state) {

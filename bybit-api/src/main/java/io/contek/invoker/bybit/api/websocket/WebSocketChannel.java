@@ -18,7 +18,7 @@ import static io.contek.invoker.commons.websocket.SubscriptionState.*;
 
 @ThreadSafe
 public abstract class WebSocketChannel<
-        Id extends WebSocketChannelId, Message extends WebSocketTopicMessage>
+        Id extends WebSocketChannelId<Message>, Message extends WebSocketTopicMessage>
     extends BaseWebSocketChannel<Id, Message> {
 
   protected WebSocketChannel(Id id) {
@@ -27,18 +27,20 @@ public abstract class WebSocketChannel<
 
   @Override
   protected final SubscriptionState subscribe(WebSocketSession session) {
+    Id id = getId();
     WebSocketOperationRequest request = new WebSocketOperationRequest();
     request.op = _subscribe;
-    request.args = ImmutableList.of(getId().getTopic());
+    request.args = ImmutableList.of(id.getTopic());
     session.send(request);
     return SUBSCRIBING;
   }
 
   @Override
   protected final SubscriptionState unsubscribe(WebSocketSession session) {
+    Id id = getId();
     WebSocketOperationRequest request = new WebSocketOperationRequest();
     request.op = _unsubscribe;
-    request.args = ImmutableList.of(getId().getTopic());
+    request.args = ImmutableList.of(id.getTopic());
     session.send(request);
     return UNSUBSCRIBING;
   }
@@ -65,11 +67,6 @@ public abstract class WebSocketChannel<
       }
     }
     return null;
-  }
-
-  @Override
-  protected final boolean accepts(Message message) {
-    return getId().getTopic().equals(message.topic);
   }
 
   @Override

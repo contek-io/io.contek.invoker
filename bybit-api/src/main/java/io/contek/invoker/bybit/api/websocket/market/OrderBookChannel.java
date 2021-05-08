@@ -3,15 +3,14 @@ package io.contek.invoker.bybit.api.websocket.market;
 import io.contek.invoker.bybit.api.websocket.WebSocketChannel;
 import io.contek.invoker.bybit.api.websocket.WebSocketChannelId;
 import io.contek.invoker.bybit.api.websocket.common.WebSocketTopicMessage;
-import io.contek.invoker.bybit.api.websocket.market.OrderBookChannel.Message;
 
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
 import java.util.List;
 
 @ThreadSafe
-public abstract class OrderBookChannel<Id extends WebSocketChannelId>
-    extends WebSocketChannel<Id, Message> {
+public abstract class OrderBookChannel<Id extends WebSocketChannelId<OrderBookChannel.Message>>
+    extends WebSocketChannel<Id, OrderBookChannel.Message> {
 
   OrderBookChannel(Id id) {
     super(id);

@@ -10,7 +10,6 @@ import io.contek.invoker.ftx.api.websocket.common.WebSocketSubscriptionResponse;
 
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.ThreadSafe;
-import java.util.Objects;
 
 import static io.contek.invoker.commons.websocket.SubscriptionState.*;
 import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketInboundKeys._subscribed;
@@ -20,7 +19,7 @@ import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketOutb
 
 @ThreadSafe
 public abstract class WebSocketChannel<
-        Id extends WebSocketChannelId, Message extends WebSocketChannelMessage<?>>
+        Id extends WebSocketChannelId<Message>, Message extends WebSocketChannelMessage<?>>
     extends BaseWebSocketChannel<Id, Message> {
 
   protected WebSocketChannel(Id id) {
@@ -68,13 +67,6 @@ public abstract class WebSocketChannel<
       }
     }
     return null;
-  }
-
-  @Override
-  protected final boolean accepts(Message message) {
-    Id id = getId();
-    return Objects.equals(id.getChannel(), message.channel)
-        && Objects.equals(id.getMarket(), message.market);
   }
 
   @Override

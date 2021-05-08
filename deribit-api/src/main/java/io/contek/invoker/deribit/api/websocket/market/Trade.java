@@ -1,9 +1,10 @@
-package io.contek.invoker.deribit.api.websocket.common;
+package io.contek.invoker.deribit.api.websocket.market;
 
 import javax.annotation.concurrent.NotThreadSafe;
 
 @NotThreadSafe
 public final class Trade {
+
   public long amount;
   public String block_trade_id;
   public String direction;

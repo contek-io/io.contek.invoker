@@ -1,7 +1,5 @@
 package io.contek.invoker.bitmex.api.websocket.market;
 
-import com.google.common.collect.HashBasedTable;
-import com.google.common.collect.Table;
 import io.contek.invoker.bitmex.api.websocket.WebSocketApi;
 import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.websocket.WebSocketContext;
@@ -13,21 +11,23 @@ import java.util.Map;
 @ThreadSafe
 public final class MarketWebSocketApi extends WebSocketApi {
 
-  private final Map<String, LiquidationChannel> liquidationChannels = new HashMap<>();
-  private final Map<String, OrderBookL2Channel> orderBookL2Channels = new HashMap<>();
-  private final Map<String, QuoteChannel> quoteChannels = new HashMap<>();
-  private final Map<String, InstrumentChannel> instrumentChannels = new HashMap<>();
-  private final Map<String, TradeChannel> tradeChannels = new HashMap<>();
-  private final Table<String, String, TradeBinChannel> tradeBinChannels = HashBasedTable.create();
+  private final Map<LiquidationChannel.Id, LiquidationChannel> liquidationChannels =
+      new HashMap<>();
+  private final Map<OrderBookL2Channel.Id, OrderBookL2Channel> orderBookL2Channels =
+      new HashMap<>();
+  private final Map<QuoteChannel.Id, QuoteChannel> quoteChannels = new HashMap<>();
+  private final Map<InstrumentChannel.Id, InstrumentChannel> instrumentChannels = new HashMap<>();
+  private final Map<TradeChannel.Id, TradeChannel> tradeChannels = new HashMap<>();
+  private final Map<TradeBinChannel.Id, TradeBinChannel> tradeBinChannels = new HashMap<>();
 
   public MarketWebSocketApi(IActor actor, WebSocketContext context) {
     super(actor, context);
   }
 
-  public LiquidationChannel getLiquidationChannel(String instrument) {
+  public LiquidationChannel getLiquidationChannel(LiquidationChannel.Id id) {
     synchronized (liquidationChannels) {
       return liquidationChannels.computeIfAbsent(
-          instrument,
+          id,
           k -> {
             LiquidationChannel result = new LiquidationChannel(k);
             attach(result);
@@ -36,10 +36,10 @@ public final class MarketWebSocketApi extends WebSocketApi {
     }
   }
 
-  public OrderBookL2Channel getOrderBookL2Channel(String instrument) {
+  public OrderBookL2Channel getOrderBookL2Channel(OrderBookL2Channel.Id id) {
     synchronized (orderBookL2Channels) {
       return orderBookL2Channels.computeIfAbsent(
-          instrument,
+          id,
           k -> {
             OrderBookL2Channel result = new OrderBookL2Channel(k);
             attach(result);
@@ -48,10 +48,10 @@ public final class MarketWebSocketApi extends WebSocketApi {
     }
   }
 
-  public QuoteChannel getQuoteChannel(String instrument) {
+  public QuoteChannel getQuoteChannel(QuoteChannel.Id id) {
     synchronized (quoteChannels) {
       return quoteChannels.computeIfAbsent(
-          instrument,
+          id,
           k -> {
             QuoteChannel result = new QuoteChannel(k);
             attach(result);
@@ -60,10 +60,10 @@ public final class MarketWebSocketApi extends WebSocketApi {
     }
   }
 
-  public TradeChannel getTradeChannel(String instrument) {
+  public TradeChannel getTradeChannel(TradeChannel.Id id) {
     synchronized (quoteChannels) {
       return tradeChannels.computeIfAbsent(
-          instrument,
+          id,
           k -> {
             TradeChannel result = new TradeChannel(k);
             attach(result);
@@ -72,22 +72,22 @@ public final class MarketWebSocketApi extends WebSocketApi {
     }
   }
 
-  public TradeBinChannel getTradeBinChannel(String binSize, String instrument) {
+  public TradeBinChannel getTradeBinChannel(TradeBinChannel.Id id) {
     synchronized (tradeBinChannels) {
-      TradeBinChannel result = tradeBinChannels.get(binSize, instrument);
-      if (result == null) {
-        result = new TradeBinChannel(binSize, instrument);
-        attach(result);
-        tradeBinChannels.put(binSize, instrument, result);
-      }
-      return result;
+      return tradeBinChannels.computeIfAbsent(
+          id,
+          k -> {
+            TradeBinChannel result = new TradeBinChannel(k);
+            attach(result);
+            return result;
+          });
     }
   }
 
-  public InstrumentChannel getInstrumentChannel(String instrument) {
+  public InstrumentChannel getInstrumentChannel(InstrumentChannel.Id id) {
     synchronized (instrumentChannels) {
       return instrumentChannels.computeIfAbsent(
-          instrument,
+          id,
           k -> {
             InstrumentChannel result = new InstrumentChannel(k);
             attach(result);

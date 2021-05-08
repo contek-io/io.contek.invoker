@@ -25,7 +25,7 @@ public final class TradesChannel extends WebSocketChannel<TradesChannel.Id, Trad
   }
 
   @Immutable
-  public static final class Id extends WebSocketChannelId {
+  public static final class Id extends WebSocketChannelId<TradesChannel.Message> {
 
     private Id(String market) {
       super(_trades, market);

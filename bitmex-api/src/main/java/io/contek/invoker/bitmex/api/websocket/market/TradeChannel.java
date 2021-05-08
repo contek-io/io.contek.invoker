@@ -2,36 +2,45 @@ package io.contek.invoker.bitmex.api.websocket.market;
 
 import io.contek.invoker.bitmex.api.common._Trade;
 import io.contek.invoker.bitmex.api.websocket.WebSocketChannel;
+import io.contek.invoker.bitmex.api.websocket.WebSocketChannelId;
 import io.contek.invoker.bitmex.api.websocket.common.WebSocketTableDataMessage;
-import io.contek.invoker.bitmex.api.websocket.market.TradeChannel.Message;
 
+import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
 
 import static java.text.MessageFormat.format;
 
 @ThreadSafe
-public final class TradeChannel extends WebSocketChannel<Message> {
+public final class TradeChannel extends WebSocketChannel<TradeChannel.Id, TradeChannel.Message> {
 
-  private final String instrument;
-
-  TradeChannel(String instrument) {
-    this.instrument = instrument;
+  TradeChannel(TradeChannel.Id id) {
+    super(id);
   }
 
   @Override
-  protected String getTopic() {
-    return format("trade:{0}", instrument);
+  protected Class<TradeChannel.Message> getMessageType() {
+    return TradeChannel.Message.class;
   }
 
-  @Override
-  protected Class<Message> getMessageType() {
-    return Message.class;
-  }
+  @Immutable
+  public static final class Id extends WebSocketChannelId<TradeChannel.Message> {
 
-  @Override
-  protected boolean accepts(Message message) {
-    return message.data.stream().map(trade -> trade.symbol).anyMatch(instrument::equals);
+    private final String instrument;
+
+    private Id(String instrument) {
+      super(format("trade:%s", instrument));
+      this.instrument = instrument;
+    }
+
+    public static Id of(String instrument) {
+      return new Id(instrument);
+    }
+
+    @Override
+    public boolean accepts(TradeChannel.Message message) {
+      return message.data.stream().map(trade -> trade.symbol).anyMatch(instrument::equals);
+    }
   }
 
   @NotThreadSafe

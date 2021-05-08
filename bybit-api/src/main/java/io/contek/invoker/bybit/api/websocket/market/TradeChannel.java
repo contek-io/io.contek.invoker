@@ -7,7 +7,7 @@ import io.contek.invoker.bybit.api.websocket.common.WebSocketTopicMessage;
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
-import java.util.ArrayList;
+import java.util.List;
 
 @ThreadSafe
 public final class TradeChannel extends WebSocketChannel<TradeChannel.Id, TradeChannel.Message> {
@@ -22,7 +22,7 @@ public final class TradeChannel extends WebSocketChannel<TradeChannel.Id, TradeC
   }
 
   @Immutable
-  public static final class Id extends WebSocketChannelId {
+  public static final class Id extends WebSocketChannelId<TradeChannel.Message> {
 
     private Id(String topic) {
       super(topic);
@@ -36,7 +36,7 @@ public final class TradeChannel extends WebSocketChannel<TradeChannel.Id, TradeC
   @NotThreadSafe
   public static final class Message extends WebSocketTopicMessage {
 
-    public ArrayList<Trade> data;
+    public List<Trade> data;
   }
 
   @NotThreadSafe

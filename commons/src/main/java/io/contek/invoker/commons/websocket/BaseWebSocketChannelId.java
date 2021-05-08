@@ -4,7 +4,7 @@ import javax.annotation.concurrent.Immutable;
 import java.util.Objects;
 
 @Immutable
-public abstract class BaseWebSocketChannelId {
+public abstract class BaseWebSocketChannelId<M extends AnyWebSocketMessage> {
 
   private final String value;
 
@@ -16,11 +16,13 @@ public abstract class BaseWebSocketChannelId {
     return value;
   }
 
+  public abstract boolean accepts(M message);
+
   @Override
-  public final boolean equals(Object o) {
+  public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-    BaseWebSocketChannelId that = (BaseWebSocketChannelId) o;
+    BaseWebSocketChannelId<?> that = (BaseWebSocketChannelId<?>) o;
     return Objects.equals(value, that.value);
   }
 

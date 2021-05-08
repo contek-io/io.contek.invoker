@@ -6,7 +6,7 @@ import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.BaseWebSocketChannel;
 import io.contek.invoker.commons.websocket.SubscriptionState;
 import io.contek.invoker.commons.websocket.WebSocketSession;
-import io.contek.invoker.deribit.api.websocket.common.WebSocketInboundMessage;
+import io.contek.invoker.deribit.api.websocket.common.WebSocketChannelMessage;
 import io.contek.invoker.deribit.api.websocket.common.WebSocketRequest;
 import io.contek.invoker.deribit.api.websocket.common.WebSocketResponse;
 import io.contek.invoker.deribit.api.websocket.common.constants.WebSocketOutboundKeys;
@@ -18,18 +18,18 @@ import java.util.concurrent.atomic.AtomicReference;
 import static io.contek.invoker.commons.websocket.SubscriptionState.*;
 
 @ThreadSafe
-public abstract class WebSocketChannel<Message extends WebSocketInboundMessage>
-    extends BaseWebSocketChannel<Message> {
+public abstract class WebSocketChannel<
+        Id extends WebSocketChannelId<Message>, Message extends WebSocketChannelMessage<?>>
+    extends BaseWebSocketChannel<Id, Message> {
 
   public static final String CHANNELS_KEY = "channels";
+
   private final AtomicReference<WebSocketRequest> pendingSubscriptionHolder =
       new AtomicReference<>();
 
-  public WebSocketChannel() {
+  protected WebSocketChannel(Id id) {
     super(id);
   }
-
-  protected abstract String getChannel();
 
   @Override
   protected final SubscriptionState subscribe(WebSocketSession session) {
@@ -38,9 +38,10 @@ public abstract class WebSocketChannel<Message extends WebSocketInboundMessage>
       if (pendingSubscriptionHolder.get() != null) {
         throw new IllegalStateException();
       }
+      Id id = getId();
       WebSocketRequest request = new WebSocketRequest();
       request.method = "public/" + WebSocketOutboundKeys._subscribe;
-      request.params = ImmutableMap.of(CHANNELS_KEY, ImmutableList.of(getChannel()));
+      request.params = ImmutableMap.of(CHANNELS_KEY, ImmutableList.of(id.getChannel()));
       session.send(request);
       pendingSubscriptionHolder.set(request);
     }
@@ -53,9 +54,10 @@ public abstract class WebSocketChannel<Message extends WebSocketInboundMessage>
       if (pendingSubscriptionHolder.get() != null) {
         throw new IllegalStateException();
       }
+      Id id = getId();
       WebSocketRequest request = new WebSocketRequest();
       request.method = "public/" + WebSocketOutboundKeys._unsubscribe;
-      request.params = ImmutableMap.of(CHANNELS_KEY, ImmutableList.of(getChannel()));
+      request.params = ImmutableMap.of(CHANNELS_KEY, ImmutableList.of(id.getChannel()));
       session.send(request);
       pendingSubscriptionHolder.set(request);
     }

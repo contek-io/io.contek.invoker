@@ -5,6 +5,7 @@ import java.util.List;
 
 @NotThreadSafe
 public final class WebSocketResponse extends WebSocketInboundMessage {
+
   public Integer id;
   public String jsonrpc;
   public List<String> result;

@@ -2,36 +2,46 @@ package io.contek.invoker.bitmex.api.websocket.market;
 
 import io.contek.invoker.bitmex.api.common._OrderBookLevel;
 import io.contek.invoker.bitmex.api.websocket.WebSocketChannel;
+import io.contek.invoker.bitmex.api.websocket.WebSocketChannelId;
 import io.contek.invoker.bitmex.api.websocket.common.WebSocketTableDataMessage;
-import io.contek.invoker.bitmex.api.websocket.market.OrderBookL2Channel.Message;
 
+import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
 
 import static java.text.MessageFormat.format;
 
 @ThreadSafe
-public final class OrderBookL2Channel extends WebSocketChannel<Message> {
+public final class OrderBookL2Channel
+    extends WebSocketChannel<OrderBookL2Channel.Id, OrderBookL2Channel.Message> {
 
-  private final String instrument;
-
-  OrderBookL2Channel(String instrument) {
-    this.instrument = instrument;
+  OrderBookL2Channel(Id id) {
+    super(id);
   }
 
   @Override
-  protected String getTopic() {
-    return format("orderBookL2:{0}", instrument);
+  protected Class<OrderBookL2Channel.Message> getMessageType() {
+    return OrderBookL2Channel.Message.class;
   }
 
-  @Override
-  protected Class<Message> getMessageType() {
-    return Message.class;
-  }
+  @Immutable
+  public static final class Id extends WebSocketChannelId<OrderBookL2Channel.Message> {
 
-  @Override
-  protected boolean accepts(Message message) {
-    return message.data.stream().map(level -> level.symbol).anyMatch(instrument::equals);
+    private final String instrument;
+
+    private Id(String instrument) {
+      super(format("orderBookL2:%s", instrument));
+      this.instrument = instrument;
+    }
+
+    public static Id of(String instrument) {
+      return new Id(instrument);
+    }
+
+    @Override
+    public boolean accepts(Message message) {
+      return message.data.stream().map(level -> level.symbol).anyMatch(instrument::equals);
+    }
   }
 
   @NotThreadSafe

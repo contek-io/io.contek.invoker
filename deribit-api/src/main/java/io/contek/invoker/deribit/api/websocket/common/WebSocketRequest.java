@@ -8,6 +8,7 @@ import java.util.Map;
 
 @NotThreadSafe
 public final class WebSocketRequest extends AnyWebSocketMessage {
+
   public String method;
   public Integer id;
   public String jsonrpc = "2.0";

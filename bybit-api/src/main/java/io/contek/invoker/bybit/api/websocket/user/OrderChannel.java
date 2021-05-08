@@ -23,7 +23,7 @@ public final class OrderChannel extends WebSocketChannel<OrderChannel.Id, OrderC
   }
 
   @Immutable
-  public static final class Id extends WebSocketChannelId {
+  public static final class Id extends WebSocketChannelId<OrderChannel.Message> {
 
     private static final Id INSTANCE = new Id();
 

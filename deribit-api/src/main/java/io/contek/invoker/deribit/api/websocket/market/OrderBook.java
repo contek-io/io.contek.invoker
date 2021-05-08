@@ -1,4 +1,4 @@
-package io.contek.invoker.deribit.api.websocket.common;
+package io.contek.invoker.deribit.api.websocket.market;
 
 import io.contek.invoker.deribit.api.common._OrderBookLevel;
 

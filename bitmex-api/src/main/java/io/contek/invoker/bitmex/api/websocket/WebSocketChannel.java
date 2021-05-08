@@ -5,7 +5,10 @@ import io.contek.invoker.bitmex.api.websocket.common.WebSocketOperationRequest;
 import io.contek.invoker.bitmex.api.websocket.common.WebSocketSubscribeResponse;
 import io.contek.invoker.bitmex.api.websocket.common.WebSocketTableDataMessage;
 import io.contek.invoker.bitmex.api.websocket.common.WebSocketUnsubscribeResponse;
-import io.contek.invoker.commons.websocket.*;
+import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
+import io.contek.invoker.commons.websocket.BaseWebSocketChannel;
+import io.contek.invoker.commons.websocket.SubscriptionState;
+import io.contek.invoker.commons.websocket.WebSocketSession;
 
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.ThreadSafe;
@@ -15,34 +18,30 @@ import static io.contek.invoker.bitmex.api.websocket.common.constants.WebSocketR
 import static io.contek.invoker.commons.websocket.SubscriptionState.*;
 
 @ThreadSafe
-public abstract class WebSocketChannel<Message extends WebSocketTableDataMessage<?>>
-    extends BaseWebSocketChannel<Message> {
+public abstract class WebSocketChannel<
+        Id extends WebSocketChannelId<Message>, Message extends WebSocketTableDataMessage<?>>
+    extends BaseWebSocketChannel<Id, Message> {
 
-  public WebSocketChannel() {
+  protected WebSocketChannel(Id id) {
     super(id);
-  }
-
-  protected abstract String getTopic();
-
-  @Override
-  protected final BaseWebSocketChannelId getId() {
-    return getTopic();
   }
 
   @Override
   protected final SubscriptionState subscribe(WebSocketSession session) {
+    Id id = getId();
     WebSocketOperationRequest request = new WebSocketOperationRequest();
     request.op = _subscribe;
-    request.args = ImmutableList.of(getTopic());
+    request.args = ImmutableList.of(id.getTopic());
     session.send(request);
     return SUBSCRIBING;
   }
 
   @Override
   protected final SubscriptionState unsubscribe(WebSocketSession session) {
+    Id id = getId();
     WebSocketOperationRequest request = new WebSocketOperationRequest();
     request.op = _unsubscribe;
-    request.args = ImmutableList.of(getTopic());
+    request.args = ImmutableList.of(id.getTopic());
     session.send(request);
     return UNSUBSCRIBING;
   }
@@ -51,15 +50,17 @@ public abstract class WebSocketChannel<Message extends WebSocketTableDataMessage
   @Override
   protected final SubscriptionState getState(AnyWebSocketMessage message) {
     if (message instanceof WebSocketSubscribeResponse) {
+      Id id = getId();
       WebSocketSubscribeResponse confirmation = (WebSocketSubscribeResponse) message;
-      if (confirmation.subscribe.equals(getTopic())) {
+      if (confirmation.subscribe.equals(id.getTopic())) {
         return SUBSCRIBED;
       }
     }
 
     if (message instanceof WebSocketUnsubscribeResponse) {
+      Id id = getId();
       WebSocketUnsubscribeResponse confirmation = (WebSocketUnsubscribeResponse) message;
-      if (confirmation.unsubscribe.equals(getTopic())) {
+      if (confirmation.unsubscribe.equals(id.getTopic())) {
         reset();
         return UNSUBSCRIBED;
       }

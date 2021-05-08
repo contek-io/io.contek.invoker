@@ -25,7 +25,7 @@ public final class OrderBookChannel
   }
 
   @Immutable
-  public static final class Id extends WebSocketChannelId {
+  public static final class Id extends WebSocketChannelId<OrderBookChannel.Message> {
 
     private Id(String market) {
       super(_orderbook, market);

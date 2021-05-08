@@ -13,7 +13,7 @@ public final class OrderBook25Channel extends OrderBookChannel<OrderBook25Channe
   }
 
   @Immutable
-  public static final class Id extends WebSocketChannelId {
+  public static final class Id extends WebSocketChannelId<OrderBookChannel.Message> {
 
     private Id(String topic) {
       super(topic);
