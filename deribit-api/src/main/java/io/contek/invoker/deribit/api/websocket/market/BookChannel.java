@@ -1,26 +1,26 @@
 package io.contek.invoker.deribit.api.websocket.market;
 
 import io.contek.invoker.deribit.api.websocket.WebSocketChannel;
+import io.contek.invoker.deribit.api.websocket.common.OrderBook;
 import io.contek.invoker.deribit.api.websocket.common.Params;
-import io.contek.invoker.deribit.api.websocket.common.Trade;
 import io.contek.invoker.deribit.api.websocket.common.WebSocketChannelMessage;
 
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
-import java.util.List;
 import java.util.Objects;
 
-import static io.contek.invoker.deribit.api.websocket.common.constants.WebSocketChannelKeys._trades;
+import static io.contek.invoker.deribit.api.websocket.common.constants.WebSocketChannelKeys._book;
 import static java.lang.String.format;
 
 @ThreadSafe
-public final class TradesChannel extends WebSocketChannel<TradesChannel.Message> {
+public final class BookChannel extends WebSocketChannel<BookChannel.Message> {
 
   private final Topic topic;
 
-  TradesChannel(Topic topic) {
+  BookChannel(Topic topic) {
+    // "book.BTC-24SEP21.none.1.100ms"
     this.topic = topic;
   }
 
@@ -35,12 +35,12 @@ public final class TradesChannel extends WebSocketChannel<TradesChannel.Message>
   }
 
   @Override
-  protected Class<TradesChannel.Message> getMessageType() {
-    return TradesChannel.Message.class;
+  protected Class<BookChannel.Message> getMessageType() {
+    return BookChannel.Message.class;
   }
 
   @Override
-  protected boolean accepts(TradesChannel.Message message) {
+  protected boolean accepts(BookChannel.Message message) {
     return topic.getValue().equals(message.params.channel);
   }
 
@@ -53,8 +53,8 @@ public final class TradesChannel extends WebSocketChannel<TradesChannel.Message>
       this.value = value;
     }
 
-    public static Topic of(String instrumentName, String interval) {
-      return new Topic(format("%s.%s.%s", _trades, instrumentName, interval));
+    public static Topic of(String instrumentName, String group, int depth, String interval) {
+      return new Topic(format("%s.%s.%s.%d.%s", _book, instrumentName, group, depth, interval));
     }
 
     public String getValue() {
@@ -76,5 +76,5 @@ public final class TradesChannel extends WebSocketChannel<TradesChannel.Message>
   }
 
   @NotThreadSafe
-  public static final class Message extends WebSocketChannelMessage<Params<List<Trade>>> {}
+  public static final class Message extends WebSocketChannelMessage<Params<OrderBook>> {}
 }

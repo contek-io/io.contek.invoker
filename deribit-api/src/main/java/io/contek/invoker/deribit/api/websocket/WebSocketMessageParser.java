@@ -7,7 +7,7 @@ import io.contek.invoker.commons.websocket.IWebSocketMessageParser;
 import io.contek.invoker.deribit.api.websocket.common.WebSocketInboundMessage;
 import io.contek.invoker.deribit.api.websocket.common.WebSocketResponse;
 import io.contek.invoker.deribit.api.websocket.common.constants.WebSocketChannelKeys;
-import io.contek.invoker.deribit.api.websocket.market.OrderBookChannel;
+import io.contek.invoker.deribit.api.websocket.market.BookChannel;
 import io.contek.invoker.deribit.api.websocket.market.TradesChannel;
 
 import javax.annotation.Nullable;
@@ -45,8 +45,8 @@ final class WebSocketMessageParser implements IWebSocketMessageParser {
 
   private WebSocketInboundMessage toDataMessage(JsonObject obj) {
     String instrumentName = obj.get("params").getAsJsonObject().get("channel").getAsString();
-    if (instrumentName.startsWith(WebSocketChannelKeys._orderbook)) {
-      return gson.fromJson(obj, OrderBookChannel.Message.class);
+    if (instrumentName.startsWith(WebSocketChannelKeys._book)) {
+      return gson.fromJson(obj, BookChannel.Message.class);
     } else if (instrumentName.startsWith(WebSocketChannelKeys._trades)) {
       return gson.fromJson(obj, TradesChannel.Message.class);
     } else {
@@ -54,16 +54,13 @@ final class WebSocketMessageParser implements IWebSocketMessageParser {
     }
   }
 
-
-  private WebSocketMessageParser() {
-  }
+  private WebSocketMessageParser() {}
 
   @Immutable
   private static final class InstanceHolder {
 
     private static final WebSocketMessageParser INSTANCE = new WebSocketMessageParser();
 
-    private InstanceHolder() {
-    }
+    private InstanceHolder() {}
   }
 }
