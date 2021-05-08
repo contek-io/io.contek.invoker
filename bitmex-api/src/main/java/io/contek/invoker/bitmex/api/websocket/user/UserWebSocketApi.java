@@ -10,19 +10,19 @@ import java.util.concurrent.atomic.AtomicReference;
 @ThreadSafe
 public final class UserWebSocketApi extends WebSocketApi {
 
-  private final AtomicReference<OrderUpdateChannel> orderUpdateChannel = new AtomicReference<>();
+  private final AtomicReference<OrderChannel> orderChannel = new AtomicReference<>();
 
   public UserWebSocketApi(IActor actor, WebSocketContext context) {
     super(actor, context);
   }
 
-  public OrderUpdateChannel getOrderUpdateChannel() {
-    synchronized (orderUpdateChannel) {
-      if (orderUpdateChannel.get() == null) {
-        orderUpdateChannel.set(new OrderUpdateChannel());
-        attach(this.orderUpdateChannel.get());
+  public OrderChannel getOrderChannel() {
+    synchronized (orderChannel) {
+      if (orderChannel.get() == null) {
+        orderChannel.set(new OrderChannel());
+        attach(this.orderChannel.get());
       }
-      return orderUpdateChannel.get();
+      return orderChannel.get();
     }
   }
 }

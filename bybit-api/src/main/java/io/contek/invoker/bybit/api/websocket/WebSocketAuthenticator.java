@@ -1,9 +1,8 @@
-package io.contek.invoker.bitmex.api.websocket;
+package io.contek.invoker.bybit.api.websocket;
 
 import com.google.common.collect.ImmutableList;
-import io.contek.invoker.bitmex.api.websocket.common.WebSocketAuthKeyExpiresResponse;
-import io.contek.invoker.bitmex.api.websocket.common.WebSocketOperationRequest;
-import io.contek.invoker.bitmex.api.websocket.common.constants.WebSocketRequestOperationKeys;
+import io.contek.invoker.bybit.api.websocket.common.WebSocketOperationRequest;
+import io.contek.invoker.bybit.api.websocket.common.WebSocketOperationResponse;
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.IWebSocketAuthenticator;
 import io.contek.invoker.commons.websocket.WebSocketSession;
@@ -13,6 +12,8 @@ import javax.annotation.concurrent.ThreadSafe;
 import java.time.Clock;
 import java.time.Duration;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import static io.contek.invoker.bybit.api.websocket.common.constants.WebSocketOperationKeys._auth;
 
 @ThreadSafe
 final class WebSocketAuthenticator implements IWebSocketAuthenticator {
@@ -37,12 +38,12 @@ final class WebSocketAuthenticator implements IWebSocketAuthenticator {
     String key = credential.getApiKeyId();
 
     // Add more time to account for network delay.
-    long expires = clock.instant().plus(EXPIRE_DELAY).getEpochSecond();
+    String expires = Long.toString(clock.instant().plus(EXPIRE_DELAY).getEpochSecond());
     String payload = "GET/realtime" + expires;
     String signature = credential.sign(payload);
 
     WebSocketOperationRequest request = new WebSocketOperationRequest();
-    request.op = WebSocketRequestOperationKeys._authKeyExpires;
+    request.op = _auth;
     request.args = ImmutableList.of(key, expires, signature);
 
     session.send(request);
@@ -58,11 +59,16 @@ final class WebSocketAuthenticator implements IWebSocketAuthenticator {
     if (isCompleted()) {
       return;
     }
-    if (!(message instanceof WebSocketAuthKeyExpiresResponse)) {
+
+    if (!(message instanceof WebSocketOperationResponse)) {
       return;
     }
 
-    WebSocketAuthKeyExpiresResponse confirmation = (WebSocketAuthKeyExpiresResponse) message;
+    WebSocketOperationResponse confirmation = (WebSocketOperationResponse) message;
+    if (!confirmation.request.op.equals(_auth)) {
+      return;
+    }
+
     if (!confirmation.success) {
       throw new IllegalStateException();
     }

@@ -34,6 +34,7 @@ public abstract class OrderBookChannel extends WebSocketChannel<Message> {
 
   @NotThreadSafe
   public abstract static class Message extends WebSocketTopicMessage {
+
     public String type;
     public Long cross_seq;
     public Long timestamp_e6;
@@ -41,11 +42,13 @@ public abstract class OrderBookChannel extends WebSocketChannel<Message> {
 
   @NotThreadSafe
   public static final class DeltaMessage extends Message {
+
     public DeltaData data;
   }
 
   @NotThreadSafe
   public static final class DeltaData {
+
     public List<OrderBookLevel> delete;
     public List<OrderBookLevel> update;
     public List<OrderBookLevel> insert;
@@ -54,6 +57,7 @@ public abstract class OrderBookChannel extends WebSocketChannel<Message> {
 
   @NotThreadSafe
   public static final class SnapshotMessage extends Message {
+
     public List<OrderBookLevel> data;
   }
 

@@ -36,6 +36,7 @@ public final class TradeChannel extends WebSocketChannel<Message> {
 
   @NotThreadSafe
   public static final class Message extends WebSocketTopicMessage {
+
     public ArrayList<Trade> data;
   }
 

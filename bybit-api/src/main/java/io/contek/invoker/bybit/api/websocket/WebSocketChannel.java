@@ -1,8 +1,8 @@
 package io.contek.invoker.bybit.api.websocket;
 
 import com.google.common.collect.ImmutableList;
-import io.contek.invoker.bybit.api.websocket.common.WebSocketRequest;
-import io.contek.invoker.bybit.api.websocket.common.WebSocketRequestConfirmation;
+import io.contek.invoker.bybit.api.websocket.common.WebSocketOperationRequest;
+import io.contek.invoker.bybit.api.websocket.common.WebSocketOperationResponse;
 import io.contek.invoker.bybit.api.websocket.common.WebSocketTopicMessage;
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.BaseWebSocketChannel;
@@ -29,7 +29,7 @@ public abstract class WebSocketChannel<Message extends WebSocketTopicMessage>
 
   @Override
   protected final SubscriptionState subscribe(WebSocketSession session) {
-    WebSocketRequest request = new WebSocketRequest();
+    WebSocketOperationRequest request = new WebSocketOperationRequest();
     request.op = _subscribe;
     request.args = ImmutableList.of(getTopic());
     session.send(request);
@@ -38,7 +38,7 @@ public abstract class WebSocketChannel<Message extends WebSocketTopicMessage>
 
   @Override
   protected final SubscriptionState unsubscribe(WebSocketSession session) {
-    WebSocketRequest request = new WebSocketRequest();
+    WebSocketOperationRequest request = new WebSocketOperationRequest();
     request.op = _unsubscribe;
     request.args = ImmutableList.of(getTopic());
     session.send(request);
@@ -48,9 +48,9 @@ public abstract class WebSocketChannel<Message extends WebSocketTopicMessage>
   @Nullable
   @Override
   protected final SubscriptionState getState(AnyWebSocketMessage message) {
-    if (message instanceof WebSocketRequestConfirmation) {
-      WebSocketRequestConfirmation confirmation = (WebSocketRequestConfirmation) message;
-      WebSocketRequest request = confirmation.request;
+    if (message instanceof WebSocketOperationResponse) {
+      WebSocketOperationResponse confirmation = (WebSocketOperationResponse) message;
+      WebSocketOperationRequest request = confirmation.request;
       if (!request.args.contains(getTopic())) {
         return null;
       }

@@ -3,7 +3,7 @@ package io.contek.invoker.bybit.api.websocket;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import io.contek.invoker.bybit.api.websocket.common.WebSocketRequestConfirmation;
+import io.contek.invoker.bybit.api.websocket.common.WebSocketOperationResponse;
 import io.contek.invoker.bybit.api.websocket.market.OrderBook200Channel;
 import io.contek.invoker.bybit.api.websocket.market.OrderBook25Channel;
 import io.contek.invoker.bybit.api.websocket.market.OrderBookChannel;
@@ -36,7 +36,7 @@ final class WebSocketMessageParser implements IWebSocketMessageParser {
       return toTopicMessage(obj);
     }
     if (obj.has("request")) {
-      return toRequestConfirmation(obj);
+      return toOperationResponse(obj);
     }
     throw new IllegalArgumentException(text);
   }
@@ -60,8 +60,8 @@ final class WebSocketMessageParser implements IWebSocketMessageParser {
     throw new IllegalArgumentException(obj.toString());
   }
 
-  private WebSocketRequestConfirmation toRequestConfirmation(JsonObject obj) {
-    return gson.fromJson(obj, WebSocketRequestConfirmation.class);
+  private WebSocketOperationResponse toOperationResponse(JsonObject obj) {
+    return gson.fromJson(obj, WebSocketOperationResponse.class);
   }
 
   private WebSocketMessageParser() {}

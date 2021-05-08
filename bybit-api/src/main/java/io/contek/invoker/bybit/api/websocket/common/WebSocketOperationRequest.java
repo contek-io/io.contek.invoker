@@ -1,4 +1,4 @@
-package io.contek.invoker.bitmex.api.websocket.common;
+package io.contek.invoker.bybit.api.websocket.common;
 
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 
@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @NotThreadSafe
-public final class WebSocketRequest extends AnyWebSocketMessage {
+public final class WebSocketOperationRequest extends AnyWebSocketMessage {
 
   public String op;
-  public List<Object> args = new ArrayList<>();
+  public List<String> args = new ArrayList<>();
 }

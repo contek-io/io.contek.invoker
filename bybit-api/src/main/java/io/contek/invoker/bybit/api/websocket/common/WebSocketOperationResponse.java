@@ -5,10 +5,10 @@ import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import javax.annotation.concurrent.NotThreadSafe;
 
 @NotThreadSafe
-public final class WebSocketRequestConfirmation extends AnyWebSocketMessage {
+public final class WebSocketOperationResponse extends AnyWebSocketMessage {
 
   public Boolean success;
   public String ret_msg;
   public String conn_id;
-  public WebSocketRequest request;
+  public WebSocketOperationRequest request;
 }

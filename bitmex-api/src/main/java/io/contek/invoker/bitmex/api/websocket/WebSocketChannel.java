@@ -1,10 +1,10 @@
 package io.contek.invoker.bitmex.api.websocket;
 
 import com.google.common.collect.ImmutableList;
-import io.contek.invoker.bitmex.api.websocket.common.WebSocketRequest;
-import io.contek.invoker.bitmex.api.websocket.common.WebSocketSubscribeConfirmation;
+import io.contek.invoker.bitmex.api.websocket.common.WebSocketOperationRequest;
+import io.contek.invoker.bitmex.api.websocket.common.WebSocketSubscribeResponse;
 import io.contek.invoker.bitmex.api.websocket.common.WebSocketTableDataMessage;
-import io.contek.invoker.bitmex.api.websocket.common.WebSocketUnsubscribeConfirmation;
+import io.contek.invoker.bitmex.api.websocket.common.WebSocketUnsubscribeResponse;
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.BaseWebSocketChannel;
 import io.contek.invoker.commons.websocket.SubscriptionState;
@@ -30,7 +30,7 @@ public abstract class WebSocketChannel<Message extends WebSocketTableDataMessage
 
   @Override
   protected final SubscriptionState subscribe(WebSocketSession session) {
-    WebSocketRequest request = new WebSocketRequest();
+    WebSocketOperationRequest request = new WebSocketOperationRequest();
     request.op = _subscribe;
     request.args = ImmutableList.of(getTopic());
     session.send(request);
@@ -39,7 +39,7 @@ public abstract class WebSocketChannel<Message extends WebSocketTableDataMessage
 
   @Override
   protected final SubscriptionState unsubscribe(WebSocketSession session) {
-    WebSocketRequest request = new WebSocketRequest();
+    WebSocketOperationRequest request = new WebSocketOperationRequest();
     request.op = _unsubscribe;
     request.args = ImmutableList.of(getTopic());
     session.send(request);
@@ -49,15 +49,15 @@ public abstract class WebSocketChannel<Message extends WebSocketTableDataMessage
   @Nullable
   @Override
   protected final SubscriptionState getState(AnyWebSocketMessage message) {
-    if (message instanceof WebSocketSubscribeConfirmation) {
-      WebSocketSubscribeConfirmation confirmation = (WebSocketSubscribeConfirmation) message;
+    if (message instanceof WebSocketSubscribeResponse) {
+      WebSocketSubscribeResponse confirmation = (WebSocketSubscribeResponse) message;
       if (confirmation.subscribe.equals(getTopic())) {
         return SUBSCRIBED;
       }
     }
 
-    if (message instanceof WebSocketUnsubscribeConfirmation) {
-      WebSocketUnsubscribeConfirmation confirmation = (WebSocketUnsubscribeConfirmation) message;
+    if (message instanceof WebSocketUnsubscribeResponse) {
+      WebSocketUnsubscribeResponse confirmation = (WebSocketUnsubscribeResponse) message;
       if (confirmation.unsubscribe.equals(getTopic())) {
         reset();
         return UNSUBSCRIBED;

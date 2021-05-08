@@ -8,7 +8,7 @@ import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
 
 @ThreadSafe
-public final class OrderUpdateChannel extends WebSocketChannel<OrderUpdateChannel.Message> {
+public final class OrderChannel extends WebSocketChannel<OrderChannel.Message> {
 
   public static final String ORDER = "order";
 
@@ -19,7 +19,7 @@ public final class OrderUpdateChannel extends WebSocketChannel<OrderUpdateChanne
 
   @Override
   protected Class<Message> getMessageType() {
-    return OrderUpdateChannel.Message.class;
+    return OrderChannel.Message.class;
   }
 
   @Override

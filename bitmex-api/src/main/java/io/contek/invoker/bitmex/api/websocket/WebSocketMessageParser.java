@@ -5,7 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import io.contek.invoker.bitmex.api.websocket.common.*;
 import io.contek.invoker.bitmex.api.websocket.market.*;
-import io.contek.invoker.bitmex.api.websocket.user.OrderUpdateChannel;
+import io.contek.invoker.bitmex.api.websocket.user.OrderChannel;
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.IWebSocketMessageParser;
 
@@ -34,7 +34,7 @@ final class WebSocketMessageParser implements IWebSocketMessageParser {
       return toTableMessage(obj);
     }
     if (obj.has("request")) {
-      return toRequestConfirmation(obj);
+      return toOperationResponse(obj);
     }
     if (obj.has("info")) {
       return toInfo(obj);
@@ -61,22 +61,22 @@ final class WebSocketMessageParser implements IWebSocketMessageParser {
       case _liquidation:
         return gson.fromJson(obj, LiquidationChannel.Message.class);
       case _order:
-        return gson.fromJson(obj, OrderUpdateChannel.Message.class);
+        return gson.fromJson(obj, OrderChannel.Message.class);
       default:
     }
     throw new IllegalArgumentException(obj.toString());
   }
 
-  private WebSocketRequestConfirmation toRequestConfirmation(JsonObject obj) {
+  private WebSocketOperationResponse toOperationResponse(JsonObject obj) {
     JsonObject requestObj = obj.get("request").getAsJsonObject();
     String op = requestObj.get("op").getAsString();
     switch (op) {
       case _subscribe:
-        return gson.fromJson(obj, WebSocketSubscribeConfirmation.class);
+        return gson.fromJson(obj, WebSocketSubscribeResponse.class);
       case _unsubscribe:
-        return gson.fromJson(obj, WebSocketUnsubscribeConfirmation.class);
+        return gson.fromJson(obj, WebSocketUnsubscribeResponse.class);
       case _authKeyExpires:
-        return gson.fromJson(obj, WebSocketAuthKeyExpiresConfirmation.class);
+        return gson.fromJson(obj, WebSocketAuthKeyExpiresResponse.class);
     }
     throw new IllegalArgumentException(obj.toString());
   }
