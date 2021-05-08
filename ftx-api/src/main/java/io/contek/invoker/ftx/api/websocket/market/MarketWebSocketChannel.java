@@ -10,10 +10,7 @@ import io.contek.invoker.ftx.api.websocket.common.WebSocketSubscriptionResponse;
 
 import javax.annotation.Nullable;
 
-import static io.contek.invoker.commons.websocket.SubscriptionState.SUBSCRIBED;
-import static io.contek.invoker.commons.websocket.SubscriptionState.SUBSCRIBING;
-import static io.contek.invoker.commons.websocket.SubscriptionState.UNSUBSCRIBED;
-import static io.contek.invoker.commons.websocket.SubscriptionState.UNSUBSCRIBING;
+import static io.contek.invoker.commons.websocket.SubscriptionState.*;
 import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketInboundKeys._subscribed;
 import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketInboundKeys._unsubscribed;
 import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketOutboundKeys._subscribe;
@@ -21,6 +18,7 @@ import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketOutb
 
 public abstract class MarketWebSocketChannel<Message extends WebSocketInboundMessage>
     extends WebSocketChannel<Message> {
+
   protected abstract String getChannel();
 
   protected abstract String getMarket();
