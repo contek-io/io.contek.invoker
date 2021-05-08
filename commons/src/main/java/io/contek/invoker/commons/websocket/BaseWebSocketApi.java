@@ -59,15 +59,24 @@ public abstract class BaseWebSocketApi implements IWebSocketApi {
     }
   }
 
-  public final IWebSocketMessageParser getParser() {
+  protected final IWebSocketMessageParser getParser() {
     return parser;
+  }
+
+  protected final IWebSocketAuthenticator getAuthenticator() {
+    return authenticator;
+  }
+
+  protected final IWebSocketLiveKeeper getLiveKeeper() {
+    return liveKeeper;
   }
 
   protected abstract ImmutableList<RateLimitQuota> getRequiredQuotas();
 
   protected abstract WebSocketCall createCall(ICredential credential);
 
-  protected abstract void checkErrorMessage(AnyWebSocketMessage message);
+  protected abstract void checkErrorMessage(AnyWebSocketMessage message)
+      throws WebSocketRuntimeException;
 
   private void forwardMessage(String text) {
     AnyWebSocketMessage message = parser.parse(text);
@@ -130,7 +139,6 @@ public abstract class BaseWebSocketApi implements IWebSocketApi {
     try {
       synchronized (sessionHolder) {
         synchronized (components) {
-          preHeartBeat();
           components.refresh();
           WebSocketSession session = sessionHolder.get();
           if (session == null) {
@@ -163,8 +171,6 @@ public abstract class BaseWebSocketApi implements IWebSocketApi {
       log.error("Heartbeat failed.", t);
     }
   }
-
-  protected void preHeartBeat() {}
 
   private void activate() {
     synchronized (scheduleHolder) {

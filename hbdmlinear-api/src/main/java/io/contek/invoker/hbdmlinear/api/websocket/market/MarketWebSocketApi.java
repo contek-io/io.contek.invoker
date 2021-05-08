@@ -72,7 +72,7 @@ public final class MarketWebSocketApi extends BaseWebSocketApi {
   }
 
   @Override
-  protected void checkErrorMessage(AnyWebSocketMessage message) {}
+  protected void checkErrorMessage(AnyWebSocketMessage message) throws WebSocketRuntimeException {}
 
   private void init(WebSocketMarketChannel<?> channel) {
     WebSocketMarketMessageParser parser = (WebSocketMarketMessageParser) getParser();

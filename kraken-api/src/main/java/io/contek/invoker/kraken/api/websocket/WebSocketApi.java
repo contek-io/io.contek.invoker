@@ -34,7 +34,8 @@ public abstract class WebSocketApi extends BaseWebSocketApi {
   }
 
   @Override
-  protected final void checkErrorMessage(AnyWebSocketMessage message) {}
+  protected final void checkErrorMessage(AnyWebSocketMessage message)
+      throws WebSocketRuntimeException {}
 
   protected final WebSocketRequestIdGenerator getRequestIdGenerator() {
     return requestIdGenerator;

@@ -35,5 +35,5 @@ public final class UserWebSocketApi extends BaseWebSocketApi {
   }
 
   @Override
-  protected void checkErrorMessage(AnyWebSocketMessage message) {}
+  protected void checkErrorMessage(AnyWebSocketMessage message) throws WebSocketRuntimeException {}
 }

@@ -1,7 +1,7 @@
 package io.contek.invoker.binancefutures.api.rest.user;
 
 import com.google.common.collect.ImmutableList;
-import io.contek.invoker.binancefutures.api.rest.user.PutListenKey.BinanceRestUserDataPutStreamResponse;
+import io.contek.invoker.binancefutures.api.rest.user.PutListenKey.Response;
 import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
 import io.contek.invoker.commons.rest.RestContext;
@@ -15,7 +15,7 @@ import static io.contek.invoker.binancefutures.api.ApiFactory.RateLimits.ONE_RES
 import static io.contek.invoker.commons.rest.RestMethod.PUT;
 
 @NotThreadSafe
-public final class PutListenKey extends UserRestRequest<BinanceRestUserDataPutStreamResponse> {
+public final class PutListenKey extends UserRestRequest<Response> {
 
   private String listenKey;
 
@@ -34,8 +34,8 @@ public final class PutListenKey extends UserRestRequest<BinanceRestUserDataPutSt
   }
 
   @Override
-  protected Class<BinanceRestUserDataPutStreamResponse> getResponseType() {
-    return BinanceRestUserDataPutStreamResponse.class;
+  protected Class<Response> getResponseType() {
+    return Response.class;
   }
 
   @Override
@@ -59,8 +59,5 @@ public final class PutListenKey extends UserRestRequest<BinanceRestUserDataPutSt
   }
 
   @NotThreadSafe
-  public static final class BinanceRestUserDataPutStreamResponse {
-
-    public String listenKey;
-  }
+  public static final class Response {}
 }

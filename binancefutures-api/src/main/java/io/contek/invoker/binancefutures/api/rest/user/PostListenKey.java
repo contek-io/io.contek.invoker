@@ -48,6 +48,7 @@ public final class PostListenKey extends UserRestRequest<Response> {
 
   @NotThreadSafe
   public static final class Response {
+
     public String listenKey;
   }
 }

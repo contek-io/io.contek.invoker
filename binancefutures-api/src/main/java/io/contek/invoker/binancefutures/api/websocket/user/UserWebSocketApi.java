@@ -1,20 +1,18 @@
 package io.contek.invoker.binancefutures.api.websocket.user;
 
-import io.contek.invoker.binancefutures.api.rest.user.PostListenKey;
+import com.google.common.collect.ImmutableList;
 import io.contek.invoker.binancefutures.api.rest.user.UserRestApi;
-import io.contek.invoker.binancefutures.api.websocket.WebSocketApi;
 import io.contek.invoker.commons.actor.IActor;
-import io.contek.invoker.commons.websocket.WebSocketCall;
-import io.contek.invoker.commons.websocket.WebSocketContext;
+import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
+import io.contek.invoker.commons.websocket.*;
 import io.contek.invoker.security.ICredential;
 
 import javax.annotation.concurrent.ThreadSafe;
-import java.util.Date;
+
+import static io.contek.invoker.binancefutures.api.ApiFactory.RateLimits.ONE_WEB_SOCKET_CONNECTION;
 
 @ThreadSafe
-public final class UserWebSocketApi extends WebSocketApi {
-
-  public static final int HALF_HOUR_IN_MILLIS = 30 * 60 * 1000;
+public final class UserWebSocketApi extends BaseWebSocketApi {
 
   public AccountUpdateChannel accountUpdateChannel;
   public OrderUpdateChannel orderUpdateChannel;
@@ -22,15 +20,14 @@ public final class UserWebSocketApi extends WebSocketApi {
   public LeverageUpdateChannel leverageUpdateChannel;
 
   private final WebSocketContext context;
-  private final UserRestApi userRestApi;
-
-  private String listenKey;
-  private long lastRefreshMillis;
 
   public UserWebSocketApi(IActor actor, WebSocketContext context, UserRestApi userRestApi) {
-    super(actor, UserWebSocketParser.getInstance());
+    super(
+        actor,
+        UserWebSocketParser.getInstance(),
+        IWebSocketAuthenticator.noOp(),
+        new UserWebSocketLiveKeeper(userRestApi, actor.getClock()));
     this.context = context;
-    this.userRestApi = userRestApi;
   }
 
   public AccountUpdateChannel getAccountUpdateChannel() {
@@ -67,26 +64,20 @@ public final class UserWebSocketApi extends WebSocketApi {
 
   @Override
   protected WebSocketCall createCall(ICredential credential) {
-    PostListenKey.Response newListenKey = userRestApi.postListenKey().submit();
-    listenKey = newListenKey.listenKey;
-    lastRefreshMillis = currentTimeMillis();
+    UserWebSocketLiveKeeper liveKeeper = (UserWebSocketLiveKeeper) getLiveKeeper();
+    String listenKey = liveKeeper.init();
     return WebSocketCall.fromUrl(context.getBaseUrl() + "/ws/" + listenKey);
   }
 
   @Override
-  protected void preHeartBeat() {
-    long currentMillis = currentTimeMillis();
-    if (listenKey != null && shouldRefreshConnection(currentMillis)) {
-      lastRefreshMillis = currentMillis;
-      userRestApi.putListenKey().setListenKey(listenKey).submit();
+  protected ImmutableList<RateLimitQuota> getRequiredQuotas() {
+    return ONE_WEB_SOCKET_CONNECTION;
+  }
+
+  @Override
+  protected void checkErrorMessage(AnyWebSocketMessage message) throws WebSocketRuntimeException {
+    if (message instanceof UserDataStreamExpiredEvent) {
+      throw new WebSocketSessionExpiredException();
     }
-  }
-
-  private boolean shouldRefreshConnection(long currentMillis) {
-    return currentMillis - lastRefreshMillis > HALF_HOUR_IN_MILLIS;
-  }
-
-  private long currentTimeMillis() {
-    return (new Date()).getTime();
   }
 }

@@ -22,8 +22,7 @@ import javax.annotation.concurrent.ThreadSafe;
 import java.time.Duration;
 
 import static com.google.common.io.BaseEncoding.base16;
-import static io.contek.invoker.binancefutures.api.ApiFactory.RateLimits.API_KEY_REST_ORDER_RULE;
-import static io.contek.invoker.binancefutures.api.ApiFactory.RateLimits.IP_REST_REQUEST_RULE;
+import static io.contek.invoker.binancefutures.api.ApiFactory.RateLimits.*;
 import static io.contek.invoker.commons.actor.ratelimit.RateLimitType.API_KEY;
 import static io.contek.invoker.commons.actor.ratelimit.RateLimitType.IP;
 import static io.contek.invoker.security.SecretKeyAlgorithm.HMAC_SHA256;
@@ -95,6 +94,7 @@ public final class ApiFactory {
         .setCushion(cushion)
         .addRule(IP_REST_REQUEST_RULE)
         .addRule(API_KEY_REST_ORDER_RULE)
+        .addRule(IP_WEB_SOCKET_CONNECTION_RULE)
         .build();
   }
 
@@ -155,6 +155,14 @@ public final class ApiFactory {
             .setResetPeriod(Duration.ofMinutes(1))
             .build();
 
+    public static final RateLimitRule IP_WEB_SOCKET_CONNECTION_RULE =
+        RateLimitRule.newBuilder()
+            .setName("ip_web_socket_connection_rule")
+            .setType(IP)
+            .setMaxPermits(5)
+            .setResetPeriod(Duration.ofSeconds(1))
+            .build();
+
     public static final ImmutableList<RateLimitQuota> ONE_REST_REQUEST =
         ImmutableList.of(IP_REST_REQUEST_RULE.createRateLimitQuota(1));
 
@@ -162,6 +170,9 @@ public final class ApiFactory {
         ImmutableList.of(
             IP_REST_REQUEST_RULE.createRateLimitQuota(1),
             API_KEY_REST_ORDER_RULE.createRateLimitQuota(1));
+
+    public static final ImmutableList<RateLimitQuota> ONE_WEB_SOCKET_CONNECTION =
+        ImmutableList.of(IP_WEB_SOCKET_CONNECTION_RULE.createRateLimitQuota(1));
 
     private RateLimits() {}
   }

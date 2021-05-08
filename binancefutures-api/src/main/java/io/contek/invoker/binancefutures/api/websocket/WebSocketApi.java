@@ -10,14 +10,8 @@ import javax.annotation.concurrent.ThreadSafe;
 @ThreadSafe
 public abstract class WebSocketApi extends BaseWebSocketApi {
 
-  private final WebSocketRequestIdGenerator requestIdGenerator = new WebSocketRequestIdGenerator();
-
   protected WebSocketApi(IActor actor, IWebSocketMessageParser parser) {
     super(actor, parser, IWebSocketAuthenticator.noOp(), IWebSocketLiveKeeper.noOp());
-  }
-
-  public final WebSocketRequestIdGenerator getRequestIdGenerator() {
-    return requestIdGenerator;
   }
 
   @Override
@@ -26,5 +20,6 @@ public abstract class WebSocketApi extends BaseWebSocketApi {
   }
 
   @Override
-  protected final void checkErrorMessage(AnyWebSocketMessage message) {}
+  protected final void checkErrorMessage(AnyWebSocketMessage message)
+      throws WebSocketRuntimeException {}
 }

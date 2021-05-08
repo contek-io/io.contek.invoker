@@ -3,10 +3,7 @@ package io.contek.invoker.binancedelivery.api.websocket;
 import com.google.common.collect.ImmutableList;
 import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
-import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
-import io.contek.invoker.commons.websocket.BaseWebSocketApi;
-import io.contek.invoker.commons.websocket.IWebSocketAuthenticator;
-import io.contek.invoker.commons.websocket.IWebSocketLiveKeeper;
+import io.contek.invoker.commons.websocket.*;
 
 import javax.annotation.concurrent.ThreadSafe;
 
@@ -33,5 +30,6 @@ public abstract class WebSocketApi extends BaseWebSocketApi {
   }
 
   @Override
-  protected final void checkErrorMessage(AnyWebSocketMessage message) {}
+  protected final void checkErrorMessage(AnyWebSocketMessage message)
+      throws WebSocketRuntimeException {}
 }
