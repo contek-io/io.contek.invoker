@@ -1,24 +1,38 @@
 package io.contek.invoker.bitstamp.api.websocket.market;
 
 import io.contek.invoker.bitstamp.api.websocket.WebSocketChannel;
+import io.contek.invoker.bitstamp.api.websocket.WebSocketChannelId;
 import io.contek.invoker.bitstamp.api.websocket.common.WebSocketChannelMessage;
-import io.contek.invoker.bitstamp.api.websocket.market.LiveTradesChannel.Message;
 
+import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
 
 @ThreadSafe
-public final class LiveTradesChannel extends WebSocketChannel<Message> {
+public final class LiveTradesChannel
+    extends WebSocketChannel<LiveTradesChannel.Id, LiveTradesChannel.Message> {
 
   public static final String PREFIX = "live_trades_";
 
-  LiveTradesChannel(String currencyPair) {
-    super(PREFIX + currencyPair);
+  LiveTradesChannel(LiveTradesChannel.Id id) {
+    super(id);
   }
 
   @Override
-  protected Class<Message> getMessageType() {
-    return Message.class;
+  protected Class<LiveTradesChannel.Message> getMessageType() {
+    return LiveTradesChannel.Message.class;
+  }
+
+  @Immutable
+  public static final class Id extends WebSocketChannelId<LiveTradesChannel.Message> {
+
+    private Id(String currencyPair) {
+      super(PREFIX + currencyPair);
+    }
+
+    public static Id of(String currencyPair) {
+      return new Id(currencyPair);
+    }
   }
 
   @NotThreadSafe
