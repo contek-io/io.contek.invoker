@@ -2,37 +2,34 @@ package io.contek.invoker.binancefutures.api.websocket.market;
 
 import io.contek.invoker.binancefutures.api.websocket.WebSocketRequestIdGenerator;
 import io.contek.invoker.binancefutures.api.websocket.common.WebSocketStreamMessage;
-import io.contek.invoker.binancefutures.api.websocket.market.DepthUpdateChannel.Message;
 
+import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
 
-import static java.text.MessageFormat.format;
-
 @ThreadSafe
-public final class DepthUpdateChannel extends MarketWebSocketChannel<Message> {
+public final class DepthUpdateChannel
+    extends MarketWebSocketChannel<DepthUpdateChannel.Id, DepthUpdateChannel.Message> {
 
-  private final String symbol;
-
-  DepthUpdateChannel(String symbol, WebSocketRequestIdGenerator requestIdGenerator) {
-    super(requestIdGenerator);
-    this.symbol = symbol;
+  DepthUpdateChannel(DepthUpdateChannel.Id id, WebSocketRequestIdGenerator requestIdGenerator) {
+    super(id, requestIdGenerator);
   }
 
   @Override
-  protected String getTopic() {
-    return format("{0}@depth@100ms", symbol.toLowerCase());
+  protected Class<DepthUpdateChannel.Message> getMessageType() {
+    return DepthUpdateChannel.Message.class;
   }
 
-  @Override
-  protected Class<Message> getMessageType() {
-    return Message.class;
-  }
+  @Immutable
+  public static final class Id extends MarketWebSocketChannelId<DepthUpdateChannel.Message> {
 
-  @Override
-  protected boolean accepts(Message message) {
-    DepthUpdateEvent data = message.data;
-    return symbol.equals(data.s);
+    private Id(String symbol, String interval) {
+      super(symbol, "depth@" + interval);
+    }
+
+    public static Id of(String symbol, String interval) {
+      return new Id(symbol, interval);
+    }
   }
 
   @NotThreadSafe

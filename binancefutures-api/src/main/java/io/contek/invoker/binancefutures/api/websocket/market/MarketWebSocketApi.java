@@ -17,9 +17,10 @@ public final class MarketWebSocketApi extends BaseWebSocketApi {
   private final WebSocketContext context;
   private final WebSocketRequestIdGenerator requestIdGenerator = new WebSocketRequestIdGenerator();
 
-  private final Map<String, AggTradeChannel> aggTradeChannels = new HashMap<>();
-  private final Map<String, DepthUpdateChannel> depthUpdateChannels = new HashMap<>();
-  private final Map<String, ForceOrderChannel> forceOrderChannels = new HashMap<>();
+  private final Map<AggTradeChannel.Id, AggTradeChannel> aggTradeChannels = new HashMap<>();
+  private final Map<DepthUpdateChannel.Id, DepthUpdateChannel> depthUpdateChannels =
+      new HashMap<>();
+  private final Map<ForceOrderChannel.Id, ForceOrderChannel> forceOrderChannels = new HashMap<>();
 
   public MarketWebSocketApi(IActor actor, WebSocketContext context) {
     super(
@@ -30,10 +31,10 @@ public final class MarketWebSocketApi extends BaseWebSocketApi {
     this.context = context;
   }
 
-  public AggTradeChannel getAggTradeChannel(String symbol) {
+  public AggTradeChannel getAggTradeChannel(AggTradeChannel.Id id) {
     synchronized (aggTradeChannels) {
       return aggTradeChannels.computeIfAbsent(
-          symbol,
+          id,
           k -> {
             AggTradeChannel result = new AggTradeChannel(k, requestIdGenerator);
             attach(result);
@@ -42,10 +43,10 @@ public final class MarketWebSocketApi extends BaseWebSocketApi {
     }
   }
 
-  public DepthUpdateChannel getDepthUpdateChannel(String symbol) {
+  public DepthUpdateChannel getDepthUpdateChannel(DepthUpdateChannel.Id id) {
     synchronized (depthUpdateChannels) {
       return depthUpdateChannels.computeIfAbsent(
-          symbol,
+          id,
           k -> {
             DepthUpdateChannel result = new DepthUpdateChannel(k, requestIdGenerator);
             attach(result);
@@ -54,10 +55,10 @@ public final class MarketWebSocketApi extends BaseWebSocketApi {
     }
   }
 
-  public ForceOrderChannel getForceOrderChannel(String symbol) {
+  public ForceOrderChannel getForceOrderChannel(ForceOrderChannel.Id id) {
     synchronized (forceOrderChannels) {
       return forceOrderChannels.computeIfAbsent(
-          symbol,
+          id,
           k -> {
             ForceOrderChannel result = new ForceOrderChannel(k, requestIdGenerator);
             attach(result);

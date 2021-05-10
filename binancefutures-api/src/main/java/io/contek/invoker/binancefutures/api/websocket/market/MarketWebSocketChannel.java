@@ -4,7 +4,11 @@ import com.google.common.collect.ImmutableList;
 import io.contek.invoker.binancefutures.api.websocket.WebSocketRequestIdGenerator;
 import io.contek.invoker.binancefutures.api.websocket.common.WebSocketCommand;
 import io.contek.invoker.binancefutures.api.websocket.common.WebSocketCommandConfirmation;
-import io.contek.invoker.commons.websocket.*;
+import io.contek.invoker.binancefutures.api.websocket.common.WebSocketStreamMessage;
+import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
+import io.contek.invoker.commons.websocket.BaseWebSocketChannel;
+import io.contek.invoker.commons.websocket.SubscriptionState;
+import io.contek.invoker.commons.websocket.WebSocketSession;
 
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.ThreadSafe;
@@ -15,22 +19,17 @@ import static io.contek.invoker.binancefutures.api.websocket.common.constants.We
 import static io.contek.invoker.commons.websocket.SubscriptionState.*;
 
 @ThreadSafe
-public abstract class MarketWebSocketChannel<Message> extends BaseWebSocketChannel<Message> {
+public abstract class MarketWebSocketChannel<
+        Id extends MarketWebSocketChannelId<Message>, Message extends WebSocketStreamMessage<?>>
+    extends BaseWebSocketChannel<Id, Message> {
 
   private final WebSocketRequestIdGenerator requestIdGenerator;
 
   private final AtomicReference<WebSocketCommand> pendingCommandHolder = new AtomicReference<>();
 
-  protected MarketWebSocketChannel(WebSocketRequestIdGenerator requestIdGenerator) {
+  protected MarketWebSocketChannel(Id id, WebSocketRequestIdGenerator requestIdGenerator) {
     super(id);
     this.requestIdGenerator = requestIdGenerator;
-  }
-
-  protected abstract String getTopic();
-
-  @Override
-  protected final BaseWebSocketChannelId getId() {
-    return getTopic();
   }
 
   @Override
@@ -40,9 +39,10 @@ public abstract class MarketWebSocketChannel<Message> extends BaseWebSocketChann
         throw new IllegalStateException();
       }
 
+      Id id = getId();
       WebSocketCommand command = new WebSocketCommand();
       command.method = SUBSCRIBE;
-      command.params = ImmutableList.of(getTopic());
+      command.params = ImmutableList.of(id.getStreamName());
       command.id = requestIdGenerator.getNextRequestId();
       session.send(command);
       pendingCommandHolder.set(command);
@@ -57,9 +57,10 @@ public abstract class MarketWebSocketChannel<Message> extends BaseWebSocketChann
         throw new IllegalStateException();
       }
 
+      Id id = getId();
       WebSocketCommand command = new WebSocketCommand();
       command.method = UNSUBSCRIBE;
-      command.params = ImmutableList.of(getTopic());
+      command.params = ImmutableList.of(id.getStreamName());
       command.id = requestIdGenerator.getNextRequestId();
       session.send(command);
       pendingCommandHolder.set(command);
