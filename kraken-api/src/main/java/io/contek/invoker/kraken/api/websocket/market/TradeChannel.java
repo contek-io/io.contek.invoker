@@ -19,11 +19,11 @@ import java.util.List;
 import java.util.Objects;
 
 @ThreadSafe
-public final class TradesChannel extends WebSocketChannel<TradesChannel.Message> {
+public final class TradeChannel extends WebSocketChannel<TradeChannel.Message> {
 
   private final Topic topic;
 
-  TradesChannel(Topic topic, WebSocketRequestIdGenerator requestIdGenerator) {
+  TradeChannel(Topic topic, WebSocketRequestIdGenerator requestIdGenerator) {
     super(requestIdGenerator);
     this.topic = topic;
   }
@@ -34,12 +34,12 @@ public final class TradesChannel extends WebSocketChannel<TradesChannel.Message>
   }
 
   @Override
-  protected Class<TradesChannel.Message> getMessageType() {
-    return TradesChannel.Message.class;
+  protected Class<TradeChannel.Message> getMessageType() {
+    return TradeChannel.Message.class;
   }
 
   @Override
-  protected boolean accepts(TradesChannel.Message message) {
+  protected boolean accepts(TradeChannel.Message message) {
     return message.pair.equals(topic.getPair());
   }
 

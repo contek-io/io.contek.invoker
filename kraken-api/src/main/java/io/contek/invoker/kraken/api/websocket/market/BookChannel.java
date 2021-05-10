@@ -21,10 +21,10 @@ import java.util.List;
 import java.util.Objects;
 
 import static io.contek.invoker.kraken.api.common._OrderBookLevel.toOrderBookLevel;
-import static io.contek.invoker.kraken.api.websocket.common.constants.WebSocketChannelKeys._orderbook;
+import static io.contek.invoker.kraken.api.websocket.common.constants.WebSocketChannelKeys._book;
 
 @ThreadSafe
-public final class OrderBookChannel extends WebSocketChannel<OrderBookChannel.Message> {
+public final class BookChannel extends WebSocketChannel<BookChannel.Message> {
 
   public static final String BID_SNAPSHOT_KEY = "bs";
   public static final String ASK_SNAPSHOT_KEY = "as";
@@ -33,7 +33,7 @@ public final class OrderBookChannel extends WebSocketChannel<OrderBookChannel.Me
 
   private final Topic topic;
 
-  OrderBookChannel(Topic topic, WebSocketRequestIdGenerator requestIdGenerator) {
+  BookChannel(Topic topic, WebSocketRequestIdGenerator requestIdGenerator) {
     super(requestIdGenerator);
     this.topic = topic;
   }
@@ -49,7 +49,7 @@ public final class OrderBookChannel extends WebSocketChannel<OrderBookChannel.Me
   @Override
   protected Subscription getSubscription() {
     Subscription subscription = new Subscription();
-    subscription.name = _orderbook;
+    subscription.name = _book;
     subscription.depth = topic.getDepth();
     return subscription;
   }
@@ -65,12 +65,12 @@ public final class OrderBookChannel extends WebSocketChannel<OrderBookChannel.Me
   }
 
   @Override
-  protected Class<OrderBookChannel.Message> getMessageType() {
-    return OrderBookChannel.Message.class;
+  protected Class<BookChannel.Message> getMessageType() {
+    return BookChannel.Message.class;
   }
 
   @Override
-  protected boolean accepts(OrderBookChannel.Message message) {
+  protected boolean accepts(BookChannel.Message message) {
     return topic.getPair().equals(message.pair);
   }
 
@@ -115,7 +115,7 @@ public final class OrderBookChannel extends WebSocketChannel<OrderBookChannel.Me
     @Override
     public String toString() {
       if (value == null) {
-        value = _orderbook + "." + pair + "." + depth;
+        value = _book + "." + pair + "." + depth;
       }
       return value;
     }

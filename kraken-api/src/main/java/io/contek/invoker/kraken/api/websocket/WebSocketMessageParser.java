@@ -7,11 +7,13 @@ import com.google.gson.JsonObject;
 import io.contek.invoker.commons.websocket.IWebSocketMessageParser;
 import io.contek.invoker.kraken.api.websocket.common.WebSocketInboundMessage;
 import io.contek.invoker.kraken.api.websocket.common.WebSocketResponse;
-import io.contek.invoker.kraken.api.websocket.common.constants.WebSocketChannelKeys;
-import io.contek.invoker.kraken.api.websocket.market.OrderBookChannel;
-import io.contek.invoker.kraken.api.websocket.market.TradesChannel;
+import io.contek.invoker.kraken.api.websocket.market.BookChannel;
+import io.contek.invoker.kraken.api.websocket.market.TradeChannel;
 
 import javax.annotation.concurrent.Immutable;
+
+import static io.contek.invoker.kraken.api.websocket.common.constants.WebSocketChannelKeys._book;
+import static io.contek.invoker.kraken.api.websocket.common.constants.WebSocketChannelKeys._trade;
 
 @Immutable
 final class WebSocketMessageParser implements IWebSocketMessageParser {
@@ -42,10 +44,10 @@ final class WebSocketMessageParser implements IWebSocketMessageParser {
   private WebSocketInboundMessage toDataMessage(JsonArray jsonArray) {
     // The type of the response is in the second to the last position.
     String type = jsonArray.get(jsonArray.size() - 2).getAsString();
-    if (type.equals(WebSocketChannelKeys._trade)) {
-      return TradesChannel.Message.fromJsonArray(jsonArray);
-    } else if (type.startsWith(WebSocketChannelKeys._orderbook)) {
-      return OrderBookChannel.Message.fromJsonArray(jsonArray);
+    if (type.equals(_trade)) {
+      return TradeChannel.Message.fromJsonArray(jsonArray);
+    } else if (type.startsWith(_book)) {
+      return BookChannel.Message.fromJsonArray(jsonArray);
     } else {
       throw new RuntimeException(String.format("Invalid type %s", type));
     }
