@@ -11,17 +11,17 @@ import java.util.Map;
 @ThreadSafe
 public final class MarketWebSocketApi extends WebSocketApi {
 
-  private final Map<String, Level2Channel> level2Channels = new HashMap<>();
-  private final Map<String, MatchesChannel> matchesChannels = new HashMap<>();
+  private final Map<Level2Channel.Id, Level2Channel> level2Channels = new HashMap<>();
+  private final Map<MatchesChannel.Id, MatchesChannel> matchesChannels = new HashMap<>();
 
   public MarketWebSocketApi(IActor actor, WebSocketContext context) {
     super(actor, context);
   }
 
-  public Level2Channel getLevel2Channel(String symbol) {
+  public Level2Channel getLevel2Channel(Level2Channel.Id id) {
     synchronized (level2Channels) {
       return level2Channels.computeIfAbsent(
-          symbol,
+          id,
           k -> {
             Level2Channel result = new Level2Channel(k);
             attach(result);
@@ -30,10 +30,10 @@ public final class MarketWebSocketApi extends WebSocketApi {
     }
   }
 
-  public MatchesChannel getMatchesChannel(String symbol) {
+  public MatchesChannel getMatchesChannel(MatchesChannel.Id id) {
     synchronized (matchesChannels) {
       return matchesChannels.computeIfAbsent(
-          symbol,
+          id,
           k -> {
             MatchesChannel result = new MatchesChannel(k);
             attach(result);

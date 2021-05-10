@@ -2,9 +2,12 @@ package io.contek.invoker.coinbasepro.api.websocket;
 
 import com.google.common.collect.ImmutableList;
 import io.contek.invoker.coinbasepro.api.websocket.common.WebSocketChannelInfo;
-import io.contek.invoker.coinbasepro.api.websocket.common.WebSocketMessage;
+import io.contek.invoker.coinbasepro.api.websocket.common.WebSocketChannelMessage;
 import io.contek.invoker.coinbasepro.api.websocket.common.WebSocketSubscriptionMessage;
-import io.contek.invoker.commons.websocket.*;
+import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
+import io.contek.invoker.commons.websocket.BaseWebSocketChannel;
+import io.contek.invoker.commons.websocket.SubscriptionState;
+import io.contek.invoker.commons.websocket.WebSocketSession;
 
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.ThreadSafe;
@@ -14,32 +17,24 @@ import static io.contek.invoker.coinbasepro.api.websocket.common.constants.WebSo
 import static io.contek.invoker.commons.websocket.SubscriptionState.*;
 
 @ThreadSafe
-public abstract class WebSocketChannel<Message extends WebSocketMessage>
-    extends BaseWebSocketChannel<Message> {
-
-  private final String name;
-  private final String productId;
+public abstract class WebSocketChannel<
+        Id extends WebSocketChannelId<Message>, Message extends WebSocketChannelMessage>
+    extends BaseWebSocketChannel<Id, Message> {
 
   private final AtomicReference<WebSocketSubscriptionMessage> pendingRequestHolder =
       new AtomicReference<>();
 
-  protected WebSocketChannel(String name, String productId) {
+  protected WebSocketChannel(Id id) {
     super(id);
-    this.name = name;
-    this.productId = productId;
-  }
-
-  @Override
-  protected final BaseWebSocketChannelId getId() {
-    return name + ':' + productId;
   }
 
   @Override
   protected final SubscriptionState subscribe(WebSocketSession session) {
     synchronized (pendingRequestHolder) {
+      Id id = getId();
       WebSocketSubscriptionMessage request = new WebSocketSubscriptionMessage();
       request.type = _subscribe;
-      request.channels = ImmutableList.of(getChannelInfo());
+      request.channels = ImmutableList.of(getChannelInfo(id));
       session.send(request);
       pendingRequestHolder.set(request);
       return SUBSCRIBING;
@@ -49,9 +44,10 @@ public abstract class WebSocketChannel<Message extends WebSocketMessage>
   @Override
   protected final SubscriptionState unsubscribe(WebSocketSession session) {
     synchronized (pendingRequestHolder) {
+      Id id = getId();
       WebSocketSubscriptionMessage request = new WebSocketSubscriptionMessage();
       request.type = _unsubscribe;
-      request.channels = ImmutableList.of(getChannelInfo());
+      request.channels = ImmutableList.of(getChannelInfo(id));
       session.send(request);
       pendingRequestHolder.set(request);
       return UNSUBSCRIBING;
@@ -74,23 +70,20 @@ public abstract class WebSocketChannel<Message extends WebSocketMessage>
         return null;
       }
 
+      Id id = getId();
       if (_subscribe.equals(pendingRequest.type)) {
-        if (casted.channels.stream()
-            .anyMatch(
-                channel -> channel.name.equals(name) && channel.product_ids.contains(productId))) {
+        if (hasActiveChannel(casted, id)) {
           pendingRequestHolder.set(null);
           return SUBSCRIBED;
         }
         return null;
       }
       if (_unsubscribe.equals(pendingRequest.type)) {
-        if (casted.channels.stream()
-            .anyMatch(
-                channel -> channel.name.equals(name) && channel.product_ids.contains(productId))) {
-          return null;
+        if (!hasActiveChannel(casted, id)) {
+          pendingRequestHolder.set(null);
+          return UNSUBSCRIBED;
         }
-        pendingRequestHolder.set(null);
-        return UNSUBSCRIBED;
+        return null;
       }
       throw new IllegalStateException(pendingRequest.type);
     }
@@ -103,10 +96,32 @@ public abstract class WebSocketChannel<Message extends WebSocketMessage>
     }
   }
 
-  private WebSocketChannelInfo getChannelInfo() {
+  private static <Id extends WebSocketChannelId<?>> WebSocketChannelInfo getChannelInfo(Id id) {
     WebSocketChannelInfo channel = new WebSocketChannelInfo();
-    channel.name = name;
-    channel.product_ids = ImmutableList.of(productId);
+    channel.name = id.getType();
+    String productId = id.getProductId();
+    if (productId != null) {
+      channel.product_ids = ImmutableList.of(productId);
+    }
     return channel;
+  }
+
+  private static <Id extends WebSocketChannelId<?>> boolean hasActiveChannel(
+      WebSocketSubscriptionMessage message, Id id) {
+    return message.channels.stream().anyMatch(channel -> hasActiveChannel(channel, id));
+  }
+
+  private static <Id extends WebSocketChannelId<?>> boolean hasActiveChannel(
+      WebSocketChannelInfo channel, Id id) {
+    if (!channel.name.equals(id.getType())) {
+      return false;
+    }
+
+    String productId = id.getProductId();
+    if (productId == null) {
+      return true;
+    }
+
+    return channel.product_ids != null && channel.product_ids.contains(productId);
   }
 }

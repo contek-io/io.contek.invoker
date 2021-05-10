@@ -1,20 +1,19 @@
 package io.contek.invoker.coinbasepro.api.websocket.market;
 
 import io.contek.invoker.coinbasepro.api.websocket.WebSocketChannel;
-import io.contek.invoker.coinbasepro.api.websocket.common.WebSocketMessage;
-import io.contek.invoker.coinbasepro.api.websocket.market.MatchesChannel.Message;
+import io.contek.invoker.coinbasepro.api.websocket.WebSocketChannelId;
+import io.contek.invoker.coinbasepro.api.websocket.common.WebSocketChannelMessage;
 
+import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
 
 @ThreadSafe
-public final class MatchesChannel extends WebSocketChannel<Message> {
+public final class MatchesChannel
+    extends WebSocketChannel<MatchesChannel.Id, MatchesChannel.Message> {
 
-  private final String productId;
-
-  MatchesChannel(String productId) {
-    super("matches", productId);
-    this.productId = productId;
+  MatchesChannel(MatchesChannel.Id id) {
+    super(id);
   }
 
   @Override
@@ -22,20 +21,26 @@ public final class MatchesChannel extends WebSocketChannel<Message> {
     return Message.class;
   }
 
-  @Override
-  protected boolean accepts(Message message) {
-    return productId.equals(message.product_id);
+  @Immutable
+  public static final class Id extends WebSocketChannelId<MatchesChannel.Message> {
+
+    private Id(String productId) {
+      super("matches", productId);
+    }
+
+    public static Id of(String productId) {
+      return new Id(productId);
+    }
   }
 
   @NotThreadSafe
-  public static final class Message extends WebSocketMessage {
+  public static final class Message extends WebSocketChannelMessage {
 
     public Long trade_id;
     public Long sequence;
     public String maker_order_id;
     public String taker_order_id;
     public String time;
-    public String product_id;
     public Double size;
     public Double price;
     public String side;
