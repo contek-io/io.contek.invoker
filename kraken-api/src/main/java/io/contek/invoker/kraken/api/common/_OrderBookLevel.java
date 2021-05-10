@@ -2,7 +2,8 @@ package io.contek.invoker.kraken.api.common;
 
 import com.google.gson.JsonArray;
 
-public class _OrderBookLevel {
+public final class _OrderBookLevel {
+
   public Double price;
   public Double volume;
   public Double timestamp;

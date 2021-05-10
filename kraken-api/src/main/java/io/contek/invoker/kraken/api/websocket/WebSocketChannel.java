@@ -6,7 +6,7 @@ import io.contek.invoker.commons.websocket.BaseWebSocketChannel;
 import io.contek.invoker.commons.websocket.SubscriptionState;
 import io.contek.invoker.commons.websocket.WebSocketSession;
 import io.contek.invoker.kraken.api.websocket.common.Subscription;
-import io.contek.invoker.kraken.api.websocket.common.WebSocketInboundMessage;
+import io.contek.invoker.kraken.api.websocket.common.WebSocketChannelDataMessage;
 import io.contek.invoker.kraken.api.websocket.common.WebSocketRequest;
 import io.contek.invoker.kraken.api.websocket.common.WebSocketResponse;
 
@@ -17,22 +17,21 @@ import java.util.concurrent.atomic.AtomicReference;
 import static io.contek.invoker.commons.websocket.SubscriptionState.*;
 
 @ThreadSafe
-public abstract class WebSocketChannel<Message extends WebSocketInboundMessage>
-    extends BaseWebSocketChannel<Message> {
+public abstract class WebSocketChannel<
+        Id extends WebSocketChannelId<Message>, Message extends WebSocketChannelDataMessage<?>>
+    extends BaseWebSocketChannel<Id, Message> {
 
   private final WebSocketRequestIdGenerator requestIdGenerator;
 
   private final AtomicReference<WebSocketRequest> pendingRequestHolder =
       new AtomicReference<>(null);
 
-  protected WebSocketChannel(WebSocketRequestIdGenerator requestIdGenerator) {
+  protected WebSocketChannel(Id id, WebSocketRequestIdGenerator requestIdGenerator) {
     super(id);
     this.requestIdGenerator = requestIdGenerator;
   }
 
   protected abstract Subscription getSubscription();
-
-  protected abstract String getPair();
 
   @Override
   protected final SubscriptionState subscribe(WebSocketSession session) {
@@ -41,10 +40,11 @@ public abstract class WebSocketChannel<Message extends WebSocketInboundMessage>
         throw new IllegalStateException();
       }
 
+      Id id = getId();
       WebSocketRequest request = new WebSocketRequest();
       request.event = "subscribe";
       request.reqid = requestIdGenerator.generateNext();
-      request.pair = ImmutableList.of(getPair());
+      request.pair = ImmutableList.of(id.getPair());
       request.subscription = getSubscription();
       session.send(request);
       pendingRequestHolder.set(request);
@@ -59,10 +59,11 @@ public abstract class WebSocketChannel<Message extends WebSocketInboundMessage>
         throw new IllegalStateException();
       }
 
+      Id id = getId();
       WebSocketRequest request = new WebSocketRequest();
       request.event = "unsubscribe";
       request.reqid = requestIdGenerator.generateNext();
-      request.pair = ImmutableList.of(getPair());
+      request.pair = ImmutableList.of(id.getPair());
       request.subscription = getSubscription();
       session.send(request);
       pendingRequestHolder.set(request);
