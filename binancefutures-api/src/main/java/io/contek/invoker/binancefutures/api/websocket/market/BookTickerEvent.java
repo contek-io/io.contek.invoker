@@ -1,11 +1,11 @@
 package io.contek.invoker.binancefutures.api.websocket.market;
 
-import io.contek.invoker.binancefutures.api.websocket.common.WebSocketEventData;
+import io.contek.invoker.binancefutures.api.websocket.common.WebSocketEventMessage;
 
 import javax.annotation.concurrent.NotThreadSafe;
 
 @NotThreadSafe
-public class BookTickerEvent extends WebSocketEventData {
+public class BookTickerEvent extends WebSocketEventMessage {
 
   public Long u; // order book updateId
   public Long T; // transaction time

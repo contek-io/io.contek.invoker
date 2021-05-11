@@ -1,5 +1,6 @@
 package io.contek.invoker.binancefutures.api.websocket.user;
 
+import io.contek.invoker.binancefutures.api.websocket.common.WebSocketEventMessage;
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.BaseWebSocketChannel;
 import io.contek.invoker.commons.websocket.SubscriptionState;
@@ -12,9 +13,11 @@ import static io.contek.invoker.commons.websocket.SubscriptionState.SUBSCRIBED;
 import static io.contek.invoker.commons.websocket.SubscriptionState.UNSUBSCRIBED;
 
 @ThreadSafe
-public abstract class UserWebSocketChannel<Message> extends BaseWebSocketChannel<Message> {
+public abstract class UserWebSocketChannel<
+        Id extends UserWebSocketChannelId<Message>, Message extends WebSocketEventMessage>
+    extends BaseWebSocketChannel<Id, Message> {
 
-  public UserWebSocketChannel() {
+  public UserWebSocketChannel(Id id) {
     super(id);
   }
 
@@ -40,11 +43,6 @@ public abstract class UserWebSocketChannel<Message> extends BaseWebSocketChannel
       return UNSUBSCRIBED;
     }
     return null;
-  }
-
-  @Override
-  protected final boolean accepts(Message message) {
-    return true;
   }
 
   @Override

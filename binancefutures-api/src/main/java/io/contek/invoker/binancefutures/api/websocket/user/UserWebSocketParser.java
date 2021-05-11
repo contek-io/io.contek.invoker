@@ -3,7 +3,7 @@ package io.contek.invoker.binancefutures.api.websocket.user;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import io.contek.invoker.binancefutures.api.websocket.common.WebSocketEventData;
+import io.contek.invoker.binancefutures.api.websocket.common.WebSocketEventMessage;
 import io.contek.invoker.commons.websocket.IWebSocketMessageParser;
 
 import javax.annotation.concurrent.Immutable;
@@ -19,7 +19,7 @@ public final class UserWebSocketParser implements IWebSocketMessageParser {
   }
 
   @Override
-  public WebSocketEventData parse(String text) {
+  public WebSocketEventMessage parse(String text) {
     JsonElement json = gson.fromJson(text, JsonElement.class);
     if (!json.isJsonObject()) {
       throw new IllegalArgumentException(text);
@@ -33,17 +33,17 @@ public final class UserWebSocketParser implements IWebSocketMessageParser {
     throw new IllegalStateException(text);
   }
 
-  private WebSocketEventData toUserData(JsonObject obj) {
+  private WebSocketEventMessage toUserData(JsonObject obj) {
     String eventType = obj.get("e").getAsString();
     switch (eventType) {
       case "ACCOUNT_UPDATE":
-        return gson.fromJson(obj, AccountUpdateEvent.class);
+        return gson.fromJson(obj, AccountUpdateChannel.Message.class);
       case "ORDER_TRADE_UPDATE":
-        return gson.fromJson(obj, OrderUpdateEvent.class);
+        return gson.fromJson(obj, OrderUpdateChannel.Message.class);
       case "ACCOUNT_CONFIG_UPDATE":
-        return gson.fromJson(obj, LeverageUpdateEvent.class);
+        return gson.fromJson(obj, LeverageUpdateChannel.Message.class);
       case "MARGIN_CALL":
-        return gson.fromJson(obj, MarginCallEvent.class);
+        return gson.fromJson(obj, MarginCallChannel.Message.class);
       case "listenKeyExpired":
         return gson.fromJson(obj, UserDataStreamExpiredEvent.class);
       default:

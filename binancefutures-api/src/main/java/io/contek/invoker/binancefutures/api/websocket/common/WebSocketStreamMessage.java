@@ -5,7 +5,7 @@ import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import javax.annotation.concurrent.NotThreadSafe;
 
 @NotThreadSafe
-public abstract class WebSocketStreamMessage<T extends WebSocketEventData>
+public abstract class WebSocketStreamMessage<T extends WebSocketEventMessage>
     extends AnyWebSocketMessage {
 
   public String stream;
