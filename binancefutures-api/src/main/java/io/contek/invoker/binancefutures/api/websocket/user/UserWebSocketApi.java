@@ -17,7 +17,7 @@ public final class UserWebSocketApi extends BaseWebSocketApi {
   public AccountUpdateChannel accountUpdateChannel;
   public OrderUpdateChannel orderUpdateChannel;
   public MarginCallChannel marginCallChannel;
-  public LeverageUpdateChannel leverageUpdateChannel;
+  public AccountConfigUpdateChannel accountConfigUpdateChannel;
 
   private final WebSocketContext context;
 
@@ -54,12 +54,12 @@ public final class UserWebSocketApi extends BaseWebSocketApi {
     return marginCallChannel;
   }
 
-  public LeverageUpdateChannel getLeverageUpdateChannel() {
-    if (leverageUpdateChannel == null) {
-      leverageUpdateChannel = new LeverageUpdateChannel();
-      attach(leverageUpdateChannel);
+  public AccountConfigUpdateChannel getLeverageUpdateChannel() {
+    if (accountConfigUpdateChannel == null) {
+      accountConfigUpdateChannel = new AccountConfigUpdateChannel();
+      attach(accountConfigUpdateChannel);
     }
-    return leverageUpdateChannel;
+    return accountConfigUpdateChannel;
   }
 
   @Override

@@ -1,21 +1,20 @@
 package io.contek.invoker.binancefutures.api.websocket.user;
 
 import io.contek.invoker.binancefutures.api.websocket.common.WebSocketEventMessage;
-import io.contek.invoker.commons.websocket.BaseWebSocketChannelId;
 
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
 
-import static io.contek.invoker.binancefutures.api.websocket.user.constants.UserEventTypeKeys._ACCOUNT_UPDATE;
+import static io.contek.invoker.binancefutures.api.websocket.user.constants.UserEventTypeKeys._ACCOUNT_CONFIG_UPDATE;
 
 @ThreadSafe
-public final class LeverageUpdateChannel
-    extends UserWebSocketChannel<LeverageUpdateChannel.Message> {
+public final class AccountConfigUpdateChannel
+    extends UserWebSocketChannel<
+        AccountConfigUpdateChannel.Id, AccountConfigUpdateChannel.Message> {
 
-  @Override
-  protected BaseWebSocketChannelId getId() {
-    return "LeverageUpdateChannel";
+  AccountConfigUpdateChannel() {
+    super(Id.INSTANCE);
   }
 
   @Override
@@ -24,12 +23,12 @@ public final class LeverageUpdateChannel
   }
 
   @Immutable
-  public static final class Id extends UserWebSocketChannelId<AccountUpdateChannel.Message> {
+  public static final class Id extends UserWebSocketChannelId<AccountConfigUpdateChannel.Message> {
 
-    private static final AccountUpdateChannel.Id INSTANCE = new AccountUpdateChannel.Id();
+    private static final Id INSTANCE = new Id();
 
     private Id() {
-      super(_ACCOUNT_UPDATE);
+      super(_ACCOUNT_CONFIG_UPDATE);
     }
   }
 

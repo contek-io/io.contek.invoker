@@ -41,7 +41,7 @@ public final class UserWebSocketParser implements IWebSocketMessageParser {
       case "ORDER_TRADE_UPDATE":
         return gson.fromJson(obj, OrderUpdateChannel.Message.class);
       case "ACCOUNT_CONFIG_UPDATE":
-        return gson.fromJson(obj, LeverageUpdateChannel.Message.class);
+        return gson.fromJson(obj, AccountConfigUpdateChannel.Message.class);
       case "MARGIN_CALL":
         return gson.fromJson(obj, MarginCallChannel.Message.class);
       case "listenKeyExpired":

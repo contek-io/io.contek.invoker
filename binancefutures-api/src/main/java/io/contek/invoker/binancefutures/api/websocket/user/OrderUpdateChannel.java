@@ -6,7 +6,7 @@ import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
 
-import static io.contek.invoker.binancefutures.api.websocket.user.constants.UserEventTypeKeys._MARGIN_CALL;
+import static io.contek.invoker.binancefutures.api.websocket.user.constants.UserEventTypeKeys._ORDER_TRADE_UPDATE;
 
 @ThreadSafe
 public final class OrderUpdateChannel
@@ -27,7 +27,7 @@ public final class OrderUpdateChannel
     private static final Id INSTANCE = new Id();
 
     private Id() {
-      super(_MARGIN_CALL);
+      super(_ORDER_TRADE_UPDATE);
     }
   }
 
