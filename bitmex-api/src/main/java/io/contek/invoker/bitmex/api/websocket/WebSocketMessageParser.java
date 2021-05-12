@@ -15,7 +15,7 @@ import static io.contek.invoker.bitmex.api.websocket.common.constants.WebSocketR
 import static io.contek.invoker.bitmex.api.websocket.common.constants.WebSocketTableKeys.*;
 
 @Immutable
-final class WebSocketMessageParser implements IWebSocketMessageParser {
+final class WebSocketMessageParser implements IWebSocketMessageParser<WebSocketChannel<?, ?>> {
 
   private final Gson gson = new Gson();
 

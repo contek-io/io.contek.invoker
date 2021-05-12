@@ -19,7 +19,8 @@ import java.util.Map;
 import java.util.zip.GZIPInputStream;
 
 @ThreadSafe
-final class MarketWebSocketMessageParser implements IWebSocketMessageParser {
+final class MarketWebSocketMessageParser
+    implements IWebSocketMessageParser<MarketWebSocketChannel<?, ?>> {
 
   private final Gson gson = new Gson();
 
@@ -28,10 +29,9 @@ final class MarketWebSocketMessageParser implements IWebSocketMessageParser {
 
   MarketWebSocketMessageParser() {}
 
-  void register(MarketWebSocketChannel<?, ?> channel) {
+  void register(String channel, Class<? extends MarketWebSocketChannelMessage> type) {
     synchronized (channelMessageTypes) {
-      MarketWebSocketChannelId<?> id = channel.getId();
-      channelMessageTypes.put(id.getChannel(), channel.getMessageType());
+      channelMessageTypes.put(channel, type);
     }
   }
 

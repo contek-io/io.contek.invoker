@@ -29,10 +29,6 @@ abstract class MarketWebSocketChannel<
     this.requestIdGenerator = requestIdGenerator;
   }
 
-  final void register(MarketWebSocketMessageParser parser) {
-    parser.register(this);
-  }
-
   @Override
   protected final Class<Message> getMessageType() {
     return type;

@@ -3,6 +3,7 @@ package io.contek.invoker.ftx.api.websocket;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.IWebSocketMessageParser;
 import io.contek.invoker.ftx.api.websocket.common.WebSocketInboundMessage;
 import io.contek.invoker.ftx.api.websocket.common.WebSocketInfoMessage;
@@ -14,21 +15,11 @@ import io.contek.invoker.ftx.api.websocket.user.OrderUpdateChannel;
 
 import javax.annotation.concurrent.Immutable;
 
-import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketChannelKeys._channel;
-import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketChannelKeys._orderbook;
-import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketChannelKeys._orders;
-import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketChannelKeys._ticker;
-import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketChannelKeys._trades;
-import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketInboundKeys._error;
-import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketInboundKeys._info;
-import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketInboundKeys._partial;
-import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketInboundKeys._subscribed;
-import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketInboundKeys._type;
-import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketInboundKeys._unsubscribed;
-import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketInboundKeys._update;
+import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketChannelKeys.*;
+import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketInboundKeys.*;
 
 @Immutable
-final class WebSocketMessageParser implements IWebSocketMessageParser {
+final class WebSocketMessageParser implements IWebSocketMessageParser<WebSocketChannel<?, ?>> {
 
   private final Gson gson = new Gson();
 
@@ -37,7 +28,7 @@ final class WebSocketMessageParser implements IWebSocketMessageParser {
   }
 
   @Override
-  public WebSocketInboundMessage parse(String text) {
+  public AnyWebSocketMessage parse(String text) {
     JsonElement json = gson.fromJson(text, JsonElement.class);
     if (!json.isJsonObject()) {
       throw new IllegalArgumentException(text);

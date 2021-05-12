@@ -3,6 +3,7 @@ package io.contek.invoker.deribit.api.websocket;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.IWebSocketMessageParser;
 import io.contek.invoker.deribit.api.websocket.common.WebSocketInboundMessage;
 import io.contek.invoker.deribit.api.websocket.common.WebSocketResponse;
@@ -24,7 +25,7 @@ final class WebSocketMessageParser implements IWebSocketMessageParser {
 
   @Nullable
   @Override
-  public WebSocketInboundMessage parse(String text) {
+  public AnyWebSocketMessage parse(String text) {
     JsonElement json = gson.fromJson(text, JsonElement.class);
     if (!json.isJsonObject()) {
       throw new IllegalArgumentException(text);

@@ -1,8 +1,6 @@
 package io.contek.invoker.hbdmlinear.api.websocket.market;
 
-import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Table;
 import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
 import io.contek.invoker.commons.websocket.*;
@@ -22,9 +20,10 @@ public final class MarketWebSocketApi extends BaseWebSocketApi {
   private final MarketWebSocketRequestIdGenerator requestIdGenerator =
       new MarketWebSocketRequestIdGenerator();
 
-  private final Table<String, Integer, IncrementalMarketDepthChannel>
-      integerIncrementalMarketDepthChannels = HashBasedTable.create();
-  private final Map<String, TradeDetailChannel> tradeDetailChannels = new HashMap<>();
+  private final Map<IncrementalMarketDepthChannel.Id, IncrementalMarketDepthChannel>
+      incrementalMarketDepthChannels = new HashMap<>();
+  private final Map<TradeDetailChannel.Id, TradeDetailChannel> tradeDetailChannels =
+      new HashMap<>();
 
   public MarketWebSocketApi(IActor actor, WebSocketContext context) {
     super(
@@ -36,23 +35,23 @@ public final class MarketWebSocketApi extends BaseWebSocketApi {
   }
 
   public IncrementalMarketDepthChannel getIncrementalMarketDepthChannel(
-      String contractCode, int size) {
-    synchronized (integerIncrementalMarketDepthChannels) {
-      IncrementalMarketDepthChannel result =
-          integerIncrementalMarketDepthChannels.get(contractCode, size);
-      if (result == null) {
-        result = new IncrementalMarketDepthChannel(contractCode, size, requestIdGenerator);
-        init(result);
-        integerIncrementalMarketDepthChannels.put(contractCode, size, result);
-      }
-      return result;
+      IncrementalMarketDepthChannel.Id id) {
+    synchronized (incrementalMarketDepthChannels) {
+      return incrementalMarketDepthChannels.computeIfAbsent(
+          id,
+          k -> {
+            IncrementalMarketDepthChannel result =
+                new IncrementalMarketDepthChannel(k, requestIdGenerator);
+            init(result);
+            return result;
+          });
     }
   }
 
-  public TradeDetailChannel getTradeDetailChannel(String contractCode) {
+  public TradeDetailChannel getTradeDetailChannel(TradeDetailChannel.Id id) {
     synchronized (tradeDetailChannels) {
       return tradeDetailChannels.computeIfAbsent(
-          contractCode,
+          id,
           k -> {
             TradeDetailChannel result = new TradeDetailChannel(k, requestIdGenerator);
             init(result);
@@ -76,7 +75,7 @@ public final class MarketWebSocketApi extends BaseWebSocketApi {
 
   private void init(MarketWebSocketChannel<?, ?> channel) {
     MarketWebSocketMessageParser parser = (MarketWebSocketMessageParser) getParser();
-    parser.register(channel);
+    parser.register(channel.getId().getChannel(), channel.getMessageType());
     attach(channel);
   }
 }

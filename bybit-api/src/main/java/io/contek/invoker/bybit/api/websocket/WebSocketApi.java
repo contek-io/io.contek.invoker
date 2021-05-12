@@ -16,7 +16,7 @@ public abstract class WebSocketApi extends BaseWebSocketApi {
   protected WebSocketApi(IActor actor, WebSocketContext context) {
     super(
         actor,
-        WebSocketMessageParser.getInstance(),
+        new WebSocketMessageParser(),
         new WebSocketAuthenticator(actor.getCredential(), actor.getClock()),
         IWebSocketLiveKeeper.noOp());
     this.context = context;

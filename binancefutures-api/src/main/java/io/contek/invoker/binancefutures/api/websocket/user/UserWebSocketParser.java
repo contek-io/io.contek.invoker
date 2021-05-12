@@ -10,7 +10,8 @@ import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.ThreadSafe;
 
 @ThreadSafe
-public final class UserWebSocketParser implements IWebSocketMessageParser {
+public final class UserWebSocketParser
+    implements IWebSocketMessageParser<UserWebSocketChannel<?, ?>> {
 
   private final Gson gson = new Gson();
 
