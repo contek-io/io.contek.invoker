@@ -19,18 +19,19 @@ import java.util.Map;
 import java.util.zip.GZIPInputStream;
 
 @ThreadSafe
-final class WebSocketMarketMessageParser implements IWebSocketMessageParser {
+final class MarketWebSocketMessageParser implements IWebSocketMessageParser {
 
   private final Gson gson = new Gson();
 
-  private final Map<String, Class<? extends WebSocketMarketDataMessage>> channelMessageTypes =
+  private final Map<String, Class<? extends MarketWebSocketChannelMessage>> channelMessageTypes =
       new HashMap<>();
 
-  WebSocketMarketMessageParser() {}
+  MarketWebSocketMessageParser() {}
 
-  void register(String channel, Class<? extends WebSocketMarketDataMessage> type) {
+  void register(MarketWebSocketChannel<?, ?> channel) {
     synchronized (channelMessageTypes) {
-      channelMessageTypes.put(channel, type);
+      MarketWebSocketChannelId<?> id = channel.getId();
+      channelMessageTypes.put(id.getChannel(), channel.getMessageType());
     }
   }
 
@@ -75,10 +76,10 @@ final class WebSocketMarketMessageParser implements IWebSocketMessageParser {
     throw new UnsupportedOperationException(json.toString());
   }
 
-  private WebSocketMarketDataMessage toMarketDataMessage(JsonObject obj) {
+  private MarketWebSocketChannelMessage toMarketDataMessage(JsonObject obj) {
     String ch = obj.get("ch").getAsString();
     synchronized (channelMessageTypes) {
-      Class<? extends WebSocketMarketDataMessage> type = channelMessageTypes.get(ch);
+      Class<? extends MarketWebSocketChannelMessage> type = channelMessageTypes.get(ch);
       return gson.fromJson(obj, type);
     }
   }

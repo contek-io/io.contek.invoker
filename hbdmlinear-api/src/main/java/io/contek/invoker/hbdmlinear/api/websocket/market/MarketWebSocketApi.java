@@ -19,8 +19,8 @@ import static io.contek.invoker.hbdmlinear.api.ApiFactory.RateLimits.ONE_IP_WEB_
 public final class MarketWebSocketApi extends BaseWebSocketApi {
 
   private final WebSocketContext context;
-  private final WebSocketMarketRequestIdGenerator requestIdGenerator =
-      new WebSocketMarketRequestIdGenerator();
+  private final MarketWebSocketRequestIdGenerator requestIdGenerator =
+      new MarketWebSocketRequestIdGenerator();
 
   private final Table<String, Integer, IncrementalMarketDepthChannel>
       integerIncrementalMarketDepthChannels = HashBasedTable.create();
@@ -29,7 +29,7 @@ public final class MarketWebSocketApi extends BaseWebSocketApi {
   public MarketWebSocketApi(IActor actor, WebSocketContext context) {
     super(
         actor,
-        new WebSocketMarketMessageParser(),
+        new MarketWebSocketMessageParser(),
         IWebSocketAuthenticator.noOp(),
         WebSocketLiveKeeper.getInstance());
     this.context = context;
@@ -74,9 +74,9 @@ public final class MarketWebSocketApi extends BaseWebSocketApi {
   @Override
   protected void checkErrorMessage(AnyWebSocketMessage message) throws WebSocketRuntimeException {}
 
-  private void init(WebSocketMarketChannel<?> channel) {
-    WebSocketMarketMessageParser parser = (WebSocketMarketMessageParser) getParser();
-    channel.register(parser);
+  private void init(MarketWebSocketChannel<?, ?> channel) {
+    MarketWebSocketMessageParser parser = (MarketWebSocketMessageParser) getParser();
+    parser.register(channel);
     attach(channel);
   }
 }
