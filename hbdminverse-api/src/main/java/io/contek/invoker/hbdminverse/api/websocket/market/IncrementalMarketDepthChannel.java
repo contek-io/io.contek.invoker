@@ -3,8 +3,10 @@ package io.contek.invoker.hbdminverse.api.websocket.market;
 import io.contek.invoker.commons.websocket.SubscriptionState;
 import io.contek.invoker.commons.websocket.WebSocketSession;
 import io.contek.invoker.hbdminverse.api.common._Depth;
+import io.contek.invoker.hbdminverse.api.websocket.common.WebSocketSubscribeIncrementalMarketDepthRequest;
 import io.contek.invoker.hbdminverse.api.websocket.common.constants.WebSocketDataTypeKeys;
 
+import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
 
@@ -13,25 +15,35 @@ import static java.lang.String.format;
 
 @ThreadSafe
 public final class IncrementalMarketDepthChannel
-    extends WebSocketMarketChannel<IncrementalMarketDepthChannel.Message> {
+    extends MarketWebSocketChannel<
+        IncrementalMarketDepthChannel.Id, IncrementalMarketDepthChannel.Message> {
 
-  IncrementalMarketDepthChannel(
-      String contractCode, int size, WebSocketMarketRequestIdGenerator requestIdGenerator) {
-    super(
-        format("market.%s.depth.size_%d.high_freq", contractCode, size),
-        IncrementalMarketDepthChannel.Message.class,
-        requestIdGenerator);
+  IncrementalMarketDepthChannel(Id id, MarketWebSocketRequestIdGenerator requestIdGenerator) {
+    super(id, Message.class, requestIdGenerator);
   }
 
   @Override
   protected SubscriptionState subscribe(WebSocketSession session) {
+    Id id = getId();
     WebSocketSubscribeIncrementalMarketDepthRequest request =
         new WebSocketSubscribeIncrementalMarketDepthRequest();
-    request.sub = getTopic();
+    request.sub = id.getChannel();
     request.data_type = WebSocketDataTypeKeys._incremental;
-    request.id = generateNextId();
+    request.id = generateNexRequestId();
     session.send(request);
     return SUBSCRIBING;
+  }
+
+  @Immutable
+  public static final class Id extends MarketWebSocketChannelId<Message> {
+
+    private Id(String topic) {
+      super(topic);
+    }
+
+    public static Id of(String contractCode, int size) {
+      return new Id(format("market.%s.depth.size_%d.high_freq", contractCode, size));
+    }
   }
 
   @NotThreadSafe

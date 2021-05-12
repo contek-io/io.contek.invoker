@@ -30,7 +30,7 @@ abstract class MarketWebSocketChannel<
   }
 
   @Override
-  protected final Class<Message> getMessageType() {
+  public final Class<Message> getMessageType() {
     return type;
   }
 

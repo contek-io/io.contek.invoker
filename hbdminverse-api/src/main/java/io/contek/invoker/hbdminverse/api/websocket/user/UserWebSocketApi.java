@@ -31,7 +31,7 @@ public final class UserWebSocketApi extends BaseWebSocketApi {
 
   @Override
   protected WebSocketCall createCall(ICredential credential) {
-    return WebSocketCall.fromUrl(context.getBaseUrl() + "/swap-notification");
+    return WebSocketCall.fromUrl(context.getBaseUrl() + "/linear-swap-notification");
   }
 
   @Override

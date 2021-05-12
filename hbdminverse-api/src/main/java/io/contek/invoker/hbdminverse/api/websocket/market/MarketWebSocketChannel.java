@@ -1,6 +1,9 @@
 package io.contek.invoker.hbdminverse.api.websocket.market;
 
-import io.contek.invoker.commons.websocket.*;
+import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
+import io.contek.invoker.commons.websocket.BaseWebSocketChannel;
+import io.contek.invoker.commons.websocket.SubscriptionState;
+import io.contek.invoker.commons.websocket.WebSocketSession;
 import io.contek.invoker.hbdminverse.api.websocket.common.WebSocketSubscribeConfirmation;
 import io.contek.invoker.hbdminverse.api.websocket.common.WebSocketUnsubscribeConfirmation;
 import io.contek.invoker.hbdminverse.api.websocket.common.WebSocketUnsubscribeRequest;
@@ -12,45 +15,31 @@ import static io.contek.invoker.commons.websocket.SubscriptionState.*;
 import static io.contek.invoker.hbdminverse.api.websocket.common.constants.WebSocketStatusKeys._ok;
 
 @ThreadSafe
-abstract class WebSocketMarketChannel<Message extends WebSocketMarketDataMessage>
-    extends BaseWebSocketChannel<Message> {
+abstract class MarketWebSocketChannel<
+        Id extends MarketWebSocketChannelId<Message>, Message extends MarketWebSocketChannelMessage>
+    extends BaseWebSocketChannel<Id, Message> {
 
-  private final String topic;
   private final Class<Message> type;
-  private final WebSocketMarketRequestIdGenerator requestIdGenerator;
+  private final MarketWebSocketRequestIdGenerator requestIdGenerator;
 
-  protected WebSocketMarketChannel(
-      String topic, Class<Message> type, WebSocketMarketRequestIdGenerator requestIdGenerator) {
+  protected MarketWebSocketChannel(
+      Id id, Class<Message> type, MarketWebSocketRequestIdGenerator requestIdGenerator) {
     super(id);
-    this.topic = topic;
     this.type = type;
     this.requestIdGenerator = requestIdGenerator;
   }
 
-  final void register(WebSocketMarketMessageParser parser) {
-    parser.register(topic, type);
-  }
-
   @Override
-  protected final BaseWebSocketChannelId getId() {
-    return topic;
-  }
-
-  @Override
-  protected final Class<Message> getMessageType() {
+  public final Class<Message> getMessageType() {
     return type;
   }
 
   @Override
-  protected final boolean accepts(Message message) {
-    return topic.equals(message.ch);
-  }
-
-  @Override
   protected final SubscriptionState unsubscribe(WebSocketSession session) {
+    Id id = getId();
     WebSocketUnsubscribeRequest request = new WebSocketUnsubscribeRequest();
-    request.unsub = topic;
-    request.id = generateNextId();
+    request.unsub = id.getChannel();
+    request.id = generateNexRequestId();
     session.send(request);
     return UNSUBSCRIBING;
   }
@@ -59,8 +48,9 @@ abstract class WebSocketMarketChannel<Message extends WebSocketMarketDataMessage
   @Override
   protected final SubscriptionState getState(AnyWebSocketMessage message) {
     if (message instanceof WebSocketSubscribeConfirmation) {
+      Id id = getId();
       WebSocketSubscribeConfirmation confirmation = (WebSocketSubscribeConfirmation) message;
-      if (confirmation.subbed.equals(topic)) {
+      if (confirmation.subbed.equals(id.getChannel())) {
         if (!_ok.equals(confirmation.status)) {
           throw new IllegalStateException(confirmation.status);
         }
@@ -68,8 +58,9 @@ abstract class WebSocketMarketChannel<Message extends WebSocketMarketDataMessage
       }
     }
     if (message instanceof WebSocketUnsubscribeConfirmation) {
+      Id id = getId();
       WebSocketUnsubscribeConfirmation confirmation = (WebSocketUnsubscribeConfirmation) message;
-      if (confirmation.unsubbed.equals(topic)) {
+      if (confirmation.unsubbed.equals(id.getChannel())) {
         if (!_ok.equals(confirmation.status)) {
           throw new IllegalStateException(confirmation.status);
         }
@@ -82,11 +73,7 @@ abstract class WebSocketMarketChannel<Message extends WebSocketMarketDataMessage
   @Override
   protected final void reset() {}
 
-  String getTopic() {
-    return topic;
-  }
-
-  String generateNextId() {
+  String generateNexRequestId() {
     return Integer.toString(requestIdGenerator.generateNext());
   }
 }

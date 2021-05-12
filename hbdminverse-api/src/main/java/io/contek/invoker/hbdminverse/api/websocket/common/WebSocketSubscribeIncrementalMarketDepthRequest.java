@@ -1,6 +1,4 @@
-package io.contek.invoker.hbdminverse.api.websocket.market;
-
-import io.contek.invoker.hbdminverse.api.websocket.common.WebSocketSubscribeRequest;
+package io.contek.invoker.hbdminverse.api.websocket.common;
 
 import javax.annotation.concurrent.NotThreadSafe;
 

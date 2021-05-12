@@ -42,7 +42,7 @@ public final class MarketWebSocketApi extends BaseWebSocketApi {
           k -> {
             IncrementalMarketDepthChannel result =
                 new IncrementalMarketDepthChannel(k, requestIdGenerator);
-            init(result);
+            attach(result);
             return result;
           });
     }
@@ -54,7 +54,7 @@ public final class MarketWebSocketApi extends BaseWebSocketApi {
           id,
           k -> {
             TradeDetailChannel result = new TradeDetailChannel(k, requestIdGenerator);
-            init(result);
+            attach(result);
             return result;
           });
     }
@@ -72,10 +72,4 @@ public final class MarketWebSocketApi extends BaseWebSocketApi {
 
   @Override
   protected void checkErrorMessage(AnyWebSocketMessage message) throws WebSocketRuntimeException {}
-
-  private void init(MarketWebSocketChannel<?, ?> channel) {
-    MarketWebSocketMessageParser parser = (MarketWebSocketMessageParser) getParser();
-    parser.register(channel.getId().getChannel(), channel.getMessageType());
-    attach(channel);
-  }
 }

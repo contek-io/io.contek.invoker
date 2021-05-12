@@ -3,29 +3,43 @@ package io.contek.invoker.hbdminverse.api.websocket.market;
 import io.contek.invoker.commons.websocket.SubscriptionState;
 import io.contek.invoker.commons.websocket.WebSocketSession;
 import io.contek.invoker.hbdminverse.api.common._TradeDetail;
+import io.contek.invoker.hbdminverse.api.websocket.common.WebSocketSubscribeTradeDetailRequest;
 
+import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
 
 import static io.contek.invoker.commons.websocket.SubscriptionState.SUBSCRIBING;
+import static java.lang.String.format;
 
 @ThreadSafe
-public final class TradeDetailChannel extends WebSocketMarketChannel<TradeDetailChannel.Message> {
+public final class TradeDetailChannel
+    extends MarketWebSocketChannel<TradeDetailChannel.Id, TradeDetailChannel.Message> {
 
-  TradeDetailChannel(String contractCode, WebSocketMarketRequestIdGenerator requestIdGenerator) {
-    super(
-        "market." + contractCode + ".trade.detail",
-        TradeDetailChannel.Message.class,
-        requestIdGenerator);
+  TradeDetailChannel(Id id, MarketWebSocketRequestIdGenerator requestIdGenerator) {
+    super(id, Message.class, requestIdGenerator);
   }
 
   @Override
-  protected SubscriptionState subscribe(WebSocketSession session) {
+  protected final SubscriptionState subscribe(WebSocketSession session) {
+    Id id = getId();
     WebSocketSubscribeTradeDetailRequest request = new WebSocketSubscribeTradeDetailRequest();
-    request.sub = getTopic();
-    request.id = generateNextId();
+    request.sub = id.getChannel();
+    request.id = generateNexRequestId();
     session.send(request);
     return SUBSCRIBING;
+  }
+
+  @Immutable
+  public static final class Id extends MarketWebSocketChannelId<Message> {
+
+    private Id(String topic) {
+      super(topic);
+    }
+
+    public static Id of(String contractCode) {
+      return new Id(format("market." + contractCode + ".trade.detail", contractCode));
+    }
   }
 
   @NotThreadSafe
