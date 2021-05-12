@@ -19,7 +19,7 @@ public final class BookChannel extends WebSocketChannel<BookChannel.Id, BookChan
   }
 
   @Override
-  protected Class<BookChannel.Message> getMessageType() {
+  public Class<BookChannel.Message> getMessageType() {
     return BookChannel.Message.class;
   }
 

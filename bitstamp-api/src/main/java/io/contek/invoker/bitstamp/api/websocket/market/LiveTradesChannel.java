@@ -19,7 +19,7 @@ public final class LiveTradesChannel
   }
 
   @Override
-  protected Class<LiveTradesChannel.Message> getMessageType() {
+  public Class<LiveTradesChannel.Message> getMessageType() {
     return LiveTradesChannel.Message.class;
   }
 

@@ -18,7 +18,7 @@ public final class MarginCallChannel
   }
 
   @Override
-  protected Class<MarginCallChannel.Message> getMessageType() {
+  public Class<MarginCallChannel.Message> getMessageType() {
     return MarginCallChannel.Message.class;
   }
 

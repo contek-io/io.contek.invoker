@@ -29,9 +29,10 @@ final class MarketWebSocketMessageParser
 
   MarketWebSocketMessageParser() {}
 
-  void register(String channel, Class<? extends MarketWebSocketChannelMessage> type) {
+  @Override
+  public void register(MarketWebSocketChannel<?, ?> channel) {
     synchronized (channelMessageTypes) {
-      channelMessageTypes.put(channel, type);
+      channelMessageTypes.put(channel.getId().getChannel(), channel.getMessageType());
     }
   }
 

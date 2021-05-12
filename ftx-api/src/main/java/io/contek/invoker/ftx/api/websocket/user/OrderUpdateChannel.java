@@ -20,7 +20,7 @@ public final class OrderUpdateChannel
   }
 
   @Override
-  protected Class<Message> getMessageType() {
+  public Class<Message> getMessageType() {
     return OrderUpdateChannel.Message.class;
   }
 

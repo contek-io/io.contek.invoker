@@ -19,7 +19,7 @@ public final class TickerChannel extends WebSocketChannel<TickerChannel.Id, Tick
   }
 
   @Override
-  protected Class<TickerChannel.Message> getMessageType() {
+  public Class<TickerChannel.Message> getMessageType() {
     return TickerChannel.Message.class;
   }
 

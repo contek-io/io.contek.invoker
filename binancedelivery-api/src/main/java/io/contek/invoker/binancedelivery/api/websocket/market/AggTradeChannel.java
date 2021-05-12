@@ -16,7 +16,7 @@ public final class AggTradeChannel
   }
 
   @Override
-  protected Class<Message> getMessageType() {
+  public Class<Message> getMessageType() {
     return Message.class;
   }
 

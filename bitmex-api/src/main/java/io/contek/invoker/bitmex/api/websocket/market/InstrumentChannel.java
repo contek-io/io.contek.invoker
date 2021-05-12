@@ -20,7 +20,7 @@ public final class InstrumentChannel
   }
 
   @Override
-  protected Class<Message> getMessageType() {
+  public Class<Message> getMessageType() {
     return Message.class;
   }
 

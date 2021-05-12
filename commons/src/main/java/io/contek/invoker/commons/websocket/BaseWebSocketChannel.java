@@ -107,14 +107,14 @@ public abstract class BaseWebSocketChannel<
     setState(UNSUBSCRIBED);
   }
 
+  public abstract Class<Message> getMessageType();
+
   protected abstract SubscriptionState subscribe(WebSocketSession session);
 
   protected abstract SubscriptionState unsubscribe(WebSocketSession session);
 
   @Nullable
   protected abstract SubscriptionState getState(AnyWebSocketMessage message);
-
-  protected abstract Class<Message> getMessageType();
 
   protected abstract void reset();
 

@@ -16,7 +16,7 @@ public final class ForceOrderChannel
   }
 
   @Override
-  protected Class<Message> getMessageType() {
+  public Class<Message> getMessageType() {
     return ForceOrderChannel.Message.class;
   }
 

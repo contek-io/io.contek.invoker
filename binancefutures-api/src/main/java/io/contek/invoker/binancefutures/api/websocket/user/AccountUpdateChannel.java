@@ -19,7 +19,7 @@ public final class AccountUpdateChannel
   }
 
   @Override
-  protected Class<AccountUpdateChannel.Message> getMessageType() {
+  public Class<AccountUpdateChannel.Message> getMessageType() {
     return AccountUpdateChannel.Message.class;
   }
 

@@ -18,7 +18,7 @@ public final class OrderChannel extends WebSocketChannel<OrderChannel.Id, OrderC
   }
 
   @Override
-  protected Class<Message> getMessageType() {
+  public Class<Message> getMessageType() {
     return Message.class;
   }
 

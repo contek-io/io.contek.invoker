@@ -17,7 +17,7 @@ public final class TradeChannel extends WebSocketChannel<TradeChannel.Id, TradeC
   }
 
   @Override
-  protected Class<Message> getMessageType() {
+  public Class<Message> getMessageType() {
     return Message.class;
   }
 

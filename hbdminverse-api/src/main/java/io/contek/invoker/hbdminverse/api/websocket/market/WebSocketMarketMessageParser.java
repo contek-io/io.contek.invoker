@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
+import io.contek.invoker.commons.websocket.BaseWebSocketChannel;
 import io.contek.invoker.commons.websocket.IWebSocketMessageParser;
 import io.contek.invoker.hbdminverse.api.websocket.common.WebSocketPing;
 import io.contek.invoker.hbdminverse.api.websocket.common.WebSocketSubscribeConfirmation;
@@ -33,6 +34,9 @@ final class WebSocketMarketMessageParser implements IWebSocketMessageParser {
       channelMessageTypes.put(channel, type);
     }
   }
+
+  @Override
+  public void register(BaseWebSocketChannel channel) {}
 
   @Override
   public AnyWebSocketMessage parse(String text) {

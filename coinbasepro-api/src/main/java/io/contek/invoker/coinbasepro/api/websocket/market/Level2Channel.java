@@ -18,7 +18,7 @@ public final class Level2Channel extends WebSocketChannel<Level2Channel.Id, Leve
   }
 
   @Override
-  protected Class<Message> getMessageType() {
+  public Class<Message> getMessageType() {
     return Message.class;
   }
 

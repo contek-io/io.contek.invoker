@@ -19,7 +19,7 @@ public final class QuoteChannel extends WebSocketChannel<QuoteChannel.Id, QuoteC
   }
 
   @Override
-  protected Class<QuoteChannel.Message> getMessageType() {
+  public Class<QuoteChannel.Message> getMessageType() {
     return QuoteChannel.Message.class;
   }
 

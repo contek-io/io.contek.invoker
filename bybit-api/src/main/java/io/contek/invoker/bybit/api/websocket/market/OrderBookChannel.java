@@ -17,7 +17,7 @@ public abstract class OrderBookChannel<Id extends WebSocketChannelId<OrderBookCh
   }
 
   @Override
-  protected Class<Message> getMessageType() {
+  public Class<Message> getMessageType() {
     return Message.class;
   }
 

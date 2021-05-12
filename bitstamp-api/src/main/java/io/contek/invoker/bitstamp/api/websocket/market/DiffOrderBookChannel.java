@@ -21,7 +21,7 @@ public final class DiffOrderBookChannel
   }
 
   @Override
-  protected Class<DiffOrderBookChannel.Message> getMessageType() {
+  public Class<DiffOrderBookChannel.Message> getMessageType() {
     return Message.class;
   }
 

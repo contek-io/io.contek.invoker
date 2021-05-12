@@ -16,7 +16,7 @@ public final class DepthUpdateChannel
   }
 
   @Override
-  protected Class<DepthUpdateChannel.Message> getMessageType() {
+  public Class<DepthUpdateChannel.Message> getMessageType() {
     return DepthUpdateChannel.Message.class;
   }
 
