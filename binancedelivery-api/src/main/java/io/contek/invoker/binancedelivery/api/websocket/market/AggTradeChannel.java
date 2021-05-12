@@ -1,28 +1,18 @@
 package io.contek.invoker.binancedelivery.api.websocket.market;
 
-import io.contek.invoker.binancedelivery.api.websocket.WebSocketChannel;
 import io.contek.invoker.binancedelivery.api.websocket.WebSocketRequestIdGenerator;
 import io.contek.invoker.binancedelivery.api.websocket.common.WebSocketStreamMessage;
-import io.contek.invoker.binancedelivery.api.websocket.market.AggTradeChannel.Message;
 
+import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
 
-import static java.text.MessageFormat.format;
-
 @ThreadSafe
-public final class AggTradeChannel extends WebSocketChannel<Message> {
+public final class AggTradeChannel
+    extends MarketWebSocketChannel<AggTradeChannel.Id, AggTradeChannel.Message> {
 
-  private final String symbol;
-
-  AggTradeChannel(String symbol, WebSocketRequestIdGenerator requestIdGenerator) {
-    super(requestIdGenerator);
-    this.symbol = symbol;
-  }
-
-  @Override
-  protected String getTopic() {
-    return format("{0}@aggTrade", symbol.toLowerCase());
+  AggTradeChannel(Id id, WebSocketRequestIdGenerator requestIdGenerator) {
+    super(id, requestIdGenerator);
   }
 
   @Override
@@ -30,13 +20,18 @@ public final class AggTradeChannel extends WebSocketChannel<Message> {
     return Message.class;
   }
 
-  @Override
-  protected boolean accepts(Message message) {
-    AggTradeEvent data = message.data;
-    return symbol.equals(data.s);
+  @Immutable
+  public static final class Id extends MarketWebSocketChannelId<Message> {
+
+    private Id(String symbol) {
+      super(symbol, "aggTrade");
+    }
+
+    public static Id of(String symbol) {
+      return new Id(symbol);
+    }
   }
 
   @NotThreadSafe
-  public static final class Message extends WebSocketStreamMessage<AggTradeEvent> {
-  }
+  public static final class Message extends WebSocketStreamMessage<AggTradeEvent> {}
 }

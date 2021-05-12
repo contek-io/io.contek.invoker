@@ -22,8 +22,7 @@ import javax.annotation.concurrent.ThreadSafe;
 import java.time.Duration;
 
 import static com.google.common.io.BaseEncoding.base16;
-import static io.contek.invoker.binancedelivery.api.ApiFactory.RateLimits.API_KEY_REST_ORDER_RULE;
-import static io.contek.invoker.binancedelivery.api.ApiFactory.RateLimits.IP_REST_REQUEST_RULE;
+import static io.contek.invoker.binancedelivery.api.ApiFactory.RateLimits.*;
 import static io.contek.invoker.commons.actor.ratelimit.RateLimitType.API_KEY;
 import static io.contek.invoker.commons.actor.ratelimit.RateLimitType.IP;
 import static io.contek.invoker.security.SecretKeyAlgorithm.HMAC_SHA256;
@@ -93,8 +92,9 @@ public final class ApiFactory {
   private static RateLimitCache createRateLimitCache(double cushion) {
     return RateLimitCache.newBuilder()
         .setCushion(cushion)
-        .addRule(IP_REST_REQUEST_RULE)
         .addRule(API_KEY_REST_ORDER_RULE)
+        .addRule(IP_REST_REQUEST_RULE)
+        .addRule(IP_WEB_SOCKET_CONNECTION_RULE)
         .build();
   }
 
@@ -129,8 +129,9 @@ public final class ApiFactory {
 
     public UserWebSocketApi user(ApiKey apiKey) {
       WebSocketContext wsContext = context.getWebSocketContext();
+      RestContext restContext = context.getRestContext();
       IActor actor = actorFactory.create(apiKey, wsContext);
-      return new UserWebSocketApi(actor, wsContext);
+      return new UserWebSocketApi(actor, wsContext, new UserRestApi(actor, restContext));
     }
   }
 
@@ -153,6 +154,14 @@ public final class ApiFactory {
             .setResetPeriod(Duration.ofMinutes(1))
             .build();
 
+    public static final RateLimitRule IP_WEB_SOCKET_CONNECTION_RULE =
+        RateLimitRule.newBuilder()
+            .setName("ip_web_socket_connection_rule")
+            .setType(IP)
+            .setMaxPermits(20)
+            .setResetPeriod(Duration.ofHours(1))
+            .build();
+
     public static final ImmutableList<RateLimitQuota> ONE_REST_REQUEST =
         ImmutableList.of(IP_REST_REQUEST_RULE.createRateLimitQuota(1));
 
@@ -160,6 +169,9 @@ public final class ApiFactory {
         ImmutableList.of(
             IP_REST_REQUEST_RULE.createRateLimitQuota(1),
             API_KEY_REST_ORDER_RULE.createRateLimitQuota(1));
+
+    public static final ImmutableList<RateLimitQuota> ONE_WEB_SOCKET_CONNECTION =
+        ImmutableList.of(IP_WEB_SOCKET_CONNECTION_RULE.createRateLimitQuota(1));
 
     private RateLimits() {}
   }

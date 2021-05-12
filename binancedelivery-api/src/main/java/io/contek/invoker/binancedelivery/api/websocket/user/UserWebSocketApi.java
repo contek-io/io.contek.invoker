@@ -1,25 +1,83 @@
 package io.contek.invoker.binancedelivery.api.websocket.user;
 
-import io.contek.invoker.binancedelivery.api.websocket.WebSocketApi;
+import com.google.common.collect.ImmutableList;
+import io.contek.invoker.binancedelivery.api.rest.user.UserRestApi;
 import io.contek.invoker.commons.actor.IActor;
-import io.contek.invoker.commons.websocket.WebSocketCall;
-import io.contek.invoker.commons.websocket.WebSocketContext;
+import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
+import io.contek.invoker.commons.websocket.*;
 import io.contek.invoker.security.ICredential;
 
 import javax.annotation.concurrent.ThreadSafe;
 
+import static io.contek.invoker.binancedelivery.api.ApiFactory.RateLimits.ONE_WEB_SOCKET_CONNECTION;
+
 @ThreadSafe
-public final class UserWebSocketApi extends WebSocketApi {
+public final class UserWebSocketApi extends BaseWebSocketApi {
+
+  public AccountUpdateChannel accountUpdateChannel;
+  public OrderUpdateChannel orderUpdateChannel;
+  public MarginCallChannel marginCallChannel;
+  public AccountConfigUpdateChannel accountConfigUpdateChannel;
 
   private final WebSocketContext context;
 
-  public UserWebSocketApi(IActor actor, WebSocketContext context) {
-    super(actor);
+  public UserWebSocketApi(IActor actor, WebSocketContext context, UserRestApi userRestApi) {
+    super(
+        actor,
+        UserWebSocketParser.getInstance(),
+        IWebSocketAuthenticator.noOp(),
+        new UserWebSocketLiveKeeper(userRestApi, actor.getClock()));
     this.context = context;
+  }
+
+  public AccountUpdateChannel getAccountUpdateChannel() {
+    if (accountUpdateChannel == null) {
+      accountUpdateChannel = new AccountUpdateChannel();
+      attach(accountUpdateChannel);
+    }
+    return accountUpdateChannel;
+  }
+
+  public OrderUpdateChannel getOrderUpdateChannel() {
+    if (orderUpdateChannel == null) {
+      orderUpdateChannel = new OrderUpdateChannel();
+      attach(orderUpdateChannel);
+    }
+    return orderUpdateChannel;
+  }
+
+  public MarginCallChannel getMarginCallChannel() {
+    if (marginCallChannel == null) {
+      marginCallChannel = new MarginCallChannel();
+      attach(marginCallChannel);
+    }
+    return marginCallChannel;
+  }
+
+  public AccountConfigUpdateChannel getLeverageUpdateChannel() {
+    if (accountConfigUpdateChannel == null) {
+      accountConfigUpdateChannel = new AccountConfigUpdateChannel();
+      attach(accountConfigUpdateChannel);
+    }
+    return accountConfigUpdateChannel;
   }
 
   @Override
   protected WebSocketCall createCall(ICredential credential) {
-    throw new UnsupportedOperationException();
+    UserWebSocketLiveKeeper liveKeeper = (UserWebSocketLiveKeeper) getLiveKeeper();
+    String listenKey = liveKeeper.init();
+    return WebSocketCall.fromUrl(context.getBaseUrl() + "/ws/" + listenKey);
+  }
+
+  @Override
+  protected ImmutableList<RateLimitQuota> getRequiredQuotas() {
+    return ONE_WEB_SOCKET_CONNECTION;
+  }
+
+  @Override
+  protected void checkErrorMessage(AnyWebSocketMessage message) throws WebSocketRuntimeException {
+    if (message instanceof UserDataStreamExpiredEvent) {
+      throw new WebSocketSessionExpiredException();
+    }
   }
 }

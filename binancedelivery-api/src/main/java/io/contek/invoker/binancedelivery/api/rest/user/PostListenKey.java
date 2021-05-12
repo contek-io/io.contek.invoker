@@ -1,7 +1,6 @@
 package io.contek.invoker.binancedelivery.api.rest.user;
 
 import com.google.common.collect.ImmutableList;
-import io.contek.invoker.binancedelivery.api.rest.user.PostStream.Response;
 import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
 import io.contek.invoker.commons.rest.RestContext;
@@ -15,9 +14,9 @@ import static io.contek.invoker.binancedelivery.api.ApiFactory.RateLimits.ONE_RE
 import static io.contek.invoker.commons.rest.RestMethod.POST;
 
 @ThreadSafe
-public final class PostStream extends UserRestRequest<Response> {
+public final class PostListenKey extends UserRestRequest<PostListenKey.Response> {
 
-  PostStream(IActor actor, RestContext context) {
+  PostListenKey(IActor actor, RestContext context) {
     super(actor, context);
   }
 
@@ -33,7 +32,7 @@ public final class PostStream extends UserRestRequest<Response> {
 
   @Override
   protected String getEndpointPath() {
-    return "/dapi/v1/userDataStream";
+    return "/dapi/v1/listenKey";
   }
 
   @Override

@@ -1,24 +1,18 @@
-package io.contek.invoker.binancedelivery.api.websocket;
+package io.contek.invoker.binancedelivery.api.websocket.market;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import io.contek.invoker.binancedelivery.api.websocket.common.WebSocketCommandConfirmation;
-import io.contek.invoker.binancedelivery.api.websocket.market.AggTradeChannel;
-import io.contek.invoker.binancedelivery.api.websocket.market.BookTickerEvent;
-import io.contek.invoker.binancedelivery.api.websocket.market.DepthUpdateChannel;
-import io.contek.invoker.binancedelivery.api.websocket.market.ForceOrderChannel;
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.IWebSocketMessageParser;
 
 import javax.annotation.concurrent.Immutable;
 
-@Immutable
-final class WebSocketMessageParser implements IWebSocketMessageParser {
-
+public class MarketWebSocketMessageParser implements IWebSocketMessageParser {
   private final Gson gson = new Gson();
 
-  static WebSocketMessageParser getInstance() {
+  static MarketWebSocketMessageParser getInstance() {
     return InstanceHolder.INSTANCE;
   }
 
@@ -60,12 +54,12 @@ final class WebSocketMessageParser implements IWebSocketMessageParser {
     return gson.fromJson(obj, BookTickerEvent.class);
   }
 
-  private WebSocketMessageParser() {}
+  private MarketWebSocketMessageParser() {}
 
   @Immutable
   private static class InstanceHolder {
 
-    private static final WebSocketMessageParser INSTANCE = new WebSocketMessageParser();
+    private static final MarketWebSocketMessageParser INSTANCE = new MarketWebSocketMessageParser();
 
     private InstanceHolder() {}
   }

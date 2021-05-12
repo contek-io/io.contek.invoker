@@ -1,16 +1,14 @@
 package io.contek.invoker.binancedelivery.api.websocket.market;
 
 import io.contek.invoker.binancedelivery.api.common._OrderBookLevel;
-import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
+import io.contek.invoker.binancedelivery.api.websocket.common.WebSocketEventMessage;
 
 import javax.annotation.concurrent.NotThreadSafe;
 import java.util.List;
 
 @NotThreadSafe
-public class DepthUpdateEvent extends AnyWebSocketMessage {
+public class DepthUpdateEvent extends WebSocketEventMessage {
 
-  public String e;
-  public long E; // Event time
   public long T; // transaction time
   public String s; // Symbol
   public String ps; // Pair

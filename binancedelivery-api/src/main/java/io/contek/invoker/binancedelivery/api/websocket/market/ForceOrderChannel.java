@@ -1,28 +1,18 @@
 package io.contek.invoker.binancedelivery.api.websocket.market;
 
-import io.contek.invoker.binancedelivery.api.websocket.WebSocketChannel;
 import io.contek.invoker.binancedelivery.api.websocket.WebSocketRequestIdGenerator;
 import io.contek.invoker.binancedelivery.api.websocket.common.WebSocketStreamMessage;
-import io.contek.invoker.binancedelivery.api.websocket.market.ForceOrderChannel.Message;
 
+import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
 
-import static java.text.MessageFormat.format;
-
 @ThreadSafe
-public final class ForceOrderChannel extends WebSocketChannel<Message> {
+public final class ForceOrderChannel
+    extends MarketWebSocketChannel<ForceOrderChannel.Id, ForceOrderChannel.Message> {
 
-  private final String symbol;
-
-  ForceOrderChannel(String symbol, WebSocketRequestIdGenerator requestIdGenerator) {
-    super(requestIdGenerator);
-    this.symbol = symbol;
-  }
-
-  @Override
-  protected String getTopic() {
-    return format("{0}@forceOrder", symbol.toLowerCase());
+  ForceOrderChannel(Id id, WebSocketRequestIdGenerator requestIdGenerator) {
+    super(id, requestIdGenerator);
   }
 
   @Override
@@ -30,13 +20,18 @@ public final class ForceOrderChannel extends WebSocketChannel<Message> {
     return Message.class;
   }
 
-  @Override
-  protected boolean accepts(Message message) {
-    ForceOrderEvent data = message.data;
-    return symbol.equals(data.o.s);
+  @Immutable
+  public static final class Id extends MarketWebSocketChannelId<Message> {
+
+    private Id(String symbol) {
+      super(symbol, "forceOrder");
+    }
+
+    public static Id of(String symbol) {
+      return new Id(symbol);
+    }
   }
 
   @NotThreadSafe
-  public static final class Message extends WebSocketStreamMessage<ForceOrderEvent> {
-  }
+  public static final class Message extends WebSocketStreamMessage<ForceOrderEvent> {}
 }

@@ -1,14 +1,12 @@
 package io.contek.invoker.binancedelivery.api.websocket.market;
 
-import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
+import io.contek.invoker.binancedelivery.api.websocket.common.WebSocketEventMessage;
 
 import javax.annotation.concurrent.NotThreadSafe;
 
 @NotThreadSafe
-public class KlineEvent extends AnyWebSocketMessage {
+public class KlineEvent extends WebSocketEventMessage {
 
-  public String e;
-  public Long E; // Event time
   public String s; // Symbol
   public String ps; // Pair
   public Candle k;
@@ -29,5 +27,8 @@ public class KlineEvent extends AnyWebSocketMessage {
     public Double v; // Base asset volume
     public Integer n; // Number of trades
     public Boolean x; // Is this kline closed?
+    public Double q; // Quote asset volume
+    public Double V; // Taker buy base asset volume
+    public Double Q; // Taker buy quote asset volume
   }
 }

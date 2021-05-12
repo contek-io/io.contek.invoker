@@ -1,9 +1,10 @@
 package io.contek.invoker.binancedelivery.api.websocket.market;
 
-import io.contek.invoker.binancedelivery.api.websocket.WebSocketApi;
+import com.google.common.collect.ImmutableList;
+import io.contek.invoker.binancedelivery.api.websocket.WebSocketRequestIdGenerator;
 import io.contek.invoker.commons.actor.IActor;
-import io.contek.invoker.commons.websocket.WebSocketCall;
-import io.contek.invoker.commons.websocket.WebSocketContext;
+import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
+import io.contek.invoker.commons.websocket.*;
 import io.contek.invoker.security.ICredential;
 
 import javax.annotation.concurrent.ThreadSafe;
@@ -11,49 +12,55 @@ import java.util.HashMap;
 import java.util.Map;
 
 @ThreadSafe
-public final class MarketWebSocketApi extends WebSocketApi {
+public final class MarketWebSocketApi extends BaseWebSocketApi {
 
   private final WebSocketContext context;
+  private final WebSocketRequestIdGenerator requestIdGenerator = new WebSocketRequestIdGenerator();
 
-  private final Map<String, AggTradeChannel> aggTradeChannels = new HashMap<>();
-  private final Map<String, DepthUpdateChannel> depthUpdateChannels = new HashMap<>();
-  private final Map<String, ForceOrderChannel> forceOrderChannels = new HashMap<>();
+  private final Map<AggTradeChannel.Id, AggTradeChannel> aggTradeChannels = new HashMap<>();
+  private final Map<DepthUpdateChannel.Id, DepthUpdateChannel> depthUpdateChannels =
+      new HashMap<>();
+  private final Map<ForceOrderChannel.Id, ForceOrderChannel> forceOrderChannels = new HashMap<>();
 
   public MarketWebSocketApi(IActor actor, WebSocketContext context) {
-    super(actor);
+    super(
+        actor,
+        MarketWebSocketMessageParser.getInstance(),
+        IWebSocketAuthenticator.noOp(),
+        IWebSocketLiveKeeper.noOp());
     this.context = context;
   }
 
-  public AggTradeChannel getAggTradeChannel(String symbol) {
+  public AggTradeChannel getAggTradeChannel(AggTradeChannel.Id id) {
     synchronized (aggTradeChannels) {
       return aggTradeChannels.computeIfAbsent(
-          symbol,
+          id,
           k -> {
-            AggTradeChannel result = new AggTradeChannel(k, getRequestIdGenerator());
+            AggTradeChannel result = new AggTradeChannel(k, requestIdGenerator);
             attach(result);
             return result;
           });
     }
   }
 
-  public DepthUpdateChannel getDepthUpdateChannel(String symbol) {
+  public DepthUpdateChannel getDepthUpdateChannel(DepthUpdateChannel.Id id) {
     synchronized (depthUpdateChannels) {
       return depthUpdateChannels.computeIfAbsent(
-          symbol,
+          id,
           k -> {
-            DepthUpdateChannel result = new DepthUpdateChannel(k, getRequestIdGenerator());
+            DepthUpdateChannel result = new DepthUpdateChannel(k, requestIdGenerator);
             attach(result);
             return result;
           });
     }
   }
 
-  public ForceOrderChannel getForceOrderChannel(String symbol) {
+  public ForceOrderChannel getForceOrderChannel(ForceOrderChannel.Id id) {
     synchronized (forceOrderChannels) {
       return forceOrderChannels.computeIfAbsent(
-          symbol,
+          id,
           k -> {
-            ForceOrderChannel result = new ForceOrderChannel(k, getRequestIdGenerator());
+            ForceOrderChannel result = new ForceOrderChannel(k, requestIdGenerator);
             attach(result);
             return result;
           });
@@ -64,4 +71,12 @@ public final class MarketWebSocketApi extends WebSocketApi {
   protected WebSocketCall createCall(ICredential credential) {
     return WebSocketCall.fromUrl(context.getBaseUrl() + "/stream");
   }
+
+  @Override
+  protected ImmutableList<RateLimitQuota> getRequiredQuotas() {
+    return ImmutableList.of();
+  }
+
+  @Override
+  protected void checkErrorMessage(AnyWebSocketMessage message) throws WebSocketRuntimeException {}
 }
