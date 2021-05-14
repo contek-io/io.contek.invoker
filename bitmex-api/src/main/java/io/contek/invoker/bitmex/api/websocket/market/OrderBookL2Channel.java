@@ -9,7 +9,7 @@ import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
 
-import static java.text.MessageFormat.format;
+import static java.lang.String.format;
 
 @ThreadSafe
 public final class OrderBookL2Channel
