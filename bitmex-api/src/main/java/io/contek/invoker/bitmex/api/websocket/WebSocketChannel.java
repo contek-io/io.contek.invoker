@@ -5,10 +5,7 @@ import io.contek.invoker.bitmex.api.websocket.common.WebSocketOperationRequest;
 import io.contek.invoker.bitmex.api.websocket.common.WebSocketSubscribeResponse;
 import io.contek.invoker.bitmex.api.websocket.common.WebSocketTableDataMessage;
 import io.contek.invoker.bitmex.api.websocket.common.WebSocketUnsubscribeResponse;
-import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
-import io.contek.invoker.commons.websocket.BaseWebSocketChannel;
-import io.contek.invoker.commons.websocket.SubscriptionState;
-import io.contek.invoker.commons.websocket.WebSocketSession;
+import io.contek.invoker.commons.websocket.*;
 
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.ThreadSafe;
@@ -50,16 +47,22 @@ public abstract class WebSocketChannel<
   @Override
   protected final SubscriptionState getState(AnyWebSocketMessage message) {
     if (message instanceof WebSocketSubscribeResponse) {
-      Id id = getId();
       WebSocketSubscribeResponse confirmation = (WebSocketSubscribeResponse) message;
+      if (!confirmation.success) {
+        throw new WebSocketIllegalMessageException(confirmation.ret_msg);
+      }
+      Id id = getId();
       if (confirmation.subscribe.equals(id.getTopic())) {
         return SUBSCRIBED;
       }
     }
 
     if (message instanceof WebSocketUnsubscribeResponse) {
-      Id id = getId();
       WebSocketUnsubscribeResponse confirmation = (WebSocketUnsubscribeResponse) message;
+      if (!confirmation.success) {
+        throw new WebSocketIllegalMessageException(confirmation.ret_msg);
+      }
+      Id id = getId();
       if (confirmation.unsubscribe.equals(id.getTopic())) {
         reset();
         return UNSUBSCRIBED;
