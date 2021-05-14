@@ -7,8 +7,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.IWebSocketMessageParser;
-import io.contek.invoker.kraken.api.common._OrderBook;
-import io.contek.invoker.kraken.api.common._OrderBookLevel;
+import io.contek.invoker.kraken.api.common._Book;
+import io.contek.invoker.kraken.api.common._BookLevel;
 import io.contek.invoker.kraken.api.common._Trade;
 import io.contek.invoker.kraken.api.websocket.common.WebSocketChannelDataMessage;
 import io.contek.invoker.kraken.api.websocket.common.WebSocketInboundMessage;
@@ -20,7 +20,7 @@ import javax.annotation.concurrent.Immutable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static io.contek.invoker.kraken.api.common._OrderBookLevel.toOrderBookLevel;
+import static io.contek.invoker.kraken.api.common._BookLevel.toOrderBookLevel;
 import static io.contek.invoker.kraken.api.websocket.common.constants.WebSocketChannelKeys._book;
 import static io.contek.invoker.kraken.api.websocket.common.constants.WebSocketChannelKeys._trade;
 
@@ -68,7 +68,7 @@ final class WebSocketMessageParser implements IWebSocketMessageParser<WebSocketC
     result.channelName = array.get(array.size() - 2).getAsString();
     result.pair = array.get(array.size() - 1).getAsString();
 
-    result.data = new _OrderBook();
+    result.data = new _Book();
     result.data.bs = ImmutableList.of();
     result.data.as = ImmutableList.of();
     result.data.b = ImmutableList.of();
@@ -97,8 +97,8 @@ final class WebSocketMessageParser implements IWebSocketMessageParser<WebSocketC
     return result;
   }
 
-  private static List<_OrderBookLevel> toOrderBookEntries(JsonElement jsonArray) {
-    List<_OrderBookLevel> orderBookEntries = new ArrayList<>();
+  private static List<_BookLevel> toOrderBookEntries(JsonElement jsonArray) {
+    List<_BookLevel> orderBookEntries = new ArrayList<>();
     for (JsonElement jsonElement : jsonArray.getAsJsonArray()) {
       orderBookEntries.add(toOrderBookLevel(jsonElement.getAsJsonArray()));
     }

@@ -2,15 +2,15 @@ package io.contek.invoker.kraken.api.common;
 
 import com.google.gson.JsonArray;
 
-public final class _OrderBookLevel {
+public final class _BookLevel {
 
   public Double price;
   public Double volume;
   public Double timestamp;
   public String updateType;
 
-  public static _OrderBookLevel toOrderBookLevel(JsonArray jsonArray) {
-    _OrderBookLevel level = new _OrderBookLevel();
+  public static _BookLevel toOrderBookLevel(JsonArray jsonArray) {
+    _BookLevel level = new _BookLevel();
     level.price = jsonArray.get(0).getAsDouble();
     level.volume = jsonArray.get(1).getAsDouble();
     level.timestamp = jsonArray.get(2).getAsDouble();

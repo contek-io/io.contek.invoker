@@ -1,6 +1,6 @@
 package io.contek.invoker.kraken.api.websocket.market;
 
-import io.contek.invoker.kraken.api.common._OrderBook;
+import io.contek.invoker.kraken.api.common._Book;
 import io.contek.invoker.kraken.api.websocket.WebSocketChannel;
 import io.contek.invoker.kraken.api.websocket.WebSocketChannelId;
 import io.contek.invoker.kraken.api.websocket.WebSocketRequestIdGenerator;
@@ -54,5 +54,5 @@ public final class BookChannel extends WebSocketChannel<BookChannel.Id, BookChan
   }
 
   @NotThreadSafe
-  public static final class Message extends WebSocketChannelDataMessage<_OrderBook> {}
+  public static final class Message extends WebSocketChannelDataMessage<_Book> {}
 }

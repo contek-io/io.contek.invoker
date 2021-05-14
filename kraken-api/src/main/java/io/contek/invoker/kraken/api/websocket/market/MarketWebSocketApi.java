@@ -18,7 +18,7 @@ public final class MarketWebSocketApi extends WebSocketApi {
     super(actor, context);
   }
 
-  public BookChannel getOrderBookChannel(BookChannel.Id id) {
+  public BookChannel getBookChannel(BookChannel.Id id) {
     synchronized (bookChannels) {
       return bookChannels.computeIfAbsent(
           id,
@@ -30,7 +30,7 @@ public final class MarketWebSocketApi extends WebSocketApi {
     }
   }
 
-  public TradeChannel getTradesChannel(TradeChannel.Id id) {
+  public TradeChannel getTradeChannel(TradeChannel.Id id) {
     synchronized (tradeChannels) {
       return tradeChannels.computeIfAbsent(
           id,
