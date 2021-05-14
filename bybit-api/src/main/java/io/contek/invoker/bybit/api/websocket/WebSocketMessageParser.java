@@ -31,6 +31,13 @@ final class WebSocketMessageParser implements IWebSocketMessageParser<WebSocketC
   }
 
   @Override
+  public void register(WebSocketChannel<?, ?> channel) {
+    synchronized (channelMessageTypes) {
+      channelMessageTypes.put(channel.getId().getTopic(), channel.getMessageType());
+    }
+  }
+
+  @Override
   public AnyWebSocketMessage parse(String text) {
     JsonElement json = gson.fromJson(text, JsonElement.class);
     if (!json.isJsonObject()) {
