@@ -24,12 +24,6 @@ final class WebSocketMessageParser implements IWebSocketMessageParser<WebSocketC
   private final Map<String, Class<? extends WebSocketTopicMessage>> channelMessageTypes =
       new HashMap<>();
 
-  void register(String topic, Class<? extends WebSocketTopicMessage> type) {
-    synchronized (channelMessageTypes) {
-      channelMessageTypes.put(topic, type);
-    }
-  }
-
   @Override
   public void register(WebSocketChannel<?, ?> channel) {
     synchronized (channelMessageTypes) {
