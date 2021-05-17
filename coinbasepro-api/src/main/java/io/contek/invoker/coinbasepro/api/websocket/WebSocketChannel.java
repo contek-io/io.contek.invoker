@@ -98,7 +98,7 @@ public abstract class WebSocketChannel<
 
   private static <Id extends WebSocketChannelId<?>> WebSocketChannelInfo getChannelInfo(Id id) {
     WebSocketChannelInfo channel = new WebSocketChannelInfo();
-    channel.name = id.getType();
+    channel.name = id.getChannel();
     String productId = id.getProductId();
     if (productId != null) {
       channel.product_ids = ImmutableList.of(productId);
@@ -113,7 +113,7 @@ public abstract class WebSocketChannel<
 
   private static <Id extends WebSocketChannelId<?>> boolean hasActiveChannel(
       WebSocketChannelInfo channel, Id id) {
-    if (!channel.name.equals(id.getType())) {
+    if (!channel.name.equals(id.getChannel())) {
       return false;
     }
 

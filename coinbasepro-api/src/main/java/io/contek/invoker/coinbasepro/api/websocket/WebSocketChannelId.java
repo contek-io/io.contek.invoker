@@ -11,17 +11,17 @@ import java.util.Objects;
 public abstract class WebSocketChannelId<Message extends WebSocketChannelMessage>
     extends BaseWebSocketChannelId<Message> {
 
-  private final String type;
+  private final String channel;
   private final String productId;
 
-  protected WebSocketChannelId(String type, @Nullable String productId) {
-    super(combine(type, productId));
-    this.type = type;
+  protected WebSocketChannelId(String channel, @Nullable String productId) {
+    super(combine(channel, productId));
+    this.channel = channel;
     this.productId = productId;
   }
 
-  public String getType() {
-    return type;
+  public String getChannel() {
+    return channel;
   }
 
   @Nullable
@@ -34,10 +34,10 @@ public abstract class WebSocketChannelId<Message extends WebSocketChannelMessage
     return Objects.equals(productId, message.product_id);
   }
 
-  private static String combine(String type, @Nullable String productId) {
+  private static String combine(String channel, @Nullable String productId) {
     if (productId == null) {
-      return type;
+      return channel;
     }
-    return String.join(".", type, productId);
+    return String.join(".", channel, productId);
   }
 }
