@@ -6,7 +6,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 @ThreadSafe
 final class MarketWebSocketRequestIdGenerator {
 
-  private static final AtomicInteger count = new AtomicInteger(0);
+  private final AtomicInteger count = new AtomicInteger(0);
 
   int generateNext() {
     return count.incrementAndGet();
