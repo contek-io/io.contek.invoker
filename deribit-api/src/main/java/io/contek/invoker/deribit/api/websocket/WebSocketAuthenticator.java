@@ -3,7 +3,9 @@ package io.contek.invoker.deribit.api.websocket;
 import com.google.common.io.BaseEncoding;
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.IWebSocketAuthenticator;
+import io.contek.invoker.commons.websocket.WebSocketAuthenticationException;
 import io.contek.invoker.commons.websocket.WebSocketSession;
+import io.contek.invoker.deribit.api.common._Error;
 import io.contek.invoker.deribit.api.websocket.common.WebSocketRequest;
 import io.contek.invoker.deribit.api.websocket.common.WebSocketResponse;
 import io.contek.invoker.security.ICredential;
@@ -94,6 +96,10 @@ final class WebSocketAuthenticator implements IWebSocketAuthenticator {
       return;
     }
 
+    if (response.error != null) {
+      _Error error = response.error;
+      throw new WebSocketAuthenticationException(error.code + ": " + error.message);
+    }
     authenticated.set(true);
   }
 

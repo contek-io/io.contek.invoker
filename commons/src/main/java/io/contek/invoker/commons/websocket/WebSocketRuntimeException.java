@@ -1,8 +1,8 @@
 package io.contek.invoker.commons.websocket;
 
-import javax.annotation.concurrent.Immutable;
+import javax.annotation.concurrent.NotThreadSafe;
 
-@Immutable
+@NotThreadSafe
 public abstract class WebSocketRuntimeException extends RuntimeException {
 
   public WebSocketRuntimeException() {}

@@ -11,17 +11,17 @@ import java.util.Map;
 @ThreadSafe
 public final class MarketWebSocketApi extends WebSocketApi {
 
-  private final Map<BookChannel.Id, BookChannel> orderBookChannels = new HashMap<>();
+  private final Map<BookChannel.Id, BookChannel> bookChannels = new HashMap<>();
   private final Map<TradesChannel.Id, TradesChannel> tradesChannels = new HashMap<>();
 
   public MarketWebSocketApi(IActor actor, WebSocketContext context) {
     super(actor, context);
   }
 
-  public BookChannel getOrderBookChannel(BookChannel.Id topic) {
-    synchronized (orderBookChannels) {
-      return orderBookChannels.computeIfAbsent(
-          topic,
+  public BookChannel getBookChannel(BookChannel.Id id) {
+    synchronized (bookChannels) {
+      return bookChannels.computeIfAbsent(
+          id,
           k -> {
             BookChannel result = new BookChannel(k, getRequestIdGenerator());
             attach(result);
@@ -30,10 +30,10 @@ public final class MarketWebSocketApi extends WebSocketApi {
     }
   }
 
-  public TradesChannel getTradesChannel(TradesChannel.Id topic) {
+  public TradesChannel getTradesChannel(TradesChannel.Id id) {
     synchronized (tradesChannels) {
       return tradesChannels.computeIfAbsent(
-          topic,
+          id,
           k -> {
             TradesChannel result = new TradesChannel(k, getRequestIdGenerator());
             attach(result);
