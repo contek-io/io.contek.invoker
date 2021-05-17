@@ -30,7 +30,7 @@ public abstract class WebSocketChannelId<Message extends WebSocketChannelDataMes
 
   @Override
   public final boolean accepts(Message message) {
-    return Objects.equals(channelName, message.channelName) && Objects.equals(pair, message.pair);
+    return Objects.equals(pair, message.pair);
   }
 
   private static String combine(String channel, @Nullable String market) {
