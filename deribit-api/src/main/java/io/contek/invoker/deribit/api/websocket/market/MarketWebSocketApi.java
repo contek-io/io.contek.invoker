@@ -23,7 +23,7 @@ public final class MarketWebSocketApi extends WebSocketApi {
       return orderBookChannels.computeIfAbsent(
           topic,
           k -> {
-            BookChannel result = new BookChannel(k);
+            BookChannel result = new BookChannel(k, getRequestIdGenerator());
             attach(result);
             return result;
           });
@@ -35,7 +35,7 @@ public final class MarketWebSocketApi extends WebSocketApi {
       return tradesChannels.computeIfAbsent(
           topic,
           k -> {
-            TradesChannel result = new TradesChannel(k);
+            TradesChannel result = new TradesChannel(k, getRequestIdGenerator());
             attach(result);
             return result;
           });

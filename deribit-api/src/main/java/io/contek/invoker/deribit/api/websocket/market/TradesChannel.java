@@ -1,7 +1,7 @@
 package io.contek.invoker.deribit.api.websocket.market;
 
-import io.contek.invoker.deribit.api.websocket.WebSocketChannel;
 import io.contek.invoker.deribit.api.websocket.WebSocketChannelId;
+import io.contek.invoker.deribit.api.websocket.WebSocketRequestIdGenerator;
 import io.contek.invoker.deribit.api.websocket.common.WebSocketChannelMessage;
 
 import javax.annotation.concurrent.Immutable;
@@ -13,10 +13,11 @@ import static io.contek.invoker.deribit.api.websocket.common.constants.WebSocket
 import static java.lang.String.format;
 
 @ThreadSafe
-public final class TradesChannel extends WebSocketChannel<TradesChannel.Id, TradesChannel.Message> {
+public final class TradesChannel
+    extends MarketWebSocketChannel<TradesChannel.Id, TradesChannel.Message> {
 
-  TradesChannel(TradesChannel.Id id) {
-    super(id);
+  TradesChannel(TradesChannel.Id id, WebSocketRequestIdGenerator requestIdGenerator) {
+    super(id, requestIdGenerator);
   }
 
   @Override
