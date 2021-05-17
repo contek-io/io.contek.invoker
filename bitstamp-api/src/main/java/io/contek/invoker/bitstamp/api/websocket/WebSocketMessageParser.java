@@ -16,7 +16,7 @@ import static io.contek.invoker.bitstamp.api.websocket.common.constants.WebSocke
 import static io.contek.invoker.bitstamp.api.websocket.common.constants.WebSocketFieldKeys._event;
 
 @Immutable
-final class WebSocketMessageParser implements IWebSocketMessageParser<WebSocketChannel<?, ?>> {
+final class WebSocketMessageParser implements IWebSocketMessageParser {
 
   private final Gson gson = new Gson();
 

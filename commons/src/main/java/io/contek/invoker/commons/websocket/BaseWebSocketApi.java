@@ -52,9 +52,10 @@ public abstract class BaseWebSocketApi implements IWebSocketApi {
     this.liveKeeper = liveKeeper;
   }
 
-  public final void attach(IWebSocketComponent channel) {
+  public final void attach(IWebSocketComponent component) {
     synchronized (components) {
-      components.attach(channel);
+      parser.register(component);
+      components.attach(component);
       activate();
     }
   }

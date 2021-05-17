@@ -25,7 +25,7 @@ import static io.contek.invoker.kraken.api.websocket.common.constants.WebSocketC
 import static io.contek.invoker.kraken.api.websocket.common.constants.WebSocketChannelKeys._trade;
 
 @Immutable
-final class WebSocketMessageParser implements IWebSocketMessageParser<WebSocketChannel<?, ?>> {
+final class WebSocketMessageParser implements IWebSocketMessageParser {
 
   private final Gson gson = new Gson();
 

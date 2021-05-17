@@ -4,15 +4,13 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import io.contek.invoker.binancedelivery.api.websocket.common.WebSocketEventMessage;
-import io.contek.invoker.binancedelivery.api.websocket.market.MarketWebSocketChannel;
 import io.contek.invoker.commons.websocket.IWebSocketMessageParser;
 
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.ThreadSafe;
 
 @ThreadSafe
-public final class UserWebSocketParser
-    implements IWebSocketMessageParser<MarketWebSocketChannel<?, ?>> {
+public final class UserWebSocketParser implements IWebSocketMessageParser {
 
   private final Gson gson = new Gson();
 

@@ -10,8 +10,7 @@ import io.contek.invoker.commons.websocket.IWebSocketMessageParser;
 import javax.annotation.concurrent.Immutable;
 
 @Immutable
-public final class MarketWebSocketMessageParser
-    implements IWebSocketMessageParser<MarketWebSocketChannel<?, ?>> {
+public final class MarketWebSocketMessageParser implements IWebSocketMessageParser {
 
   private final Gson gson = new Gson();
 

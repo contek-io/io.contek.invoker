@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
+import io.contek.invoker.commons.websocket.IWebSocketComponent;
 import io.contek.invoker.commons.websocket.IWebSocketMessageParser;
 import io.contek.invoker.hbdmlinear.api.websocket.common.WebSocketPing;
 import io.contek.invoker.hbdmlinear.api.websocket.common.WebSocketSubscribeConfirmation;
@@ -19,8 +20,7 @@ import java.util.Map;
 import java.util.zip.GZIPInputStream;
 
 @ThreadSafe
-final class MarketWebSocketMessageParser
-    implements IWebSocketMessageParser<MarketWebSocketChannel<?, ?>> {
+final class MarketWebSocketMessageParser implements IWebSocketMessageParser {
 
   private final Gson gson = new Gson();
 
@@ -30,8 +30,12 @@ final class MarketWebSocketMessageParser
   MarketWebSocketMessageParser() {}
 
   @Override
-  public void register(MarketWebSocketChannel<?, ?> channel) {
+  public void register(IWebSocketComponent component) {
+    if (!(component instanceof MarketWebSocketChannel)) {
+      return;
+    }
     synchronized (channelMessageTypes) {
+      MarketWebSocketChannel<?, ?> channel = (MarketWebSocketChannel<?, ?>) component;
       channelMessageTypes.put(channel.getId().getChannel(), channel.getMessageType());
     }
   }

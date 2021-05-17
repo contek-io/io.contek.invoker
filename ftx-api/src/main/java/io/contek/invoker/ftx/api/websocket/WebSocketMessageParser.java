@@ -19,7 +19,7 @@ import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketChan
 import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketInboundKeys.*;
 
 @Immutable
-final class WebSocketMessageParser implements IWebSocketMessageParser<WebSocketChannel<?, ?>> {
+final class WebSocketMessageParser implements IWebSocketMessageParser {
 
   private final Gson gson = new Gson();
 

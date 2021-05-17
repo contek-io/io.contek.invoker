@@ -7,6 +7,7 @@ import io.contek.invoker.bybit.api.websocket.common.WebSocketOperationResponse;
 import io.contek.invoker.bybit.api.websocket.common.WebSocketTopicMessage;
 import io.contek.invoker.bybit.api.websocket.market.OrderBookChannel;
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
+import io.contek.invoker.commons.websocket.IWebSocketComponent;
 import io.contek.invoker.commons.websocket.IWebSocketMessageParser;
 
 import javax.annotation.concurrent.Immutable;
@@ -17,7 +18,7 @@ import static io.contek.invoker.bybit.api.websocket.common.constants.WebSocketDa
 import static io.contek.invoker.bybit.api.websocket.common.constants.WebSocketDataMessageTypeKeys._snapshot;
 
 @Immutable
-final class WebSocketMessageParser implements IWebSocketMessageParser<WebSocketChannel<?, ?>> {
+final class WebSocketMessageParser implements IWebSocketMessageParser {
 
   private final Gson gson = new Gson();
 
@@ -25,8 +26,12 @@ final class WebSocketMessageParser implements IWebSocketMessageParser<WebSocketC
       new HashMap<>();
 
   @Override
-  public void register(WebSocketChannel<?, ?> channel) {
+  public void register(IWebSocketComponent component) {
+    if (!(component instanceof WebSocketChannel)) {
+      return;
+    }
     synchronized (channelMessageTypes) {
+      WebSocketChannel<?, ?> channel = (WebSocketChannel<?, ?>) component;
       channelMessageTypes.put(channel.getId().getTopic(), channel.getMessageType());
     }
   }
