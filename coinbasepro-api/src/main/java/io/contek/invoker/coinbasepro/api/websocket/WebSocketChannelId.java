@@ -31,7 +31,7 @@ public abstract class WebSocketChannelId<Message extends WebSocketChannelMessage
 
   @Override
   public final boolean accepts(Message message) {
-    return Objects.equals(type, message.type) && Objects.equals(productId, message.product_id);
+    return Objects.equals(productId, message.product_id);
   }
 
   private static String combine(String type, @Nullable String productId) {
