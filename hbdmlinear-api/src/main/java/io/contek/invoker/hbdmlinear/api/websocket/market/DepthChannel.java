@@ -3,7 +3,6 @@ package io.contek.invoker.hbdmlinear.api.websocket.market;
 import io.contek.invoker.commons.websocket.SubscriptionState;
 import io.contek.invoker.commons.websocket.WebSocketSession;
 import io.contek.invoker.hbdmlinear.api.common._Depth;
-import io.contek.invoker.hbdmlinear.api.websocket.common.WebSocketSubscribeMarketDepthRequest;
 
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
@@ -13,17 +12,16 @@ import static io.contek.invoker.commons.websocket.SubscriptionState.SUBSCRIBING;
 import static java.lang.String.format;
 
 @ThreadSafe
-public final class MarketDepthChannel
-    extends MarketWebSocketChannel<MarketDepthChannel.Id, MarketDepthChannel.Message> {
+public final class DepthChannel
+    extends MarketWebSocketChannel<DepthChannel.Id, DepthChannel.Message> {
 
-  MarketDepthChannel(
-      MarketDepthChannel.Id id, MarketWebSocketRequestIdGenerator requestIdGenerator) {
+  DepthChannel(DepthChannel.Id id, MarketWebSocketRequestIdGenerator requestIdGenerator) {
     super(id, Message.class, requestIdGenerator);
   }
 
   @Override
   protected SubscriptionState subscribe(WebSocketSession session) {
-    MarketDepthChannel.Id id = getId();
+    DepthChannel.Id id = getId();
     WebSocketSubscribeMarketDepthRequest request = new WebSocketSubscribeMarketDepthRequest();
     request.sub = id.getChannel();
     request.id = generateNexRequestId();
@@ -32,7 +30,7 @@ public final class MarketDepthChannel
   }
 
   @Immutable
-  public static final class Id extends MarketWebSocketChannelId<MarketDepthChannel.Message> {
+  public static final class Id extends MarketWebSocketChannelId<DepthChannel.Message> {
 
     private Id(String topic) {
       super(topic);
@@ -45,4 +43,8 @@ public final class MarketDepthChannel
 
   @NotThreadSafe
   public static final class Message extends WebSocketTickMessage<_Depth> {}
+
+  @NotThreadSafe
+  public static final class WebSocketSubscribeMarketDepthRequest
+      extends MarketWebSocketSubscribeRequest {}
 }

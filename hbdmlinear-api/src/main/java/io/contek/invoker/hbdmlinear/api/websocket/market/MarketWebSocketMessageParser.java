@@ -7,8 +7,6 @@ import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.IWebSocketComponent;
 import io.contek.invoker.commons.websocket.IWebSocketMessageParser;
 import io.contek.invoker.hbdmlinear.api.websocket.common.WebSocketPing;
-import io.contek.invoker.hbdmlinear.api.websocket.common.WebSocketSubscribeConfirmation;
-import io.contek.invoker.hbdmlinear.api.websocket.common.WebSocketUnsubscribeConfirmation;
 
 import javax.annotation.concurrent.ThreadSafe;
 import java.io.ByteArrayInputStream;
@@ -71,11 +69,11 @@ final class MarketWebSocketMessageParser implements IWebSocketMessageParser {
     }
 
     if (obj.has("subbed")) {
-      return gson.fromJson(obj, WebSocketSubscribeConfirmation.class);
+      return gson.fromJson(obj, MarketWebSocketSubscribeConfirmation.class);
     }
 
     if (obj.has("unsubbed")) {
-      return gson.fromJson(obj, WebSocketUnsubscribeConfirmation.class);
+      return gson.fromJson(obj, MarketWebSocketUnsubscribeConfirmation.class);
     }
 
     throw new UnsupportedOperationException(json.toString());

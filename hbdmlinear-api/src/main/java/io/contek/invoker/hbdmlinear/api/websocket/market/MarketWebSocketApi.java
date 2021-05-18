@@ -20,8 +20,8 @@ public final class MarketWebSocketApi extends BaseWebSocketApi {
   private final MarketWebSocketRequestIdGenerator requestIdGenerator =
       new MarketWebSocketRequestIdGenerator();
 
-  private final Map<IncrementalMarketDepthChannel.Id, IncrementalMarketDepthChannel>
-      incrementalMarketDepthChannels = new HashMap<>();
+  private final Map<IncrementalDepthChannel.Id, IncrementalDepthChannel> incrementalDepthChannels =
+      new HashMap<>();
   private final Map<TradeDetailChannel.Id, TradeDetailChannel> tradeDetailChannels =
       new HashMap<>();
 
@@ -34,14 +34,12 @@ public final class MarketWebSocketApi extends BaseWebSocketApi {
     this.context = context;
   }
 
-  public IncrementalMarketDepthChannel getIncrementalMarketDepthChannel(
-      IncrementalMarketDepthChannel.Id id) {
-    synchronized (incrementalMarketDepthChannels) {
-      return incrementalMarketDepthChannels.computeIfAbsent(
+  public IncrementalDepthChannel getIncrementalMarketDepthChannel(IncrementalDepthChannel.Id id) {
+    synchronized (incrementalDepthChannels) {
+      return incrementalDepthChannels.computeIfAbsent(
           id,
           k -> {
-            IncrementalMarketDepthChannel result =
-                new IncrementalMarketDepthChannel(k, requestIdGenerator);
+            IncrementalDepthChannel result = new IncrementalDepthChannel(k, requestIdGenerator);
             attach(result);
             return result;
           });

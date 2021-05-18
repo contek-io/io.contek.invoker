@@ -4,9 +4,6 @@ import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.BaseWebSocketChannel;
 import io.contek.invoker.commons.websocket.SubscriptionState;
 import io.contek.invoker.commons.websocket.WebSocketSession;
-import io.contek.invoker.hbdmlinear.api.websocket.common.WebSocketSubscribeConfirmation;
-import io.contek.invoker.hbdmlinear.api.websocket.common.WebSocketUnsubscribeConfirmation;
-import io.contek.invoker.hbdmlinear.api.websocket.common.WebSocketUnsubscribeRequest;
 
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.ThreadSafe;
@@ -37,7 +34,7 @@ abstract class MarketWebSocketChannel<
   @Override
   protected final SubscriptionState unsubscribe(WebSocketSession session) {
     Id id = getId();
-    WebSocketUnsubscribeRequest request = new WebSocketUnsubscribeRequest();
+    MarketWebSocketUnsubscribeRequest request = new MarketWebSocketUnsubscribeRequest();
     request.unsub = id.getChannel();
     request.id = generateNexRequestId();
     session.send(request);
@@ -47,9 +44,10 @@ abstract class MarketWebSocketChannel<
   @Nullable
   @Override
   protected final SubscriptionState getState(AnyWebSocketMessage message) {
-    if (message instanceof WebSocketSubscribeConfirmation) {
+    if (message instanceof MarketWebSocketSubscribeConfirmation) {
       Id id = getId();
-      WebSocketSubscribeConfirmation confirmation = (WebSocketSubscribeConfirmation) message;
+      MarketWebSocketSubscribeConfirmation confirmation =
+          (MarketWebSocketSubscribeConfirmation) message;
       if (confirmation.subbed.equals(id.getChannel())) {
         if (!_ok.equals(confirmation.status)) {
           throw new IllegalStateException(confirmation.status);
@@ -57,9 +55,10 @@ abstract class MarketWebSocketChannel<
         return SUBSCRIBED;
       }
     }
-    if (message instanceof WebSocketUnsubscribeConfirmation) {
+    if (message instanceof MarketWebSocketUnsubscribeConfirmation) {
       Id id = getId();
-      WebSocketUnsubscribeConfirmation confirmation = (WebSocketUnsubscribeConfirmation) message;
+      MarketWebSocketUnsubscribeConfirmation confirmation =
+          (MarketWebSocketUnsubscribeConfirmation) message;
       if (confirmation.unsubbed.equals(id.getChannel())) {
         if (!_ok.equals(confirmation.status)) {
           throw new IllegalStateException(confirmation.status);

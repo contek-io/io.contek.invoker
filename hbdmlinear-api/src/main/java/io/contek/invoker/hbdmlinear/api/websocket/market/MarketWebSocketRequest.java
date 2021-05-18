@@ -1,11 +1,11 @@
-package io.contek.invoker.hbdmlinear.api.websocket.common;
+package io.contek.invoker.hbdmlinear.api.websocket.market;
 
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 
 import javax.annotation.concurrent.NotThreadSafe;
 
 @NotThreadSafe
-public abstract class WebSocketRequest extends AnyWebSocketMessage {
+abstract class MarketWebSocketRequest extends AnyWebSocketMessage {
 
   public String id;
 }
