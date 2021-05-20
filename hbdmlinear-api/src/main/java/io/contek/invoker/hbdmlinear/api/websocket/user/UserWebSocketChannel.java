@@ -18,22 +18,14 @@ abstract class UserWebSocketChannel<
         Id extends UserWebSocketChannelId<Message>, Message extends UserWebSocketChannelMessage>
     extends BaseWebSocketChannel<Id, Message> {
 
-  private final Class<Message> type;
   private final UserWebSocketRequestIdGenerator requestIdGenerator;
 
   private final AtomicReference<UserWebSocketRequest> pendingCommandHolder =
       new AtomicReference<>(null);
 
-  protected UserWebSocketChannel(
-      Id id, Class<Message> type, UserWebSocketRequestIdGenerator requestIdGenerator) {
+  protected UserWebSocketChannel(Id id, UserWebSocketRequestIdGenerator requestIdGenerator) {
     super(id);
-    this.type = type;
     this.requestIdGenerator = requestIdGenerator;
-  }
-
-  @Override
-  public final Class<Message> getMessageType() {
-    return type;
   }
 
   @Override

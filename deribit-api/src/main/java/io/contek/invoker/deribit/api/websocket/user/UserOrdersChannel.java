@@ -21,7 +21,7 @@ public final class UserOrdersChannel
 
   @Override
   public Class<UserOrdersChannel.Message> getMessageType() {
-    return Message.class;
+    return UserOrdersChannel.Message.class;
   }
 
   @Immutable
