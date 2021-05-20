@@ -37,7 +37,7 @@ abstract class UserWebSocketChannel<
     }
 
     Id id = getId();
-    UserWebSocketRequest request = new UserWebSocketRequest();
+    UserWebSocketSubscriptionRequest request = new UserWebSocketSubscriptionRequest();
     request.op = _sub;
     request.topic = id.getTopic();
     request.cid = generateNexRequestId();
@@ -54,7 +54,7 @@ abstract class UserWebSocketChannel<
     }
 
     Id id = getId();
-    UserWebSocketRequest request = new UserWebSocketRequest();
+    UserWebSocketSubscriptionRequest request = new UserWebSocketSubscriptionRequest();
     request.op = _unsub;
     request.topic = id.getTopic();
     request.cid = generateNexRequestId();
