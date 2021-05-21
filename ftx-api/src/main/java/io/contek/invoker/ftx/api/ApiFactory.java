@@ -127,7 +127,7 @@ public final class ApiFactory {
 
     public static final RateLimitRule IP_REST_REQUEST_RULE =
         RateLimitRule.newBuilder()
-            .setName("ip_rest_public_request_rule")
+            .setName("ip_rest_request_rule")
             .setType(IP)
             .setMaxPermits(30)
             .setResetPeriod(Duration.ofSeconds(1))
