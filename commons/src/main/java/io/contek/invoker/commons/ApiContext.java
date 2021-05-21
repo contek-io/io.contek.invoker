@@ -57,7 +57,7 @@ public final class ApiContext {
   @NotThreadSafe
   public static final class Builder {
 
-    private double rateLimitCushion = 0.1;
+    private double rateLimitCushion = 0.0d;
     private RestContext restContext;
     private WebSocketContext webSocketContext;
     private IRateLimitQuotaInterceptor interceptor;

@@ -1,6 +1,8 @@
 package io.contek.invoker.ftx.api.rest.user;
 
+import com.google.common.collect.ImmutableList;
 import io.contek.invoker.commons.actor.IActor;
+import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
@@ -10,6 +12,7 @@ import io.contek.invoker.ftx.api.rest.common.RestResponse;
 import javax.annotation.concurrent.NotThreadSafe;
 
 import static io.contek.invoker.commons.rest.RestMethod.GET;
+import static io.contek.invoker.ftx.api.ApiFactory.RateLimits.ONE_REST_REQUEST;
 import static java.text.MessageFormat.format;
 import static java.util.Objects.requireNonNull;
 
@@ -46,6 +49,11 @@ public final class GetOrders extends UserRestRequest<GetOrders.Response> {
   @Override
   protected Class<Response> getResponseType() {
     return Response.class;
+  }
+
+  @Override
+  protected ImmutableList<RateLimitQuota> getRequiredQuotas() {
+    return ONE_REST_REQUEST;
   }
 
   @NotThreadSafe

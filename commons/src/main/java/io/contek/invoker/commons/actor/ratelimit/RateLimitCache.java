@@ -33,7 +33,7 @@ public final class RateLimitCache {
   @NotThreadSafe
   public static final class Builder {
 
-    private double cushion = 0.1;
+    private double cushion = 0.0d;
     private final List<RateLimitRule> rules = new ArrayList<>();
 
     public Builder setCushion(double cushion) {

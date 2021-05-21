@@ -1,6 +1,8 @@
 package io.contek.invoker.ftx.api.rest.user;
 
+import com.google.common.collect.ImmutableList;
 import io.contek.invoker.commons.actor.IActor;
+import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
@@ -10,10 +12,17 @@ import io.contek.invoker.ftx.api.rest.common.RestResponse;
 import javax.annotation.concurrent.NotThreadSafe;
 
 import static io.contek.invoker.commons.rest.RestMethod.POST;
+import static io.contek.invoker.ftx.api.ApiFactory.RateLimits.API_KEY_REST_ORDER_RULE;
+import static io.contek.invoker.ftx.api.ApiFactory.RateLimits.IP_REST_REQUEST_RULE;
 import static java.util.Objects.requireNonNull;
 
 @NotThreadSafe
 public final class PostOrders extends UserRestRequest<PostOrders.Response> {
+
+  public static final ImmutableList<RateLimitQuota> ONE_REST_ORDER_REQUEST =
+      ImmutableList.of(
+          IP_REST_REQUEST_RULE.createRateLimitQuota(1),
+          API_KEY_REST_ORDER_RULE.createRateLimitQuota(1));
 
   private String market;
   private String side;
@@ -126,6 +135,11 @@ public final class PostOrders extends UserRestRequest<PostOrders.Response> {
   @Override
   protected Class<Response> getResponseType() {
     return Response.class;
+  }
+
+  @Override
+  protected ImmutableList<RateLimitQuota> getRequiredQuotas() {
+    return ONE_REST_ORDER_REQUEST;
   }
 
   @NotThreadSafe
