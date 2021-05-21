@@ -1,9 +1,6 @@
 package io.contek.invoker.hbdmlinear.api.websocket.user;
 
-import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
-import io.contek.invoker.commons.websocket.BaseWebSocketChannel;
-import io.contek.invoker.commons.websocket.SubscriptionState;
-import io.contek.invoker.commons.websocket.WebSocketSession;
+import io.contek.invoker.commons.websocket.*;
 
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.ThreadSafe;
@@ -40,7 +37,7 @@ abstract class UserWebSocketChannel<
     UserWebSocketSubscriptionRequest request = new UserWebSocketSubscriptionRequest();
     request.op = _sub;
     request.topic = id.getTopic();
-    request.cid = generateNexRequestId();
+    request.cid = requestIdGenerator.generateNext();
     session.send(request);
     return UNSUBSCRIBING;
   }
@@ -57,7 +54,7 @@ abstract class UserWebSocketChannel<
     UserWebSocketSubscriptionRequest request = new UserWebSocketSubscriptionRequest();
     request.op = _unsub;
     request.topic = id.getTopic();
-    request.cid = generateNexRequestId();
+    request.cid = requestIdGenerator.generateNext();
     session.send(request);
     return UNSUBSCRIBING;
   }
@@ -68,18 +65,24 @@ abstract class UserWebSocketChannel<
     if (!(message instanceof UserWebSocketResponse)) {
       return null;
     }
-    UserWebSocketResponse<?> confirmation = (UserWebSocketResponse<?>) message;
+    UserWebSocketResponse<?> response = (UserWebSocketResponse<?>) message;
 
     synchronized (pendingCommandHolder) {
-      UserWebSocketRequest command = pendingCommandHolder.get();
-      if (command == null) {
+      UserWebSocketRequest request = pendingCommandHolder.get();
+      if (request == null) {
         return null;
       }
-      if (confirmation.cid == null || !confirmation.cid.equals(command.cid)) {
+
+      if (!request.cid.equals(response.cid)) {
         return null;
       }
+
+      if (response.err_code != 0) {
+        throw new WebSocketIllegalMessageException(response.err_code + ": " + response.err_msg);
+      }
+
       reset();
-      switch (command.op) {
+      switch (request.op) {
         case _sub:
           return SUBSCRIBED;
         case _unsub:
@@ -91,9 +94,9 @@ abstract class UserWebSocketChannel<
   }
 
   @Override
-  protected final void reset() {}
-
-  String generateNexRequestId() {
-    return Integer.toString(requestIdGenerator.generateNext());
+  protected final void reset() {
+    synchronized (pendingCommandHolder) {
+      pendingCommandHolder.set(null);
+    }
   }
 }

@@ -8,7 +8,7 @@ final class MarketWebSocketRequestIdGenerator {
 
   private final AtomicInteger count = new AtomicInteger(0);
 
-  int generateNext() {
-    return count.incrementAndGet();
+  String generateNext() {
+    return Integer.toString(count.incrementAndGet());
   }
 }

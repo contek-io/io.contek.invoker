@@ -15,6 +15,8 @@ import static io.contek.invoker.hbdmlinear.api.ApiFactory.RateLimits.ONE_IP_WEB_
 @ThreadSafe
 public final class UserWebSocketApi extends BaseWebSocketApi {
 
+  private static final String PATH = "/linear-swap-notification";
+
   private final WebSocketContext context;
   private final UserWebSocketRequestIdGenerator requestIdGenerator;
 
@@ -30,7 +32,8 @@ public final class UserWebSocketApi extends BaseWebSocketApi {
     super(
         actor,
         WebSocketMessageParser.getInstance(),
-        IWebSocketAuthenticator.noOp(),
+        new UserWebSocketAuthenticator(
+            actor.getCredential(), PATH, requestIdGenerator, context, actor.getClock()),
         IWebSocketLiveKeeper.noOp());
     this.context = context;
     this.requestIdGenerator = requestIdGenerator;
@@ -55,7 +58,7 @@ public final class UserWebSocketApi extends BaseWebSocketApi {
 
   @Override
   protected WebSocketCall createCall(ICredential credential) {
-    return WebSocketCall.fromUrl(context.getBaseUrl() + "/linear-swap-notification");
+    return WebSocketCall.fromUrl(context.getBaseUrl() + PATH);
   }
 
   @Override

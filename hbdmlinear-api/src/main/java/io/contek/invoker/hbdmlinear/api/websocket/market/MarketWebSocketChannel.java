@@ -73,6 +73,6 @@ abstract class MarketWebSocketChannel<
   protected final void reset() {}
 
   String generateNexRequestId() {
-    return Integer.toString(requestIdGenerator.generateNext());
+    return requestIdGenerator.generateNext();
   }
 }
