@@ -7,9 +7,9 @@ public final class RateLimitQuota {
 
   private final String ruleName;
   private final RateLimitType type;
-  private final int permits;
+  private final double permits;
 
-  RateLimitQuota(String ruleName, RateLimitType type, int permits) {
+  RateLimitQuota(String ruleName, RateLimitType type, double permits) {
     this.ruleName = ruleName;
     this.type = type;
     this.permits = permits;
@@ -23,7 +23,7 @@ public final class RateLimitQuota {
     return type;
   }
 
-  public int getPermits() {
+  public double getPermits() {
     return permits;
   }
 }

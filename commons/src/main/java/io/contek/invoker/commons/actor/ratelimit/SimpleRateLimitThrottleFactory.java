@@ -1,30 +1,32 @@
 package io.contek.invoker.commons.actor.ratelimit;
 
+import com.google.common.collect.ImmutableList;
 import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.concurrent.Immutable;
+import javax.annotation.concurrent.ThreadSafe;
 import java.net.InetAddress;
+import java.util.List;
 
-@Immutable
+@ThreadSafe
 public final class SimpleRateLimitThrottleFactory implements IRateLimitThrottleFactory {
 
   private final RateLimitCache cache;
-  private final IRateLimitQuotaInterceptor interceptor;
+  private final ImmutableList<IRateLimitQuotaInterceptor> interceptors;
 
   private SimpleRateLimitThrottleFactory(
-      RateLimitCache cache, @Nullable IRateLimitQuotaInterceptor interceptor) {
+      RateLimitCache cache, ImmutableList<IRateLimitQuotaInterceptor> interceptors) {
     this.cache = cache;
-    this.interceptor = interceptor;
+    this.interceptors = interceptors;
   }
 
   public static SimpleRateLimitThrottleFactory create(
-      RateLimitCache cache, @Nullable IRateLimitQuotaInterceptor interceptor) {
-    return new SimpleRateLimitThrottleFactory(cache, interceptor);
+      RateLimitCache cache, List<IRateLimitQuotaInterceptor> interceptors) {
+    return new SimpleRateLimitThrottleFactory(cache, ImmutableList.copyOf(interceptors));
   }
 
   @Override
   public IRateLimitThrottle create(InetAddress boundLocalAddress, @Nullable String apiKeyId) {
     return new SimpleRateLimitThrottle(
-        boundLocalAddress.getCanonicalHostName(), apiKeyId, cache, interceptor);
+        boundLocalAddress.getCanonicalHostName(), apiKeyId, cache, interceptors);
   }
 }

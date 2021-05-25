@@ -1,7 +1,6 @@
 package io.contek.invoker.commons.actor.ratelimit;
 
 import com.google.common.collect.ImmutableMap;
-import io.github.resilience4j.ratelimiter.RateLimiter;
 
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
@@ -11,14 +10,13 @@ import java.util.List;
 import java.util.Map;
 
 import static com.google.common.collect.ImmutableMap.toImmutableMap;
-import static io.github.resilience4j.ratelimiter.RateLimiter.waitForPermission;
 
 @ThreadSafe
 public final class RateLimitCache {
 
-  private final ImmutableMap<String, RuleBasedLimiter> rules;
+  private final ImmutableMap<String, RuleBasedThrottle> rules;
 
-  private RateLimitCache(ImmutableMap<String, RuleBasedLimiter> rules) {
+  private RateLimitCache(ImmutableMap<String, RuleBasedThrottle> rules) {
     this.rules = rules;
   }
 
@@ -26,20 +24,14 @@ public final class RateLimitCache {
     return new Builder();
   }
 
-  void acquire(String ruleName, String key, int permits) {
+  void acquire(String ruleName, String key, double permits) {
     rules.get(ruleName).acquire(key, permits);
   }
 
   @NotThreadSafe
   public static final class Builder {
 
-    private double cushion = 0.0d;
     private final List<RateLimitRule> rules = new ArrayList<>();
-
-    public Builder setCushion(double cushion) {
-      this.cushion = cushion;
-      return this;
-    }
 
     public Builder addRule(RateLimitRule rule) {
       rules.add(rule);
@@ -48,35 +40,30 @@ public final class RateLimitCache {
 
     public RateLimitCache build() {
       return new RateLimitCache(
-          rules.stream()
-              .collect(
-                  toImmutableMap(
-                      RateLimitRule::getName, rule -> new RuleBasedLimiter(rule, cushion))));
+          rules.stream().collect(toImmutableMap(RateLimitRule::getName, RuleBasedThrottle::new)));
     }
   }
 
   @ThreadSafe
-  private static final class RuleBasedLimiter {
+  private static final class RuleBasedThrottle {
 
     private final RateLimitRule rule;
-    private final double cushion;
 
-    private final Map<String, RateLimiter> limiters = new HashMap<>();
+    private final Map<String, Throttle> throttles = new HashMap<>();
 
-    private RuleBasedLimiter(RateLimitRule rule, double cushion) {
+    private RuleBasedThrottle(RateLimitRule rule) {
       this.rule = rule;
-      this.cushion = cushion;
     }
 
-    private void acquire(String key, int permits) {
-      synchronized (limiters) {
-        RateLimiter limiter = limiters.computeIfAbsent(key, this::createRateLimiter);
-        waitForPermission(limiter, permits);
+    private void acquire(String key, double permits) {
+      synchronized (throttles) {
+        Throttle throttle = throttles.computeIfAbsent(key, this::createThrottle);
+        throttle.acquire(permits);
       }
     }
 
-    private RateLimiter createRateLimiter(String key) {
-      return rule.createRateLimiter(key, cushion);
+    private Throttle createThrottle(String key) {
+      return Throttle.fromRateLimitRule(key, rule);
     }
   }
 }

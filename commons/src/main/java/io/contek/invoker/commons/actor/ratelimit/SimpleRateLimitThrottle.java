@@ -1,5 +1,7 @@
 package io.contek.invoker.commons.actor.ratelimit;
 
+import com.google.common.collect.ImmutableList;
+
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.ThreadSafe;
 import java.util.List;
@@ -13,21 +15,21 @@ public final class SimpleRateLimitThrottle implements IRateLimitThrottle {
   private final String apiKeyId;
 
   private final RateLimitCache cache;
-  private final IRateLimitQuotaInterceptor interceptor;
+  private final ImmutableList<IRateLimitQuotaInterceptor> interceptors;
 
   SimpleRateLimitThrottle(
       String boundLocalAddress,
       @Nullable String apiKeyId,
       RateLimitCache cache,
-      @Nullable IRateLimitQuotaInterceptor interceptor) {
+      ImmutableList<IRateLimitQuotaInterceptor> interceptors) {
     this.boundLocalAddress = boundLocalAddress;
     this.apiKeyId = apiKeyId;
     this.cache = cache;
-    this.interceptor = interceptor;
+    this.interceptors = interceptors;
   }
 
   public void acquire(String requestName, List<RateLimitQuota> quota) {
-    if (interceptor != null) {
+    for (IRateLimitQuotaInterceptor interceptor : interceptors) {
       quota = interceptor.apply(requestName, quota);
     }
     quota.forEach(this::acquire);

@@ -11,12 +11,14 @@ import java.time.Duration;
 @Immutable
 public final class RateLimitRule {
 
+  static final double MULTIPLIER = 10_000;
+
   private final String name;
   private final RateLimitType type;
-  private final int maxPermits;
+  private final double maxPermits;
   private final Duration resetPeriod;
 
-  private RateLimitRule(String name, RateLimitType type, int maxPermits, Duration resetPeriod) {
+  private RateLimitRule(String name, RateLimitType type, double maxPermits, Duration resetPeriod) {
     this.name = name;
     this.type = type;
     this.maxPermits = maxPermits;
@@ -39,7 +41,7 @@ public final class RateLimitRule {
     return type;
   }
 
-  public int getMaxPermits() {
+  public double getMaxPermits() {
     return maxPermits;
   }
 
@@ -47,11 +49,11 @@ public final class RateLimitRule {
     return resetPeriod;
   }
 
-  RateLimiter createRateLimiter(String key, double cushion) {
+  RateLimiter createRateLimiter(String key) {
     return RateLimiter.of(
         Joiner.on('_').join(type, name, key),
         RateLimiterConfig.custom()
-            .limitForPeriod((int) (maxPermits * (1d - cushion)))
+            .limitForPeriod((int) (maxPermits * MULTIPLIER))
             .limitRefreshPeriod(resetPeriod)
             .timeoutDuration(resetPeriod)
             .build());
@@ -62,7 +64,7 @@ public final class RateLimitRule {
 
     private String name;
     private RateLimitType type;
-    private int maxPermits;
+    private double maxPermits;
     private Duration resetPeriod;
 
     public Builder setName(String name) {
@@ -75,7 +77,7 @@ public final class RateLimitRule {
       return this;
     }
 
-    public Builder setMaxPermits(int maxPermits) {
+    public Builder setMaxPermits(double maxPermits) {
       this.maxPermits = maxPermits;
       return this;
     }

@@ -10,11 +10,7 @@ import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.actor.IActorFactory;
 import io.contek.invoker.commons.actor.SimpleActorFactory;
 import io.contek.invoker.commons.actor.http.SimpleHttpClientFactory;
-import io.contek.invoker.commons.actor.ratelimit.IRateLimitQuotaInterceptor;
-import io.contek.invoker.commons.actor.ratelimit.RateLimitCache;
-import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
-import io.contek.invoker.commons.actor.ratelimit.RateLimitRule;
-import io.contek.invoker.commons.actor.ratelimit.SimpleRateLimitThrottleFactory;
+import io.contek.invoker.commons.actor.ratelimit.*;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.websocket.WebSocketContext;
 import io.contek.invoker.security.ApiKey;
@@ -24,11 +20,10 @@ import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.ThreadSafe;
 import java.time.Duration;
+import java.util.List;
 
 import static com.google.common.io.BaseEncoding.base16;
-import static io.contek.invoker.bitmex.api.ApiFactory.RateLimits.API_KEY_REST_REQUEST_RULE;
-import static io.contek.invoker.bitmex.api.ApiFactory.RateLimits.IP_REST_REQUEST_RULE;
-import static io.contek.invoker.bitmex.api.ApiFactory.RateLimits.IP_WEB_SOCKET_CONNECTION_RULE;
+import static io.contek.invoker.bitmex.api.ApiFactory.RateLimits.*;
 import static io.contek.invoker.commons.actor.ratelimit.RateLimitType.API_KEY;
 import static io.contek.invoker.commons.actor.ratelimit.RateLimitType.IP;
 import static io.contek.invoker.security.SecretKeyAlgorithm.HMAC_SHA256;
@@ -66,8 +61,7 @@ public final class ApiFactory {
   }
 
   public static ApiFactory fromContext(ApiContext context) {
-    return new ApiFactory(
-        context, createActorFactory(context.getRateLimitCushion(), context.getInterceptor()));
+    return new ApiFactory(context, createActorFactory(context.getInterceptors()));
   }
 
   public SelectingRestApi rest() {
@@ -79,13 +73,12 @@ public final class ApiFactory {
   }
 
   private static SimpleActorFactory createActorFactory(
-      double rateLimitCushion, @Nullable IRateLimitQuotaInterceptor interceptor) {
+      List<IRateLimitQuotaInterceptor> interceptors) {
     return SimpleActorFactory.newBuilder()
         .setCredentialFactory(createCredentialFactory())
         .setHttpClientFactory(SimpleHttpClientFactory.getInstance())
         .setRateLimitThrottleFactory(
-            SimpleRateLimitThrottleFactory.create(
-                createRateLimitCache(rateLimitCushion), interceptor))
+            SimpleRateLimitThrottleFactory.create(createRateLimitCache(), interceptors))
         .build();
   }
 
@@ -96,9 +89,8 @@ public final class ApiFactory {
         .build();
   }
 
-  private static RateLimitCache createRateLimitCache(double cushion) {
+  private static RateLimitCache createRateLimitCache() {
     return RateLimitCache.newBuilder()
-        .setCushion(cushion)
         .addRule(API_KEY_REST_REQUEST_RULE)
         .addRule(IP_REST_REQUEST_RULE)
         .addRule(IP_WEB_SOCKET_CONNECTION_RULE)

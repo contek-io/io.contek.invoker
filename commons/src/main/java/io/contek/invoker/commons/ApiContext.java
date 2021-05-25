@@ -1,5 +1,6 @@
 package io.contek.invoker.commons;
 
+import com.google.common.collect.ImmutableList;
 import io.contek.invoker.commons.actor.ratelimit.IRateLimitQuotaInterceptor;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.websocket.WebSocketContext;
@@ -7,32 +8,27 @@ import io.contek.invoker.commons.websocket.WebSocketContext;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
+import java.util.ArrayList;
+import java.util.List;
 
 @Immutable
 public final class ApiContext {
 
-  private final double rateLimitCushion;
   private final RestContext restContext;
   private final WebSocketContext webSocketContext;
-  private final IRateLimitQuotaInterceptor interceptor;
+  private final ImmutableList<IRateLimitQuotaInterceptor> interceptors;
 
   private ApiContext(
-      double rateLimitCushion,
       @Nullable RestContext restContext,
       @Nullable WebSocketContext webSocketContext,
-      @Nullable IRateLimitQuotaInterceptor interceptor) {
-    this.rateLimitCushion = rateLimitCushion;
+      ImmutableList<IRateLimitQuotaInterceptor> interceptors) {
     this.restContext = restContext;
     this.webSocketContext = webSocketContext;
-    this.interceptor = interceptor;
+    this.interceptors = interceptors;
   }
 
   public static Builder newBuilder() {
     return new Builder();
-  }
-
-  public double getRateLimitCushion() {
-    return rateLimitCushion;
   }
 
   public RestContext getRestContext() {
@@ -49,23 +45,16 @@ public final class ApiContext {
     return webSocketContext;
   }
 
-  @Nullable
-  public IRateLimitQuotaInterceptor getInterceptor() {
-    return interceptor;
+  public ImmutableList<IRateLimitQuotaInterceptor> getInterceptors() {
+    return interceptors;
   }
 
   @NotThreadSafe
   public static final class Builder {
 
-    private double rateLimitCushion = 0.0d;
     private RestContext restContext;
     private WebSocketContext webSocketContext;
-    private IRateLimitQuotaInterceptor interceptor;
-
-    public Builder setRateLimitCushion(double rateLimitCushion) {
-      this.rateLimitCushion = rateLimitCushion;
-      return this;
-    }
+    private List<IRateLimitQuotaInterceptor> interceptors = new ArrayList<>();
 
     public Builder setRestContext(@Nullable RestContext.Builder builder) {
       return setRestContext(builder == null ? null : builder.build());
@@ -85,13 +74,18 @@ public final class ApiContext {
       return this;
     }
 
-    public Builder setInterceptor(@Nullable IRateLimitQuotaInterceptor interceptor) {
-      this.interceptor = interceptor;
+    public Builder setInterceptors(List<IRateLimitQuotaInterceptor> interceptors) {
+      this.interceptors = interceptors;
+      return this;
+    }
+
+    public Builder addInterceptor(IRateLimitQuotaInterceptor interceptor) {
+      interceptors.add(interceptor);
       return this;
     }
 
     public ApiContext build() {
-      return new ApiContext(rateLimitCushion, restContext, webSocketContext, interceptor);
+      return new ApiContext(restContext, webSocketContext, ImmutableList.copyOf(interceptors));
     }
 
     private Builder() {}

@@ -16,10 +16,10 @@ import io.contek.invoker.commons.websocket.WebSocketContext;
 import io.contek.invoker.security.ApiKey;
 import io.contek.invoker.security.SimpleCredentialFactory;
 
-import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.ThreadSafe;
 import java.time.Duration;
+import java.util.List;
 
 import static com.google.common.io.BaseEncoding.base16;
 import static io.contek.invoker.coinbasepro.api.ApiFactory.RateLimits.*;
@@ -48,8 +48,7 @@ public final class ApiFactory {
   }
 
   public static ApiFactory fromContext(ApiContext context) {
-    return new ApiFactory(
-        context, createActorFactory(context.getRateLimitCushion(), context.getInterceptor()));
+    return new ApiFactory(context, createActorFactory(context.getInterceptors()));
   }
 
   public SelectingRestApi rest() {
@@ -61,13 +60,12 @@ public final class ApiFactory {
   }
 
   private static SimpleActorFactory createActorFactory(
-      double rateLimitCushion, @Nullable IRateLimitQuotaInterceptor interceptor) {
+      List<IRateLimitQuotaInterceptor> interceptors) {
     return SimpleActorFactory.newBuilder()
         .setCredentialFactory(createCredentialFactory())
         .setHttpClientFactory(SimpleHttpClientFactory.getInstance())
         .setRateLimitThrottleFactory(
-            SimpleRateLimitThrottleFactory.create(
-                createRateLimitCache(rateLimitCushion), interceptor))
+            SimpleRateLimitThrottleFactory.create(createRateLimitCache(), interceptors))
         .build();
   }
 
@@ -78,9 +76,8 @@ public final class ApiFactory {
         .build();
   }
 
-  private static RateLimitCache createRateLimitCache(double cushion) {
+  private static RateLimitCache createRateLimitCache() {
     return RateLimitCache.newBuilder()
-        .setCushion(cushion)
         .addRule(IP_REST_PUBLIC_REQUEST_RULE)
         .addRule(IP_REST_PRIVATE_REQUEST_RULE)
         .addRule(IP_WEB_SOCKET_CONNECTION_RULE)

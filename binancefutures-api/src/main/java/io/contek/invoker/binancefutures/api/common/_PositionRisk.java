@@ -16,4 +16,5 @@ public class _PositionRisk {
   public String symbol;
   public Double unRealizedProfit;
   public String positionSide;
+  public long updateTime;
 }

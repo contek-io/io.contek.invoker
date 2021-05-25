@@ -16,10 +16,10 @@ import io.contek.invoker.deribit.api.websocket.user.UserWebSocketApi;
 import io.contek.invoker.security.ApiKey;
 import io.contek.invoker.security.SimpleCredentialFactory;
 
-import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.ThreadSafe;
 import java.time.Duration;
+import java.util.List;
 
 import static com.google.common.io.BaseEncoding.base16;
 import static io.contek.invoker.commons.actor.ratelimit.RateLimitType.API_KEY;
@@ -58,7 +58,7 @@ public final class ApiFactory {
   }
 
   public static ApiFactory fromContext(ApiContext context) {
-    return new ApiFactory(context, createActorFactory(context.getInterceptor()));
+    return new ApiFactory(context, createActorFactory(context.getInterceptors()));
   }
 
   public SelectingRestApi rest() {
@@ -70,12 +70,12 @@ public final class ApiFactory {
   }
 
   private static SimpleActorFactory createActorFactory(
-      @Nullable IRateLimitQuotaInterceptor interceptor) {
+      List<IRateLimitQuotaInterceptor> interceptors) {
     return SimpleActorFactory.newBuilder()
         .setCredentialFactory(createCredentialFactory())
         .setHttpClientFactory(SimpleHttpClientFactory.getInstance())
         .setRateLimitThrottleFactory(
-            SimpleRateLimitThrottleFactory.create(createRateLimitCache(), interceptor))
+            SimpleRateLimitThrottleFactory.create(createRateLimitCache(), interceptors))
         .build();
   }
 
