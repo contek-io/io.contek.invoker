@@ -16,7 +16,7 @@ public class _AccountPositionInfo {
   public double profit_unreal;
   public Double risk_rate;
   public double withdraw_available;
-  public double liquidation_price;
+  public Double liquidation_price;
   public double lever_rate;
   public double adjust_factor;
   public double margin_static;

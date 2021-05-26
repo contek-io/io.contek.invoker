@@ -8,7 +8,7 @@ public class _OrderInfo {
   public String symbol;
   public String contract_code;
   public double volume;
-  public double price;
+  public Double price;
   public String order_price_type;
   public int order_type;
   public String direction;
@@ -20,7 +20,7 @@ public class _OrderInfo {
   public double trade_volume;
   public double trade_turnover;
   public double fee;
-  public double trade_avg_price;
+  public Double trade_avg_price;
   public double margin_frozen;
   public double profit;
   public int status;

@@ -18,7 +18,7 @@ public class _PositionInfo {
   public double position_margin;
   public String direction;
   public double profit;
-  public double last_price;
+  public Double last_price;
   public String margin_asset;
   public String margin_mode;
   public String margin_account;

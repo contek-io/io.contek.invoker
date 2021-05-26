@@ -18,5 +18,5 @@ public class _PositionInfo {
   public double position_margin;
   public String direction;
   public double profit;
-  public double last_price;
+  public Double last_price;
 }
