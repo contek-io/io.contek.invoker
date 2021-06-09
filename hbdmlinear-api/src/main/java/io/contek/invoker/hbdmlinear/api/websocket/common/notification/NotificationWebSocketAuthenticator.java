@@ -1,4 +1,4 @@
-package io.contek.invoker.hbdmlinear.api.websocket.user;
+package io.contek.invoker.hbdmlinear.api.websocket.common.notification;
 
 import io.contek.invoker.commons.rest.RestParams;
 import io.contek.invoker.commons.websocket.*;
@@ -19,24 +19,24 @@ import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME;
 import static java.time.temporal.ChronoField.MILLI_OF_SECOND;
 
 @ThreadSafe
-final class UserWebSocketAuthenticator implements IWebSocketAuthenticator {
+final class NotificationWebSocketAuthenticator implements IWebSocketAuthenticator {
 
   private static final DateTimeFormatter FORMATTER = ISO_LOCAL_DATE_TIME.withZone(UTC);
 
   private final ICredential credential;
   private final String path;
-  private final UserWebSocketRequestIdGenerator requestIdGenerator;
+  private final NotificationWebSocketRequestIdGenerator requestIdGenerator;
   private final WebSocketContext context;
   private final Clock clock;
 
   private final AtomicBoolean authenticated = new AtomicBoolean();
-  private final AtomicReference<UserWebSocketAuthRequest> pendingCommandHolder =
+  private final AtomicReference<NotificationWebSocketAuthRequest> pendingCommandHolder =
       new AtomicReference<>(null);
 
-  UserWebSocketAuthenticator(
+  NotificationWebSocketAuthenticator(
       ICredential credential,
       String path,
-      UserWebSocketRequestIdGenerator requestIdGenerator,
+      NotificationWebSocketRequestIdGenerator requestIdGenerator,
       WebSocketContext context,
       Clock clock) {
     this.credential = credential;
@@ -49,11 +49,11 @@ final class UserWebSocketAuthenticator implements IWebSocketAuthenticator {
   @Override
   public void handshake(WebSocketSession session) {
     if (credential.isAnonymous()) {
-      throw new WebSocketAuthenticationException();
+      return;
     }
 
     synchronized (pendingCommandHolder) {
-      UserWebSocketAuthRequest request = new UserWebSocketAuthRequest();
+      NotificationWebSocketAuthRequest request = new NotificationWebSocketAuthRequest();
       request.op = _auth;
       request.type = _api;
       request.cid = requestIdGenerator.generateNext();
@@ -69,7 +69,7 @@ final class UserWebSocketAuthenticator implements IWebSocketAuthenticator {
 
   @Override
   public boolean isCompleted() {
-    return authenticated.get();
+    return authenticated.get() || credential.isAnonymous();
   }
 
   @Override
@@ -78,13 +78,13 @@ final class UserWebSocketAuthenticator implements IWebSocketAuthenticator {
       return;
     }
 
-    if (!(message instanceof UserWebSocketResponse)) {
+    if (!(message instanceof NotificationWebSocketResponse)) {
       return;
     }
-    UserWebSocketResponse<?> response = (UserWebSocketResponse<?>) message;
+    NotificationWebSocketResponse<?> response = (NotificationWebSocketResponse<?>) message;
 
     synchronized (pendingCommandHolder) {
-      UserWebSocketAuthRequest request = pendingCommandHolder.get();
+      NotificationWebSocketAuthRequest request = pendingCommandHolder.get();
       if (request == null) {
         return;
       }
@@ -107,7 +107,7 @@ final class UserWebSocketAuthenticator implements IWebSocketAuthenticator {
     reset();
   }
 
-  private String generateSignature(UserWebSocketAuthRequest request) {
+  private String generateSignature(NotificationWebSocketAuthRequest request) {
     RestParams.Builder builder = RestParams.newBuilder();
     builder.add("AccessKeyId", request.AccessKeyId);
     builder.add("SignatureMethod", request.SignatureMethod);

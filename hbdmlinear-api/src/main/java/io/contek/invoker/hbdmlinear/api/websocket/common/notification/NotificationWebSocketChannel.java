@@ -1,4 +1,4 @@
-package io.contek.invoker.hbdmlinear.api.websocket.user;
+package io.contek.invoker.hbdmlinear.api.websocket.common.notification;
 
 import io.contek.invoker.commons.websocket.*;
 
@@ -11,16 +11,18 @@ import static io.contek.invoker.hbdmlinear.api.websocket.user.constants.OpKeys._
 import static io.contek.invoker.hbdmlinear.api.websocket.user.constants.OpKeys._unsub;
 
 @ThreadSafe
-abstract class UserWebSocketChannel<
-        Id extends UserWebSocketChannelId<Message>, Message extends UserWebSocketChannelMessage>
+public abstract class NotificationWebSocketChannel<
+        Id extends NotificationWebSocketChannelId<Message>,
+        Message extends NotificationWebSocketChannelMessage>
     extends BaseWebSocketChannel<Id, Message> {
 
-  private final UserWebSocketRequestIdGenerator requestIdGenerator;
+  private final NotificationWebSocketRequestIdGenerator requestIdGenerator;
 
-  private final AtomicReference<UserWebSocketRequest> pendingCommandHolder =
+  private final AtomicReference<NotificationWebSocketRequest> pendingCommandHolder =
       new AtomicReference<>(null);
 
-  protected UserWebSocketChannel(Id id, UserWebSocketRequestIdGenerator requestIdGenerator) {
+  protected NotificationWebSocketChannel(
+      Id id, NotificationWebSocketRequestIdGenerator requestIdGenerator) {
     super(id);
     this.requestIdGenerator = requestIdGenerator;
   }
@@ -34,7 +36,8 @@ abstract class UserWebSocketChannel<
     }
 
     Id id = getId();
-    UserWebSocketSubscriptionRequest request = new UserWebSocketSubscriptionRequest();
+    NotificationWebSocketSubscriptionRequest request =
+        new NotificationWebSocketSubscriptionRequest();
     request.op = _sub;
     request.topic = id.getTopic();
     request.cid = requestIdGenerator.generateNext();
@@ -51,7 +54,8 @@ abstract class UserWebSocketChannel<
     }
 
     Id id = getId();
-    UserWebSocketSubscriptionRequest request = new UserWebSocketSubscriptionRequest();
+    NotificationWebSocketSubscriptionRequest request =
+        new NotificationWebSocketSubscriptionRequest();
     request.op = _unsub;
     request.topic = id.getTopic();
     request.cid = requestIdGenerator.generateNext();
@@ -62,13 +66,13 @@ abstract class UserWebSocketChannel<
   @Nullable
   @Override
   protected final SubscriptionState getState(AnyWebSocketMessage message) {
-    if (!(message instanceof UserWebSocketResponse)) {
+    if (!(message instanceof NotificationWebSocketResponse)) {
       return null;
     }
-    UserWebSocketResponse<?> response = (UserWebSocketResponse<?>) message;
+    NotificationWebSocketResponse<?> response = (NotificationWebSocketResponse<?>) message;
 
     synchronized (pendingCommandHolder) {
-      UserWebSocketRequest request = pendingCommandHolder.get();
+      NotificationWebSocketRequest request = pendingCommandHolder.get();
       if (request == null) {
         return null;
       }

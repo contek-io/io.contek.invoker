@@ -1,42 +1,38 @@
 package io.contek.invoker.hbdmlinear.api.websocket.user;
 
-import com.google.common.collect.ImmutableList;
 import io.contek.invoker.commons.actor.IActor;
-import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
-import io.contek.invoker.commons.websocket.*;
-import io.contek.invoker.security.ICredential;
+import io.contek.invoker.commons.websocket.WebSocketContext;
+import io.contek.invoker.hbdmlinear.api.websocket.common.notification.NotificationWebSocketApi;
 
 import javax.annotation.concurrent.ThreadSafe;
 import java.util.HashMap;
 import java.util.Map;
 
-import static io.contek.invoker.hbdmlinear.api.ApiFactory.RateLimits.ONE_IP_WEB_SOCKET_CONNECTION_REQUEST;
-
 @ThreadSafe
-public final class UserWebSocketApi extends BaseWebSocketApi {
+public final class UserWebSocketApi extends NotificationWebSocketApi {
 
   private static final String PATH = "/linear-swap-notification";
 
-  private final WebSocketContext context;
-  private final UserWebSocketRequestIdGenerator requestIdGenerator;
-
+  private final Map<LiquidationOrderChannel.Id, LiquidationOrderChannel> liquidationOrderChannels =
+      new HashMap<>();
   private final Map<TriggerOrderChannel.Id, TriggerOrderChannel> tradeDetailChannels =
       new HashMap<>();
 
   public UserWebSocketApi(IActor actor, WebSocketContext context) {
-    this(actor, context, new UserWebSocketRequestIdGenerator());
+    super(actor, context);
   }
 
-  private UserWebSocketApi(
-      IActor actor, WebSocketContext context, UserWebSocketRequestIdGenerator requestIdGenerator) {
-    super(
-        actor,
-        WebSocketMessageParser.getInstance(),
-        new UserWebSocketAuthenticator(
-            actor.getCredential(), PATH, requestIdGenerator, context, actor.getClock()),
-        IWebSocketLiveKeeper.noOp());
-    this.context = context;
-    this.requestIdGenerator = requestIdGenerator;
+  public LiquidationOrderChannel getLiquidationOrderChannel(LiquidationOrderChannel.Id id) {
+    synchronized (liquidationOrderChannels) {
+      return liquidationOrderChannels.computeIfAbsent(
+          id,
+          k -> {
+            LiquidationOrderChannel result =
+                new LiquidationOrderChannel(id, getRequestIdGenerator());
+            attach(result);
+            return result;
+          });
+    }
   }
 
   public TriggerOrderChannel getTriggerOrderChannel(TriggerOrderChannel.Id id) {
@@ -44,23 +40,10 @@ public final class UserWebSocketApi extends BaseWebSocketApi {
       return tradeDetailChannels.computeIfAbsent(
           id,
           k -> {
-            TriggerOrderChannel result = new TriggerOrderChannel(k, requestIdGenerator);
+            TriggerOrderChannel result = new TriggerOrderChannel(k, getRequestIdGenerator());
             attach(result);
             return result;
           });
     }
   }
-
-  @Override
-  protected ImmutableList<RateLimitQuota> getRequiredQuotas() {
-    return ONE_IP_WEB_SOCKET_CONNECTION_REQUEST;
-  }
-
-  @Override
-  protected WebSocketCall createCall(ICredential credential) {
-    return WebSocketCall.fromUrl(context.getBaseUrl() + PATH);
-  }
-
-  @Override
-  protected void checkErrorMessage(AnyWebSocketMessage message) throws WebSocketRuntimeException {}
 }

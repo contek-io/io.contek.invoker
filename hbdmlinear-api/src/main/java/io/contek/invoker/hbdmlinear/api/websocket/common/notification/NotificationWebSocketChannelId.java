@@ -1,14 +1,15 @@
-package io.contek.invoker.hbdmlinear.api.websocket.user;
+package io.contek.invoker.hbdmlinear.api.websocket.common.notification;
 
 import io.contek.invoker.commons.websocket.BaseWebSocketChannelId;
 
 import javax.annotation.concurrent.Immutable;
 
 @Immutable
-public abstract class UserWebSocketChannelId<Message extends UserWebSocketChannelMessage>
+public abstract class NotificationWebSocketChannelId<
+        Message extends NotificationWebSocketChannelMessage>
     extends BaseWebSocketChannelId<Message> {
 
-  protected UserWebSocketChannelId(String channel) {
+  protected NotificationWebSocketChannelId(String channel) {
     super(channel);
   }
 

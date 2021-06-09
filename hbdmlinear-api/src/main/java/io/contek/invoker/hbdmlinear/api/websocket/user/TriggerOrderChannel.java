@@ -1,5 +1,10 @@
 package io.contek.invoker.hbdmlinear.api.websocket.user;
 
+import io.contek.invoker.hbdmlinear.api.websocket.common.notification.NotificationWebSocketChannel;
+import io.contek.invoker.hbdmlinear.api.websocket.common.notification.NotificationWebSocketChannelId;
+import io.contek.invoker.hbdmlinear.api.websocket.common.notification.NotificationWebSocketChannelMessage;
+import io.contek.invoker.hbdmlinear.api.websocket.common.notification.NotificationWebSocketRequestIdGenerator;
+
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
@@ -8,10 +13,10 @@ import static java.lang.String.format;
 
 @ThreadSafe
 public final class TriggerOrderChannel
-    extends UserWebSocketChannel<TriggerOrderChannel.Id, TriggerOrderChannel.Message> {
+    extends NotificationWebSocketChannel<TriggerOrderChannel.Id, TriggerOrderChannel.Message> {
 
   TriggerOrderChannel(
-      TriggerOrderChannel.Id id, UserWebSocketRequestIdGenerator requestIdGenerator) {
+      TriggerOrderChannel.Id id, NotificationWebSocketRequestIdGenerator requestIdGenerator) {
     super(id, requestIdGenerator);
   }
 
@@ -21,7 +26,7 @@ public final class TriggerOrderChannel
   }
 
   @Immutable
-  public static final class Id extends UserWebSocketChannelId<TriggerOrderChannel.Message> {
+  public static final class Id extends NotificationWebSocketChannelId<Message> {
 
     private Id(String value) {
       super(value);
@@ -33,5 +38,5 @@ public final class TriggerOrderChannel
   }
 
   @NotThreadSafe
-  public static final class Message extends UserWebSocketChannelMessage {}
+  public static final class Message extends NotificationWebSocketChannelMessage {}
 }

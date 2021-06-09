@@ -1,11 +1,11 @@
-package io.contek.invoker.hbdmlinear.api.websocket.user;
+package io.contek.invoker.hbdmlinear.api.websocket.common.notification;
 
 import com.google.gson.annotations.SerializedName;
 
 import javax.annotation.concurrent.NotThreadSafe;
 
 @NotThreadSafe
-public final class UserWebSocketResponse<T> extends UserWebSocketInboundMessage {
+public final class NotificationWebSocketResponse<T> extends NotificationWebSocketInboundMessage {
 
   public String cid;
 
