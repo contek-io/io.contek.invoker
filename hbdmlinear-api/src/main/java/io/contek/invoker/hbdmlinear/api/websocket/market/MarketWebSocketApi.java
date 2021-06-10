@@ -20,7 +20,7 @@ public final class MarketWebSocketApi extends MarketDataWebSocketApi {
     super(actor, context);
   }
 
-  public IncrementalDepthChannel getIncrementalMarketDepthChannel(IncrementalDepthChannel.Id id) {
+  public IncrementalDepthChannel getIncrementalDepthChannel(IncrementalDepthChannel.Id id) {
     synchronized (incrementalDepthChannels) {
       return incrementalDepthChannels.computeIfAbsent(
           id,
