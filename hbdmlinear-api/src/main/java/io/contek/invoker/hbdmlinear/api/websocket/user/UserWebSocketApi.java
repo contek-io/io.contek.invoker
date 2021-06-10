@@ -11,28 +11,11 @@ import java.util.Map;
 @ThreadSafe
 public final class UserWebSocketApi extends NotificationWebSocketApi {
 
-  private static final String PATH = "/linear-swap-notification";
-
-  private final Map<LiquidationOrderChannel.Id, LiquidationOrderChannel> liquidationOrderChannels =
-      new HashMap<>();
   private final Map<TriggerOrderChannel.Id, TriggerOrderChannel> tradeDetailChannels =
       new HashMap<>();
 
   public UserWebSocketApi(IActor actor, WebSocketContext context) {
     super(actor, context);
-  }
-
-  public LiquidationOrderChannel getLiquidationOrderChannel(LiquidationOrderChannel.Id id) {
-    synchronized (liquidationOrderChannels) {
-      return liquidationOrderChannels.computeIfAbsent(
-          id,
-          k -> {
-            LiquidationOrderChannel result =
-                new LiquidationOrderChannel(id, getRequestIdGenerator());
-            attach(result);
-            return result;
-          });
-    }
   }
 
   public TriggerOrderChannel getTriggerOrderChannel(TriggerOrderChannel.Id id) {

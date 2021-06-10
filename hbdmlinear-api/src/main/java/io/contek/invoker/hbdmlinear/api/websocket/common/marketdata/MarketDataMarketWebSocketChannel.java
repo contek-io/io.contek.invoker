@@ -1,4 +1,4 @@
-package io.contek.invoker.hbdmlinear.api.websocket.market;
+package io.contek.invoker.hbdmlinear.api.websocket.common.marketdata;
 
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.BaseWebSocketChannel;
@@ -12,15 +12,16 @@ import static io.contek.invoker.commons.websocket.SubscriptionState.*;
 import static io.contek.invoker.hbdmlinear.api.websocket.common.constants.WebSocketStatusKeys._ok;
 
 @ThreadSafe
-abstract class MarketWebSocketChannel<
-        Id extends MarketWebSocketChannelId<Message>, Message extends MarketWebSocketChannelMessage>
+public abstract class MarketDataMarketWebSocketChannel<
+        Id extends MarketDataWebSocketChannelId<Message>,
+        Message extends MarketDataWebSocketChannelMessage>
     extends BaseWebSocketChannel<Id, Message> {
 
   private final Class<Message> type;
-  private final MarketWebSocketRequestIdGenerator requestIdGenerator;
+  private final MarketDataWebSocketRequestIdGenerator requestIdGenerator;
 
-  protected MarketWebSocketChannel(
-      Id id, Class<Message> type, MarketWebSocketRequestIdGenerator requestIdGenerator) {
+  protected MarketDataMarketWebSocketChannel(
+      Id id, Class<Message> type, MarketDataWebSocketRequestIdGenerator requestIdGenerator) {
     super(id);
     this.type = type;
     this.requestIdGenerator = requestIdGenerator;
@@ -34,7 +35,7 @@ abstract class MarketWebSocketChannel<
   @Override
   protected final SubscriptionState unsubscribe(WebSocketSession session) {
     Id id = getId();
-    MarketWebSocketUnsubscribeRequest request = new MarketWebSocketUnsubscribeRequest();
+    MarketDataWebSocketUnsubscribeRequest request = new MarketDataWebSocketUnsubscribeRequest();
     request.unsub = id.getChannel();
     request.id = generateNexRequestId();
     session.send(request);
@@ -44,10 +45,10 @@ abstract class MarketWebSocketChannel<
   @Nullable
   @Override
   protected final SubscriptionState getState(AnyWebSocketMessage message) {
-    if (message instanceof MarketWebSocketSubscribeConfirmation) {
+    if (message instanceof MarketDataWebSocketSubscribeConfirmation) {
       Id id = getId();
-      MarketWebSocketSubscribeConfirmation confirmation =
-          (MarketWebSocketSubscribeConfirmation) message;
+      MarketDataWebSocketSubscribeConfirmation confirmation =
+          (MarketDataWebSocketSubscribeConfirmation) message;
       if (confirmation.subbed.equals(id.getChannel())) {
         if (!_ok.equals(confirmation.status)) {
           throw new IllegalStateException(confirmation.status);
@@ -55,10 +56,10 @@ abstract class MarketWebSocketChannel<
         return SUBSCRIBED;
       }
     }
-    if (message instanceof MarketWebSocketUnsubscribeConfirmation) {
+    if (message instanceof MarketDataWebSocketUnsubscribeConfirmation) {
       Id id = getId();
-      MarketWebSocketUnsubscribeConfirmation confirmation =
-          (MarketWebSocketUnsubscribeConfirmation) message;
+      MarketDataWebSocketUnsubscribeConfirmation confirmation =
+          (MarketDataWebSocketUnsubscribeConfirmation) message;
       if (confirmation.unsubbed.equals(id.getChannel())) {
         if (!_ok.equals(confirmation.status)) {
           throw new IllegalStateException(confirmation.status);
@@ -72,7 +73,7 @@ abstract class MarketWebSocketChannel<
   @Override
   protected final void reset() {}
 
-  String generateNexRequestId() {
+  protected final String generateNexRequestId() {
     return requestIdGenerator.generateNext();
   }
 }

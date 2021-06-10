@@ -1,11 +1,11 @@
-package io.contek.invoker.hbdmlinear.api.websocket.market;
+package io.contek.invoker.hbdmlinear.api.websocket.common.marketdata;
 
 import io.contek.invoker.hbdmlinear.api.websocket.common.WebSocketConfirmation;
 
 import javax.annotation.concurrent.NotThreadSafe;
 
 @NotThreadSafe
-final class MarketWebSocketUnsubscribeConfirmation extends WebSocketConfirmation {
+final class MarketDataWebSocketUnsubscribeConfirmation extends WebSocketConfirmation {
 
   public String unsubbed;
 }

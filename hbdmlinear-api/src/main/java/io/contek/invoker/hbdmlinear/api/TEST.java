@@ -3,7 +3,7 @@ package io.contek.invoker.hbdmlinear.api;
 import io.contek.invoker.commons.websocket.ConsumerState;
 import io.contek.invoker.commons.websocket.ISubscribingConsumer;
 import io.contek.invoker.commons.websocket.SubscriptionState;
-import io.contek.invoker.hbdmlinear.api.websocket.user.LiquidationOrderChannel;
+import io.contek.invoker.hbdmlinear.api.websocket.market.LiquidationOrderChannel;
 
 public class TEST implements ISubscribingConsumer<LiquidationOrderChannel.Message> {
 
@@ -25,7 +25,7 @@ public class TEST implements ISubscribingConsumer<LiquidationOrderChannel.Messag
     LiquidationOrderChannel channel =
         ApiFactory.getMainNet()
             .ws()
-            .user(null)
+            .marketNotification()
             .getLiquidationOrderChannel(LiquidationOrderChannel.Id.of("BTC-USDT"));
     channel.addConsumer(new TEST());
   }

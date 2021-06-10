@@ -3,10 +3,10 @@ package io.contek.invoker.hbdmlinear.api.websocket.common.notification;
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.IWebSocketLiveKeeper;
 import io.contek.invoker.commons.websocket.WebSocketSession;
-import io.contek.invoker.hbdmlinear.api.websocket.common.WebSocketPing;
-import io.contek.invoker.hbdmlinear.api.websocket.common.WebSocketPong;
 
 import javax.annotation.concurrent.Immutable;
+
+import static io.contek.invoker.hbdmlinear.api.websocket.user.constants.OpKeys._pong;
 
 @Immutable
 public final class NotificationWebSocketLiveKeeper implements IWebSocketLiveKeeper {
@@ -20,10 +20,11 @@ public final class NotificationWebSocketLiveKeeper implements IWebSocketLiveKeep
 
   @Override
   public void onMessage(AnyWebSocketMessage message, WebSocketSession session) {
-    if (message instanceof WebSocketPing) {
-      WebSocketPing ping = (WebSocketPing) message;
-      WebSocketPong pong = new WebSocketPong();
-      pong.pong = ping.ping;
+    if (message instanceof NotificationWebSocketPing) {
+      NotificationWebSocketPing ping = (NotificationWebSocketPing) message;
+      NotificationWebSocketPong pong = new NotificationWebSocketPong();
+      pong.op = _pong;
+      pong.ts = ping.ts;
       session.send(pong);
     }
   }

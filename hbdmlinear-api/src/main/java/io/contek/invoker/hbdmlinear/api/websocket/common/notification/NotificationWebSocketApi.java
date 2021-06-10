@@ -31,12 +31,12 @@ public abstract class NotificationWebSocketApi extends BaseWebSocketApi {
         new NotificationWebSocketMessageParser(),
         new NotificationWebSocketAuthenticator(
             actor.getCredential(), PATH, requestIdGenerator, context, actor.getClock()),
-        IWebSocketLiveKeeper.noOp());
+        NotificationWebSocketLiveKeeper.getInstance());
     this.context = context;
     this.requestIdGenerator = requestIdGenerator;
   }
 
-  public final NotificationWebSocketRequestIdGenerator getRequestIdGenerator() {
+  protected final NotificationWebSocketRequestIdGenerator getRequestIdGenerator() {
     return requestIdGenerator;
   }
 

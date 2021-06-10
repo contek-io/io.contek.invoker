@@ -3,6 +3,7 @@ package io.contek.invoker.hbdmlinear.api.websocket.market;
 import io.contek.invoker.commons.websocket.SubscriptionState;
 import io.contek.invoker.commons.websocket.WebSocketSession;
 import io.contek.invoker.hbdmlinear.api.common._TradeDetail;
+import io.contek.invoker.hbdmlinear.api.websocket.common.marketdata.*;
 
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
@@ -13,10 +14,10 @@ import static java.lang.String.format;
 
 @ThreadSafe
 public final class TradeDetailChannel
-    extends MarketWebSocketChannel<TradeDetailChannel.Id, TradeDetailChannel.Message> {
+    extends MarketDataMarketWebSocketChannel<TradeDetailChannel.Id, TradeDetailChannel.Message> {
 
   TradeDetailChannel(
-      TradeDetailChannel.Id id, MarketWebSocketRequestIdGenerator requestIdGenerator) {
+      TradeDetailChannel.Id id, MarketDataWebSocketRequestIdGenerator requestIdGenerator) {
     super(id, Message.class, requestIdGenerator);
   }
 
@@ -31,7 +32,7 @@ public final class TradeDetailChannel
   }
 
   @Immutable
-  public static final class Id extends MarketWebSocketChannelId<TradeDetailChannel.Message> {
+  public static final class Id extends MarketDataWebSocketChannelId<Message> {
 
     private Id(String topic) {
       super(topic);
@@ -43,10 +44,11 @@ public final class TradeDetailChannel
   }
 
   @NotThreadSafe
-  public static final class Message extends WebSocketTickMessage<_TradeDetail> {}
+  public static final class Message extends MarketDataWebSocketTickMessage<_TradeDetail> {}
 
   @NotThreadSafe
-  public static final class SubscribeTradeDetailRequest extends MarketWebSocketSubscribeRequest {
+  public static final class SubscribeTradeDetailRequest
+      extends MarketDataWebSocketSubscribeRequest {
 
     public Integer size;
   }

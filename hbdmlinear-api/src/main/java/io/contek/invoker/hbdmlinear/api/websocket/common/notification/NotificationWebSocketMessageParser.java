@@ -6,9 +6,6 @@ import com.google.gson.JsonObject;
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.IWebSocketComponent;
 import io.contek.invoker.commons.websocket.IWebSocketMessageParser;
-import io.contek.invoker.hbdmlinear.api.websocket.common.WebSocketPing;
-import io.contek.invoker.hbdmlinear.api.websocket.market.MarketWebSocketChannelMessage;
-import io.contek.invoker.hbdmlinear.api.websocket.user.LiquidationOrderChannel;
 
 import javax.annotation.concurrent.Immutable;
 import java.io.ByteArrayInputStream;
@@ -18,6 +15,8 @@ import java.io.Reader;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.zip.GZIPInputStream;
+
+import static io.contek.invoker.hbdmlinear.api.websocket.user.constants.OpKeys.*;
 
 @Immutable
 final class NotificationWebSocketMessageParser implements IWebSocketMessageParser {
@@ -55,29 +54,34 @@ final class NotificationWebSocketMessageParser implements IWebSocketMessageParse
     }
   }
 
-  private AnyWebSocketMessage parse(JsonElement json) {
+  private NotificationWebSocketInboundMessage parse(JsonElement json) {
     if (!json.isJsonObject()) {
       throw new IllegalArgumentException(json.toString());
     }
 
     System.out.println(json.toString());
-    if (true) {
-      return new LiquidationOrderChannel.Message();
-    }
     JsonObject obj = json.getAsJsonObject();
-    if (obj.has("ch")) {
-      return toMarketDataMessage(obj);
-    }
+    String op = obj.get("op").getAsString();
 
-    if (obj.has("ping")) {
-      return gson.fromJson(obj, WebSocketPing.class);
+    switch (op) {
+      case _sub:
+      case _unsub:
+        return gson.fromJson(obj, NotificationWebSocketConfirmation.class);
+      case _ping:
+        return gson.fromJson(obj, NotificationWebSocketPing.class);
+      case _notify:
+        return toMarketDataMessage(obj);
+      default:
     }
 
     throw new UnsupportedOperationException(json.toString());
   }
 
-  private MarketWebSocketChannelMessage toMarketDataMessage(JsonObject obj) {
-    String ch = obj.get("ch").getAsString();
-    return null;
+  private NotificationWebSocketChannelMessage toMarketDataMessage(JsonObject obj) {
+    String topic = obj.get("topic").getAsString();
+    synchronized (channelMessageTypes) {
+      Class<? extends NotificationWebSocketChannelMessage> type = channelMessageTypes.get(topic);
+      return gson.fromJson(obj, type);
+    }
   }
 }

@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import javax.annotation.concurrent.NotThreadSafe;
 
 @NotThreadSafe
-public final class NotificationWebSocketResponse<T> extends NotificationWebSocketInboundMessage {
+public abstract class NotificationWebSocketResponse extends NotificationWebSocketInboundMessage {
 
   public String cid;
 
@@ -14,6 +14,4 @@ public final class NotificationWebSocketResponse<T> extends NotificationWebSocke
 
   @SerializedName("err-msg")
   public String err_msg;
-
-  public T data;
 }

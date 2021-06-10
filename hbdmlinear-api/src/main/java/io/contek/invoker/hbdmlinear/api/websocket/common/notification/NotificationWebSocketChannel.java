@@ -18,7 +18,7 @@ public abstract class NotificationWebSocketChannel<
 
   private final NotificationWebSocketRequestIdGenerator requestIdGenerator;
 
-  private final AtomicReference<NotificationWebSocketRequest> pendingCommandHolder =
+  private final AtomicReference<NotificationWebSocketRequest> pendingRequestHolder =
       new AtomicReference<>(null);
 
   protected NotificationWebSocketChannel(
@@ -29,60 +29,65 @@ public abstract class NotificationWebSocketChannel<
 
   @Override
   protected final SubscriptionState subscribe(WebSocketSession session) {
-    synchronized (pendingCommandHolder) {
-      if (pendingCommandHolder.get() != null) {
+    synchronized (pendingRequestHolder) {
+      if (pendingRequestHolder.get() != null) {
         throw new IllegalStateException();
       }
+
+      Id id = getId();
+      NotificationWebSocketSubscriptionRequest request =
+          new NotificationWebSocketSubscriptionRequest();
+      request.op = _sub;
+      request.topic = id.getTopic();
+      request.cid = requestIdGenerator.generateNext();
+      session.send(request);
+      pendingRequestHolder.set(request);
     }
 
-    Id id = getId();
-    NotificationWebSocketSubscriptionRequest request =
-        new NotificationWebSocketSubscriptionRequest();
-    request.op = _sub;
-    request.topic = id.getTopic();
-    request.cid = requestIdGenerator.generateNext();
-    session.send(request);
-    return UNSUBSCRIBING;
+    return SUBSCRIBING;
   }
 
   @Override
   protected final SubscriptionState unsubscribe(WebSocketSession session) {
-    synchronized (pendingCommandHolder) {
-      if (pendingCommandHolder.get() != null) {
+    synchronized (pendingRequestHolder) {
+      if (pendingRequestHolder.get() != null) {
         throw new IllegalStateException();
       }
+
+      Id id = getId();
+      NotificationWebSocketSubscriptionRequest request =
+          new NotificationWebSocketSubscriptionRequest();
+      request.op = _unsub;
+      request.topic = id.getTopic();
+      request.cid = requestIdGenerator.generateNext();
+      session.send(request);
+      pendingRequestHolder.set(request);
     }
 
-    Id id = getId();
-    NotificationWebSocketSubscriptionRequest request =
-        new NotificationWebSocketSubscriptionRequest();
-    request.op = _unsub;
-    request.topic = id.getTopic();
-    request.cid = requestIdGenerator.generateNext();
-    session.send(request);
     return UNSUBSCRIBING;
   }
 
   @Nullable
   @Override
   protected final SubscriptionState getState(AnyWebSocketMessage message) {
-    if (!(message instanceof NotificationWebSocketResponse)) {
+    if (!(message instanceof NotificationWebSocketConfirmation)) {
       return null;
     }
-    NotificationWebSocketResponse<?> response = (NotificationWebSocketResponse<?>) message;
+    NotificationWebSocketConfirmation confirmation = (NotificationWebSocketConfirmation) message;
 
-    synchronized (pendingCommandHolder) {
-      NotificationWebSocketRequest request = pendingCommandHolder.get();
+    synchronized (pendingRequestHolder) {
+      NotificationWebSocketRequest request = pendingRequestHolder.get();
       if (request == null) {
         return null;
       }
 
-      if (!request.cid.equals(response.cid)) {
+      if (!request.cid.equals(confirmation.cid)) {
         return null;
       }
 
-      if (response.err_code != 0) {
-        throw new WebSocketIllegalMessageException(response.err_code + ": " + response.err_msg);
+      if (confirmation.err_code != 0) {
+        throw new WebSocketIllegalMessageException(
+            confirmation.err_code + ": " + confirmation.err_msg);
       }
 
       reset();
@@ -99,8 +104,8 @@ public abstract class NotificationWebSocketChannel<
 
   @Override
   protected final void reset() {
-    synchronized (pendingCommandHolder) {
-      pendingCommandHolder.set(null);
+    synchronized (pendingRequestHolder) {
+      pendingRequestHolder.set(null);
     }
   }
 }

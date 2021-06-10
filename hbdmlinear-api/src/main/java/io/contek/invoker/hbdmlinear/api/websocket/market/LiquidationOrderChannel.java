@@ -1,4 +1,4 @@
-package io.contek.invoker.hbdmlinear.api.websocket.user;
+package io.contek.invoker.hbdmlinear.api.websocket.market;
 
 import io.contek.invoker.hbdmlinear.api.common._LiquidationOrder;
 import io.contek.invoker.hbdmlinear.api.websocket.common.notification.NotificationWebSocketChannel;

@@ -78,10 +78,10 @@ final class NotificationWebSocketAuthenticator implements IWebSocketAuthenticato
       return;
     }
 
-    if (!(message instanceof NotificationWebSocketResponse)) {
+    if (!(message instanceof NotificationWebSocketConfirmation)) {
       return;
     }
-    NotificationWebSocketResponse<?> response = (NotificationWebSocketResponse<?>) message;
+    NotificationWebSocketConfirmation response = (NotificationWebSocketConfirmation) message;
 
     synchronized (pendingCommandHolder) {
       NotificationWebSocketAuthRequest request = pendingCommandHolder.get();

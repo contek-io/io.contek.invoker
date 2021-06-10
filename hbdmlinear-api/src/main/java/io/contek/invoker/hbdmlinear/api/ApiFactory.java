@@ -11,6 +11,7 @@ import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.websocket.WebSocketContext;
 import io.contek.invoker.hbdmlinear.api.rest.market.MarketRestApi;
 import io.contek.invoker.hbdmlinear.api.rest.user.UserRestApi;
+import io.contek.invoker.hbdmlinear.api.websocket.market.MarketNotificationWebSocketApi;
 import io.contek.invoker.hbdmlinear.api.websocket.market.MarketWebSocketApi;
 import io.contek.invoker.hbdmlinear.api.websocket.user.UserWebSocketApi;
 import io.contek.invoker.security.ApiKey;
@@ -143,6 +144,12 @@ public final class ApiFactory {
       WebSocketContext wsContext = context.getWebSocketContext();
       IActor actor = actorFactory.create(null, wsContext);
       return new MarketWebSocketApi(actor, wsContext);
+    }
+
+    public MarketNotificationWebSocketApi marketNotification() {
+      WebSocketContext wsContext = context.getWebSocketContext();
+      IActor actor = actorFactory.create(null, wsContext);
+      return new MarketNotificationWebSocketApi(actor, wsContext);
     }
 
     public UserWebSocketApi user(ApiKey apiKey) {

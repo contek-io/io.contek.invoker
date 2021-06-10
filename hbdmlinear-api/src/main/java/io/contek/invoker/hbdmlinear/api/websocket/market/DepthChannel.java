@@ -3,6 +3,7 @@ package io.contek.invoker.hbdmlinear.api.websocket.market;
 import io.contek.invoker.commons.websocket.SubscriptionState;
 import io.contek.invoker.commons.websocket.WebSocketSession;
 import io.contek.invoker.hbdmlinear.api.common._Depth;
+import io.contek.invoker.hbdmlinear.api.websocket.common.marketdata.*;
 
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
@@ -13,9 +14,9 @@ import static java.lang.String.format;
 
 @ThreadSafe
 public final class DepthChannel
-    extends MarketWebSocketChannel<DepthChannel.Id, DepthChannel.Message> {
+    extends MarketDataMarketWebSocketChannel<DepthChannel.Id, DepthChannel.Message> {
 
-  DepthChannel(DepthChannel.Id id, MarketWebSocketRequestIdGenerator requestIdGenerator) {
+  DepthChannel(DepthChannel.Id id, MarketDataWebSocketRequestIdGenerator requestIdGenerator) {
     super(id, Message.class, requestIdGenerator);
   }
 
@@ -30,7 +31,7 @@ public final class DepthChannel
   }
 
   @Immutable
-  public static final class Id extends MarketWebSocketChannelId<DepthChannel.Message> {
+  public static final class Id extends MarketDataWebSocketChannelId<Message> {
 
     private Id(String topic) {
       super(topic);
@@ -42,9 +43,9 @@ public final class DepthChannel
   }
 
   @NotThreadSafe
-  public static final class Message extends WebSocketTickMessage<_Depth> {}
+  public static final class Message extends MarketDataWebSocketTickMessage<_Depth> {}
 
   @NotThreadSafe
   public static final class WebSocketSubscribeMarketDepthRequest
-      extends MarketWebSocketSubscribeRequest {}
+      extends MarketDataWebSocketSubscribeRequest {}
 }

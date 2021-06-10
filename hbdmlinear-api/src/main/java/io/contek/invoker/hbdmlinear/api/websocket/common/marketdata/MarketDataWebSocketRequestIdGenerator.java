@@ -1,14 +1,14 @@
-package io.contek.invoker.hbdmlinear.api.websocket.market;
+package io.contek.invoker.hbdmlinear.api.websocket.common.marketdata;
 
 import javax.annotation.concurrent.ThreadSafe;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @ThreadSafe
-final class MarketWebSocketRequestIdGenerator {
+public final class MarketDataWebSocketRequestIdGenerator {
 
   private final AtomicInteger count = new AtomicInteger(0);
 
-  String generateNext() {
+  public String generateNext() {
     return Integer.toString(count.incrementAndGet());
   }
 }

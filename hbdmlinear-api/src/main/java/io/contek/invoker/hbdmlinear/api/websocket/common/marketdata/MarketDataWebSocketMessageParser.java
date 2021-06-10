@@ -1,4 +1,4 @@
-package io.contek.invoker.hbdmlinear.api.websocket.market;
+package io.contek.invoker.hbdmlinear.api.websocket.common.marketdata;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -18,22 +18,23 @@ import java.util.Map;
 import java.util.zip.GZIPInputStream;
 
 @ThreadSafe
-final class MarketWebSocketMessageParser implements IWebSocketMessageParser {
+public final class MarketDataWebSocketMessageParser implements IWebSocketMessageParser {
 
   private final Gson gson = new Gson();
 
-  private final Map<String, Class<? extends MarketWebSocketChannelMessage>> channelMessageTypes =
-      new HashMap<>();
+  private final Map<String, Class<? extends MarketDataWebSocketChannelMessage>>
+      channelMessageTypes = new HashMap<>();
 
-  MarketWebSocketMessageParser() {}
+  public MarketDataWebSocketMessageParser() {}
 
   @Override
   public void register(IWebSocketComponent component) {
-    if (!(component instanceof MarketWebSocketChannel)) {
+    if (!(component instanceof MarketDataMarketWebSocketChannel)) {
       return;
     }
     synchronized (channelMessageTypes) {
-      MarketWebSocketChannel<?, ?> channel = (MarketWebSocketChannel<?, ?>) component;
+      MarketDataMarketWebSocketChannel<?, ?> channel =
+          (MarketDataMarketWebSocketChannel<?, ?>) component;
       channelMessageTypes.put(channel.getId().getChannel(), channel.getMessageType());
     }
   }
@@ -69,20 +70,20 @@ final class MarketWebSocketMessageParser implements IWebSocketMessageParser {
     }
 
     if (obj.has("subbed")) {
-      return gson.fromJson(obj, MarketWebSocketSubscribeConfirmation.class);
+      return gson.fromJson(obj, MarketDataWebSocketSubscribeConfirmation.class);
     }
 
     if (obj.has("unsubbed")) {
-      return gson.fromJson(obj, MarketWebSocketUnsubscribeConfirmation.class);
+      return gson.fromJson(obj, MarketDataWebSocketUnsubscribeConfirmation.class);
     }
 
     throw new UnsupportedOperationException(json.toString());
   }
 
-  private MarketWebSocketChannelMessage toMarketDataMessage(JsonObject obj) {
+  private MarketDataWebSocketChannelMessage toMarketDataMessage(JsonObject obj) {
     String ch = obj.get("ch").getAsString();
     synchronized (channelMessageTypes) {
-      Class<? extends MarketWebSocketChannelMessage> type = channelMessageTypes.get(ch);
+      Class<? extends MarketDataWebSocketChannelMessage> type = channelMessageTypes.get(ch);
       return gson.fromJson(obj, type);
     }
   }
