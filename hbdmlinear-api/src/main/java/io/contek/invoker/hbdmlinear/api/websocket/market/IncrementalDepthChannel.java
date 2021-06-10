@@ -61,4 +61,13 @@ public final class IncrementalDepthChannel
 
     public String data_type;
   }
+
+  @Immutable
+  public static final class SizeKeys {
+
+    public static final int _20_unmerged_data = 20;
+    public static final int _150_unmerged_data = 150;
+
+    private SizeKeys() {}
+  }
 }
