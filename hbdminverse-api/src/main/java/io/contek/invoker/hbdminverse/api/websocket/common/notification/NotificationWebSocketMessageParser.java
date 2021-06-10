@@ -59,7 +59,6 @@ final class NotificationWebSocketMessageParser implements IWebSocketMessageParse
       throw new IllegalArgumentException(json.toString());
     }
 
-    System.out.println(json.toString());
     JsonObject obj = json.getAsJsonObject();
     String op = obj.get("op").getAsString();
 
