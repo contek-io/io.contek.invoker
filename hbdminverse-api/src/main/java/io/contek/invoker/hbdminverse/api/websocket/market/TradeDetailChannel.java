@@ -3,7 +3,7 @@ package io.contek.invoker.hbdminverse.api.websocket.market;
 import io.contek.invoker.commons.websocket.SubscriptionState;
 import io.contek.invoker.commons.websocket.WebSocketSession;
 import io.contek.invoker.hbdminverse.api.common._TradeDetail;
-import io.contek.invoker.hbdminverse.api.websocket.common.WebSocketSubscribeTradeDetailRequest;
+import io.contek.invoker.hbdminverse.api.websocket.common.marketdata.*;
 
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
@@ -14,16 +14,16 @@ import static java.lang.String.format;
 
 @ThreadSafe
 public final class TradeDetailChannel
-    extends MarketWebSocketChannel<TradeDetailChannel.Id, TradeDetailChannel.Message> {
+    extends MarketDataMarketWebSocketChannel<TradeDetailChannel.Id, TradeDetailChannel.Message> {
 
-  TradeDetailChannel(Id id, MarketWebSocketRequestIdGenerator requestIdGenerator) {
+  TradeDetailChannel(Id id, MarketDataWebSocketRequestIdGenerator requestIdGenerator) {
     super(id, Message.class, requestIdGenerator);
   }
 
   @Override
   protected final SubscriptionState subscribe(WebSocketSession session) {
     Id id = getId();
-    WebSocketSubscribeTradeDetailRequest request = new WebSocketSubscribeTradeDetailRequest();
+    SubscribeTradeDetailRequest request = new SubscribeTradeDetailRequest();
     request.sub = id.getChannel();
     request.id = generateNexRequestId();
     session.send(request);
@@ -31,7 +31,7 @@ public final class TradeDetailChannel
   }
 
   @Immutable
-  public static final class Id extends MarketWebSocketChannelId<Message> {
+  public static final class Id extends MarketDataWebSocketChannelId<Message> {
 
     private Id(String topic) {
       super(topic);
@@ -43,5 +43,12 @@ public final class TradeDetailChannel
   }
 
   @NotThreadSafe
-  public static final class Message extends WebSocketTickMessage<_TradeDetail> {}
+  public static final class Message extends MarketDataWebSocketTickMessage<_TradeDetail> {}
+
+  @NotThreadSafe
+  public static final class SubscribeTradeDetailRequest
+      extends MarketDataWebSocketSubscribeRequest {
+
+    public Integer size;
+  }
 }

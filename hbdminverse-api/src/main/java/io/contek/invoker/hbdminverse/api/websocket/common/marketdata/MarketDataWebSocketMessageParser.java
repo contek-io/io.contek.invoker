@@ -1,4 +1,4 @@
-package io.contek.invoker.hbdminverse.api.websocket.market;
+package io.contek.invoker.hbdminverse.api.websocket.common.marketdata;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -7,8 +7,6 @@ import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.IWebSocketComponent;
 import io.contek.invoker.commons.websocket.IWebSocketMessageParser;
 import io.contek.invoker.hbdminverse.api.websocket.common.WebSocketPing;
-import io.contek.invoker.hbdminverse.api.websocket.common.WebSocketSubscribeConfirmation;
-import io.contek.invoker.hbdminverse.api.websocket.common.WebSocketUnsubscribeConfirmation;
 
 import javax.annotation.concurrent.ThreadSafe;
 import java.io.ByteArrayInputStream;
@@ -20,22 +18,23 @@ import java.util.Map;
 import java.util.zip.GZIPInputStream;
 
 @ThreadSafe
-final class MarketWebSocketMessageParser implements IWebSocketMessageParser {
+public final class MarketDataWebSocketMessageParser implements IWebSocketMessageParser {
 
   private final Gson gson = new Gson();
 
-  private final Map<String, Class<? extends MarketWebSocketChannelMessage>> channelMessageTypes =
-      new HashMap<>();
+  private final Map<String, Class<? extends MarketDataWebSocketChannelMessage>>
+      channelMessageTypes = new HashMap<>();
 
-  MarketWebSocketMessageParser() {}
+  public MarketDataWebSocketMessageParser() {}
 
   @Override
   public void register(IWebSocketComponent component) {
-    if (!(component instanceof MarketWebSocketChannel)) {
+    if (!(component instanceof MarketDataMarketWebSocketChannel)) {
       return;
     }
     synchronized (channelMessageTypes) {
-      MarketWebSocketChannel<?, ?> channel = (MarketWebSocketChannel<?, ?>) component;
+      MarketDataMarketWebSocketChannel<?, ?> channel =
+          (MarketDataMarketWebSocketChannel<?, ?>) component;
       channelMessageTypes.put(channel.getId().getChannel(), channel.getMessageType());
     }
   }
@@ -71,20 +70,20 @@ final class MarketWebSocketMessageParser implements IWebSocketMessageParser {
     }
 
     if (obj.has("subbed")) {
-      return gson.fromJson(obj, WebSocketSubscribeConfirmation.class);
+      return gson.fromJson(obj, MarketDataWebSocketSubscribeConfirmation.class);
     }
 
     if (obj.has("unsubbed")) {
-      return gson.fromJson(obj, WebSocketUnsubscribeConfirmation.class);
+      return gson.fromJson(obj, MarketDataWebSocketUnsubscribeConfirmation.class);
     }
 
     throw new UnsupportedOperationException(json.toString());
   }
 
-  private MarketWebSocketChannelMessage toMarketDataMessage(JsonObject obj) {
+  private MarketDataWebSocketChannelMessage toMarketDataMessage(JsonObject obj) {
     String ch = obj.get("ch").getAsString();
     synchronized (channelMessageTypes) {
-      Class<? extends MarketWebSocketChannelMessage> type = channelMessageTypes.get(ch);
+      Class<? extends MarketDataWebSocketChannelMessage> type = channelMessageTypes.get(ch);
       return gson.fromJson(obj, type);
     }
   }

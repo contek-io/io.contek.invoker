@@ -3,8 +3,8 @@ package io.contek.invoker.hbdminverse.api.websocket.market;
 import io.contek.invoker.commons.websocket.SubscriptionState;
 import io.contek.invoker.commons.websocket.WebSocketSession;
 import io.contek.invoker.hbdminverse.api.common._Depth;
-import io.contek.invoker.hbdminverse.api.websocket.common.WebSocketSubscribeIncrementalMarketDepthRequest;
 import io.contek.invoker.hbdminverse.api.websocket.common.constants.WebSocketDataTypeKeys;
+import io.contek.invoker.hbdminverse.api.websocket.common.marketdata.*;
 
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
@@ -14,19 +14,18 @@ import static io.contek.invoker.commons.websocket.SubscriptionState.SUBSCRIBING;
 import static java.lang.String.format;
 
 @ThreadSafe
-public final class IncrementalMarketDepthChannel
-    extends MarketWebSocketChannel<
-        IncrementalMarketDepthChannel.Id, IncrementalMarketDepthChannel.Message> {
+public final class IncrementalDepthChannel
+    extends MarketDataMarketWebSocketChannel<
+        IncrementalDepthChannel.Id, IncrementalDepthChannel.Message> {
 
-  IncrementalMarketDepthChannel(Id id, MarketWebSocketRequestIdGenerator requestIdGenerator) {
+  IncrementalDepthChannel(Id id, MarketDataWebSocketRequestIdGenerator requestIdGenerator) {
     super(id, Message.class, requestIdGenerator);
   }
 
   @Override
   protected SubscriptionState subscribe(WebSocketSession session) {
     Id id = getId();
-    WebSocketSubscribeIncrementalMarketDepthRequest request =
-        new WebSocketSubscribeIncrementalMarketDepthRequest();
+    SubscribeIncrementalMarketDepthRequest request = new SubscribeIncrementalMarketDepthRequest();
     request.sub = id.getChannel();
     request.data_type = WebSocketDataTypeKeys._incremental;
     request.id = generateNexRequestId();
@@ -35,7 +34,7 @@ public final class IncrementalMarketDepthChannel
   }
 
   @Immutable
-  public static final class Id extends MarketWebSocketChannelId<Message> {
+  public static final class Id extends MarketDataWebSocketChannelId<Message> {
 
     private Id(String topic) {
       super(topic);
@@ -47,11 +46,18 @@ public final class IncrementalMarketDepthChannel
   }
 
   @NotThreadSafe
-  public static final class Message extends WebSocketTickMessage<Tick> {}
+  public static final class Message extends MarketDataWebSocketTickMessage<Tick> {}
 
   @NotThreadSafe
   public static final class Tick extends _Depth {
 
     public String event;
+  }
+
+  @NotThreadSafe
+  public static final class SubscribeIncrementalMarketDepthRequest
+      extends MarketDataWebSocketSubscribeRequest {
+
+    public String data_type;
   }
 }

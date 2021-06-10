@@ -1,39 +1,32 @@
 package io.contek.invoker.hbdminverse.api.websocket.user;
 
-import com.google.common.collect.ImmutableList;
 import io.contek.invoker.commons.actor.IActor;
-import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
-import io.contek.invoker.commons.websocket.*;
-import io.contek.invoker.security.ICredential;
+import io.contek.invoker.commons.websocket.WebSocketContext;
+import io.contek.invoker.hbdminverse.api.websocket.common.notification.NotificationWebSocketApi;
 
 import javax.annotation.concurrent.ThreadSafe;
-
-import static io.contek.invoker.hbdminverse.api.ApiFactory.RateLimits.ONE_IP_WEB_SOCKET_CONNECTION_REQUEST;
+import java.util.HashMap;
+import java.util.Map;
 
 @ThreadSafe
-public final class UserWebSocketApi extends BaseWebSocketApi {
+public final class UserWebSocketApi extends NotificationWebSocketApi {
 
-  private final WebSocketContext context;
+  private final Map<TriggerOrderChannel.Id, TriggerOrderChannel> tradeDetailChannels =
+      new HashMap<>();
 
   public UserWebSocketApi(IActor actor, WebSocketContext context) {
-    super(
-        actor,
-        WebSocketMessageParser.getInstance(),
-        IWebSocketAuthenticator.noOp(),
-        IWebSocketLiveKeeper.noOp());
-    this.context = context;
+    super(actor, context);
   }
 
-  @Override
-  protected ImmutableList<RateLimitQuota> getRequiredQuotas() {
-    return ONE_IP_WEB_SOCKET_CONNECTION_REQUEST;
+  public TriggerOrderChannel getTriggerOrderChannel(TriggerOrderChannel.Id id) {
+    synchronized (tradeDetailChannels) {
+      return tradeDetailChannels.computeIfAbsent(
+          id,
+          k -> {
+            TriggerOrderChannel result = new TriggerOrderChannel(k, getRequestIdGenerator());
+            attach(result);
+            return result;
+          });
+    }
   }
-
-  @Override
-  protected WebSocketCall createCall(ICredential credential) {
-    return WebSocketCall.fromUrl(context.getBaseUrl() + "/swap-notification");
-  }
-
-  @Override
-  protected void checkErrorMessage(AnyWebSocketMessage message) throws WebSocketRuntimeException {}
 }
