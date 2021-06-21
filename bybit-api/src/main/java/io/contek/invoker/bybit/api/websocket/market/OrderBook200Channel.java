@@ -8,8 +8,6 @@ import javax.annotation.concurrent.ThreadSafe;
 @ThreadSafe
 public final class OrderBook200Channel extends OrderBookChannel<OrderBook200Channel.Id> {
 
-  public static final String TOPIC_PREFIX = "orderBook_200.100ms";
-
   public OrderBook200Channel(OrderBook200Channel.Id id) {
     super(id);
   }
