@@ -7,7 +7,7 @@ public class _Instrument {
 
   public String base_currency;
   public double block_trade_commission;
-  public long contract_size;
+  public double contract_size;
   public long creation_timestamp;
   public long expiration_timestamp;
   public String instrument_name;

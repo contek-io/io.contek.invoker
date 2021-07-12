@@ -36,6 +36,10 @@ public final class UserRestApi {
     return new GetCancelAll(actor, context);
   }
 
+  public GetClosePosition getClosePosition() {
+    return new GetClosePosition(actor, context);
+  }
+
   public GetDeposits getDeposits() {
     return new GetDeposits(actor, context);
   }
