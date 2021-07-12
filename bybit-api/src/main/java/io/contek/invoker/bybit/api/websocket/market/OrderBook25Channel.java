@@ -20,7 +20,7 @@ public final class OrderBook25Channel extends OrderBookChannel<OrderBook25Channe
     }
 
     public static Id of(String symbol) {
-      return new Id(String.format("orderBook_25.%s", symbol));
+      return new Id(String.format("orderBookL2_25.%s", symbol));
     }
   }
 }

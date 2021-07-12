@@ -60,6 +60,10 @@ public final class UserRestApi {
     return new PostOrderCancel(actor, context);
   }
 
+  public PostOrderCancelAll postOrderCancelAll() {
+    return new PostOrderCancelAll(actor, context);
+  }
+
   public PostOrderCreate postOrderCreate() {
     return new PostOrderCreate(actor, context);
   }
