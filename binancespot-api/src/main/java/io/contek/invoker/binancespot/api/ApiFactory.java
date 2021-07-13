@@ -33,7 +33,7 @@ public final class ApiFactory {
   public static final ApiContext MAIN_NET_CONTEXT =
       ApiContext.newBuilder()
           .setRestContext(RestContext.forBaseUrl("https://api.binance.com"))
-          .setWebSocketContext(WebSocketContext.forBaseUrl("wss://api.binance.com"))
+          .setWebSocketContext(WebSocketContext.forBaseUrl("wss://stream.binance.com"))
           .build();
 
   public static final ApiContext TEST_NET_CONTEXT =
