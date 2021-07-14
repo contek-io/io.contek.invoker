@@ -15,9 +15,9 @@ subprojects {
     apply plugin: 'signing'
 
     ext {
-        gsonVersion = '2.8.6'
-        okhttpVersion = '4.9.0'
-        resilience4jVersion = '1.6.1'
+        gsonVersion = '2.8.7'
+        okhttpVersion = '4.9.1'
+        resilience4jVersion = '1.7.1'
     }
 
     sourceCompatibility = '1.8'
@@ -31,14 +31,14 @@ subprojects {
     }
 
     dependencies {
-        implementation 'com.google.guava:guava:30.1-jre'
-        implementation 'org.slf4j:slf4j-api:1.7.30'
+        implementation 'com.google.guava:guava:30.1.1-jre'
+        implementation 'org.slf4j:slf4j-api:1.7.31'
 
         compileOnly 'com.github.spotbugs:spotbugs-annotations:4.2.0'
     }
 
     group = 'io.contek.invoker'
-    version = '2.12.7-SNAPSHOT'
+    version = '2.13.3-SNAPSHOT'
 
     task sourcesJar(type: Jar) {
         from sourceSets.main.allSource

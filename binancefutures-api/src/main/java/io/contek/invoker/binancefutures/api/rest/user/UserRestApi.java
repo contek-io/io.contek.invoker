@@ -28,6 +28,10 @@ public final class UserRestApi {
     return new GetAccount(actor, context);
   }
 
+  public GetAllOrders getAllOrders() {
+    return new GetAllOrders(actor, context);
+  }
+
   public GetOpenOrders getOpenOrders() {
     return new GetOpenOrders(actor, context);
   }
