@@ -15,7 +15,7 @@ public abstract class WebSocketApi extends BaseWebSocketApi {
   private final WebSocketRequestIdGenerator requestIdGenerator = new WebSocketRequestIdGenerator();
 
   protected WebSocketApi(IActor actor) {
-    super(actor, WebSocketMessageParser.getInstance(), IWebSocketAuthenticator.noOp());
+    super(actor, WebSocketMessageParser.getInstance(), IWebSocketAuthenticator.noOp(), null);
   }
 
   public final WebSocketRequestIdGenerator getRequestIdGenerator() {

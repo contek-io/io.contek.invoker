@@ -9,48 +9,52 @@ import io.contek.invoker.ftx.api.rest.common.RestResponse;
 
 import javax.annotation.concurrent.NotThreadSafe;
 
-import static io.contek.invoker.commons.rest.RestMethod.POST;
 import static java.util.Objects.requireNonNull;
 
 @NotThreadSafe
 public final class PostAccountLeverage extends UserRestRequest<PostAccountLeverage.Response> {
 
-  private Double leverage;
+    private Double leverage;
 
-  PostAccountLeverage(IActor actor, RestContext context) {
-    super(actor, context);
-  }
+    public PostAccountLeverage(IActor actor, RestContext context) {
+        super(actor, context);
+    }
 
-  public PostAccountLeverage setLeverage(Double leverage) {
-    this.leverage = leverage;
-    return this;
-  }
+    public Double getLeverage() {
+        return leverage;
+    }
 
-  @Override
-  protected RestMethod getMethod() {
-    return POST;
-  }
+    public PostAccountLeverage setLeverage(Double leverage) {
+        this.leverage = leverage;
+        return this;
+    }
 
-  @Override
-  protected String getEndpointPath() {
-    return "/account/leverage";
-  }
+    @Override
+    protected RestMethod getMethod() {
+        return RestMethod.POST;
+    }
 
-  @Override
-  protected RestParams getParams() {
-    RestParams.Builder builder = RestParams.newBuilder();
+    @Override
+    protected String getEndpointPath() {
+        return "/account/leverage";
+    }
 
-    requireNonNull(leverage);
-    builder.add("leverage", leverage);
+    @Override
+    protected RestParams getParams() {
+        RestParams.Builder builder = RestParams.newBuilder();
 
-    return builder.build();
-  }
+        requireNonNull(leverage);
+        builder.add("leverage", leverage);
 
-  @Override
-  protected Class<Response> getResponseType() {
-    return Response.class;
-  }
+        return builder.build();
+    }
 
-  @NotThreadSafe
-  public static final class Response extends RestResponse<_Leverage> {}
+    @Override
+    protected Class<Response> getResponseType() {
+        return Response.class;
+    }
+
+    @NotThreadSafe
+    public static final class Response extends RestResponse<_Leverage> {
+    }
 }

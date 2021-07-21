@@ -5,6 +5,7 @@ import io.contek.invoker.commons.websocket.BaseWebSocketChannel;
 import io.contek.invoker.commons.websocket.SubscriptionState;
 import io.contek.invoker.commons.websocket.WebSocketSession;
 import io.contek.invoker.ftx.api.websocket.common.WebSocketInboundMessage;
+import io.contek.invoker.ftx.api.websocket.common.WebSocketPing;
 import io.contek.invoker.ftx.api.websocket.common.WebSocketSubscriptionRequest;
 import io.contek.invoker.ftx.api.websocket.common.WebSocketSubscriptionResponse;
 
@@ -67,4 +68,9 @@ public abstract class WebSocketChannel<Message extends WebSocketInboundMessage>
 
   @Override
   protected final void reset() {}
+
+  @Override
+  public void sendPing(WebSocketSession session) {
+    session.send(new WebSocketPing());
+  }
 }

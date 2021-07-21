@@ -9,45 +9,49 @@ import io.contek.invoker.ftx.api.rest.common.RestResponse;
 
 import javax.annotation.concurrent.NotThreadSafe;
 
-import static io.contek.invoker.commons.rest.RestMethod.GET;
 import static java.text.MessageFormat.format;
 import static java.util.Objects.requireNonNull;
 
 @NotThreadSafe
 public final class GetOrdersByClientId extends UserRestRequest<GetOrdersByClientId.Response> {
 
-  private String client_order_id;
+    private String clientOrderId;
 
-  GetOrdersByClientId(IActor actor, RestContext context) {
-    super(actor, context);
-  }
+    public GetOrdersByClientId(IActor actor, RestContext context) {
+        super(actor, context);
+    }
 
-  public GetOrdersByClientId setClientOrderId(String client_order_id) {
-    this.client_order_id = client_order_id;
-    return this;
-  }
+    public String getClientOrderId() {
+        return clientOrderId;
+    }
 
-  @Override
-  protected RestMethod getMethod() {
-    return GET;
-  }
+    public GetOrdersByClientId setClientOrderId(String clientOrderId) {
+        this.clientOrderId = clientOrderId;
+        return this;
+    }
 
-  @Override
-  protected String getEndpointPath() {
-    requireNonNull(client_order_id);
-    return format("/api/orders/by_client_id/{0}", client_order_id);
-  }
+    @Override
+    protected RestMethod getMethod() {
+        return RestMethod.GET;
+    }
 
-  @Override
-  protected RestParams getParams() {
-    return RestParams.empty();
-  }
+    @Override
+    protected String getEndpointPath() {
+        requireNonNull(clientOrderId);
+        return format("/api/orders/by_client_id/{0}", clientOrderId);
+    }
 
-  @Override
-  protected Class<Response> getResponseType() {
-    return Response.class;
-  }
+    @Override
+    protected RestParams getParams() {
+        return RestParams.empty();
+    }
 
-  @NotThreadSafe
-  public static final class Response extends RestResponse<_Order> {}
+    @Override
+    protected Class<Response> getResponseType() {
+        return Response.class;
+    }
+
+    @NotThreadSafe
+    public static final class Response extends RestResponse<_Order> {
+    }
 }

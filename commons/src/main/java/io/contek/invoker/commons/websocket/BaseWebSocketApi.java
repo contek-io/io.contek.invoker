@@ -15,9 +15,11 @@ import javax.annotation.concurrent.ThreadSafe;
 import java.io.EOFException;
 import java.io.IOException;
 import java.net.SocketTimeoutException;
+import java.time.Duration;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static java.util.concurrent.Executors.newSingleThreadScheduledExecutor;
@@ -38,12 +40,18 @@ public abstract class BaseWebSocketApi implements IWebSocketApi {
   private final AtomicReference<WebSocketSession> sessionHolder = new AtomicReference<>();
   private final AtomicReference<ScheduledFuture<?>> scheduleHolder = new AtomicReference<>();
   private final WebSocketComponentManager components = new WebSocketComponentManager();
+  private final AtomicLong pingSendTime;
 
   protected BaseWebSocketApi(
-      IActor actor, IWebSocketMessageParser parser, IWebSocketAuthenticator authenticator) {
+      IActor actor, IWebSocketMessageParser parser, IWebSocketAuthenticator authenticator, Duration pingInterval) {
     this.actor = actor;
     this.parser = parser;
     this.authenticator = authenticator;
+    if (pingInterval == null) {
+      this.pingSendTime = new AtomicLong(-1);
+    } else {
+      this.pingSendTime = new AtomicLong(System.currentTimeMillis() + pingInterval.toMillis());
+    }
   }
 
   public final void attach(IWebSocketComponent channel) {
@@ -125,6 +133,11 @@ public abstract class BaseWebSocketApi implements IWebSocketApi {
           }
 
           components.heartbeat(session);
+          long pingSendTime = this.pingSendTime.get();
+          if (pingSendTime != -1 && pingSendTime <= System.currentTimeMillis()) {
+            log.trace("Sending ping");
+            components.sendPing(session);
+          }
         }
       }
     } catch (Throwable t) {

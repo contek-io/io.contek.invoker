@@ -8,53 +8,79 @@ import io.contek.invoker.ftx.api.rest.common.RestResponse;
 
 import javax.annotation.concurrent.NotThreadSafe;
 
-import static io.contek.invoker.commons.rest.RestMethod.DELETE;
-
 @NotThreadSafe
 public final class DeleteAllOrders extends UserRestRequest<DeleteAllOrders.Response> {
 
-  private String market;
-  private Boolean conditionalOrdersOnly;
-  private Boolean limitOrdersOnly;
+    private String market;
+    private Boolean conditionalOrdersOnly;
+    private Boolean limitOrdersOnly;
 
-  DeleteAllOrders(IActor actor, RestContext context) {
-    super(actor, context);
-  }
-
-  @Override
-  protected RestMethod getMethod() {
-    return DELETE;
-  }
-
-  @Override
-  protected String getEndpointPath() {
-    return "/api/orders";
-  }
-
-  @Override
-  protected RestParams getParams() {
-    RestParams.Builder builder = RestParams.newBuilder();
-
-    if (market != null) {
-      builder.add("market", market);
+    public DeleteAllOrders(IActor actor, RestContext context) {
+        super(actor, context);
     }
 
-    if (conditionalOrdersOnly != null) {
-      builder.add("conditionalOrdersOnly", conditionalOrdersOnly);
+    public String getMarket() {
+        return market;
     }
 
-    if (limitOrdersOnly != null) {
-      builder.add("limitOrdersOnly", limitOrdersOnly);
+    public DeleteAllOrders setMarket(String market) {
+        this.market = market;
+        return this;
     }
 
-    return builder.build();
-  }
+    public Boolean getConditionalOrdersOnly() {
+        return conditionalOrdersOnly;
+    }
 
-  @Override
-  protected Class<Response> getResponseType() {
-    return Response.class;
-  }
+    public DeleteAllOrders setConditionalOrdersOnly(Boolean conditionalOrdersOnly) {
+        this.conditionalOrdersOnly = conditionalOrdersOnly;
+        return this;
+    }
 
-  @NotThreadSafe
-  public static final class Response extends RestResponse<String> {}
+    public Boolean getLimitOrdersOnly() {
+        return limitOrdersOnly;
+    }
+
+    public DeleteAllOrders setLimitOrdersOnly(Boolean limitOrdersOnly) {
+        this.limitOrdersOnly = limitOrdersOnly;
+        return this;
+    }
+
+    @Override
+    protected RestMethod getMethod() {
+        return RestMethod.DELETE;
+    }
+
+    @Override
+    protected String getEndpointPath() {
+        return "/api/orders";
+    }
+
+    @Override
+    protected RestParams getParams() {
+        RestParams.Builder builder = RestParams.newBuilder();
+
+        if (market != null) {
+            builder.add("market", market);
+        }
+
+        if (conditionalOrdersOnly != null) {
+            builder.add("conditionalOrdersOnly", conditionalOrdersOnly);
+        }
+
+        if (limitOrdersOnly != null) {
+            builder.add("limitOrdersOnly", limitOrdersOnly);
+        }
+
+        return builder.build();
+    }
+
+    @Override
+    protected Class<Response> getResponseType() {
+        return Response.class;
+    }
+
+    @NotThreadSafe
+    public static final class Response extends RestResponse<String> {
+    }
 }

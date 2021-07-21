@@ -8,46 +8,50 @@ import io.contek.invoker.ftx.api.rest.common.RestResponse;
 
 import javax.annotation.concurrent.NotThreadSafe;
 
-import static io.contek.invoker.commons.rest.RestMethod.DELETE;
 import static java.text.MessageFormat.format;
 import static java.util.Objects.requireNonNull;
 
 @NotThreadSafe
 public final class DeleteOrdersByClientOrderId
-    extends UserRestRequest<DeleteOrdersByClientOrderId.Response> {
+        extends UserRestRequest<DeleteOrdersByClientOrderId.Response> {
 
-  private String by_client_id;
+    private String byClientId;
 
-  DeleteOrdersByClientOrderId(IActor actor, RestContext context) {
-    super(actor, context);
-  }
+    public DeleteOrdersByClientOrderId(IActor actor, RestContext context) {
+        super(actor, context);
+    }
 
-  public DeleteOrdersByClientOrderId setByClientId(String by_client_id) {
-    this.by_client_id = by_client_id;
-    return this;
-  }
+    public String getByClientId() {
+        return byClientId;
+    }
 
-  @Override
-  protected RestMethod getMethod() {
-    return DELETE;
-  }
+    public DeleteOrdersByClientOrderId setByClientId(String by_client_id) {
+        this.byClientId = by_client_id;
+        return this;
+    }
 
-  @Override
-  protected String getEndpointPath() {
-    requireNonNull(by_client_id);
-    return format("/api/orders/by_client_id/{0}", by_client_id);
-  }
+    @Override
+    protected RestMethod getMethod() {
+        return RestMethod.DELETE;
+    }
 
-  @Override
-  protected RestParams getParams() {
-    return RestParams.empty();
-  }
+    @Override
+    protected String getEndpointPath() {
+        requireNonNull(byClientId);
+        return format("/api/orders/by_client_id/{0}", byClientId);
+    }
 
-  @Override
-  protected Class<Response> getResponseType() {
-    return Response.class;
-  }
+    @Override
+    protected RestParams getParams() {
+        return RestParams.empty();
+    }
 
-  @NotThreadSafe
-  public static final class Response extends RestResponse<String> {}
+    @Override
+    protected Class<Response> getResponseType() {
+        return Response.class;
+    }
+
+    @NotThreadSafe
+    public static final class Response extends RestResponse<String> {
+    }
 }

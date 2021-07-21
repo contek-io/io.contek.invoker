@@ -71,4 +71,11 @@ public abstract class WebSocketChannel<Message extends WebSocketTopicMessage>
 
   @Override
   protected final void reset() {}
+
+  @Override
+  public void sendPing(WebSocketSession session) {
+    WebSocketRequest webSocketRequest = new WebSocketRequest();
+    webSocketRequest.op = "ping";
+    session.send(webSocketRequest);
+  }
 }

@@ -10,6 +10,7 @@ import io.contek.invoker.commons.actor.ratelimit.*;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.websocket.WebSocketContext;
 import io.contek.invoker.ftx.api.rest.market.MarketRestApi;
+import io.contek.invoker.ftx.api.rest.otc.UserRestApiOTC;
 import io.contek.invoker.ftx.api.rest.user.UserRestApi;
 import io.contek.invoker.ftx.api.websocket.market.MarketWebSocketApi;
 import io.contek.invoker.ftx.api.websocket.user.UserWebSocketApi;
@@ -29,10 +30,15 @@ import static io.contek.invoker.security.SecretKeyAlgorithm.HMAC_SHA256;
 public final class ApiFactory {
 
   public static final ApiContext MAIN_NET_CONTEXT =
-      ApiContext.newBuilder()
-          .setRestContext(RestContext.forBaseUrl("https://ftx.com"))
-          .setWebSocketContext(WebSocketContext.forBaseUrl("wss://ftx.com"))
-          .build();
+          ApiContext.newBuilder()
+                  .setRestContext(RestContext.forBaseUrl("https://ftx.com"))
+                  .setWebSocketContext(WebSocketContext.forBaseUrlAndPingInterval("wss://ftx.com", Duration.ofSeconds(15)))
+                  .build();
+
+  public static final ApiContext OTC_MAIN_NET_CONTEXT =
+          ApiContext.newBuilder()
+                  .setRestContext(RestContext.forBaseUrl("https://otc.ftx.com"))
+                  .build();
 
   private final ApiContext context;
   private final IActorFactory actorFactory;
@@ -59,6 +65,10 @@ public final class ApiFactory {
     return new SelectingWebSocketApi();
   }
 
+  public SelectingRestApiOTC restOTC() {
+    return new SelectingRestApiOTC();
+  }
+
   private static SimpleActorFactory createActorFactory(
       double rateLimitCushion, @Nullable IRateLimitQuotaInterceptor interceptor) {
     return SimpleActorFactory.newBuilder()
@@ -82,6 +92,23 @@ public final class ApiFactory {
         .setCushion(cushion)
         .addRule(RateLimits.IP_REST_PUBLIC_REQUEST_RULE)
         .build();
+  }
+
+  @ThreadSafe
+  public final class SelectingRestApiOTC {
+
+    private SelectingRestApiOTC() {
+    }
+
+    public MarketRestApi market() {
+      return null;
+    }
+
+    public UserRestApiOTC user(ApiKey apiKey) {
+      RestContext restContext = context.getRestContext();
+      IActor actor = actorFactory.create(apiKey, restContext);
+      return new UserRestApiOTC(actor, restContext);
+    }
   }
 
   @ThreadSafe

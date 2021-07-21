@@ -33,13 +33,13 @@ public final class ApiFactory {
   public static final ApiContext MAIN_NET_CONTEXT =
       ApiContext.newBuilder()
           .setRestContext(RestContext.forBaseUrl("https://api.bybit.com"))
-          .setWebSocketContext(WebSocketContext.forBaseUrl("wss://stream.bybit.com"))
+          .setWebSocketContext(WebSocketContext.forBaseUrlAndPingInterval("wss://stream.bybit.com", Duration.ofSeconds(30)))
           .build();
 
   public static final ApiContext TEST_NET_CONTEXT =
       ApiContext.newBuilder()
           .setRestContext(RestContext.forBaseUrl("https://api-testnet.bybit.com"))
-          .setWebSocketContext(WebSocketContext.forBaseUrl("wss://stream-testnet.bybit.com"))
+          .setWebSocketContext(WebSocketContext.forBaseUrlAndPingInterval("wss://stream-testnet.bybit.com", Duration.ofSeconds(30)))
           .build();
 
   private final ApiContext context;

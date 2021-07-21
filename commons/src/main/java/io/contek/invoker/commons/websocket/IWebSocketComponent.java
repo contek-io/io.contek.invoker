@@ -8,4 +8,6 @@ public interface IWebSocketComponent extends IWebSocketListener {
   void heartbeat(WebSocketSession session);
 
   ConsumerState getState();
+
+  default void sendPing(WebSocketSession session) {}
 }

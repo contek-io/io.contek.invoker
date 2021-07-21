@@ -9,45 +9,49 @@ import io.contek.invoker.ftx.api.rest.common.RestResponse;
 
 import javax.annotation.concurrent.NotThreadSafe;
 
-import static io.contek.invoker.commons.rest.RestMethod.GET;
 import static java.text.MessageFormat.format;
 import static java.util.Objects.requireNonNull;
 
 @NotThreadSafe
 public final class GetOrders extends UserRestRequest<GetOrders.Response> {
 
-  private String order_id;
+    private String orderId;
 
-  GetOrders(IActor actor, RestContext context) {
-    super(actor, context);
-  }
+    public GetOrders(IActor actor, RestContext context) {
+        super(actor, context);
+    }
 
-  public GetOrders setOrderId(String order_id) {
-    this.order_id = order_id;
-    return this;
-  }
+    public String getOrderId() {
+        return orderId;
+    }
 
-  @Override
-  protected RestMethod getMethod() {
-    return GET;
-  }
+    public GetOrders setOrderId(String order_id) {
+        this.orderId = order_id;
+        return this;
+    }
 
-  @Override
-  protected String getEndpointPath() {
-    requireNonNull(order_id);
-    return format("/api/orders/{0}", order_id);
-  }
+    @Override
+    protected RestMethod getMethod() {
+        return RestMethod.GET;
+    }
 
-  @Override
-  protected RestParams getParams() {
-    return RestParams.empty();
-  }
+    @Override
+    protected String getEndpointPath() {
+        requireNonNull(orderId);
+        return format("/api/orders/{0}", orderId);
+    }
 
-  @Override
-  protected Class<Response> getResponseType() {
-    return Response.class;
-  }
+    @Override
+    protected RestParams getParams() {
+        return RestParams.empty();
+    }
 
-  @NotThreadSafe
-  public static final class Response extends RestResponse<_Order> {}
+    @Override
+    protected Class<Response> getResponseType() {
+        return Response.class;
+    }
+
+    @NotThreadSafe
+    public static final class Response extends RestResponse<_Order> {
+    }
 }

@@ -55,6 +55,10 @@ final class WebSocketComponentManager {
     active.forEach(c -> c.heartbeat(session));
   }
 
+  void sendPing(WebSocketSession session) {
+    active.forEach(c -> c.sendPing(session));
+  }
+
   boolean hasActiveComponent() {
     return !active.isEmpty();
   }
