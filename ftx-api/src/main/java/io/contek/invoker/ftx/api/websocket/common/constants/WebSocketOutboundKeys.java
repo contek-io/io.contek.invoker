@@ -9,5 +9,7 @@ public final class WebSocketOutboundKeys {
 
   public static final String _unsubscribe = "unsubscribe";
 
+  public static final String _login = "login";
+
   private WebSocketOutboundKeys() {}
 }

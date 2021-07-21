@@ -11,6 +11,8 @@ import io.contek.invoker.ftx.api.websocket.common.WebSocketSubscriptionResponse;
 import io.contek.invoker.ftx.api.websocket.market.OrderBookChannel;
 import io.contek.invoker.ftx.api.websocket.market.TickerChannel;
 import io.contek.invoker.ftx.api.websocket.market.TradesChannel;
+import io.contek.invoker.ftx.api.websocket.user.FillUpdateChannel;
+import io.contek.invoker.ftx.api.websocket.user.OrderUpdateChannel;
 
 import javax.annotation.concurrent.Immutable;
 
@@ -47,14 +49,14 @@ final class WebSocketMessageParser implements IWebSocketMessageParser {
       case _info:
         return toInfoMessage(obj);
       case _pong:
-        return toPongMessage();
+        return toPongMessage(obj);
       default:
         throw new IllegalArgumentException(text);
     }
   }
 
-  private WebSocketInboundMessage toPongMessage() {
-    return new WebSocketPong();
+  private WebSocketInboundMessage toPongMessage(JsonObject obj) {
+    return gson.fromJson(obj, WebSocketPong.class);
   }
 
   private WebSocketInboundMessage toSubscriptionMessage(JsonObject obj) {
@@ -72,6 +74,10 @@ final class WebSocketMessageParser implements IWebSocketMessageParser {
         return gson.fromJson(obj, TradesChannel.Message.class);
       case _ticker:
         return gson.fromJson(obj, TickerChannel.Message.class);
+      case _orders:
+        return gson.fromJson(obj, OrderUpdateChannel.Message.class);
+      case _fills:
+        return gson.fromJson(obj, FillUpdateChannel.Message.class);
       default:
         throw new IllegalArgumentException(obj.toString());
     }

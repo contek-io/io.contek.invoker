@@ -8,4 +8,5 @@ import javax.annotation.concurrent.NotThreadSafe;
 public abstract class WebSocketInboundMessage extends AnyWebSocketMessage {
 
   public String type;
+
 }

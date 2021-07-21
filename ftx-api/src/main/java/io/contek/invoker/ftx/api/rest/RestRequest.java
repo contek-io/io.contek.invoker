@@ -79,7 +79,9 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
             .put("FTX-KEY", credential.getApiKeyId())
             .put("FTX-SIGN", signature)
             .put("FTX-TS", ts);
-    credential.getProperties().forEach(result::put);
+    if (credential.getSubAccount() != null) {
+      result.put(FTX_SUBACCOUNT_KEY, credential.getSubAccount());
+    }
 
     return result.build();
   }

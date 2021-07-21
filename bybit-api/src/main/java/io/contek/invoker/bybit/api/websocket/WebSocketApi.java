@@ -7,14 +7,19 @@ import io.contek.invoker.commons.websocket.*;
 import io.contek.invoker.security.ICredential;
 
 import javax.annotation.concurrent.ThreadSafe;
+import java.time.Duration;
 
 @ThreadSafe
 public abstract class WebSocketApi extends BaseWebSocketApi {
 
   private final WebSocketContext context;
 
-  protected WebSocketApi(IActor actor, WebSocketContext context) {
-    super(actor, WebSocketMessageParser.getInstance(), IWebSocketAuthenticator.noOp(), context.getPingInterval());
+  protected WebSocketApi(IActor actor, WebSocketContext context, Duration pingInterval) {
+    super(
+        actor,
+        new WebSocketMessageParser(),
+        new WebSocketAuthenticator(actor.getCredential(), actor.getClock()),
+        pingInterval);
     this.context = context;
   }
 
@@ -29,5 +34,6 @@ public abstract class WebSocketApi extends BaseWebSocketApi {
   }
 
   @Override
-  protected final void checkErrorMessage(AnyWebSocketMessage message) {}
+  protected final void checkErrorMessage(AnyWebSocketMessage message)
+      throws WebSocketRuntimeException {}
 }

@@ -10,6 +10,6 @@ import javax.annotation.concurrent.ThreadSafe;
 public final class UserWebSocketApi extends WebSocketApi {
 
   public UserWebSocketApi(IActor actor, WebSocketContext context) {
-    super(actor, context);
+    super(actor, context, context.getPingInterval());
   }
 }

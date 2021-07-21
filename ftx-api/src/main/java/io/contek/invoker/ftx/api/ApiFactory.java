@@ -52,6 +52,10 @@ public final class ApiFactory {
     return fromContext(MAIN_NET_CONTEXT);
   }
 
+  public static ApiFactory getOTCMainNetDefault() {
+    return fromContext(OTC_MAIN_NET_CONTEXT);
+  }
+
   public static ApiFactory fromContext(ApiContext context) {
     return new ApiFactory(
         context, createActorFactory(context.getRateLimitCushion(), context.getInterceptor()));

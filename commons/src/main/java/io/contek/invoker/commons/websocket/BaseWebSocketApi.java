@@ -41,12 +41,14 @@ public abstract class BaseWebSocketApi implements IWebSocketApi {
   private final AtomicReference<ScheduledFuture<?>> scheduleHolder = new AtomicReference<>();
   private final WebSocketComponentManager components = new WebSocketComponentManager();
   private final AtomicLong pingSendTime;
+  private final Duration pingInterval;
 
   protected BaseWebSocketApi(
       IActor actor, IWebSocketMessageParser parser, IWebSocketAuthenticator authenticator, Duration pingInterval) {
     this.actor = actor;
     this.parser = parser;
     this.authenticator = authenticator;
+    this.pingInterval = pingInterval;
     if (pingInterval == null) {
       this.pingSendTime = new AtomicLong(-1);
     } else {
@@ -68,12 +70,21 @@ public abstract class BaseWebSocketApi implements IWebSocketApi {
   protected abstract void checkErrorMessage(AnyWebSocketMessage message);
 
   private void forwardMessage(String text) {
-    AnyWebSocketMessage message = parser.parse(text);
-    checkErrorMessage(message);
+    AnyWebSocketMessage message = this.parser.parse(text);
+    forwardMessage(message);
+  }
 
-    authenticator.onMessage(message);
-    synchronized (components) {
-      components.onMessage(message);
+  private void forwardMessage(AnyWebSocketMessage message) {
+    checkErrorMessage(message);
+    synchronized (this.sessionHolder) {
+      WebSocketSession session = this.sessionHolder.get();
+      synchronized (this.authenticator) {
+        if (!this.authenticator.isCompleted())
+          this.authenticator.onMessage(message, session);
+      }
+      synchronized (this.components) {
+        this.components.onMessage(message, session);
+      }
     }
   }
 
@@ -137,6 +148,7 @@ public abstract class BaseWebSocketApi implements IWebSocketApi {
           if (pingSendTime != -1 && pingSendTime <= System.currentTimeMillis()) {
             log.trace("Sending ping");
             components.sendPing(session);
+            this.pingSendTime.accumulateAndGet(pingInterval.toMillis(), Long::sum);
           }
         }
       }

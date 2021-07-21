@@ -76,7 +76,7 @@ public abstract class BaseWebSocketChannel<Message> implements IWebSocketCompone
   }
 
   @Override
-  public final void onMessage(AnyWebSocketMessage message) {
+  public final void onMessage(AnyWebSocketMessage message, WebSocketSession session) {
     synchronized (consumers) {
       Message casted = tryCast(message);
       if (casted != null) {
@@ -86,7 +86,7 @@ public abstract class BaseWebSocketChannel<Message> implements IWebSocketCompone
 
     SubscriptionState newState = getState(message);
     if (newState != null) {
-      log.info("Channel {} is now {}.", getDisplayName(), newState);
+//      log.info("Websocket {} is now {}.", session., newState);
       setState(newState);
     }
   }

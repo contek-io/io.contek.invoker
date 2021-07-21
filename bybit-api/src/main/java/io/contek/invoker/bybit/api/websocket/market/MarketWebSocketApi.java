@@ -16,7 +16,7 @@ public final class MarketWebSocketApi extends WebSocketApi {
   private final Map<String, TradeChannel> tradeChannels = new HashMap<>();
 
   public MarketWebSocketApi(IActor actor, WebSocketContext context) {
-    super(actor, context);
+    super(actor, context, context.getPingInterval());
   }
 
   public OrderBook25Channel getOrderBook25Channel(String symbol) {

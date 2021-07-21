@@ -51,7 +51,7 @@ public abstract class WebSocketChannel<Message extends WebSocketInboundMessage>
   protected final SubscriptionState getState(AnyWebSocketMessage message) {
     if (message instanceof WebSocketSubscriptionResponse) {
       WebSocketSubscriptionResponse confirmation = (WebSocketSubscriptionResponse) message;
-      if (!getChannel().equals(confirmation.channel) || !getMarket().equals(confirmation.market)) {
+      if (!getChannel().equals(confirmation.channel)) {
         return null;
       }
       switch (confirmation.type) {

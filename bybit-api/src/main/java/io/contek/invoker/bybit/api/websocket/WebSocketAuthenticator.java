@@ -1,9 +1,8 @@
-package io.contek.invoker.bitmex.api.websocket;
+package io.contek.invoker.bybit.api.websocket;
 
 import com.google.common.collect.ImmutableList;
-import io.contek.invoker.bitmex.api.websocket.common.WebSocketAuthKeyExpiresConfirmation;
-import io.contek.invoker.bitmex.api.websocket.common.WebSocketRequest;
-import io.contek.invoker.bitmex.api.websocket.common.constants.WebSocketRequestOperationKeys;
+import io.contek.invoker.bybit.api.websocket.common.WebSocketOperationRequest;
+import io.contek.invoker.bybit.api.websocket.common.WebSocketOperationResponse;
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.IWebSocketAuthenticator;
 import io.contek.invoker.commons.websocket.WebSocketSession;
@@ -11,17 +10,22 @@ import io.contek.invoker.security.ICredential;
 
 import javax.annotation.concurrent.ThreadSafe;
 import java.time.Clock;
+import java.time.Duration;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import static io.contek.invoker.bybit.api.websocket.common.constants.WebSocketOperationKeys._auth;
+
 @ThreadSafe
-public final class WebSocketAuthenticator implements IWebSocketAuthenticator {
+final class WebSocketAuthenticator implements IWebSocketAuthenticator {
+
+  private static final Duration EXPIRE_DELAY = Duration.ofSeconds(5);
 
   private final ICredential credential;
   private final Clock clock;
 
   private final AtomicBoolean authenticated = new AtomicBoolean();
 
-  public WebSocketAuthenticator(ICredential credential, Clock clock) {
+  WebSocketAuthenticator(ICredential credential, Clock clock) {
     this.credential = credential;
     this.clock = clock;
   }
@@ -33,12 +37,13 @@ public final class WebSocketAuthenticator implements IWebSocketAuthenticator {
     }
     String key = credential.getApiKeyId();
 
-    long expires = clock.instant().getEpochSecond();
+    // Add more time to account for network delay.
+    String expires = Long.toString(clock.instant().plus(EXPIRE_DELAY).getEpochSecond());
     String payload = "GET/realtime" + expires;
     String signature = credential.sign(payload);
 
-    WebSocketRequest request = new WebSocketRequest();
-    request.op = WebSocketRequestOperationKeys._authKeyExpires;
+    WebSocketOperationRequest request = new WebSocketOperationRequest();
+    request.op = _auth;
     request.args = ImmutableList.of(key, expires, signature);
 
     session.send(request);
@@ -54,12 +59,19 @@ public final class WebSocketAuthenticator implements IWebSocketAuthenticator {
     if (isCompleted()) {
       return;
     }
-    if (!(message instanceof WebSocketAuthKeyExpiresConfirmation)) {
+
+    if (!(message instanceof WebSocketOperationResponse)) {
       return;
     }
 
-    WebSocketAuthKeyExpiresConfirmation confirmation =
-        (WebSocketAuthKeyExpiresConfirmation) message;
+    WebSocketOperationResponse confirmation = (WebSocketOperationResponse) message;
+    if (!confirmation.request.op.equals(_auth)) {
+      return;
+    }
+
+    if (!confirmation.success) {
+      throw new IllegalStateException();
+    }
     authenticated.set(true);
   }
 

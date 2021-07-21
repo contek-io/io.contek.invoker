@@ -19,6 +19,10 @@ public interface ICredential {
 
   String sign(String payload);
 
+  default String getSubAccount() {
+    return this.getProperties().get("subAccount");
+  }
+
   @Immutable
   final class Anonymous implements ICredential {
 
