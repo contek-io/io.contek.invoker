@@ -52,7 +52,7 @@ public abstract class BaseWebSocketApi implements IWebSocketApi {
     if (pingInterval == null) {
       this.pingSendTime = new AtomicLong(-1);
     } else {
-      this.pingSendTime = new AtomicLong(System.currentTimeMillis() + pingInterval.toMillis());
+      this.pingSendTime = new AtomicLong(actor.getClock().millis() + pingInterval.toMillis());
     }
   }
 
@@ -145,7 +145,7 @@ public abstract class BaseWebSocketApi implements IWebSocketApi {
 
           components.heartbeat(session);
           long pingSendTime = this.pingSendTime.get();
-          if (pingSendTime != -1 && pingSendTime <= System.currentTimeMillis()) {
+          if (pingSendTime != -1 && pingSendTime <= actor.getClock().millis()) {
             log.trace("Sending ping");
             components.sendPing(session);
             this.pingSendTime.accumulateAndGet(pingInterval.toMillis(), Long::sum);
