@@ -50,6 +50,8 @@ public final class SimpleActorFactory implements IActorFactory {
     private IHttpClientFactory httpClientFactory;
     private IRateLimitThrottleFactory rateLimitThrottleFactory;
 
+    private Builder() {}
+
     public Builder setCredentialFactory(ICredentialFactory credentialFactory) {
       this.credentialFactory = credentialFactory;
       return this;
@@ -77,7 +79,5 @@ public final class SimpleActorFactory implements IActorFactory {
       }
       return new SimpleActorFactory(credentialFactory, httpClientFactory, rateLimitThrottleFactory);
     }
-
-    private Builder() {}
   }
 }

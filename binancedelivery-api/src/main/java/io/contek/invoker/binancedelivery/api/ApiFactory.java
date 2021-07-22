@@ -64,14 +64,6 @@ public final class ApiFactory {
         context, createActorFactory(context.getRateLimitCushion(), context.getInterceptor()));
   }
 
-  public SelectingRestApi rest() {
-    return new SelectingRestApi();
-  }
-
-  public SelectingWebSocketApi ws() {
-    return new SelectingWebSocketApi();
-  }
-
   private static SimpleActorFactory createActorFactory(
       double rateLimitCushion, @Nullable IRateLimitQuotaInterceptor interceptor) {
     return SimpleActorFactory.newBuilder()
@@ -96,6 +88,44 @@ public final class ApiFactory {
         .addRule(IP_REST_REQUEST_RULE)
         .addRule(API_KEY_REST_ORDER_RULE)
         .build();
+  }
+
+  public SelectingRestApi rest() {
+    return new SelectingRestApi();
+  }
+
+  public SelectingWebSocketApi ws() {
+    return new SelectingWebSocketApi();
+  }
+
+  @Immutable
+  public static final class RateLimits {
+
+    public static final RateLimitRule IP_REST_REQUEST_RULE =
+        RateLimitRule.newBuilder()
+            .setName("ip_rest_request_rule")
+            .setType(IP)
+            .setMaxPermits(2400)
+            .setResetPeriod(Duration.ofMinutes(1))
+            .build();
+
+    public static final RateLimitRule API_KEY_REST_ORDER_RULE =
+        RateLimitRule.newBuilder()
+            .setName("api_key_rest_order_rule")
+            .setType(API_KEY)
+            .setMaxPermits(1200)
+            .setResetPeriod(Duration.ofMinutes(1))
+            .build();
+
+    public static final ImmutableList<RateLimitQuota> ONE_REST_REQUEST =
+        ImmutableList.of(IP_REST_REQUEST_RULE.createRateLimitQuota(1));
+
+    public static final ImmutableList<RateLimitQuota> ONE_REST_ORDER_REQUEST =
+        ImmutableList.of(
+            IP_REST_REQUEST_RULE.createRateLimitQuota(1),
+            API_KEY_REST_ORDER_RULE.createRateLimitQuota(1));
+
+    private RateLimits() {}
   }
 
   @ThreadSafe
@@ -132,35 +162,5 @@ public final class ApiFactory {
       IActor actor = actorFactory.create(apiKey, wsContext);
       return new UserWebSocketApi(actor, wsContext);
     }
-  }
-
-  @Immutable
-  public static final class RateLimits {
-
-    public static final RateLimitRule IP_REST_REQUEST_RULE =
-        RateLimitRule.newBuilder()
-            .setName("ip_rest_request_rule")
-            .setType(IP)
-            .setMaxPermits(2400)
-            .setResetPeriod(Duration.ofMinutes(1))
-            .build();
-
-    public static final RateLimitRule API_KEY_REST_ORDER_RULE =
-        RateLimitRule.newBuilder()
-            .setName("api_key_rest_order_rule")
-            .setType(API_KEY)
-            .setMaxPermits(1200)
-            .setResetPeriod(Duration.ofMinutes(1))
-            .build();
-
-    public static final ImmutableList<RateLimitQuota> ONE_REST_REQUEST =
-        ImmutableList.of(IP_REST_REQUEST_RULE.createRateLimitQuota(1));
-
-    public static final ImmutableList<RateLimitQuota> ONE_REST_ORDER_REQUEST =
-        ImmutableList.of(
-            IP_REST_REQUEST_RULE.createRateLimitQuota(1),
-            API_KEY_REST_ORDER_RULE.createRateLimitQuota(1));
-
-    private RateLimits() {}
   }
 }

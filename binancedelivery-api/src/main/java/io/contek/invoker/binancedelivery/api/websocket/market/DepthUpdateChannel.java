@@ -37,6 +37,5 @@ public final class DepthUpdateChannel extends WebSocketChannel<Message> {
   }
 
   @NotThreadSafe
-  public static final class Message extends WebSocketStreamMessage<DepthUpdateEvent> {
-  }
+  public static final class Message extends WebSocketStreamMessage<DepthUpdateEvent> {}
 }

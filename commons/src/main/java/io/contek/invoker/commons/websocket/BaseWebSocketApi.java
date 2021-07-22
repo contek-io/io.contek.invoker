@@ -44,7 +44,10 @@ public abstract class BaseWebSocketApi implements IWebSocketApi {
   private final Duration pingInterval;
 
   protected BaseWebSocketApi(
-      IActor actor, IWebSocketMessageParser parser, IWebSocketAuthenticator authenticator, Duration pingInterval) {
+      IActor actor,
+      IWebSocketMessageParser parser,
+      IWebSocketAuthenticator authenticator,
+      Duration pingInterval) {
     this.actor = actor;
     this.parser = parser;
     this.authenticator = authenticator;
@@ -79,8 +82,7 @@ public abstract class BaseWebSocketApi implements IWebSocketApi {
     synchronized (this.sessionHolder) {
       WebSocketSession session = this.sessionHolder.get();
       synchronized (this.authenticator) {
-        if (!this.authenticator.isCompleted())
-          this.authenticator.onMessage(message, session);
+        if (!this.authenticator.isCompleted()) this.authenticator.onMessage(message, session);
       }
       synchronized (this.components) {
         this.components.onMessage(message, session);

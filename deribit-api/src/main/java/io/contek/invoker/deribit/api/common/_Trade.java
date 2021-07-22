@@ -31,30 +31,66 @@ public class _Trade {
 
   @Override
   public String toString() {
-    return "_Trade{" +
-            "amount=" + amount +
-            ", block_trade_id='" + block_trade_id + '\'' +
-            ", direction='" + direction + '\'' +
-            ", fee=" + fee +
-            ", fee_currency='" + fee_currency + '\'' +
-            ", index_price=" + index_price +
-            ", instrument_name='" + instrument_name + '\'' +
-            ", iv=" + iv +
-            ", label='" + label + '\'' +
-            ", liquidation='" + liquidation + '\'' +
-            ", liquidity='" + liquidity + '\'' +
-            ", mark_price=" + mark_price +
-            ", matching_id='" + matching_id + '\'' +
-            ", order_id='" + order_id + '\'' +
-            ", order_type='" + order_type + '\'' +
-            ", post_only='" + post_only + '\'' +
-            ", price=" + price +
-            ", profit_loss=" + profit_loss +
-            ", reduce_only=" + reduce_only +
-            ", stop_price=" + stop_price +
-            ", trigger='" + trigger + '\'' +
-            ", advanced='" + advanced + '\'' +
-            ", mmp=" + mmp +
-            '}';
+    return "_Trade{"
+        + "amount="
+        + amount
+        + ", block_trade_id='"
+        + block_trade_id
+        + '\''
+        + ", direction='"
+        + direction
+        + '\''
+        + ", fee="
+        + fee
+        + ", fee_currency='"
+        + fee_currency
+        + '\''
+        + ", index_price="
+        + index_price
+        + ", instrument_name='"
+        + instrument_name
+        + '\''
+        + ", iv="
+        + iv
+        + ", label='"
+        + label
+        + '\''
+        + ", liquidation='"
+        + liquidation
+        + '\''
+        + ", liquidity='"
+        + liquidity
+        + '\''
+        + ", mark_price="
+        + mark_price
+        + ", matching_id='"
+        + matching_id
+        + '\''
+        + ", order_id='"
+        + order_id
+        + '\''
+        + ", order_type='"
+        + order_type
+        + '\''
+        + ", post_only='"
+        + post_only
+        + '\''
+        + ", price="
+        + price
+        + ", profit_loss="
+        + profit_loss
+        + ", reduce_only="
+        + reduce_only
+        + ", stop_price="
+        + stop_price
+        + ", trigger='"
+        + trigger
+        + '\''
+        + ", advanced='"
+        + advanced
+        + '\''
+        + ", mmp="
+        + mmp
+        + '}';
   }
 }

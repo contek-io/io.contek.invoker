@@ -24,23 +24,47 @@ public class _Order {
 
   @Override
   public String toString() {
-    return "_Order{" +
-            "symbol='" + symbol + '\'' +
-            ", orderId=" + orderId +
-            ", clientOrderId='" + clientOrderId + '\'' +
-            ", price=" + price +
-            ", avgPrice=" + avgPrice +
-            ", origQty=" + origQty +
-            ", executedQty=" + executedQty +
-            ", status='" + status + '\'' +
-            ", timeInForce='" + timeInForce + '\'' +
-            ", type='" + type + '\'' +
-            ", reduceOnly=" + reduceOnly +
-            ", side='" + side + '\'' +
-            ", positionSide='" + positionSide + '\'' +
-            ", stopPrice=" + stopPrice +
-            ", updateTime=" + updateTime +
-            ", workingType='" + workingType + '\'' +
-            '}';
+    return "_Order{"
+        + "symbol='"
+        + symbol
+        + '\''
+        + ", orderId="
+        + orderId
+        + ", clientOrderId='"
+        + clientOrderId
+        + '\''
+        + ", price="
+        + price
+        + ", avgPrice="
+        + avgPrice
+        + ", origQty="
+        + origQty
+        + ", executedQty="
+        + executedQty
+        + ", status='"
+        + status
+        + '\''
+        + ", timeInForce='"
+        + timeInForce
+        + '\''
+        + ", type='"
+        + type
+        + '\''
+        + ", reduceOnly="
+        + reduceOnly
+        + ", side='"
+        + side
+        + '\''
+        + ", positionSide='"
+        + positionSide
+        + '\''
+        + ", stopPrice="
+        + stopPrice
+        + ", updateTime="
+        + updateTime
+        + ", workingType='"
+        + workingType
+        + '\''
+        + '}';
   }
 }

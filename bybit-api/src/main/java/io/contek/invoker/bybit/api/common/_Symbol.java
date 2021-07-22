@@ -17,16 +17,28 @@ public class _Symbol {
 
   @Override
   public String toString() {
-    return "_Symbol{" +
-            "name='" + name + '\'' +
-            ", base_currency='" + base_currency + '\'' +
-            ", quote_currency='" + quote_currency + '\'' +
-            ", price_scale=" + price_scale +
-            ", taker_fee=" + taker_fee +
-            ", maker_fee=" + maker_fee +
-            ", leverage_filter=" + leverage_filter +
-            ", price_filter=" + price_filter +
-            ", lot_size_filter=" + lot_size_filter +
-            '}';
+    return "_Symbol{"
+        + "name='"
+        + name
+        + '\''
+        + ", base_currency='"
+        + base_currency
+        + '\''
+        + ", quote_currency='"
+        + quote_currency
+        + '\''
+        + ", price_scale="
+        + price_scale
+        + ", taker_fee="
+        + taker_fee
+        + ", maker_fee="
+        + maker_fee
+        + ", leverage_filter="
+        + leverage_filter
+        + ", price_filter="
+        + price_filter
+        + ", lot_size_filter="
+        + lot_size_filter
+        + '}';
   }
 }

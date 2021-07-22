@@ -51,6 +51,5 @@ public final class GetAccount extends UserRestRequest<Response> {
   }
 
   @NotThreadSafe
-  public static final class Response extends _Account {
-  }
+  public static final class Response extends _Account {}
 }

@@ -11,10 +11,13 @@ public class _LotSizeFilter {
 
   @Override
   public String toString() {
-    return "_LotSizeFilter{" +
-            "max_trading_qty=" + max_trading_qty +
-            ", min_trading_qty=" + min_trading_qty +
-            ", qty_step=" + qty_step +
-            '}';
+    return "_LotSizeFilter{"
+        + "max_trading_qty="
+        + max_trading_qty
+        + ", min_trading_qty="
+        + min_trading_qty
+        + ", qty_step="
+        + qty_step
+        + '}';
   }
 }

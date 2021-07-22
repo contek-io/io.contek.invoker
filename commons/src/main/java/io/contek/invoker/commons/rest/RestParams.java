@@ -29,6 +29,12 @@ public final class RestParams {
     return EMPTY;
   }
 
+  public static String toQueryString(Map<String, Object> params) {
+    return params.entrySet().stream()
+        .map(entry -> entry.getKey() + "=" + entry.getValue())
+        .collect(joining("&"));
+  }
+
   public boolean isEmpty() {
     return values.isEmpty();
   }
@@ -39,12 +45,6 @@ public final class RestParams {
 
   public String getQueryString() {
     return toQueryString(values);
-  }
-
-  public static String toQueryString(Map<String, Object> params) {
-    return params.entrySet().stream()
-        .map(entry -> entry.getKey() + "=" + entry.getValue())
-        .collect(joining("&"));
   }
 
   @NotThreadSafe

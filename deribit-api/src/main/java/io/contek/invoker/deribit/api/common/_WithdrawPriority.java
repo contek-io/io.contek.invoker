@@ -10,9 +10,6 @@ public class _WithdrawPriority {
 
   @Override
   public String toString() {
-    return "_WithdrawPriority{" +
-            "value=" + value +
-            ", name='" + name + '\'' +
-            '}';
+    return "_WithdrawPriority{" + "value=" + value + ", name='" + name + '\'' + '}';
   }
 }

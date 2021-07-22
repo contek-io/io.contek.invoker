@@ -22,6 +22,8 @@ public final class SimpleCredentialFactory extends BaseCredentialFactory {
     private SecretKeyAlgorithm algorithm;
     private BaseEncoding encoding;
 
+    private Builder() {}
+
     public Builder setAlgorithm(SecretKeyAlgorithm algorithm) {
       this.algorithm = algorithm;
       return this;
@@ -41,7 +43,5 @@ public final class SimpleCredentialFactory extends BaseCredentialFactory {
       }
       return new SimpleCredentialFactory(algorithm, encoding);
     }
-
-    private Builder() {}
   }
 }

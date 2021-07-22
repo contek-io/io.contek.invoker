@@ -73,6 +73,5 @@ public final class GetPositionRisk extends UserRestRequest<Response> {
   }
 
   @NotThreadSafe
-  public static final class Response extends ArrayList<_PositionRisk> {
-  }
+  public static final class Response extends ArrayList<_PositionRisk> {}
 }

@@ -75,6 +75,15 @@ public abstract class BaseWebSocketChannel<Message> implements IWebSocketCompone
     }
   }
 
+  private void setState(SubscriptionState state) {
+    synchronized (consumers) {
+      synchronized (stateHolder) {
+        consumers.forEach(consumer -> consumer.onStateChange(state));
+        stateHolder.set(state);
+      }
+    }
+  }
+
   @Override
   public final void onMessage(AnyWebSocketMessage message, WebSocketSession session) {
     synchronized (consumers) {
@@ -86,7 +95,7 @@ public abstract class BaseWebSocketChannel<Message> implements IWebSocketCompone
 
     SubscriptionState newState = getState(message);
     if (newState != null) {
-//      log.info("Websocket {} is now {}.", session., newState);
+      //      log.info("Websocket {} is now {}.", session., newState);
       setState(newState);
     }
   }
@@ -126,14 +135,5 @@ public abstract class BaseWebSocketChannel<Message> implements IWebSocketCompone
     }
     Message casted = getMessageType().cast(message);
     return accepts(casted) ? casted : null;
-  }
-
-  private void setState(SubscriptionState state) {
-    synchronized (consumers) {
-      synchronized (stateHolder) {
-        consumers.forEach(consumer -> consumer.onStateChange(state));
-        stateHolder.set(state);
-      }
-    }
   }
 }

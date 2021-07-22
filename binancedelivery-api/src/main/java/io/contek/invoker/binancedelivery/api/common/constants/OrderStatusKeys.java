@@ -19,6 +19,5 @@ public final class OrderStatusKeys {
 
   public static final String _EXPIRED = "EXPIRED";
 
-  private OrderStatusKeys() {
-  }
+  private OrderStatusKeys() {}
 }

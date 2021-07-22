@@ -27,25 +27,43 @@ public class _Account {
 
   @Override
   public String toString() {
-    return "_Account{" +
-            "feeTier=" + feeTier +
-            ", canDeposit=" + canDeposit +
-            ", canTrade=" + canTrade +
-            ", canWithdraw=" + canWithdraw +
-            ", updateTime=" + updateTime +
-            ", totalInitialMargin=" + totalInitialMargin +
-            ", totalMaintMargin=" + totalMaintMargin +
-            ", totalWalletBalance=" + totalWalletBalance +
-            ", totalUnrealizedProfit=" + totalUnrealizedProfit +
-            ", totalMarginBalance=" + totalMarginBalance +
-            ", totalPositionInitialMargin=" + totalPositionInitialMargin +
-            ", totalOpenOrderInitialMargin=" + totalOpenOrderInitialMargin +
-            ", totalCrossWalletBalance=" + totalCrossWalletBalance +
-            ", totalCrossUnPnl=" + totalCrossUnPnl +
-            ", availableBalance=" + availableBalance +
-            ", maxWithdrawAmount=" + maxWithdrawAmount +
-            ", assets=" + assets +
-            ", positions=" + positions +
-            '}';
+    return "_Account{"
+        + "feeTier="
+        + feeTier
+        + ", canDeposit="
+        + canDeposit
+        + ", canTrade="
+        + canTrade
+        + ", canWithdraw="
+        + canWithdraw
+        + ", updateTime="
+        + updateTime
+        + ", totalInitialMargin="
+        + totalInitialMargin
+        + ", totalMaintMargin="
+        + totalMaintMargin
+        + ", totalWalletBalance="
+        + totalWalletBalance
+        + ", totalUnrealizedProfit="
+        + totalUnrealizedProfit
+        + ", totalMarginBalance="
+        + totalMarginBalance
+        + ", totalPositionInitialMargin="
+        + totalPositionInitialMargin
+        + ", totalOpenOrderInitialMargin="
+        + totalOpenOrderInitialMargin
+        + ", totalCrossWalletBalance="
+        + totalCrossWalletBalance
+        + ", totalCrossUnPnl="
+        + totalCrossUnPnl
+        + ", availableBalance="
+        + availableBalance
+        + ", maxWithdrawAmount="
+        + maxWithdrawAmount
+        + ", assets="
+        + assets
+        + ", positions="
+        + positions
+        + '}';
   }
 }

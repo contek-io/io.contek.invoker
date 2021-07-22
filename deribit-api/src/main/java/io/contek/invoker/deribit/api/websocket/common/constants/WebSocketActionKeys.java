@@ -9,6 +9,5 @@ public final class WebSocketActionKeys {
 
   public static final String _update = "update";
 
-  private WebSocketActionKeys() {
-  }
+  private WebSocketActionKeys() {}
 }

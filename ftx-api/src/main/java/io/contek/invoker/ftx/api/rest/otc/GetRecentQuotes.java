@@ -13,31 +13,30 @@ import java.util.List;
 @NotThreadSafe
 public class GetRecentQuotes extends OTCQuotesRestRequest<GetRecentQuotes.Response> {
 
-    public GetRecentQuotes(IActor actor, RestContext context) {
-        super(actor, context);
-    }
+  public GetRecentQuotes(IActor actor, RestContext context) {
+    super(actor, context);
+  }
 
-    @Override
-    protected RestMethod getMethod() {
-        return RestMethod.GET;
-    }
+  @Override
+  protected RestMethod getMethod() {
+    return RestMethod.GET;
+  }
 
-    @Override
-    protected String getEndpointPathOTC() {
-        return "";
-    }
+  @Override
+  protected String getEndpointPathOTC() {
+    return "";
+  }
 
-    @Override
-    protected RestParams getParams() {
-        return RestParams.empty();
-    }
+  @Override
+  protected RestParams getParams() {
+    return RestParams.empty();
+  }
 
-    @Override
-    protected Class<Response> getResponseType() {
-        return Response.class;
-    }
+  @Override
+  protected Class<Response> getResponseType() {
+    return Response.class;
+  }
 
-    @NotThreadSafe
-    public static final class Response extends RestResponse<List<_Quote>> {
-    }
+  @NotThreadSafe
+  public static final class Response extends RestResponse<List<_Quote>> {}
 }

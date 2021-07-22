@@ -61,14 +61,6 @@ public final class ApiFactory {
     return new ApiFactory(context, createActorFactory(context.getInterceptor()));
   }
 
-  public SelectingRestApi rest() {
-    return new SelectingRestApi();
-  }
-
-  public SelectingWebSocketApi ws() {
-    return new SelectingWebSocketApi();
-  }
-
   private static SimpleActorFactory createActorFactory(
       @Nullable IRateLimitQuotaInterceptor interceptor) {
     return SimpleActorFactory.newBuilder()
@@ -94,40 +86,12 @@ public final class ApiFactory {
         .build();
   }
 
-  @ThreadSafe
-  public final class SelectingRestApi {
-
-    private SelectingRestApi() {}
-
-    public MarketRestApi market() {
-      RestContext restContext = context.getRestContext();
-      IActor actor = actorFactory.create(null, restContext);
-      return new MarketRestApi(actor, restContext);
-    }
-
-    public UserRestApi user(ApiKey apiKey) {
-      RestContext restContext = context.getRestContext();
-      IActor actor = actorFactory.create(apiKey, restContext);
-      return new UserRestApi(actor, restContext);
-    }
+  public SelectingRestApi rest() {
+    return new SelectingRestApi();
   }
 
-  @ThreadSafe
-  public final class SelectingWebSocketApi {
-
-    private SelectingWebSocketApi() {}
-
-    public MarketWebSocketApi market() {
-      WebSocketContext wsContext = context.getWebSocketContext();
-      IActor actor = actorFactory.create(null, wsContext);
-      return new MarketWebSocketApi(actor, wsContext);
-    }
-
-    public UserWebSocketApi user(ApiKey apiKey) {
-      WebSocketContext wsContext = context.getWebSocketContext();
-      IActor actor = actorFactory.create(apiKey, wsContext);
-      return new UserWebSocketApi(actor, wsContext);
-    }
+  public SelectingWebSocketApi ws() {
+    return new SelectingWebSocketApi();
   }
 
   @Immutable
@@ -167,5 +131,41 @@ public final class ApiFactory {
         ImmutableList.of(IP_NON_MATCHING_ENGINE_REQUEST_RULE.createRateLimitQuota(1));
 
     private RateLimits() {}
+  }
+
+  @ThreadSafe
+  public final class SelectingRestApi {
+
+    private SelectingRestApi() {}
+
+    public MarketRestApi market() {
+      RestContext restContext = context.getRestContext();
+      IActor actor = actorFactory.create(null, restContext);
+      return new MarketRestApi(actor, restContext);
+    }
+
+    public UserRestApi user(ApiKey apiKey) {
+      RestContext restContext = context.getRestContext();
+      IActor actor = actorFactory.create(apiKey, restContext);
+      return new UserRestApi(actor, restContext);
+    }
+  }
+
+  @ThreadSafe
+  public final class SelectingWebSocketApi {
+
+    private SelectingWebSocketApi() {}
+
+    public MarketWebSocketApi market() {
+      WebSocketContext wsContext = context.getWebSocketContext();
+      IActor actor = actorFactory.create(null, wsContext);
+      return new MarketWebSocketApi(actor, wsContext);
+    }
+
+    public UserWebSocketApi user(ApiKey apiKey) {
+      WebSocketContext wsContext = context.getWebSocketContext();
+      IActor actor = actorFactory.create(apiKey, wsContext);
+      return new UserWebSocketApi(actor, wsContext);
+    }
   }
 }

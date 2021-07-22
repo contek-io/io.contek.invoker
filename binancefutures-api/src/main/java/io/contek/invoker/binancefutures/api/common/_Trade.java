@@ -14,13 +14,19 @@ public class _Trade {
 
   @Override
   public String toString() {
-    return "_Trade{" +
-            "id=" + id +
-            ", price=" + price +
-            ", qty=" + qty +
-            ", time=" + time +
-            ", isBuyerMaker=" + isBuyerMaker +
-            ", isBestMatch=" + isBestMatch +
-            '}';
+    return "_Trade{"
+        + "id="
+        + id
+        + ", price="
+        + price
+        + ", qty="
+        + qty
+        + ", time="
+        + time
+        + ", isBuyerMaker="
+        + isBuyerMaker
+        + ", isBestMatch="
+        + isBestMatch
+        + '}';
   }
 }

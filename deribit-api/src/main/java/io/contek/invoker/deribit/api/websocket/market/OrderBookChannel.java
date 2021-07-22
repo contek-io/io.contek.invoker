@@ -17,8 +17,8 @@ public final class OrderBookChannel extends WebSocketChannel<OrderBookChannel.Me
 
   OrderBookChannel(String instrumentName) {
     // "book.BTC-24SEP21.none.1.100ms"
-    this.fullChannelName = String.format(
-      "%s.%s.%s.%d.%s", _orderbook, instrumentName, "none", 20, "100ms");
+    this.fullChannelName =
+        String.format("%s.%s.%s.%d.%s", _orderbook, instrumentName, "none", 20, "100ms");
   }
 
   @Override
@@ -42,8 +42,5 @@ public final class OrderBookChannel extends WebSocketChannel<OrderBookChannel.Me
   }
 
   @NotThreadSafe
-  public static final class Message extends WebSocketChannelMessage<Params<OrderBook>> {
-  }
+  public static final class Message extends WebSocketChannelMessage<Params<OrderBook>> {}
 }
-
-

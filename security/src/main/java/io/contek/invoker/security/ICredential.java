@@ -28,6 +28,8 @@ public interface ICredential {
 
     private static final Anonymous INSTANCE = new Anonymous();
 
+    private Anonymous() {}
+
     @Override
     public boolean isAnonymous() {
       return true;
@@ -47,7 +49,5 @@ public interface ICredential {
     public String sign(String payload) {
       throw new UnsupportedOperationException();
     }
-
-    private Anonymous() {}
   }
 }

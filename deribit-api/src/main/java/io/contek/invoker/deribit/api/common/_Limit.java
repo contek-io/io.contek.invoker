@@ -10,9 +10,6 @@ public class _Limit {
 
   @Override
   public String toString() {
-    return "_Limit{" +
-            "rate=" + rate +
-            ", burst=" + burst +
-            '}';
+    return "_Limit{" + "rate=" + rate + ", burst=" + burst + '}';
   }
 }

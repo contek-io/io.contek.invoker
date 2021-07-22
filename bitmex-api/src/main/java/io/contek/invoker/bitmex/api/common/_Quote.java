@@ -14,13 +14,21 @@ public class _Quote {
 
   @Override
   public String toString() {
-    return "_Quote{" +
-            "timestamp='" + timestamp + '\'' +
-            ", symbol='" + symbol + '\'' +
-            ", bidSize=" + bidSize +
-            ", bidPrice=" + bidPrice +
-            ", askSize=" + askSize +
-            ", askPrice=" + askPrice +
-            '}';
+    return "_Quote{"
+        + "timestamp='"
+        + timestamp
+        + '\''
+        + ", symbol='"
+        + symbol
+        + '\''
+        + ", bidSize="
+        + bidSize
+        + ", bidPrice="
+        + bidPrice
+        + ", askSize="
+        + askSize
+        + ", askPrice="
+        + askPrice
+        + '}';
   }
 }

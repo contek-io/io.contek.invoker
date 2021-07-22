@@ -9,6 +9,5 @@ public final class MarginTypeKeys {
 
   public static final String _CROSSED = "CROSSED";
 
-  private MarginTypeKeys() {
-  }
+  private MarginTypeKeys() {}
 }

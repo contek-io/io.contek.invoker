@@ -52,14 +52,6 @@ public final class ApiFactory {
         context, createActorFactory(context.getRateLimitCushion(), context.getInterceptor()));
   }
 
-  public SelectingRestApi rest() {
-    return new SelectingRestApi();
-  }
-
-  public SelectingWebSocketApi ws() {
-    return new SelectingWebSocketApi();
-  }
-
   private static SimpleActorFactory createActorFactory(
       double rateLimitCushion, @Nullable IRateLimitQuotaInterceptor interceptor) {
     return SimpleActorFactory.newBuilder()
@@ -80,6 +72,31 @@ public final class ApiFactory {
 
   private static RateLimitCache createRateLimitCache(double cushion) {
     return RateLimitCache.newBuilder().setCushion(cushion).addRule(IP_REST_REQUEST_RULE).build();
+  }
+
+  public SelectingRestApi rest() {
+    return new SelectingRestApi();
+  }
+
+  public SelectingWebSocketApi ws() {
+    return new SelectingWebSocketApi();
+  }
+
+  @Immutable
+  public static final class RateLimits {
+
+    public static final RateLimitRule IP_REST_REQUEST_RULE =
+        RateLimitRule.newBuilder()
+            .setName("ip_rest_request")
+            .setType(IP)
+            .setMaxPermits(8000)
+            .setResetPeriod(Duration.ofMinutes(10))
+            .build();
+
+    public static final ImmutableList<RateLimitQuota> ONE_REST_REQUEST =
+        ImmutableList.of(IP_REST_REQUEST_RULE.createRateLimitQuota(1));
+
+    private RateLimits() {}
   }
 
   @ThreadSafe
@@ -116,22 +133,5 @@ public final class ApiFactory {
       IActor actor = actorFactory.create(apiKey, wsContext);
       return new UserWebSocketApi(actor, wsContext);
     }
-  }
-
-  @Immutable
-  public static final class RateLimits {
-
-    public static final RateLimitRule IP_REST_REQUEST_RULE =
-        RateLimitRule.newBuilder()
-            .setName("ip_rest_request")
-            .setType(IP)
-            .setMaxPermits(8000)
-            .setResetPeriod(Duration.ofMinutes(10))
-            .build();
-
-    public static final ImmutableList<RateLimitQuota> ONE_REST_REQUEST =
-        ImmutableList.of(IP_REST_REQUEST_RULE.createRateLimitQuota(1));
-
-    private RateLimits() {}
   }
 }

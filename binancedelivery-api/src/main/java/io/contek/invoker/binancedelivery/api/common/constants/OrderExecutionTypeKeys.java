@@ -17,6 +17,5 @@ public final class OrderExecutionTypeKeys {
 
   public static final String _EXPIRED = "EXPIRED";
 
-  private OrderExecutionTypeKeys() {
-  }
+  private OrderExecutionTypeKeys() {}
 }

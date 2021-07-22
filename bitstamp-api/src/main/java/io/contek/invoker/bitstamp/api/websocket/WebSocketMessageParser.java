@@ -20,6 +20,8 @@ final class WebSocketMessageParser implements IWebSocketMessageParser {
 
   private final Gson gson = new Gson();
 
+  private WebSocketMessageParser() {}
+
   static WebSocketMessageParser getInstance() {
     return InstanceHolder.INSTANCE;
   }
@@ -62,8 +64,6 @@ final class WebSocketMessageParser implements IWebSocketMessageParser {
   private LiveTradesChannel.Message toLiveTradesMessage(JsonObject obj) {
     return gson.fromJson(obj, LiveTradesChannel.Message.class);
   }
-
-  private WebSocketMessageParser() {}
 
   @Immutable
   private static final class InstanceHolder {

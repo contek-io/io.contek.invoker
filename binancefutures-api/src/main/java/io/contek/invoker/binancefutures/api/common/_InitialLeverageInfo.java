@@ -11,10 +11,14 @@ public class _InitialLeverageInfo {
 
   @Override
   public String toString() {
-    return "_InitialLeverageInfo{" +
-            "leverage=" + leverage +
-            ", maxNotionalValue=" + maxNotionalValue +
-            ", symbol='" + symbol + '\'' +
-            '}';
+    return "_InitialLeverageInfo{"
+        + "leverage="
+        + leverage
+        + ", maxNotionalValue="
+        + maxNotionalValue
+        + ", symbol='"
+        + symbol
+        + '\''
+        + '}';
   }
 }

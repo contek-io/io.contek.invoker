@@ -53,6 +53,5 @@ public final class GetOpenInterest extends MarketRestRequest<Response> {
   }
 
   @NotThreadSafe
-  public static final class Response extends _OpenInterest {
-  }
+  public static final class Response extends _OpenInterest {}
 }

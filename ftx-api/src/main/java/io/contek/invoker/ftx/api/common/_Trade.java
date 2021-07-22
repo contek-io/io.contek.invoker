@@ -6,22 +6,30 @@ import java.io.Serializable;
 @NotThreadSafe
 public class _Trade implements Serializable {
 
-    public Long id;
-    public Boolean liquidation;
-    public Double price;
-    public String side;
-    public Double size;
-    public String time;
+  public Long id;
+  public Boolean liquidation;
+  public Double price;
+  public String side;
+  public Double size;
+  public String time;
 
-    @Override
-    public String toString() {
-        return "_Trade{" +
-                "id=" + id +
-                ", liquidation=" + liquidation +
-                ", price=" + price +
-                ", side='" + side + '\'' +
-                ", size=" + size +
-                ", time='" + time + '\'' +
-                '}';
-    }
+  @Override
+  public String toString() {
+    return "_Trade{"
+        + "id="
+        + id
+        + ", liquidation="
+        + liquidation
+        + ", price="
+        + price
+        + ", side='"
+        + side
+        + '\''
+        + ", size="
+        + size
+        + ", time='"
+        + time
+        + '\''
+        + '}';
+  }
 }

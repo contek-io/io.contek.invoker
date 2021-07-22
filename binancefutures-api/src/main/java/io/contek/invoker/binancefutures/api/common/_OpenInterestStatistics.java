@@ -12,11 +12,16 @@ public final class _OpenInterestStatistics {
 
   @Override
   public String toString() {
-    return "_OpenInterestStatistics{" +
-            "symbol='" + symbol + '\'' +
-            ", sumOpenInterest=" + sumOpenInterest +
-            ", sumOpenInterestValue=" + sumOpenInterestValue +
-            ", timestamp=" + timestamp +
-            '}';
+    return "_OpenInterestStatistics{"
+        + "symbol='"
+        + symbol
+        + '\''
+        + ", sumOpenInterest="
+        + sumOpenInterest
+        + ", sumOpenInterestValue="
+        + sumOpenInterestValue
+        + ", timestamp="
+        + timestamp
+        + '}';
   }
 }

@@ -14,47 +14,46 @@ import static java.util.Objects.requireNonNull;
 @NotThreadSafe
 public final class PostAccountLeverage extends UserRestRequest<PostAccountLeverage.Response> {
 
-    private Double leverage;
+  private Double leverage;
 
-    public PostAccountLeverage(IActor actor, RestContext context) {
-        super(actor, context);
-    }
+  public PostAccountLeverage(IActor actor, RestContext context) {
+    super(actor, context);
+  }
 
-    public Double getLeverage() {
-        return leverage;
-    }
+  public Double getLeverage() {
+    return leverage;
+  }
 
-    public PostAccountLeverage setLeverage(Double leverage) {
-        this.leverage = leverage;
-        return this;
-    }
+  public PostAccountLeverage setLeverage(Double leverage) {
+    this.leverage = leverage;
+    return this;
+  }
 
-    @Override
-    protected RestMethod getMethod() {
-        return RestMethod.POST;
-    }
+  @Override
+  protected RestMethod getMethod() {
+    return RestMethod.POST;
+  }
 
-    @Override
-    protected String getEndpointPath() {
-        return "/account/leverage";
-    }
+  @Override
+  protected String getEndpointPath() {
+    return "/account/leverage";
+  }
 
-    @Override
-    protected RestParams getParams() {
-        RestParams.Builder builder = RestParams.newBuilder();
+  @Override
+  protected RestParams getParams() {
+    RestParams.Builder builder = RestParams.newBuilder();
 
-        requireNonNull(leverage);
-        builder.add("leverage", leverage);
+    requireNonNull(leverage);
+    builder.add("leverage", leverage);
 
-        return builder.build();
-    }
+    return builder.build();
+  }
 
-    @Override
-    protected Class<Response> getResponseType() {
-        return Response.class;
-    }
+  @Override
+  protected Class<Response> getResponseType() {
+    return Response.class;
+  }
 
-    @NotThreadSafe
-    public static final class Response extends RestResponse<_Leverage> {
-    }
+  @NotThreadSafe
+  public static final class Response extends RestResponse<_Leverage> {}
 }

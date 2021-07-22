@@ -45,10 +45,8 @@ public final class TickerChannel extends WebSocketChannel<TickerChannel.Message>
   }
 
   @NotThreadSafe
-  public static final class Data extends _Ticker {
-  }
+  public static final class Data extends _Ticker {}
 
   @NotThreadSafe
-  public static final class Message extends WebSocketChannelMessage<TickerChannel.Data> {
-  }
+  public static final class Message extends WebSocketChannelMessage<TickerChannel.Data> {}
 }

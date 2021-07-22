@@ -6,12 +6,10 @@ import java.io.Serializable;
 @NotThreadSafe
 public class _Leverage implements Serializable {
 
-    public Double leverage;
+  public Double leverage;
 
-    @Override
-    public String toString() {
-        return "_Leverage{" +
-                "leverage=" + leverage +
-                '}';
-    }
+  @Override
+  public String toString() {
+    return "_Leverage{" + "leverage=" + leverage + '}';
+  }
 }

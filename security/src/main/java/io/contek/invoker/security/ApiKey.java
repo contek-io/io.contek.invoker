@@ -10,7 +10,7 @@ import java.util.Map;
 @Immutable
 public final class ApiKey {
 
-  public final static String SUB_ACCOUNT_KEY = "subAccount";
+  public static final String SUB_ACCOUNT_KEY = "subAccount";
 
   private final String id;
   private final String secret;
@@ -50,6 +50,8 @@ public final class ApiKey {
     private String subAccount;
     private Map<String, String> properties = new HashMap<>();
 
+    private Builder() {}
+
     public Builder setSubAccount(String subAccount) {
       // safe copy
       this.properties = new HashMap<>(properties);
@@ -86,7 +88,5 @@ public final class ApiKey {
       }
       return new ApiKey(id, secret, ImmutableMap.copyOf(properties));
     }
-
-    private Builder() {}
   }
 }

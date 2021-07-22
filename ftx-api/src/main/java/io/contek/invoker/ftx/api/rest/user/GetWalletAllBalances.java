@@ -14,31 +14,30 @@ import java.util.Map;
 @NotThreadSafe
 public final class GetWalletAllBalances extends UserRestRequest<GetWalletAllBalances.Response> {
 
-    public GetWalletAllBalances(IActor actor, RestContext context) {
-        super(actor, context);
-    }
+  public GetWalletAllBalances(IActor actor, RestContext context) {
+    super(actor, context);
+  }
 
-    @Override
-    protected RestMethod getMethod() {
-        return RestMethod.GET;
-    }
+  @Override
+  protected RestMethod getMethod() {
+    return RestMethod.GET;
+  }
 
-    @Override
-    protected String getEndpointPath() {
-        return "/api/wallet/all_balances";
-    }
+  @Override
+  protected String getEndpointPath() {
+    return "/api/wallet/all_balances";
+  }
 
-    @Override
-    protected RestParams getParams() {
-        return RestParams.empty();
-    }
+  @Override
+  protected RestParams getParams() {
+    return RestParams.empty();
+  }
 
-    @Override
-    protected Class<Response> getResponseType() {
-        return Response.class;
-    }
+  @Override
+  protected Class<Response> getResponseType() {
+    return Response.class;
+  }
 
-    @NotThreadSafe
-    public static final class Response extends RestResponse<Map<String, List<_WalletBalance>>> {
-    }
+  @NotThreadSafe
+  public static final class Response extends RestResponse<Map<String, List<_WalletBalance>>> {}
 }

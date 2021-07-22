@@ -8,11 +8,11 @@ import java.util.Map;
 
 @NotThreadSafe
 public final class WebSocketRequest extends AnyWebSocketMessage {
+  private static int nextId = 0;
   public String method;
   public Integer id;
   public String jsonrpc = "2.0";
   public Map<String, List<String>> params;
-  private static int nextId = 0;
 
   public WebSocketRequest() {
     this.id = nextId;

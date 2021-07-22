@@ -13,12 +13,17 @@ public class _Limits {
 
   @Override
   public String toString() {
-    return "_Limits{" +
-            "non_matching_engine=" + non_matching_engine +
-            ", matching_engine=" + matching_engine +
-            ", futures=" + futures +
-            ", options=" + options +
-            ", perpetuals=" + perpetuals +
-            '}';
+    return "_Limits{"
+        + "non_matching_engine="
+        + non_matching_engine
+        + ", matching_engine="
+        + matching_engine
+        + ", futures="
+        + futures
+        + ", options="
+        + options
+        + ", perpetuals="
+        + perpetuals
+        + '}';
   }
 }

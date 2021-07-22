@@ -31,30 +31,67 @@ public class _Ticker {
 
   @Override
   public String toString() {
-    return "_Ticker{" +
-            "symbol='" + symbol + '\'' +
-            ", bid_price='" + bid_price + '\'' +
-            ", ask_price='" + ask_price + '\'' +
-            ", last_price='" + last_price + '\'' +
-            ", last_tick_direction='" + last_tick_direction + '\'' +
-            ", prev_price_24h='" + prev_price_24h + '\'' +
-            ", price_24h_pcnt='" + price_24h_pcnt + '\'' +
-            ", high_price_24h='" + high_price_24h + '\'' +
-            ", low_price_24h='" + low_price_24h + '\'' +
-            ", prev_price_1h='" + prev_price_1h + '\'' +
-            ", price_1h_pcnt='" + price_1h_pcnt + '\'' +
-            ", mark_price='" + mark_price + '\'' +
-            ", index_price='" + index_price + '\'' +
-            ", open_interest=" + open_interest +
-            ", open_value=" + open_value +
-            ", total_turnover=" + total_turnover +
-            ", turnover_24h=" + turnover_24h +
-            ", total_volume=" + total_volume +
-            ", volume_24h=" + volume_24h +
-            ", funding_rate=" + funding_rate +
-            ", predicted_funding_rate=" + predicted_funding_rate +
-            ", next_funding_time='" + next_funding_time + '\'' +
-            ", countdown_hour=" + countdown_hour +
-            '}';
+    return "_Ticker{"
+        + "symbol='"
+        + symbol
+        + '\''
+        + ", bid_price='"
+        + bid_price
+        + '\''
+        + ", ask_price='"
+        + ask_price
+        + '\''
+        + ", last_price='"
+        + last_price
+        + '\''
+        + ", last_tick_direction='"
+        + last_tick_direction
+        + '\''
+        + ", prev_price_24h='"
+        + prev_price_24h
+        + '\''
+        + ", price_24h_pcnt='"
+        + price_24h_pcnt
+        + '\''
+        + ", high_price_24h='"
+        + high_price_24h
+        + '\''
+        + ", low_price_24h='"
+        + low_price_24h
+        + '\''
+        + ", prev_price_1h='"
+        + prev_price_1h
+        + '\''
+        + ", price_1h_pcnt='"
+        + price_1h_pcnt
+        + '\''
+        + ", mark_price='"
+        + mark_price
+        + '\''
+        + ", index_price='"
+        + index_price
+        + '\''
+        + ", open_interest="
+        + open_interest
+        + ", open_value="
+        + open_value
+        + ", total_turnover="
+        + total_turnover
+        + ", turnover_24h="
+        + turnover_24h
+        + ", total_volume="
+        + total_volume
+        + ", volume_24h="
+        + volume_24h
+        + ", funding_rate="
+        + funding_rate
+        + ", predicted_funding_rate="
+        + predicted_funding_rate
+        + ", next_funding_time='"
+        + next_funding_time
+        + '\''
+        + ", countdown_hour="
+        + countdown_hour
+        + '}';
   }
 }

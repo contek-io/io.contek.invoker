@@ -9,12 +9,17 @@ public class _Greek {
 
   @Override
   public String toString() {
-    return "_Greek{" +
-            "delta=" + delta +
-            ", gamma=" + gamma +
-            ", rho=" + rho +
-            ", theta=" + theta +
-            ", vega=" + vega +
-            '}';
+    return "_Greek{"
+        + "delta="
+        + delta
+        + ", gamma="
+        + gamma
+        + ", rho="
+        + rho
+        + ", theta="
+        + theta
+        + ", vega="
+        + vega
+        + '}';
   }
 }

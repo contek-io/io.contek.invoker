@@ -15,43 +15,42 @@ import static java.util.Objects.requireNonNull;
 @NotThreadSafe
 public final class GetOrdersByClientId extends UserRestRequest<GetOrdersByClientId.Response> {
 
-    private String clientOrderId;
+  private String clientOrderId;
 
-    public GetOrdersByClientId(IActor actor, RestContext context) {
-        super(actor, context);
-    }
+  public GetOrdersByClientId(IActor actor, RestContext context) {
+    super(actor, context);
+  }
 
-    public String getClientOrderId() {
-        return clientOrderId;
-    }
+  public String getClientOrderId() {
+    return clientOrderId;
+  }
 
-    public GetOrdersByClientId setClientOrderId(String clientOrderId) {
-        this.clientOrderId = clientOrderId;
-        return this;
-    }
+  public GetOrdersByClientId setClientOrderId(String clientOrderId) {
+    this.clientOrderId = clientOrderId;
+    return this;
+  }
 
-    @Override
-    protected RestMethod getMethod() {
-        return RestMethod.GET;
-    }
+  @Override
+  protected RestMethod getMethod() {
+    return RestMethod.GET;
+  }
 
-    @Override
-    protected String getEndpointPath() {
-        requireNonNull(clientOrderId);
-        return format("/api/orders/by_client_id/{0}", clientOrderId);
-    }
+  @Override
+  protected String getEndpointPath() {
+    requireNonNull(clientOrderId);
+    return format("/api/orders/by_client_id/{0}", clientOrderId);
+  }
 
-    @Override
-    protected RestParams getParams() {
-        return RestParams.empty();
-    }
+  @Override
+  protected RestParams getParams() {
+    return RestParams.empty();
+  }
 
-    @Override
-    protected Class<Response> getResponseType() {
-        return Response.class;
-    }
+  @Override
+  protected Class<Response> getResponseType() {
+    return Response.class;
+  }
 
-    @NotThreadSafe
-    public static final class Response extends RestResponse<_Order> {
-    }
+  @NotThreadSafe
+  public static final class Response extends RestResponse<_Order> {}
 }

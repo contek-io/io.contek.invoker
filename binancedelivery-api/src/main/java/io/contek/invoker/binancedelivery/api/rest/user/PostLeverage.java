@@ -71,6 +71,5 @@ public final class PostLeverage extends UserRestRequest<Response> {
   }
 
   @NotThreadSafe
-  public static final class Response extends _InitialLeverageInfo {
-  }
+  public static final class Response extends _InitialLeverageInfo {}
 }

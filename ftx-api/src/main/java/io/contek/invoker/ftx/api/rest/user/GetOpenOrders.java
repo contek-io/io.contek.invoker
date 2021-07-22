@@ -13,43 +13,42 @@ import java.util.List;
 @NotThreadSafe
 public final class GetOpenOrders extends UserRestRequest<GetOpenOrders.Response> {
 
-    private String market;
+  private String market;
 
-    public GetOpenOrders(IActor actor, RestContext context) {
-        super(actor, context);
+  public GetOpenOrders(IActor actor, RestContext context) {
+    super(actor, context);
+  }
+
+  public GetOpenOrders setMarket(String market) {
+    this.market = market;
+    return this;
+  }
+
+  @Override
+  protected RestMethod getMethod() {
+    return RestMethod.GET;
+  }
+
+  @Override
+  protected String getEndpointPath() {
+    return "/api/orders";
+  }
+
+  @Override
+  protected RestParams getParams() {
+    RestParams.Builder builder = RestParams.newBuilder();
+
+    if (market != null) {
+      builder.add("market", market);
     }
+    return builder.build();
+  }
 
-    public GetOpenOrders setMarket(String market) {
-        this.market = market;
-        return this;
-    }
+  @Override
+  protected Class<Response> getResponseType() {
+    return Response.class;
+  }
 
-    @Override
-    protected RestMethod getMethod() {
-        return RestMethod.GET;
-    }
-
-    @Override
-    protected String getEndpointPath() {
-        return "/api/orders";
-    }
-
-    @Override
-    protected RestParams getParams() {
-        RestParams.Builder builder = RestParams.newBuilder();
-
-        if (market != null) {
-            builder.add("market", market);
-        }
-        return builder.build();
-    }
-
-    @Override
-    protected Class<Response> getResponseType() {
-        return Response.class;
-    }
-
-    @NotThreadSafe
-    public static final class Response extends RestResponse<List<_Order>> {
-    }
+  @NotThreadSafe
+  public static final class Response extends RestResponse<List<_Order>> {}
 }

@@ -15,68 +15,64 @@ import static java.util.Objects.requireNonNull;
 @NotThreadSafe
 public final class ModifyOrders extends UserRestRequest<ModifyOrders.Response> {
 
-    private String order_id;
-    private Double price;
-    private Double size;
+  private String order_id;
+  private Double price;
+  private Double size;
 
-    public ModifyOrders(IActor actor, RestContext context) {
-        super(actor, context);
-    }
+  public ModifyOrders(IActor actor, RestContext context) {
+    super(actor, context);
+  }
 
-    public String getOrderId() {
-        return order_id;
-    }
+  public String getOrderId() {
+    return order_id;
+  }
 
-    public ModifyOrders setOrderId(String order_id) {
-        this.order_id = order_id;
-        return this;
-    }
+  public ModifyOrders setOrderId(String order_id) {
+    this.order_id = order_id;
+    return this;
+  }
 
-    public Double getPrice() {
-        return price;
-    }
+  public Double getPrice() {
+    return price;
+  }
 
-    public ModifyOrders setPrice(Double price) {
-        this.price = price;
-        return this;
-    }
+  public ModifyOrders setPrice(Double price) {
+    this.price = price;
+    return this;
+  }
 
-    public Double getSize() {
-        return size;
-    }
+  public Double getSize() {
+    return size;
+  }
 
-    public ModifyOrders setSize(Double size) {
-        this.size = size;
-        return this;
-    }
+  public ModifyOrders setSize(Double size) {
+    this.size = size;
+    return this;
+  }
 
-    @Override
-    protected RestMethod getMethod() {
-        return RestMethod.POST;
-    }
+  @Override
+  protected RestMethod getMethod() {
+    return RestMethod.POST;
+  }
 
-    @Override
-    protected String getEndpointPath() {
-        requireNonNull(order_id);
-        return format("/api/orders/{0}/modify", order_id);
-    }
+  @Override
+  protected String getEndpointPath() {
+    requireNonNull(order_id);
+    return format("/api/orders/{0}/modify", order_id);
+  }
 
-    @Override
-    protected RestParams getParams() {
-        requireNonNull(price);
-        requireNonNull(size);
-        return RestParams.newBuilder()
-                .add("price", price)
-                .add("size", size)
-                .build();
-    }
+  @Override
+  protected RestParams getParams() {
+    requireNonNull(price);
+    requireNonNull(size);
+    return RestParams.newBuilder().add("price", price).add("size", size).build();
+  }
 
-    @Override
-    protected Class<Response> getResponseType() {
-        return Response.class;
-    }
+  @Override
+  protected Class<Response> getResponseType() {
+    return Response.class;
+  }
 
-    @NotThreadSafe
-    public static final class Response extends RestResponse<_Order> {
-    }
+  @NotThreadSafe
+  public static final class Response extends RestResponse<_Order> {}
 }

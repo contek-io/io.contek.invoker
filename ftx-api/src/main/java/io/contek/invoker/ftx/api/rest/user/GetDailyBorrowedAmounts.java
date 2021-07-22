@@ -13,34 +13,33 @@ import java.util.List;
 import static io.contek.invoker.commons.rest.RestMethod.GET;
 
 @NotThreadSafe
-public final class GetDailyBorrowedAmounts extends SpotMarginRestRequest<GetDailyBorrowedAmounts.Response> {
+public final class GetDailyBorrowedAmounts
+    extends SpotMarginRestRequest<GetDailyBorrowedAmounts.Response> {
 
-    public GetDailyBorrowedAmounts(IActor actor, RestContext context) {
-        super(actor, context);
-    }
+  public GetDailyBorrowedAmounts(IActor actor, RestContext context) {
+    super(actor, context);
+  }
 
-    @Override
-    protected RestMethod getMethod() {
-        return GET;
-    }
+  @Override
+  protected RestMethod getMethod() {
+    return GET;
+  }
 
-    @Override
-    protected String getEndpointPathSpotMargin() {
-        return "borrow_summary";
-    }
+  @Override
+  protected String getEndpointPathSpotMargin() {
+    return "borrow_summary";
+  }
 
-    @Override
-    protected RestParams getParams() {
-        return RestParams.empty();
-    }
+  @Override
+  protected RestParams getParams() {
+    return RestParams.empty();
+  }
 
-    @Override
-    protected Class<Response> getResponseType() {
-        return Response.class;
-    }
+  @Override
+  protected Class<Response> getResponseType() {
+    return Response.class;
+  }
 
-    @NotThreadSafe
-    public static final class Response extends RestResponse<List<_DailyBorrowedAmounts>> {
-
-    }
+  @NotThreadSafe
+  public static final class Response extends RestResponse<List<_DailyBorrowedAmounts>> {}
 }

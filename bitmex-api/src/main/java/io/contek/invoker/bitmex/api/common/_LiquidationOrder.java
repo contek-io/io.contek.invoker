@@ -13,12 +13,20 @@ public class _LiquidationOrder {
 
   @Override
   public String toString() {
-    return "_LiquidationOrder{" +
-            "orderID='" + orderID + '\'' +
-            ", symbol='" + symbol + '\'' +
-            ", side='" + side + '\'' +
-            ", price=" + price +
-            ", leavesQty=" + leavesQty +
-            '}';
+    return "_LiquidationOrder{"
+        + "orderID='"
+        + orderID
+        + '\''
+        + ", symbol='"
+        + symbol
+        + '\''
+        + ", side='"
+        + side
+        + '\''
+        + ", price="
+        + price
+        + ", leavesQty="
+        + leavesQty
+        + '}';
   }
 }

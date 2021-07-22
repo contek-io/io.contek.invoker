@@ -13,43 +13,42 @@ import java.util.Objects;
 @NotThreadSafe
 public class PostAcceptQuote extends OTCQuotesRestRequest<PostAcceptQuote.Response> {
 
-    private Integer quoteId;
+  private Integer quoteId;
 
-    public PostAcceptQuote(IActor actor, RestContext context) {
-        super(actor, context);
-    }
+  public PostAcceptQuote(IActor actor, RestContext context) {
+    super(actor, context);
+  }
 
-    public Integer getQuoteId() {
-        return quoteId;
-    }
+  public Integer getQuoteId() {
+    return quoteId;
+  }
 
-    public PostAcceptQuote setQuoteId(Integer quoteId) {
-        this.quoteId = quoteId;
-        return this;
-    }
+  public PostAcceptQuote setQuoteId(Integer quoteId) {
+    this.quoteId = quoteId;
+    return this;
+  }
 
-    @Override
-    protected RestMethod getMethod() {
-        return RestMethod.POST;
-    }
+  @Override
+  protected RestMethod getMethod() {
+    return RestMethod.POST;
+  }
 
-    @Override
-    protected String getEndpointPathOTC() {
-        Objects.requireNonNull(quoteId);
-        return "/" + quoteId + "accept";
-    }
+  @Override
+  protected String getEndpointPathOTC() {
+    Objects.requireNonNull(quoteId);
+    return "/" + quoteId + "accept";
+  }
 
-    @Override
-    protected RestParams getParams() {
-        return RestParams.empty();
-    }
+  @Override
+  protected RestParams getParams() {
+    return RestParams.empty();
+  }
 
-    @Override
-    protected Class<Response> getResponseType() {
-        return Response.class;
-    }
+  @Override
+  protected Class<Response> getResponseType() {
+    return Response.class;
+  }
 
-    @NotThreadSafe
-    public static final class Response extends RestResponse<_Quote> {
-    }
+  @NotThreadSafe
+  public static final class Response extends RestResponse<_Quote> {}
 }

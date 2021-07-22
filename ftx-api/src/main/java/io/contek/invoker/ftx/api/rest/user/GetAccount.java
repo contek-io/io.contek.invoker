@@ -12,31 +12,30 @@ import javax.annotation.concurrent.NotThreadSafe;
 @NotThreadSafe
 public final class GetAccount extends UserRestRequest<GetAccount.Response> {
 
-    public GetAccount(IActor actor, RestContext context) {
-        super(actor, context);
-    }
+  public GetAccount(IActor actor, RestContext context) {
+    super(actor, context);
+  }
 
-    @Override
-    protected RestMethod getMethod() {
-        return RestMethod.GET;
-    }
+  @Override
+  protected RestMethod getMethod() {
+    return RestMethod.GET;
+  }
 
-    @Override
-    protected String getEndpointPath() {
-        return "/api/account";
-    }
+  @Override
+  protected String getEndpointPath() {
+    return "/api/account";
+  }
 
-    @Override
-    protected RestParams getParams() {
-        return RestParams.empty();
-    }
+  @Override
+  protected RestParams getParams() {
+    return RestParams.empty();
+  }
 
-    @Override
-    protected Class<Response> getResponseType() {
-        return Response.class;
-    }
+  @Override
+  protected Class<Response> getResponseType() {
+    return Response.class;
+  }
 
-    @NotThreadSafe
-    public static final class Response extends RestResponse<_AccountInformation> {
-    }
+  @NotThreadSafe
+  public static final class Response extends RestResponse<_AccountInformation> {}
 }

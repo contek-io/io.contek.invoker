@@ -19,6 +19,8 @@ public interface IWebSocketAuthenticator extends IWebSocketListener {
 
     private static final NoOp INSTANCE = new NoOp();
 
+    private NoOp() {}
+
     @Override
     public void handshake(WebSocketSession session) {}
 
@@ -28,13 +30,9 @@ public interface IWebSocketAuthenticator extends IWebSocketListener {
     }
 
     @Override
-    public void onMessage(AnyWebSocketMessage message, WebSocketSession session) {
-
-    }
+    public void onMessage(AnyWebSocketMessage message, WebSocketSession session) {}
 
     @Override
     public void afterDisconnect() {}
-
-    private NoOp() {}
   }
 }

@@ -9,8 +9,6 @@ public class _PositionMode {
 
   @Override
   public String toString() {
-    return "_PositionMode{" +
-            "dualSidePosition=" + dualSidePosition +
-            '}';
+    return "_PositionMode{" + "dualSidePosition=" + dualSidePosition + '}';
   }
 }

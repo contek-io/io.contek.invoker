@@ -37,6 +37,5 @@ public final class ForceOrderChannel extends WebSocketChannel<Message> {
   }
 
   @NotThreadSafe
-  public static final class Message extends WebSocketStreamMessage<ForceOrderEvent> {
-  }
+  public static final class Message extends WebSocketStreamMessage<ForceOrderEvent> {}
 }

@@ -20,14 +20,13 @@ import static io.contek.invoker.commons.rest.RestMethod.GET;
 public final class GetOrder extends UserRestRequest<Response> {
 
   private static final Gson gson = new Gson();
-
+  private final Map<String, String> filter = new HashMap<>();
   private String symbol;
   private Integer count;
   private Integer start;
   private Boolean reverse;
   private String startTime;
   private String endTime;
-  private final Map<String, String> filter = new HashMap<>();
 
   GetOrder(IActor actor, RestContext context) {
     super(actor, context);

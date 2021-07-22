@@ -13,11 +13,15 @@ public class _OrderBook {
 
   @Override
   public String toString() {
-    return "_OrderBook{" +
-            "asks=" + asks +
-            ", bids=" + bids +
-            ", microtimestamp=" + microtimestamp +
-            ", timestamp=" + timestamp +
-            '}';
+    return "_OrderBook{"
+        + "asks="
+        + asks
+        + ", bids="
+        + bids
+        + ", microtimestamp="
+        + microtimestamp
+        + ", timestamp="
+        + timestamp
+        + '}';
   }
 }

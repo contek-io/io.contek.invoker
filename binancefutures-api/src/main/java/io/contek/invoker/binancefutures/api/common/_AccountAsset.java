@@ -20,19 +20,32 @@ public class _AccountAsset {
 
   @Override
   public String toString() {
-    return "_AccountAsset{" +
-            "asset='" + asset + '\'' +
-            ", walletBalance=" + walletBalance +
-            ", unrealizedProfit=" + unrealizedProfit +
-            ", marginBalance=" + marginBalance +
-            ", maintMargin=" + maintMargin +
-            ", initialMargin=" + initialMargin +
-            ", positionInitialMargin=" + positionInitialMargin +
-            ", openOrderInitialMargin=" + openOrderInitialMargin +
-            ", crossWalletBalance=" + crossWalletBalance +
-            ", crossUnPnl=" + crossUnPnl +
-            ", availableBalance=" + availableBalance +
-            ", maxWithdrawAmount=" + maxWithdrawAmount +
-            '}';
+    return "_AccountAsset{"
+        + "asset='"
+        + asset
+        + '\''
+        + ", walletBalance="
+        + walletBalance
+        + ", unrealizedProfit="
+        + unrealizedProfit
+        + ", marginBalance="
+        + marginBalance
+        + ", maintMargin="
+        + maintMargin
+        + ", initialMargin="
+        + initialMargin
+        + ", positionInitialMargin="
+        + positionInitialMargin
+        + ", openOrderInitialMargin="
+        + openOrderInitialMargin
+        + ", crossWalletBalance="
+        + crossWalletBalance
+        + ", crossUnPnl="
+        + crossUnPnl
+        + ", availableBalance="
+        + availableBalance
+        + ", maxWithdrawAmount="
+        + maxWithdrawAmount
+        + '}';
   }
 }

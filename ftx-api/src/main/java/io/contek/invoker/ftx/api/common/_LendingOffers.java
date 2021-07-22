@@ -4,16 +4,12 @@ import java.io.Serializable;
 
 public class _LendingOffers implements Serializable {
 
-    public String coin;
-    public Double rate;
-    public Double size;
+  public String coin;
+  public Double rate;
+  public Double size;
 
-    @Override
-    public String toString() {
-        return "_LendingOffers{" +
-                "coin='" + coin + '\'' +
-                ", rate=" + rate +
-                ", size=" + size +
-                '}';
-    }
+  @Override
+  public String toString() {
+    return "_LendingOffers{" + "coin='" + coin + '\'' + ", rate=" + rate + ", size=" + size + '}';
+  }
 }

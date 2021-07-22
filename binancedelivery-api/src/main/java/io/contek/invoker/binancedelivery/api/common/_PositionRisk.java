@@ -20,19 +20,34 @@ public class _PositionRisk {
 
   @Override
   public String toString() {
-    return "_PositionRisk{" +
-            "symbol='" + symbol + '\'' +
-            ", positionAmt=" + positionAmt +
-            ", entryPrice=" + entryPrice +
-            ", markPrice=" + markPrice +
-            ", unRealizedProfit=" + unRealizedProfit +
-            ", liquidationPrice=" + liquidationPrice +
-            ", leverage=" + leverage +
-            ", maxQty=" + maxQty +
-            ", marginType='" + marginType + '\'' +
-            ", isolatedMargin=" + isolatedMargin +
-            ", isAutoAddMargin=" + isAutoAddMargin +
-            ", positionSide='" + positionSide + '\'' +
-            '}';
+    return "_PositionRisk{"
+        + "symbol='"
+        + symbol
+        + '\''
+        + ", positionAmt="
+        + positionAmt
+        + ", entryPrice="
+        + entryPrice
+        + ", markPrice="
+        + markPrice
+        + ", unRealizedProfit="
+        + unRealizedProfit
+        + ", liquidationPrice="
+        + liquidationPrice
+        + ", leverage="
+        + leverage
+        + ", maxQty="
+        + maxQty
+        + ", marginType='"
+        + marginType
+        + '\''
+        + ", isolatedMargin="
+        + isolatedMargin
+        + ", isAutoAddMargin="
+        + isAutoAddMargin
+        + ", positionSide='"
+        + positionSide
+        + '\''
+        + '}';
   }
 }

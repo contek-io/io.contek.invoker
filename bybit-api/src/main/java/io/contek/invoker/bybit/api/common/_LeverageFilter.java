@@ -11,10 +11,13 @@ public class _LeverageFilter {
 
   @Override
   public String toString() {
-    return "_LeverageFilter{" +
-            "min_leverage=" + min_leverage +
-            ", max_leverage=" + max_leverage +
-            ", leverage_step=" + leverage_step +
-            '}';
+    return "_LeverageFilter{"
+        + "min_leverage="
+        + min_leverage
+        + ", max_leverage="
+        + max_leverage
+        + ", leverage_step="
+        + leverage_step
+        + '}';
   }
 }

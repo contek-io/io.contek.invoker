@@ -83,6 +83,5 @@ public final class DeleteOrder extends UserRestRequest<Response> {
   }
 
   @NotThreadSafe
-  public static final class Response extends _Order {
-  }
+  public static final class Response extends _Order {}
 }

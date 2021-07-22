@@ -25,24 +25,47 @@ public class _Instrument {
 
   @Override
   public String toString() {
-    return "_Instrument{" +
-            "base_currency='" + base_currency + '\'' +
-            ", block_trade_commission=" + block_trade_commission +
-            ", contract_size=" + contract_size +
-            ", creation_timestamp=" + creation_timestamp +
-            ", expiration_timestamp=" + expiration_timestamp +
-            ", instrument_name='" + instrument_name + '\'' +
-            ", is_active=" + is_active +
-            ", kind='" + kind + '\'' +
-            ", leverage=" + leverage +
-            ", maker_commission=" + maker_commission +
-            ", min_trade_amount=" + min_trade_amount +
-            ", option_type='" + option_type + '\'' +
-            ", quote_currency='" + quote_currency + '\'' +
-            ", settlement_period='" + settlement_period + '\'' +
-            ", strike=" + strike +
-            ", taker_commission=" + taker_commission +
-            ", tick_size=" + tick_size +
-            '}';
+    return "_Instrument{"
+        + "base_currency='"
+        + base_currency
+        + '\''
+        + ", block_trade_commission="
+        + block_trade_commission
+        + ", contract_size="
+        + contract_size
+        + ", creation_timestamp="
+        + creation_timestamp
+        + ", expiration_timestamp="
+        + expiration_timestamp
+        + ", instrument_name='"
+        + instrument_name
+        + '\''
+        + ", is_active="
+        + is_active
+        + ", kind='"
+        + kind
+        + '\''
+        + ", leverage="
+        + leverage
+        + ", maker_commission="
+        + maker_commission
+        + ", min_trade_amount="
+        + min_trade_amount
+        + ", option_type='"
+        + option_type
+        + '\''
+        + ", quote_currency='"
+        + quote_currency
+        + '\''
+        + ", settlement_period='"
+        + settlement_period
+        + '\''
+        + ", strike="
+        + strike
+        + ", taker_commission="
+        + taker_commission
+        + ", tick_size="
+        + tick_size
+        + '}';
   }
 }

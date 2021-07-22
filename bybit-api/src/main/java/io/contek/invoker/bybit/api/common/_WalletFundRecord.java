@@ -19,18 +19,36 @@ public class _WalletFundRecord {
 
   @Override
   public String toString() {
-    return "_WalletFundRecord{" +
-            "id=" + id +
-            ", user_id=" + user_id +
-            ", coin='" + coin + '\'' +
-            ", wallet_id=" + wallet_id +
-            ", type='" + type + '\'' +
-            ", amount='" + amount + '\'' +
-            ", tx_id='" + tx_id + '\'' +
-            ", address='" + address + '\'' +
-            ", wallet_balance='" + wallet_balance + '\'' +
-            ", exec_time='" + exec_time + '\'' +
-            ", cross_seq=" + cross_seq +
-            '}';
+    return "_WalletFundRecord{"
+        + "id="
+        + id
+        + ", user_id="
+        + user_id
+        + ", coin='"
+        + coin
+        + '\''
+        + ", wallet_id="
+        + wallet_id
+        + ", type='"
+        + type
+        + '\''
+        + ", amount='"
+        + amount
+        + '\''
+        + ", tx_id='"
+        + tx_id
+        + '\''
+        + ", address='"
+        + address
+        + '\''
+        + ", wallet_balance='"
+        + wallet_balance
+        + '\''
+        + ", exec_time='"
+        + exec_time
+        + '\''
+        + ", cross_seq="
+        + cross_seq
+        + '}';
   }
 }

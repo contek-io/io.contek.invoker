@@ -40,39 +40,77 @@ public class _Position {
 
   @Override
   public String toString() {
-    return "_Position{" +
-            "id=" + id +
-            ", user_id=" + user_id +
-            ", risk_id=" + risk_id +
-            ", symbol='" + symbol + '\'' +
-            ", side='" + side + '\'' +
-            ", size=" + size +
-            ", position_value=" + position_value +
-            ", entry_price=" + entry_price +
-            ", is_isolated=" + is_isolated +
-            ", auto_add_margin=" + auto_add_margin +
-            ", leverage=" + leverage +
-            ", effective_leverage=" + effective_leverage +
-            ", position_margin=" + position_margin +
-            ", liq_price=" + liq_price +
-            ", bust_price=" + bust_price +
-            ", occ_closing_fee=" + occ_closing_fee +
-            ", occ_funding_fee=" + occ_funding_fee +
-            ", take_profit=" + take_profit +
-            ", stop_loss=" + stop_loss +
-            ", trailing_stop=" + trailing_stop +
-            ", position_status='" + position_status + '\'' +
-            ", deleverage_indicator=" + deleverage_indicator +
-            ", oc_calc_data='" + oc_calc_data + '\'' +
-            ", order_margin=" + order_margin +
-            ", wallet_balance=" + wallet_balance +
-            ", realised_pnl=" + realised_pnl +
-            ", unrealised_pnl=" + unrealised_pnl +
-            ", cum_realised_pnl=" + cum_realised_pnl +
-            ", cross_seq=" + cross_seq +
-            ", position_seq=" + position_seq +
-            ", created_at='" + created_at + '\'' +
-            ", updated_at='" + updated_at + '\'' +
-            '}';
+    return "_Position{"
+        + "id="
+        + id
+        + ", user_id="
+        + user_id
+        + ", risk_id="
+        + risk_id
+        + ", symbol='"
+        + symbol
+        + '\''
+        + ", side='"
+        + side
+        + '\''
+        + ", size="
+        + size
+        + ", position_value="
+        + position_value
+        + ", entry_price="
+        + entry_price
+        + ", is_isolated="
+        + is_isolated
+        + ", auto_add_margin="
+        + auto_add_margin
+        + ", leverage="
+        + leverage
+        + ", effective_leverage="
+        + effective_leverage
+        + ", position_margin="
+        + position_margin
+        + ", liq_price="
+        + liq_price
+        + ", bust_price="
+        + bust_price
+        + ", occ_closing_fee="
+        + occ_closing_fee
+        + ", occ_funding_fee="
+        + occ_funding_fee
+        + ", take_profit="
+        + take_profit
+        + ", stop_loss="
+        + stop_loss
+        + ", trailing_stop="
+        + trailing_stop
+        + ", position_status='"
+        + position_status
+        + '\''
+        + ", deleverage_indicator="
+        + deleverage_indicator
+        + ", oc_calc_data='"
+        + oc_calc_data
+        + '\''
+        + ", order_margin="
+        + order_margin
+        + ", wallet_balance="
+        + wallet_balance
+        + ", realised_pnl="
+        + realised_pnl
+        + ", unrealised_pnl="
+        + unrealised_pnl
+        + ", cum_realised_pnl="
+        + cum_realised_pnl
+        + ", cross_seq="
+        + cross_seq
+        + ", position_seq="
+        + position_seq
+        + ", created_at='"
+        + created_at
+        + '\''
+        + ", updated_at='"
+        + updated_at
+        + '\''
+        + '}';
   }
 }

@@ -11,10 +11,14 @@ public class _OpenInterest {
 
   @Override
   public String toString() {
-    return "_OpenInterest{" +
-            "symbol='" + symbol + '\'' +
-            ", openInterest=" + openInterest +
-            ", time=" + time +
-            '}';
+    return "_OpenInterest{"
+        + "symbol='"
+        + symbol
+        + '\''
+        + ", openInterest="
+        + openInterest
+        + ", time="
+        + time
+        + '}';
   }
 }

@@ -13,32 +13,30 @@ import java.util.List;
 @NotThreadSafe
 public final class GetBorrowHistory extends SpotMarginRestRequest<GetBorrowHistory.Response> {
 
-    public GetBorrowHistory(IActor actor, RestContext context) {
-        super(actor, context);
-    }
+  public GetBorrowHistory(IActor actor, RestContext context) {
+    super(actor, context);
+  }
 
-    @Override
-    protected RestMethod getMethod() {
-        return RestMethod.GET;
-    }
+  @Override
+  protected RestMethod getMethod() {
+    return RestMethod.GET;
+  }
 
-    @Override
-    protected String getEndpointPathSpotMargin() {
-        return "borrow_history";
-    }
+  @Override
+  protected String getEndpointPathSpotMargin() {
+    return "borrow_history";
+  }
 
-    @Override
-    protected RestParams getParams() {
-        return RestParams.empty();
-    }
+  @Override
+  protected RestParams getParams() {
+    return RestParams.empty();
+  }
 
-    @Override
-    protected Class<Response> getResponseType() {
-        return Response.class;
-    }
+  @Override
+  protected Class<Response> getResponseType() {
+    return Response.class;
+  }
 
-    @NotThreadSafe
-    public static final class Response extends RestResponse<List<_BorrowHistory>> {
-
-    }
+  @NotThreadSafe
+  public static final class Response extends RestResponse<List<_BorrowHistory>> {}
 }

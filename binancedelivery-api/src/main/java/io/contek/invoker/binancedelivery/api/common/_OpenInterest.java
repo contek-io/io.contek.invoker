@@ -13,12 +13,20 @@ public class _OpenInterest {
 
   @Override
   public String toString() {
-    return "_OpenInterest{" +
-            "symbol='" + symbol + '\'' +
-            ", pair='" + pair + '\'' +
-            ", openInterest=" + openInterest +
-            ", contractType='" + contractType + '\'' +
-            ", time=" + time +
-            '}';
+    return "_OpenInterest{"
+        + "symbol='"
+        + symbol
+        + '\''
+        + ", pair='"
+        + pair
+        + '\''
+        + ", openInterest="
+        + openInterest
+        + ", contractType='"
+        + contractType
+        + '\''
+        + ", time="
+        + time
+        + '}';
   }
 }

@@ -37,6 +37,5 @@ public final class AggTradeChannel extends WebSocketChannel<Message> {
   }
 
   @NotThreadSafe
-  public static final class Message extends WebSocketStreamMessage<AggTradeEvent> {
-  }
+  public static final class Message extends WebSocketStreamMessage<AggTradeEvent> {}
 }

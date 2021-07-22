@@ -90,6 +90,5 @@ public final class GetGlobalLongShortAccountRatio extends MarketRestRequest<Resp
   }
 
   @NotThreadSafe
-  public static final class Response extends ArrayList<_LongShortRatio> {
-  }
+  public static final class Response extends ArrayList<_LongShortRatio> {}
 }

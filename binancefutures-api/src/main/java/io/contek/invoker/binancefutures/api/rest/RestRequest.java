@@ -22,6 +22,13 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
     this.context = context;
   }
 
+  private static RestParams addSignature(
+      RestParams params, String bodyString, ICredential credential) {
+    String payload = params.getQueryString() + bodyString;
+    String signature = credential.sign(payload);
+    return RestParams.newBuilder().addAll(params.getValues()).add(SIGNATURE, signature).build();
+  }
+
   protected abstract RestMethod getMethod();
 
   protected abstract String getEndpointPath();
@@ -85,12 +92,5 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
       return url;
     }
     return url + "?" + addSignature(RestParams.empty(), bodyString, credential).getQueryString();
-  }
-
-  private static RestParams addSignature(
-      RestParams params, String bodyString, ICredential credential) {
-    String payload = params.getQueryString() + bodyString;
-    String signature = credential.sign(payload);
-    return RestParams.newBuilder().addAll(params.getValues()).add(SIGNATURE, signature).build();
   }
 }

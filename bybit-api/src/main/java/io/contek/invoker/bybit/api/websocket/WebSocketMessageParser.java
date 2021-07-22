@@ -7,7 +7,6 @@ import io.contek.invoker.bybit.api.websocket.common.WebSocketOperationResponse;
 import io.contek.invoker.bybit.api.websocket.common.WebSocketTopicMessage;
 import io.contek.invoker.bybit.api.websocket.market.OrderBookChannel;
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
-import io.contek.invoker.commons.websocket.IWebSocketComponent;
 import io.contek.invoker.commons.websocket.IWebSocketMessageParser;
 
 import javax.annotation.concurrent.Immutable;
@@ -23,7 +22,7 @@ final class WebSocketMessageParser implements IWebSocketMessageParser {
   private final Gson gson = new Gson();
 
   private final Map<String, Class<? extends WebSocketTopicMessage>> channelMessageTypes =
-          new HashMap<>();
+      new HashMap<>();
 
   @Override
   public AnyWebSocketMessage parse(String text) {

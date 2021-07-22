@@ -1,7 +1,7 @@
 package io.contek.invoker.bybit.api.rest.common;
 
-import java.util.List;
 import javax.annotation.concurrent.NotThreadSafe;
+import java.util.List;
 
 @NotThreadSafe
 public final class RestPagedResult<T> {

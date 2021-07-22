@@ -30,15 +30,14 @@ import static io.contek.invoker.security.SecretKeyAlgorithm.HMAC_SHA256;
 public final class ApiFactory {
 
   public static final ApiContext MAIN_NET_CONTEXT =
-          ApiContext.newBuilder()
-                  .setRestContext(RestContext.forBaseUrl("https://ftx.com"))
-                  .setWebSocketContext(WebSocketContext.forBaseUrlAndPingInterval("wss://ftx.com", Duration.ofSeconds(15)))
-                  .build();
+      ApiContext.newBuilder()
+          .setRestContext(RestContext.forBaseUrl("https://ftx.com"))
+          .setWebSocketContext(
+              WebSocketContext.forBaseUrlAndPingInterval("wss://ftx.com", Duration.ofSeconds(15)))
+          .build();
 
   public static final ApiContext OTC_MAIN_NET_CONTEXT =
-          ApiContext.newBuilder()
-                  .setRestContext(RestContext.forBaseUrl("https://otc.ftx.com"))
-                  .build();
+      ApiContext.newBuilder().setRestContext(RestContext.forBaseUrl("https://otc.ftx.com")).build();
 
   private final ApiContext context;
   private final IActorFactory actorFactory;
@@ -59,18 +58,6 @@ public final class ApiFactory {
   public static ApiFactory fromContext(ApiContext context) {
     return new ApiFactory(
         context, createActorFactory(context.getRateLimitCushion(), context.getInterceptor()));
-  }
-
-  public SelectingRestApi rest() {
-    return new SelectingRestApi();
-  }
-
-  public SelectingWebSocketApi ws() {
-    return new SelectingWebSocketApi();
-  }
-
-  public SelectingRestApiOTC restOTC() {
-    return new SelectingRestApiOTC();
   }
 
   private static SimpleActorFactory createActorFactory(
@@ -98,11 +85,39 @@ public final class ApiFactory {
         .build();
   }
 
+  public SelectingRestApi rest() {
+    return new SelectingRestApi();
+  }
+
+  public SelectingWebSocketApi ws() {
+    return new SelectingWebSocketApi();
+  }
+
+  public SelectingRestApiOTC restOTC() {
+    return new SelectingRestApiOTC();
+  }
+
+  @Immutable
+  public static final class RateLimits {
+
+    public static final RateLimitRule IP_REST_PUBLIC_REQUEST_RULE =
+        RateLimitRule.newBuilder()
+            .setName("ip_rest_public_request_rule")
+            .setType(IP)
+            .setMaxPermits(30)
+            .setResetPeriod(Duration.ofSeconds(1))
+            .build();
+
+    public static final ImmutableList<RateLimitQuota> ONE_REST_PUBLIC_REQUEST =
+        ImmutableList.of(IP_REST_PUBLIC_REQUEST_RULE.createRateLimitQuota(1));
+
+    private RateLimits() {}
+  }
+
   @ThreadSafe
   public final class SelectingRestApiOTC {
 
-    private SelectingRestApiOTC() {
-    }
+    private SelectingRestApiOTC() {}
 
     public UserRestApiOTC user(ApiKey apiKey) {
       RestContext restContext = context.getRestContext();
@@ -145,22 +160,5 @@ public final class ApiFactory {
       IActor actor = actorFactory.create(apiKey, wsContext);
       return new UserWebSocketApi(actor, wsContext);
     }
-  }
-
-  @Immutable
-  public static final class RateLimits {
-
-    public static final RateLimitRule IP_REST_PUBLIC_REQUEST_RULE =
-        RateLimitRule.newBuilder()
-            .setName("ip_rest_public_request_rule")
-            .setType(IP)
-            .setMaxPermits(30)
-            .setResetPeriod(Duration.ofSeconds(1))
-            .build();
-
-    public static final ImmutableList<RateLimitQuota> ONE_REST_PUBLIC_REQUEST =
-        ImmutableList.of(IP_REST_PUBLIC_REQUEST_RULE.createRateLimitQuota(1));
-
-    private RateLimits() {}
   }
 }

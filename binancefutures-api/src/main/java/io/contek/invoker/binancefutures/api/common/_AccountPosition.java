@@ -19,18 +19,31 @@ public class _AccountPosition {
 
   @Override
   public String toString() {
-    return "_AccountPosition{" +
-            "symbol='" + symbol + '\'' +
-            ", initialMargin=" + initialMargin +
-            ", maintMargin=" + maintMargin +
-            ", unrealizedProfit=" + unrealizedProfit +
-            ", positionInitialMargin=" + positionInitialMargin +
-            ", leverage=" + leverage +
-            ", isolated=" + isolated +
-            ", openOrderInitialMargin=" + openOrderInitialMargin +
-            ", entryPrice=" + entryPrice +
-            ", maxNotional=" + maxNotional +
-            ", positionSide='" + positionSide + '\'' +
-            '}';
+    return "_AccountPosition{"
+        + "symbol='"
+        + symbol
+        + '\''
+        + ", initialMargin="
+        + initialMargin
+        + ", maintMargin="
+        + maintMargin
+        + ", unrealizedProfit="
+        + unrealizedProfit
+        + ", positionInitialMargin="
+        + positionInitialMargin
+        + ", leverage="
+        + leverage
+        + ", isolated="
+        + isolated
+        + ", openOrderInitialMargin="
+        + openOrderInitialMargin
+        + ", entryPrice="
+        + entryPrice
+        + ", maxNotional="
+        + maxNotional
+        + ", positionSide='"
+        + positionSide
+        + '\''
+        + '}';
   }
 }

@@ -15,43 +15,42 @@ import static java.util.Objects.requireNonNull;
 @NotThreadSafe
 public final class GetOrders extends UserRestRequest<GetOrders.Response> {
 
-    private String orderId;
+  private String orderId;
 
-    public GetOrders(IActor actor, RestContext context) {
-        super(actor, context);
-    }
+  public GetOrders(IActor actor, RestContext context) {
+    super(actor, context);
+  }
 
-    public String getOrderId() {
-        return orderId;
-    }
+  public String getOrderId() {
+    return orderId;
+  }
 
-    public GetOrders setOrderId(String order_id) {
-        this.orderId = order_id;
-        return this;
-    }
+  public GetOrders setOrderId(String order_id) {
+    this.orderId = order_id;
+    return this;
+  }
 
-    @Override
-    protected RestMethod getMethod() {
-        return RestMethod.GET;
-    }
+  @Override
+  protected RestMethod getMethod() {
+    return RestMethod.GET;
+  }
 
-    @Override
-    protected String getEndpointPath() {
-        requireNonNull(orderId);
-        return format("/api/orders/{0}", orderId);
-    }
+  @Override
+  protected String getEndpointPath() {
+    requireNonNull(orderId);
+    return format("/api/orders/{0}", orderId);
+  }
 
-    @Override
-    protected RestParams getParams() {
-        return RestParams.empty();
-    }
+  @Override
+  protected RestParams getParams() {
+    return RestParams.empty();
+  }
 
-    @Override
-    protected Class<Response> getResponseType() {
-        return Response.class;
-    }
+  @Override
+  protected Class<Response> getResponseType() {
+    return Response.class;
+  }
 
-    @NotThreadSafe
-    public static final class Response extends RestResponse<_Order> {
-    }
+  @NotThreadSafe
+  public static final class Response extends RestResponse<_Order> {}
 }

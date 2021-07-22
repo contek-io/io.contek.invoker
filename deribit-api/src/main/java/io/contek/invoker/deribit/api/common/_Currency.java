@@ -17,15 +17,26 @@ public class _Currency {
 
   @Override
   public String toString() {
-    return "_Currency{" +
-            "coin_type='" + coin_type + '\'' +
-            ", currency='" + currency + '\'' +
-            ", currency_long='" + currency_long + '\'' +
-            ", fee_precision=" + fee_precision +
-            ", min_confirmations=" + min_confirmations +
-            ", min_withdrawal_fee=" + min_withdrawal_fee +
-            ", withdrawal_fee=" + withdrawal_fee +
-            ", withdrawal_priorities=" + withdrawal_priorities +
-            '}';
+    return "_Currency{"
+        + "coin_type='"
+        + coin_type
+        + '\''
+        + ", currency='"
+        + currency
+        + '\''
+        + ", currency_long='"
+        + currency_long
+        + '\''
+        + ", fee_precision="
+        + fee_precision
+        + ", min_confirmations="
+        + min_confirmations
+        + ", min_withdrawal_fee="
+        + min_withdrawal_fee
+        + ", withdrawal_fee="
+        + withdrawal_fee
+        + ", withdrawal_priorities="
+        + withdrawal_priorities
+        + '}';
   }
 }

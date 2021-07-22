@@ -15,32 +15,30 @@ import static io.contek.invoker.commons.rest.RestMethod.GET;
 @NotThreadSafe
 public final class GetBorrowRates extends SpotMarginRestRequest<GetBorrowRates.Response> {
 
-    public GetBorrowRates(IActor actor, RestContext context) {
-        super(actor, context);
-    }
+  public GetBorrowRates(IActor actor, RestContext context) {
+    super(actor, context);
+  }
 
-    @Override
-    protected RestMethod getMethod() {
-        return GET;
-    }
+  @Override
+  protected RestMethod getMethod() {
+    return GET;
+  }
 
-    @Override
-    protected String getEndpointPathSpotMargin() {
-        return "borrow_rates";
-    }
+  @Override
+  protected String getEndpointPathSpotMargin() {
+    return "borrow_rates";
+  }
 
-    @Override
-    protected RestParams getParams() {
-        return RestParams.empty();
-    }
+  @Override
+  protected RestParams getParams() {
+    return RestParams.empty();
+  }
 
-    @Override
-    protected Class<Response> getResponseType() {
-        return Response.class;
-    }
+  @Override
+  protected Class<Response> getResponseType() {
+    return Response.class;
+  }
 
-    @NotThreadSafe
-    public static final class Response extends RestResponse<List<_BorrowRates>> {
-
-    }
+  @NotThreadSafe
+  public static final class Response extends RestResponse<List<_BorrowRates>> {}
 }

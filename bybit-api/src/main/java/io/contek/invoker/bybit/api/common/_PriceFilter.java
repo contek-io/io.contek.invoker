@@ -11,10 +11,13 @@ public class _PriceFilter {
 
   @Override
   public String toString() {
-    return "_PriceFilter{" +
-            "min_price=" + min_price +
-            ", max_price=" + max_price +
-            ", tick_size=" + tick_size +
-            '}';
+    return "_PriceFilter{"
+        + "min_price="
+        + min_price
+        + ", max_price="
+        + max_price
+        + ", tick_size="
+        + tick_size
+        + '}';
   }
 }

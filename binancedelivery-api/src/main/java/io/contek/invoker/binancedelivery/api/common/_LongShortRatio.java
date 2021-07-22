@@ -13,12 +13,18 @@ public final class _LongShortRatio {
 
   @Override
   public String toString() {
-    return "_LongShortRatio{" +
-            "pair='" + pair + '\'' +
-            ", longShortRatio=" + longShortRatio +
-            ", longAccount=" + longAccount +
-            ", shortAccount=" + shortAccount +
-            ", timestamp=" + timestamp +
-            '}';
+    return "_LongShortRatio{"
+        + "pair='"
+        + pair
+        + '\''
+        + ", longShortRatio="
+        + longShortRatio
+        + ", longAccount="
+        + longAccount
+        + ", shortAccount="
+        + shortAccount
+        + ", timestamp="
+        + timestamp
+        + '}';
   }
 }

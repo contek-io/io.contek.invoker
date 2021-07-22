@@ -15,6 +15,5 @@ public final class WebSocketMethods {
 
   public static final String GET_PROPERTY = "GET_PROPERTY";
 
-  private WebSocketMethods() {
-  }
+  private WebSocketMethods() {}
 }

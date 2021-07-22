@@ -12,11 +12,17 @@ public class _OrderBookLevel {
 
   @Override
   public String toString() {
-    return "_OrderBookLevel{" +
-            "symbol='" + symbol + '\'' +
-            ", price=" + price +
-            ", size=" + size +
-            ", side='" + side + '\'' +
-            '}';
+    return "_OrderBookLevel{"
+        + "symbol='"
+        + symbol
+        + '\''
+        + ", price="
+        + price
+        + ", size="
+        + size
+        + ", side='"
+        + side
+        + '\''
+        + '}';
   }
 }

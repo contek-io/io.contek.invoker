@@ -45,6 +45,8 @@ public final class WebSocketContext extends BaseHttpContext {
     private String baseUrl;
     private Duration pingInterval;
 
+    private Builder() {}
+
     public Builder setBaseUrl(String baseUrl) {
       this.baseUrl = baseUrl;
       return this;
@@ -61,7 +63,5 @@ public final class WebSocketContext extends BaseHttpContext {
       }
       return new WebSocketContext(baseUrl, pingInterval);
     }
-
-    private Builder() {}
   }
 }

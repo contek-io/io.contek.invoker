@@ -27,7 +27,6 @@ public final class GetOrderList extends UserRestRequest<Response> {
   private Integer limit;
   private String cursor;
 
-
   GetOrderList(IActor actor, RestContext context) {
     super(actor, context);
   }

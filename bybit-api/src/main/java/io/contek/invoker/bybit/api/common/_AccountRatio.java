@@ -12,11 +12,16 @@ public class _AccountRatio {
 
   @Override
   public String toString() {
-    return "_AccountRatio{" +
-            "symbol='" + symbol + '\'' +
-            ", buy_ratio=" + buy_ratio +
-            ", sell_ratio=" + sell_ratio +
-            ", timestamp=" + timestamp +
-            '}';
+    return "_AccountRatio{"
+        + "symbol='"
+        + symbol
+        + '\''
+        + ", buy_ratio="
+        + buy_ratio
+        + ", sell_ratio="
+        + sell_ratio
+        + ", timestamp="
+        + timestamp
+        + '}';
   }
 }

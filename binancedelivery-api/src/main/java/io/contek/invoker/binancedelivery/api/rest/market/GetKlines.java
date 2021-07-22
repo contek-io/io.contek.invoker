@@ -105,6 +105,5 @@ public final class GetKlines extends MarketRestRequest<Response> {
   }
 
   @NotThreadSafe
-  public static final class Response extends ArrayList<_Candlestick> {
-  }
+  public static final class Response extends ArrayList<_Candlestick> {}
 }

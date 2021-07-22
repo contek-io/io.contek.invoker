@@ -11,82 +11,81 @@ import javax.annotation.concurrent.NotThreadSafe;
 import java.util.List;
 import java.util.Objects;
 
-public final class PostTransferBetweenSubAccounts extends SubAccountRestRequest<PostTransferBetweenSubAccounts.Response> {
+public final class PostTransferBetweenSubAccounts
+    extends SubAccountRestRequest<PostTransferBetweenSubAccounts.Response> {
 
-    private String coin;
-    private Double size;
-    private String source;
-    private String destination;
+  private String coin;
+  private Double size;
+  private String source;
+  private String destination;
 
-    public PostTransferBetweenSubAccounts(IActor actor, RestContext context) {
-        super(actor, context);
-    }
+  public PostTransferBetweenSubAccounts(IActor actor, RestContext context) {
+    super(actor, context);
+  }
 
-    public String getCoin() {
-        return coin;
-    }
+  public String getCoin() {
+    return coin;
+  }
 
-    public PostTransferBetweenSubAccounts setCoin(String coin) {
-        this.coin = coin;
-        return this;
-    }
+  public PostTransferBetweenSubAccounts setCoin(String coin) {
+    this.coin = coin;
+    return this;
+  }
 
-    public Double getSize() {
-        return size;
-    }
+  public Double getSize() {
+    return size;
+  }
 
-    public PostTransferBetweenSubAccounts setSize(double size) {
-        this.size = size;
-        return this;
-    }
+  public PostTransferBetweenSubAccounts setSize(double size) {
+    this.size = size;
+    return this;
+  }
 
-    public String getSource() {
-        return source;
-    }
+  public String getSource() {
+    return source;
+  }
 
-    public PostTransferBetweenSubAccounts setSource(String source) {
-        this.source = source;
-        return this;
-    }
+  public PostTransferBetweenSubAccounts setSource(String source) {
+    this.source = source;
+    return this;
+  }
 
-    public String getDestination() {
-        return destination;
-    }
+  public String getDestination() {
+    return destination;
+  }
 
-    public PostTransferBetweenSubAccounts setDestination(String destination) {
-        this.destination = destination;
-        return this;
-    }
+  public PostTransferBetweenSubAccounts setDestination(String destination) {
+    this.destination = destination;
+    return this;
+  }
 
-    @Override
-    protected RestMethod getMethod() {
-        return RestMethod.POST;
-    }
+  @Override
+  protected RestMethod getMethod() {
+    return RestMethod.POST;
+  }
 
-    @Override
-    protected String getEndpointPathSubAccount() {
-        return "/transfer";
-    }
+  @Override
+  protected String getEndpointPathSubAccount() {
+    return "/transfer";
+  }
 
-    @Override
-    protected RestParams getParams() {
-        Objects.requireNonNull(coin);
-        Objects.requireNonNull(size);
-        return RestParams.newBuilder()
-                .add("coin", coin)
-                .add("size", size)
-                .add("source", source)
-                .add("destination", destination)
-                .build();
-    }
+  @Override
+  protected RestParams getParams() {
+    Objects.requireNonNull(coin);
+    Objects.requireNonNull(size);
+    return RestParams.newBuilder()
+        .add("coin", coin)
+        .add("size", size)
+        .add("source", source)
+        .add("destination", destination)
+        .build();
+  }
 
-    @Override
-    protected Class<Response> getResponseType() {
-        return Response.class;
-    }
+  @Override
+  protected Class<Response> getResponseType() {
+    return Response.class;
+  }
 
-    @NotThreadSafe
-    public static final class Response extends RestResponse<List<_TransferBetweenSubAccounts>> {
-
-    }
+  @NotThreadSafe
+  public static final class Response extends RestResponse<List<_TransferBetweenSubAccounts>> {}
 }

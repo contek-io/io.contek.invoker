@@ -27,19 +27,19 @@ public enum RestMediaType {
     this.composer = composer;
   }
 
-  public String getValue() {
-    return value.toString();
-  }
-
-  public RestMediaBody createBody(RestParams params) {
-    return new RestMediaBody(value, composer.apply(params));
-  }
-
   private static String toJsonString(RestParams params) {
     return gson.toJson(params.getValues());
   }
 
   private static String toFormString(RestParams params) {
     return params.getQueryString();
+  }
+
+  public String getValue() {
+    return value.toString();
+  }
+
+  public RestMediaBody createBody(RestParams params) {
+    return new RestMediaBody(value, composer.apply(params));
   }
 }

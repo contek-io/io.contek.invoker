@@ -68,6 +68,8 @@ public final class RestCall {
     private Map<String, String> headers;
     private RestMediaBody body;
 
+    private Builder() {}
+
     public Builder setMethod(RestMethod method) {
       this.method = method;
       return this;
@@ -92,7 +94,5 @@ public final class RestCall {
       return new RestCall(
           method, url, headers == null ? ImmutableMap.of() : ImmutableMap.copyOf(headers), body);
     }
-
-    private Builder() {}
   }
 }

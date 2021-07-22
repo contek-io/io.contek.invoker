@@ -74,6 +74,5 @@ public final class GetOpenOrders extends UserRestRequest<Response> {
   }
 
   @NotThreadSafe
-  public static final class Response extends ArrayList<_Order> {
-  }
+  public static final class Response extends ArrayList<_Order> {}
 }

@@ -11,78 +11,78 @@ import javax.annotation.concurrent.NotThreadSafe;
 import java.util.List;
 
 @NotThreadSafe
-public class GetDeferProceedsPayments extends OTCQuotesRestRequest<GetDeferProceedsPayments.Response> {
+public class GetDeferProceedsPayments
+    extends OTCQuotesRestRequest<GetDeferProceedsPayments.Response> {
 
-    private Integer quoteId;
-    private Integer before;
-    private Double limit;
+  private Integer quoteId;
+  private Integer before;
+  private Double limit;
 
-    public GetDeferProceedsPayments(IActor actor, RestContext context) {
-        super(actor, context);
+  public GetDeferProceedsPayments(IActor actor, RestContext context) {
+    super(actor, context);
+  }
+
+  public Integer getQuoteId() {
+    return quoteId;
+  }
+
+  public GetDeferProceedsPayments setQuoteId(Integer quoteId) {
+    this.quoteId = quoteId;
+    return this;
+  }
+
+  public Integer getBefore() {
+    return before;
+  }
+
+  public GetDeferProceedsPayments setBefore(Integer before) {
+    this.before = before;
+    return this;
+  }
+
+  public Double getLimit() {
+    return limit;
+  }
+
+  public GetDeferProceedsPayments setLimit(Double limit) {
+    this.limit = limit;
+    return this;
+  }
+
+  @Override
+  protected RestMethod getMethod() {
+    return RestMethod.GET;
+  }
+
+  @Override
+  protected String getEndpointPathOTC() {
+    return "/defer_proceeds_payments";
+  }
+
+  @Override
+  protected RestParams getParams() {
+    RestParams.Builder builder = RestParams.newBuilder();
+
+    if (quoteId != null) {
+      builder.add("quoteId", quoteId);
     }
 
-    public Integer getQuoteId() {
-        return quoteId;
+    if (before != null) {
+      builder.add("before", before);
     }
 
-    public GetDeferProceedsPayments setQuoteId(Integer quoteId) {
-        this.quoteId = quoteId;
-        return this;
+    if (limit != null) {
+      builder.add("limit", limit);
     }
 
-    public Integer getBefore() {
-        return before;
-    }
+    return builder.build();
+  }
 
-    public GetDeferProceedsPayments setBefore(Integer before) {
-        this.before = before;
-        return this;
-    }
+  @Override
+  protected Class<Response> getResponseType() {
+    return Response.class;
+  }
 
-    public Double getLimit() {
-        return limit;
-    }
-
-    public GetDeferProceedsPayments setLimit(Double limit) {
-        this.limit = limit;
-        return this;
-    }
-
-    @Override
-    protected RestMethod getMethod() {
-        return RestMethod.GET;
-    }
-
-    @Override
-    protected String getEndpointPathOTC() {
-        return "/defer_proceeds_payments";
-    }
-
-    @Override
-    protected RestParams getParams() {
-        RestParams.Builder builder = RestParams.newBuilder();
-
-        if (quoteId != null) {
-            builder.add("quoteId", quoteId);
-        }
-
-        if (before != null) {
-            builder.add("before", before);
-        }
-
-        if (limit != null) {
-            builder.add("limit", limit);
-        }
-
-        return builder.build();
-    }
-
-    @Override
-    protected Class<Response> getResponseType() {
-        return Response.class;
-    }
-
-    @NotThreadSafe
-    public static final class Response extends RestResponse<List<_Payment>> {
-    }
+  @NotThreadSafe
+  public static final class Response extends RestResponse<List<_Payment>> {}
 }

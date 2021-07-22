@@ -41,6 +41,5 @@ public final class TradesChannel extends WebSocketChannel<TradesChannel.Message>
   }
 
   @NotThreadSafe
-  public static final class Message extends WebSocketChannelMessage<Params<List<Trade>>> {
-  }
+  public static final class Message extends WebSocketChannelMessage<Params<List<Trade>>> {}
 }

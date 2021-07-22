@@ -13,45 +13,44 @@ import static java.util.Objects.requireNonNull;
 
 @NotThreadSafe
 public final class DeleteOrdersByClientOrderId
-        extends UserRestRequest<DeleteOrdersByClientOrderId.Response> {
+    extends UserRestRequest<DeleteOrdersByClientOrderId.Response> {
 
-    private String byClientId;
+  private String byClientId;
 
-    public DeleteOrdersByClientOrderId(IActor actor, RestContext context) {
-        super(actor, context);
-    }
+  public DeleteOrdersByClientOrderId(IActor actor, RestContext context) {
+    super(actor, context);
+  }
 
-    public String getByClientId() {
-        return byClientId;
-    }
+  public String getByClientId() {
+    return byClientId;
+  }
 
-    public DeleteOrdersByClientOrderId setByClientId(String by_client_id) {
-        this.byClientId = by_client_id;
-        return this;
-    }
+  public DeleteOrdersByClientOrderId setByClientId(String by_client_id) {
+    this.byClientId = by_client_id;
+    return this;
+  }
 
-    @Override
-    protected RestMethod getMethod() {
-        return RestMethod.DELETE;
-    }
+  @Override
+  protected RestMethod getMethod() {
+    return RestMethod.DELETE;
+  }
 
-    @Override
-    protected String getEndpointPath() {
-        requireNonNull(byClientId);
-        return format("/api/orders/by_client_id/{0}", byClientId);
-    }
+  @Override
+  protected String getEndpointPath() {
+    requireNonNull(byClientId);
+    return format("/api/orders/by_client_id/{0}", byClientId);
+  }
 
-    @Override
-    protected RestParams getParams() {
-        return RestParams.empty();
-    }
+  @Override
+  protected RestParams getParams() {
+    return RestParams.empty();
+  }
 
-    @Override
-    protected Class<Response> getResponseType() {
-        return Response.class;
-    }
+  @Override
+  protected Class<Response> getResponseType() {
+    return Response.class;
+  }
 
-    @NotThreadSafe
-    public static final class Response extends RestResponse<String> {
-    }
+  @NotThreadSafe
+  public static final class Response extends RestResponse<String> {}
 }

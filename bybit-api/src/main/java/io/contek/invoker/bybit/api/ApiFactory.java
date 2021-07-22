@@ -33,13 +33,17 @@ public final class ApiFactory {
   public static final ApiContext MAIN_NET_CONTEXT =
       ApiContext.newBuilder()
           .setRestContext(RestContext.forBaseUrl("https://api.bybit.com"))
-          .setWebSocketContext(WebSocketContext.forBaseUrlAndPingInterval("wss://stream.bybit.com", Duration.ofSeconds(30)))
+          .setWebSocketContext(
+              WebSocketContext.forBaseUrlAndPingInterval(
+                  "wss://stream.bybit.com", Duration.ofSeconds(30)))
           .build();
 
   public static final ApiContext TEST_NET_CONTEXT =
       ApiContext.newBuilder()
           .setRestContext(RestContext.forBaseUrl("https://api-testnet.bybit.com"))
-          .setWebSocketContext(WebSocketContext.forBaseUrlAndPingInterval("wss://stream-testnet.bybit.com", Duration.ofSeconds(30)))
+          .setWebSocketContext(
+              WebSocketContext.forBaseUrlAndPingInterval(
+                  "wss://stream-testnet.bybit.com", Duration.ofSeconds(30)))
           .build();
 
   private final ApiContext context;
@@ -61,14 +65,6 @@ public final class ApiFactory {
   public static ApiFactory fromContext(ApiContext context) {
     return new ApiFactory(
         context, createActorFactory(context.getRateLimitCushion(), context.getInterceptor()));
-  }
-
-  public SelectingRestApi rest() {
-    return new SelectingRestApi();
-  }
-
-  public SelectingWebSocketApi ws() {
-    return new SelectingWebSocketApi();
   }
 
   private static SimpleActorFactory createActorFactory(
@@ -105,40 +101,12 @@ public final class ApiFactory {
         .build();
   }
 
-  @ThreadSafe
-  public final class SelectingRestApi {
-
-    private SelectingRestApi() {}
-
-    public MarketRestApi market() {
-      RestContext restContext = context.getRestContext();
-      IActor actor = actorFactory.create(null, restContext);
-      return new MarketRestApi(actor, restContext);
-    }
-
-    public UserRestApi user(ApiKey apiKey) {
-      RestContext restContext = context.getRestContext();
-      IActor actor = actorFactory.create(apiKey, restContext);
-      return new UserRestApi(actor, restContext);
-    }
+  public SelectingRestApi rest() {
+    return new SelectingRestApi();
   }
 
-  @ThreadSafe
-  public final class SelectingWebSocketApi {
-
-    private SelectingWebSocketApi() {}
-
-    public MarketWebSocketApi market() {
-      WebSocketContext wsContext = context.getWebSocketContext();
-      IActor actor = actorFactory.create(null, wsContext);
-      return new MarketWebSocketApi(actor, wsContext);
-    }
-
-    public UserWebSocketApi user(ApiKey apiKey) {
-      WebSocketContext wsContext = context.getWebSocketContext();
-      IActor actor = actorFactory.create(apiKey, wsContext);
-      return new UserWebSocketApi(actor, wsContext);
-    }
+  public SelectingWebSocketApi ws() {
+    return new SelectingWebSocketApi();
   }
 
   @Immutable
@@ -263,5 +231,41 @@ public final class ApiFactory {
             API_KEY_REST_KEY_INFO_READ_RULE.createRateLimitQuota(1));
 
     private RateLimits() {}
+  }
+
+  @ThreadSafe
+  public final class SelectingRestApi {
+
+    private SelectingRestApi() {}
+
+    public MarketRestApi market() {
+      RestContext restContext = context.getRestContext();
+      IActor actor = actorFactory.create(null, restContext);
+      return new MarketRestApi(actor, restContext);
+    }
+
+    public UserRestApi user(ApiKey apiKey) {
+      RestContext restContext = context.getRestContext();
+      IActor actor = actorFactory.create(apiKey, restContext);
+      return new UserRestApi(actor, restContext);
+    }
+  }
+
+  @ThreadSafe
+  public final class SelectingWebSocketApi {
+
+    private SelectingWebSocketApi() {}
+
+    public MarketWebSocketApi market() {
+      WebSocketContext wsContext = context.getWebSocketContext();
+      IActor actor = actorFactory.create(null, wsContext);
+      return new MarketWebSocketApi(actor, wsContext);
+    }
+
+    public UserWebSocketApi user(ApiKey apiKey) {
+      WebSocketContext wsContext = context.getWebSocketContext();
+      IActor actor = actorFactory.create(apiKey, wsContext);
+      return new UserWebSocketApi(actor, wsContext);
+    }
   }
 }

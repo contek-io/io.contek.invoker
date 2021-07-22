@@ -62,6 +62,8 @@ public final class ApiContext {
     private WebSocketContext webSocketContext;
     private IRateLimitQuotaInterceptor interceptor;
 
+    private Builder() {}
+
     public Builder setRateLimitCushion(double rateLimitCushion) {
       this.rateLimitCushion = rateLimitCushion;
       return this;
@@ -93,7 +95,5 @@ public final class ApiContext {
     public ApiContext build() {
       return new ApiContext(rateLimitCushion, restContext, webSocketContext, interceptor);
     }
-
-    private Builder() {}
   }
 }

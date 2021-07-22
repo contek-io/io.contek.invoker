@@ -9,6 +9,5 @@ public final class NewOrderRespTypeKeys {
 
   public static final String _RESULT = "RESULT";
 
-  private NewOrderRespTypeKeys() {
-  }
+  private NewOrderRespTypeKeys() {}
 }

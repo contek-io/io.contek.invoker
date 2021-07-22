@@ -14,13 +14,21 @@ public class _MarketStats {
 
   @Override
   public String toString() {
-    return "_MarketStats{" +
-            "rootSymbol='" + rootSymbol + '\'' +
-            ", currency='" + currency + '\'' +
-            ", volume24h=" + volume24h +
-            ", turnover24h=" + turnover24h +
-            ", openInterest=" + openInterest +
-            ", openValue=" + openValue +
-            '}';
+    return "_MarketStats{"
+        + "rootSymbol='"
+        + rootSymbol
+        + '\''
+        + ", currency='"
+        + currency
+        + '\''
+        + ", volume24h="
+        + volume24h
+        + ", turnover24h="
+        + turnover24h
+        + ", openInterest="
+        + openInterest
+        + ", openValue="
+        + openValue
+        + '}';
   }
 }

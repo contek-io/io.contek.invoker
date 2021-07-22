@@ -10,8 +10,6 @@ public class _UserTradingRecords {
 
   @Override
   public String toString() {
-    return "_UserTradingRecords{" +
-            "trade_list=" + trade_list +
-            '}';
+    return "_UserTradingRecords{" + "trade_list=" + trade_list + '}';
   }
 }

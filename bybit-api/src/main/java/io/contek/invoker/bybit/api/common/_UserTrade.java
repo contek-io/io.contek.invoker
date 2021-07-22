@@ -29,28 +29,62 @@ public class _UserTrade {
 
   @Override
   public String toString() {
-    return "_UserTrade{" +
-            "closed_size=" + closed_size +
-            ", cross_seq=" + cross_seq +
-            ", exec_fee='" + exec_fee + '\'' +
-            ", exec_id='" + exec_id + '\'' +
-            ", exec_price='" + exec_price + '\'' +
-            ", exec_qty=" + exec_qty +
-            ", exec_type='" + exec_type + '\'' +
-            ", exec_value='" + exec_value + '\'' +
-            ", fee_rate='" + fee_rate + '\'' +
-            ", last_liquidity_ind='" + last_liquidity_ind + '\'' +
-            ", leaves_qty=" + leaves_qty +
-            ", nth_fill=" + nth_fill +
-            ", order_id='" + order_id + '\'' +
-            ", order_link_id='" + order_link_id + '\'' +
-            ", order_price='" + order_price + '\'' +
-            ", order_qty=" + order_qty +
-            ", order_type='" + order_type + '\'' +
-            ", side='" + side + '\'' +
-            ", symbol='" + symbol + '\'' +
-            ", user_id=" + user_id +
-            ", trade_time_ms=" + trade_time_ms +
-            '}';
+    return "_UserTrade{"
+        + "closed_size="
+        + closed_size
+        + ", cross_seq="
+        + cross_seq
+        + ", exec_fee='"
+        + exec_fee
+        + '\''
+        + ", exec_id='"
+        + exec_id
+        + '\''
+        + ", exec_price='"
+        + exec_price
+        + '\''
+        + ", exec_qty="
+        + exec_qty
+        + ", exec_type='"
+        + exec_type
+        + '\''
+        + ", exec_value='"
+        + exec_value
+        + '\''
+        + ", fee_rate='"
+        + fee_rate
+        + '\''
+        + ", last_liquidity_ind='"
+        + last_liquidity_ind
+        + '\''
+        + ", leaves_qty="
+        + leaves_qty
+        + ", nth_fill="
+        + nth_fill
+        + ", order_id='"
+        + order_id
+        + '\''
+        + ", order_link_id='"
+        + order_link_id
+        + '\''
+        + ", order_price='"
+        + order_price
+        + '\''
+        + ", order_qty="
+        + order_qty
+        + ", order_type='"
+        + order_type
+        + '\''
+        + ", side='"
+        + side
+        + '\''
+        + ", symbol='"
+        + symbol
+        + '\''
+        + ", user_id="
+        + user_id
+        + ", trade_time_ms="
+        + trade_time_ms
+        + '}';
   }
 }

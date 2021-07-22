@@ -51,6 +51,5 @@ public final class GetPositionSideDual extends UserRestRequest<Response> {
   }
 
   @NotThreadSafe
-  public static final class Response extends _PositionMode {
-  }
+  public static final class Response extends _PositionMode {}
 }

@@ -13,6 +13,5 @@ public final class TimeInForceKeys {
 
   public static final String _GTX = "GTX";
 
-  private TimeInForceKeys() {
-  }
+  private TimeInForceKeys() {}
 }

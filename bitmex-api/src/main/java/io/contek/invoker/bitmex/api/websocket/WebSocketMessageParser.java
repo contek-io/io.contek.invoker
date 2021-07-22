@@ -18,6 +18,8 @@ final class WebSocketMessageParser implements IWebSocketMessageParser {
 
   private final Gson gson = new Gson();
 
+  private WebSocketMessageParser() {}
+
   static WebSocketMessageParser getInstance() {
     return InstanceHolder.INSTANCE;
   }
@@ -80,8 +82,6 @@ final class WebSocketMessageParser implements IWebSocketMessageParser {
   private WebSocketInfo toInfo(JsonObject obj) {
     return gson.fromJson(obj, WebSocketInfo.class);
   }
-
-  private WebSocketMessageParser() {}
 
   @Immutable
   private static class InstanceHolder {

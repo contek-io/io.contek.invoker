@@ -41,40 +41,85 @@ public class _Order {
 
   @Override
   public String toString() {
-    return "_Order{" +
-            "order_state='" + order_state + '\'' +
-            ", max_show=" + max_show +
-            ", api=" + api +
-            ", amount=" + amount +
-            ", web=" + web +
-            ", instrument_name='" + instrument_name + '\'' +
-            ", advanced='" + advanced + '\'' +
-            ", triggered=" + triggered +
-            ", block_trade=" + block_trade +
-            ", original_order_type='" + original_order_type + '\'' +
-            ", price=" + price +
-            ", time_in_force='" + time_in_force + '\'' +
-            ", auto_replaced=" + auto_replaced +
-            ", stop_order_id='" + stop_order_id + '\'' +
-            ", last_update_timestamp=" + last_update_timestamp +
-            ", post_only=" + post_only +
-            ", replaced=" + replaced +
-            ", filled_amount=" + filled_amount +
-            ", average_price=" + average_price +
-            ", order_id='" + order_id + '\'' +
-            ", reduce_only=" + reduce_only +
-            ", commission=" + commission +
-            ", app_name='" + app_name + '\'' +
-            ", stop_price=" + stop_price +
-            ", label='" + label + '\'' +
-            ", creation_timestamp=" + creation_timestamp +
-            ", direction='" + direction + '\'' +
-            ", is_liquidation=" + is_liquidation +
-            ", order_type='" + order_type + '\'' +
-            ", usd=" + usd +
-            ", profit_loss=" + profit_loss +
-            ", implv=" + implv +
-            ", trigger='" + trigger + '\'' +
-            '}';
+    return "_Order{"
+        + "order_state='"
+        + order_state
+        + '\''
+        + ", max_show="
+        + max_show
+        + ", api="
+        + api
+        + ", amount="
+        + amount
+        + ", web="
+        + web
+        + ", instrument_name='"
+        + instrument_name
+        + '\''
+        + ", advanced='"
+        + advanced
+        + '\''
+        + ", triggered="
+        + triggered
+        + ", block_trade="
+        + block_trade
+        + ", original_order_type='"
+        + original_order_type
+        + '\''
+        + ", price="
+        + price
+        + ", time_in_force='"
+        + time_in_force
+        + '\''
+        + ", auto_replaced="
+        + auto_replaced
+        + ", stop_order_id='"
+        + stop_order_id
+        + '\''
+        + ", last_update_timestamp="
+        + last_update_timestamp
+        + ", post_only="
+        + post_only
+        + ", replaced="
+        + replaced
+        + ", filled_amount="
+        + filled_amount
+        + ", average_price="
+        + average_price
+        + ", order_id='"
+        + order_id
+        + '\''
+        + ", reduce_only="
+        + reduce_only
+        + ", commission="
+        + commission
+        + ", app_name='"
+        + app_name
+        + '\''
+        + ", stop_price="
+        + stop_price
+        + ", label='"
+        + label
+        + '\''
+        + ", creation_timestamp="
+        + creation_timestamp
+        + ", direction='"
+        + direction
+        + '\''
+        + ", is_liquidation="
+        + is_liquidation
+        + ", order_type='"
+        + order_type
+        + '\''
+        + ", usd="
+        + usd
+        + ", profit_loss="
+        + profit_loss
+        + ", implv="
+        + implv
+        + ", trigger='"
+        + trigger
+        + '\''
+        + '}';
   }
 }

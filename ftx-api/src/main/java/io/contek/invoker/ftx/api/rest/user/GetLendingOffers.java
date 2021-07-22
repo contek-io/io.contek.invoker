@@ -13,32 +13,30 @@ import java.util.List;
 @NotThreadSafe
 public final class GetLendingOffers extends SpotMarginRestRequest<GetLendingOffers.Response> {
 
-    public GetLendingOffers(IActor actor, RestContext context) {
-        super(actor, context);
-    }
+  public GetLendingOffers(IActor actor, RestContext context) {
+    super(actor, context);
+  }
 
-    @Override
-    protected RestMethod getMethod() {
-        return RestMethod.GET;
-    }
+  @Override
+  protected RestMethod getMethod() {
+    return RestMethod.GET;
+  }
 
-    @Override
-    protected String getEndpointPathSpotMargin() {
-        return "offers";
-    }
+  @Override
+  protected String getEndpointPathSpotMargin() {
+    return "offers";
+  }
 
-    @Override
-    protected RestParams getParams() {
-        return RestParams.empty();
-    }
+  @Override
+  protected RestParams getParams() {
+    return RestParams.empty();
+  }
 
-    @Override
-    protected Class<Response> getResponseType() {
-        return Response.class;
-    }
+  @Override
+  protected Class<Response> getResponseType() {
+    return Response.class;
+  }
 
-    @NotThreadSafe
-    public static final class Response extends RestResponse<List<_LendingOffers>> {
-
-    }
+  @NotThreadSafe
+  public static final class Response extends RestResponse<List<_LendingOffers>> {}
 }

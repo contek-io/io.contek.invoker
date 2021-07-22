@@ -11,6 +11,5 @@ public final class ContractTypeKeys {
 
   public static final String _NEXT_QUARTER = "NEXT_QUARTER";
 
-  private ContractTypeKeys() {
-  }
+  private ContractTypeKeys() {}
 }

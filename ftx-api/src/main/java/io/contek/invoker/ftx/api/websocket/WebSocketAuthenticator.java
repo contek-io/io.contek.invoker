@@ -34,7 +34,7 @@ public final class WebSocketAuthenticator implements IWebSocketAuthenticator {
     request.op = WebSocketOutboundKeys._login;
     request.args = new WebSocketAuthenticationMessage.Args();
     request.args.key = actor.getCredential().getApiKeyId();
-    request.args.sign = actor.getCredential().sign(currentTimeStamp + WEBSOCKET_LOGIN );
+    request.args.sign = actor.getCredential().sign(currentTimeStamp + WEBSOCKET_LOGIN);
     request.args.time = currentTimeStamp;
     if (actor.getCredential().getSubAccount() != null) {
       request.args.subaccount = actor.getCredential().getSubAccount();
@@ -51,9 +51,7 @@ public final class WebSocketAuthenticator implements IWebSocketAuthenticator {
   }
 
   @Override
-  public void onMessage(AnyWebSocketMessage message, WebSocketSession session) {
-
-  }
+  public void onMessage(AnyWebSocketMessage message, WebSocketSession session) {}
 
   @Override
   public void afterDisconnect() {

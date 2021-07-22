@@ -11,6 +11,5 @@ public final class SymbolTypeKeys {
 
   public static final String _NEXT_QUARTER = "NEXT_QUARTER";
 
-  private SymbolTypeKeys() {
-  }
+  private SymbolTypeKeys() {}
 }

@@ -5,7 +5,6 @@ import javax.annotation.concurrent.Immutable;
 @Immutable
 public final class OrderStatusKeys {
 
-
   public static final String _open = "open";
 
   public static final String _filled = "filled";
@@ -16,6 +15,5 @@ public final class OrderStatusKeys {
 
   public static final String _untriggered = "untriggered";
 
-  private OrderStatusKeys() {
-  }
+  private OrderStatusKeys() {}
 }

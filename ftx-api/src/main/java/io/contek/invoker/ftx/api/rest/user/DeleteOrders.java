@@ -14,43 +14,42 @@ import static java.util.Objects.requireNonNull;
 @NotThreadSafe
 public final class DeleteOrders extends UserRestRequest<DeleteOrders.Response> {
 
-    private String orderId;
+  private String orderId;
 
-    public DeleteOrders(IActor actor, RestContext context) {
-        super(actor, context);
-    }
+  public DeleteOrders(IActor actor, RestContext context) {
+    super(actor, context);
+  }
 
-    public String getOrderId() {
-        return orderId;
-    }
+  public String getOrderId() {
+    return orderId;
+  }
 
-    public DeleteOrders setOrderId(String orderId) {
-        this.orderId = orderId;
-        return this;
-    }
+  public DeleteOrders setOrderId(String orderId) {
+    this.orderId = orderId;
+    return this;
+  }
 
-    @Override
-    protected RestMethod getMethod() {
-        return RestMethod.DELETE;
-    }
+  @Override
+  protected RestMethod getMethod() {
+    return RestMethod.DELETE;
+  }
 
-    @Override
-    protected String getEndpointPath() {
-        requireNonNull(orderId);
-        return format("/api/orders/{0}", orderId);
-    }
+  @Override
+  protected String getEndpointPath() {
+    requireNonNull(orderId);
+    return format("/api/orders/{0}", orderId);
+  }
 
-    @Override
-    protected RestParams getParams() {
-        return RestParams.empty();
-    }
+  @Override
+  protected RestParams getParams() {
+    return RestParams.empty();
+  }
 
-    @Override
-    protected Class<Response> getResponseType() {
-        return Response.class;
-    }
+  @Override
+  protected Class<Response> getResponseType() {
+    return Response.class;
+  }
 
-    @NotThreadSafe
-    public static final class Response extends RestResponse<String> {
-    }
+  @NotThreadSafe
+  public static final class Response extends RestResponse<String> {}
 }

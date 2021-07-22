@@ -27,26 +27,57 @@ public class _Order {
 
   @Override
   public String toString() {
-    return "_Order{" +
-            "user_id=" + user_id +
-            ", order_id='" + order_id + '\'' +
-            ", symbol='" + symbol + '\'' +
-            ", side='" + side + '\'' +
-            ", order_type='" + order_type + '\'' +
-            ", price=" + price +
-            ", qty=" + qty +
-            ", time_in_force='" + time_in_force + '\'' +
-            ", order_status='" + order_status + '\'' +
-            ", last_exec_time='" + last_exec_time + '\'' +
-            ", last_exec_price='" + last_exec_price + '\'' +
-            ", leaves_qty=" + leaves_qty +
-            ", cum_exec_qty=" + cum_exec_qty +
-            ", cum_exec_value=" + cum_exec_value +
-            ", cum_exec_fee=" + cum_exec_fee +
-            ", reject_reason='" + reject_reason + '\'' +
-            ", order_link_id='" + order_link_id + '\'' +
-            ", created_at='" + created_at + '\'' +
-            ", updated_at='" + updated_at + '\'' +
-            '}';
+    return "_Order{"
+        + "user_id="
+        + user_id
+        + ", order_id='"
+        + order_id
+        + '\''
+        + ", symbol='"
+        + symbol
+        + '\''
+        + ", side='"
+        + side
+        + '\''
+        + ", order_type='"
+        + order_type
+        + '\''
+        + ", price="
+        + price
+        + ", qty="
+        + qty
+        + ", time_in_force='"
+        + time_in_force
+        + '\''
+        + ", order_status='"
+        + order_status
+        + '\''
+        + ", last_exec_time='"
+        + last_exec_time
+        + '\''
+        + ", last_exec_price='"
+        + last_exec_price
+        + '\''
+        + ", leaves_qty="
+        + leaves_qty
+        + ", cum_exec_qty="
+        + cum_exec_qty
+        + ", cum_exec_value="
+        + cum_exec_value
+        + ", cum_exec_fee="
+        + cum_exec_fee
+        + ", reject_reason='"
+        + reject_reason
+        + '\''
+        + ", order_link_id='"
+        + order_link_id
+        + '\''
+        + ", created_at='"
+        + created_at
+        + '\''
+        + ", updated_at='"
+        + updated_at
+        + '\''
+        + '}';
   }
 }

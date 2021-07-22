@@ -19,6 +19,5 @@ public final class OrderTypeKeys {
 
   public static final String _LIMIT_MAKER = "LIMIT_MAKER";
 
-  private OrderTypeKeys() {
-  }
+  private OrderTypeKeys() {}
 }

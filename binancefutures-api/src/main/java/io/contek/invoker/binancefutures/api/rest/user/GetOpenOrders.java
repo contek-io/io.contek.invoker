@@ -61,7 +61,9 @@ public final class GetOpenOrders extends UserRestRequest<Response> {
 
   @Override
   protected ImmutableList<RateLimitQuota> getRequiredQuotas() {
-    return symbol != null ? ONE_REST_REQUEST : ImmutableList.of(IP_REST_REQUEST_RULE.createRateLimitQuota(40));
+    return symbol != null
+        ? ONE_REST_REQUEST
+        : ImmutableList.of(IP_REST_REQUEST_RULE.createRateLimitQuota(40));
   }
 
   @NotThreadSafe

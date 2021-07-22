@@ -11,6 +11,5 @@ public final class PositionSideKeys {
 
   public static final String _SHORT = "SHORT";
 
-  private PositionSideKeys() {
-  }
+  private PositionSideKeys() {}
 }

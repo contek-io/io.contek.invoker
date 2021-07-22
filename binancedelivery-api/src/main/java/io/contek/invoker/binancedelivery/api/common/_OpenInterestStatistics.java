@@ -13,12 +13,19 @@ public final class _OpenInterestStatistics {
 
   @Override
   public String toString() {
-    return "_OpenInterestStatistics{" +
-            "pair='" + pair + '\'' +
-            ", contractType='" + contractType + '\'' +
-            ", sumOpenInterest=" + sumOpenInterest +
-            ", sumOpenInterestValue=" + sumOpenInterestValue +
-            ", timestamp=" + timestamp +
-            '}';
+    return "_OpenInterestStatistics{"
+        + "pair='"
+        + pair
+        + '\''
+        + ", contractType='"
+        + contractType
+        + '\''
+        + ", sumOpenInterest="
+        + sumOpenInterest
+        + ", sumOpenInterestValue="
+        + sumOpenInterestValue
+        + ", timestamp="
+        + timestamp
+        + '}';
   }
 }

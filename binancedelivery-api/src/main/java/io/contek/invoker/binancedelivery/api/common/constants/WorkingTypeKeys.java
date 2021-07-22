@@ -9,6 +9,5 @@ public final class WorkingTypeKeys {
 
   public static final String CONTRACT_PRICE = "CONTRACT_PRICE";
 
-  private WorkingTypeKeys() {
-  }
+  private WorkingTypeKeys() {}
 }

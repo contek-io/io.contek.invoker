@@ -20,9 +20,8 @@ import static io.contek.invoker.commons.rest.RestMethod.GET;
 public final class GetPosition extends UserRestRequest<Response> {
 
   private static final Gson gson = new Gson();
-
-  private Integer count;
   private final Map<String, String> filter = new HashMap<>();
+  private Integer count;
 
   GetPosition(IActor actor, RestContext context) {
     super(actor, context);

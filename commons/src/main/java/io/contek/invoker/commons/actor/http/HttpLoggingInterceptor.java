@@ -16,18 +16,10 @@ public final class HttpLoggingInterceptor implements Interceptor {
 
   private static final Logger log = getLogger(HttpLoggingInterceptor.class);
 
+  private HttpLoggingInterceptor() {}
+
   public static HttpLoggingInterceptor getInstance() {
     return InstanceHolder.INSTANCE;
-  }
-
-  @Override
-  public Response intercept(Chain chain) throws IOException {
-    Request request = chain.request();
-    logRequest(request);
-
-    Response response = chain.proceed(request);
-    logResponse(request, response);
-    return response;
   }
 
   private static void logRequest(Request request) {
@@ -76,7 +68,15 @@ public final class HttpLoggingInterceptor implements Interceptor {
     }
   }
 
-  private HttpLoggingInterceptor() {}
+  @Override
+  public Response intercept(Chain chain) throws IOException {
+    Request request = chain.request();
+    logRequest(request);
+
+    Response response = chain.proceed(request);
+    logResponse(request, response);
+    return response;
+  }
 
   @Immutable
   private static final class InstanceHolder {

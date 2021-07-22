@@ -59,6 +59,8 @@ public final class RestContext extends BaseHttpContext {
     private Duration readTimeout;
     private Duration writeTimeout;
 
+    private Builder() {}
+
     public Builder setBaseUrl(String baseUrl) {
       this.baseUrl = baseUrl;
       return this;
@@ -85,7 +87,5 @@ public final class RestContext extends BaseHttpContext {
       }
       return new RestContext(baseUrl, connectionTimeout, readTimeout, writeTimeout);
     }
-
-    private Builder() {}
   }
 }

@@ -8,9 +8,6 @@ public class _PlaceOrderResponse {
 
   @Override
   public String toString() {
-    return "_PlaceOrderResponse{" +
-            "order=" + order +
-            ", trades=" + trades +
-            '}';
+    return "_PlaceOrderResponse{" + "order=" + order + ", trades=" + trades + '}';
   }
 }

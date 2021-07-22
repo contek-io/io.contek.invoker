@@ -21,20 +21,35 @@ public class _TradeBin {
 
   @Override
   public String toString() {
-    return "_TradeBin{" +
-            "timestamp='" + timestamp + '\'' +
-            ", symbol='" + symbol + '\'' +
-            ", open=" + open +
-            ", high=" + high +
-            ", low=" + low +
-            ", close=" + close +
-            ", trades=" + trades +
-            ", volume=" + volume +
-            ", vwap=" + vwap +
-            ", lastSize=" + lastSize +
-            ", turnover=" + turnover +
-            ", homeNotional=" + homeNotional +
-            ", foreignNotional=" + foreignNotional +
-            '}';
+    return "_TradeBin{"
+        + "timestamp='"
+        + timestamp
+        + '\''
+        + ", symbol='"
+        + symbol
+        + '\''
+        + ", open="
+        + open
+        + ", high="
+        + high
+        + ", low="
+        + low
+        + ", close="
+        + close
+        + ", trades="
+        + trades
+        + ", volume="
+        + volume
+        + ", vwap="
+        + vwap
+        + ", lastSize="
+        + lastSize
+        + ", turnover="
+        + turnover
+        + ", homeNotional="
+        + homeNotional
+        + ", foreignNotional="
+        + foreignNotional
+        + '}';
   }
 }

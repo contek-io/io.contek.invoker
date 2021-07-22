@@ -65,6 +65,8 @@ public final class RateLimitRule {
     private int maxPermits;
     private Duration resetPeriod;
 
+    private Builder() {}
+
     public Builder setName(String name) {
       this.name = name;
       return this;
@@ -100,7 +102,5 @@ public final class RateLimitRule {
       }
       return new RateLimitRule(name, type, maxPermits, resetPeriod);
     }
-
-    private Builder() {}
   }
 }

@@ -8,11 +8,15 @@ public class _Stats {
 
   @Override
   public String toString() {
-    return "_Stats{" +
-            "high=" + high +
-            ", low=" + low +
-            ", price_change=" + price_change +
-            ", volume=" + volume +
-            '}';
+    return "_Stats{"
+        + "high="
+        + high
+        + ", low="
+        + low
+        + ", price_change="
+        + price_change
+        + ", volume="
+        + volume
+        + '}';
   }
 }

@@ -15,6 +15,5 @@ public final class ContractStatusKeys {
 
   public static final String _DELIVERED = "DELIVERED";
 
-  private ContractStatusKeys() {
-  }
+  private ContractStatusKeys() {}
 }

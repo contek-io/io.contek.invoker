@@ -11,78 +11,78 @@ import javax.annotation.concurrent.NotThreadSafe;
 import java.util.List;
 
 @NotThreadSafe
-public class GetCounterpartySettlements extends OTCQuotesRestRequest<GetCounterpartySettlements.Response> {
+public class GetCounterpartySettlements
+    extends OTCQuotesRestRequest<GetCounterpartySettlements.Response> {
 
-    private Integer quoteId;
-    private Integer before;
-    private Double limit;
+  private Integer quoteId;
+  private Integer before;
+  private Double limit;
 
-    public GetCounterpartySettlements(IActor actor, RestContext context) {
-        super(actor, context);
+  public GetCounterpartySettlements(IActor actor, RestContext context) {
+    super(actor, context);
+  }
+
+  public Integer getQuoteId() {
+    return quoteId;
+  }
+
+  public GetCounterpartySettlements setQuoteId(Integer quoteId) {
+    this.quoteId = quoteId;
+    return this;
+  }
+
+  public Integer getBefore() {
+    return before;
+  }
+
+  public GetCounterpartySettlements setBefore(Integer before) {
+    this.before = before;
+    return this;
+  }
+
+  public Double getLimit() {
+    return limit;
+  }
+
+  public GetCounterpartySettlements setLimit(Double limit) {
+    this.limit = limit;
+    return this;
+  }
+
+  @Override
+  protected RestMethod getMethod() {
+    return RestMethod.GET;
+  }
+
+  @Override
+  protected String getEndpointPathOTC() {
+    return "/counterparty_settlements";
+  }
+
+  @Override
+  protected RestParams getParams() {
+    RestParams.Builder builder = RestParams.newBuilder();
+
+    if (quoteId != null) {
+      builder.add("quoteId", quoteId);
     }
 
-    public Integer getQuoteId() {
-        return quoteId;
+    if (before != null) {
+      builder.add("before", before);
     }
 
-    public GetCounterpartySettlements setQuoteId(Integer quoteId) {
-        this.quoteId = quoteId;
-        return this;
+    if (limit != null) {
+      builder.add("limit", limit);
     }
 
-    public Integer getBefore() {
-        return before;
-    }
+    return builder.build();
+  }
 
-    public GetCounterpartySettlements setBefore(Integer before) {
-        this.before = before;
-        return this;
-    }
+  @Override
+  protected Class<Response> getResponseType() {
+    return Response.class;
+  }
 
-    public Double getLimit() {
-        return limit;
-    }
-
-    public GetCounterpartySettlements setLimit(Double limit) {
-        this.limit = limit;
-        return this;
-    }
-
-    @Override
-    protected RestMethod getMethod() {
-        return RestMethod.GET;
-    }
-
-    @Override
-    protected String getEndpointPathOTC() {
-        return "/counterparty_settlements";
-    }
-
-    @Override
-    protected RestParams getParams() {
-        RestParams.Builder builder = RestParams.newBuilder();
-
-        if (quoteId != null) {
-            builder.add("quoteId", quoteId);
-        }
-
-        if (before != null) {
-            builder.add("before", before);
-        }
-
-        if (limit != null) {
-            builder.add("limit", limit);
-        }
-
-        return builder.build();
-    }
-
-    @Override
-    protected Class<Response> getResponseType() {
-        return Response.class;
-    }
-
-    @NotThreadSafe
-    public static final class Response extends RestResponse<List<_Settlement>> {
-    }
+  @NotThreadSafe
+  public static final class Response extends RestResponse<List<_Settlement>> {}
 }

@@ -9,6 +9,5 @@ public final class OrderSideKeys {
 
   public static final String _SELL = "SELL";
 
-  private OrderSideKeys() {
-  }
+  private OrderSideKeys() {}
 }

@@ -15,14 +15,23 @@ public class _BookTicker {
 
   @Override
   public String toString() {
-    return "_BookTicker{" +
-            "symbol='" + symbol + '\'' +
-            ", pair='" + pair + '\'' +
-            ", bidPrice=" + bidPrice +
-            ", bidQty=" + bidQty +
-            ", askPrice=" + askPrice +
-            ", askQty=" + askQty +
-            ", time=" + time +
-            '}';
+    return "_BookTicker{"
+        + "symbol='"
+        + symbol
+        + '\''
+        + ", pair='"
+        + pair
+        + '\''
+        + ", bidPrice="
+        + bidPrice
+        + ", bidQty="
+        + bidQty
+        + ", askPrice="
+        + askPrice
+        + ", askQty="
+        + askQty
+        + ", time="
+        + time
+        + '}';
   }
 }

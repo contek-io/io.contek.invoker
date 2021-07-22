@@ -9,8 +9,6 @@ public class _Leverage {
 
   @Override
   public String toString() {
-    return "_Leverage{" +
-            "leverage=" + leverage +
-            '}';
+    return "_Leverage{" + "leverage=" + leverage + '}';
   }
 }

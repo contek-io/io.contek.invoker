@@ -58,6 +58,5 @@ public final class PostPositionSideDual extends UserRestRequest<Response> {
   }
 
   @NotThreadSafe
-  public static final class Response extends RestUpdateResponse {
-  }
+  public static final class Response extends RestUpdateResponse {}
 }

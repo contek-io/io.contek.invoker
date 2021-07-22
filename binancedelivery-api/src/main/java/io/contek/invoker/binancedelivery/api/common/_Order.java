@@ -33,32 +33,67 @@ public class _Order {
 
   @Override
   public String toString() {
-    return "_Order{" +
-            "avgPrice=" + avgPrice +
-            ", clientOrderId='" + clientOrderId + '\'' +
-            ", cumQty=" + cumQty +
-            ", cumBase=" + cumBase +
-            ", executedQty=" + executedQty +
-            ", orderId=" + orderId +
-            ", origQty=" + origQty +
-            ", origType='" + origType + '\'' +
-            ", price=" + price +
-            ", reduceOnly=" + reduceOnly +
-            ", side='" + side + '\'' +
-            ", positionSide='" + positionSide + '\'' +
-            ", status='" + status + '\'' +
-            ", stopPrice=" + stopPrice +
-            ", closePosition=" + closePosition +
-            ", symbol='" + symbol + '\'' +
-            ", pair='" + pair + '\'' +
-            ", time=" + time +
-            ", timeInForce='" + timeInForce + '\'' +
-            ", type='" + type + '\'' +
-            ", activatePrice=" + activatePrice +
-            ", priceRate=" + priceRate +
-            ", updateTime=" + updateTime +
-            ", workingType='" + workingType + '\'' +
-            ", priceProtect=" + priceProtect +
-            '}';
+    return "_Order{"
+        + "avgPrice="
+        + avgPrice
+        + ", clientOrderId='"
+        + clientOrderId
+        + '\''
+        + ", cumQty="
+        + cumQty
+        + ", cumBase="
+        + cumBase
+        + ", executedQty="
+        + executedQty
+        + ", orderId="
+        + orderId
+        + ", origQty="
+        + origQty
+        + ", origType='"
+        + origType
+        + '\''
+        + ", price="
+        + price
+        + ", reduceOnly="
+        + reduceOnly
+        + ", side='"
+        + side
+        + '\''
+        + ", positionSide='"
+        + positionSide
+        + '\''
+        + ", status='"
+        + status
+        + '\''
+        + ", stopPrice="
+        + stopPrice
+        + ", closePosition="
+        + closePosition
+        + ", symbol='"
+        + symbol
+        + '\''
+        + ", pair='"
+        + pair
+        + '\''
+        + ", time="
+        + time
+        + ", timeInForce='"
+        + timeInForce
+        + '\''
+        + ", type='"
+        + type
+        + '\''
+        + ", activatePrice="
+        + activatePrice
+        + ", priceRate="
+        + priceRate
+        + ", updateTime="
+        + updateTime
+        + ", workingType='"
+        + workingType
+        + '\''
+        + ", priceProtect="
+        + priceProtect
+        + '}';
   }
 }
