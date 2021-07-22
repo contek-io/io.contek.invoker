@@ -20,9 +20,9 @@ public class PostRequestQuote extends OTCQuotesRestRequest<PostRequestQuote.Resp
     private String side;
     private Double baseCurrencySize;
     private Double quoteCurrencySize;
-    private int secondsUntilSettlement;
-    private boolean counterpartyAutoSettles;
-    private boolean waitForPrice;
+    private Integer secondsUntilSettlement;
+    private Boolean counterpartyAutoSettles;
+    private Boolean waitForPrice;
 
     public PostRequestQuote(IActor actor, RestContext context) {
         super(actor, context);

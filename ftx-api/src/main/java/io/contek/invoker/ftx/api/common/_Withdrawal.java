@@ -1,17 +1,17 @@
 package io.contek.invoker.ftx.api.common;
 
 public class _Withdrawal {
-    public int id;
+    public Integer id;
     public String coin;
     public String address;
     public String tag;
     public String txid;
-    public int size;
-    public int fee;
+    public Integer size;
+    public Integer fee;
     public String status;
     public String time;
-    public boolean fastWithdrawal;
-    public int fastWithdrawalFee;
+    public Boolean fastWithdrawal;
+    public Integer fastWithdrawalFee;
 
     @Override
     public String toString() {

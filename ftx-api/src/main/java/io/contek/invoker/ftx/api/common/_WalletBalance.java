@@ -7,8 +7,8 @@ import java.io.Serializable;
 public class _WalletBalance implements Serializable {
 
     public String coin;
-    public double free;
-    public double total;
+    public Double free;
+    public Double total;
 
     @Override
     public String toString() {

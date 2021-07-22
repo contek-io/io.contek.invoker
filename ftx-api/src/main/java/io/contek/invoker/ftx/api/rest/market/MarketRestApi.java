@@ -20,8 +20,8 @@ public final class MarketRestApi {
     return new GetMarkets(actor, context);
   }
 
-  public GetFutures getFutures() {
-    return new GetFutures(actor, context);
+  public GetSingleMarket getSingleMarket() {
+    return new GetSingleMarket(actor, context);
   }
 
   public GetMarketsCandles getMarketsCandles() {
@@ -30,5 +30,9 @@ public final class MarketRestApi {
 
   public GetOrderBook getOrderBook() {
     return new GetOrderBook(actor, context);
+  }
+
+  public GetFutures getFutures() {
+    return new GetFutures(actor, context);
   }
 }

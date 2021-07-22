@@ -5,8 +5,8 @@ import java.io.Serializable;
 public class _LendingOffers implements Serializable {
 
     public String coin;
-    public double rate;
-    public double size;
+    public Double rate;
+    public Double size;
 
     @Override
     public String toString() {

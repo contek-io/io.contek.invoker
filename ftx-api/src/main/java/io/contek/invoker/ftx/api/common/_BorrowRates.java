@@ -5,8 +5,8 @@ import java.io.Serializable;
 public class _BorrowRates implements Serializable {
 
     public String coin;
-    public double estimate;
-    public double previous;
+    public Double estimate;
+    public Double previous;
 
     @Override
     public String toString() {

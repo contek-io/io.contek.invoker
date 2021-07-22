@@ -5,8 +5,8 @@ import java.io.Serializable;
 public class _FundingPayments implements Serializable {
 
     public String future;
-    public int id;
-    public double payment;
+    public Integer id;
+    public Double payment;
     public String time;
 
     @Override

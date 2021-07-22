@@ -14,4 +14,19 @@ public class _Kline {
   public double close;
   public double volume;
   public double turnover;
+
+  @Override
+  public String toString() {
+    return "_Kline{" +
+            "symbol='" + symbol + '\'' +
+            ", interval='" + interval + '\'' +
+            ", open_time=" + open_time +
+            ", open=" + open +
+            ", high=" + high +
+            ", low=" + low +
+            ", close=" + close +
+            ", volume=" + volume +
+            ", turnover=" + turnover +
+            '}';
+  }
 }

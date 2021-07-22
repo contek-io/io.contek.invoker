@@ -5,9 +5,9 @@ import java.io.Serializable;
 public class _LendingHistory implements Serializable {
 
     public String coin;
-    public double cost;
-    public double rate;
-    public double size;
+    public Double cost;
+    public Double rate;
+    public Double size;
     public String time;
 
     @Override

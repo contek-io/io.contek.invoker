@@ -13,7 +13,7 @@ import java.util.List;
 import static io.contek.invoker.commons.rest.RestMethod.GET;
 
 @NotThreadSafe
-public class GetDailyBorrowedAmounts extends SpotMarginRestRequest<GetDailyBorrowedAmounts.Response> {
+public final class GetDailyBorrowedAmounts extends SpotMarginRestRequest<GetDailyBorrowedAmounts.Response> {
 
     public GetDailyBorrowedAmounts(IActor actor, RestContext context) {
         super(actor, context);

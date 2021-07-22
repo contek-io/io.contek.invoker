@@ -10,7 +10,7 @@ import javax.annotation.concurrent.NotThreadSafe;
 import java.util.Objects;
 
 @NotThreadSafe
-public class SubmitLendingOffer extends SpotMarginRestRequest<SubmitLendingOffer.Response> {
+public final class SubmitLendingOffer extends SpotMarginRestRequest<SubmitLendingOffer.Response> {
 
     private String coin;
     private Double size;

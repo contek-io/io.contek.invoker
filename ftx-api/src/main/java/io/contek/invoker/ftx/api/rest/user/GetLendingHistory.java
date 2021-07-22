@@ -11,7 +11,7 @@ import javax.annotation.concurrent.NotThreadSafe;
 import java.util.List;
 
 @NotThreadSafe
-public class GetLendingHistory extends SpotMarginRestRequest<GetLendingHistory.Response> {
+public final class GetLendingHistory extends SpotMarginRestRequest<GetLendingHistory.Response> {
 
     public GetLendingHistory(IActor actor, RestContext context) {
         super(actor, context);

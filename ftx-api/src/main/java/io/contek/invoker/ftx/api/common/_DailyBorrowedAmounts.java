@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class _DailyBorrowedAmounts implements Serializable {
 
     public String coin;
-    public double size;
+    public Double size;
 
     @Override
     public String toString() {

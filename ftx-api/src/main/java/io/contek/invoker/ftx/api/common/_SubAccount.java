@@ -3,9 +3,9 @@ package io.contek.invoker.ftx.api.common;
 public class _SubAccount {
 
     public String nickname;
-    public boolean deletable;
-    public boolean editable;
-    public boolean competition;
+    public Boolean deletable;
+    public Boolean editable;
+    public Boolean competition;
 
     @Override
     public String toString() {

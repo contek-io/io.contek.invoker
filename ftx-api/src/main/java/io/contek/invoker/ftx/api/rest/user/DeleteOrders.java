@@ -14,18 +14,18 @@ import static java.util.Objects.requireNonNull;
 @NotThreadSafe
 public final class DeleteOrders extends UserRestRequest<DeleteOrders.Response> {
 
-    private String order_id;
+    private String orderId;
 
     public DeleteOrders(IActor actor, RestContext context) {
         super(actor, context);
     }
 
     public String getOrderId() {
-        return order_id;
+        return orderId;
     }
 
-    public DeleteOrders setOrderId(String order_id) {
-        this.order_id = order_id;
+    public DeleteOrders setOrderId(String orderId) {
+        this.orderId = orderId;
         return this;
     }
 
@@ -36,8 +36,8 @@ public final class DeleteOrders extends UserRestRequest<DeleteOrders.Response> {
 
     @Override
     protected String getEndpointPath() {
-        requireNonNull(order_id);
-        return format("/api/orders/{0}", order_id);
+        requireNonNull(orderId);
+        return format("/api/orders/{0}", orderId);
     }
 
     @Override

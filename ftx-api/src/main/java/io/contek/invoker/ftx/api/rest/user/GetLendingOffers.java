@@ -11,7 +11,7 @@ import javax.annotation.concurrent.NotThreadSafe;
 import java.util.List;
 
 @NotThreadSafe
-public class GetLendingOffers extends SpotMarginRestRequest<GetLendingOffers.Response> {
+public final class GetLendingOffers extends SpotMarginRestRequest<GetLendingOffers.Response> {
 
     public GetLendingOffers(IActor actor, RestContext context) {
         super(actor, context);

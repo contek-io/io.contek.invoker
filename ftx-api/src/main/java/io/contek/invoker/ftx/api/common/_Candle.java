@@ -2,12 +2,12 @@ package io.contek.invoker.ftx.api.common;
 
 public class _Candle {
 
-    public double close;
-    public double high;
-    public double low;
-    public double open;
+    public Double close;
+    public Double high;
+    public Double low;
+    public Double open;
     public String startTime;
-    public double volume;
+    public Double volume;
 
     @Override
     public String toString() {

@@ -5,10 +5,10 @@ import java.io.Serializable;
 public class _LendingInfo implements Serializable {
 
     public String coin;
-    public double lendable;
-    public double locked;
-    public double minRate;
-    public double offered;
+    public Double lendable;
+    public Double locked;
+    public Double minRate;
+    public Double offered;
 
     @Override
     public String toString() {

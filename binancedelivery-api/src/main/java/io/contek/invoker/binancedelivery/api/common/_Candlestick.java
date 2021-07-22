@@ -20,4 +20,48 @@ import java.util.ArrayList;
  */
 @NotThreadSafe
 public class _Candlestick extends ArrayList<Double> {
+
+    public double openTime() {
+        return get(0);
+    }
+
+    public double open() {
+        return get(1);
+    }
+
+    public double high() {
+        return get(2);
+    }
+
+    public double low() {
+        return get(3);
+    }
+
+    public double close() {
+        return get(4);
+    }
+
+    public double volume() {
+        return get(5);
+    }
+
+    public double closeTime() {
+        return get(6);
+    }
+
+    public double baseAssetVolume() {
+        return get(7);
+    }
+
+    public double numberOfTrades() {
+        return get(8);
+    }
+
+    public double takerBuyBaseAssetVolume() {
+        return get(9);
+    }
+
+    public double takerBuyQuoteAssetVolume() {
+        return get(10);
+    }
 }

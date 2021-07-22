@@ -10,7 +10,7 @@ import io.contek.invoker.ftx.api.rest.common.RestResponse;
 import javax.annotation.concurrent.NotThreadSafe;
 import java.util.List;
 
-public class GetAllSubAccounts extends SubAccountRestRequest<GetAllSubAccounts.Response> {
+public final class GetAllSubAccounts extends SubAccountRestRequest<GetAllSubAccounts.Response> {
 
     public GetAllSubAccounts(IActor actor, RestContext context) {
         super(actor, context);

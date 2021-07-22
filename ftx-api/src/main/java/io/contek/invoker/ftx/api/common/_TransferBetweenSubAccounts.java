@@ -2,9 +2,9 @@ package io.contek.invoker.ftx.api.common;
 
 public class _TransferBetweenSubAccounts {
 
-    public int id;
+    public Integer id;
     public String coin;
-    public int size;
+    public Integer size;
     public String time;
     public String notes;
     public String status;

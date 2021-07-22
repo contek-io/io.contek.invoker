@@ -15,4 +15,20 @@ public class _Trade {
   public Double grossValue;
   public Double homeNotional;
   public Double foreignNotional;
+
+  @Override
+  public String toString() {
+    return "_Trade{" +
+            "timestamp='" + timestamp + '\'' +
+            ", symbol='" + symbol + '\'' +
+            ", side='" + side + '\'' +
+            ", size=" + size +
+            ", price=" + price +
+            ", tickDirection='" + tickDirection + '\'' +
+            ", trdMatchID='" + trdMatchID + '\'' +
+            ", grossValue=" + grossValue +
+            ", homeNotional=" + homeNotional +
+            ", foreignNotional=" + foreignNotional +
+            '}';
+  }
 }

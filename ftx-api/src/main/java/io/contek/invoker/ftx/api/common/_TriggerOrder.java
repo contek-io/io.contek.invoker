@@ -4,20 +4,20 @@ public class _TriggerOrder {
 
     public String createdAt;
     public String future;
-    public long id;
+    public Long id;
     public String market;
-    public double triggerPrice;
+    public Double triggerPrice;
     public Long orderId;
     public String side;
-    public double size;
+    public Double size;
     public String status;
     public String type;
     public Double orderPrice;
     public Object error;
     public String triggeredAt;
-    public boolean reduceOnly;
+    public Boolean reduceOnly;
     public String orderType;
-    public boolean retryUntilFilled;
+    public Boolean retryUntilFilled;
 
     @Override
     public String toString() {

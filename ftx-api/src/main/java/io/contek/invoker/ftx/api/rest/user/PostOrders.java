@@ -16,7 +16,7 @@ public final class PostOrders extends UserRestRequest<PostOrders.Response> {
 
     private String market;
     private String side;
-    private Double price = null;
+    private Double price;
     private String type;
     private Double size;
     private Boolean reduceOnly;

@@ -48,11 +48,11 @@ public final class ApiFactory {
     this.actorFactory = actorFactory;
   }
 
-  public static ApiFactory getMainNetDefault() {
+  public static ApiFactory getMainNet() {
     return fromContext(MAIN_NET_CONTEXT);
   }
 
-  public static ApiFactory getOTCMainNetDefault() {
+  public static ApiFactory getOTCMainNet() {
     return fromContext(OTC_MAIN_NET_CONTEXT);
   }
 
@@ -102,10 +102,6 @@ public final class ApiFactory {
   public final class SelectingRestApiOTC {
 
     private SelectingRestApiOTC() {
-    }
-
-    public MarketRestApi market() {
-      return null;
     }
 
     public UserRestApiOTC user(ApiKey apiKey) {

@@ -11,7 +11,7 @@ import javax.annotation.concurrent.NotThreadSafe;
 import java.util.List;
 import java.util.Objects;
 
-public class PostTransferBetweenSubAccounts extends SubAccountRestRequest<PostTransferBetweenSubAccounts.Response> {
+public final class PostTransferBetweenSubAccounts extends SubAccountRestRequest<PostTransferBetweenSubAccounts.Response> {
 
     private String coin;
     private Double size;

@@ -18,4 +18,23 @@ public class _Margin {
   public Long availableMargin;
   public Long withdrawableMargin;
   public String timestamp;
+
+  @Override
+  public String toString() {
+    return "_Margin{" +
+            "account=" + account +
+            ", currency='" + currency + '\'' +
+            ", BitmexSatoshi=" + BitmexSatoshi +
+            ", initMargin=" + initMargin +
+            ", maintMargin=" + maintMargin +
+            ", realisedPnl=" + realisedPnl +
+            ", unrealisedPnl=" + unrealisedPnl +
+            ", walletBalance=" + walletBalance +
+            ", marginBalance=" + marginBalance +
+            ", marginLeverage=" + marginLeverage +
+            ", availableMargin=" + availableMargin +
+            ", withdrawableMargin=" + withdrawableMargin +
+            ", timestamp='" + timestamp + '\'' +
+            '}';
+  }
 }

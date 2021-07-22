@@ -2,11 +2,11 @@ package io.contek.invoker.ftx.api.common;
 
 public class _Settlement {
 
-    public int id;
+    public Integer id;
     public String currency;
-    public double amount;
+    public Double amount;
     public String time;
-    public int quoteId;
+    public Integer quoteId;
 
     @Override
     public String toString() {

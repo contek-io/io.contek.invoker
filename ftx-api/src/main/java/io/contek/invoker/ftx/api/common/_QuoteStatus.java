@@ -2,13 +2,13 @@ package io.contek.invoker.ftx.api.common;
 
 public class _QuoteStatus {
     public String baseCoin;
-    public double cost;
-    public boolean expired;
-    public boolean filled;
+    public Double cost;
+    public Boolean expired;
+    public Boolean filled;
     public String fromCoin;
-    public long id;
-    public double price;
-    public double proceeds;
+    public Long id;
+    public Double price;
+    public Double proceeds;
     public String quoteCoin;
     public String side;
     public String toCoin;
