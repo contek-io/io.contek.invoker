@@ -47,11 +47,11 @@ public final class ApiFactory {
     this.actorFactory = actorFactory;
   }
 
-  public static ApiFactory getMainNet() {
+  public static ApiFactory getMainNetDefault() {
     return fromContext(MAIN_NET_CONTEXT);
   }
 
-  public static ApiFactory getOTCMainNet() {
+  public static ApiFactory getOTCMainNetDefault() {
     return fromContext(OTC_MAIN_NET_CONTEXT);
   }
 
