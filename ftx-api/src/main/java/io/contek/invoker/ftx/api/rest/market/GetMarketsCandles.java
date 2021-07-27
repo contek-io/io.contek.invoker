@@ -3,7 +3,7 @@ package io.contek.invoker.ftx.api.rest.market;
 import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestParams;
-import io.contek.invoker.ftx.api.common._Market;
+import io.contek.invoker.ftx.api.common._Candle;
 import io.contek.invoker.ftx.api.rest.common.RestResponse;
 
 import javax.annotation.concurrent.NotThreadSafe;
@@ -84,5 +84,5 @@ public final class GetMarketsCandles extends MarketRestRequest<GetMarketsCandles
   }
 
   @NotThreadSafe
-  public static final class Response extends RestResponse<List<_Market>> {}
+  public static final class Response extends RestResponse<List<_Candle>> {}
 }

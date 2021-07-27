@@ -129,4 +129,8 @@ public final class UserRestApi {
   public DeleteTriggerOrder deleteTriggerOrder() {
     return new DeleteTriggerOrder(actor, context);
   }
+
+  public GetFundingPayments getFundingPayments() {
+    return new GetFundingPayments(actor, context);
+  }
 }
