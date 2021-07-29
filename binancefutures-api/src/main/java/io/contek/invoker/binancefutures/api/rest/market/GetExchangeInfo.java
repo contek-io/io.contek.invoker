@@ -55,6 +55,11 @@ public final class GetExchangeInfo extends MarketRestRequest<Response> {
     public Double requiredMarginPercent;
     public String baseAsset;
     public String quoteAsset;
+    public Integer pricePrecision;
+    public Integer baseAssetPrecision;
+    public Integer quotePrecision;
+    public Integer quantityPrecision;
+    
     public List<Map<String, Object>> filters;
   }
 }
