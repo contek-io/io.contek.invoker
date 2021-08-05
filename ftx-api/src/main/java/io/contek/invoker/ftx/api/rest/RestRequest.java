@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableMap;
 import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
 import io.contek.invoker.commons.rest.*;
+import io.contek.invoker.commons.rest.RestErrorException;
 import io.contek.invoker.security.ICredential;
 
 import javax.annotation.concurrent.NotThreadSafe;
@@ -96,5 +97,10 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
 
   private String buildUrlString(String paramsString) {
     return context.getBaseUrl() + getEndpointPath() + paramsString;
+  }
+
+  @Override
+  public Class<? extends RestErrorException> getRestExceptionType() {
+    return io.contek.invoker.ftx.api.rest.RestErrorException.class;
   }
 }

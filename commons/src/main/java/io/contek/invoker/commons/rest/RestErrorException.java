@@ -5,11 +5,11 @@ import io.contek.invoker.commons.actor.http.AnyHttpException;
 import javax.annotation.concurrent.NotThreadSafe;
 
 @NotThreadSafe
-public final class RestErrorException extends AnyHttpException {
+public class RestErrorException extends AnyHttpException {
 
   private final RestResponse response;
 
-  RestErrorException(RestResponse response) {
+  public RestErrorException(RestResponse response) {
     super(response.getStringValue());
     this.response = response;
   }

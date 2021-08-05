@@ -39,4 +39,8 @@ public final class MarketRestApi {
   public GetOptionOpenInterest getOptionOpenInterest() {
     return new GetOptionOpenInterest(actor, context);
   }
+
+  public GetFutureStats getFutureStats() {
+    return new GetFutureStats(actor, context);
+  }
 }
