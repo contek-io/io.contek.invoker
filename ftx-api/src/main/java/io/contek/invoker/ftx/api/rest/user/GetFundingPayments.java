@@ -20,7 +20,7 @@ public final class GetFundingPayments extends UserRestRequest<GetFundingPayments
 
     @Override
     protected RestMethod getMethod() {
-        return RestMethod.POST;
+        return RestMethod.GET;
     }
 
     @Override
