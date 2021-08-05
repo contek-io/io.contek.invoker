@@ -4,6 +4,7 @@ import okhttp3.MediaType;
 import okhttp3.RequestBody;
 
 import javax.annotation.concurrent.Immutable;
+import java.lang.reflect.Method;
 
 @Immutable
 public final class RestMediaBody {
@@ -21,6 +22,6 @@ public final class RestMediaBody {
   }
 
   RequestBody createRequestBody() {
-    return RequestBody.create(stringValue, type);
+    return RequestBody.create(type, stringValue);
   }
 }
