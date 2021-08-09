@@ -36,6 +36,10 @@ public final class UserRestApi {
     return new GetOpenOrders(actor, context);
   }
 
+  public GetOrderHistory getOrderHistory() {
+    return new GetOrderHistory(actor, context);
+  }
+
   public GetOrders getOrders() {
     return new GetOrders(actor, context);
   }
