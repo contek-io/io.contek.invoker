@@ -16,6 +16,10 @@ public final class MarketWebSocketApi extends WebSocketApi {
   private final Map<OrderBook200Channel.Id, OrderBook200Channel> orderBook200Channels =
       new HashMap<>();
   private final Map<TradeChannel.Id, TradeChannel> tradeChannels = new HashMap<>();
+  private final Map<InstrumentInfoChannel.Id, InstrumentInfoChannel> instrumentInfoChannels =
+      new HashMap<>();
+  private final Map<KlineV2Channel.Id, KlineV2Channel> klineV2Channels =
+      new HashMap<>();
 
   public MarketWebSocketApi(IActor actor, WebSocketContext context) {
     super(actor, context);
@@ -51,6 +55,30 @@ public final class MarketWebSocketApi extends WebSocketApi {
           id,
           k -> {
             TradeChannel result = new TradeChannel(k);
+            attach(result);
+            return result;
+          });
+    }
+  }
+
+  public InstrumentInfoChannel getInstrumentInfoChannel(InstrumentInfoChannel.Id id) {
+    synchronized (instrumentInfoChannels) {
+      return instrumentInfoChannels.computeIfAbsent(
+          id,
+          k -> {
+            InstrumentInfoChannel result = new InstrumentInfoChannel(k);
+            attach(result);
+            return result;
+          });
+    }
+  }
+
+  public KlineV2Channel getKlineV2Channel(KlineV2Channel.Id id) {
+    synchronized (klineV2Channels) {
+      return klineV2Channels.computeIfAbsent(
+          id,
+          k -> {
+            KlineV2Channel result = new KlineV2Channel(k);
             attach(result);
             return result;
           });
