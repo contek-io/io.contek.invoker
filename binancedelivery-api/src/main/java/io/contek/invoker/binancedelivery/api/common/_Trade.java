@@ -11,4 +11,16 @@ public class _Trade {
   public Double baseQty;
   public Long time;
   public Boolean isBuyerMaker;
+
+  @Override
+  public String toString() {
+    return "_Trade{" +
+            "id=" + id +
+            ", price=" + price +
+            ", qty=" + qty +
+            ", baseQty=" + baseQty +
+            ", time=" + time +
+            ", isBuyerMaker=" + isBuyerMaker +
+            '}';
+  }
 }

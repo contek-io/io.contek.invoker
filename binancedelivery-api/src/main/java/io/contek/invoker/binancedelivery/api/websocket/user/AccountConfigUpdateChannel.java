@@ -43,6 +43,22 @@ public final class AccountConfigUpdateChannel
 
       public String s; // symbol
       public Integer l; // leverage
+
+      @Override
+      public String toString() {
+        return "AccountConfig{" +
+                "s='" + s + '\'' +
+                ", l=" + l +
+                '}';
+      }
+    }
+
+    @Override
+    public String toString() {
+      return "Message{" +
+              "T=" + T +
+              ", ac=" + ac +
+              '}';
     }
   }
 }

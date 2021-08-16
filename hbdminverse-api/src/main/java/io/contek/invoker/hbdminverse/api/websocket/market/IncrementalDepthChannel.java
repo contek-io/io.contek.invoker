@@ -52,6 +52,20 @@ public final class IncrementalDepthChannel
   public static final class Tick extends _Depth {
 
     public String event;
+
+    @Override
+    public String toString() {
+      return "Tick{" +
+              "asks=" + asks +
+              ", bids=" + bids +
+              ", ch='" + ch + '\'' +
+              ", id=" + id +
+              ", mrid=" + mrid +
+              ", ts=" + ts +
+              ", version=" + version +
+              ", event='" + event + '\'' +
+              '}';
+    }
   }
 
   @NotThreadSafe

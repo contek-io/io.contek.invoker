@@ -18,4 +18,22 @@ public class _CrossAccountInfo {
   public double withdraw_available;
   public Double risk_rate;
   public List<_CrossAccountContractDetail> contract_detail;
+
+  @Override
+  public String toString() {
+    return "_CrossAccountInfo{" +
+            "margin_mode='" + margin_mode + '\'' +
+            ", margin_account='" + margin_account + '\'' +
+            ", margin_asset='" + margin_asset + '\'' +
+            ", margin_balance=" + margin_balance +
+            ", margin_static=" + margin_static +
+            ", margin_position=" + margin_position +
+            ", margin_frozen=" + margin_frozen +
+            ", profit_real=" + profit_real +
+            ", profit_unreal=" + profit_unreal +
+            ", withdraw_available=" + withdraw_available +
+            ", risk_rate=" + risk_rate +
+            ", contract_detail=" + contract_detail +
+            '}';
+  }
 }

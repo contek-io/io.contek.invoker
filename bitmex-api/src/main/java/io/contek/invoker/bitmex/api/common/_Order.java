@@ -24,4 +24,29 @@ public class _Order {
   public String transactTime;
   public String timestamp;
   public String error;
+
+  @Override
+  public String toString() {
+    return "_Order{" +
+            "orderID='" + orderID + '\'' +
+            ", clOrdID='" + clOrdID + '\'' +
+            ", account=" + account +
+            ", symbol='" + symbol + '\'' +
+            ", side='" + side + '\'' +
+            ", orderQty=" + orderQty +
+            ", price=" + price +
+            ", currency='" + currency + '\'' +
+            ", settlCurrency='" + settlCurrency + '\'' +
+            ", ordType='" + ordType + '\'' +
+            ", timeInForce='" + timeInForce + '\'' +
+            ", execInst='" + execInst + '\'' +
+            ", ordStatus='" + ordStatus + '\'' +
+            ", leavesQty=" + leavesQty +
+            ", cumQty=" + cumQty +
+            ", avgPx=" + avgPx +
+            ", transactTime='" + transactTime + '\'' +
+            ", timestamp='" + timestamp + '\'' +
+            ", error='" + error + '\'' +
+            '}';
+  }
 }

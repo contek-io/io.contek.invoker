@@ -24,4 +24,29 @@ public class _Ticker {
   public String state;
   public _Stats stats;
   public long timestamp;
+
+  @Override
+  public String toString() {
+    return "_Ticker{" +
+            "best_ask_amount=" + best_ask_amount +
+            ", best_ask_price=" + best_ask_price +
+            ", best_bid_amount=" + best_bid_amount +
+            ", best_bid_price=" + best_bid_price +
+            ", current_funding=" + current_funding +
+            ", funding_8h=" + funding_8h +
+            ", greeks=" + greeks +
+            ", index_price=" + index_price +
+            ", instrument_name='" + instrument_name + '\'' +
+            ", interest_rate=" + interest_rate +
+            ", last_price=" + last_price +
+            ", mark_price=" + mark_price +
+            ", max_price=" + max_price +
+            ", min_price=" + min_price +
+            ", open_interest=" + open_interest +
+            ", settlement_price=" + settlement_price +
+            ", state='" + state + '\'' +
+            ", stats=" + stats +
+            ", timestamp=" + timestamp +
+            '}';
+  }
 }

@@ -17,4 +17,21 @@ public class _Account {
   public String accountType;
   public List<_AccountBalance> balances;
   public List<String> permissions;
+
+  @Override
+  public String toString() {
+    return "_Account{" +
+            "makerCommission=" + makerCommission +
+            ", takerCommission=" + takerCommission +
+            ", buyerCommission=" + buyerCommission +
+            ", sellerCommission=" + sellerCommission +
+            ", canTrade=" + canTrade +
+            ", canWithdraw=" + canWithdraw +
+            ", canDeposit=" + canDeposit +
+            ", updateTime=" + updateTime +
+            ", accountType='" + accountType + '\'' +
+            ", balances=" + balances +
+            ", permissions=" + permissions +
+            '}';
+  }
 }

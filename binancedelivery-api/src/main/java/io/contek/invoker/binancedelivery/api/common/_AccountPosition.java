@@ -16,4 +16,21 @@ public class _AccountPosition {
   public String positionSide;
   public Double entryPrice;
   public Double maxQty;
+
+  @Override
+  public String toString() {
+    return "_AccountPosition{" +
+            "symbol='" + symbol + '\'' +
+            ", initialMargin=" + initialMargin +
+            ", maintMargin=" + maintMargin +
+            ", unrealizedProfit=" + unrealizedProfit +
+            ", positionInitialMargin=" + positionInitialMargin +
+            ", openOrderInitialMargin=" + openOrderInitialMargin +
+            ", leverage=" + leverage +
+            ", isolated=" + isolated +
+            ", positionSide='" + positionSide + '\'' +
+            ", entryPrice=" + entryPrice +
+            ", maxQty=" + maxQty +
+            '}';
+  }
 }

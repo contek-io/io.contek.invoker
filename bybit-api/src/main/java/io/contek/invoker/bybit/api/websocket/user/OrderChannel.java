@@ -36,5 +36,12 @@ public final class OrderChannel extends WebSocketChannel<OrderChannel.Id, OrderC
   public static final class Message extends WebSocketTopicMessage {
 
     public List<_Order> data;
+
+    @Override
+    public String toString() {
+      return "Message{" +
+              "data=" + data +
+              '}';
+    }
   }
 }

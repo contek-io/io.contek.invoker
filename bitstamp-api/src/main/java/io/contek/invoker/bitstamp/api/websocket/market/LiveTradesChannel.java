@@ -51,5 +51,21 @@ public final class LiveTradesChannel
     public Long microtimestamp;
     public Long buy_order_id;
     public Long sell_order_id;
+
+    @Override
+    public String toString() {
+      return "Data{" +
+              "id=" + id +
+              ", amount=" + amount +
+              ", amount_str='" + amount_str + '\'' +
+              ", price=" + price +
+              ", price_str='" + price_str + '\'' +
+              ", type=" + type +
+              ", timestamp=" + timestamp +
+              ", microtimestamp=" + microtimestamp +
+              ", buy_order_id=" + buy_order_id +
+              ", sell_order_id=" + sell_order_id +
+              '}';
+    }
   }
 }

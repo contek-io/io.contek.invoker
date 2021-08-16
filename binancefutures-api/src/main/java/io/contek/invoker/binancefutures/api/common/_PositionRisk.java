@@ -17,4 +17,22 @@ public class _PositionRisk {
   public Double unRealizedProfit;
   public String positionSide;
   public long updateTime;
+
+  @Override
+  public String toString() {
+    return "_PositionRisk{" +
+            "entryPrice=" + entryPrice +
+            ", marginType='" + marginType + '\'' +
+            ", isAutoAddMargin=" + isAutoAddMargin +
+            ", isolatedMargin=" + isolatedMargin +
+            ", leverage=" + leverage +
+            ", liquidationPrice=" + liquidationPrice +
+            ", markPrice=" + markPrice +
+            ", positionAmt=" + positionAmt +
+            ", symbol='" + symbol + '\'' +
+            ", unRealizedProfit=" + unRealizedProfit +
+            ", positionSide='" + positionSide + '\'' +
+            ", updateTime=" + updateTime +
+            '}';
+  }
 }

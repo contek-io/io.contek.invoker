@@ -13,4 +13,14 @@ public final class _Book {
   // update payload
   public List<_BookLevel> a;
   public List<_BookLevel> b;
+
+  @Override
+  public String toString() {
+    return "_Book{" +
+            "as=" + as +
+            ", bs=" + bs +
+            ", a=" + a +
+            ", b=" + b +
+            '}';
+  }
 }
