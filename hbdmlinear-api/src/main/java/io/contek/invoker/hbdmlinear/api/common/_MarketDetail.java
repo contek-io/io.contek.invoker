@@ -18,4 +18,23 @@ public class _MarketDetail {
   public int count;
   public String vol;
   public String trade_turnover;
+
+  @Override
+  public String toString() {
+    return "_MarketDetail{" +
+            "id=" + id +
+            ", ts=" + ts +
+            ", ask=" + ask +
+            ", bid=" + bid +
+            ", contract_code='" + contract_code + '\'' +
+            ", open='" + open + '\'' +
+            ", close='" + close + '\'' +
+            ", low='" + low + '\'' +
+            ", high='" + high + '\'' +
+            ", amount='" + amount + '\'' +
+            ", count=" + count +
+            ", vol='" + vol + '\'' +
+            ", trade_turnover='" + trade_turnover + '\'' +
+            '}';
+  }
 }

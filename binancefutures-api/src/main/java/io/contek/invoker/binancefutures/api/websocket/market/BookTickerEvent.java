@@ -14,4 +14,17 @@ public class BookTickerEvent extends WebSocketEventMessage {
   public Double B; // best bid qty
   public Double a; // best ask price
   public Double A; // best ask qty
+
+  @Override
+  public String toString() {
+    return "BookTickerEvent{" +
+            "u=" + u +
+            ", T=" + T +
+            ", s='" + s + '\'' +
+            ", b=" + b +
+            ", B=" + B +
+            ", a=" + a +
+            ", A=" + A +
+            '}';
+  }
 }

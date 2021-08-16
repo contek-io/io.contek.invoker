@@ -48,5 +48,16 @@ public final class BookChannel extends MarketWebSocketChannel<BookChannel.Id, Bo
     public long change_id;
     public List<_OrderBookLevel> bids;
     public List<_OrderBookLevel> asks;
+
+    @Override
+    public String toString() {
+      return "Data{" +
+              "timestamp=" + timestamp +
+              ", instrument_name='" + instrument_name + '\'' +
+              ", change_id=" + change_id +
+              ", bids=" + bids +
+              ", asks=" + asks +
+              '}';
+    }
   }
 }

@@ -47,5 +47,15 @@ public final class DiffOrderBookChannel
     public Long microtimestamp;
     public List<_OrderBookLevel> bids;
     public List<_OrderBookLevel> asks;
+
+    @Override
+    public String toString() {
+      return "Data{" +
+              "timestamp=" + timestamp +
+              ", microtimestamp=" + microtimestamp +
+              ", bids=" + bids +
+              ", asks=" + asks +
+              '}';
+    }
   }
 }

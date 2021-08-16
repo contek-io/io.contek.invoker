@@ -17,4 +17,22 @@ public class _MarketDetail {
   public String amount;
   public int count;
   public String vol;
+
+  @Override
+  public String toString() {
+    return "_MarketDetail{" +
+            "id=" + id +
+            ", ts=" + ts +
+            ", ask=" + ask +
+            ", bid=" + bid +
+            ", contract_code='" + contract_code + '\'' +
+            ", open='" + open + '\'' +
+            ", close='" + close + '\'' +
+            ", low='" + low + '\'' +
+            ", high='" + high + '\'' +
+            ", amount='" + amount + '\'' +
+            ", count=" + count +
+            ", vol='" + vol + '\'' +
+            '}';
+  }
 }

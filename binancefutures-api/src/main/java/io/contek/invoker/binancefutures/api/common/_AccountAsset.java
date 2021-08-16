@@ -17,4 +17,22 @@ public class _AccountAsset {
   public Double crossUnPnl;
   public Double availableBalance;
   public Double maxWithdrawAmount;
+
+  @Override
+  public String toString() {
+    return "_AccountAsset{" +
+            "asset='" + asset + '\'' +
+            ", walletBalance=" + walletBalance +
+            ", unrealizedProfit=" + unrealizedProfit +
+            ", marginBalance=" + marginBalance +
+            ", maintMargin=" + maintMargin +
+            ", initialMargin=" + initialMargin +
+            ", positionInitialMargin=" + positionInitialMargin +
+            ", openOrderInitialMargin=" + openOrderInitialMargin +
+            ", crossWalletBalance=" + crossWalletBalance +
+            ", crossUnPnl=" + crossUnPnl +
+            ", availableBalance=" + availableBalance +
+            ", maxWithdrawAmount=" + maxWithdrawAmount +
+            '}';
+  }
 }

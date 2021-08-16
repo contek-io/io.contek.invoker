@@ -46,4 +46,50 @@ public class _AccountSummary {
   public double balance;
   public double projected_initial_margin;
   public String deposit_address;
+
+  @Override
+  public String toString() {
+    return "_AccountSummary{" +
+            "options_gamma=" + options_gamma +
+            ", projected_maintenance_margin=" + projected_maintenance_margin +
+            ", system_name='" + system_name + '\'' +
+            ", margin_balance=" + margin_balance +
+            ", tfa_enabled=" + tfa_enabled +
+            ", options_value=" + options_value +
+            ", username='" + username + '\'' +
+            ", limits=" + limits +
+            ", equity=" + equity +
+            ", futures_pl=" + futures_pl +
+            ", fees=" + fees +
+            ", options_session_upl=" + options_session_upl +
+            ", id=" + id +
+            ", options_vega=" + options_vega +
+            ", referrer_id='" + referrer_id + '\'' +
+            ", currency='" + currency + '\'' +
+            ", login_enabled=" + login_enabled +
+            ", type='" + type + '\'' +
+            ", futures_session_rpl=" + futures_session_rpl +
+            ", options_theta=" + options_theta +
+            ", portfolio_margining_enabled=" + portfolio_margining_enabled +
+            ", projected_delta_total=" + projected_delta_total +
+            ", session_rpl=" + session_rpl +
+            ", delta_total=" + delta_total +
+            ", options_pl=" + options_pl +
+            ", available_withdrawal_funds=" + available_withdrawal_funds +
+            ", maintenance_margin=" + maintenance_margin +
+            ", initial_margin=" + initial_margin +
+            ", interuser_transfers_enabled=" + interuser_transfers_enabled +
+            ", futures_session_upl=" + futures_session_upl +
+            ", options_session_rpl=" + options_session_rpl +
+            ", available_funds=" + available_funds +
+            ", email='" + email + '\'' +
+            ", creation_timestamp=" + creation_timestamp +
+            ", session_upl=" + session_upl +
+            ", total_pl=" + total_pl +
+            ", options_delta=" + options_delta +
+            ", balance=" + balance +
+            ", projected_initial_margin=" + projected_initial_margin +
+            ", deposit_address='" + deposit_address + '\'' +
+            '}';
+  }
 }
