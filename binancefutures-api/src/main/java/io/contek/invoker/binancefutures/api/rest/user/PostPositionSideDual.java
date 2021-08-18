@@ -46,7 +46,7 @@ public final class PostPositionSideDual extends UserRestRequest<Response> {
   @Override
   protected RestParams getParams() {
     RestParams.Builder builder = RestParams.newBuilder();
-
+    builder.add("dualSidePosition", Boolean.toString(dualSidePosition));
     builder.add("timestamp", getMillis());
 
     return builder.build();
