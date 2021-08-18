@@ -4,11 +4,11 @@ import io.contek.invoker.ftx.api.ApiFactory;
 import io.contek.invoker.security.ApiKey;
 import org.junit.jupiter.api.Test;
 
+import static io.contek.invoker.ftx.api.rest.Constants.SUCCESS_FIELD;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class GetOrderHistoryTest {
 
-  private static final String SUCCESS_FIELD = "success";
   private static final String FTX_API_KEY_ENV_VARIABLE = "FTX_API_KEY";
   private static final String FTX_API_SECRET_ENV_VARIABLE = "FTX_API_SECRET";
 
