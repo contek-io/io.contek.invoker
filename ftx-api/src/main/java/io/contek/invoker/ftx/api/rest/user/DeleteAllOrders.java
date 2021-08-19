@@ -1,17 +1,12 @@
 package io.contek.invoker.ftx.api.rest.user;
 
-import com.google.common.collect.ImmutableList;
 import io.contek.invoker.commons.actor.IActor;
-import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
 import io.contek.invoker.ftx.api.rest.common.RestResponse;
 
 import javax.annotation.concurrent.NotThreadSafe;
-
-import static io.contek.invoker.commons.rest.RestMethod.DELETE;
-import static io.contek.invoker.ftx.api.ApiFactory.RateLimits.ONE_REST_REQUEST;
 
 @NotThreadSafe
 public final class DeleteAllOrders extends UserRestRequest<DeleteAllOrders.Response> {
@@ -24,9 +19,36 @@ public final class DeleteAllOrders extends UserRestRequest<DeleteAllOrders.Respo
     super(actor, context);
   }
 
+  public String getMarket() {
+    return market;
+  }
+
+  public DeleteAllOrders setMarket(String market) {
+    this.market = market;
+    return this;
+  }
+
+  public Boolean getConditionalOrdersOnly() {
+    return conditionalOrdersOnly;
+  }
+
+  public DeleteAllOrders setConditionalOrdersOnly(Boolean conditionalOrdersOnly) {
+    this.conditionalOrdersOnly = conditionalOrdersOnly;
+    return this;
+  }
+
+  public Boolean getLimitOrdersOnly() {
+    return limitOrdersOnly;
+  }
+
+  public DeleteAllOrders setLimitOrdersOnly(Boolean limitOrdersOnly) {
+    this.limitOrdersOnly = limitOrdersOnly;
+    return this;
+  }
+
   @Override
   protected RestMethod getMethod() {
-    return DELETE;
+    return RestMethod.DELETE;
   }
 
   @Override
@@ -56,11 +78,6 @@ public final class DeleteAllOrders extends UserRestRequest<DeleteAllOrders.Respo
   @Override
   protected Class<Response> getResponseType() {
     return Response.class;
-  }
-
-  @Override
-  protected ImmutableList<RateLimitQuota> getRequiredQuotas() {
-    return ONE_REST_REQUEST;
   }
 
   @NotThreadSafe

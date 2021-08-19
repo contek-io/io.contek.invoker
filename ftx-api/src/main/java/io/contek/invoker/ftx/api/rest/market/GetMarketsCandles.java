@@ -30,7 +30,6 @@ public final class GetMarketsCandles extends MarketRestRequest<GetMarketsCandles
     return this;
   }
 
-  /** window length in seconds. options: 15, 60, 300, 900, 3600, 14400, 86400 */
   public GetMarketsCandles setResolution(Integer resolution) {
     this.resolution = resolution;
     return this;

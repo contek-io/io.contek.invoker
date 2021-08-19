@@ -56,5 +56,13 @@ public final class GetPositionList extends UserRestRequest<Response> {
 
     public boolean is_valid;
     public _Position data;
+
+    @Override
+    public String toString() {
+      return "Result{" +
+              "is_valid=" + is_valid +
+              ", data=" + data +
+              '}';
+    }
   }
 }

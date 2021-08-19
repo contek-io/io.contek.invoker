@@ -34,5 +34,38 @@ public class _OrderBook {
   public long timestamp;
   public double underlying_index;
   public double underlying_price;
+
+  @Override
+  public String toString() {
+    return "_OrderBook{" +
+            "ask_iv=" + ask_iv +
+            ", asks=" + asks +
+            ", best_ask_amount=" + best_ask_amount +
+            ", best_ask_price=" + best_ask_price +
+            ", best_bid_amount=" + best_bid_amount +
+            ", best_bid_price=" + best_bid_price +
+            ", bid_iv=" + bid_iv +
+            ", bids=" + bids +
+            ", current_funding=" + current_funding +
+            ", delivery_price=" + delivery_price +
+            ", funding_8h=" + funding_8h +
+            ", greeks=" + greeks +
+            ", index_price=" + index_price +
+            ", instrument_name='" + instrument_name + '\'' +
+            ", interest_rate=" + interest_rate +
+            ", last_price=" + last_price +
+            ", mark_iv=" + mark_iv +
+            ", mark_price=" + mark_price +
+            ", max_price=" + max_price +
+            ", min_price=" + min_price +
+            ", open_interest=" + open_interest +
+            ", settlement_price=" + settlement_price +
+            ", state='" + state + '\'' +
+            ", stats=" + stats +
+            ", timestamp=" + timestamp +
+            ", underlying_index=" + underlying_index +
+            ", underlying_price=" + underlying_price +
+            '}';
+  }
 }
 

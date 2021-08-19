@@ -1,8 +1,6 @@
 package io.contek.invoker.ftx.api.rest.user;
 
-import com.google.common.collect.ImmutableList;
 import io.contek.invoker.commons.actor.IActor;
-import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
@@ -11,8 +9,6 @@ import io.contek.invoker.ftx.api.rest.common.RestResponse;
 
 import javax.annotation.concurrent.NotThreadSafe;
 
-import static io.contek.invoker.commons.rest.RestMethod.POST;
-import static io.contek.invoker.ftx.api.ApiFactory.RateLimits.ONE_REST_REQUEST;
 import static java.util.Objects.requireNonNull;
 
 @NotThreadSafe
@@ -20,8 +16,12 @@ public final class PostAccountLeverage extends UserRestRequest<PostAccountLevera
 
   private Double leverage;
 
-  PostAccountLeverage(IActor actor, RestContext context) {
+  public PostAccountLeverage(IActor actor, RestContext context) {
     super(actor, context);
+  }
+
+  public Double getLeverage() {
+    return leverage;
   }
 
   public PostAccountLeverage setLeverage(Double leverage) {
@@ -31,7 +31,7 @@ public final class PostAccountLeverage extends UserRestRequest<PostAccountLevera
 
   @Override
   protected RestMethod getMethod() {
-    return POST;
+    return RestMethod.POST;
   }
 
   @Override
@@ -52,11 +52,6 @@ public final class PostAccountLeverage extends UserRestRequest<PostAccountLevera
   @Override
   protected Class<Response> getResponseType() {
     return Response.class;
-  }
-
-  @Override
-  protected ImmutableList<RateLimitQuota> getRequiredQuotas() {
-    return ONE_REST_REQUEST;
   }
 
   @NotThreadSafe

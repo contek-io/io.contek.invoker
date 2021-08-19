@@ -10,4 +10,15 @@ public class _OrderBookLevel {
   public String side;
   public Double size;
   public Double price;
+
+  @Override
+  public String toString() {
+    return "_OrderBookLevel{" +
+            "symbol='" + symbol + '\'' +
+            ", id=" + id +
+            ", side='" + side + '\'' +
+            ", size=" + size +
+            ", price=" + price +
+            '}';
+  }
 }

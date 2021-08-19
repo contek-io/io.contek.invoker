@@ -15,4 +15,18 @@ public class MiniTickerEvent extends WebSocketEventMessage {
   public Double l; // Low price
   public Double v; // Total traded base asset volume
   public Double q; // Total traded quote asset volume
+
+  @Override
+  public String toString() {
+    return "MiniTickerEvent{" +
+            "s='" + s + '\'' +
+            ", ps='" + ps + '\'' +
+            ", c=" + c +
+            ", o=" + o +
+            ", h=" + h +
+            ", l=" + l +
+            ", v=" + v +
+            ", q=" + q +
+            '}';
+  }
 }

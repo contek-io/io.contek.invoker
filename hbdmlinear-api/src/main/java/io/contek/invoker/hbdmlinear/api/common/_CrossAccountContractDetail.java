@@ -14,4 +14,19 @@ public class _CrossAccountContractDetail {
   public Double liquidation_price;
   public int lever_rate;
   public double adjust_factor;
+
+  @Override
+  public String toString() {
+    return "_CrossAccountContractDetail{" +
+            "symbol='" + symbol + '\'' +
+            ", contract_code='" + contract_code + '\'' +
+            ", margin_position=" + margin_position +
+            ", margin_frozen=" + margin_frozen +
+            ", margin_available=" + margin_available +
+            ", profit_unreal=" + profit_unreal +
+            ", liquidation_price=" + liquidation_price +
+            ", lever_rate=" + lever_rate +
+            ", adjust_factor=" + adjust_factor +
+            '}';
+  }
 }

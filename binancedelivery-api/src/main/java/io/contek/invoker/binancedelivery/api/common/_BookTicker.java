@@ -12,4 +12,17 @@ public class _BookTicker {
   public Double askPrice;
   public Double askQty;
   public Long time;
+
+  @Override
+  public String toString() {
+    return "_BookTicker{" +
+            "symbol='" + symbol + '\'' +
+            ", pair='" + pair + '\'' +
+            ", bidPrice=" + bidPrice +
+            ", bidQty=" + bidQty +
+            ", askPrice=" + askPrice +
+            ", askQty=" + askQty +
+            ", time=" + time +
+            '}';
+  }
 }

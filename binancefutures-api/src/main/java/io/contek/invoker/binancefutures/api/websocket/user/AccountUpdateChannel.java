@@ -45,6 +45,15 @@ public final class AccountUpdateChannel
       public String m; // event reason type
       public List<BalanceUpdate> B; // balance updates
       public List<PositionUpdate> P; // position updates
+
+      @Override
+      public String toString() {
+        return "UpdateData{" +
+                "m='" + m + '\'' +
+                ", B=" + B +
+                ", P=" + P +
+                '}';
+      }
     }
   }
 
@@ -54,6 +63,15 @@ public final class AccountUpdateChannel
     public String a; // asset
     public BigDecimal wb; // wallet balance
     public BigDecimal cw; // cross wallet balance
+
+    @Override
+    public String toString() {
+      return "BalanceUpdate{" +
+              "a='" + a + '\'' +
+              ", wb=" + wb +
+              ", cw=" + cw +
+              '}';
+    }
   }
 
   @NotThreadSafe
@@ -67,5 +85,19 @@ public final class AccountUpdateChannel
     public String mt; // margin type
     public BigDecimal iw; // isolated wallet
     public String ps; // position side
+
+    @Override
+    public String toString() {
+      return "PositionUpdate{" +
+              "s='" + s + '\'' +
+              ", pa=" + pa +
+              ", ep=" + ep +
+              ", cr=" + cr +
+              ", up=" + up +
+              ", mt='" + mt + '\'' +
+              ", iw=" + iw +
+              ", ps='" + ps + '\'' +
+              '}';
+    }
   }
 }

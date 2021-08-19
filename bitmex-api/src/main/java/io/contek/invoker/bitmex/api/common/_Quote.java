@@ -11,4 +11,16 @@ public class _Quote {
   public Double bidPrice;
   public Double askSize;
   public Double askPrice;
+
+  @Override
+  public String toString() {
+    return "_Quote{" +
+            "timestamp='" + timestamp + '\'' +
+            ", symbol='" + symbol + '\'' +
+            ", bidSize=" + bidSize +
+            ", bidPrice=" + bidPrice +
+            ", askSize=" + askSize +
+            ", askPrice=" + askPrice +
+            '}';
+  }
 }

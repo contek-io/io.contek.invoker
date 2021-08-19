@@ -103,5 +103,12 @@ public final class PostSwapCrossOpenorders
   public static final class Data extends PaginatedData {
 
     public List<_OrderInfo> orders;
+
+    @Override
+    public String toString() {
+      return "Data{" +
+              "orders=" + orders +
+              '}';
+    }
   }
 }

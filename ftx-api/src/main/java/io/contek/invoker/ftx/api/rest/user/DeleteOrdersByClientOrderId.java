@@ -1,8 +1,6 @@
 package io.contek.invoker.ftx.api.rest.user;
 
-import com.google.common.collect.ImmutableList;
 import io.contek.invoker.commons.actor.IActor;
-import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
@@ -10,8 +8,6 @@ import io.contek.invoker.ftx.api.rest.common.RestResponse;
 
 import javax.annotation.concurrent.NotThreadSafe;
 
-import static io.contek.invoker.commons.rest.RestMethod.DELETE;
-import static io.contek.invoker.ftx.api.ApiFactory.RateLimits.ONE_REST_REQUEST;
 import static java.text.MessageFormat.format;
 import static java.util.Objects.requireNonNull;
 
@@ -19,26 +15,30 @@ import static java.util.Objects.requireNonNull;
 public final class DeleteOrdersByClientOrderId
     extends UserRestRequest<DeleteOrdersByClientOrderId.Response> {
 
-  private String by_client_id;
+  private String byClientId;
 
-  DeleteOrdersByClientOrderId(IActor actor, RestContext context) {
+  public DeleteOrdersByClientOrderId(IActor actor, RestContext context) {
     super(actor, context);
   }
 
+  public String getByClientId() {
+    return byClientId;
+  }
+
   public DeleteOrdersByClientOrderId setByClientId(String by_client_id) {
-    this.by_client_id = by_client_id;
+    this.byClientId = by_client_id;
     return this;
   }
 
   @Override
   protected RestMethod getMethod() {
-    return DELETE;
+    return RestMethod.DELETE;
   }
 
   @Override
   protected String getEndpointPath() {
-    requireNonNull(by_client_id);
-    return format("/api/orders/by_client_id/{0}", by_client_id);
+    requireNonNull(byClientId);
+    return format("/api/orders/by_client_id/{0}", byClientId);
   }
 
   @Override
@@ -49,11 +49,6 @@ public final class DeleteOrdersByClientOrderId
   @Override
   protected Class<Response> getResponseType() {
     return Response.class;
-  }
-
-  @Override
-  protected ImmutableList<RateLimitQuota> getRequiredQuotas() {
-    return ONE_REST_REQUEST;
   }
 
   @NotThreadSafe

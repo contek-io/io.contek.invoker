@@ -1,9 +1,10 @@
 package io.contek.invoker.ftx.api.common;
 
 import javax.annotation.concurrent.NotThreadSafe;
+import java.io.Serializable;
 
 @NotThreadSafe
-public class _Position {
+public class _Position implements Serializable {
 
   public Double cost;
   public Double entryPrice;
@@ -23,4 +24,48 @@ public class _Position {
   public Double recentAverageOpenPrice;
   public Double recentBreakEvenPrice;
   public Double recentPnl;
+
+  @Override
+  public String toString() {
+    return "_Position{"
+        + "cost="
+        + cost
+        + ", entryPrice="
+        + entryPrice
+        + ", estimatedLiquidationPrice="
+        + estimatedLiquidationPrice
+        + ", future='"
+        + future
+        + '\''
+        + ", initialMarginRequirement="
+        + initialMarginRequirement
+        + ", longOrderSize="
+        + longOrderSize
+        + ", maintenanceMarginRequirement="
+        + maintenanceMarginRequirement
+        + ", netSize="
+        + netSize
+        + ", openSize="
+        + openSize
+        + ", realizedPnl="
+        + realizedPnl
+        + ", shortOrderSize="
+        + shortOrderSize
+        + ", side='"
+        + side
+        + '\''
+        + ", size="
+        + size
+        + ", unrealizedPnl="
+        + unrealizedPnl
+        + ", collateralUsed="
+        + collateralUsed
+        + ", recentAverageOpenPrice="
+        + recentAverageOpenPrice
+        + ", recentBreakEvenPrice="
+        + recentBreakEvenPrice
+        + ", recentPnl="
+        + recentPnl
+        + '}';
+  }
 }

@@ -23,4 +23,26 @@ public class TickerEvent extends WebSocketEventMessage {
   public Long F; // First trade ID
   public Long L; // Last trade Id
   public Integer n; // Total number of trades
+
+  @Override
+  public String toString() {
+    return "TickerEvent{" +
+            "s='" + s + '\'' +
+            ", p=" + p +
+            ", P=" + P +
+            ", w=" + w +
+            ", c=" + c +
+            ", Q=" + Q +
+            ", o=" + o +
+            ", h=" + h +
+            ", l=" + l +
+            ", v=" + v +
+            ", q=" + q +
+            ", O=" + O +
+            ", C=" + C +
+            ", F=" + F +
+            ", L=" + L +
+            ", n=" + n +
+            '}';
+  }
 }

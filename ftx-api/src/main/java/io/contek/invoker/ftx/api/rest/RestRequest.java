@@ -1,9 +1,12 @@
 package io.contek.invoker.ftx.api.rest;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.net.UrlEscapers;
 import io.contek.invoker.commons.actor.IActor;
+import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
 import io.contek.invoker.commons.rest.*;
+import io.contek.invoker.ftx.api.ApiFactory;
 import io.contek.invoker.security.ICredential;
 
 import javax.annotation.concurrent.NotThreadSafe;
@@ -23,6 +26,11 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
     super(actor);
     this.context = context;
     clock = actor.getClock();
+  }
+
+  @Override
+  protected final ImmutableList<RateLimitQuota> getRequiredQuotas() {
+    return ApiFactory.RateLimits.ONE_REST_REQUEST;
   }
 
   protected abstract RestMethod getMethod();

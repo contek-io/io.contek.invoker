@@ -17,4 +17,18 @@ public class DepthUpdateEvent extends WebSocketEventMessage {
   public long pu; // last update Id in last stream (ie ‘u’ in last stream)
   public List<_OrderBookLevel> b; // Bids to be updated [Price level to be updated, Quantity]
   public List<_OrderBookLevel> a; // Asks to be updated [Price level to be updated, Quantity]
+
+  @Override
+  public String toString() {
+    return "DepthUpdateEvent{" +
+            "T=" + T +
+            ", s='" + s + '\'' +
+            ", ps='" + ps + '\'' +
+            ", U=" + U +
+            ", u=" + u +
+            ", pu=" + pu +
+            ", b=" + b +
+            ", a=" + a +
+            '}';
+  }
 }
