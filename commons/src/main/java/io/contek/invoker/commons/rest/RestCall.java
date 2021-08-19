@@ -12,6 +12,8 @@ import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
 @Immutable
@@ -37,7 +39,7 @@ public final class RestCall {
     return new Builder();
   }
 
-  RestResponse submit(IHttpClient client) throws RestErrorException, HttpConnectionException {
+  RestResponse submit(IHttpClient client, Class<? extends RestErrorException> restExceptionType) throws RestErrorException, HttpConnectionException {
     Request request = createRequest();
     Response response = client.submit(request);
 
@@ -48,7 +50,13 @@ public final class RestCall {
       if (response.isSuccessful()) {
         return result;
       } else {
-        throw new RestErrorException(result);
+        try {
+          Constructor<? extends RestErrorException> constructor = restExceptionType.getConstructor(RestResponse.class);
+          constructor.setAccessible(true);
+          throw constructor.newInstance(result);
+        } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException ignored) {
+          throw new RestErrorException(result);
+        }
       }
     } catch (IOException e) {
       throw new HttpConnectionException(e);
