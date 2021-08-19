@@ -12,9 +12,6 @@ public class _OrderBook implements Serializable {
 
   @Override
   public String toString() {
-    return "_OrderBook{" +
-            "asks=" + asks +
-            ", bids=" + bids +
-            '}';
+    return "_OrderBook{" + "asks=" + asks + ", bids=" + bids + '}';
   }
 }

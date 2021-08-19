@@ -4,41 +4,29 @@ import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
-import io.contek.invoker.ftx.api.common._Order;
+import io.contek.invoker.ftx.api.common._BorrowRates;
 import io.contek.invoker.ftx.api.rest.common.RestResponse;
 
 import javax.annotation.concurrent.NotThreadSafe;
+import java.util.List;
 
-import static java.text.MessageFormat.format;
-import static java.util.Objects.requireNonNull;
+import static io.contek.invoker.commons.rest.RestMethod.GET;
 
 @NotThreadSafe
-public final class GetOrders extends UserRestRequest<GetOrders.Response> {
+public final class GetBorrowRates extends SpotMarginRestRequest<GetBorrowRates.Response> {
 
-  private String orderId;
-
-  public GetOrders(IActor actor, RestContext context) {
+  GetBorrowRates(IActor actor, RestContext context) {
     super(actor, context);
-  }
-
-  public String getOrderId() {
-    return orderId;
-  }
-
-  public GetOrders setOrderId(String order_id) {
-    this.orderId = order_id;
-    return this;
   }
 
   @Override
   protected RestMethod getMethod() {
-    return RestMethod.GET;
+    return GET;
   }
 
   @Override
-  protected String getEndpointPath() {
-    requireNonNull(orderId);
-    return format("/api/orders/{0}", orderId);
+  protected String getEndpointPathSpotMargin() {
+    return "borrow_rates";
   }
 
   @Override
@@ -52,5 +40,5 @@ public final class GetOrders extends UserRestRequest<GetOrders.Response> {
   }
 
   @NotThreadSafe
-  public static final class Response extends RestResponse<_Order> {}
+  public static final class Response extends RestResponse<List<_BorrowRates>> {}
 }

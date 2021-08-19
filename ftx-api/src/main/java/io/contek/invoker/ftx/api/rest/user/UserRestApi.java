@@ -44,6 +44,14 @@ public final class UserRestApi {
     return new GetOrdersByClientId(actor, context);
   }
 
+  public ModifyOrders modifyOrders() {
+    return new ModifyOrders(actor, context);
+  }
+
+  public ModifyOrdersByClientId modifyOrdersByClientId() {
+    return new ModifyOrdersByClientId(actor, context);
+  }
+
   public GetPositions getPositions() {
     return new GetPositions(actor, context);
   }
@@ -62,5 +70,65 @@ public final class UserRestApi {
 
   public PostOrders postOrders() {
     return new PostOrders(actor, context);
+  }
+
+  public GetLendingRates getLendingRates() {
+    return new GetLendingRates(actor, context);
+  }
+
+  public GetBorrowRates getBorrowRates() {
+    return new GetBorrowRates(actor, context);
+  }
+
+  public GetDailyBorrowedAmounts getDailyBorrowedAmounts() {
+    return new GetDailyBorrowedAmounts(actor, context);
+  }
+
+  public GetBorrowHistory getBorrowHistory() {
+    return new GetBorrowHistory(actor, context);
+  }
+
+  public GetLendingHistory getLendingHistory() {
+    return new GetLendingHistory(actor, context);
+  }
+
+  public GetLendingOffers getLendingOffers() {
+    return new GetLendingOffers(actor, context);
+  }
+
+  public GetLendingInfo getLendingInfo() {
+    return new GetLendingInfo(actor, context);
+  }
+
+  public SubmitLendingOffer submitLendingOffer() {
+    return new SubmitLendingOffer(actor, context);
+  }
+
+  public PostRequestQuote postRequestQuote() {
+    return new PostRequestQuote(actor, context);
+  }
+
+  public PostAcceptQuote postAcceptQuote() {
+    return new PostAcceptQuote(actor, context);
+  }
+
+  public GetAllSubAccounts getAllSubAccounts() {
+    return new GetAllSubAccounts(actor, context);
+  }
+
+  public PostTransferBetweenSubAccounts postTransferBetweenSubAccounts() {
+    return new PostTransferBetweenSubAccounts(actor, context);
+  }
+
+  public PostTriggerOrder postTriggerOrder() {
+    return new PostTriggerOrder(actor, context);
+  }
+
+  public DeleteTriggerOrder deleteTriggerOrder() {
+    return new DeleteTriggerOrder(actor, context);
+  }
+
+  public GetFundingPayments getFundingPayments() {
+    return new GetFundingPayments(actor, context);
   }
 }

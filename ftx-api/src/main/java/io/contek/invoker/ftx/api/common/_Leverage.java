@@ -10,8 +10,6 @@ public class _Leverage implements Serializable {
 
   @Override
   public String toString() {
-    return "_Leverage{" +
-            "leverage=" + leverage +
-            '}';
+    return "_Leverage{" + "leverage=" + leverage + '}';
   }
 }

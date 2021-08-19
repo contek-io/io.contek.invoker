@@ -12,10 +12,6 @@ public class _WalletBalance implements Serializable {
 
   @Override
   public String toString() {
-    return "_WalletBalance{" +
-            "coin='" + coin + '\'' +
-            ", free=" + free +
-            ", total=" + total +
-            '}';
+    return "_WalletBalance{" + "coin='" + coin + '\'' + ", free=" + free + ", total=" + total + '}';
   }
 }

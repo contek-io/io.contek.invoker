@@ -10,34 +10,36 @@ import io.contek.invoker.ftx.api.rest.common.RestResponse;
 
 import javax.annotation.concurrent.NotThreadSafe;
 
-import static io.contek.invoker.commons.rest.RestMethod.DELETE;
-import static io.contek.invoker.ftx.api.ApiFactory.RateLimits.ONE_REST_REQUEST;
 import static java.text.MessageFormat.format;
 import static java.util.Objects.requireNonNull;
 
 @NotThreadSafe
 public final class DeleteOrders extends UserRestRequest<DeleteOrders.Response> {
 
-  private String order_id;
+  private String orderId;
 
-  DeleteOrders(IActor actor, RestContext context) {
+  public DeleteOrders(IActor actor, RestContext context) {
     super(actor, context);
   }
 
-  public DeleteOrders setOrderId(String order_id) {
-    this.order_id = order_id;
+  public String getOrderId() {
+    return orderId;
+  }
+
+  public DeleteOrders setOrderId(String orderId) {
+    this.orderId = orderId;
     return this;
   }
 
   @Override
   protected RestMethod getMethod() {
-    return DELETE;
+    return RestMethod.DELETE;
   }
 
   @Override
   protected String getEndpointPath() {
-    requireNonNull(order_id);
-    return format("/api/orders/{0}", order_id);
+    requireNonNull(orderId);
+    return format("/api/orders/{0}", orderId);
   }
 
   @Override
@@ -46,13 +48,13 @@ public final class DeleteOrders extends UserRestRequest<DeleteOrders.Response> {
   }
 
   @Override
-  protected Class<Response> getResponseType() {
-    return Response.class;
+  protected ImmutableList<RateLimitQuota> getRequiredQuotas() {
+    return null;
   }
 
   @Override
-  protected ImmutableList<RateLimitQuota> getRequiredQuotas() {
-    return ONE_REST_REQUEST;
+  protected Class<Response> getResponseType() {
+    return Response.class;
   }
 
   @NotThreadSafe

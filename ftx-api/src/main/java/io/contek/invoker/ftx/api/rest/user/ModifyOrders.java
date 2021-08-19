@@ -13,37 +13,59 @@ import static java.text.MessageFormat.format;
 import static java.util.Objects.requireNonNull;
 
 @NotThreadSafe
-public final class GetOrders extends UserRestRequest<GetOrders.Response> {
+public final class ModifyOrders extends UserRestRequest<ModifyOrders.Response> {
 
-  private String orderId;
+  private String order_id;
+  private Double price;
+  private Double size;
 
-  public GetOrders(IActor actor, RestContext context) {
+  ModifyOrders(IActor actor, RestContext context) {
     super(actor, context);
   }
 
   public String getOrderId() {
-    return orderId;
+    return order_id;
   }
 
-  public GetOrders setOrderId(String order_id) {
-    this.orderId = order_id;
+  public ModifyOrders setOrderId(String order_id) {
+    this.order_id = order_id;
+    return this;
+  }
+
+  public Double getPrice() {
+    return price;
+  }
+
+  public ModifyOrders setPrice(Double price) {
+    this.price = price;
+    return this;
+  }
+
+  public Double getSize() {
+    return size;
+  }
+
+  public ModifyOrders setSize(Double size) {
+    this.size = size;
     return this;
   }
 
   @Override
   protected RestMethod getMethod() {
-    return RestMethod.GET;
+    return RestMethod.POST;
   }
 
   @Override
   protected String getEndpointPath() {
-    requireNonNull(orderId);
-    return format("/api/orders/{0}", orderId);
+    requireNonNull(order_id);
+    return format("/api/orders/{0}/modify", order_id);
   }
 
   @Override
   protected RestParams getParams() {
-    return RestParams.empty();
+    requireNonNull(price);
+    requireNonNull(size);
+    return RestParams.newBuilder().add("price", price).add("size", size).build();
   }
 
   @Override

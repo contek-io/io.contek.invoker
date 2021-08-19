@@ -4,30 +4,16 @@ import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
-import io.contek.invoker.ftx.api.common._Order;
+import io.contek.invoker.ftx.api.common._SubAccount;
 import io.contek.invoker.ftx.api.rest.common.RestResponse;
 
 import javax.annotation.concurrent.NotThreadSafe;
+import java.util.List;
 
-import static java.text.MessageFormat.format;
-import static java.util.Objects.requireNonNull;
+public final class GetAllSubAccounts extends SubAccountRestRequest<GetAllSubAccounts.Response> {
 
-@NotThreadSafe
-public final class GetOrders extends UserRestRequest<GetOrders.Response> {
-
-  private String orderId;
-
-  public GetOrders(IActor actor, RestContext context) {
+  GetAllSubAccounts(IActor actor, RestContext context) {
     super(actor, context);
-  }
-
-  public String getOrderId() {
-    return orderId;
-  }
-
-  public GetOrders setOrderId(String order_id) {
-    this.orderId = order_id;
-    return this;
   }
 
   @Override
@@ -36,9 +22,8 @@ public final class GetOrders extends UserRestRequest<GetOrders.Response> {
   }
 
   @Override
-  protected String getEndpointPath() {
-    requireNonNull(orderId);
-    return format("/api/orders/{0}", orderId);
+  protected String getEndpointPathSubAccount() {
+    return "";
   }
 
   @Override
@@ -52,5 +37,5 @@ public final class GetOrders extends UserRestRequest<GetOrders.Response> {
   }
 
   @NotThreadSafe
-  public static final class Response extends RestResponse<_Order> {}
+  public static final class Response extends RestResponse<List<_SubAccount>> {}
 }

@@ -4,41 +4,39 @@ import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
-import io.contek.invoker.ftx.api.common._Order;
 import io.contek.invoker.ftx.api.rest.common.RestResponse;
 
 import javax.annotation.concurrent.NotThreadSafe;
 
-import static java.text.MessageFormat.format;
+import static io.contek.invoker.commons.rest.RestMethod.POST;
 import static java.util.Objects.requireNonNull;
 
-@NotThreadSafe
-public final class GetOrders extends UserRestRequest<GetOrders.Response> {
+public final class DeleteTriggerOrder extends UserRestRequest<PostTriggerOrder.Response> {
 
-  private String orderId;
+  private Long id;
 
-  public GetOrders(IActor actor, RestContext context) {
+  public DeleteTriggerOrder(IActor actor, RestContext context) {
     super(actor, context);
   }
 
-  public String getOrderId() {
-    return orderId;
+  public Long getId() {
+    return id;
   }
 
-  public GetOrders setOrderId(String order_id) {
-    this.orderId = order_id;
+  public DeleteTriggerOrder setId(Long id) {
+    this.id = id;
     return this;
   }
 
   @Override
   protected RestMethod getMethod() {
-    return RestMethod.GET;
+    return POST;
   }
 
   @Override
   protected String getEndpointPath() {
-    requireNonNull(orderId);
-    return format("/api/orders/{0}", orderId);
+    requireNonNull(id);
+    return "/api/conditional_orders/" + id;
   }
 
   @Override
@@ -47,10 +45,10 @@ public final class GetOrders extends UserRestRequest<GetOrders.Response> {
   }
 
   @Override
-  protected Class<Response> getResponseType() {
-    return Response.class;
+  protected Class<PostTriggerOrder.Response> getResponseType() {
+    return PostTriggerOrder.Response.class;
   }
 
   @NotThreadSafe
-  public static final class Response extends RestResponse<_Order> {}
+  public static final class Response extends RestResponse<String> {}
 }

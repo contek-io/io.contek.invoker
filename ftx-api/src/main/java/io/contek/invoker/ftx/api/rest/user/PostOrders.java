@@ -1,8 +1,6 @@
 package io.contek.invoker.ftx.api.rest.user;
 
-import com.google.common.collect.ImmutableList;
 import io.contek.invoker.commons.actor.IActor;
-import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
@@ -11,18 +9,10 @@ import io.contek.invoker.ftx.api.rest.common.RestResponse;
 
 import javax.annotation.concurrent.NotThreadSafe;
 
-import static io.contek.invoker.commons.rest.RestMethod.POST;
-import static io.contek.invoker.ftx.api.ApiFactory.RateLimits.API_KEY_REST_ORDER_RULE;
-import static io.contek.invoker.ftx.api.ApiFactory.RateLimits.IP_REST_REQUEST_RULE;
 import static java.util.Objects.requireNonNull;
 
 @NotThreadSafe
 public final class PostOrders extends UserRestRequest<PostOrders.Response> {
-
-  public static final ImmutableList<RateLimitQuota> ONE_REST_ORDER_REQUEST =
-      ImmutableList.of(
-          IP_REST_REQUEST_RULE.createRateLimitQuota(1),
-          API_KEY_REST_ORDER_RULE.createRateLimitQuota(1));
 
   private String market;
   private String side;
@@ -34,8 +24,12 @@ public final class PostOrders extends UserRestRequest<PostOrders.Response> {
   private Boolean postOnly;
   private String clientId;
 
-  PostOrders(IActor actor, RestContext context) {
+  public PostOrders(IActor actor, RestContext context) {
     super(actor, context);
+  }
+
+  public String getMarket() {
+    return market;
   }
 
   public PostOrders setMarket(String market) {
@@ -43,9 +37,17 @@ public final class PostOrders extends UserRestRequest<PostOrders.Response> {
     return this;
   }
 
+  public String getSide() {
+    return side;
+  }
+
   public PostOrders setSide(String side) {
     this.side = side;
     return this;
+  }
+
+  public Double getPrice() {
+    return price;
   }
 
   public PostOrders setPrice(Double price) {
@@ -53,9 +55,17 @@ public final class PostOrders extends UserRestRequest<PostOrders.Response> {
     return this;
   }
 
+  public String getType() {
+    return type;
+  }
+
   public PostOrders setType(String type) {
     this.type = type;
     return this;
+  }
+
+  public Double getSize() {
+    return size;
   }
 
   public PostOrders setSize(Double size) {
@@ -63,9 +73,17 @@ public final class PostOrders extends UserRestRequest<PostOrders.Response> {
     return this;
   }
 
+  public Boolean getReduceOnly() {
+    return reduceOnly;
+  }
+
   public PostOrders setReduceOnly(Boolean reduceOnly) {
     this.reduceOnly = reduceOnly;
     return this;
+  }
+
+  public Boolean getIoc() {
+    return ioc;
   }
 
   public PostOrders setIoc(Boolean ioc) {
@@ -73,9 +91,17 @@ public final class PostOrders extends UserRestRequest<PostOrders.Response> {
     return this;
   }
 
+  public Boolean getPostOnly() {
+    return postOnly;
+  }
+
   public PostOrders setPostOnly(Boolean postOnly) {
     this.postOnly = postOnly;
     return this;
+  }
+
+  public String getClientId() {
+    return clientId;
   }
 
   public PostOrders setClientId(String clientId) {
@@ -85,7 +111,7 @@ public final class PostOrders extends UserRestRequest<PostOrders.Response> {
 
   @Override
   protected RestMethod getMethod() {
-    return POST;
+    return RestMethod.POST;
   }
 
   @Override
@@ -109,9 +135,7 @@ public final class PostOrders extends UserRestRequest<PostOrders.Response> {
     requireNonNull(size);
     builder.add("size", size);
 
-    if (price != null) {
-      builder.add("price", price);
-    }
+    builder.add("price", price);
 
     if (reduceOnly != null) {
       builder.add("reduceOnly", reduceOnly);
@@ -135,11 +159,6 @@ public final class PostOrders extends UserRestRequest<PostOrders.Response> {
   @Override
   protected Class<Response> getResponseType() {
     return Response.class;
-  }
-
-  @Override
-  protected ImmutableList<RateLimitQuota> getRequiredQuotas() {
-    return ONE_REST_ORDER_REQUEST;
   }
 
   @NotThreadSafe
