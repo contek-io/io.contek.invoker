@@ -40,6 +40,16 @@ public final class InstrumentInfoChannel extends WebSocketChannel<InstrumentInfo
     public InstrumentInfoData data;
     public Long cross_seq;
     public Long timestamp_e6;
+
+    @Override
+    public String toString() {
+      return "Message{" +
+              "type='" + type + '\'' +
+              ", data=" + data +
+              ", cross_seq=" + cross_seq +
+              ", timestamp_e6=" + timestamp_e6 +
+              '}';
+    }
   }
 
   @NotThreadSafe
@@ -48,6 +58,15 @@ public final class InstrumentInfoChannel extends WebSocketChannel<InstrumentInfo
     public List<InstrumentInfo> delete;
     public List<InstrumentInfo> update;
     public List<InstrumentInfo> insert;
+
+    @Override
+    public String toString() {
+      return "InstrumentInfoData{" +
+              "delete=" + delete +
+              ", update=" + update +
+              ", insert=" + insert +
+              '}';
+    }
   }
 
   @NotThreadSafe
@@ -76,5 +95,34 @@ public final class InstrumentInfoChannel extends WebSocketChannel<InstrumentInfo
     public String updated_at; // Update time
     public String next_funding_time; // Next settlement time of capital cost
     public Long countdown_hour; // Countdown of settlement capital cost
+
+    @Override
+    public String toString() {
+      return "InstrumentInfo{" +
+              "symbol='" + symbol + '\'' +
+              ", last_price_e4=" + last_price_e4 +
+              ", last_tick_direction='" + last_tick_direction + '\'' +
+              ", prev_price_24h_e4=" + prev_price_24h_e4 +
+              ", price_24h_pcnt_e6=" + price_24h_pcnt_e6 +
+              ", high_price_24h_e4=" + high_price_24h_e4 +
+              ", low_price_24h_e4=" + low_price_24h_e4 +
+              ", prev_price_1h_e4=" + prev_price_1h_e4 +
+              ", price_1h_pcnt_e6=" + price_1h_pcnt_e6 +
+              ", mark_price_e4=" + mark_price_e4 +
+              ", index_price_e4=" + index_price_e4 +
+              ", open_interest=" + open_interest +
+              ", open_value_e8=" + open_value_e8 +
+              ", total_turnover_e8=" + total_turnover_e8 +
+              ", turnover_24h_e8=" + turnover_24h_e8 +
+              ", total_volume=" + total_volume +
+              ", volume_24h=" + volume_24h +
+              ", predicted_funding_rate_e6=" + predicted_funding_rate_e6 +
+              ", cross_seq=" + cross_seq +
+              ", created_at='" + created_at + '\'' +
+              ", updated_at='" + updated_at + '\'' +
+              ", next_funding_time='" + next_funding_time + '\'' +
+              ", countdown_hour=" + countdown_hour +
+              '}';
+    }
   }
 }

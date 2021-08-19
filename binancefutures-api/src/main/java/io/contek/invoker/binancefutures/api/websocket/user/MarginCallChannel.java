@@ -38,6 +38,14 @@ public final class MarginCallChannel
     public Double cw; // transaction time
     public List<PositionForMarginCall> p;
 
+    @Override
+    public String toString() {
+      return "Message{" +
+              "cw=" + cw +
+              ", p=" + p +
+              '}';
+    }
+
     @NotThreadSafe
     public static class PositionForMarginCall {
 
@@ -48,6 +56,19 @@ public final class MarginCallChannel
       public Double mp; // mark price
       public Double up; // unrealized PnL
       public Double mm; // maintenance margin required
+
+      @Override
+      public String toString() {
+        return "PositionForMarginCall{" +
+                "s='" + s + '\'' +
+                ", ps='" + ps + '\'' +
+                ", mt='" + mt + '\'' +
+                ", iw=" + iw +
+                ", mp=" + mp +
+                ", up=" + up +
+                ", mm=" + mm +
+                '}';
+      }
     }
   }
 }

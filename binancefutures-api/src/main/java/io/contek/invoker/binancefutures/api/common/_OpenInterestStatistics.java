@@ -9,4 +9,14 @@ public final class _OpenInterestStatistics {
   public Double sumOpenInterest;
   public Double sumOpenInterestValue;
   public Long timestamp;
+
+  @Override
+  public String toString() {
+    return "_OpenInterestStatistics{" +
+            "symbol='" + symbol + '\'' +
+            ", sumOpenInterest=" + sumOpenInterest +
+            ", sumOpenInterestValue=" + sumOpenInterestValue +
+            ", timestamp=" + timestamp +
+            '}';
+  }
 }

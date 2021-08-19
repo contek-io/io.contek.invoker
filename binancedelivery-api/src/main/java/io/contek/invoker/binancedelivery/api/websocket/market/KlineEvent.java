@@ -11,6 +11,15 @@ public class KlineEvent extends WebSocketEventMessage {
   public String ps; // Pair
   public Candle k;
 
+  @Override
+  public String toString() {
+    return "KlineEvent{" +
+            "s='" + s + '\'' +
+            ", ps='" + ps + '\'' +
+            ", k=" + k +
+            '}';
+  }
+
   @NotThreadSafe
   public static class Candle {
 
@@ -30,5 +39,27 @@ public class KlineEvent extends WebSocketEventMessage {
     public Double q; // Quote asset volume
     public Double V; // Taker buy base asset volume
     public Double Q; // Taker buy quote asset volume
+
+    @Override
+    public String toString() {
+      return "Candle{" +
+              "t=" + t +
+              ", T=" + T +
+              ", s='" + s + '\'' +
+              ", i='" + i + '\'' +
+              ", f=" + f +
+              ", L=" + L +
+              ", o=" + o +
+              ", c=" + c +
+              ", h=" + h +
+              ", l=" + l +
+              ", v=" + v +
+              ", n=" + n +
+              ", x=" + x +
+              ", q=" + q +
+              ", V=" + V +
+              ", Q=" + Q +
+              '}';
+    }
   }
 }

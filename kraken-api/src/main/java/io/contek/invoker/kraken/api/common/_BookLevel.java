@@ -19,4 +19,14 @@ public final class _BookLevel {
     }
     return level;
   }
+
+  @Override
+  public String toString() {
+    return "_BookLevel{" +
+            "price=" + price +
+            ", volume=" + volume +
+            ", timestamp=" + timestamp +
+            ", updateType='" + updateType + '\'' +
+            '}';
+  }
 }

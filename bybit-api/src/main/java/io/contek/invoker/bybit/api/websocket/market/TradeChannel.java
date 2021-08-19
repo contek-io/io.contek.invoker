@@ -37,6 +37,13 @@ public final class TradeChannel extends WebSocketChannel<TradeChannel.Id, TradeC
   public static final class Message extends WebSocketTopicMessage {
 
     public List<Trade> data;
+
+    @Override
+    public String toString() {
+      return "Message{" +
+              "data=" + data +
+              '}';
+    }
   }
 
   @NotThreadSafe
@@ -51,5 +58,20 @@ public final class TradeChannel extends WebSocketChannel<TradeChannel.Id, TradeC
     public String tick_direction; // Direction of price change
     public String trade_id; // Trade ID
     public Long cross_seq; // Cross sequence
+
+    @Override
+    public String toString() {
+      return "Trade{" +
+              "timestamp='" + timestamp + '\'' +
+              ", trade_time_ms=" + trade_time_ms +
+              ", symbol='" + symbol + '\'' +
+              ", side='" + side + '\'' +
+              ", size=" + size +
+              ", price=" + price +
+              ", tick_direction='" + tick_direction + '\'' +
+              ", trade_id='" + trade_id + '\'' +
+              ", cross_seq=" + cross_seq +
+              '}';
+    }
   }
 }

@@ -10,6 +10,8 @@ import java.util.Map;
 @Immutable
 public final class ApiKey {
 
+  public static String SUBACCOUNT_PROPERTY_KEY = "SUBACCOUNT";
+
   private final String id;
   private final String secret;
   private final ImmutableMap<String, String> properties;
@@ -60,6 +62,11 @@ public final class ApiKey {
 
     public Builder addProperty(String key, String value) {
       properties.put(key, value);
+      return this;
+    }
+
+    public Builder setSubAccount(String subAccount) {
+      this.properties.put(SUBACCOUNT_PROPERTY_KEY, subAccount);
       return this;
     }
 

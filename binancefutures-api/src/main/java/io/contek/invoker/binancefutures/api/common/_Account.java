@@ -24,4 +24,28 @@ public class _Account {
   public Double maxWithdrawAmount;
   public List<_AccountAsset> assets;
   public List<_AccountPosition> positions;
+
+  @Override
+  public String toString() {
+    return "_Account{" +
+            "feeTier=" + feeTier +
+            ", canDeposit=" + canDeposit +
+            ", canTrade=" + canTrade +
+            ", canWithdraw=" + canWithdraw +
+            ", updateTime=" + updateTime +
+            ", totalInitialMargin=" + totalInitialMargin +
+            ", totalMaintMargin=" + totalMaintMargin +
+            ", totalWalletBalance=" + totalWalletBalance +
+            ", totalUnrealizedProfit=" + totalUnrealizedProfit +
+            ", totalMarginBalance=" + totalMarginBalance +
+            ", totalPositionInitialMargin=" + totalPositionInitialMargin +
+            ", totalOpenOrderInitialMargin=" + totalOpenOrderInitialMargin +
+            ", totalCrossWalletBalance=" + totalCrossWalletBalance +
+            ", totalCrossUnPnl=" + totalCrossUnPnl +
+            ", availableBalance=" + availableBalance +
+            ", maxWithdrawAmount=" + maxWithdrawAmount +
+            ", assets=" + assets +
+            ", positions=" + positions +
+            '}';
+  }
 }

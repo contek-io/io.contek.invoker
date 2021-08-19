@@ -22,4 +22,27 @@ public class _PositionInfo {
   public String margin_asset;
   public String margin_mode;
   public String margin_account;
+
+  @Override
+  public String toString() {
+    return "_PositionInfo{" +
+            "symbol='" + symbol + '\'' +
+            ", contract_code='" + contract_code + '\'' +
+            ", volume=" + volume +
+            ", available=" + available +
+            ", frozen=" + frozen +
+            ", cost_open=" + cost_open +
+            ", cost_hold=" + cost_hold +
+            ", profit_unreal=" + profit_unreal +
+            ", profit_rate=" + profit_rate +
+            ", lever_rate=" + lever_rate +
+            ", position_margin=" + position_margin +
+            ", direction='" + direction + '\'' +
+            ", profit=" + profit +
+            ", last_price=" + last_price +
+            ", margin_asset='" + margin_asset + '\'' +
+            ", margin_mode='" + margin_mode + '\'' +
+            ", margin_account='" + margin_account + '\'' +
+            '}';
+  }
 }

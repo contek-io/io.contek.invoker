@@ -10,4 +10,15 @@ public class _LiquidationOrder {
   public String side;
   public Double price;
   public Double leavesQty;
+
+  @Override
+  public String toString() {
+    return "_LiquidationOrder{" +
+            "orderID='" + orderID + '\'' +
+            ", symbol='" + symbol + '\'' +
+            ", side='" + side + '\'' +
+            ", price=" + price +
+            ", leavesQty=" + leavesQty +
+            '}';
+  }
 }

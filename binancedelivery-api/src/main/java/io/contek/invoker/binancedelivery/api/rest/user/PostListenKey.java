@@ -49,5 +49,12 @@ public final class PostListenKey extends UserRestRequest<PostListenKey.Response>
   public static final class Response {
 
     public String listenKey;
+
+    @Override
+    public String toString() {
+      return "Response{" +
+              "listenKey='" + listenKey + '\'' +
+              '}';
+    }
   }
 }

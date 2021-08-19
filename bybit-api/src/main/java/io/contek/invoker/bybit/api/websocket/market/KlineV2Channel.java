@@ -38,6 +38,14 @@ public final class KlineV2Channel extends WebSocketChannel<KlineV2Channel.Id, Kl
 
     public List<KlineV2> data;
     public Long timestamp_e6;
+
+    @Override
+    public String toString() {
+      return "Message{" +
+              "data=" + data +
+              ", timestamp_e6=" + timestamp_e6 +
+              '}';
+    }
   }
 
   @NotThreadSafe
@@ -54,5 +62,22 @@ public final class KlineV2Channel extends WebSocketChannel<KlineV2Channel.Id, Kl
     public Boolean confirm; // Is confirm
     public Long cross_seq; // Cross sequence (internal value)
     public Long timestamp; // End timestamp point for result, in seconds
+
+    @Override
+    public String toString() {
+      return "KlineV2{" +
+              "start=" + start +
+              ", end=" + end +
+              ", open=" + open +
+              ", close=" + close +
+              ", high=" + high +
+              ", low=" + low +
+              ", volume=" + volume +
+              ", turnover=" + turnover +
+              ", confirm=" + confirm +
+              ", cross_seq=" + cross_seq +
+              ", timestamp=" + timestamp +
+              '}';
+    }
   }
 }

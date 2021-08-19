@@ -65,5 +65,27 @@ public final class GetExchangeInfo extends MarketRestRequest<Response> {
     public Integer quotePrecision;
     public String underlyingType;
     public List<Map<String, Object>> filters;
+
+    @Override
+    public String toString() {
+      return "MarketDetails{" +
+              "symbol='" + symbol + '\'' +
+              ", pair='" + pair + '\'' +
+              ", contractType='" + contractType + '\'' +
+              ", deliveryDate=" + deliveryDate +
+              ", onboardDate=" + onboardDate +
+              ", contractStatus='" + contractStatus + '\'' +
+              ", contractSize=" + contractSize +
+              ", quoteAsset='" + quoteAsset + '\'' +
+              ", baseAsset='" + baseAsset + '\'' +
+              ", marginAsset='" + marginAsset + '\'' +
+              ", pricePrecision=" + pricePrecision +
+              ", quantityPrecision=" + quantityPrecision +
+              ", baseAssetPrecision=" + baseAssetPrecision +
+              ", quotePrecision=" + quotePrecision +
+              ", underlyingType='" + underlyingType + '\'' +
+              ", filters=" + filters +
+              '}';
+    }
   }
 }
