@@ -1,12 +1,12 @@
 package io.contek.invoker.commons.rest;
 
-import com.google.gson.Gson;
-import okhttp3.MediaType;
-
-import javax.annotation.concurrent.Immutable;
-import java.util.function.Function;
-
 import static java.util.Objects.requireNonNull;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import java.util.function.Function;
+import javax.annotation.concurrent.Immutable;
+import okhttp3.MediaType;
 
 @Immutable
 public enum RestMediaType {
@@ -17,7 +17,7 @@ public enum RestMediaType {
       requireNonNull(MediaType.parse("application/x-www-form-urlencoded")),
       RestMediaType::toFormString);
 
-  private static final Gson gson = new Gson();
+  private static final Gson GSON = new GsonBuilder().serializeNulls().create();
 
   private final MediaType value;
   private final Function<RestParams, String> composer;
@@ -36,7 +36,7 @@ public enum RestMediaType {
   }
 
   private static String toJsonString(RestParams params) {
-    return gson.toJson(params.getValues());
+    return GSON.toJson(params.getValues());
   }
 
   private static String toFormString(RestParams params) {

@@ -107,9 +107,7 @@ public final class PostOrders extends UserRestRequest<PostOrders.Response> {
     requireNonNull(size);
     builder.add("size", size);
 
-    if (price != null) {
-      builder.add("price", price);
-    }
+    builder.add("price", price);
 
     if (reduceOnly != null) {
       builder.add("reduceOnly", reduceOnly);
