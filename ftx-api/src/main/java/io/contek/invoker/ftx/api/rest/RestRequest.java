@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.net.UrlEscapers;
 import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.rest.*;
+import io.contek.invoker.security.ApiKey;
 import io.contek.invoker.security.ICredential;
 
 import javax.annotation.concurrent.NotThreadSafe;
@@ -71,6 +72,12 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
             .put("FTX-KEY", credential.getApiKeyId())
             .put("FTX-SIGN", signature)
             .put("FTX-TS", ts);
+
+    String subAccount = credential.getProperties().get(ApiKey.SUBACCOUNT_PROPERTY_KEY);
+    if (subAccount != null) {
+      result.put(FTX_SUBACCOUNT_KEY, subAccount);
+    }
+
     credential.getProperties().forEach(result::put);
 
     return result.build();

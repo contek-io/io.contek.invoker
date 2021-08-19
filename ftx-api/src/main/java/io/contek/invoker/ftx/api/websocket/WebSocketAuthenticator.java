@@ -5,6 +5,7 @@ import io.contek.invoker.commons.websocket.IWebSocketAuthenticator;
 import io.contek.invoker.commons.websocket.WebSocketSession;
 import io.contek.invoker.ftx.api.websocket.common.WebSocketAuthenticationMessage;
 import io.contek.invoker.ftx.api.websocket.common.constants.WebSocketOutboundKeys;
+import io.contek.invoker.security.ApiKey;
 import io.contek.invoker.security.ICredential;
 
 import javax.annotation.concurrent.ThreadSafe;
@@ -15,7 +16,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public final class WebSocketAuthenticator implements IWebSocketAuthenticator {
 
   public static final String WEBSOCKET_LOGIN = "websocket_login";
-  public static final String SUBACCOUNT_KEY = "subaccount";
   private final ICredential credential;
   private final Clock clock;
 
@@ -39,7 +39,7 @@ public final class WebSocketAuthenticator implements IWebSocketAuthenticator {
     request.args.key = credential.getApiKeyId();
     request.args.sign = credential.sign(currentTimeStamp + WEBSOCKET_LOGIN);
     request.args.time = currentTimeStamp;
-    request.args.subaccount = credential.getProperties().get(SUBACCOUNT_KEY);
+    request.args.subaccount = credential.getProperties().get(ApiKey.SUBACCOUNT_PROPERTY_KEY);
 
     session.send(request);
     // There will be no confirmation message after authentication.
