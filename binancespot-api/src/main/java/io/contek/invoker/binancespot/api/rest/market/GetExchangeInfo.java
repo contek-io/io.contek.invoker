@@ -47,6 +47,13 @@ public final class GetExchangeInfo extends MarketRestRequest<Response> {
   public static final class Response {
 
     public List<MarketDetails> symbols;
+
+    @Override
+    public String toString() {
+      return "Response{" +
+              "symbols=" + symbols +
+              '}';
+    }
   }
 
   @NotThreadSafe
@@ -66,5 +73,25 @@ public final class GetExchangeInfo extends MarketRestRequest<Response> {
     public Boolean isMarginTradingAllowed;
     public List<String> permissions;
     public List<Map<String, Object>> filters;
+
+    @Override
+    public String toString() {
+      return "MarketDetails{" +
+              "symbol='" + symbol + '\'' +
+              ", status='" + status + '\'' +
+              ", baseAsset='" + baseAsset + '\'' +
+              ", baseAssetPrecision=" + baseAssetPrecision +
+              ", quoteAsset='" + quoteAsset + '\'' +
+              ", quotePrecision=" + quotePrecision +
+              ", quoteAssetPrecision=" + quoteAssetPrecision +
+              ", orderTypes=" + orderTypes +
+              ", icebergAllowed=" + icebergAllowed +
+              ", ocoAllowed=" + ocoAllowed +
+              ", isSpotTradingAllowed=" + isSpotTradingAllowed +
+              ", isMarginTradingAllowed=" + isMarginTradingAllowed +
+              ", permissions=" + permissions +
+              ", filters=" + filters +
+              '}';
+    }
   }
 }

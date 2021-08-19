@@ -10,4 +10,14 @@ public class _OrderBook {
   public List<_OrderBookLevel> bids;
   public Long microtimestamp;
   public Long timestamp;
+
+  @Override
+  public String toString() {
+    return "_OrderBook{" +
+            "asks=" + asks +
+            ", bids=" + bids +
+            ", microtimestamp=" + microtimestamp +
+            ", timestamp=" + timestamp +
+            '}';
+  }
 }

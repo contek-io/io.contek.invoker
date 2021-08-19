@@ -102,5 +102,12 @@ public final class PostSwapOpenorders extends UserRestRequest<PostSwapOpenorders
   public static final class Data extends PaginatedData {
 
     public List<_OrderInfo> orders;
+
+    @Override
+    public String toString() {
+      return "Data{" +
+              "orders=" + orders +
+              '}';
+    }
   }
 }

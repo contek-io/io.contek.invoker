@@ -24,5 +24,30 @@ public class ForceOrderEvent extends WebSocketEventMessage {
     public Double l; // Order Last Filled Quantity
     public Double z; // Order Filled Accumulated Quantity
     public Long T; // Order Trade Time
+
+    @Override
+    public String toString() {
+      return "Order{" +
+              "s='" + s + '\'' +
+              ", ps='" + ps + '\'' +
+              ", S='" + S + '\'' +
+              ", o='" + o + '\'' +
+              ", f='" + f + '\'' +
+              ", q=" + q +
+              ", p=" + p +
+              ", a=" + a +
+              ", X='" + X + '\'' +
+              ", l=" + l +
+              ", z=" + z +
+              ", T=" + T +
+              '}';
+    }
+  }
+
+  @Override
+  public String toString() {
+    return "ForceOrderEvent{" +
+            "o=" + o +
+            '}';
   }
 }

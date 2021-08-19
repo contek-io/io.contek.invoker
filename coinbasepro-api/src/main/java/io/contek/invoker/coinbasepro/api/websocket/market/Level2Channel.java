@@ -42,6 +42,14 @@ public final class Level2Channel extends WebSocketChannel<Level2Channel.Id, Leve
 
     public String time;
     public List<L2UpdateChange> changes;
+
+    @Override
+    public String toString() {
+      return "L2UpdateMessage{" +
+              "time='" + time + '\'' +
+              ", changes=" + changes +
+              '}';
+    }
   }
 
   @NotThreadSafe
@@ -52,6 +60,14 @@ public final class Level2Channel extends WebSocketChannel<Level2Channel.Id, Leve
 
     public List<SnapshotLevel> bids;
     public List<SnapshotLevel> asks;
+
+    @Override
+    public String toString() {
+      return "SnapshotMessage{" +
+              "bids=" + bids +
+              ", asks=" + asks +
+              '}';
+    }
   }
 
   @NotThreadSafe

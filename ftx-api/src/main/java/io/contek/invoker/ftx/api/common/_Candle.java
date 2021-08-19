@@ -1,8 +1,5 @@
 package io.contek.invoker.ftx.api.common;
 
-import javax.annotation.concurrent.NotThreadSafe;
-
-@NotThreadSafe
 public class _Candle {
 
   public Double close;
@@ -11,4 +8,23 @@ public class _Candle {
   public Double open;
   public String startTime;
   public Double volume;
+
+  @Override
+  public String toString() {
+    return "_Candle{"
+        + "close="
+        + close
+        + ", high="
+        + high
+        + ", low="
+        + low
+        + ", open="
+        + open
+        + ", startTime='"
+        + startTime
+        + '\''
+        + ", volume="
+        + volume
+        + '}';
+  }
 }

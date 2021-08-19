@@ -37,6 +37,14 @@ public final class OrderUpdateChannel
     public long T; // trasnaction time
     public Order o;
 
+    @Override
+    public String toString() {
+      return "Message{" +
+              "T=" + T +
+              ", o=" + o +
+              '}';
+    }
+
     @NotThreadSafe
     public static class Order {
 
@@ -70,6 +78,42 @@ public final class OrderUpdateChannel
       public Double AP; // activatin price
       public Double cr; // callback rate
       public Double rp; // realized profit
+
+      @Override
+      public String toString() {
+        return "Order{" +
+                "s='" + s + '\'' +
+                ", c='" + c + '\'' +
+                ", S='" + S + '\'' +
+                ", o='" + o + '\'' +
+                ", f='" + f + '\'' +
+                ", q=" + q +
+                ", p=" + p +
+                ", ap=" + ap +
+                ", sp=" + sp +
+                ", x='" + x + '\'' +
+                ", X='" + X + '\'' +
+                ", i=" + i +
+                ", l=" + l +
+                ", z=" + z +
+                ", L=" + L +
+                ", N='" + N + '\'' +
+                ", n='" + n + '\'' +
+                ", T=" + T +
+                ", t=" + t +
+                ", b=" + b +
+                ", a=" + a +
+                ", m=" + m +
+                ", R=" + R +
+                ", wt='" + wt + '\'' +
+                ", ot='" + ot + '\'' +
+                ", ps='" + ps + '\'' +
+                ", cp=" + cp +
+                ", AP=" + AP +
+                ", cr=" + cr +
+                ", rp=" + rp +
+                '}';
+      }
     }
   }
 }

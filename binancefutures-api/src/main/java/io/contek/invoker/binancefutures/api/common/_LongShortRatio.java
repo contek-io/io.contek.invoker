@@ -10,4 +10,15 @@ public final class _LongShortRatio {
   public double longAccount;
   public double shortAccount;
   public long timestamp;
+
+  @Override
+  public String toString() {
+    return "_LongShortRatio{" +
+            "symbol='" + symbol + '\'' +
+            ", longShortRatio=" + longShortRatio +
+            ", longAccount=" + longAccount +
+            ", shortAccount=" + shortAccount +
+            ", timestamp=" + timestamp +
+            '}';
+  }
 }

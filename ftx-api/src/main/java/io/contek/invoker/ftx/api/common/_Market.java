@@ -1,9 +1,10 @@
 package io.contek.invoker.ftx.api.common;
 
 import javax.annotation.concurrent.NotThreadSafe;
+import java.io.Serializable;
 
 @NotThreadSafe
-public class _Market {
+public class _Market implements Serializable {
 
   public String name;
   public String baseCurrency;
@@ -18,4 +19,41 @@ public class _Market {
   public Double priceIncrement;
   public Double sizeIncrement;
   public Boolean restricted;
+
+  @Override
+  public String toString() {
+    return "_Market{"
+        + "name='"
+        + name
+        + '\''
+        + ", baseCurrency='"
+        + baseCurrency
+        + '\''
+        + ", quoteCurrency='"
+        + quoteCurrency
+        + '\''
+        + ", type='"
+        + type
+        + '\''
+        + ", underlying='"
+        + underlying
+        + '\''
+        + ", enabled="
+        + enabled
+        + ", ask="
+        + ask
+        + ", bid="
+        + bid
+        + ", last="
+        + last
+        + ", postOnly="
+        + postOnly
+        + ", priceIncrement="
+        + priceIncrement
+        + ", sizeIncrement="
+        + sizeIncrement
+        + ", restricted="
+        + restricted
+        + '}';
+  }
 }

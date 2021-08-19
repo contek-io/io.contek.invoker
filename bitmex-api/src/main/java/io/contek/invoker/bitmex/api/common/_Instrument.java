@@ -323,4 +323,95 @@ public class _Instrument {
 
   /** Timestamp. */
   public String timestamp;
+
+  @Override
+  public String toString() {
+    return "_Instrument{" +
+            "symbol='" + symbol + '\'' +
+            ", rootSymbol='" + rootSymbol + '\'' +
+            ", state='" + state + '\'' +
+            ", typ='" + typ + '\'' +
+            ", listing='" + listing + '\'' +
+            ", expiry='" + expiry + '\'' +
+            ", settle='" + settle + '\'' +
+            ", relistInterval='" + relistInterval + '\'' +
+            ", optionStrikePcnt=" + optionStrikePcnt +
+            ", optionStrikeRound=" + optionStrikeRound +
+            ", optionStrikePrice=" + optionStrikePrice +
+            ", optionMultiplier=" + optionMultiplier +
+            ", positionCurrency='" + positionCurrency + '\'' +
+            ", underlying='" + underlying + '\'' +
+            ", quoteCurrency='" + quoteCurrency + '\'' +
+            ", underlyingSymbol='" + underlyingSymbol + '\'' +
+            ", reference='" + reference + '\'' +
+            ", referenceSymbol='" + referenceSymbol + '\'' +
+            ", calcInterval='" + calcInterval + '\'' +
+            ", publishInterval='" + publishInterval + '\'' +
+            ", publishTime='" + publishTime + '\'' +
+            ", maxOrderQty=" + maxOrderQty +
+            ", maxPrice=" + maxPrice +
+            ", lotSize=" + lotSize +
+            ", tickSize=" + tickSize +
+            ", multiplier=" + multiplier +
+            ", settlCurrency='" + settlCurrency + '\'' +
+            ", isQuanto=" + isQuanto +
+            ", isInverse=" + isInverse +
+            ", initMargin=" + initMargin +
+            ", maintMargin=" + maintMargin +
+            ", riskLimit=" + riskLimit +
+            ", riskStep=" + riskStep +
+            ", makerFee=" + makerFee +
+            ", takerFee=" + takerFee +
+            ", settlementFee=" + settlementFee +
+            ", fundingBaseSymbol='" + fundingBaseSymbol + '\'' +
+            ", fundingQuoteSymbol='" + fundingQuoteSymbol + '\'' +
+            ", fundingPremiumSymbol='" + fundingPremiumSymbol + '\'' +
+            ", fundingTimestamp='" + fundingTimestamp + '\'' +
+            ", fundingInterval='" + fundingInterval + '\'' +
+            ", fundingRate=" + fundingRate +
+            ", indicativeFundingRate=" + indicativeFundingRate +
+            ", openingTimestamp='" + openingTimestamp + '\'' +
+            ", closingTimestamp='" + closingTimestamp + '\'' +
+            ", sessionInterval='" + sessionInterval + '\'' +
+            ", prevClosePrice=" + prevClosePrice +
+            ", limitDownPrice=" + limitDownPrice +
+            ", limitUpPrice=" + limitUpPrice +
+            ", prevTotalVolume=" + prevTotalVolume +
+            ", totalVolume=" + totalVolume +
+            ", volume24h=" + volume24h +
+            ", prevTotalTurnover=" + prevTotalTurnover +
+            ", totalTurnover=" + totalTurnover +
+            ", turnover=" + turnover +
+            ", turnover24h=" + turnover24h +
+            ", homeNotional24h=" + homeNotional24h +
+            ", foreignNotional24h=" + foreignNotional24h +
+            ", vwap=" + vwap +
+            ", highPrice=" + highPrice +
+            ", lowPrice=" + lowPrice +
+            ", lastPrice=" + lastPrice +
+            ", lastPriceProtected=" + lastPriceProtected +
+            ", lastTickDirection='" + lastTickDirection + '\'' +
+            ", lastChangePcnt=" + lastChangePcnt +
+            ", bidPrice=" + bidPrice +
+            ", midPrice=" + midPrice +
+            ", askPrice=" + askPrice +
+            ", impactBidPrice=" + impactBidPrice +
+            ", impactMidPrice=" + impactMidPrice +
+            ", impactAskPrice=" + impactAskPrice +
+            ", hasLiquidity=" + hasLiquidity +
+            ", openInterest=" + openInterest +
+            ", openValue=" + openValue +
+            ", fairMethod='" + fairMethod + '\'' +
+            ", fairBasisRate=" + fairBasisRate +
+            ", fairBasis=" + fairBasis +
+            ", fairPrice=" + fairPrice +
+            ", markMethod='" + markMethod + '\'' +
+            ", markPrice=" + markPrice +
+            ", indicativeTaxRate=" + indicativeTaxRate +
+            ", indicativeSettlePrice=" + indicativeSettlePrice +
+            ", optionUnderlyingPrice=" + optionUnderlyingPrice +
+            ", settledPrice=" + settledPrice +
+            ", timestamp='" + timestamp + '\'' +
+            '}';
+  }
 }

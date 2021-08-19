@@ -13,4 +13,17 @@ public class _Depth {
   public long mrid;
   public long ts;
   public long version;
+
+  @Override
+  public String toString() {
+    return "_Depth{" +
+            "asks=" + asks +
+            ", bids=" + bids +
+            ", ch='" + ch + '\'' +
+            ", id=" + id +
+            ", mrid=" + mrid +
+            ", ts=" + ts +
+            ", version=" + version +
+            '}';
+  }
 }

@@ -44,5 +44,19 @@ public final class MatchesChannel
     public Double size;
     public Double price;
     public String side;
+
+    @Override
+    public String toString() {
+      return "Message{" +
+              "trade_id=" + trade_id +
+              ", sequence=" + sequence +
+              ", maker_order_id='" + maker_order_id + '\'' +
+              ", taker_order_id='" + taker_order_id + '\'' +
+              ", time='" + time + '\'' +
+              ", size=" + size +
+              ", price=" + price +
+              ", side='" + side + '\'' +
+              '}';
+    }
   }
 }
