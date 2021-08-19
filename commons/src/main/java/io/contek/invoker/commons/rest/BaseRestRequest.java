@@ -25,7 +25,7 @@ public abstract class BaseRestRequest<R> {
     IRateLimitThrottle throttle = actor.getRateLimitThrottle();
     throttle.acquire(getClass().getSimpleName(), getRequiredQuotas());
 
-    RestResponse response = call.submit(actor.getHttpClient());
+    RestResponse response = call.submit(actor.getHttpClient(), getRestExceptionType());
     return requireNonNull(response.getAs(getResponseType()));
   }
 
@@ -34,4 +34,9 @@ public abstract class BaseRestRequest<R> {
   protected abstract RestCall createCall(ICredential credential);
 
   protected abstract Class<R> getResponseType();
+
+  // change to abstract later ?
+  protected Class<? extends RestErrorException> getRestExceptionType() {
+    return RestErrorException.class;
+  }
 }

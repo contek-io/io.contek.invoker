@@ -61,5 +61,22 @@ public final class GetExchangeInfo extends MarketRestRequest<Response> {
     public Integer quantityPrecision;
     
     public List<Map<String, Object>> filters;
+
+    @Override
+    public String toString() {
+      return "MarketDetails{" +
+              "symbol='" + symbol + '\'' +
+              ", status='" + status + '\'' +
+              ", maintMarginPercent=" + maintMarginPercent +
+              ", requiredMarginPercent=" + requiredMarginPercent +
+              ", baseAsset='" + baseAsset + '\'' +
+              ", quoteAsset='" + quoteAsset + '\'' +
+              ", pricePrecision=" + pricePrecision +
+              ", baseAssetPrecision=" + baseAssetPrecision +
+              ", quotePrecision=" + quotePrecision +
+              ", quantityPrecision=" + quantityPrecision +
+              ", filters=" + filters +
+              '}';
+    }
   }
 }

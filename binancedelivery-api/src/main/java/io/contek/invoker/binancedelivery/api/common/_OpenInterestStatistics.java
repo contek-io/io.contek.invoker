@@ -10,4 +10,15 @@ public final class _OpenInterestStatistics {
   public Double sumOpenInterest;
   public Double sumOpenInterestValue;
   public Long timestamp;
+
+  @Override
+  public String toString() {
+    return "_OpenInterestStatistics{" +
+            "pair='" + pair + '\'' +
+            ", contractType='" + contractType + '\'' +
+            ", sumOpenInterest=" + sumOpenInterest +
+            ", sumOpenInterestValue=" + sumOpenInterestValue +
+            ", timestamp=" + timestamp +
+            '}';
+  }
 }

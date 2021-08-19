@@ -81,6 +81,14 @@ public final class PostSwapCrossCancel extends UserRestRequest<PostSwapCrossCanc
 
     public List<Error> errors;
     public String successes;
+
+    @Override
+    public String toString() {
+      return "Data{" +
+              "errors=" + errors +
+              ", successes='" + successes + '\'' +
+              '}';
+    }
   }
 
   @NotThreadSafe

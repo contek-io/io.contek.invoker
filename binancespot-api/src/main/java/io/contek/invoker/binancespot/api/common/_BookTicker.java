@@ -10,4 +10,15 @@ public class _BookTicker {
   public Double bidQty;
   public Double askPrice;
   public Double askQty;
+
+  @Override
+  public String toString() {
+    return "_BookTicker{" +
+            "symbol='" + symbol + '\'' +
+            ", bidPrice=" + bidPrice +
+            ", bidQty=" + bidQty +
+            ", askPrice=" + askPrice +
+            ", askQty=" + askQty +
+            '}';
+  }
 }

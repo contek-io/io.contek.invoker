@@ -56,5 +56,24 @@ public final class TradesChannel
     public long timestamp;
     public String trade_id;
     public long trade_seq;
+
+    @Override
+    public String toString() {
+      return "Data{" +
+              "amount=" + amount +
+              ", block_trade_id='" + block_trade_id + '\'' +
+              ", direction='" + direction + '\'' +
+              ", index_price=" + index_price +
+              ", instrument_name='" + instrument_name + '\'' +
+              ", iv=" + iv +
+              ", liquidation='" + liquidation + '\'' +
+              ", mark_price=" + mark_price +
+              ", price=" + price +
+              ", tick_direction=" + tick_direction +
+              ", timestamp=" + timestamp +
+              ", trade_id='" + trade_id + '\'' +
+              ", trade_seq=" + trade_seq +
+              '}';
+    }
   }
 }

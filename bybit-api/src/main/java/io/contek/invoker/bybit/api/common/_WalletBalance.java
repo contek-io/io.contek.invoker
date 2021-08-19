@@ -18,4 +18,23 @@ public class _WalletBalance {
   public double cum_realised_pnl;
   public double given_cash;
   public double service_cash;
+
+  @Override
+  public String toString() {
+    return "_WalletBalance{" +
+            "equity=" + equity +
+            ", available_balance=" + available_balance +
+            ", used_margin=" + used_margin +
+            ", order_margin=" + order_margin +
+            ", position_margin=" + position_margin +
+            ", occ_closing_fee=" + occ_closing_fee +
+            ", occ_funding_fee=" + occ_funding_fee +
+            ", wallet_balance=" + wallet_balance +
+            ", realised_pnl=" + realised_pnl +
+            ", unrealised_pnl=" + unrealised_pnl +
+            ", cum_realised_pnl=" + cum_realised_pnl +
+            ", given_cash=" + given_cash +
+            ", service_cash=" + service_cash +
+            '}';
+  }
 }

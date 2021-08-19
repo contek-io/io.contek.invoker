@@ -100,5 +100,16 @@ public final class GetDepth extends MarketRestRequest<Response> {
 
     public List<_OrderBookLevel> bids;
     public List<_OrderBookLevel> asks;
+
+    @Override
+    public String toString() {
+      return "Response{" +
+              "lastUpdateId=" + lastUpdateId +
+              ", E=" + E +
+              ", T=" + T +
+              ", bids=" + bids +
+              ", asks=" + asks +
+              '}';
+    }
   }
 }
