@@ -87,4 +87,9 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
   private String buildUrlString(String paramsString) {
     return context.getBaseUrl() + getEndpointPath() + paramsString;
   }
+
+  @Override
+  public Class<? extends io.contek.invoker.commons.rest.RestErrorException> getRestExceptionType() {
+    return io.contek.invoker.ftx.api.rest.RestErrorException.class;
+  }
 }
