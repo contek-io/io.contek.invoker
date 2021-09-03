@@ -63,4 +63,8 @@ public final class UserRestApi {
   public PostOrders postOrders() {
     return new PostOrders(actor, context);
   }
+
+  public GetFills getFills(){
+    return new GetFills(actor, context);
+  }
 }
