@@ -70,7 +70,7 @@ public class GetFills extends UserRestRequest<GetFills.Response>{
         if(orderId!=null){
             builder.add("orderId", orderId);
         }
-        return RestParams.empty();
+        return builder.build();
     }
 
     public String getMarket() {
