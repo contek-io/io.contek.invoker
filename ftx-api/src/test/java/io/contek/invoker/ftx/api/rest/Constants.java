@@ -6,8 +6,9 @@ import io.contek.invoker.security.ApiKey;
 
 public final class Constants {
   public static final String SUCCESS_FIELD = "success";
-  public static final String FTX_API_KEY_ENV_VARIABLE = "FTX_API_KEY";
-  public static final String FTX_API_SECRET_ENV_VARIABLE = "FTX_API_SECRET";
+
+  private static final String FTX_API_KEY_ENV_VARIABLE = "FTX_API_KEY";
+  private static final String FTX_API_SECRET_ENV_VARIABLE = "FTX_API_SECRET";
 
   public static final UserRestApi USER_REST_API =
       ApiFactory.getMainNet()
