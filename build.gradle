@@ -15,7 +15,7 @@ subprojects {
     apply plugin: 'signing'
 
     ext {
-        gsonVersion = '2.8.7'
+        gsonVersion = '2.8.8'
         okhttpVersion = '4.9.1'
         resilience4jVersion = '1.7.1'
     }
@@ -95,8 +95,8 @@ subprojects {
             maven {
                 url = getRepositoryUrl(version)
                 credentials {
-                    username = project.hasProperty('ossrhUsername') ? ossrhUsername : ''
-                    password = project.hasProperty('ossrhPassword') ? ossrhPassword : ''
+                    username = project.hasProperty('sonatypeUsername') ? sonatypeUsername : ''
+                    password = project.hasProperty('sonatypePassword') ? sonatypePassword : ''
                 }
             }
         }
