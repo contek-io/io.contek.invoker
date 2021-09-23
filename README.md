@@ -6,67 +6,67 @@ A Java library to connect cryptocurrency exchanges.
 <dependency>
     <groupId>io.contek.invoker</groupId>
     <artifactId>binancedelivery-api</artifactId>
-    <version>2.13.0</version>
+    <version>2.13.3</version>
 </dependency>
 
 <dependency>
     <groupId>io.contek.invoker</groupId>
     <artifactId>binancefutures-api</artifactId>
-    <version>2.13.0</version>
+    <version>2.13.3</version>
 </dependency>
 
 <dependency>
     <groupId>io.contek.invoker</groupId>
     <artifactId>bitmex-api</artifactId>
-    <version>2.13.0</version>
+    <version>2.13.3</version>
 </dependency>
 
 <dependency>
     <groupId>io.contek.invoker</groupId>
     <artifactId>bitstamp-api</artifactId>
-    <version>2.13.0</version>
+    <version>2.13.3</version>
 </dependency>
 
 <dependency>
     <groupId>io.contek.invoker</groupId>
     <artifactId>bybit-api</artifactId>
-    <version>2.13.0</version>
+    <version>2.13.3</version>
 </dependency>
 
 <dependency>
     <groupId>io.contek.invoker</groupId>
     <artifactId>coinbasepro-api</artifactId>
-    <version>2.13.0</version>
+    <version>2.13.3</version>
 </dependency>
 
 <dependency>
     <groupId>io.contek.invoker</groupId>
     <artifactId>deribit-api</artifactId>
-    <version>2.13.0</version>
+    <version>2.13.3</version>
 </dependency>
 
 <dependency>
     <groupId>io.contek.invoker</groupId>
     <artifactId>ftx-api</artifactId>
-    <version>2.13.0</version>
+    <version>2.13.3</version>
 </dependency>
 
 <dependency>
     <groupId>io.contek.invoker</groupId>
     <artifactId>hbdmlinear-api</artifactId>
-    <version>2.13.0</version>
+    <version>2.13.3</version>
 </dependency>
 
 <dependency>
     <groupId>io.contek.invoker</groupId>
     <artifactId>hbdminverse-api</artifactId>
-    <version>2.13.0</version>
+    <version>2.13.3</version>
 </dependency>
 
 <dependency>
     <groupId>io.contek.invoker</groupId>
     <artifactId>kraken-api</artifactId>
-    <version>2.13.0</version>
+    <version>2.13.3</version>
 </dependency>
 ```
 
