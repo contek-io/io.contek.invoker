@@ -52,6 +52,12 @@ public abstract class BaseWebSocketApi implements IWebSocketApi {
     this.liveKeeper = liveKeeper;
   }
 
+  public final boolean isActive() {
+    synchronized (sessionHolder) {
+      return scheduleHolder.get() != null;
+    }
+  }
+
   public final void attach(IWebSocketComponent component) {
     synchronized (components) {
       parser.register(component);
