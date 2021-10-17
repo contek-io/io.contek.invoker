@@ -1,17 +1,11 @@
 package io.contek.invoker.commons.actor.ratelimit;
 
-import com.google.common.base.Joiner;
-import io.github.resilience4j.ratelimiter.RateLimiter;
-import io.github.resilience4j.ratelimiter.RateLimiterConfig;
-
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
 import java.time.Duration;
 
 @Immutable
 public final class RateLimitRule {
-
-  static final double MULTIPLIER = 10_000;
 
   private final String name;
   private final RateLimitType type;
@@ -47,16 +41,6 @@ public final class RateLimitRule {
 
   public Duration getResetPeriod() {
     return resetPeriod;
-  }
-
-  RateLimiter createRateLimiter(String key) {
-    return RateLimiter.of(
-        Joiner.on('_').join(type, name, key),
-        RateLimiterConfig.custom()
-            .limitForPeriod((int) (maxPermits * MULTIPLIER))
-            .limitRefreshPeriod(resetPeriod)
-            .timeoutDuration(resetPeriod)
-            .build());
   }
 
   @NotThreadSafe

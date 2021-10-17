@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.ImmutableMap.toImmutableMap;
 
 @ThreadSafe
@@ -31,7 +32,13 @@ public final class RateLimitCache {
   @NotThreadSafe
   public static final class Builder {
 
+    private RateLimitCushion cushion;
     private final List<RateLimitRule> rules = new ArrayList<>();
+
+    public Builder setCushion(RateLimitCushion cushion) {
+      this.cushion = cushion;
+      return this;
+    }
 
     public Builder addRule(RateLimitRule rule) {
       rules.add(rule);
@@ -39,8 +46,13 @@ public final class RateLimitCache {
     }
 
     public RateLimitCache build() {
+      checkNotNull(cushion);
+
       return new RateLimitCache(
-          rules.stream().collect(toImmutableMap(RateLimitRule::getName, RuleBasedThrottle::new)));
+          rules.stream()
+              .collect(
+                  toImmutableMap(
+                      RateLimitRule::getName, rule -> new RuleBasedThrottle(rule, cushion))));
     }
   }
 
@@ -48,11 +60,13 @@ public final class RateLimitCache {
   private static final class RuleBasedThrottle {
 
     private final RateLimitRule rule;
+    private final RateLimitCushion cushion;
 
     private final Map<String, Throttle> throttles = new HashMap<>();
 
-    private RuleBasedThrottle(RateLimitRule rule) {
+    private RuleBasedThrottle(RateLimitRule rule, RateLimitCushion cushion) {
       this.rule = rule;
+      this.cushion = cushion;
     }
 
     private void acquire(String key, double permits) {
@@ -63,7 +77,7 @@ public final class RateLimitCache {
     }
 
     private Throttle createThrottle(String key) {
-      return Throttle.fromRateLimitRule(key, rule);
+      return Throttle.fromRateLimitRule(key, rule, cushion);
     }
   }
 }
