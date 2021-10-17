@@ -28,9 +28,4 @@ public interface IHttpContext {
   default Duration getPingInterval() {
     return null;
   }
-
-  @Nullable
-  default Double getRateLimitCushion() {
-    return null;
-  }
 }

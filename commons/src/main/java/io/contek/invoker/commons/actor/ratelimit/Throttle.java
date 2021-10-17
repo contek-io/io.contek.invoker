@@ -5,6 +5,7 @@ import io.github.resilience4j.ratelimiter.RateLimiter;
 import io.github.resilience4j.ratelimiter.RateLimiterConfig;
 
 import javax.annotation.concurrent.ThreadSafe;
+import java.time.Duration;
 
 @ThreadSafe
 final class Throttle {
@@ -21,13 +22,14 @@ final class Throttle {
     limiter.acquirePermission((int) (permits * MULTIPLIER));
   }
 
-  static Throttle fromRateLimitRule(String key, RateLimitRule rule) {
+  static Throttle fromRateLimitRule(String key, RateLimitRule rule, RateLimitCushion cushion) {
+    Duration cushionedRefreshPeriod = cushion.getCushionedRefreshPeriod(rule.getResetPeriod());
     return new Throttle(
         RateLimiter.of(
             Joiner.on('_').join(rule.getType(), rule.getName(), key),
             RateLimiterConfig.custom()
                 .limitForPeriod((int) (rule.getMaxPermits() * MULTIPLIER))
-                .limitRefreshPeriod(rule.getResetPeriod())
+                .limitRefreshPeriod(cushionedRefreshPeriod)
                 .timeoutDuration(rule.getResetPeriod())
                 .build()));
   }
