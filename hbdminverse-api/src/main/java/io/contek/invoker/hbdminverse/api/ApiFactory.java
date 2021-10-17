@@ -79,7 +79,8 @@ public final class ApiFactory {
   }
 
   public static ApiFactory fromContext(ApiContext context) {
-    return new ApiFactory(context, createActorFactory(context.getInterceptors()));
+    return new ApiFactory(
+        context, createActorFactory(context.getCushion(), context.getInterceptors()));
   }
 
   public SelectingRestApi rest() {
@@ -91,12 +92,12 @@ public final class ApiFactory {
   }
 
   private static SimpleActorFactory createActorFactory(
-      List<IRateLimitQuotaInterceptor> interceptors) {
+      RateLimitCushion cushion, List<IRateLimitQuotaInterceptor> interceptors) {
     return SimpleActorFactory.newBuilder()
         .setCredentialFactory(createCredentialFactory())
         .setHttpClientFactory(SimpleHttpClientFactory.getInstance())
         .setRateLimitThrottleFactory(
-            SimpleRateLimitThrottleFactory.create(createRateLimitCache(), interceptors))
+            SimpleRateLimitThrottleFactory.create(createRateLimitCache(cushion), interceptors))
         .build();
   }
 
@@ -107,8 +108,9 @@ public final class ApiFactory {
         .build();
   }
 
-  private static RateLimitCache createRateLimitCache() {
+  private static RateLimitCache createRateLimitCache(RateLimitCushion cushion) {
     return RateLimitCache.newBuilder()
+        .setCushion(cushion)
         .addRule(RateLimits.IP_REST_PUBLIC_MARKET_DATA_REQUEST_RULE)
         .addRule(RateLimits.IP_REST_PUBLIC_NON_MARKET_DATA_REQUEST_RULE)
         .addRule(RateLimits.API_KEY_REST_PRIVATE_READ_REQUEST_RULE)
