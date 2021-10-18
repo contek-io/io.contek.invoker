@@ -1,8 +1,7 @@
 package io.contek.invoker.commons.actor.ratelimit;
 
-import com.google.common.base.Joiner;
-import io.github.resilience4j.ratelimiter.RateLimiter;
-import io.github.resilience4j.ratelimiter.RateLimiterConfig;
+import io.contek.ursa.PermittedSession;
+import io.contek.ursa.Ursa;
 
 import javax.annotation.concurrent.ThreadSafe;
 import java.time.Duration;
@@ -10,27 +9,18 @@ import java.time.Duration;
 @ThreadSafe
 final class Throttle {
 
-  private static final double MULTIPLIER = 10_000;
+  private final Ursa limiter;
 
-  private final RateLimiter limiter;
-
-  private Throttle(RateLimiter limiter) {
+  private Throttle(Ursa limiter) {
     this.limiter = limiter;
   }
 
-  void acquire(double permits) {
-    limiter.acquirePermission((int) (permits * MULTIPLIER));
+  PermittedSession acquire(int permits) throws InterruptedException {
+    return limiter.acquire(permits);
   }
 
-  static Throttle fromRateLimitRule(String key, RateLimitRule rule, RateLimitCushion cushion) {
+  static Throttle fromRateLimitRule(RateLimitRule rule, RateLimitCushion cushion) {
     Duration cushionedRefreshPeriod = cushion.getCushionedRefreshPeriod(rule.getResetPeriod());
-    return new Throttle(
-        RateLimiter.of(
-            Joiner.on('_').join(rule.getType(), rule.getName(), key),
-            RateLimiterConfig.custom()
-                .limitForPeriod((int) (rule.getMaxPermits() * MULTIPLIER))
-                .limitRefreshPeriod(cushionedRefreshPeriod)
-                .timeoutDuration(rule.getResetPeriod())
-                .build()));
+    return new Throttle(new Ursa(rule.getMaxPermits(), cushionedRefreshPeriod));
   }
 }

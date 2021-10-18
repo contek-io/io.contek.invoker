@@ -9,10 +9,10 @@ public final class RateLimitRule {
 
   private final String name;
   private final RateLimitType type;
-  private final double maxPermits;
+  private final int maxPermits;
   private final Duration resetPeriod;
 
-  private RateLimitRule(String name, RateLimitType type, double maxPermits, Duration resetPeriod) {
+  private RateLimitRule(String name, RateLimitType type, int maxPermits, Duration resetPeriod) {
     this.name = name;
     this.type = type;
     this.maxPermits = maxPermits;
@@ -35,7 +35,7 @@ public final class RateLimitRule {
     return type;
   }
 
-  public double getMaxPermits() {
+  public int getMaxPermits() {
     return maxPermits;
   }
 
@@ -48,7 +48,7 @@ public final class RateLimitRule {
 
     private String name;
     private RateLimitType type;
-    private double maxPermits;
+    private int maxPermits;
     private Duration resetPeriod;
 
     public Builder setName(String name) {
@@ -61,7 +61,7 @@ public final class RateLimitRule {
       return this;
     }
 
-    public Builder setMaxPermits(double maxPermits) {
+    public Builder setMaxPermits(int maxPermits) {
       this.maxPermits = maxPermits;
       return this;
     }

@@ -18,6 +18,8 @@ subprojects {
         gsonVersion = '2.8.8'
         okhttpVersion = '4.9.1'
         resilience4jVersion = '1.7.1'
+
+        ursaVersion = '1.0.0-SNAPSHOT'
     }
 
     sourceCompatibility = '1.8'
