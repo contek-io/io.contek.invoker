@@ -1,12 +1,14 @@
 package io.contek.invoker.commons.actor.ratelimit;
 
 import com.google.common.collect.ImmutableList;
+import io.contek.ursa.PermittedSession;
 
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.ThreadSafe;
 import java.util.List;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.collect.ImmutableList.toImmutableList;
 
 @ThreadSafe
 public final class SimpleRateLimitThrottle implements IRateLimitThrottle {
@@ -28,26 +30,24 @@ public final class SimpleRateLimitThrottle implements IRateLimitThrottle {
     this.interceptors = interceptors;
   }
 
-  public void acquire(String requestName, List<RateLimitQuota> quota) {
+  public ImmutableList<PermittedSession> acquire(String requestName, List<RateLimitQuota> quota) {
     for (IRateLimitQuotaInterceptor interceptor : interceptors) {
       quota = interceptor.apply(requestName, quota);
     }
-    quota.forEach(this::acquire);
+    return quota.stream().map(this::acquire).collect(toImmutableList());
   }
 
-  private void acquire(RateLimitQuota quota) {
+  private PermittedSession acquire(RateLimitQuota quota) throws InterruptedException {
     checkArgument(quota.getPermits() > 0);
 
     switch (quota.getType()) {
       case IP:
-        cache.acquire(quota.getRuleName(), boundLocalAddress, quota.getPermits());
-        break;
+        return cache.acquire(quota.getRuleName(), boundLocalAddress, quota.getPermits());
       case API_KEY:
         if (apiKeyId == null) {
           throw new IllegalArgumentException();
         }
-        cache.acquire(quota.getRuleName(), apiKeyId, quota.getPermits());
-        break;
+        return cache.acquire(quota.getRuleName(), apiKeyId, quota.getPermits());
       default:
         throw new UnsupportedOperationException(quota.getType().name());
     }

@@ -1,6 +1,7 @@
 package io.contek.invoker.commons.actor.ratelimit;
 
 import com.google.common.collect.ImmutableMap;
+import io.contek.ursa.PermittedSession;
 
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
@@ -25,8 +26,8 @@ public final class RateLimitCache {
     return new Builder();
   }
 
-  void acquire(String ruleName, String key, double permits) {
-    rules.get(ruleName).acquire(key, permits);
+  PermittedSession acquire(String ruleName, String key, int permits) throws InterruptedException {
+    return rules.get(ruleName).acquire(key, permits);
   }
 
   @NotThreadSafe
@@ -69,15 +70,15 @@ public final class RateLimitCache {
       this.cushion = cushion;
     }
 
-    private void acquire(String key, double permits) {
+    private PermittedSession acquire(String key, int permits) throws InterruptedException {
       synchronized (throttles) {
         Throttle throttle = throttles.computeIfAbsent(key, this::createThrottle);
-        throttle.acquire(permits);
+        return throttle.acquire(permits);
       }
     }
 
     private Throttle createThrottle(String key) {
-      return Throttle.fromRateLimitRule(key, rule, cushion);
+      return Throttle.fromRateLimitRule(rule, cushion);
     }
   }
 }
