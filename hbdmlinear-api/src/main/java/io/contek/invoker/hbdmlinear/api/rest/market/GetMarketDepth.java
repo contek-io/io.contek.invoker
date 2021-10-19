@@ -2,7 +2,7 @@ package io.contek.invoker.hbdmlinear.api.rest.market;
 
 import com.google.common.collect.ImmutableList;
 import io.contek.invoker.commons.actor.IActor;
-import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
+import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestParams;
 import io.contek.invoker.hbdmlinear.api.common._Depth;
@@ -57,7 +57,7 @@ public final class GetMarketDepth extends MarketRestRequest<GetMarketDepth.Respo
   }
 
   @Override
-  protected ImmutableList<RateLimitQuota> getRequiredQuotas() {
+  protected ImmutableList<TypedPermitRequest> getRequiredQuotas() {
     return ONE_IP_REST_PUBLIC_MARKET_DATA_REQUEST;
   }
 

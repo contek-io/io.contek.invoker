@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.io.BaseEncoding;
 import io.contek.invoker.commons.actor.IActor;
-import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
+import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
 import io.contek.invoker.commons.rest.*;
 import io.contek.invoker.security.ICredential;
 
@@ -33,7 +33,7 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
 
   protected abstract RestParams getParams();
 
-  protected abstract ImmutableList<RateLimitQuota> getRequiredQuotas();
+  protected abstract ImmutableList<TypedPermitRequest> getRequiredQuotas();
 
   @Override
   protected final RestCall createCall(ICredential credential) {

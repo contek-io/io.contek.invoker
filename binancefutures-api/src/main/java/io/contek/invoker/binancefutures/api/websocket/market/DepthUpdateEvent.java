@@ -13,7 +13,7 @@ public class DepthUpdateEvent extends WebSocketEventMessage {
   public String s; // Symbol
   public long U; // first update Id from last stream
   public long u; // last update Id from last stream
-  public long pu; // last update Id in last stream (ie ‘u’ in last stream)
+  public long pu; // last update Id in last stream (ie 'u' in last stream)
   public List<_OrderBookLevel> b; // Bids to be updated [Price level to be updated, Quantity]
   public List<_OrderBookLevel> a; // Asks to be updated [Price level to be updated, Quantity]
 

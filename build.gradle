@@ -19,7 +19,7 @@ subprojects {
         okhttpVersion = '4.9.1'
         resilience4jVersion = '1.7.1'
 
-        ursaVersion = '1.0.0-SNAPSHOT'
+        ursaVersion = '1.1.2-SNAPSHOT'
     }
 
     sourceCompatibility = '1.8'

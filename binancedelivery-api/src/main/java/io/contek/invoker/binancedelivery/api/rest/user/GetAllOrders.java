@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableList;
 import io.contek.invoker.binancedelivery.api.common._Order;
 import io.contek.invoker.binancedelivery.api.rest.user.GetAllOrders.Response;
 import io.contek.invoker.commons.actor.IActor;
-import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
+import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
@@ -22,10 +22,10 @@ import static io.contek.invoker.commons.rest.RestMethod.GET;
 public final class GetAllOrders extends UserRestRequest<Response> {
 
   public static final int MAX_LIMIT = 100;
-  private static final ImmutableList<RateLimitQuota> SYMBOL_REQUIRED_QUOTA =
-          ImmutableList.of(IP_REST_REQUEST_RULE.createRateLimitQuota(20));
-  private static final ImmutableList<RateLimitQuota> PAIR_REQUIRED_QUOTA =
-          ImmutableList.of(IP_REST_REQUEST_RULE.createRateLimitQuota(40));
+  private static final ImmutableList<TypedPermitRequest> SYMBOL_REQUIRED_QUOTA =
+      ImmutableList.of(IP_REST_REQUEST_RULE.forPermits(20));
+  private static final ImmutableList<TypedPermitRequest> PAIR_REQUIRED_QUOTA =
+      ImmutableList.of(IP_REST_REQUEST_RULE.forPermits(40));
 
   private String symbol;
   private String pair;
@@ -118,7 +118,7 @@ public final class GetAllOrders extends UserRestRequest<Response> {
   }
 
   @Override
-  protected ImmutableList<RateLimitQuota> getRequiredQuotas() {
+  protected ImmutableList<TypedPermitRequest> getRequiredQuotas() {
     if (symbol != null) {
       return SYMBOL_REQUIRED_QUOTA;
     }

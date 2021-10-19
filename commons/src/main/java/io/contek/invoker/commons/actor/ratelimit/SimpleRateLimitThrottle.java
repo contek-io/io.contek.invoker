@@ -1,7 +1,10 @@
 package io.contek.invoker.commons.actor.ratelimit;
 
 import com.google.common.collect.ImmutableList;
-import io.contek.ursa.PermittedSession;
+import io.contek.ursa.CombinePermitSession;
+import io.contek.ursa.IPermitSession;
+import io.contek.ursa.cache.LimiterManager;
+import io.contek.ursa.cache.PermitRequest;
 
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.ThreadSafe;
@@ -16,38 +19,50 @@ public final class SimpleRateLimitThrottle implements IRateLimitThrottle {
   private final String boundLocalAddress;
   private final String apiKeyId;
 
-  private final RateLimitCache cache;
+  private final LimiterManager manager;
   private final ImmutableList<IRateLimitQuotaInterceptor> interceptors;
 
   SimpleRateLimitThrottle(
       String boundLocalAddress,
       @Nullable String apiKeyId,
-      RateLimitCache cache,
+      LimiterManager manager,
       ImmutableList<IRateLimitQuotaInterceptor> interceptors) {
     this.boundLocalAddress = boundLocalAddress;
     this.apiKeyId = apiKeyId;
-    this.cache = cache;
+    this.manager = manager;
     this.interceptors = interceptors;
   }
 
-  public ImmutableList<PermittedSession> acquire(String requestName, List<RateLimitQuota> quota) {
+  @Override
+  public IPermitSession acquire(String requestName, List<TypedPermitRequest> quota) {
     for (IRateLimitQuotaInterceptor interceptor : interceptors) {
       quota = interceptor.apply(requestName, quota);
     }
-    return quota.stream().map(this::acquire).collect(toImmutableList());
+    List<IPermitSession> sessions = quota.stream().map(this::acquire).collect(toImmutableList());
+    return CombinePermitSession.wrap(sessions);
   }
 
-  private PermittedSession acquire(RateLimitQuota quota) throws InterruptedException {
+  private IPermitSession acquire(TypedPermitRequest quota) {
     checkArgument(quota.getPermits() > 0);
 
     switch (quota.getType()) {
       case IP:
-        return cache.acquire(quota.getRuleName(), boundLocalAddress, quota.getPermits());
+        return manager.acquire(
+            PermitRequest.newBuilder()
+                .setName(quota.getName())
+                .setKey(boundLocalAddress)
+                .setPermits(quota.getPermits())
+                .build());
       case API_KEY:
         if (apiKeyId == null) {
           throw new IllegalArgumentException();
         }
-        return cache.acquire(quota.getRuleName(), apiKeyId, quota.getPermits());
+        return manager.acquire(
+            PermitRequest.newBuilder()
+                .setName(quota.getName())
+                .setKey(apiKeyId)
+                .setPermits(quota.getPermits())
+                .build());
       default:
         throw new UnsupportedOperationException(quota.getType().name());
     }
