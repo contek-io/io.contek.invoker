@@ -15,6 +15,7 @@ import io.contek.invoker.ftx.api.websocket.market.MarketWebSocketApi;
 import io.contek.invoker.ftx.api.websocket.user.UserWebSocketApi;
 import io.contek.invoker.security.ApiKey;
 import io.contek.invoker.security.SimpleCredentialFactory;
+import io.contek.ursa.cache.LimiterManager;
 
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.ThreadSafe;
@@ -22,8 +23,10 @@ import java.time.Duration;
 import java.util.List;
 
 import static com.google.common.io.BaseEncoding.base16;
-import static io.contek.invoker.commons.actor.ratelimit.RateLimitType.API_KEY;
-import static io.contek.invoker.commons.actor.ratelimit.RateLimitType.IP;
+import static io.contek.invoker.commons.actor.ratelimit.LimitType.API_KEY;
+import static io.contek.invoker.commons.actor.ratelimit.LimitType.IP;
+import static io.contek.invoker.ftx.api.ApiFactory.RateLimits.API_KEY_REST_ORDER_RULE;
+import static io.contek.invoker.ftx.api.ApiFactory.RateLimits.IP_REST_REQUEST_RULE;
 import static io.contek.invoker.security.SecretKeyAlgorithm.HMAC_SHA256;
 
 @ThreadSafe
@@ -66,7 +69,7 @@ public final class ApiFactory {
         .setCredentialFactory(createCredentialFactory())
         .setHttpClientFactory(SimpleHttpClientFactory.getInstance())
         .setRateLimitThrottleFactory(
-            SimpleRateLimitThrottleFactory.create(createRateLimitCache(cushion), interceptors))
+            SimpleRateLimitThrottleFactory.create(createLimiterManager(cushion), interceptors))
         .build();
   }
 
@@ -77,12 +80,8 @@ public final class ApiFactory {
         .build();
   }
 
-  private static RateLimitCache createRateLimitCache(RateLimitCushion cushion) {
-    return RateLimitCache.newBuilder()
-        .setCushion(cushion)
-        .addRule(RateLimits.IP_REST_REQUEST_RULE)
-        .addRule(RateLimits.API_KEY_REST_ORDER_RULE)
-        .build();
+  private static LimiterManager createLimiterManager(RateLimitCushion cushion) {
+    return LimiterManagers.forRules(IP_REST_REQUEST_RULE, API_KEY_REST_ORDER_RULE);
   }
 
   @ThreadSafe
@@ -140,8 +139,8 @@ public final class ApiFactory {
             .setResetPeriod(Duration.ofMillis(200))
             .build();
 
-    public static final ImmutableList<RateLimitQuota> ONE_REST_REQUEST =
-        ImmutableList.of(IP_REST_REQUEST_RULE.createRateLimitQuota(1));
+    public static final ImmutableList<TypedPermitRequest> ONE_REST_REQUEST =
+        ImmutableList.of(IP_REST_REQUEST_RULE.forPermits(1));
 
     private RateLimits() {}
   }

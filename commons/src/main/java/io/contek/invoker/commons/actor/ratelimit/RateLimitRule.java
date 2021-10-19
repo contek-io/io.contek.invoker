@@ -1,5 +1,7 @@
 package io.contek.invoker.commons.actor.ratelimit;
 
+import io.contek.ursa.RateLimit;
+
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
 import java.time.Duration;
@@ -8,46 +10,40 @@ import java.time.Duration;
 public final class RateLimitRule {
 
   private final String name;
-  private final RateLimitType type;
-  private final int maxPermits;
-  private final Duration resetPeriod;
+  private final LimitType type;
+  private final RateLimit limit;
 
-  private RateLimitRule(String name, RateLimitType type, int maxPermits, Duration resetPeriod) {
+  private RateLimitRule(String name, LimitType type, RateLimit limit) {
     this.name = name;
     this.type = type;
-    this.maxPermits = maxPermits;
-    this.resetPeriod = resetPeriod;
+    this.limit = limit;
   }
 
   public static Builder newBuilder() {
     return new Builder();
   }
 
-  public RateLimitQuota createRateLimitQuota(int permits) {
-    return new RateLimitQuota(name, type, permits);
+  public TypedPermitRequest forPermits(int permits) {
+    return new TypedPermitRequest(name, type, permits);
   }
 
   public String getName() {
     return name;
   }
 
-  public RateLimitType getType() {
+  public LimitType getType() {
     return type;
   }
 
-  public int getMaxPermits() {
-    return maxPermits;
-  }
-
-  public Duration getResetPeriod() {
-    return resetPeriod;
+  public RateLimit getLimit() {
+    return limit;
   }
 
   @NotThreadSafe
   public static final class Builder {
 
     private String name;
-    private RateLimitType type;
+    private LimitType type;
     private int maxPermits;
     private Duration resetPeriod;
 
@@ -56,7 +52,7 @@ public final class RateLimitRule {
       return this;
     }
 
-    public Builder setType(RateLimitType type) {
+    public Builder setType(LimitType type) {
       this.type = type;
       return this;
     }
@@ -84,7 +80,7 @@ public final class RateLimitRule {
       if (resetPeriod == null) {
         throw new IllegalArgumentException("No reset period specified");
       }
-      return new RateLimitRule(name, type, maxPermits, resetPeriod);
+      return new RateLimitRule(name, type, new RateLimit(maxPermits, resetPeriod));
     }
 
     private Builder() {}

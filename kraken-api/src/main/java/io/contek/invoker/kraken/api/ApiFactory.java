@@ -6,11 +6,11 @@ import io.contek.invoker.commons.actor.IActorFactory;
 import io.contek.invoker.commons.actor.SimpleActorFactory;
 import io.contek.invoker.commons.actor.http.SimpleHttpClientFactory;
 import io.contek.invoker.commons.actor.ratelimit.IRateLimitQuotaInterceptor;
-import io.contek.invoker.commons.actor.ratelimit.RateLimitCache;
 import io.contek.invoker.commons.actor.ratelimit.SimpleRateLimitThrottleFactory;
 import io.contek.invoker.commons.websocket.WebSocketContext;
 import io.contek.invoker.kraken.api.websocket.market.MarketWebSocketApi;
 import io.contek.invoker.security.SimpleCredentialFactory;
+import io.contek.ursa.cache.LimiterManager;
 
 import javax.annotation.concurrent.ThreadSafe;
 import java.util.List;
@@ -61,7 +61,7 @@ public final class ApiFactory {
         .setCredentialFactory(createCredentialFactory())
         .setHttpClientFactory(SimpleHttpClientFactory.getInstance())
         .setRateLimitThrottleFactory(
-            SimpleRateLimitThrottleFactory.create(createRateLimitCache(), interceptors))
+            SimpleRateLimitThrottleFactory.create(createLimiterManager(), interceptors))
         .build();
   }
 
@@ -72,8 +72,8 @@ public final class ApiFactory {
         .build();
   }
 
-  private static RateLimitCache createRateLimitCache() {
-    return RateLimitCache.newBuilder().build();
+  private static LimiterManager createLimiterManager() {
+    return LimiterManager.newBuilder().build();
   }
 
   @ThreadSafe

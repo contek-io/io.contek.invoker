@@ -1,24 +1,25 @@
 package io.contek.invoker.binancedelivery.api.rest.market;
 
-import static io.contek.invoker.binancedelivery.api.ApiFactory.RateLimits.IP_REST_REQUEST_RULE;
-import static io.contek.invoker.binancedelivery.api.ApiFactory.RateLimits.ONE_REST_REQUEST;
-
 import com.google.common.collect.ImmutableList;
 import io.contek.invoker.binancedelivery.api.common._BookTicker;
 import io.contek.invoker.binancedelivery.api.rest.market.GetTickerBookTicker.Response;
 import io.contek.invoker.commons.actor.IActor;
-import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
+import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestParams;
-import java.util.ArrayList;
+
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.NotThreadSafe;
+import java.util.ArrayList;
+
+import static io.contek.invoker.binancedelivery.api.ApiFactory.RateLimits.IP_REST_REQUEST_RULE;
+import static io.contek.invoker.binancedelivery.api.ApiFactory.RateLimits.ONE_REST_REQUEST;
 
 @NotThreadSafe
 public final class GetTickerBookTicker extends MarketRestRequest<Response> {
 
-  private static final ImmutableList<RateLimitQuota> MULTI_SYMBOLS_REQUIRED_QUOTA =
-      ImmutableList.of(IP_REST_REQUEST_RULE.createRateLimitQuota(2));
+  private static final ImmutableList<TypedPermitRequest> MULTI_SYMBOLS_REQUIRED_QUOTA =
+      ImmutableList.of(IP_REST_REQUEST_RULE.forPermits(2));
 
   private String symbol;
   private String pair;
@@ -63,7 +64,7 @@ public final class GetTickerBookTicker extends MarketRestRequest<Response> {
   }
 
   @Override
-  protected ImmutableList<RateLimitQuota> getRequiredQuotas() {
+  protected ImmutableList<TypedPermitRequest> getRequiredQuotas() {
     if (symbol != null) {
       return ONE_REST_REQUEST;
     }

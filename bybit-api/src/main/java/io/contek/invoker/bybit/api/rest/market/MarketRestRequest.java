@@ -3,7 +3,7 @@ package io.contek.invoker.bybit.api.rest.market;
 import com.google.common.collect.ImmutableList;
 import io.contek.invoker.bybit.api.rest.RestRequest;
 import io.contek.invoker.commons.actor.IActor;
-import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
+import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 
@@ -25,7 +25,7 @@ abstract class MarketRestRequest<T> extends RestRequest<T> {
   }
 
   @Override
-  protected ImmutableList<RateLimitQuota> getRequiredQuotas() {
+  protected ImmutableList<TypedPermitRequest> getRequiredQuotas() {
     return ONE_REST_PUBLIC_GET_REQUEST;
   }
 }

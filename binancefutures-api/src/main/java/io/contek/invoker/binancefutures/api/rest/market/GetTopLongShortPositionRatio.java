@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableList;
 import io.contek.invoker.binancefutures.api.common._LongShortRatio;
 import io.contek.invoker.binancefutures.api.rest.market.GetTopLongShortPositionRatio.Response;
 import io.contek.invoker.commons.actor.IActor;
-import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
+import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestParams;
 
@@ -85,7 +85,7 @@ public final class GetTopLongShortPositionRatio extends MarketRestRequest<Respon
   }
 
   @Override
-  protected ImmutableList<RateLimitQuota> getRequiredQuotas() {
+  protected ImmutableList<TypedPermitRequest> getRequiredQuotas() {
     return ONE_REST_REQUEST;
   }
 

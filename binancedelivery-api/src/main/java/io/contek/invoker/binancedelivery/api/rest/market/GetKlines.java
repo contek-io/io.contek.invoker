@@ -1,19 +1,20 @@
 package io.contek.invoker.binancedelivery.api.rest.market;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
-import static io.contek.invoker.binancedelivery.api.ApiFactory.RateLimits.IP_REST_REQUEST_RULE;
-
 import com.google.common.collect.ImmutableList;
 import io.contek.invoker.binancedelivery.api.common._Candlestick;
 import io.contek.invoker.binancedelivery.api.rest.market.GetKlines.Response;
 import io.contek.invoker.commons.actor.IActor;
-import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
+import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestParams;
-import java.util.ArrayList;
+
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.NotThreadSafe;
+import java.util.ArrayList;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static io.contek.invoker.binancedelivery.api.ApiFactory.RateLimits.IP_REST_REQUEST_RULE;
 
 /**
  * Default {@code limit} is 500. Time filters are inclusive.
@@ -30,14 +31,14 @@ import javax.annotation.concurrent.NotThreadSafe;
 public final class GetKlines extends MarketRestRequest<Response> {
 
   public static final int MAX_LIMIT = 1500;
-  private static final ImmutableList<RateLimitQuota> REQUIRED_QUOTA_100 =
-      ImmutableList.of(IP_REST_REQUEST_RULE.createRateLimitQuota(1));
-  private static final ImmutableList<RateLimitQuota> REQUIRED_QUOTA_500 =
-      ImmutableList.of(IP_REST_REQUEST_RULE.createRateLimitQuota(2));
-  private static final ImmutableList<RateLimitQuota> REQUIRED_QUOTA_1000 =
-      ImmutableList.of(IP_REST_REQUEST_RULE.createRateLimitQuota(5));
-  private static final ImmutableList<RateLimitQuota> REQUIRED_QUOTA_1500 =
-      ImmutableList.of(IP_REST_REQUEST_RULE.createRateLimitQuota(10));
+  private static final ImmutableList<TypedPermitRequest> REQUIRED_QUOTA_100 =
+      ImmutableList.of(IP_REST_REQUEST_RULE.forPermits(1));
+  private static final ImmutableList<TypedPermitRequest> REQUIRED_QUOTA_500 =
+      ImmutableList.of(IP_REST_REQUEST_RULE.forPermits(2));
+  private static final ImmutableList<TypedPermitRequest> REQUIRED_QUOTA_1000 =
+      ImmutableList.of(IP_REST_REQUEST_RULE.forPermits(5));
+  private static final ImmutableList<TypedPermitRequest> REQUIRED_QUOTA_1500 =
+      ImmutableList.of(IP_REST_REQUEST_RULE.forPermits(10));
 
   private String symbol;
   private String interval;
@@ -107,7 +108,7 @@ public final class GetKlines extends MarketRestRequest<Response> {
   }
 
   @Override
-  protected ImmutableList<RateLimitQuota> getRequiredQuotas() {
+  protected ImmutableList<TypedPermitRequest> getRequiredQuotas() {
     int limit = this.limit != null ? this.limit : 500;
     if (limit < 100) {
       return REQUIRED_QUOTA_100;

@@ -3,7 +3,7 @@ package io.contek.invoker.bitmex.api.rest;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import io.contek.invoker.commons.actor.IActor;
-import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
+import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
 import io.contek.invoker.commons.rest.*;
 import io.contek.invoker.security.ICredential;
 
@@ -42,7 +42,7 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
   protected abstract RestParams getParams();
 
   @Override
-  protected final ImmutableList<RateLimitQuota> getRequiredQuotas() {
+  protected final ImmutableList<TypedPermitRequest> getRequiredQuotas() {
     return anonymous ? ONE_ANONYMOUS_REST_REQUEST : ONE_AUTHENTICATED_REST_REQUEST;
   }
 

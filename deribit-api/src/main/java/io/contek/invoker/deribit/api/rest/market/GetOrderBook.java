@@ -2,7 +2,7 @@ package io.contek.invoker.deribit.api.rest.market;
 
 import com.google.common.collect.ImmutableList;
 import io.contek.invoker.commons.actor.IActor;
-import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
+import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestParams;
 import io.contek.invoker.deribit.api.common._OrderBook;
@@ -59,7 +59,7 @@ public final class GetOrderBook extends MarketRestRequest<GetOrderBook.Response>
   }
 
   @Override
-  protected ImmutableList<RateLimitQuota> getRequiredQuotas() {
+  protected ImmutableList<TypedPermitRequest> getRequiredQuotas() {
     return ONE_IP_NON_MATCHING_ENGINE_REQUEST;
   }
 

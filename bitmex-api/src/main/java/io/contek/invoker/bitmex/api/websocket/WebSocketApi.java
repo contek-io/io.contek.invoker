@@ -2,7 +2,7 @@ package io.contek.invoker.bitmex.api.websocket;
 
 import com.google.common.collect.ImmutableList;
 import io.contek.invoker.commons.actor.IActor;
-import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
+import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
 import io.contek.invoker.commons.websocket.*;
 import io.contek.invoker.security.ICredential;
 
@@ -25,7 +25,7 @@ public abstract class WebSocketApi extends BaseWebSocketApi {
   }
 
   @Override
-  protected final ImmutableList<RateLimitQuota> getRequiredQuotas() {
+  protected final ImmutableList<TypedPermitRequest> getRequiredQuotas() {
     return ONE_WEB_SOCKET_CONNECTION;
   }
 

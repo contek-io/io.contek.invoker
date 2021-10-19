@@ -15,6 +15,7 @@ import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.websocket.WebSocketContext;
 import io.contek.invoker.security.ApiKey;
 import io.contek.invoker.security.SimpleCredentialFactory;
+import io.contek.ursa.cache.LimiterManager;
 
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.ThreadSafe;
@@ -23,7 +24,7 @@ import java.util.List;
 
 import static com.google.common.io.BaseEncoding.base16;
 import static io.contek.invoker.bitstamp.api.ApiFactory.RateLimits.IP_REST_REQUEST_RULE;
-import static io.contek.invoker.commons.actor.ratelimit.RateLimitType.IP;
+import static io.contek.invoker.commons.actor.ratelimit.LimitType.IP;
 import static io.contek.invoker.security.SecretKeyAlgorithm.HMAC_SHA256;
 
 @ThreadSafe
@@ -66,7 +67,7 @@ public final class ApiFactory {
         .setCredentialFactory(createCredentialFactory())
         .setHttpClientFactory(SimpleHttpClientFactory.getInstance())
         .setRateLimitThrottleFactory(
-            SimpleRateLimitThrottleFactory.create(createRateLimitCache(cushion), interceptors))
+            SimpleRateLimitThrottleFactory.create(createLimiterManager(cushion), interceptors))
         .build();
   }
 
@@ -77,8 +78,8 @@ public final class ApiFactory {
         .build();
   }
 
-  private static RateLimitCache createRateLimitCache(RateLimitCushion cushion) {
-    return RateLimitCache.newBuilder().setCushion(cushion).addRule(IP_REST_REQUEST_RULE).build();
+  private static LimiterManager createLimiterManager(RateLimitCushion cushion) {
+    return LimiterManagers.forRules(IP_REST_REQUEST_RULE);
   }
 
   @ThreadSafe
@@ -128,8 +129,8 @@ public final class ApiFactory {
             .setResetPeriod(Duration.ofMinutes(10))
             .build();
 
-    public static final ImmutableList<RateLimitQuota> ONE_REST_REQUEST =
-        ImmutableList.of(IP_REST_REQUEST_RULE.createRateLimitQuota(1));
+    public static final ImmutableList<TypedPermitRequest> ONE_REST_REQUEST =
+        ImmutableList.of(IP_REST_REQUEST_RULE.forPermits(1));
 
     private RateLimits() {}
   }
