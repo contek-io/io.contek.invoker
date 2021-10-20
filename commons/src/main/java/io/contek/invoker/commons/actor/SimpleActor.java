@@ -4,6 +4,7 @@ import io.contek.invoker.commons.actor.http.IHttpClient;
 import io.contek.invoker.commons.actor.ratelimit.IRateLimitThrottle;
 import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
 import io.contek.invoker.security.ICredential;
+import io.contek.ursa.AcquireTimeoutException;
 import io.contek.ursa.IPermitSession;
 
 import javax.annotation.concurrent.ThreadSafe;
@@ -30,7 +31,8 @@ public final class SimpleActor implements IActor {
   }
 
   @Override
-  public RequestContext getRequestContext(String requestName, List<TypedPermitRequest> quota) {
+  public RequestContext getRequestContext(String requestName, List<TypedPermitRequest> quota)
+      throws AcquireTimeoutException, InterruptedException {
     IPermitSession session = rateLimitThrottle.acquire(requestName, quota);
     return new RequestContext(httpClient, session);
   }

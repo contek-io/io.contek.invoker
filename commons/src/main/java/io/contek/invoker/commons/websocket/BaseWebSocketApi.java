@@ -3,8 +3,11 @@ package io.contek.invoker.commons.websocket;
 import com.google.common.collect.ImmutableList;
 import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.actor.RequestContext;
+import io.contek.invoker.commons.actor.http.HttpBusyException;
+import io.contek.invoker.commons.actor.http.HttpInterruptedException;
 import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
 import io.contek.invoker.security.ICredential;
+import io.contek.ursa.AcquireTimeoutException;
 import okhttp3.Response;
 import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
@@ -128,6 +131,10 @@ public abstract class BaseWebSocketApi implements IWebSocketApi {
               WebSocketSession session = call.submit(context.getClient(), handler);
               activate();
               return session;
+            } catch (AcquireTimeoutException e) {
+              throw new HttpBusyException(e);
+            } catch (InterruptedException e) {
+              throw new HttpInterruptedException(e);
             }
           });
     }
