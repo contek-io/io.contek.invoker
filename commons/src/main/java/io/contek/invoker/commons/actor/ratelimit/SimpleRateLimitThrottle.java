@@ -1,13 +1,14 @@
 package io.contek.invoker.commons.actor.ratelimit;
 
 import com.google.common.collect.ImmutableList;
-import io.contek.ursa.CombinePermitSession;
+import io.contek.ursa.AcquireTimeoutException;
 import io.contek.ursa.IPermitSession;
 import io.contek.ursa.cache.LimiterManager;
 import io.contek.ursa.cache.PermitRequest;
 
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.ThreadSafe;
+import java.time.Duration;
 import java.util.List;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -15,6 +16,8 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 
 @ThreadSafe
 public final class SimpleRateLimitThrottle implements IRateLimitThrottle {
+
+  private static final Duration TIMEOUT = Duration.ofMinutes(1);
 
   private final String boundLocalAddress;
   private final String apiKeyId;
@@ -34,35 +37,37 @@ public final class SimpleRateLimitThrottle implements IRateLimitThrottle {
   }
 
   @Override
-  public IPermitSession acquire(String requestName, List<TypedPermitRequest> quota) {
+  public IPermitSession acquire(String requestName, List<TypedPermitRequest> quota)
+      throws AcquireTimeoutException, InterruptedException {
     for (IRateLimitQuotaInterceptor interceptor : interceptors) {
       quota = interceptor.apply(requestName, quota);
     }
-    List<IPermitSession> sessions = quota.stream().map(this::acquire).collect(toImmutableList());
-    return CombinePermitSession.wrap(sessions);
+    List<PermitRequest> requests =
+        quota.stream().map(this::toPermitRequest).collect(toImmutableList());
+    return manager.acquire(requests);
   }
 
-  private IPermitSession acquire(TypedPermitRequest quota) {
+  private PermitRequest toPermitRequest(TypedPermitRequest quota) {
     checkArgument(quota.getPermits() > 0);
 
     switch (quota.getType()) {
       case IP:
-        return manager.acquire(
-            PermitRequest.newBuilder()
-                .setName(quota.getName())
-                .setKey(boundLocalAddress)
-                .setPermits(quota.getPermits())
-                .build());
+        return PermitRequest.newBuilder()
+            .setName(quota.getName())
+            .setKey(boundLocalAddress)
+            .setPermits(quota.getPermits())
+            .setTimeout(TIMEOUT)
+            .build();
       case API_KEY:
         if (apiKeyId == null) {
           throw new IllegalArgumentException();
         }
-        return manager.acquire(
-            PermitRequest.newBuilder()
-                .setName(quota.getName())
-                .setKey(apiKeyId)
-                .setPermits(quota.getPermits())
-                .build());
+        return PermitRequest.newBuilder()
+            .setName(quota.getName())
+            .setKey(apiKeyId)
+            .setPermits(quota.getPermits())
+            .setTimeout(TIMEOUT)
+            .build();
       default:
         throw new UnsupportedOperationException(quota.getType().name());
     }

@@ -4,8 +4,11 @@ import com.google.common.collect.ImmutableList;
 import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.actor.RequestContext;
 import io.contek.invoker.commons.actor.http.AnyHttpException;
+import io.contek.invoker.commons.actor.http.HttpBusyException;
+import io.contek.invoker.commons.actor.http.HttpInterruptedException;
 import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
 import io.contek.invoker.security.ICredential;
+import io.contek.ursa.AcquireTimeoutException;
 
 import javax.annotation.concurrent.NotThreadSafe;
 
@@ -27,6 +30,10 @@ public abstract class BaseRestRequest<R> {
         actor.getRequestContext(getClass().getSimpleName(), getRequiredQuotas())) {
       RestResponse response = call.submit(context.getClient());
       return requireNonNull(response.getAs(getResponseType()));
+    } catch (AcquireTimeoutException e) {
+      throw new HttpBusyException(e);
+    } catch (InterruptedException e) {
+      throw new HttpInterruptedException(e);
     }
   }
 
