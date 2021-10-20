@@ -49,8 +49,7 @@ public final class ApiFactory {
   }
 
   public static ApiFactory fromContext(ApiContext context) {
-    return new ApiFactory(
-        context, createActorFactory(context.getCushion(), context.getInterceptors()));
+    return new ApiFactory(context, createActorFactory(context.getInterceptors()));
   }
 
   public SelectingRestApi rest() {
@@ -62,12 +61,12 @@ public final class ApiFactory {
   }
 
   private static SimpleActorFactory createActorFactory(
-      RateLimitCushion cushion, List<IRateLimitQuotaInterceptor> interceptors) {
+      List<IRateLimitQuotaInterceptor> interceptors) {
     return SimpleActorFactory.newBuilder()
         .setCredentialFactory(createCredentialFactory())
         .setHttpClientFactory(SimpleHttpClientFactory.getInstance())
         .setRateLimitThrottleFactory(
-            SimpleRateLimitThrottleFactory.create(createLimiterManager(cushion), interceptors))
+            SimpleRateLimitThrottleFactory.create(createLimiterManager(), interceptors))
         .build();
   }
 
@@ -78,7 +77,7 @@ public final class ApiFactory {
         .build();
   }
 
-  private static LimiterManager createLimiterManager(RateLimitCushion cushion) {
+  private static LimiterManager createLimiterManager() {
     return LimiterManagers.forRules(IP_REST_REQUEST_RULE);
   }
 

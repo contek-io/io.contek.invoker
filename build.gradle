@@ -16,8 +16,7 @@ subprojects {
 
     ext {
         gsonVersion = '2.8.8'
-        okhttpVersion = '4.9.1'
-        resilience4jVersion = '1.7.1'
+        okhttpVersion = '4.9.2'
 
         ursaVersion = '1.1.2-SNAPSHOT'
     }
@@ -40,7 +39,7 @@ subprojects {
     }
 
     group = 'io.contek.invoker'
-    version = '2.14.2-SNAPSHOT'
+    version = '2.14.3-SNAPSHOT'
 
     task sourcesJar(type: Jar) {
         from sourceSets.main.allSource
