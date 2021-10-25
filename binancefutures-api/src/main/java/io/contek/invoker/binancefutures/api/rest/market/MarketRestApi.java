@@ -40,6 +40,14 @@ public final class MarketRestApi {
     return new GetTickerBookTicker(actor, context);
   }
 
+  public GetTickerPrice getTickerPrice() {
+    return new GetTickerPrice(actor, context);
+  }
+
+  public GetTickerPriceAll getTickerPriceAll() {
+    return new GetTickerPriceAll(actor, context);
+  }
+
   public GetTopLongShortAccountRatio getTopLongShortAccountRatio() {
     return new GetTopLongShortAccountRatio(actor, context);
   }
