@@ -17,4 +17,5 @@ public class _PositionRisk {
   public Double isolatedMargin;
   public Boolean isAutoAddMargin;
   public String positionSide;
+  public Long updateTime;
 }

@@ -12,9 +12,10 @@ public class _PositionRisk {
   public Double leverage;
   public Double liquidationPrice;
   public Double markPrice;
+  public Double maxNotionalValue;
   public Double positionAmt;
   public String symbol;
   public Double unRealizedProfit;
   public String positionSide;
-  public long updateTime;
+  public Long updateTime;
 }

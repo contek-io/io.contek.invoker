@@ -28,7 +28,7 @@ public final class PostOrder extends UserRestRequest<Response> {
   private Boolean reduceOnly;
   private Double price;
   private String newClientOrderId;
-  private String stopPrice;
+  private Double stopPrice;
   private Boolean closePosition;
   private Double activationPrice;
   private Double callbackRate;
@@ -85,7 +85,7 @@ public final class PostOrder extends UserRestRequest<Response> {
     return this;
   }
 
-  public PostOrder setStopPrice(@Nullable String stopPrice) {
+  public PostOrder setStopPrice(@Nullable Double stopPrice) {
     this.stopPrice = stopPrice;
     return this;
   }

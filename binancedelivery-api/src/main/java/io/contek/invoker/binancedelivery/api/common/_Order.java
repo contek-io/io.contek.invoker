@@ -5,14 +5,13 @@ import javax.annotation.concurrent.NotThreadSafe;
 @NotThreadSafe
 public class _Order {
 
-  public Double avgPrice;
   public String clientOrderId;
   public Double cumQty;
   public Double cumBase;
   public Double executedQty;
   public Long orderId;
+  public Double avgPrice;
   public Double origQty;
-  public String origType;
   public Double price;
   public Boolean reduceOnly;
   public String side;
@@ -22,9 +21,9 @@ public class _Order {
   public Boolean closePosition;
   public String symbol;
   public String pair;
-  public Long time;
   public String timeInForce;
   public String type;
+  public String origType;
   public Double activatePrice;
   public Double priceRate;
   public Long updateTime;
