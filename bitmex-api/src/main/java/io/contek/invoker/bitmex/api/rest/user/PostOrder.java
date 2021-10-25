@@ -24,6 +24,10 @@ public final class PostOrder extends UserRestRequest<Response> {
   private String execInst;
   private Double orderQty;
   private Double price;
+  private Double displayQty;
+  private Double stopPx;
+  private Double pegOffsetValue;
+  private String pegPriceType;
 
   PostOrder(IActor actor, RestContext context) {
     super(actor, context);
@@ -69,6 +73,26 @@ public final class PostOrder extends UserRestRequest<Response> {
     return this;
   }
 
+  public PostOrder setDisplayQty(Double displayQty) {
+    this.displayQty = displayQty;
+    return this;
+  }
+
+  public PostOrder setStopPx(Double stopPx) {
+    this.stopPx = stopPx;
+    return this;
+  }
+
+  public PostOrder setPegOffsetValue(Double pegOffsetValue) {
+    this.pegOffsetValue = pegOffsetValue;
+    return this;
+  }
+
+  public PostOrder setPegPriceType(String pegPriceType) {
+    this.pegPriceType = pegPriceType;
+    return this;
+  }
+
   @Override
   protected RestMethod getMethod() {
     return POST;
@@ -110,6 +134,18 @@ public final class PostOrder extends UserRestRequest<Response> {
     }
     if (execInst != null) {
       builder.add("execInst", execInst);
+    }
+    if (displayQty != null) {
+      builder.add("displayQty", displayQty);
+    }
+    if (stopPx != null) {
+      builder.add("stopPx", stopPx);
+    }
+    if (pegOffsetValue != null) {
+      builder.add("pegOffsetValue", pegOffsetValue);
+    }
+    if (pegPriceType != null) {
+      builder.add("pegPriceType", pegPriceType);
     }
 
     return builder.build();

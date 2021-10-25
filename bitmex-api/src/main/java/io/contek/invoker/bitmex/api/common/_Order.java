@@ -12,6 +12,10 @@ public class _Order {
   public String side;
   public Double orderQty;
   public Double price;
+  public Double displayQty;
+  public Double stopPx;
+  public Double pegOffsetValue;
+  public String pegPriceType;
   public String currency;
   public String settlCurrency;
   public String ordType;
