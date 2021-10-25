@@ -9,6 +9,8 @@ import io.contek.invoker.deribit.api.websocket.common.WebSocketInboundMessage;
 import io.contek.invoker.deribit.api.websocket.common.WebSocketResponse;
 import io.contek.invoker.deribit.api.websocket.common.constants.WebSocketChannelKeys;
 import io.contek.invoker.deribit.api.websocket.market.BookChannel;
+import io.contek.invoker.deribit.api.websocket.market.ChartTradesChannel;
+import io.contek.invoker.deribit.api.websocket.market.TickerChannel;
 import io.contek.invoker.deribit.api.websocket.market.TradesChannel;
 
 import javax.annotation.Nullable;
@@ -48,6 +50,10 @@ final class WebSocketMessageParser implements IWebSocketMessageParser {
     String instrumentName = obj.get("params").getAsJsonObject().get("channel").getAsString();
     if (instrumentName.startsWith(WebSocketChannelKeys._book)) {
       return gson.fromJson(obj, BookChannel.Message.class);
+    } else if (instrumentName.startsWith(WebSocketChannelKeys._chart)) {
+      return gson.fromJson(obj, ChartTradesChannel.Message.class);
+    } else if (instrumentName.startsWith(WebSocketChannelKeys._ticker)) {
+      return gson.fromJson(obj, TickerChannel.Message.class);
     } else if (instrumentName.startsWith(WebSocketChannelKeys._trades)) {
       return gson.fromJson(obj, TradesChannel.Message.class);
     } else {
