@@ -43,7 +43,7 @@ public final class MarketWebSocketMessageParser implements IWebSocketMessagePars
     if (stream.endsWith("@aggTrade")) {
       return gson.fromJson(obj, AggTradeChannel.Message.class);
     }
-    if (stream.endsWith("@depth@100ms")) {
+    if (stream.endsWith("@depth") || stream.endsWith("@depth@100ms") || stream.endsWith("@depth@500ms")) {
       return gson.fromJson(obj, DepthUpdateChannel.Message.class);
     }
     if (stream.endsWith("@forceOrder")) {
