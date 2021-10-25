@@ -21,6 +21,7 @@ public final class MarketWebSocketApi extends BaseWebSocketApi {
   private final Map<DepthUpdateChannel.Id, DepthUpdateChannel> depthUpdateChannels = new HashMap<>();
   private final Map<ForceOrderChannel.Id, ForceOrderChannel> forceOrderChannels = new HashMap<>();
   private final Map<KlineChannel.Id, KlineChannel> klineChannels = new HashMap<>();
+  private final Map<TickerChannel.Id, TickerChannel> tickerChannels = new HashMap<>();
 
   public MarketWebSocketApi(IActor actor, WebSocketContext context) {
     super(
@@ -73,6 +74,18 @@ public final class MarketWebSocketApi extends BaseWebSocketApi {
           id,
           k -> {
             KlineChannel result = new KlineChannel(k, requestIdGenerator);
+            attach(result);
+            return result;
+          });
+    }
+  }
+
+  public TickerChannel getTickerChannel(TickerChannel.Id id) {
+    synchronized (tickerChannels) {
+      return tickerChannels.computeIfAbsent(
+          id,
+          k -> {
+            TickerChannel result = new TickerChannel(k, requestIdGenerator);
             attach(result);
             return result;
           });

@@ -52,6 +52,9 @@ public final class MarketWebSocketMessageParser implements IWebSocketMessagePars
     if (stream.contains("@kline_")) {
       return gson.fromJson(obj, KlineChannel.Message.class);
     }
+    if (stream.endsWith("@ticker")) {
+      return gson.fromJson(obj, TickerChannel.Message.class);
+    }
     throw new IllegalStateException("Unknown stream " + stream);
   }
 
