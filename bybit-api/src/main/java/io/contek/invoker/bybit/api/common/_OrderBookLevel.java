@@ -7,6 +7,6 @@ public class _OrderBookLevel {
 
   public String symbol;
   public double price;
-  public int size;
+  public double size;
   public String side;
 }

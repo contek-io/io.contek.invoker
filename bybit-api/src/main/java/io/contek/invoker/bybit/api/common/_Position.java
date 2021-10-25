@@ -10,7 +10,7 @@ public class _Position {
   public long risk_id;
   public String symbol;
   public String side;
-  public int size;
+  public double size;
   public double position_value;
   public double entry_price;
   public boolean is_isolated;
@@ -33,6 +33,7 @@ public class _Position {
   public double realised_pnl;
   public double unrealised_pnl;
   public double cum_realised_pnl;
+  public double cum_commission;
   public long cross_seq;
   public long position_seq;
   public String created_at;
