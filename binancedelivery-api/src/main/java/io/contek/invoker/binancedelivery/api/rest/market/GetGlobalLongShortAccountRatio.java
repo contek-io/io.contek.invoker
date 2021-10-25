@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableList;
 import io.contek.invoker.binancedelivery.api.common._LongShortRatio;
 import io.contek.invoker.binancedelivery.api.rest.market.GetGlobalLongShortAccountRatio.Response;
 import io.contek.invoker.commons.actor.IActor;
-import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
+import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestParams;
 
@@ -85,11 +85,10 @@ public final class GetGlobalLongShortAccountRatio extends MarketRestRequest<Resp
   }
 
   @Override
-  protected ImmutableList<RateLimitQuota> getRequiredQuotas() {
+  protected ImmutableList<TypedPermitRequest> getRequiredQuotas() {
     return ONE_REST_REQUEST;
   }
 
   @NotThreadSafe
-  public static final class Response extends ArrayList<_LongShortRatio> {
-  }
+  public static final class Response extends ArrayList<_LongShortRatio> {}
 }

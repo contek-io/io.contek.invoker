@@ -2,10 +2,13 @@ package io.contek.invoker.commons.rest;
 
 import com.google.common.collect.ImmutableList;
 import io.contek.invoker.commons.actor.IActor;
+import io.contek.invoker.commons.actor.RequestContext;
 import io.contek.invoker.commons.actor.http.AnyHttpException;
-import io.contek.invoker.commons.actor.ratelimit.IRateLimitThrottle;
-import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
+import io.contek.invoker.commons.actor.http.HttpBusyException;
+import io.contek.invoker.commons.actor.http.HttpInterruptedException;
+import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
 import io.contek.invoker.security.ICredential;
+import io.contek.ursa.AcquireTimeoutException;
 
 import javax.annotation.concurrent.NotThreadSafe;
 
@@ -22,14 +25,19 @@ public abstract class BaseRestRequest<R> {
 
   public final R submit() throws AnyHttpException {
     RestCall call = createCall(actor.getCredential());
-    IRateLimitThrottle throttle = actor.getRateLimitThrottle();
-    throttle.acquire(getClass().getSimpleName(), getRequiredQuotas());
 
-    RestResponse response = call.submit(actor.getHttpClient());
-    return requireNonNull(response.getAs(getResponseType()));
+    try (RequestContext context =
+        actor.getRequestContext(getClass().getSimpleName(), getRequiredQuotas())) {
+      RestResponse response = call.submit(context.getClient());
+      return requireNonNull(response.getAs(getResponseType()));
+    } catch (AcquireTimeoutException e) {
+      throw new HttpBusyException(e);
+    } catch (InterruptedException e) {
+      throw new HttpInterruptedException(e);
+    }
   }
 
-  protected abstract ImmutableList<RateLimitQuota> getRequiredQuotas();
+  protected abstract ImmutableList<TypedPermitRequest> getRequiredQuotas();
 
   protected abstract RestCall createCall(ICredential credential);
 

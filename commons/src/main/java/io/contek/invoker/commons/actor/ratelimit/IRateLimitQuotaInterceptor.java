@@ -6,4 +6,4 @@ import java.util.function.BiFunction;
 
 @ThreadSafe
 public interface IRateLimitQuotaInterceptor
-    extends BiFunction<String, List<RateLimitQuota>, List<RateLimitQuota>> {}
+    extends BiFunction<String, List<TypedPermitRequest>, List<TypedPermitRequest>> {}

@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableList;
 import io.contek.invoker.binancefutures.api.common._Order;
 import io.contek.invoker.binancefutures.api.rest.user.GetOpenOrders.Response;
 import io.contek.invoker.commons.actor.IActor;
-import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
+import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
@@ -20,8 +20,8 @@ import static io.contek.invoker.commons.rest.RestMethod.GET;
 @NotThreadSafe
 public final class GetOpenOrders extends UserRestRequest<Response> {
 
-  private static final ImmutableList<RateLimitQuota> ALL_SYMBOLS_REQUIRED_QUOTA =
-      ImmutableList.of(IP_REST_REQUEST_RULE.createRateLimitQuota(40));
+  private static final ImmutableList<TypedPermitRequest> ALL_SYMBOLS_REQUIRED_QUOTA =
+      ImmutableList.of(IP_REST_REQUEST_RULE.forPermits(40));
 
   private String symbol;
 
@@ -63,7 +63,7 @@ public final class GetOpenOrders extends UserRestRequest<Response> {
   }
 
   @Override
-  protected ImmutableList<RateLimitQuota> getRequiredQuotas() {
+  protected ImmutableList<TypedPermitRequest> getRequiredQuotas() {
     return symbol != null ? ONE_REST_REQUEST : ALL_SYMBOLS_REQUIRED_QUOTA;
   }
 

@@ -2,7 +2,7 @@ package io.contek.invoker.hbdmlinear.api.websocket.common.marketdata;
 
 import com.google.common.collect.ImmutableList;
 import io.contek.invoker.commons.actor.IActor;
-import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
+import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
 import io.contek.invoker.commons.websocket.*;
 import io.contek.invoker.hbdmlinear.api.websocket.common.WebSocketLiveKeeper;
 import io.contek.invoker.security.ICredential;
@@ -32,7 +32,7 @@ public abstract class MarketDataWebSocketApi extends BaseWebSocketApi {
   }
 
   @Override
-  protected final ImmutableList<RateLimitQuota> getRequiredQuotas() {
+  protected final ImmutableList<TypedPermitRequest> getRequiredQuotas() {
     return ONE_IP_WEB_SOCKET_CONNECTION_REQUEST;
   }
 

@@ -15,6 +15,7 @@ import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.websocket.WebSocketContext;
 import io.contek.invoker.security.ApiKey;
 import io.contek.invoker.security.SimpleCredentialFactory;
+import io.contek.ursa.cache.LimiterManager;
 
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.ThreadSafe;
@@ -23,8 +24,8 @@ import java.util.List;
 
 import static com.google.common.io.BaseEncoding.base16;
 import static io.contek.invoker.bybit.api.ApiFactory.RateLimits.*;
-import static io.contek.invoker.commons.actor.ratelimit.RateLimitType.API_KEY;
-import static io.contek.invoker.commons.actor.ratelimit.RateLimitType.IP;
+import static io.contek.invoker.commons.actor.ratelimit.LimitType.API_KEY;
+import static io.contek.invoker.commons.actor.ratelimit.LimitType.IP;
 import static io.contek.invoker.security.SecretKeyAlgorithm.HMAC_SHA256;
 
 @ThreadSafe
@@ -76,7 +77,7 @@ public final class ApiFactory {
         .setCredentialFactory(createCredentialFactory())
         .setHttpClientFactory(SimpleHttpClientFactory.getInstance())
         .setRateLimitThrottleFactory(
-            SimpleRateLimitThrottleFactory.create(createRateLimitCache(), interceptors))
+            SimpleRateLimitThrottleFactory.create(createLimiterManager(), interceptors))
         .build();
   }
 
@@ -87,19 +88,18 @@ public final class ApiFactory {
         .build();
   }
 
-  private static RateLimitCache createRateLimitCache() {
-    return RateLimitCache.newBuilder()
-        .addRule(IP_REST_GET_REQUEST_RULE)
-        .addRule(IP_REST_POST_REQUEST_RULE)
-        .addRule(API_KEY_REST_ORDER_WRITE_RULE)
-        .addRule(API_KEY_REST_ORDER_READ_RULE)
-        .addRule(API_KEY_REST_TRADE_READ_RULE)
-        .addRule(API_KEY_REST_POSITION_WRITE_RULE)
-        .addRule(API_KEY_REST_POSITION_READ_RULE)
-        .addRule(API_KEY_REST_FUNDING_READ_RULE)
-        .addRule(API_KEY_REST_FUND_READ_RULE)
-        .addRule(API_KEY_REST_KEY_INFO_READ_RULE)
-        .build();
+  private static LimiterManager createLimiterManager() {
+    return LimiterManagers.forRules(
+        IP_REST_GET_REQUEST_RULE,
+        IP_REST_POST_REQUEST_RULE,
+        API_KEY_REST_ORDER_WRITE_RULE,
+        API_KEY_REST_ORDER_READ_RULE,
+        API_KEY_REST_TRADE_READ_RULE,
+        API_KEY_REST_POSITION_WRITE_RULE,
+        API_KEY_REST_POSITION_READ_RULE,
+        API_KEY_REST_FUNDING_READ_RULE,
+        API_KEY_REST_FUND_READ_RULE,
+        API_KEY_REST_KEY_INFO_READ_RULE);
   }
 
   @ThreadSafe
@@ -221,43 +221,37 @@ public final class ApiFactory {
             .setResetPeriod(Duration.ofMinutes(1))
             .build();
 
-    public static final ImmutableList<RateLimitQuota> ONE_REST_PUBLIC_GET_REQUEST =
-        ImmutableList.of(IP_REST_GET_REQUEST_RULE.createRateLimitQuota(1));
+    public static final ImmutableList<TypedPermitRequest> ONE_REST_PUBLIC_GET_REQUEST =
+        ImmutableList.of(IP_REST_GET_REQUEST_RULE.forPermits(1));
 
-    public static final ImmutableList<RateLimitQuota> ONE_REST_PRIVATE_ORDER_WRITE_REQUEST =
+    public static final ImmutableList<TypedPermitRequest> ONE_REST_PRIVATE_ORDER_WRITE_REQUEST =
         ImmutableList.of(
-            IP_REST_POST_REQUEST_RULE.createRateLimitQuota(1),
-            API_KEY_REST_ORDER_WRITE_RULE.createRateLimitQuota(1));
+            IP_REST_POST_REQUEST_RULE.forPermits(1), API_KEY_REST_ORDER_WRITE_RULE.forPermits(1));
 
-    public static final ImmutableList<RateLimitQuota> ONE_REST_PRIVATE_ORDER_READ_REQUEST =
+    public static final ImmutableList<TypedPermitRequest> ONE_REST_PRIVATE_ORDER_READ_REQUEST =
         ImmutableList.of(
-            IP_REST_GET_REQUEST_RULE.createRateLimitQuota(1),
-            API_KEY_REST_ORDER_READ_RULE.createRateLimitQuota(1));
+            IP_REST_GET_REQUEST_RULE.forPermits(1), API_KEY_REST_ORDER_READ_RULE.forPermits(1));
 
-    public static final ImmutableList<RateLimitQuota> ONE_REST_PRIVATE_TRADE_READ_REQUEST =
+    public static final ImmutableList<TypedPermitRequest> ONE_REST_PRIVATE_TRADE_READ_REQUEST =
         ImmutableList.of(
-            IP_REST_GET_REQUEST_RULE.createRateLimitQuota(1),
-            API_KEY_REST_TRADE_READ_RULE.createRateLimitQuota(1));
+            IP_REST_GET_REQUEST_RULE.forPermits(1), API_KEY_REST_TRADE_READ_RULE.forPermits(1));
 
-    public static final ImmutableList<RateLimitQuota> ONE_REST_PRIVATE_POSITION_READ_REQUEST =
+    public static final ImmutableList<TypedPermitRequest> ONE_REST_PRIVATE_POSITION_READ_REQUEST =
         ImmutableList.of(
-            IP_REST_GET_REQUEST_RULE.createRateLimitQuota(1),
-            API_KEY_REST_POSITION_READ_RULE.createRateLimitQuota(1));
+            IP_REST_GET_REQUEST_RULE.forPermits(1), API_KEY_REST_POSITION_READ_RULE.forPermits(1));
 
-    public static final ImmutableList<RateLimitQuota> ONE_REST_PRIVATE_POSITION_WRITE_REQUEST =
+    public static final ImmutableList<TypedPermitRequest> ONE_REST_PRIVATE_POSITION_WRITE_REQUEST =
         ImmutableList.of(
-            IP_REST_POST_REQUEST_RULE.createRateLimitQuota(1),
-            API_KEY_REST_POSITION_WRITE_RULE.createRateLimitQuota(1));
+            IP_REST_POST_REQUEST_RULE.forPermits(1),
+            API_KEY_REST_POSITION_WRITE_RULE.forPermits(1));
 
-    public static final ImmutableList<RateLimitQuota> ONE_REST_PRIVATE_FUND_READ_REQUEST =
+    public static final ImmutableList<TypedPermitRequest> ONE_REST_PRIVATE_FUND_READ_REQUEST =
         ImmutableList.of(
-            IP_REST_GET_REQUEST_RULE.createRateLimitQuota(1),
-            API_KEY_REST_FUND_READ_RULE.createRateLimitQuota(1));
+            IP_REST_GET_REQUEST_RULE.forPermits(1), API_KEY_REST_FUND_READ_RULE.forPermits(1));
 
-    public static final ImmutableList<RateLimitQuota> ONE_REST_PRIVATE_KEY_INFO_READ_REQUEST =
+    public static final ImmutableList<TypedPermitRequest> ONE_REST_PRIVATE_KEY_INFO_READ_REQUEST =
         ImmutableList.of(
-            IP_REST_GET_REQUEST_RULE.createRateLimitQuota(1),
-            API_KEY_REST_KEY_INFO_READ_RULE.createRateLimitQuota(1));
+            IP_REST_GET_REQUEST_RULE.forPermits(1), API_KEY_REST_KEY_INFO_READ_RULE.forPermits(1));
 
     private RateLimits() {}
   }

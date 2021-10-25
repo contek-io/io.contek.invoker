@@ -15,6 +15,7 @@ import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.websocket.WebSocketContext;
 import io.contek.invoker.security.ApiKey;
 import io.contek.invoker.security.SimpleCredentialFactory;
+import io.contek.ursa.cache.LimiterManager;
 
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
@@ -24,8 +25,8 @@ import java.util.List;
 
 import static com.google.common.io.BaseEncoding.base16;
 import static io.contek.invoker.bitmex.api.ApiFactory.RateLimits.*;
-import static io.contek.invoker.commons.actor.ratelimit.RateLimitType.API_KEY;
-import static io.contek.invoker.commons.actor.ratelimit.RateLimitType.IP;
+import static io.contek.invoker.commons.actor.ratelimit.LimitType.API_KEY;
+import static io.contek.invoker.commons.actor.ratelimit.LimitType.IP;
 import static io.contek.invoker.security.SecretKeyAlgorithm.HMAC_SHA256;
 
 @ThreadSafe
@@ -78,7 +79,7 @@ public final class ApiFactory {
         .setCredentialFactory(createCredentialFactory())
         .setHttpClientFactory(SimpleHttpClientFactory.getInstance())
         .setRateLimitThrottleFactory(
-            SimpleRateLimitThrottleFactory.create(createRateLimitCache(), interceptors))
+            SimpleRateLimitThrottleFactory.create(createLimiterManager(), interceptors))
         .build();
   }
 
@@ -89,12 +90,9 @@ public final class ApiFactory {
         .build();
   }
 
-  private static RateLimitCache createRateLimitCache() {
-    return RateLimitCache.newBuilder()
-        .addRule(API_KEY_REST_REQUEST_RULE)
-        .addRule(IP_REST_REQUEST_RULE)
-        .addRule(IP_WEB_SOCKET_CONNECTION_RULE)
-        .build();
+  private static LimiterManager createLimiterManager() {
+    return LimiterManagers.forRules(
+        API_KEY_REST_REQUEST_RULE, IP_REST_REQUEST_RULE, IP_WEB_SOCKET_CONNECTION_RULE);
   }
 
   @ThreadSafe
@@ -160,14 +158,14 @@ public final class ApiFactory {
             .setResetPeriod(Duration.ofHours(1))
             .build();
 
-    public static final ImmutableList<RateLimitQuota> ONE_ANONYMOUS_REST_REQUEST =
-        ImmutableList.of(IP_REST_REQUEST_RULE.createRateLimitQuota(1));
+    public static final ImmutableList<TypedPermitRequest> ONE_ANONYMOUS_REST_REQUEST =
+        ImmutableList.of(IP_REST_REQUEST_RULE.forPermits(1));
 
-    public static final ImmutableList<RateLimitQuota> ONE_AUTHENTICATED_REST_REQUEST =
-        ImmutableList.of(API_KEY_REST_REQUEST_RULE.createRateLimitQuota(1));
+    public static final ImmutableList<TypedPermitRequest> ONE_AUTHENTICATED_REST_REQUEST =
+        ImmutableList.of(API_KEY_REST_REQUEST_RULE.forPermits(1));
 
-    public static final ImmutableList<RateLimitQuota> ONE_WEB_SOCKET_CONNECTION =
-        ImmutableList.of(IP_WEB_SOCKET_CONNECTION_RULE.createRateLimitQuota(1));
+    public static final ImmutableList<TypedPermitRequest> ONE_WEB_SOCKET_CONNECTION =
+        ImmutableList.of(IP_WEB_SOCKET_CONNECTION_RULE.forPermits(1));
 
     private RateLimits() {}
   }

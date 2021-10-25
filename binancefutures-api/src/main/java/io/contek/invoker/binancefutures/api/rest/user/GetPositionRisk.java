@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableList;
 import io.contek.invoker.binancefutures.api.common._PositionRisk;
 import io.contek.invoker.binancefutures.api.rest.user.GetPositionRisk.Response;
 import io.contek.invoker.commons.actor.IActor;
-import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
+import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
@@ -18,8 +18,8 @@ import static io.contek.invoker.commons.rest.RestMethod.GET;
 @NotThreadSafe
 public final class GetPositionRisk extends UserRestRequest<Response> {
 
-  private static final ImmutableList<RateLimitQuota> REQUIRED_QUOTA =
-      ImmutableList.of(IP_REST_REQUEST_RULE.createRateLimitQuota(5));
+  private static final ImmutableList<TypedPermitRequest> REQUIRED_QUOTA =
+      ImmutableList.of(IP_REST_REQUEST_RULE.forPermits(5));
 
   private String symbol;
 
@@ -61,7 +61,7 @@ public final class GetPositionRisk extends UserRestRequest<Response> {
   }
 
   @Override
-  protected ImmutableList<RateLimitQuota> getRequiredQuotas() {
+  protected ImmutableList<TypedPermitRequest> getRequiredQuotas() {
     return REQUIRED_QUOTA;
   }
 

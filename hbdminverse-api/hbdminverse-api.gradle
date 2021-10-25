@@ -3,7 +3,8 @@ dependencies {
     implementation project(':security')
 
     implementation "com.google.code.gson:gson:${gsonVersion}"
-    implementation "io.contek.timbersaw:timbersaw-core-api:1.4.3-SNAPSHOT"
+    implementation "io.contek.ursa:ursa-cache:${ursaVersion}"
+    implementation "io.contek.ursa:ursa-core-api:${ursaVersion}"
 }
 
 description = 'Huobi Derivative Inverse Java API'

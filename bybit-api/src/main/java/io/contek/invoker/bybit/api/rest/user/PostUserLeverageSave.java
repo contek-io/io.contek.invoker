@@ -3,7 +3,7 @@ package io.contek.invoker.bybit.api.rest.user;
 import com.google.common.collect.ImmutableList;
 import io.contek.invoker.bybit.api.rest.common.RestResponse;
 import io.contek.invoker.commons.actor.IActor;
-import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
+import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
@@ -59,7 +59,7 @@ public final class PostUserLeverageSave extends UserRestRequest<Response> {
   }
 
   @Override
-  protected ImmutableList<RateLimitQuota> getRequiredQuotas() {
+  protected ImmutableList<TypedPermitRequest> getRequiredQuotas() {
     return ONE_REST_PRIVATE_POSITION_WRITE_REQUEST;
   }
 

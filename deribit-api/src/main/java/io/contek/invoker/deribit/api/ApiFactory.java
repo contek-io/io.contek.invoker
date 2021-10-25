@@ -15,6 +15,7 @@ import io.contek.invoker.deribit.api.websocket.market.MarketWebSocketApi;
 import io.contek.invoker.deribit.api.websocket.user.UserWebSocketApi;
 import io.contek.invoker.security.ApiKey;
 import io.contek.invoker.security.SimpleCredentialFactory;
+import io.contek.ursa.cache.LimiterManager;
 
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.ThreadSafe;
@@ -22,8 +23,9 @@ import java.time.Duration;
 import java.util.List;
 
 import static com.google.common.io.BaseEncoding.base16;
-import static io.contek.invoker.commons.actor.ratelimit.RateLimitType.API_KEY;
-import static io.contek.invoker.commons.actor.ratelimit.RateLimitType.IP;
+import static io.contek.invoker.commons.actor.ratelimit.LimitType.API_KEY;
+import static io.contek.invoker.commons.actor.ratelimit.LimitType.IP;
+import static io.contek.invoker.deribit.api.ApiFactory.RateLimits.*;
 import static io.contek.invoker.security.SecretKeyAlgorithm.HMAC_SHA256;
 
 @ThreadSafe
@@ -75,7 +77,7 @@ public final class ApiFactory {
         .setCredentialFactory(createCredentialFactory())
         .setHttpClientFactory(SimpleHttpClientFactory.getInstance())
         .setRateLimitThrottleFactory(
-            SimpleRateLimitThrottleFactory.create(createRateLimitCache(), interceptors))
+            SimpleRateLimitThrottleFactory.create(createLimiterManager(), interceptors))
         .build();
   }
 
@@ -86,12 +88,11 @@ public final class ApiFactory {
         .build();
   }
 
-  private static RateLimitCache createRateLimitCache() {
-    return RateLimitCache.newBuilder()
-        .addRule(RateLimits.API_KEY_MATCHING_ENGINE_REQUEST_RULE)
-        .addRule(RateLimits.API_KEY_NON_MATCHING_ENGINE_REQUEST_RULE)
-        .addRule(RateLimits.IP_NON_MATCHING_ENGINE_REQUEST_RULE)
-        .build();
+  private static LimiterManager createLimiterManager() {
+    return LimiterManagers.forRules(
+        API_KEY_MATCHING_ENGINE_REQUEST_RULE,
+        API_KEY_NON_MATCHING_ENGINE_REQUEST_RULE,
+        IP_NON_MATCHING_ENGINE_REQUEST_RULE);
   }
 
   @ThreadSafe
@@ -157,14 +158,14 @@ public final class ApiFactory {
             .setResetPeriod(Duration.ofSeconds(1))
             .build();
 
-    public static final ImmutableList<RateLimitQuota> ONE_API_KEY_MATCHING_ENGINE_REQUEST =
-        ImmutableList.of(API_KEY_MATCHING_ENGINE_REQUEST_RULE.createRateLimitQuota(1));
+    public static final ImmutableList<TypedPermitRequest> ONE_API_KEY_MATCHING_ENGINE_REQUEST =
+        ImmutableList.of(API_KEY_MATCHING_ENGINE_REQUEST_RULE.forPermits(1));
 
-    public static final ImmutableList<RateLimitQuota> ONE_API_KEY_NON_MATCHING_ENGINE_REQUEST =
-        ImmutableList.of(API_KEY_NON_MATCHING_ENGINE_REQUEST_RULE.createRateLimitQuota(1));
+    public static final ImmutableList<TypedPermitRequest> ONE_API_KEY_NON_MATCHING_ENGINE_REQUEST =
+        ImmutableList.of(API_KEY_NON_MATCHING_ENGINE_REQUEST_RULE.forPermits(1));
 
-    public static final ImmutableList<RateLimitQuota> ONE_IP_NON_MATCHING_ENGINE_REQUEST =
-        ImmutableList.of(IP_NON_MATCHING_ENGINE_REQUEST_RULE.createRateLimitQuota(1));
+    public static final ImmutableList<TypedPermitRequest> ONE_IP_NON_MATCHING_ENGINE_REQUEST =
+        ImmutableList.of(IP_NON_MATCHING_ENGINE_REQUEST_RULE.forPermits(1));
 
     private RateLimits() {}
   }

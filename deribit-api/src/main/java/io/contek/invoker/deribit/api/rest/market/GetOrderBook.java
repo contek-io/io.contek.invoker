@@ -2,12 +2,13 @@ package io.contek.invoker.deribit.api.rest.market;
 
 import com.google.common.collect.ImmutableList;
 import io.contek.invoker.commons.actor.IActor;
-import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
+import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestParams;
 import io.contek.invoker.deribit.api.common._OrderBook;
 import io.contek.invoker.deribit.api.rest.common.RestResponse;
 
+import javax.annotation.Nullable;
 import javax.annotation.concurrent.NotThreadSafe;
 
 import static io.contek.invoker.deribit.api.ApiFactory.RateLimits.ONE_IP_NON_MATCHING_ENGINE_REQUEST;
@@ -28,7 +29,7 @@ public final class GetOrderBook extends MarketRestRequest<GetOrderBook.Response>
     return this;
   }
 
-  public GetOrderBook setDepth(Integer depth) {
+  public GetOrderBook setDepth(@Nullable Integer depth) {
     this.depth = depth;
     return this;
   }
@@ -42,10 +43,12 @@ public final class GetOrderBook extends MarketRestRequest<GetOrderBook.Response>
   protected RestParams getParams() {
     RestParams.Builder builder = RestParams.newBuilder();
 
-    requireNonNull(depth);
-    builder.add("depth", depth);
     requireNonNull(instrument_name);
     builder.add("instrument_name", instrument_name);
+
+    if (depth != null) {
+      builder.add("depth", depth);
+    }
 
     return builder.build();
   }
@@ -56,7 +59,7 @@ public final class GetOrderBook extends MarketRestRequest<GetOrderBook.Response>
   }
 
   @Override
-  protected ImmutableList<RateLimitQuota> getRequiredQuotas() {
+  protected ImmutableList<TypedPermitRequest> getRequiredQuotas() {
     return ONE_IP_NON_MATCHING_ENGINE_REQUEST;
   }
 

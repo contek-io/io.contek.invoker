@@ -2,7 +2,7 @@ package io.contek.invoker.hbdminverse.api.rest.user;
 
 import com.google.common.collect.ImmutableList;
 import io.contek.invoker.commons.actor.IActor;
-import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
+import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestParams;
 import io.contek.invoker.hbdminverse.api.common._AccountInfo;
@@ -49,7 +49,7 @@ public final class PostSwapAccountInfo extends UserRestRequest<PostSwapAccountIn
   }
 
   @Override
-  protected ImmutableList<RateLimitQuota> getRequiredQuotas() {
+  protected ImmutableList<TypedPermitRequest> getRequiredQuotas() {
     return ONE_API_KEY_REST_PRIVATE_READ_REQUEST;
   }
 

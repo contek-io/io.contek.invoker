@@ -15,9 +15,10 @@ subprojects {
     apply plugin: 'signing'
 
     ext {
-        gsonVersion = '2.8.7'
-        okhttpVersion = '4.9.1'
-        resilience4jVersion = '1.7.1'
+        gsonVersion = '2.8.8'
+        okhttpVersion = '4.9.2'
+
+        ursaVersion = '1.3.0'
     }
 
     sourceCompatibility = '1.8'
@@ -38,7 +39,7 @@ subprojects {
     }
 
     group = 'io.contek.invoker'
-    version = '2.13.3-SNAPSHOT'
+    version = '2.15.0'
 
     task sourcesJar(type: Jar) {
         from sourceSets.main.allSource
@@ -95,8 +96,8 @@ subprojects {
             maven {
                 url = getRepositoryUrl(version)
                 credentials {
-                    username = project.hasProperty('ossrhUsername') ? ossrhUsername : ''
-                    password = project.hasProperty('ossrhPassword') ? ossrhPassword : ''
+                    username = project.hasProperty('sonatypeUsername') ? sonatypeUsername : ''
+                    password = project.hasProperty('sonatypePassword') ? sonatypePassword : ''
                 }
             }
         }

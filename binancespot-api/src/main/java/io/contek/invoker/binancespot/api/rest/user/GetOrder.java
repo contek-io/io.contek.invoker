@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableList;
 import io.contek.invoker.binancespot.api.common._Order;
 import io.contek.invoker.binancespot.api.rest.user.GetOrder.Response;
 import io.contek.invoker.commons.actor.IActor;
-import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
+import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
@@ -19,8 +19,8 @@ import static io.contek.invoker.commons.rest.RestMethod.GET;
 @NotThreadSafe
 public final class GetOrder extends UserRestRequest<Response> {
 
-  private static final ImmutableList<RateLimitQuota> REQUIRED_QUOTA =
-      ImmutableList.of(IP_REST_REQUEST_RULE.createRateLimitQuota(2));
+  private static final ImmutableList<TypedPermitRequest> REQUIRED_QUOTA =
+      ImmutableList.of(IP_REST_REQUEST_RULE.forPermits(2));
 
   private String symbol;
   private Long orderId;
@@ -81,7 +81,7 @@ public final class GetOrder extends UserRestRequest<Response> {
   }
 
   @Override
-  protected ImmutableList<RateLimitQuota> getRequiredQuotas() {
+  protected ImmutableList<TypedPermitRequest> getRequiredQuotas() {
     return REQUIRED_QUOTA;
   }
 

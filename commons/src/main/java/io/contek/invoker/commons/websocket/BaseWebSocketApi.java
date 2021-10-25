@@ -2,9 +2,12 @@ package io.contek.invoker.commons.websocket;
 
 import com.google.common.collect.ImmutableList;
 import io.contek.invoker.commons.actor.IActor;
-import io.contek.invoker.commons.actor.ratelimit.IRateLimitThrottle;
-import io.contek.invoker.commons.actor.ratelimit.RateLimitQuota;
+import io.contek.invoker.commons.actor.RequestContext;
+import io.contek.invoker.commons.actor.http.HttpBusyException;
+import io.contek.invoker.commons.actor.http.HttpInterruptedException;
+import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
 import io.contek.invoker.security.ICredential;
+import io.contek.ursa.AcquireTimeoutException;
 import okhttp3.Response;
 import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
@@ -52,6 +55,13 @@ public abstract class BaseWebSocketApi implements IWebSocketApi {
     this.liveKeeper = liveKeeper;
   }
 
+  public final boolean isActive() {
+    synchronized (sessionHolder) {
+      return scheduleHolder.get() != null;
+    }
+  }
+
+  @Override
   public final void attach(IWebSocketComponent component) {
     synchronized (components) {
       parser.register(component);
@@ -72,7 +82,7 @@ public abstract class BaseWebSocketApi implements IWebSocketApi {
     return liveKeeper;
   }
 
-  protected abstract ImmutableList<RateLimitQuota> getRequiredQuotas();
+  protected abstract ImmutableList<TypedPermitRequest> getRequiredQuotas();
 
   protected abstract WebSocketCall createCall(ICredential credential);
 
@@ -116,12 +126,16 @@ public abstract class BaseWebSocketApi implements IWebSocketApi {
               return oldValue;
             }
             WebSocketCall call = createCall(actor.getCredential());
-            IRateLimitThrottle throttle = actor.getRateLimitThrottle();
-            throttle.acquire(getClass().getSimpleName(), getRequiredQuotas());
-
-            WebSocketSession session = call.submit(actor.getHttpClient(), handler);
-            activate();
-            return session;
+            try (RequestContext context =
+                actor.getRequestContext(getClass().getSimpleName(), getRequiredQuotas())) {
+              WebSocketSession session = call.submit(context.getClient(), handler);
+              activate();
+              return session;
+            } catch (AcquireTimeoutException e) {
+              throw new HttpBusyException(e);
+            } catch (InterruptedException e) {
+              throw new HttpInterruptedException(e);
+            }
           });
     }
   }
