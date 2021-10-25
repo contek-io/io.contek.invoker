@@ -29,7 +29,7 @@ public abstract class BasePlaceOrderRequest
   private Boolean post_only;
   private Boolean reject_post_only;
   private Boolean reduce_only;
-  private Double stop_price;
+  private Double trigger_price;
   private String trigger;
   private String advanced;
   private Boolean mmp;
@@ -88,8 +88,8 @@ public abstract class BasePlaceOrderRequest
     return this;
   }
 
-  public final BasePlaceOrderRequest setStopPrice(double stopPrice) {
-    this.stop_price = stopPrice;
+  public final BasePlaceOrderRequest setTriggerPrice(double triggerPrice) {
+    this.trigger_price = triggerPrice;
     return this;
   }
 
@@ -157,8 +157,8 @@ public abstract class BasePlaceOrderRequest
       builder.add("reduce_only", reduce_only);
     }
 
-    if (stop_price != null) {
-      builder.add("stop_price", stop_price);
+    if (trigger_price != null) {
+      builder.add("trigger_price", trigger_price);
     }
 
     if (trigger != null) {
