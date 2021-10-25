@@ -40,6 +40,14 @@ public final class UserRestApi {
     return new GetPositionList(actor, context);
   }
 
+  public GetStopOrder getStopOrder() {
+    return new GetStopOrder(actor, context);
+  }
+
+  public GetStopOrderList getStopOrderList() {
+    return new GetStopOrderList(actor, context);
+  }
+
   public GetUserLeverage getUserLeverage() {
     return new GetUserLeverage(actor, context);
   }
@@ -66,6 +74,22 @@ public final class UserRestApi {
 
   public PostOrderCreate postOrderCreate() {
     return new PostOrderCreate(actor, context);
+  }
+
+  public PostPositionTradingStop postPositionTradingStop() {
+    return new PostPositionTradingStop(actor, context);
+  }
+
+  public PostStopOrderCancel postStopOrderCancel() {
+    return new PostStopOrderCancel(actor, context);
+  }
+
+  public PostStopOrderCancelAll postStopOrderCancelAll() {
+    return new PostStopOrderCancelAll(actor, context);
+  }
+
+  public PostStopOrderCreate postStopOrderCreate() {
+    return new PostStopOrderCreate(actor, context);
   }
 
   public PostUserLeverageSave postUserLeverageSave() {
