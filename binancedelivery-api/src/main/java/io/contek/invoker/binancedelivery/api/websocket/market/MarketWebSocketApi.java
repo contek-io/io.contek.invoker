@@ -18,9 +18,9 @@ public final class MarketWebSocketApi extends BaseWebSocketApi {
   private final WebSocketRequestIdGenerator requestIdGenerator = new WebSocketRequestIdGenerator();
 
   private final Map<AggTradeChannel.Id, AggTradeChannel> aggTradeChannels = new HashMap<>();
-  private final Map<DepthUpdateChannel.Id, DepthUpdateChannel> depthUpdateChannels =
-      new HashMap<>();
+  private final Map<DepthUpdateChannel.Id, DepthUpdateChannel> depthUpdateChannels = new HashMap<>();
   private final Map<ForceOrderChannel.Id, ForceOrderChannel> forceOrderChannels = new HashMap<>();
+  private final Map<KlineChannel.Id, KlineChannel> klineChannels = new HashMap<>();
 
   public MarketWebSocketApi(IActor actor, WebSocketContext context) {
     super(
@@ -61,6 +61,18 @@ public final class MarketWebSocketApi extends BaseWebSocketApi {
           id,
           k -> {
             ForceOrderChannel result = new ForceOrderChannel(k, requestIdGenerator);
+            attach(result);
+            return result;
+          });
+    }
+  }
+
+  public KlineChannel getKlineChannel(KlineChannel.Id id) {
+    synchronized (klineChannels) {
+      return klineChannels.computeIfAbsent(
+          id,
+          k -> {
+            KlineChannel result = new KlineChannel(k, requestIdGenerator);
             attach(result);
             return result;
           });

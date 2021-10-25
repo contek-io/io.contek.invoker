@@ -15,7 +15,7 @@ public final class MarketWebSocketMessageParser implements IWebSocketMessagePars
   private final Gson gson = new Gson();
 
   static MarketWebSocketMessageParser getInstance() {
-    return MarketWebSocketMessageParser.InstanceHolder.INSTANCE;
+    return InstanceHolder.INSTANCE;
   }
 
   @Override
@@ -49,7 +49,10 @@ public final class MarketWebSocketMessageParser implements IWebSocketMessagePars
     if (stream.endsWith("@forceOrder")) {
       return gson.fromJson(obj, ForceOrderChannel.Message.class);
     }
-    throw new IllegalStateException();
+    if (stream.contains("@kline_")) {
+      return gson.fromJson(obj, KlineChannel.Message.class);
+    }
+    throw new IllegalStateException("Unknown stream " + stream);
   }
 
   private AnyWebSocketMessage toBookTicker(JsonObject obj) {
