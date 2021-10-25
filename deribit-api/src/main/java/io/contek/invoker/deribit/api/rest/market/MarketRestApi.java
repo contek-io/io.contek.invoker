@@ -24,6 +24,10 @@ public final class MarketRestApi {
     return new GetBookSummaryByInstrument(actor, context);
   }
 
+  public GetChartData getChartData() {
+    return new GetChartData(actor, context);
+  }
+
   public GetCurrencies getCurrencies() {
     return new GetCurrencies(actor, context);
   }
