@@ -38,10 +38,10 @@ public final class TradesChannel
   }
 
   @NotThreadSafe
-  public static final class Message extends WebSocketChannelMessage<List<Data>> {}
+  public static final class Message extends WebSocketChannelMessage<List<Trade>> {}
 
   @NotThreadSafe
-  public static final class Data {
+  public static final class Trade {
 
     public long amount;
     public String block_trade_id;

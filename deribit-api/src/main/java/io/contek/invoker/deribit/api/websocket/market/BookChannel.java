@@ -38,10 +38,10 @@ public final class BookChannel extends MarketWebSocketChannel<BookChannel.Id, Bo
   }
 
   @NotThreadSafe
-  public static final class Message extends WebSocketChannelMessage<Data> {}
+  public static final class Message extends WebSocketChannelMessage<OrderBook> {}
 
   @NotThreadSafe
-  public static final class Data {
+  public static final class OrderBook {
 
     public long timestamp;
     public String instrument_name;
