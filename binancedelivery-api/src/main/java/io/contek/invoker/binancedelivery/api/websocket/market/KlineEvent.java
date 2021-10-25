@@ -8,7 +8,6 @@ import javax.annotation.concurrent.NotThreadSafe;
 public class KlineEvent extends WebSocketEventMessage {
 
   public String s; // Symbol
-  public String ps; // Pair
   public Candle k;
 
   @NotThreadSafe
@@ -24,11 +23,11 @@ public class KlineEvent extends WebSocketEventMessage {
     public Double c; // Close price
     public Double h; // High price
     public Double l; // Low price
-    public Double v; // Base asset volume
+    public Double v; // volume
     public Integer n; // Number of trades
     public Boolean x; // Is this kline closed?
-    public Double q; // Quote asset volume
-    public Double V; // Taker buy base asset volume
-    public Double Q; // Taker buy quote asset volume
+    public Double q; // Base asset volume
+    public Double V; // Taker buy volume
+    public Double Q; // Taker buy base asset volume
   }
 }

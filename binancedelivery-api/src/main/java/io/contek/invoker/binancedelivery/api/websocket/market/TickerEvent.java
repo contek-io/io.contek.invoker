@@ -8,6 +8,7 @@ import javax.annotation.concurrent.NotThreadSafe;
 public class TickerEvent extends WebSocketEventMessage {
 
   public String s; // Symbol
+  public String ps; // Pair
   public Double p; // Price change
   public Double P; // Price change percent
   public Double w; // Weighted average price
@@ -16,8 +17,8 @@ public class TickerEvent extends WebSocketEventMessage {
   public Double o; // Open price
   public Double h; // High price
   public Double l; // Low price
-  public Double v; // Total traded base asset volume
-  public Double q; // Total traded quote asset volume
+  public Double v; // Total traded volume
+  public Double q; // Total traded base asset volume
   public Long O; // Statistics open time
   public Long C; // Statistics close time
   public Long F; // First trade ID
