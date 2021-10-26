@@ -7,7 +7,7 @@ import io.contek.invoker.commons.websocket.WebSocketAuthenticationException;
 import io.contek.invoker.commons.websocket.WebSocketSession;
 import io.contek.invoker.deribit.api.common._Error;
 import io.contek.invoker.deribit.api.websocket.common.WebSocketRequest;
-import io.contek.invoker.deribit.api.websocket.common.WebSocketResponse;
+import io.contek.invoker.deribit.api.websocket.user.WebSocketAuthenticationConfirmation;
 import io.contek.invoker.security.ICredential;
 
 import javax.annotation.concurrent.NotThreadSafe;
@@ -64,7 +64,7 @@ final class WebSocketAuthenticator implements IWebSocketAuthenticator {
     params.signature = signature;
 
     WebSocketRequest<AuthParams> request = new WebSocketRequest<>();
-    request.id = requestIdGenerator.getNextRequestId();
+    request.id = requestIdGenerator.getNextRequestId(WebSocketAuthenticationConfirmation.class);
     request.method = "public/auth";
     request.params = params;
     session.send(request);
@@ -82,7 +82,7 @@ final class WebSocketAuthenticator implements IWebSocketAuthenticator {
       return;
     }
 
-    if (!(message instanceof WebSocketResponse)) {
+    if (!(message instanceof WebSocketAuthenticationConfirmation)) {
       return;
     }
 
@@ -91,7 +91,7 @@ final class WebSocketAuthenticator implements IWebSocketAuthenticator {
       return;
     }
 
-    WebSocketResponse response = (WebSocketResponse) message;
+    WebSocketAuthenticationConfirmation response = (WebSocketAuthenticationConfirmation) message;
     if (!response.id.equals(request.id)) {
       return;
     }
