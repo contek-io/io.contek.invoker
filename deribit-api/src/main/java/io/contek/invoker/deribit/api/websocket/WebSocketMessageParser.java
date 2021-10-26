@@ -11,19 +11,26 @@ import io.contek.invoker.deribit.api.websocket.common.constants.WebSocketChannel
 import io.contek.invoker.deribit.api.websocket.market.BookChannel;
 import io.contek.invoker.deribit.api.websocket.market.TradesChannel;
 
-import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
+import java.util.HashMap;
+import java.util.Map;
+
+import static java.lang.String.format;
 
 @Immutable
 final class WebSocketMessageParser implements IWebSocketMessageParser {
 
   private final Gson gson = new Gson();
 
-  static WebSocketMessageParser getInstance() {
-    return InstanceHolder.INSTANCE;
+  private final Map<Integer, Class<? extends WebSocketResponse<?>>> pendingRequests =
+      new HashMap<>();
+
+  public void register(Integer id, Class<? extends WebSocketResponse<?>> type) {
+    synchronized (pendingRequests) {
+      pendingRequests.put(id, type);
+    }
   }
 
-  @Nullable
   @Override
   public AnyWebSocketMessage parse(String text) {
     JsonElement json = gson.fromJson(text, JsonElement.class);
@@ -31,8 +38,8 @@ final class WebSocketMessageParser implements IWebSocketMessageParser {
       throw new IllegalArgumentException(text);
     }
     JsonObject obj = json.getAsJsonObject();
-    if (obj.has("result")) {
-      return toConfirmationMessage(obj);
+    if (obj.has("id")) {
+      return toResponseMessage(obj);
     } else if (obj.has("params")) {
       return toDataMessage(obj);
     } else {
@@ -40,8 +47,13 @@ final class WebSocketMessageParser implements IWebSocketMessageParser {
     }
   }
 
-  private WebSocketInboundMessage toConfirmationMessage(JsonObject obj) {
-    return gson.fromJson(obj, WebSocketResponse.class);
+  private WebSocketResponse<?> toResponseMessage(JsonObject obj) {
+    int id = obj.get("id").getAsInt();
+    Class<? extends WebSocketResponse<?>> type = pendingRequests.remove(id);
+    if (type == null) {
+      throw new IllegalStateException(format("Expected response type not found: %d", id));
+    }
+    return gson.fromJson(obj, type);
   }
 
   private WebSocketInboundMessage toDataMessage(JsonObject obj) {
@@ -53,15 +65,5 @@ final class WebSocketMessageParser implements IWebSocketMessageParser {
     } else {
       throw new IllegalArgumentException(obj.toString());
     }
-  }
-
-  private WebSocketMessageParser() {}
-
-  @Immutable
-  private static final class InstanceHolder {
-
-    private static final WebSocketMessageParser INSTANCE = new WebSocketMessageParser();
-
-    private InstanceHolder() {}
   }
 }
