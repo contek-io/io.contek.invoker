@@ -5,10 +5,7 @@ import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.BaseWebSocketChannel;
 import io.contek.invoker.commons.websocket.SubscriptionState;
 import io.contek.invoker.commons.websocket.WebSocketSession;
-import io.contek.invoker.deribit.api.websocket.common.SubscriptionParams;
-import io.contek.invoker.deribit.api.websocket.common.WebSocketChannelMessage;
-import io.contek.invoker.deribit.api.websocket.common.WebSocketRequest;
-import io.contek.invoker.deribit.api.websocket.common.WebSocketResponse;
+import io.contek.invoker.deribit.api.websocket.common.*;
 
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.ThreadSafe;
@@ -46,7 +43,7 @@ public abstract class WebSocketChannel<
       params.channels = ImmutableList.of(id.getChannel());
 
       WebSocketRequest<SubscriptionParams> request = new WebSocketRequest<>();
-      request.id = requestIdGenerator.getNextRequestId();
+      request.id = requestIdGenerator.getNextRequestId(WebSocketSubscribeConfirmation.class);
       request.method = getSubscribeMethod();
       request.params = params;
       session.send(request);
@@ -66,7 +63,7 @@ public abstract class WebSocketChannel<
       params.channels = ImmutableList.of(id.getChannel());
 
       WebSocketRequest<SubscriptionParams> request = new WebSocketRequest<>();
-      request.id = requestIdGenerator.getNextRequestId();
+      request.id = requestIdGenerator.getNextRequestId(WebSocketUnsubscribeConfirmation.class);
       request.method = getUnsubscribeMethod();
       request.params = params;
       session.send(request);
@@ -79,7 +76,7 @@ public abstract class WebSocketChannel<
   @Nullable
   @Override
   protected final SubscriptionState getState(AnyWebSocketMessage message) {
-    if (!(message instanceof WebSocketResponse)) {
+    if (!(message instanceof WebSocketSubscribeConfirmation)) {
       return null;
     }
 
@@ -89,7 +86,7 @@ public abstract class WebSocketChannel<
         return null;
       }
 
-      WebSocketResponse confirmation = (WebSocketResponse) message;
+      WebSocketSubscribeConfirmation confirmation = (WebSocketSubscribeConfirmation) message;
       if (confirmation.id == null
           || !confirmation.id.equals(command.id)
           || confirmation.result.isEmpty()) {
