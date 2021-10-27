@@ -36,13 +36,13 @@ public final class ApiFactory {
       ApiContext.newBuilder()
           .setRestContext(RestContext.forBaseUrl("https://www.bitmex.com"))
           .setWebSocketContext(
-              WebSocketContext.forBaseUrl("wss://www.bitmex.com", Duration.ofSeconds(5)))
+              WebSocketContext.forBaseUrl("wss://ws.bitmex.com", Duration.ofSeconds(5)))
           .build();
 
   public static final ApiContext TEST_NET_CONTEXT =
       ApiContext.newBuilder()
           .setRestContext(RestContext.forBaseUrl("https://testnet.bitmex.com"))
-          .setWebSocketContext(WebSocketContext.forBaseUrl("wss://testnet.bitmex.com"))
+          .setWebSocketContext(WebSocketContext.forBaseUrl("wss://ws.testnet.bitmex.com"))
           .build();
 
   private final ApiContext context;
