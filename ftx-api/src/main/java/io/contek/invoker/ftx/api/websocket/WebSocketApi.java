@@ -9,6 +9,8 @@ import io.contek.invoker.security.ICredential;
 
 import javax.annotation.concurrent.ThreadSafe;
 
+import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketInboundKeys._error;
+
 @ThreadSafe
 public abstract class WebSocketApi extends BaseWebSocketApi {
 
@@ -38,6 +40,10 @@ public abstract class WebSocketApi extends BaseWebSocketApi {
       throws WebSocketRuntimeException {
     if (message instanceof WebSocketInfoMessage) {
       WebSocketInfoMessage info = (WebSocketInfoMessage) message;
+      if (!info.type.equals(_error)) {
+        return;
+      }
+
       String msg = info.code + ": " + info.msg;
       if (info.code == 20001) {
         throw new WebSocketServerRestartException(msg);
