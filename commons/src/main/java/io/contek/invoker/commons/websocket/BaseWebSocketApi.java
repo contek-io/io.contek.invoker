@@ -175,7 +175,7 @@ public abstract class BaseWebSocketApi implements IWebSocketApi {
             return;
           }
 
-          if (!authenticator.isCompleted()) {
+          if (!authenticator.isPending() && !authenticator.isCompleted()) {
             authenticator.handshake(session);
             return;
           }
