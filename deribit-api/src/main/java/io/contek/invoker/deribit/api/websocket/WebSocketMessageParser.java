@@ -10,6 +10,7 @@ import io.contek.invoker.deribit.api.websocket.common.WebSocketResponse;
 import io.contek.invoker.deribit.api.websocket.common.constants.WebSocketChannelKeys;
 import io.contek.invoker.deribit.api.websocket.market.BookChannel;
 import io.contek.invoker.deribit.api.websocket.market.TradesChannel;
+import io.contek.invoker.deribit.api.websocket.user.UserOrdersChannel;
 
 import javax.annotation.concurrent.Immutable;
 import java.util.HashMap;
@@ -57,11 +58,13 @@ final class WebSocketMessageParser implements IWebSocketMessageParser {
   }
 
   private WebSocketInboundMessage toDataMessage(JsonObject obj) {
-    String instrumentName = obj.get("params").getAsJsonObject().get("channel").getAsString();
-    if (instrumentName.startsWith(WebSocketChannelKeys._book)) {
+    String channel = obj.get("params").getAsJsonObject().get("channel").getAsString();
+    if (channel.startsWith(WebSocketChannelKeys._book)) {
       return gson.fromJson(obj, BookChannel.Message.class);
-    } else if (instrumentName.startsWith(WebSocketChannelKeys._trades)) {
+    } else if (channel.startsWith(WebSocketChannelKeys._trades)) {
       return gson.fromJson(obj, TradesChannel.Message.class);
+    } else if (channel.startsWith(WebSocketChannelKeys._user_orders)) {
+      return gson.fromJson(obj, UserOrdersChannel.Message.class);
     } else {
       throw new IllegalArgumentException(obj.toString());
     }
