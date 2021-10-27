@@ -5,6 +5,6 @@ import javax.annotation.concurrent.NotThreadSafe;
 @NotThreadSafe
 public final class WebSocketInfoMessage extends WebSocketInboundMessage {
 
-  public int code;
+  public Integer code;
   public String msg;
 }
