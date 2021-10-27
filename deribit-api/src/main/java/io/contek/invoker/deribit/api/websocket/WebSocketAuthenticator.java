@@ -9,6 +9,7 @@ import io.contek.invoker.deribit.api.common._Error;
 import io.contek.invoker.deribit.api.websocket.common.WebSocketRequest;
 import io.contek.invoker.deribit.api.websocket.user.WebSocketAuthenticationConfirmation;
 import io.contek.invoker.security.ICredential;
+import org.slf4j.Logger;
 
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
@@ -19,16 +20,18 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import static com.google.common.io.BaseEncoding.base32Hex;
 import static io.contek.invoker.deribit.api.websocket.common.constants.WebSocketAuthGrantTypeKeys._client_signature;
+import static org.slf4j.LoggerFactory.getLogger;
 
 @ThreadSafe
 final class WebSocketAuthenticator implements IWebSocketAuthenticator {
 
+  private static final Logger log = getLogger(WebSocketAuthenticator.class);
+  private static final BaseEncoding ENCODING = base32Hex().lowerCase().omitPadding();
+  private static final Random random = new Random();
+
   private final ICredential credential;
   private final WebSocketRequestIdGenerator requestIdGenerator;
   private final Clock clock;
-
-  private final BaseEncoding ENCODING = base32Hex().lowerCase().omitPadding();
-  private final Random random = new Random();
 
   private final AtomicReference<WebSocketRequest<AuthParams>> pendingRequestHolder =
       new AtomicReference<>();
@@ -67,6 +70,8 @@ final class WebSocketAuthenticator implements IWebSocketAuthenticator {
     request.id = requestIdGenerator.getNextRequestId(WebSocketAuthenticationConfirmation.class);
     request.method = "public/auth";
     request.params = params;
+
+    log.info("Requesting authentication for {}.", credential.getApiKeyId());
     session.send(request);
     pendingRequestHolder.set(request);
   }
@@ -100,7 +105,9 @@ final class WebSocketAuthenticator implements IWebSocketAuthenticator {
       _Error error = response.error;
       throw new WebSocketAuthenticationException(error.code + ": " + error.message);
     }
+
     authenticated.set(true);
+    log.info("Authentication for {} completed.", credential.getApiKeyId());
   }
 
   @Override
