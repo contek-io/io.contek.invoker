@@ -38,9 +38,14 @@ public abstract class WebSocketApi extends BaseWebSocketApi {
       throws WebSocketRuntimeException {
     if (message instanceof WebSocketInfoMessage) {
       WebSocketInfoMessage info = (WebSocketInfoMessage) message;
+      String msg = info.code + ": " + info.msg;
       if (info.code == 20001) {
-        throw new WebSocketServerRestartException(info.code + ": " + info.msg);
+        throw new WebSocketServerRestartException(msg);
       }
+      if (info.code == 400) {
+        throw new WebSocketAuthenticationException(msg);
+      }
+      throw new WebSocketIllegalMessageException(msg);
     }
   }
 }
