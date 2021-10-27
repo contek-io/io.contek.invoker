@@ -68,6 +68,11 @@ final class NotificationWebSocketAuthenticator implements IWebSocketAuthenticato
   }
 
   @Override
+  public boolean isPending() {
+    return pendingCommandHolder.get() != null;
+  }
+
+  @Override
   public boolean isCompleted() {
     return authenticated.get() || credential.isAnonymous();
   }
@@ -93,6 +98,7 @@ final class NotificationWebSocketAuthenticator implements IWebSocketAuthenticato
         return;
       }
 
+      pendingCommandHolder.set(null);
       if (response.err_code != 0) {
         throw new WebSocketIllegalMessageException(response.err_code + ": " + response.err_msg);
       }
