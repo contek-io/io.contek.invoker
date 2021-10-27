@@ -77,6 +77,11 @@ final class WebSocketAuthenticator implements IWebSocketAuthenticator {
   }
 
   @Override
+  public boolean isPending() {
+    return pendingRequestHolder.get() != null;
+  }
+
+  @Override
   public boolean isCompleted() {
     return credential.isAnonymous() || authenticated.get();
   }
@@ -101,6 +106,7 @@ final class WebSocketAuthenticator implements IWebSocketAuthenticator {
       return;
     }
 
+    pendingRequestHolder.set(null);
     if (response.error != null) {
       _Error error = response.error;
       throw new WebSocketAuthenticationException(error.code + ": " + error.message);
