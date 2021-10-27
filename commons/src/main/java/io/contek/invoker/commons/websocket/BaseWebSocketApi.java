@@ -156,6 +156,16 @@ public abstract class BaseWebSocketApi implements IWebSocketApi {
     try {
       synchronized (sessionHolder) {
         WebSocketSession session = sessionHolder.get();
+        if (session == null) {
+          if (!components.hasComponent()) {
+            deactivate();
+            return;
+          }
+          if (components.hasActiveComponent()) {
+            connect();
+          }
+          return;
+        }
 
         synchronized (authenticator) {
           if (authenticator.isPending()) {
@@ -169,17 +179,6 @@ public abstract class BaseWebSocketApi implements IWebSocketApi {
 
         synchronized (components) {
           components.refresh();
-          if (session == null) {
-            if (!components.hasComponent()) {
-              deactivate();
-              return;
-            }
-            if (components.hasActiveComponent()) {
-              connect();
-            }
-            return;
-          }
-
           if (!components.hasActiveComponent()) {
             log.info("No active components. Closing session.");
             session.close();
