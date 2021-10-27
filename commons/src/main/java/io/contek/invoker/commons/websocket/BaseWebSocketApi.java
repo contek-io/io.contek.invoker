@@ -104,15 +104,15 @@ public abstract class BaseWebSocketApi implements IWebSocketApi {
 
     synchronized (sessionHolder) {
       WebSocketSession session = sessionHolder.get();
-      synchronized (authenticator) {
-        if (!authenticator.isCompleted()) {
-          authenticator.onMessage(message, session);
-        }
-      }
-      synchronized (liveKeeper) {
-        liveKeeper.onMessage(message, session);
-      }
       synchronized (components) {
+        synchronized (liveKeeper) {
+          liveKeeper.onMessage(message, session);
+        }
+        synchronized (authenticator) {
+          if (!authenticator.isCompleted()) {
+            authenticator.onMessage(message, session);
+          }
+        }
         components.onMessage(message, session);
       }
     }
@@ -143,11 +143,14 @@ public abstract class BaseWebSocketApi implements IWebSocketApi {
   private void afterDisconnect() {
     synchronized (sessionHolder) {
       sessionHolder.set(null);
-      synchronized (authenticator) {
-        authenticator.afterDisconnect();
-      }
       synchronized (components) {
         components.afterDisconnect();
+        synchronized (liveKeeper) {
+          liveKeeper.afterDisconnect();
+        }
+        synchronized (authenticator) {
+          authenticator.afterDisconnect();
+        }
       }
     }
   }
@@ -156,37 +159,41 @@ public abstract class BaseWebSocketApi implements IWebSocketApi {
     try {
       synchronized (sessionHolder) {
         WebSocketSession session = sessionHolder.get();
-        if (session == null) {
-          if (!components.hasComponent()) {
-            deactivate();
-            return;
-          }
-          if (components.hasActiveComponent()) {
-            connect();
-          }
-          return;
-        }
-
-        synchronized (authenticator) {
-          if (authenticator.isPending()) {
-            return;
-          }
-          if (!authenticator.isCompleted()) {
-            authenticator.handshake(session);
-            return;
-          }
-        }
 
         synchronized (components) {
           components.refresh();
+          if (session == null) {
+            if (!components.hasComponent()) {
+              deactivate();
+              return;
+            }
+            if (components.hasActiveComponent()) {
+              connect();
+            }
+            return;
+          }
+
           if (!components.hasActiveComponent()) {
             log.info("No active components. Closing session.");
             session.close();
             return;
           }
 
+          synchronized (liveKeeper) {
+            liveKeeper.onHeartbeat(session);
+          }
+
+          synchronized (authenticator) {
+            if (authenticator.isPending()) {
+              return;
+            }
+            if (!authenticator.isCompleted()) {
+              authenticator.handshake(session);
+              return;
+            }
+          }
+
           components.heartbeat(session);
-          liveKeeper.onHeartbeat(session);
         }
       }
     } catch (Throwable t) {
