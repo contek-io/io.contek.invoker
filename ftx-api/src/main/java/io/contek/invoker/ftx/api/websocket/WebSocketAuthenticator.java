@@ -11,11 +11,12 @@ import javax.annotation.concurrent.ThreadSafe;
 import java.time.Clock;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import static io.contek.invoker.ftx.api.rest.RestRequest.FTX_SUBACCOUNT_KEY;
+
 @ThreadSafe
 public final class WebSocketAuthenticator implements IWebSocketAuthenticator {
 
   public static final String WEBSOCKET_LOGIN = "websocket_login";
-  public static final String SUBACCOUNT_KEY = "subaccount";
   private final ICredential credential;
   private final Clock clock;
 
@@ -39,7 +40,7 @@ public final class WebSocketAuthenticator implements IWebSocketAuthenticator {
     request.args.key = credential.getApiKeyId();
     request.args.sign = credential.sign(currentTimeStamp + WEBSOCKET_LOGIN);
     request.args.time = currentTimeStamp;
-    request.args.subaccount = credential.getProperties().get(SUBACCOUNT_KEY);
+    request.args.subaccount = credential.getProperties().get(FTX_SUBACCOUNT_KEY);
 
     session.send(request);
     // There will be no confirmation message after authentication.
