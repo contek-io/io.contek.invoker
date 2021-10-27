@@ -3,7 +3,6 @@ package io.contek.invoker.ftx.api.websocket.market;
 import io.contek.invoker.ftx.api.common._OrderBook;
 import io.contek.invoker.ftx.api.websocket.WebSocketChannel;
 import io.contek.invoker.ftx.api.websocket.WebSocketChannelId;
-import io.contek.invoker.ftx.api.websocket.common.WebSocketChannelMessage;
 
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
@@ -47,5 +46,5 @@ public final class OrderBookChannel
   }
 
   @NotThreadSafe
-  public static final class Message extends WebSocketChannelMessage<OrderBookChannel.Data> {}
+  public static final class Message extends WebSocketMarketMessage<OrderBookChannel.Data> {}
 }
