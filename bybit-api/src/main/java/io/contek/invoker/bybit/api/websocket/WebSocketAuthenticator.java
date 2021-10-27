@@ -18,7 +18,7 @@ import static io.contek.invoker.bybit.api.websocket.common.constants.WebSocketOp
 @ThreadSafe
 final class WebSocketAuthenticator implements IWebSocketAuthenticator {
 
-  private static final Duration EXPIRE_DELAY = Duration.ofSeconds(5);
+  private static final Duration EXPIRE_DELAY = Duration.ofSeconds(30);
 
   private final ICredential credential;
   private final Clock clock;
