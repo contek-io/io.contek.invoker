@@ -26,6 +26,7 @@ public final class WebSocketAuthenticator implements IWebSocketAuthenticator {
   private final ICredential credential;
   private final Clock clock;
 
+  private final AtomicBoolean pending = new AtomicBoolean();
   private final AtomicBoolean authenticated = new AtomicBoolean();
 
   public WebSocketAuthenticator(ICredential credential, Clock clock) {
@@ -50,6 +51,12 @@ public final class WebSocketAuthenticator implements IWebSocketAuthenticator {
 
     log.info("Requesting authentication for {}.", credential.getApiKeyId());
     session.send(request);
+    pending.set(true);
+  }
+
+  @Override
+  public boolean isPending() {
+    return pending.get();
   }
 
   @Override
@@ -62,6 +69,7 @@ public final class WebSocketAuthenticator implements IWebSocketAuthenticator {
     if (message instanceof WebSocketInfoMessage) {
       WebSocketInfoMessage info = (WebSocketInfoMessage) message;
       if (info.code == 20002) {
+        pending.set(false);
         authenticated.set(true);
         log.info("Authentication for {} completed.", credential.getApiKeyId());
       }
@@ -70,6 +78,7 @@ public final class WebSocketAuthenticator implements IWebSocketAuthenticator {
 
   @Override
   public void afterDisconnect() {
+    pending.set(false);
     authenticated.set(false);
   }
 }
