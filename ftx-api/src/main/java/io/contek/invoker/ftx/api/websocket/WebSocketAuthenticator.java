@@ -4,7 +4,6 @@ import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.IWebSocketAuthenticator;
 import io.contek.invoker.commons.websocket.WebSocketSession;
 import io.contek.invoker.ftx.api.websocket.common.WebSocketAuthenticationMessage;
-import io.contek.invoker.ftx.api.websocket.common.WebSocketInfoMessage;
 import io.contek.invoker.ftx.api.websocket.common.constants.WebSocketOutboundKeys;
 import io.contek.invoker.security.ICredential;
 import org.slf4j.Logger;
@@ -26,7 +25,6 @@ public final class WebSocketAuthenticator implements IWebSocketAuthenticator {
   private final ICredential credential;
   private final Clock clock;
 
-  private final AtomicBoolean pending = new AtomicBoolean();
   private final AtomicBoolean authenticated = new AtomicBoolean();
 
   public WebSocketAuthenticator(ICredential credential, Clock clock) {
@@ -51,12 +49,12 @@ public final class WebSocketAuthenticator implements IWebSocketAuthenticator {
 
     log.info("Requesting authentication for {}.", credential.getApiKeyId());
     session.send(request);
-    pending.set(true);
+    authenticated.set(true);
   }
 
   @Override
   public boolean isPending() {
-    return pending.get();
+    return false;
   }
 
   @Override
@@ -65,20 +63,10 @@ public final class WebSocketAuthenticator implements IWebSocketAuthenticator {
   }
 
   @Override
-  public void onMessage(AnyWebSocketMessage message, WebSocketSession session) {
-    if (message instanceof WebSocketInfoMessage) {
-      WebSocketInfoMessage info = (WebSocketInfoMessage) message;
-      if (info.code == 20002) {
-        pending.set(false);
-        authenticated.set(true);
-        log.info("Authentication for {} completed.", credential.getApiKeyId());
-      }
-    }
-  }
+  public void onMessage(AnyWebSocketMessage message, WebSocketSession session) {}
 
   @Override
   public void afterDisconnect() {
-    pending.set(false);
     authenticated.set(false);
   }
 }
