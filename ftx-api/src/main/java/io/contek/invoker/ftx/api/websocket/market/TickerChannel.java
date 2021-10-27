@@ -1,8 +1,6 @@
 package io.contek.invoker.ftx.api.websocket.market;
 
 import io.contek.invoker.ftx.api.common._Ticker;
-import io.contek.invoker.ftx.api.websocket.WebSocketChannel;
-import io.contek.invoker.ftx.api.websocket.WebSocketChannelId;
 
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
@@ -11,7 +9,8 @@ import javax.annotation.concurrent.ThreadSafe;
 import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketChannelKeys._ticker;
 
 @ThreadSafe
-public final class TickerChannel extends WebSocketChannel<TickerChannel.Id, TickerChannel.Message> {
+public final class TickerChannel
+    extends WebSocketMarketChannel<TickerChannel.Id, TickerChannel.Message> {
 
   TickerChannel(TickerChannel.Id id) {
     super(id);
@@ -23,7 +22,7 @@ public final class TickerChannel extends WebSocketChannel<TickerChannel.Id, Tick
   }
 
   @Immutable
-  public static final class Id extends WebSocketChannelId<TickerChannel.Message> {
+  public static final class Id extends WebSocketMarketChannelId<TickerChannel.Message> {
 
     private Id(String market) {
       super(_ticker, market);
@@ -38,5 +37,5 @@ public final class TickerChannel extends WebSocketChannel<TickerChannel.Id, Tick
   public static final class Data extends _Ticker {}
 
   @NotThreadSafe
-  public static final class Message extends WebSocketMarketMessage<TickerChannel.Data> {}
+  public static final class Message extends WebSocketMarketChannelMessage<Data> {}
 }
