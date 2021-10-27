@@ -4,6 +4,7 @@ import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.IWebSocketAuthenticator;
 import io.contek.invoker.commons.websocket.WebSocketSession;
 import io.contek.invoker.ftx.api.websocket.common.WebSocketAuthenticationMessage;
+import io.contek.invoker.ftx.api.websocket.common.WebSocketInfoMessage;
 import io.contek.invoker.ftx.api.websocket.common.constants.WebSocketOutboundKeys;
 import io.contek.invoker.security.ICredential;
 
@@ -43,8 +44,6 @@ public final class WebSocketAuthenticator implements IWebSocketAuthenticator {
     request.args.subaccount = credential.getProperties().get(FTX_SUBACCOUNT_KEY);
 
     session.send(request);
-    // There will be no confirmation message after authentication.
-    authenticated.set(true);
   }
 
   @Override
@@ -53,7 +52,14 @@ public final class WebSocketAuthenticator implements IWebSocketAuthenticator {
   }
 
   @Override
-  public void onMessage(AnyWebSocketMessage message, WebSocketSession session) {}
+  public void onMessage(AnyWebSocketMessage message, WebSocketSession session) {
+    if (message instanceof WebSocketInfoMessage) {
+      WebSocketInfoMessage info = (WebSocketInfoMessage) message;
+      if (info.code == 20002) {
+        authenticated.set(true);
+      }
+    }
+  }
 
   @Override
   public void afterDisconnect() {
