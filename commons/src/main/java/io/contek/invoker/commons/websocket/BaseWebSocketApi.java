@@ -155,9 +155,20 @@ public abstract class BaseWebSocketApi implements IWebSocketApi {
   private void heartbeat() {
     try {
       synchronized (sessionHolder) {
+        WebSocketSession session = sessionHolder.get();
+
+        synchronized (authenticator) {
+          if (authenticator.isPending()) {
+            return;
+          }
+          if (!authenticator.isCompleted()) {
+            authenticator.handshake(session);
+            return;
+          }
+        }
+
         synchronized (components) {
           components.refresh();
-          WebSocketSession session = sessionHolder.get();
           if (session == null) {
             if (!components.hasComponent()) {
               deactivate();
@@ -172,11 +183,6 @@ public abstract class BaseWebSocketApi implements IWebSocketApi {
           if (!components.hasActiveComponent()) {
             log.info("No active components. Closing session.");
             session.close();
-            return;
-          }
-
-          if (!authenticator.isPending() && !authenticator.isCompleted()) {
-            authenticator.handshake(session);
             return;
           }
 
