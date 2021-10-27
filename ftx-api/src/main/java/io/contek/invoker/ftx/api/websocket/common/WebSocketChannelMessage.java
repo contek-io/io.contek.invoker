@@ -6,6 +6,5 @@ import javax.annotation.concurrent.NotThreadSafe;
 public abstract class WebSocketChannelMessage<T> extends WebSocketInboundMessage {
 
   public String channel;
-  public String type;
   public T data;
 }
