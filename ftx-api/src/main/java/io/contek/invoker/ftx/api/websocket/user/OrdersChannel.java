@@ -1,8 +1,6 @@
 package io.contek.invoker.ftx.api.websocket.user;
 
 import io.contek.invoker.ftx.api.common._Order;
-import io.contek.invoker.ftx.api.websocket.WebSocketChannel;
-import io.contek.invoker.ftx.api.websocket.WebSocketChannelId;
 import io.contek.invoker.ftx.api.websocket.common.WebSocketChannelMessage;
 
 import javax.annotation.concurrent.Immutable;
@@ -12,25 +10,25 @@ import javax.annotation.concurrent.ThreadSafe;
 import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketChannelKeys._orders;
 
 @ThreadSafe
-public final class OrderUpdateChannel
-    extends WebSocketChannel<OrderUpdateChannel.Id, OrderUpdateChannel.Message> {
+public final class OrdersChannel
+    extends WebSocketUserChannel<OrdersChannel.Id, OrdersChannel.Message> {
 
-  OrderUpdateChannel() {
+  OrdersChannel() {
     super(Id.INSTANCE);
   }
 
   @Override
   public Class<Message> getMessageType() {
-    return OrderUpdateChannel.Message.class;
+    return OrdersChannel.Message.class;
   }
 
   @Immutable
-  public static final class Id extends WebSocketChannelId<OrderUpdateChannel.Message> {
+  public static final class Id extends WebSocketUserChannelId<OrdersChannel.Message> {
 
     private static final Id INSTANCE = new Id();
 
     private Id() {
-      super(_orders, null);
+      super(_orders);
     }
   }
 
@@ -38,5 +36,5 @@ public final class OrderUpdateChannel
   public static final class Data extends _Order {}
 
   @NotThreadSafe
-  public static final class Message extends WebSocketChannelMessage<OrderUpdateChannel.Data> {}
+  public static final class Message extends WebSocketChannelMessage<OrdersChannel.Data> {}
 }
