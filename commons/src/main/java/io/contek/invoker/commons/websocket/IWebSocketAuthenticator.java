@@ -12,6 +12,8 @@ public interface IWebSocketAuthenticator extends IWebSocketListener {
 
   void handshake(WebSocketSession session);
 
+  boolean isPending();
+
   boolean isCompleted();
 
   @Immutable
@@ -21,6 +23,11 @@ public interface IWebSocketAuthenticator extends IWebSocketListener {
 
     @Override
     public void handshake(WebSocketSession session) {}
+
+    @Override
+    public boolean isPending() {
+      return false;
+    }
 
     @Override
     public boolean isCompleted() {
