@@ -4,6 +4,7 @@ import okhttp3.*;
 
 import javax.annotation.concurrent.ThreadSafe;
 import java.io.IOException;
+import java.io.InterruptedIOException;
 import java.net.InetAddress;
 
 @ThreadSafe
@@ -21,6 +22,8 @@ public final class SimpleHttpClient implements IHttpClient {
   public Response submit(Request request) throws HttpConnectionException {
     try {
       return delegate.newCall(request).execute();
+    } catch (InterruptedIOException e) {
+      throw new HttpInterruptedException(e);
     } catch (IOException e) {
       throw new HttpConnectionException(e);
     }
