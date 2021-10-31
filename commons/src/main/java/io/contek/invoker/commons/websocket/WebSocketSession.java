@@ -1,6 +1,7 @@
 package io.contek.invoker.commons.websocket;
 
 import com.google.gson.Gson;
+import io.contek.invoker.commons.GsonFactory;
 import okhttp3.WebSocket;
 
 import javax.annotation.concurrent.ThreadSafe;
@@ -8,7 +9,7 @@ import javax.annotation.concurrent.ThreadSafe;
 @ThreadSafe
 public final class WebSocketSession {
 
-  private static final Gson gson = new Gson();
+  private static final Gson gson = GsonFactory.buildGson();
 
   private final WebSocket ws;
 

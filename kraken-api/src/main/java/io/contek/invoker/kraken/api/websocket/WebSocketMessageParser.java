@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import io.contek.invoker.commons.GsonFactory;
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.IWebSocketMessageParser;
 import io.contek.invoker.kraken.api.common._Book;
@@ -27,7 +28,7 @@ import static io.contek.invoker.kraken.api.websocket.common.constants.WebSocketC
 @Immutable
 final class WebSocketMessageParser implements IWebSocketMessageParser {
 
-  private final Gson gson = new Gson();
+  private final Gson gson = GsonFactory.buildGson();
 
   static WebSocketMessageParser getInstance() {
     return InstanceHolder.INSTANCE;

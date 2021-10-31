@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import io.contek.invoker.bitmex.api.websocket.common.*;
 import io.contek.invoker.bitmex.api.websocket.market.*;
 import io.contek.invoker.bitmex.api.websocket.user.OrderChannel;
+import io.contek.invoker.commons.GsonFactory;
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.IWebSocketMessageParser;
 
@@ -17,7 +18,7 @@ import static io.contek.invoker.bitmex.api.websocket.common.constants.WebSocketT
 @Immutable
 final class WebSocketMessageParser implements IWebSocketMessageParser {
 
-  private final Gson gson = new Gson();
+  private final Gson gson = GsonFactory.buildGson();
 
   static WebSocketMessageParser getInstance() {
     return InstanceHolder.INSTANCE;

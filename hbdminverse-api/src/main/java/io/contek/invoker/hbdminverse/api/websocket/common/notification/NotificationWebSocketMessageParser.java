@@ -3,6 +3,7 @@ package io.contek.invoker.hbdminverse.api.websocket.common.notification;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import io.contek.invoker.commons.GsonFactory;
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.IWebSocketComponent;
 import io.contek.invoker.commons.websocket.IWebSocketMessageParser;
@@ -21,7 +22,7 @@ import static io.contek.invoker.hbdminverse.api.websocket.user.constants.OpKeys.
 @Immutable
 final class NotificationWebSocketMessageParser implements IWebSocketMessageParser {
 
-  private final Gson gson = new Gson();
+  private final Gson gson = GsonFactory.buildGson();
 
   private final Map<String, Class<? extends NotificationWebSocketChannelMessage>>
       channelMessageTypes = new HashMap<>();

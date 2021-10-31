@@ -3,6 +3,7 @@ package io.contek.invoker.ftx.api.websocket;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import io.contek.invoker.commons.GsonFactory;
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.IWebSocketMessageParser;
 import io.contek.invoker.ftx.api.websocket.common.WebSocketInboundMessage;
@@ -21,7 +22,7 @@ import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketInbo
 @Immutable
 final class WebSocketMessageParser implements IWebSocketMessageParser {
 
-  private final Gson gson = new Gson();
+  private final Gson gson = GsonFactory.buildGson();
 
   static WebSocketMessageParser getInstance() {
     return InstanceHolder.INSTANCE;
