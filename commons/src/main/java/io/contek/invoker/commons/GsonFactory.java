@@ -47,6 +47,14 @@ public class GsonFactory {
         if ("".equals(value)) {
           return null;
         }
+        if (value.contains(".")) {
+          while (value.endsWith("0")) {
+            value = value.substring(0, value.length() - 1);
+          }
+          if (value.endsWith(".")) {
+            value = value.substring(0, value.length() - 1);
+          }
+        }
         return Integer.valueOf(value);
       } catch (NumberFormatException e) {
         throw new JsonSyntaxException(e);
@@ -75,6 +83,14 @@ public class GsonFactory {
         String value = in.nextString();
         if ("".equals(value)) {
           return null;
+        }
+        if (value.contains(".")) {
+          while (value.endsWith("0")) {
+            value = value.substring(0, value.length() - 1);
+          }
+          if (value.endsWith(".")) {
+            value = value.substring(0, value.length() - 1);
+          }
         }
         return Long.valueOf(value);
       } catch (NumberFormatException e) {
