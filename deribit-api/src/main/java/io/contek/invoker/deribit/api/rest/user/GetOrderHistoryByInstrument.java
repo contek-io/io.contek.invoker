@@ -62,7 +62,7 @@ public final class GetOrderHistoryByInstrument
 
   @Override
   protected String getEndpointPath() {
-    return "/api/v2/private/get_open_orders_by_instrument";
+    return "/api/v2/private/get_order_history_by_instrument";
   }
 
   @Override
