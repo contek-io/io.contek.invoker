@@ -154,7 +154,7 @@ public final class ApiFactory {
         RateLimitRule.newBuilder()
             .setName("ip_web_socket_connection_rule")
             .setType(IP)
-            .setMaxPermits(20)
+            .setMaxPermits(60)
             .setResetPeriod(Duration.ofHours(1))
             .build();
 
