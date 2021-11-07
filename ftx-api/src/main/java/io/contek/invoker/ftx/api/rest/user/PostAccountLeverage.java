@@ -36,7 +36,7 @@ public final class PostAccountLeverage extends UserRestRequest<PostAccountLevera
 
   @Override
   protected String getEndpointPath() {
-    return "/account/leverage";
+    return "/api/account/leverage";
   }
 
   @Override
