@@ -20,6 +20,10 @@ public final class UserRestApi {
     return new DeleteAllOrders(actor, context);
   }
 
+  public DeleteConditionalOrders deleteConditionalOrders() {
+    return new DeleteConditionalOrders(actor, context);
+  }
+
   public DeleteOrders deleteOrders() {
     return new DeleteOrders(actor, context);
   }
@@ -30,6 +34,14 @@ public final class UserRestApi {
 
   public GetAccount getAccount() {
     return new GetAccount(actor, context);
+  }
+
+  public GetConditionalOrdersHistory getConditionalOrdersHistory() {
+    return new GetConditionalOrdersHistory(actor, context);
+  }
+
+  public GetOpenConditionalOrders getOpenConditionalOrders() {
+    return new GetOpenConditionalOrders(actor, context);
   }
 
   public GetOpenOrders getOpenOrders() {
@@ -62,6 +74,10 @@ public final class UserRestApi {
 
   public PostAccountLeverage postAccountLeverage() {
     return new PostAccountLeverage(actor, context);
+  }
+
+  public PostConditionalOrders postConditionalOrders() {
+    return new PostConditionalOrders(actor, context);
   }
 
   public PostOrders postOrders() {
