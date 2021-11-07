@@ -19,6 +19,8 @@ import static io.contek.invoker.ftx.api.ApiFactory.RateLimits.ONE_REST_REQUEST;
 public final class GetOrderHistory extends UserRestRequest<GetOrderHistory.Response> {
 
   private String market;
+  private String side;
+  private String orderType;
   private Long startTime;
   private Long endTime;
 
@@ -28,6 +30,16 @@ public final class GetOrderHistory extends UserRestRequest<GetOrderHistory.Respo
 
   public GetOrderHistory setMarket(String market) {
     this.market = market;
+    return this;
+  }
+
+  public GetOrderHistory setSide(String side) {
+    this.side = side;
+    return this;
+  }
+
+  public GetOrderHistory setOrderType(String orderType) {
+    this.orderType = orderType;
     return this;
   }
 
@@ -57,6 +69,14 @@ public final class GetOrderHistory extends UserRestRequest<GetOrderHistory.Respo
 
     if (market != null) {
       builder.add("market", market);
+    }
+
+    if (side != null) {
+      builder.add("side", side);
+    }
+
+    if (orderType != null) {
+      builder.add("orderType", orderType);
     }
 
     if (startTime != null) {
