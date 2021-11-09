@@ -4,4 +4,4 @@ import javax.annotation.concurrent.NotThreadSafe;
 import java.util.List;
 
 @NotThreadSafe
-public final class WebSocketSubscribeConfirmation extends WebSocketResponse<List<String>> {}
+public final class WebSocketSubscriptionConfirmation extends WebSocketResponse<List<String>> {}
