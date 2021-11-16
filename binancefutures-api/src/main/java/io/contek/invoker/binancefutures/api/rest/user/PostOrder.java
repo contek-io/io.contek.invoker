@@ -13,11 +13,17 @@ import javax.annotation.Nullable;
 import javax.annotation.concurrent.NotThreadSafe;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static io.contek.invoker.binancefutures.api.ApiFactory.RateLimits.ONE_REST_ORDER_REQUEST;
+import static io.contek.invoker.binancefutures.api.ApiFactory.RateLimits.*;
 import static io.contek.invoker.commons.rest.RestMethod.POST;
 
 @NotThreadSafe
 public final class PostOrder extends UserRestRequest<Response> {
+
+  private static final ImmutableList<TypedPermitRequest> REQUIRED_QUOTA =
+      ImmutableList.of(
+          IP_REST_REQUEST_RULE.forPermits(1),
+          API_KEY_REST_ORDER_RULE_ONE_MINUTE.forPermits(1),
+          API_KEY_REST_ORDER_RULE_TEN_SECONDS.forPermits(1));
 
   private String symbol;
   private String side;
@@ -207,7 +213,7 @@ public final class PostOrder extends UserRestRequest<Response> {
 
   @Override
   protected ImmutableList<TypedPermitRequest> getRequiredQuotas() {
-    return ONE_REST_ORDER_REQUEST;
+    return REQUIRED_QUOTA;
   }
 
   @NotThreadSafe
