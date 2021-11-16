@@ -90,7 +90,10 @@ public final class ApiFactory {
 
   private static LimiterManager createLimiterManager() {
     return LimiterManagers.forRules(
-        IP_REST_REQUEST_RULE, API_KEY_REST_ORDER_RULE, IP_WEB_SOCKET_CONNECTION_RULE);
+        IP_REST_REQUEST_RULE,
+        API_KEY_REST_ORDER_RULE_ONE_MINUTE,
+        API_KEY_REST_ORDER_RULE_TEN_SECONDS,
+        IP_WEB_SOCKET_CONNECTION_RULE);
   }
 
   @ThreadSafe
@@ -142,12 +145,20 @@ public final class ApiFactory {
             .setResetPeriod(Duration.ofMinutes(1))
             .build();
 
-    public static final RateLimitRule API_KEY_REST_ORDER_RULE =
+    public static final RateLimitRule API_KEY_REST_ORDER_RULE_ONE_MINUTE =
         RateLimitRule.newBuilder()
-            .setName("api_key_rest_order_rule")
+            .setName("api_key_rest_order_rule_one_minute")
             .setType(API_KEY)
             .setMaxPermits(1200)
             .setResetPeriod(Duration.ofMinutes(1))
+            .build();
+
+    public static final RateLimitRule API_KEY_REST_ORDER_RULE_TEN_SECONDS =
+        RateLimitRule.newBuilder()
+            .setName("api_key_rest_order_rule_ten_seconds")
+            .setType(API_KEY)
+            .setMaxPermits(300)
+            .setResetPeriod(Duration.ofSeconds(10))
             .build();
 
     public static final RateLimitRule IP_WEB_SOCKET_CONNECTION_RULE =
@@ -160,9 +171,6 @@ public final class ApiFactory {
 
     public static final ImmutableList<TypedPermitRequest> ONE_REST_REQUEST =
         ImmutableList.of(IP_REST_REQUEST_RULE.forPermits(1));
-
-    public static final ImmutableList<TypedPermitRequest> ONE_REST_ORDER_REQUEST =
-        ImmutableList.of(IP_REST_REQUEST_RULE.forPermits(1), API_KEY_REST_ORDER_RULE.forPermits(1));
 
     public static final ImmutableList<TypedPermitRequest> ONE_WEB_SOCKET_CONNECTION =
         ImmutableList.of(IP_WEB_SOCKET_CONNECTION_RULE.forPermits(1));
