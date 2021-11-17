@@ -11,6 +11,7 @@ import java.util.concurrent.atomic.AtomicReference;
 public final class UserWebSocketApi extends WebSocketApi {
 
   private final AtomicReference<OrderChannel> orderChannel = new AtomicReference<>();
+  private final AtomicReference<PositionChannel> positionChannel = new AtomicReference<>();
 
   public UserWebSocketApi(IActor actor, WebSocketContext context) {
     super(actor, context);
@@ -23,6 +24,16 @@ public final class UserWebSocketApi extends WebSocketApi {
         attach(this.orderChannel.get());
       }
       return orderChannel.get();
+    }
+  }
+
+  public PositionChannel getPositionChannel() {
+    synchronized (positionChannel) {
+      if (positionChannel.get() == null) {
+        positionChannel.set(new PositionChannel());
+        attach(this.positionChannel.get());
+      }
+      return positionChannel.get();
     }
   }
 }
