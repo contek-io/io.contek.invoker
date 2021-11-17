@@ -9,26 +9,49 @@ import io.contek.invoker.commons.rest.RestParams;
 import io.contek.invoker.ftx.api.common._Fill;
 import io.contek.invoker.ftx.api.rest.common.RestResponse;
 
+import javax.annotation.Nullable;
 import javax.annotation.concurrent.NotThreadSafe;
 import java.util.List;
 
 import static io.contek.invoker.commons.rest.RestMethod.GET;
 import static io.contek.invoker.ftx.api.ApiFactory.RateLimits.ONE_REST_REQUEST;
 
-public class GetFills extends UserRestRequest<GetFills.Response> {
+@NotThreadSafe
+public final class GetFills extends UserRestRequest<GetFills.Response> {
 
   private String market;
-
   private Long start_time;
-
   private Long end_time;
-
   private String order;
-
   private String orderId;
 
   GetFills(IActor actor, RestContext context) {
     super(actor, context);
+  }
+
+  public GetFills setMarket(@Nullable String market) {
+    this.market = market;
+    return this;
+  }
+
+  public GetFills setStartTime(@Nullable Long start_time) {
+    this.start_time = start_time;
+    return this;
+  }
+
+  public GetFills setEndTime(@Nullable Long end_time) {
+    this.end_time = end_time;
+    return this;
+  }
+
+  public GetFills setOrder(@Nullable String order) {
+    this.order = order;
+    return this;
+  }
+
+  public GetFills setOrderId(@Nullable String orderId) {
+    this.orderId = orderId;
+    return this;
   }
 
   @Override
@@ -71,51 +94,6 @@ public class GetFills extends UserRestRequest<GetFills.Response> {
       builder.add("orderId", orderId);
     }
     return builder.build();
-  }
-
-  public String getMarket() {
-    return market;
-  }
-
-  public GetFills setMarket(String market) {
-    this.market = market;
-    return this;
-  }
-
-  public Long getStartTime() {
-    return start_time;
-  }
-
-  public GetFills setStartTime(Long start_time) {
-    this.start_time = start_time;
-    return this;
-  }
-
-  public Long getEndTime() {
-    return end_time;
-  }
-
-  public GetFills setEndTime(Long end_time) {
-    this.end_time = end_time;
-    return this;
-  }
-
-  public String getOrder() {
-    return order;
-  }
-
-  public GetFills setOrder(String order) {
-    this.order = order;
-    return this;
-  }
-
-  public String getOrderId() {
-    return orderId;
-  }
-
-  public GetFills setOrderId(String orderId) {
-    this.orderId = orderId;
-    return this;
   }
 
   @NotThreadSafe
