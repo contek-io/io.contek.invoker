@@ -12,6 +12,8 @@ import java.util.Map;
 public final class UserWebSocketApi extends WebSocketApi {
 
   private final Map<UserOrdersChannel.Id, UserOrdersChannel> userOrdersChannels = new HashMap<>();
+  private final Map<UserPositionsChannel.Id, UserPositionsChannel> userPositionsChannels =
+      new HashMap<>();
 
   public UserWebSocketApi(IActor actor, WebSocketContext context) {
     super(actor, context);
@@ -23,6 +25,18 @@ public final class UserWebSocketApi extends WebSocketApi {
           id,
           k -> {
             UserOrdersChannel result = new UserOrdersChannel(k, getRequestIdGenerator());
+            attach(result);
+            return result;
+          });
+    }
+  }
+
+  public UserPositionsChannel getUserPositionsChannel(UserPositionsChannel.Id id) {
+    synchronized (userPositionsChannels) {
+      return userPositionsChannels.computeIfAbsent(
+          id,
+          k -> {
+            UserPositionsChannel result = new UserPositionsChannel(k, getRequestIdGenerator());
             attach(result);
             return result;
           });
