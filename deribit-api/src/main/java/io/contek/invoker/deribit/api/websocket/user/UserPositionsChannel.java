@@ -32,7 +32,7 @@ public final class UserPositionsChannel
     }
 
     public static Id of(String instrumentName) {
-      return new Id(format("user.positions.%s.raw", instrumentName));
+      return new Id(format("user.positions.%s.100ms", instrumentName));
     }
   }
 
