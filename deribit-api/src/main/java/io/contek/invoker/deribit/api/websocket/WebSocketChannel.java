@@ -6,8 +6,8 @@ import io.contek.invoker.commons.websocket.BaseWebSocketChannel;
 import io.contek.invoker.commons.websocket.SubscriptionState;
 import io.contek.invoker.commons.websocket.WebSocketSession;
 import io.contek.invoker.deribit.api.websocket.common.SubscriptionParams;
-import io.contek.invoker.deribit.api.websocket.common.WebSocketChannelMessage;
 import io.contek.invoker.deribit.api.websocket.common.WebSocketRequest;
+import io.contek.invoker.deribit.api.websocket.common.WebSocketSingleChannelMessage;
 import io.contek.invoker.deribit.api.websocket.common.WebSocketSubscriptionConfirmation;
 
 import javax.annotation.Nullable;
@@ -20,7 +20,7 @@ import static io.contek.invoker.deribit.api.websocket.common.constants.WebSocket
 
 @ThreadSafe
 public abstract class WebSocketChannel<
-        Id extends WebSocketChannelId<Message>, Message extends WebSocketChannelMessage<?>>
+        Id extends WebSocketChannelId<Message>, Message extends WebSocketSingleChannelMessage<?>>
     extends BaseWebSocketChannel<Id, Message> {
 
   private final String scope;
