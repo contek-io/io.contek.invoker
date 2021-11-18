@@ -2,7 +2,7 @@ package io.contek.invoker.deribit.api.websocket.market;
 
 import io.contek.invoker.deribit.api.websocket.WebSocketChannelId;
 import io.contek.invoker.deribit.api.websocket.WebSocketRequestIdGenerator;
-import io.contek.invoker.deribit.api.websocket.common.WebSocketChannelMessage;
+import io.contek.invoker.deribit.api.websocket.common.WebSocketSingleChannelMessage;
 
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
@@ -38,7 +38,7 @@ public final class TradesChannel
   }
 
   @NotThreadSafe
-  public static final class Message extends WebSocketChannelMessage<List<Data>> {}
+  public static final class Message extends WebSocketSingleChannelMessage<List<Data>> {}
 
   @NotThreadSafe
   public static final class Data {

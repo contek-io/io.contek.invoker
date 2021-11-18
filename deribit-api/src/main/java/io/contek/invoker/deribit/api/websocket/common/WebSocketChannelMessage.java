@@ -3,9 +3,9 @@ package io.contek.invoker.deribit.api.websocket.common;
 import javax.annotation.concurrent.NotThreadSafe;
 
 @NotThreadSafe
-public abstract class WebSocketChannelMessage<T> extends WebSocketInboundMessage {
+public abstract class WebSocketChannelMessage<P extends Params> extends WebSocketInboundMessage {
 
   public String jsonrpc;
   public String method;
-  public Params<T> params;
+  public P params;
 }
