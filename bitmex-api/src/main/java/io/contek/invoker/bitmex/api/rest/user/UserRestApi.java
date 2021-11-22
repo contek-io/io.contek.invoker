@@ -24,6 +24,10 @@ public final class UserRestApi {
     return new DeleteOrderAll(actor, context);
   }
 
+  public GetExecutionTradeHistory getExecutionTradeHistory() {
+    return new GetExecutionTradeHistory(actor, context);
+  }
+
   public GetOrder getOrder() {
     return new GetOrder(actor, context);
   }
