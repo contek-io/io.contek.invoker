@@ -20,7 +20,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 @ThreadSafe
 final class WebSocketAuthenticator implements IWebSocketAuthenticator {
 
-  private static final Duration EXPIRE_DELAY = Duration.ofSeconds(5);
+  private static final Duration EXPIRE_DELAY = Duration.ofSeconds(30);
   private static final Logger log = getLogger(WebSocketAuthenticator.class);
 
   private final ICredential credential;
