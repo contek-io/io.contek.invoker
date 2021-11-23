@@ -32,6 +32,26 @@ public final class GetExecutionTradeHistory extends UserRestRequest<Response> {
     super(actor, context);
   }
 
+  public GetExecutionTradeHistory setSymbol(String symbol) {
+    this.symbol = symbol;
+    return this;
+  }
+
+  public GetExecutionTradeHistory setStartTime(String startTime) {
+    this.startTime = startTime;
+    return this;
+  }
+
+  public GetExecutionTradeHistory setEndTime(String endTime) {
+    this.endTime = endTime;
+    return this;
+  }
+
+  public GetExecutionTradeHistory setReverse(Boolean reverse) {
+    this.reverse = reverse;
+    return this;
+  }
+
   public GetExecutionTradeHistory setCount(@Nullable Integer count) {
     this.count = count;
     return this;
