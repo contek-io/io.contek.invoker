@@ -24,36 +24,42 @@ public final class GetExecutionTradeHistory extends UserRestRequest<Response> {
   private String symbol;
   private String startTime;
   private String endTime;
-  private Boolean reverse;
   private Integer count;
+  private Integer start;
+  private Boolean reverse;
   private final Map<String, String> filter = new HashMap<>();
 
   GetExecutionTradeHistory(IActor actor, RestContext context) {
     super(actor, context);
   }
 
-  public GetExecutionTradeHistory setSymbol(String symbol) {
+  public GetExecutionTradeHistory setSymbol(@Nullable String symbol) {
     this.symbol = symbol;
     return this;
   }
 
-  public GetExecutionTradeHistory setStartTime(String startTime) {
+  public GetExecutionTradeHistory setStartTime(@Nullable String startTime) {
     this.startTime = startTime;
     return this;
   }
 
-  public GetExecutionTradeHistory setEndTime(String endTime) {
+  public GetExecutionTradeHistory setEndTime(@Nullable String endTime) {
     this.endTime = endTime;
-    return this;
-  }
-
-  public GetExecutionTradeHistory setReverse(Boolean reverse) {
-    this.reverse = reverse;
     return this;
   }
 
   public GetExecutionTradeHistory setCount(@Nullable Integer count) {
     this.count = count;
+    return this;
+  }
+
+  public GetExecutionTradeHistory setStart(@Nullable Integer start) {
+    this.start = start;
+    return this;
+  }
+
+  public GetExecutionTradeHistory setReverse(@Nullable Boolean reverse) {
+    this.reverse = reverse;
     return this;
   }
 
@@ -90,11 +96,14 @@ public final class GetExecutionTradeHistory extends UserRestRequest<Response> {
     if (endTime != null) {
       builder.add("endTime", endTime);
     }
-    if (reverse != null) {
-      builder.add("reverse", reverse);
-    }
     if (count != null) {
       builder.add("count", count);
+    }
+    if (start != null) {
+      builder.add("start", start);
+    }
+    if (reverse != null) {
+      builder.add("reverse", reverse);
     }
     if (!filter.isEmpty()) {
       builder.add("filter", gson.toJson(filter, Map.class));
