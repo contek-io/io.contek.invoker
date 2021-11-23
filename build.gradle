@@ -39,7 +39,7 @@ subprojects {
     }
 
     group = 'io.contek.invoker'
-    version = '2.15.33-SNAPSHOT'
+    version = '2.15.34-SNAPSHOT'
 
     task sourcesJar(type: Jar) {
         from sourceSets.main.allSource
