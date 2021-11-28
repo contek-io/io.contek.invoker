@@ -63,5 +63,5 @@ public final class PostLendingOffer extends SpotMarginRestRequest<PostLendingOff
     }
 
     @NotThreadSafe
-    public static final class Response extends RestResponse<Void> {}
+    public static final class Response extends RestResponse<String> {}
 }
