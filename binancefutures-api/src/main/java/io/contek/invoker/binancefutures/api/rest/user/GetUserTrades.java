@@ -73,7 +73,7 @@ public final class GetUserTrades extends UserRestRequest<Response> {
 
   @Override
   protected String getEndpointPath() {
-    return "/fapi/v1/order";
+    return "/fapi/v1/userTrades";
   }
 
   @Override
