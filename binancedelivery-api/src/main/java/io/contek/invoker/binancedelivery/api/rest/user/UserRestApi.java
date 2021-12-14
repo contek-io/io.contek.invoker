@@ -56,6 +56,10 @@ public final class UserRestApi {
     return new GetPositionSideDual(actor, context);
   }
 
+  public GetUserTrades getUserTrades() {
+    return new GetUserTrades(actor, context);
+  }
+
   public PostOrder postOrder() {
     return new PostOrder(actor, context);
   }
