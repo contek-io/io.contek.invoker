@@ -1,0 +1,10 @@
+dependencies {
+    implementation project(':commons')
+    implementation project(':security')
+
+    implementation "io.contek.ursa:ursa-cache:${ursaVersion}"
+    implementation "io.contek.ursa:ursa-core-api:${ursaVersion}"
+    implementation "com.google.code.gson:gson:${gsonVersion}"
+}
+
+description = 'Bybit Linear Java API'
