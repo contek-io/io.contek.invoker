@@ -48,7 +48,7 @@ public final class GetKlineList extends MarketRestRequest<Response> {
 
   @Override
   protected String getEndpointPath() {
-    return "/v2/public/kline/list";
+    return "/public/linear/kline";
   }
 
   @Override
