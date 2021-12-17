@@ -42,7 +42,7 @@ public final class PostLeverageSave extends UserRestRequest<Response> {
 
   @Override
   protected String getEndpointPath() {
-    return "/user/leverage/save";
+    return "/private/linear/position/set-leverage";
   }
 
   @Override
