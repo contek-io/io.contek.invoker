@@ -49,7 +49,7 @@ public final class GetOrder extends UserRestRequest<Response> {
 
   @Override
   protected String getEndpointPath() {
-    return "/v2/private/order";
+    return "/private/linear/order/search";
   }
 
   @Override

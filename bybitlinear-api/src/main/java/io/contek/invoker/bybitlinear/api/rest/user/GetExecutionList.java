@@ -20,11 +20,11 @@ import static java.util.Objects.requireNonNull;
 public final class GetExecutionList extends UserRestRequest<Response> {
 
   private String symbol;
-  private String order_id;
   private Long start_time;
+  private Long end_time;
+  private String exec_type;
   private Integer page;
   private Integer limit;
-  private String order;
 
   GetExecutionList(IActor actor, RestContext context) {
     super(actor, context);
@@ -42,7 +42,7 @@ public final class GetExecutionList extends UserRestRequest<Response> {
 
   @Override
   protected String getEndpointPath() {
-    return "/v2/private/execution/list";
+    return "/private/linear/trade/execution/list";
   }
 
   @Override
@@ -52,12 +52,16 @@ public final class GetExecutionList extends UserRestRequest<Response> {
     requireNonNull(symbol);
     builder.add("symbol", symbol);
 
-    if (order_id != null) {
-      builder.add("order_id", order_id);
-    }
-
     if (start_time != null) {
       builder.add("start_time", start_time);
+    }
+
+    if (end_time != null) {
+      builder.add("end_time", end_time);
+    }
+
+    if (exec_type != null) {
+      builder.add("exec_type", exec_type);
     }
 
     if (page != null) {
@@ -66,10 +70,6 @@ public final class GetExecutionList extends UserRestRequest<Response> {
 
     if (limit != null) {
       builder.add("limit", limit);
-    }
-
-    if (order != null) {
-      builder.add("order", order);
     }
 
     return builder.build();

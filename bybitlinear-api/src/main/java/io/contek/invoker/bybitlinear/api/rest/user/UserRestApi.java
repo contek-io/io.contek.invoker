@@ -32,24 +32,12 @@ public final class UserRestApi {
     return new GetOrderList(actor, context);
   }
 
-  public GetPosition getPosition() {
-    return new GetPosition(actor, context);
-  }
-
   public GetPositionList getPositionList() {
     return new GetPositionList(actor, context);
   }
 
-  public GetUserLeverage getUserLeverage() {
-    return new GetUserLeverage(actor, context);
-  }
-
   public GetWalletBalance getWalletBalance() {
     return new GetWalletBalance(actor, context);
-  }
-
-  public GetWalletFundRecords getWalletFundRecords() {
-    return new GetWalletFundRecords(actor, context);
   }
 
   public PostLeverageSave postLeverageSave() {
@@ -66,9 +54,5 @@ public final class UserRestApi {
 
   public PostOrderCreate postOrderCreate() {
     return new PostOrderCreate(actor, context);
-  }
-
-  public PostUserLeverageSave postUserLeverageSave() {
-    return new PostUserLeverageSave(actor, context);
   }
 }
