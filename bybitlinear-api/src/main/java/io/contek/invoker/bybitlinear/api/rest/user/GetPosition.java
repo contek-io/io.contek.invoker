@@ -11,16 +11,24 @@ import io.contek.invoker.commons.rest.RestParams;
 
 import javax.annotation.concurrent.NotThreadSafe;
 import java.util.List;
+import java.util.Objects;
 
 import static io.contek.invoker.bybitlinear.api.ApiFactory.RateLimits.ONE_REST_PRIVATE_POSITION_READ_REQUEST;
-import static io.contek.invoker.bybitlinear.api.rest.user.GetPositionList.Response;
+import static io.contek.invoker.bybitlinear.api.rest.user.GetPosition.Response;
 import static io.contek.invoker.commons.rest.RestMethod.GET;
 
 @NotThreadSafe
-public final class GetPositionList extends UserRestRequest<Response> {
+public final class GetPosition extends UserRestRequest<Response> {
 
-  GetPositionList(IActor actor, RestContext context) {
+  private String symbol;
+
+  GetPosition(IActor actor, RestContext context) {
     super(actor, context);
+  }
+
+  public GetPosition setSymbol(String symbol) {
+    this.symbol = symbol;
+    return this;
   }
 
   @Override
@@ -35,7 +43,12 @@ public final class GetPositionList extends UserRestRequest<Response> {
 
   @Override
   protected RestParams getParams() {
-    return RestParams.empty();
+    RestParams.Builder builder = RestParams.newBuilder();
+
+    Objects.requireNonNull(symbol);
+    builder.add("symbol", symbol);
+
+    return builder.build();
   }
 
   @Override
@@ -49,12 +62,5 @@ public final class GetPositionList extends UserRestRequest<Response> {
   }
 
   @NotThreadSafe
-  public static final class Response extends RestResponse<List<Result>> {}
-
-  @NotThreadSafe
-  public static final class Result {
-
-    public boolean is_valid;
-    public _Position data;
-  }
+  public static final class Response extends RestResponse<List<_Position>> {}
 }
