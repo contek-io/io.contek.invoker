@@ -21,6 +21,6 @@ public class _Order {
   public String order_link_id;
   public Boolean reduce_only;
   public Boolean close_on_trigger;
-  public String created_at;
-  public String updated_at;
+  public String created_time;
+  public String updated_time;
 }
