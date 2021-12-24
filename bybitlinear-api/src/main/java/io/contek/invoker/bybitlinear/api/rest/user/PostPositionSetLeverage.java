@@ -11,38 +11,32 @@ import io.contek.invoker.commons.rest.RestParams;
 import javax.annotation.concurrent.NotThreadSafe;
 
 import static io.contek.invoker.bybitlinear.api.ApiFactory.RateLimits.ONE_REST_PRIVATE_POSITION_WRITE_REQUEST;
-import static io.contek.invoker.bybitlinear.api.rest.user.PostPositionSwitchIsolated.Response;
+import static io.contek.invoker.bybitlinear.api.rest.user.PostPositionSetLeverage.Response;
 import static io.contek.invoker.commons.rest.RestMethod.POST;
 import static java.util.Objects.requireNonNull;
 
 @NotThreadSafe
-public final class PostPositionSwitchIsolated extends UserRestRequest<Response> {
+public final class PostPositionSetLeverage extends UserRestRequest<Response> {
 
   private String symbol;
-  private Boolean is_isolated;
   private Double buy_leverage;
   private Double sell_leverage;
 
-  PostPositionSwitchIsolated(IActor actor, RestContext context) {
+  PostPositionSetLeverage(IActor actor, RestContext context) {
     super(actor, context);
   }
 
-  public PostPositionSwitchIsolated setSymbol(String symbol) {
+  public PostPositionSetLeverage setSymbol(String symbol) {
     this.symbol = symbol;
     return this;
   }
 
-  public PostPositionSwitchIsolated setIsIsolated(Boolean is_isolated) {
-    this.is_isolated = is_isolated;
-    return this;
-  }
-
-  public PostPositionSwitchIsolated setBuyLeverage(Double buy_leverage) {
+  public PostPositionSetLeverage setBuyLeverage(Double buy_leverage) {
     this.buy_leverage = buy_leverage;
     return this;
   }
 
-  public PostPositionSwitchIsolated setSellLeverage(Double sell_leverage) {
+  public PostPositionSetLeverage setSellLeverage(Double sell_leverage) {
     this.sell_leverage = sell_leverage;
     return this;
   }
@@ -54,7 +48,7 @@ public final class PostPositionSwitchIsolated extends UserRestRequest<Response> 
 
   @Override
   protected String getEndpointPath() {
-    return "/private/linear/position/switch-isolated";
+    return "/private/linear/position/set-leverage";
   }
 
   @Override
@@ -63,9 +57,6 @@ public final class PostPositionSwitchIsolated extends UserRestRequest<Response> 
 
     requireNonNull(symbol);
     builder.add("symbol", symbol);
-
-    requireNonNull(is_isolated);
-    builder.add("is_isolated", is_isolated);
 
     requireNonNull(buy_leverage);
     builder.add("buy_leverage", buy_leverage);
