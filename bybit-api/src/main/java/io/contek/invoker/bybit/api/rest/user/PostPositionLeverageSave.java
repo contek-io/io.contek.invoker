@@ -8,42 +8,37 @@ import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
 
+import javax.annotation.Nullable;
 import javax.annotation.concurrent.NotThreadSafe;
 
 import static io.contek.invoker.bybit.api.ApiFactory.RateLimits.ONE_REST_PRIVATE_POSITION_WRITE_REQUEST;
-import static io.contek.invoker.bybit.api.rest.user.PostPositionSwitchIsolated.Response;
 import static io.contek.invoker.commons.rest.RestMethod.POST;
 import static java.util.Objects.requireNonNull;
 
 @NotThreadSafe
-public final class PostPositionSwitchIsolated extends UserRestRequest<Response> {
+public final class PostPositionLeverageSave
+    extends UserRestRequest<PostPositionLeverageSave.Response> {
 
   private String symbol;
-  private Boolean is_isolated;
-  private Double buy_leverage;
-  private Double sell_leverage;
+  private Double leverage;
+  private Boolean leverage_only;
 
-  PostPositionSwitchIsolated(IActor actor, RestContext context) {
+  PostPositionLeverageSave(IActor actor, RestContext context) {
     super(actor, context);
   }
 
-  public PostPositionSwitchIsolated setSymbol(String symbol) {
+  public PostPositionLeverageSave setSymbol(String symbol) {
     this.symbol = symbol;
     return this;
   }
 
-  public PostPositionSwitchIsolated setIsIsolated(Boolean is_isolated) {
-    this.is_isolated = is_isolated;
+  public PostPositionLeverageSave setLeverage(Double leverage) {
+    this.leverage = leverage;
     return this;
   }
 
-  public PostPositionSwitchIsolated setBuyLeverage(Double buy_leverage) {
-    this.buy_leverage = buy_leverage;
-    return this;
-  }
-
-  public PostPositionSwitchIsolated setSellLeverage(Double sell_leverage) {
-    this.sell_leverage = sell_leverage;
+  public PostPositionLeverageSave setLeverageOnly(@Nullable Boolean leverage_only) {
+    this.leverage_only = leverage_only;
     return this;
   }
 
@@ -54,7 +49,7 @@ public final class PostPositionSwitchIsolated extends UserRestRequest<Response> 
 
   @Override
   protected String getEndpointPath() {
-    return "/v2/private/position/switch-isolated";
+    return "/v2/private/position/leverage/save";
   }
 
   @Override
@@ -64,14 +59,12 @@ public final class PostPositionSwitchIsolated extends UserRestRequest<Response> 
     requireNonNull(symbol);
     builder.add("symbol", symbol);
 
-    requireNonNull(is_isolated);
-    builder.add("is_isolated", is_isolated);
+    requireNonNull(leverage);
+    builder.add("leverage", leverage);
 
-    requireNonNull(buy_leverage);
-    builder.add("buy_leverage", buy_leverage);
-
-    requireNonNull(sell_leverage);
-    builder.add("sell_leverage", sell_leverage);
+    if (leverage_only != null) {
+      builder.add("leverage_only", leverage_only);
+    }
 
     return builder.build();
   }
@@ -87,5 +80,5 @@ public final class PostPositionSwitchIsolated extends UserRestRequest<Response> 
   }
 
   @NotThreadSafe
-  public static final class Response extends RestResponse<Void> {}
+  public static final class Response extends RestResponse<Double> {}
 }
