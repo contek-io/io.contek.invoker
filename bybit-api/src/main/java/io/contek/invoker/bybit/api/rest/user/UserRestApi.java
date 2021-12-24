@@ -48,8 +48,8 @@ public final class UserRestApi {
     return new GetWalletBalance(actor, context);
   }
 
-  public PostLeverageSave postLeverageSave() {
-    return new PostLeverageSave(actor, context);
+  public PostPositionSwitchIsolated postPositionSwitchIsolated() {
+    return new PostPositionSwitchIsolated(actor, context);
   }
 
   public PostOrderCancel postOrderCancel() {
