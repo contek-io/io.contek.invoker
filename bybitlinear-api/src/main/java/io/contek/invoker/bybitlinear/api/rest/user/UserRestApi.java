@@ -48,6 +48,10 @@ public final class UserRestApi {
     return new PostPositionSwitchIsolated(actor, context);
   }
 
+  public PostPositionSetLeverage postPositionSetLeverage() {
+    return new PostPositionSetLeverage(actor, context);
+  }
+
   public PostOrderCancel postOrderCancel() {
     return new PostOrderCancel(actor, context);
   }
