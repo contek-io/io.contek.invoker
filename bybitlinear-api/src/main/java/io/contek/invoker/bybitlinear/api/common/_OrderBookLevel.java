@@ -6,7 +6,7 @@ import javax.annotation.concurrent.NotThreadSafe;
 public class _OrderBookLevel {
 
   public String symbol;
-  public double price;
-  public int size;
+  public Double price;
+  public Double size;
   public String side;
 }
