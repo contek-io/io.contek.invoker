@@ -1,7 +1,6 @@
 package io.contek.invoker.bybitlinear.api.rest.user;
 
 import com.google.common.collect.ImmutableList;
-import io.contek.invoker.bybitlinear.api.common._Order;
 import io.contek.invoker.bybitlinear.api.rest.common.RestResponse;
 import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
@@ -83,5 +82,11 @@ public final class PostOrderCancel extends UserRestRequest<Response> {
   }
 
   @NotThreadSafe
-  public static final class Response extends RestResponse<_Order> {}
+  public static final class Response extends RestResponse<Result> {}
+
+  @NotThreadSafe
+  public static final class Result {
+
+    public String order_id;
+  }
 }
