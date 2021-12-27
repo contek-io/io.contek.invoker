@@ -36,4 +36,9 @@ public final class UserWebSocketApi extends WebSocketApi {
       return positionChannel.get();
     }
   }
+
+  @Override
+  protected String getUrlSuffix() {
+    return "/realtime_private";
+  }
 }
