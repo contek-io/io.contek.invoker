@@ -1,11 +1,12 @@
 package io.contek.invoker.hbdmlinear.api.websocket.common.notification;
 
+import com.google.common.io.CharStreams;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.IWebSocketComponent;
-import io.contek.invoker.commons.websocket.IWebSocketMessageParser;
+import io.contek.invoker.commons.websocket.WebSocketBinaryMessageParser;
 
 import javax.annotation.concurrent.Immutable;
 import java.io.ByteArrayInputStream;
@@ -19,7 +20,7 @@ import java.util.zip.GZIPInputStream;
 import static io.contek.invoker.hbdmlinear.api.websocket.user.constants.OpKeys.*;
 
 @Immutable
-final class NotificationWebSocketMessageParser implements IWebSocketMessageParser {
+final class NotificationWebSocketMessageParser extends WebSocketBinaryMessageParser {
 
   private final Gson gson = new Gson();
 
@@ -38,20 +39,19 @@ final class NotificationWebSocketMessageParser implements IWebSocketMessageParse
   }
 
   @Override
-  public AnyWebSocketMessage parse(String text) {
-    JsonElement json = gson.fromJson(text, JsonElement.class);
-    return parse(json);
-  }
-
-  @Override
-  public AnyWebSocketMessage parse(byte[] bytes) {
+  protected String decode(byte[] bytes) {
     try (Reader reader =
         new InputStreamReader(new GZIPInputStream(new ByteArrayInputStream(bytes)))) {
-      JsonElement json = gson.fromJson(reader, JsonElement.class);
-      return parse(json);
+      return CharStreams.toString(reader);
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
+  }
+
+  @Override
+  protected AnyWebSocketMessage fromText(String text) {
+    JsonElement json = gson.fromJson(text, JsonElement.class);
+    return parse(json);
   }
 
   private NotificationWebSocketInboundMessage parse(JsonElement json) {
