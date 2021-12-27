@@ -50,6 +50,5 @@ public final class TradeChannel extends WebSocketChannel<TradeChannel.Id, TradeC
     public Double price; // Order price
     public String tick_direction; // Direction of price change
     public String trade_id; // Trade ID
-    public Long cross_seq; // Cross sequence
   }
 }
