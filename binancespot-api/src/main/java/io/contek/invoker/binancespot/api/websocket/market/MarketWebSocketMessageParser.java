@@ -5,12 +5,13 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import io.contek.invoker.binancespot.api.websocket.common.WebSocketCommandConfirmation;
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
-import io.contek.invoker.commons.websocket.IWebSocketMessageParser;
+import io.contek.invoker.commons.websocket.IWebSocketComponent;
+import io.contek.invoker.commons.websocket.WebSocketTextMessageParser;
 
 import javax.annotation.concurrent.Immutable;
 
 @Immutable
-public final class MarketWebSocketMessageParser implements IWebSocketMessageParser {
+public final class MarketWebSocketMessageParser extends WebSocketTextMessageParser {
 
   private final Gson gson = new Gson();
 
@@ -19,7 +20,10 @@ public final class MarketWebSocketMessageParser implements IWebSocketMessagePars
   }
 
   @Override
-  public AnyWebSocketMessage parse(String text) {
+  public void register(IWebSocketComponent component) {}
+
+  @Override
+  protected AnyWebSocketMessage fromText(String text) {
     JsonElement json = gson.fromJson(text, JsonElement.class);
     if (!json.isJsonObject()) {
       throw new IllegalArgumentException(text);
