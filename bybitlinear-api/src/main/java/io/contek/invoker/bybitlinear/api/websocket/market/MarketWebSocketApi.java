@@ -83,4 +83,9 @@ public final class MarketWebSocketApi extends WebSocketApi {
           });
     }
   }
+
+  @Override
+  protected String getUrlSuffix() {
+    return "/realtime_public";
+  }
 }

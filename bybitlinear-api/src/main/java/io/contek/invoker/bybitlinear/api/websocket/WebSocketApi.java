@@ -23,16 +23,18 @@ public abstract class WebSocketApi extends BaseWebSocketApi {
   }
 
   @Override
-  protected ImmutableList<TypedPermitRequest> getRequiredQuotas() {
+  protected final ImmutableList<TypedPermitRequest> getRequiredQuotas() {
     return ImmutableList.of();
   }
 
   @Override
-  protected WebSocketCall createCall(ICredential credential) {
-    return WebSocketCall.fromUrl(context.getBaseUrl() + "/realtime");
+  protected final WebSocketCall createCall(ICredential credential) {
+    return WebSocketCall.fromUrl(context.getBaseUrl() + getUrlSuffix());
   }
 
   @Override
   protected final void checkErrorMessage(AnyWebSocketMessage message)
       throws WebSocketRuntimeException {}
+
+  protected abstract String getUrlSuffix();
 }
