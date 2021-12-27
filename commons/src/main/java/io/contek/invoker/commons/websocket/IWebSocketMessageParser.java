@@ -5,13 +5,9 @@ import javax.annotation.concurrent.ThreadSafe;
 @ThreadSafe
 public interface IWebSocketMessageParser {
 
-  default void register(IWebSocketComponent component) {}
+  ParseResult parse(String text);
 
-  default AnyWebSocketMessage parse(String text) {
-    throw new UnsupportedOperationException();
-  }
+  ParseResult parse(byte[] bytes);
 
-  default AnyWebSocketMessage parse(byte[] bytes) {
-    throw new UnsupportedOperationException();
-  }
+  void register(IWebSocketComponent component);
 }

@@ -7,7 +7,8 @@ import io.contek.invoker.bitstamp.api.websocket.common.WebSocketRequestConfirmat
 import io.contek.invoker.bitstamp.api.websocket.market.DiffOrderBookChannel;
 import io.contek.invoker.bitstamp.api.websocket.market.LiveTradesChannel;
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
-import io.contek.invoker.commons.websocket.IWebSocketMessageParser;
+import io.contek.invoker.commons.websocket.IWebSocketComponent;
+import io.contek.invoker.commons.websocket.WebSocketTextMessageParser;
 
 import javax.annotation.concurrent.Immutable;
 
@@ -16,7 +17,7 @@ import static io.contek.invoker.bitstamp.api.websocket.common.constants.WebSocke
 import static io.contek.invoker.bitstamp.api.websocket.common.constants.WebSocketFieldKeys._event;
 
 @Immutable
-final class WebSocketMessageParser implements IWebSocketMessageParser {
+final class WebSocketMessageParser extends WebSocketTextMessageParser {
 
   private final Gson gson = new Gson();
 
@@ -25,7 +26,10 @@ final class WebSocketMessageParser implements IWebSocketMessageParser {
   }
 
   @Override
-  public AnyWebSocketMessage parse(String text) {
+  public void register(IWebSocketComponent component) {}
+
+  @Override
+  protected AnyWebSocketMessage fromText(String text) {
     JsonElement json = gson.fromJson(text, JsonElement.class);
     if (!json.isJsonObject()) {
       throw new IllegalArgumentException(text);
