@@ -22,7 +22,7 @@ public final class PostOrderCreate extends UserRestRequest<Response> {
   private String side;
   private String symbol;
   private String order_type;
-  private Integer qty;
+  private Double qty;
   private Double price;
   private String time_in_force;
   private Double take_profit;
@@ -50,7 +50,7 @@ public final class PostOrderCreate extends UserRestRequest<Response> {
     return this;
   }
 
-  public PostOrderCreate setQty(Integer qty) {
+  public PostOrderCreate setQty(Double qty) {
     this.qty = qty;
     return this;
   }
