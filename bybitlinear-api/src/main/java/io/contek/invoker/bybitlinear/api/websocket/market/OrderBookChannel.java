@@ -47,7 +47,13 @@ public abstract class OrderBookChannel<Id extends WebSocketChannelId<OrderBookCh
   @NotThreadSafe
   public static final class SnapshotMessage extends Message {
 
-    public List<OrderBookLevel> data;
+    public SnapshotData data;
+  }
+
+  @NotThreadSafe
+  public static final class SnapshotData {
+
+    public List<OrderBookLevel> order_book;
   }
 
   @NotThreadSafe
