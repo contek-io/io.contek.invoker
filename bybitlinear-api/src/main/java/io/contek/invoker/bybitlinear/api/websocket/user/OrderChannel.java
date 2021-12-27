@@ -46,21 +46,22 @@ public final class OrderChannel extends WebSocketChannel<OrderChannel.Id, OrderC
     public String side;
     public String order_type;
     public String price;
-    public int qty;
+    public Double qty;
+    public Double leaves_qty;
+    public String last_exec_price;
+    public Double cum_exec_qty;
+    public String cum_exec_value;
+    public String cum_exec_fee;
     public String time_in_force;
     public String create_type;
     public String cancel_type;
     public String order_status;
-    public int leaves_qty;
-    public int cum_exec_qty;
-    public String cum_exec_value;
-    public String cum_exec_fee;
-    public String timestamp;
     public String take_profit;
     public String stop_loss;
     public String trailing_stop;
-    public String last_exec_price;
-    public boolean reduce_only;
-    public boolean close_on_trigger;
+    public Boolean reduce_only;
+    public Boolean close_on_trigger;
+    public String create_time;
+    public String update_time;
   }
 }
