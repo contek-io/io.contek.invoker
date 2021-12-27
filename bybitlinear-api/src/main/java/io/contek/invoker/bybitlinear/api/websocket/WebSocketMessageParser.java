@@ -8,7 +8,7 @@ import io.contek.invoker.bybitlinear.api.websocket.common.WebSocketTopicMessage;
 import io.contek.invoker.bybitlinear.api.websocket.market.OrderBookChannel;
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.IWebSocketComponent;
-import io.contek.invoker.commons.websocket.IWebSocketMessageParser;
+import io.contek.invoker.commons.websocket.WebSocketTextMessageParser;
 
 import javax.annotation.concurrent.Immutable;
 import java.util.HashMap;
@@ -18,7 +18,7 @@ import static io.contek.invoker.bybitlinear.api.websocket.common.constants.WebSo
 import static io.contek.invoker.bybitlinear.api.websocket.common.constants.WebSocketDataMessageTypeKeys._snapshot;
 
 @Immutable
-final class WebSocketMessageParser implements IWebSocketMessageParser {
+final class WebSocketMessageParser extends WebSocketTextMessageParser {
 
   private final Gson gson = new Gson();
 
@@ -37,7 +37,7 @@ final class WebSocketMessageParser implements IWebSocketMessageParser {
   }
 
   @Override
-  public AnyWebSocketMessage parse(String text) {
+  protected AnyWebSocketMessage fromText(String text) {
     JsonElement json = gson.fromJson(text, JsonElement.class);
     if (!json.isJsonObject()) {
       throw new IllegalArgumentException(text);
