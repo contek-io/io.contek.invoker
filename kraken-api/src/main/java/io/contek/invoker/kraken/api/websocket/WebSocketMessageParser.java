@@ -6,7 +6,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
-import io.contek.invoker.commons.websocket.IWebSocketMessageParser;
+import io.contek.invoker.commons.websocket.IWebSocketComponent;
+import io.contek.invoker.commons.websocket.WebSocketTextMessageParser;
 import io.contek.invoker.kraken.api.common._Book;
 import io.contek.invoker.kraken.api.common._BookLevel;
 import io.contek.invoker.kraken.api.common._Trade;
@@ -25,7 +26,7 @@ import static io.contek.invoker.kraken.api.websocket.common.constants.WebSocketC
 import static io.contek.invoker.kraken.api.websocket.common.constants.WebSocketChannelKeys._trade;
 
 @Immutable
-final class WebSocketMessageParser implements IWebSocketMessageParser {
+final class WebSocketMessageParser extends WebSocketTextMessageParser {
 
   private final Gson gson = new Gson();
 
@@ -34,7 +35,10 @@ final class WebSocketMessageParser implements IWebSocketMessageParser {
   }
 
   @Override
-  public AnyWebSocketMessage parse(String text) {
+  public void register(IWebSocketComponent component) {}
+
+  @Override
+  protected AnyWebSocketMessage fromText(String text) {
     JsonElement json = gson.fromJson(text, JsonElement.class);
 
     if (json.isJsonArray()) {

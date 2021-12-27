@@ -90,31 +90,36 @@ public abstract class BaseWebSocketApi implements IWebSocketApi {
       throws WebSocketRuntimeException;
 
   private void forwardMessage(String text) {
-    AnyWebSocketMessage message = parser.parse(text);
-    forwardMessage(message);
+    ParseResult result = parser.parse(text);
+    forwardMessage(result);
   }
 
   private void forwardMessage(ByteString bytes) {
-    AnyWebSocketMessage message = parser.parse(bytes.toByteArray());
-    forwardMessage(message);
+    ParseResult result = parser.parse(bytes.toByteArray());
+    forwardMessage(result);
   }
 
-  private void forwardMessage(AnyWebSocketMessage message) {
-    checkErrorMessage(message);
-
-    synchronized (sessionHolder) {
-      WebSocketSession session = sessionHolder.get();
-      synchronized (components) {
-        synchronized (liveKeeper) {
-          liveKeeper.onMessage(message, session);
-        }
-        synchronized (authenticator) {
-          if (!authenticator.isCompleted()) {
-            authenticator.onMessage(message, session);
+  private void forwardMessage(ParseResult result) {
+    try {
+      AnyWebSocketMessage message = result.getMessage();
+      checkErrorMessage(message);
+      synchronized (sessionHolder) {
+        WebSocketSession session = sessionHolder.get();
+        synchronized (components) {
+          synchronized (liveKeeper) {
+            liveKeeper.onMessage(message, session);
           }
+          synchronized (authenticator) {
+            if (!authenticator.isCompleted()) {
+              authenticator.onMessage(message, session);
+            }
+          }
+          components.onMessage(message, session);
         }
-        components.onMessage(message, session);
       }
+    } catch (IllegalStateException e) {
+      log.error("Failed to handle message: {}.", result.getStringValue(), e);
+      throw e;
     }
   }
 
