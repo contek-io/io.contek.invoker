@@ -8,7 +8,7 @@ import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
 import java.math.BigDecimal;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -22,7 +22,7 @@ public final class RestParams {
   private final Map<String, Object> values;
 
   private RestParams(Map<String, Object> values) {
-    this.values = Collections.unmodifiableMap(new HashMap<>(values));
+    this.values = Collections.unmodifiableMap(values);
   }
 
   public static Builder newBuilder() {
@@ -62,7 +62,7 @@ public final class RestParams {
   @NotThreadSafe
   public static final class Builder {
 
-    private final Map<String, Object> values = new HashMap<>();
+    private final Map<String, Object> values = new LinkedHashMap<>();
 
     private Builder() {}
 
@@ -116,7 +116,7 @@ public final class RestParams {
       if (sort) {
         return new RestParams(new TreeMap<>(values));
       }
-      return new RestParams(new HashMap<>(values));
+      return new RestParams(values);
     }
   }
 }
