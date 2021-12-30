@@ -25,7 +25,7 @@ public final class WebSocketLiveKeeper implements IWebSocketLiveKeeper {
   private final WebSocketRequestIdGenerator requestIdGenerator;
   private final Clock clock;
 
-  private final AtomicReference<State> state = new AtomicReference<>(null);
+  private final AtomicReference<PendingPing> state = new AtomicReference<>(null);
 
   WebSocketLiveKeeper(WebSocketRequestIdGenerator requestIdGenerator, Clock clock) {
     this.requestIdGenerator = requestIdGenerator;
@@ -53,7 +53,7 @@ public final class WebSocketLiveKeeper implements IWebSocketLiveKeeper {
           request.event = _ping;
           request.reqid = reqid;
           session.send(request);
-          return new State(reqid, now);
+          return new PendingPing(reqid, now);
         });
   }
 
@@ -82,13 +82,13 @@ public final class WebSocketLiveKeeper implements IWebSocketLiveKeeper {
   }
 
   @Immutable
-  private static final class State {
+  private static final class PendingPing {
 
     private final int reqid;
     private final Instant timestamp;
     private final AtomicBoolean completed = new AtomicBoolean(false);
 
-    private State(int reqid, Instant timestamp) {
+    private PendingPing(int reqid, Instant timestamp) {
       this.reqid = reqid;
       this.timestamp = timestamp;
     }
