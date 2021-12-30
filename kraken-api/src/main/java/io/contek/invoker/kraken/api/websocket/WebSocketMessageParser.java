@@ -11,9 +11,7 @@ import io.contek.invoker.commons.websocket.WebSocketTextMessageParser;
 import io.contek.invoker.kraken.api.common._Book;
 import io.contek.invoker.kraken.api.common._BookLevel;
 import io.contek.invoker.kraken.api.common._Trade;
-import io.contek.invoker.kraken.api.websocket.common.WebSocketChannelDataMessage;
-import io.contek.invoker.kraken.api.websocket.common.WebSocketInboundMessage;
-import io.contek.invoker.kraken.api.websocket.common.WebSocketResponse;
+import io.contek.invoker.kraken.api.websocket.common.*;
 import io.contek.invoker.kraken.api.websocket.market.BookChannel;
 import io.contek.invoker.kraken.api.websocket.market.TradeChannel;
 
@@ -24,9 +22,12 @@ import java.util.List;
 import static io.contek.invoker.kraken.api.common._BookLevel.toOrderBookLevel;
 import static io.contek.invoker.kraken.api.websocket.common.constants.WebSocketChannelKeys._book;
 import static io.contek.invoker.kraken.api.websocket.common.constants.WebSocketChannelKeys._trade;
+import static io.contek.invoker.kraken.api.websocket.common.constants.WebSocketEventKeys.*;
 
 @Immutable
 final class WebSocketMessageParser extends WebSocketTextMessageParser {
+
+  private static final String FIELD_EVENT = "event";
 
   private final Gson gson = new Gson();
 
@@ -44,14 +45,27 @@ final class WebSocketMessageParser extends WebSocketTextMessageParser {
     if (json.isJsonArray()) {
       return toDataMessage(json.getAsJsonArray());
     } else if (json.isJsonObject()) {
-      return toConfirmationMessage(json.getAsJsonObject());
+      return toWebSocketResponse(json.getAsJsonObject());
     } else {
       throw new IllegalArgumentException(text);
     }
   }
 
-  private WebSocketInboundMessage toConfirmationMessage(JsonObject obj) {
-    return gson.fromJson(obj, WebSocketResponse.class);
+  private WebSocketGeneralMessage toWebSocketResponse(JsonObject obj) {
+    String event = obj.get(FIELD_EVENT).getAsString();
+    switch (event) {
+      case _pong:
+        return gson.fromJson(obj, WebSocketPongResponse.class);
+      case _heartbeat:
+        return gson.fromJson(obj, WebSocketHeartbeat.class);
+      case _systemStatus:
+        return gson.fromJson(obj, WebSocketSystemStatus.class);
+      case _subscriptionStatus:
+        return gson.fromJson(obj, WebSocketSubscriptionStatus.class);
+      default:
+    }
+
+    throw new UnsupportedOperationException(event);
   }
 
   private static WebSocketChannelDataMessage<?> toDataMessage(JsonArray array) {
