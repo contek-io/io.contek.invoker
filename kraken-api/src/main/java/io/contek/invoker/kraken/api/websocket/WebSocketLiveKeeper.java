@@ -20,7 +20,7 @@ import static io.contek.invoker.kraken.api.websocket.common.constants.WebSocketE
 @ThreadSafe
 public final class WebSocketLiveKeeper implements IWebSocketLiveKeeper {
 
-  private static final Duration PING_INTERVAL = Duration.ofSeconds(2);
+  private static final Duration PING_INTERVAL = Duration.ofSeconds(20);
 
   private final WebSocketRequestIdGenerator requestIdGenerator;
   private final Clock clock;
