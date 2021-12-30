@@ -3,12 +3,7 @@ package io.contek.invoker.kraken.api.websocket.common;
 import javax.annotation.concurrent.NotThreadSafe;
 
 @NotThreadSafe
-public class WebSocketResponse extends WebSocketInboundMessage {
+public abstract class WebSocketResponse extends WebSocketGeneralMessage {
 
-  public String event;
   public Integer reqid;
-  public Subscription subscription;
-  public String errorMessage;
-  // This is for subscription message, we put it together as a WebSocketResponse.
-  public String status;
 }
