@@ -7,14 +7,16 @@ import io.contek.invoker.commons.websocket.SubscriptionState;
 import io.contek.invoker.commons.websocket.WebSocketSession;
 import io.contek.invoker.kraken.api.websocket.common.Subscription;
 import io.contek.invoker.kraken.api.websocket.common.WebSocketChannelDataMessage;
-import io.contek.invoker.kraken.api.websocket.common.WebSocketRequest;
-import io.contek.invoker.kraken.api.websocket.common.WebSocketResponse;
+import io.contek.invoker.kraken.api.websocket.common.WebSocketSubscribeRequest;
+import io.contek.invoker.kraken.api.websocket.common.WebSocketSubscriptionStatus;
 
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.ThreadSafe;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static io.contek.invoker.commons.websocket.SubscriptionState.*;
+import static io.contek.invoker.kraken.api.websocket.common.constants.WebSocketEventKeys._subscribe;
+import static io.contek.invoker.kraken.api.websocket.common.constants.WebSocketEventKeys._unsubscribe;
 
 @ThreadSafe
 public abstract class WebSocketChannel<
@@ -23,7 +25,7 @@ public abstract class WebSocketChannel<
 
   private final WebSocketRequestIdGenerator requestIdGenerator;
 
-  private final AtomicReference<WebSocketRequest> pendingRequestHolder =
+  private final AtomicReference<WebSocketSubscribeRequest> pendingRequestHolder =
       new AtomicReference<>(null);
 
   protected WebSocketChannel(Id id, WebSocketRequestIdGenerator requestIdGenerator) {
@@ -41,8 +43,8 @@ public abstract class WebSocketChannel<
       }
 
       Id id = getId();
-      WebSocketRequest request = new WebSocketRequest();
-      request.event = "subscribe";
+      WebSocketSubscribeRequest request = new WebSocketSubscribeRequest();
+      request.event = _subscribe;
       request.reqid = requestIdGenerator.generateNext();
       request.pair = ImmutableList.of(id.getPair());
       request.subscription = getSubscription();
@@ -60,8 +62,8 @@ public abstract class WebSocketChannel<
       }
 
       Id id = getId();
-      WebSocketRequest request = new WebSocketRequest();
-      request.event = "unsubscribe";
+      WebSocketSubscribeRequest request = new WebSocketSubscribeRequest();
+      request.event = _unsubscribe;
       request.reqid = requestIdGenerator.generateNext();
       request.pair = ImmutableList.of(id.getPair());
       request.subscription = getSubscription();
@@ -74,13 +76,13 @@ public abstract class WebSocketChannel<
   @Nullable
   @Override
   protected final SubscriptionState getState(AnyWebSocketMessage message) {
-    if (!(message instanceof WebSocketResponse)) {
+    if (!(message instanceof WebSocketSubscriptionStatus)) {
       return null;
     }
 
-    WebSocketResponse response = (WebSocketResponse) message;
+    WebSocketSubscriptionStatus response = (WebSocketSubscriptionStatus) message;
     synchronized (pendingRequestHolder) {
-      WebSocketRequest request = pendingRequestHolder.get();
+      WebSocketSubscribeRequest request = pendingRequestHolder.get();
       if (request == null) {
         return null;
       }
