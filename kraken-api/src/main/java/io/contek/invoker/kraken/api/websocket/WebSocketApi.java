@@ -12,15 +12,21 @@ import javax.annotation.concurrent.ThreadSafe;
 public abstract class WebSocketApi extends BaseWebSocketApi {
 
   private final WebSocketContext context;
-  private final WebSocketRequestIdGenerator requestIdGenerator = new WebSocketRequestIdGenerator();
+  private final WebSocketRequestIdGenerator requestIdGenerator;
 
   protected WebSocketApi(IActor actor, WebSocketContext context) {
+    this(new WebSocketRequestIdGenerator(), actor, context);
+  }
+
+  private WebSocketApi(
+      WebSocketRequestIdGenerator requestIdGenerator, IActor actor, WebSocketContext context) {
     super(
         actor,
         WebSocketMessageParser.getInstance(),
         IWebSocketAuthenticator.noOp(),
-        IWebSocketLiveKeeper.noOp());
+        new WebSocketLiveKeeper(requestIdGenerator, actor.getClock()));
     this.context = context;
+    this.requestIdGenerator = requestIdGenerator;
   }
 
   @Override
