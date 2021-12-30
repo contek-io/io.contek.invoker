@@ -12,6 +12,7 @@ import javax.annotation.concurrent.ThreadSafe;
 import java.time.Clock;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static io.contek.invoker.kraken.api.websocket.common.constants.WebSocketEventKeys._ping;
@@ -38,10 +39,13 @@ public final class WebSocketLiveKeeper implements IWebSocketLiveKeeper {
         s -> {
           if (s != null) {
             boolean overdue = s.timestamp.plus(PING_INTERVAL).isBefore(now);
-            if (overdue) {
+            if (!overdue) {
+              return s;
+            }
+
+            if (!s.isCompleted()) {
               throw new WebSocketSessionIdleException();
             }
-            return s;
           }
 
           int reqid = requestIdGenerator.generateNext();
@@ -63,8 +67,11 @@ public final class WebSocketLiveKeeper implements IWebSocketLiveKeeper {
               if (s.reqid != response.reqid) {
                 throw new IllegalStateException();
               }
+
+              s.complete();
             }
-            return null;
+
+            return s;
           });
     }
   }
@@ -79,10 +86,19 @@ public final class WebSocketLiveKeeper implements IWebSocketLiveKeeper {
 
     private final int reqid;
     private final Instant timestamp;
+    private final AtomicBoolean completed = new AtomicBoolean(false);
 
     private State(int reqid, Instant timestamp) {
       this.reqid = reqid;
       this.timestamp = timestamp;
+    }
+
+    private void complete() {
+      completed.set(true);
+    }
+
+    private boolean isCompleted() {
+      return completed.get();
     }
   }
 }
