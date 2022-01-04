@@ -21,4 +21,5 @@ public class _ConditionalOrder {
   public Boolean reduceOnly;
   public String orderType;
   public Boolean retryUntilFilled;
+  public Double trailValue;
 }
