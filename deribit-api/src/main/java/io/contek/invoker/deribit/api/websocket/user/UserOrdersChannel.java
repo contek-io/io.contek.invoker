@@ -9,6 +9,7 @@ import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
 
+import static io.contek.invoker.deribit.api.websocket.common.constants.WebSocketChannelKeys._user_orders;
 import static java.lang.String.format;
 
 @ThreadSafe
@@ -32,7 +33,7 @@ public final class UserOrdersChannel
     }
 
     public static Id of(String instrumentName) {
-      return new Id(format("user.orders.%s.raw", instrumentName));
+      return new Id(format("%s.%s.raw", _user_orders, instrumentName));
     }
   }
 

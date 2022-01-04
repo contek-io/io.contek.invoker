@@ -13,6 +13,7 @@ import javax.annotation.concurrent.ThreadSafe;
 
 import java.util.List;
 
+import static io.contek.invoker.deribit.api.websocket.common.constants.WebSocketChannelKeys._user_changes;
 import static java.lang.String.format;
 
 @ThreadSafe
@@ -36,7 +37,7 @@ public final class UserChangesChannel
     }
 
     public static Id of(String instrumentName) {
-      return new Id(format("user.changes.%s.raw", instrumentName));
+      return new Id(format("%s.%s.raw", _user_changes, instrumentName));
     }
   }
 

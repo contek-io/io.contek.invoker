@@ -12,6 +12,8 @@ import io.contek.invoker.deribit.api.websocket.market.BookChannel;
 import io.contek.invoker.deribit.api.websocket.market.ChartTradesChannel;
 import io.contek.invoker.deribit.api.websocket.market.TickerChannel;
 import io.contek.invoker.deribit.api.websocket.market.TradesChannel;
+import io.contek.invoker.deribit.api.websocket.user.UserChangesChannel;
+import io.contek.invoker.deribit.api.websocket.user.UserOrdersChannel;
 
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
@@ -56,6 +58,10 @@ final class WebSocketMessageParser implements IWebSocketMessageParser {
       return gson.fromJson(obj, TickerChannel.Message.class);
     } else if (instrumentName.startsWith(WebSocketChannelKeys._trades)) {
       return gson.fromJson(obj, TradesChannel.Message.class);
+    } else if (instrumentName.startsWith(WebSocketChannelKeys._user_changes)) {
+      return gson.fromJson(obj, UserChangesChannel.Message.class);
+    } else if (instrumentName.startsWith(WebSocketChannelKeys._user_orders)) {
+      return gson.fromJson(obj, UserOrdersChannel.Message.class);
     } else {
       throw new IllegalArgumentException(obj.toString());
     }

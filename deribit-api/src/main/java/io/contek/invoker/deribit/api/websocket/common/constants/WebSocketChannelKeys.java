@@ -13,5 +13,9 @@ public final class WebSocketChannelKeys {
 
   public static final String _trades = "trades";
 
+  public static final String _user_changes = "user.changes";
+
+  public static final String _user_orders = "user.orders";
+
   private WebSocketChannelKeys() {}
 }
