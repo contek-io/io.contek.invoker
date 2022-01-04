@@ -92,7 +92,7 @@ public abstract class WebSocketChannel<
       WebSocketResponse confirmation = (WebSocketResponse) message;
       if (confirmation.id == null
           || !confirmation.id.equals(command.id)
-          || confirmation.result.isEmpty()) {
+          || confirmation.result == null) {
         return null;
       }
 
