@@ -8,6 +8,8 @@ import io.contek.invoker.security.ICredential;
 
 import javax.annotation.concurrent.ThreadSafe;
 
+import static io.contek.invoker.deribit.api.ApiFactory.RateLimits.ONE_WEB_SOCKET_CONNECTION;
+
 @ThreadSafe
 public abstract class WebSocketApi extends BaseWebSocketApi {
 
@@ -42,7 +44,7 @@ public abstract class WebSocketApi extends BaseWebSocketApi {
 
   @Override
   protected ImmutableList<TypedPermitRequest> getRequiredQuotas() {
-    return ImmutableList.of();
+    return ONE_WEB_SOCKET_CONNECTION;
   }
 
   @Override

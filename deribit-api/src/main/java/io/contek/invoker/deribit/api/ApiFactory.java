@@ -92,7 +92,8 @@ public final class ApiFactory {
     return LimiterManagers.forRules(
         API_KEY_MATCHING_ENGINE_REQUEST_RULE,
         API_KEY_NON_MATCHING_ENGINE_REQUEST_RULE,
-        IP_NON_MATCHING_ENGINE_REQUEST_RULE);
+        IP_NON_MATCHING_ENGINE_REQUEST_RULE,
+        IP_WEB_SOCKET_CONNECTION_RULE);
   }
 
   @ThreadSafe
@@ -158,6 +159,14 @@ public final class ApiFactory {
             .setResetPeriod(Duration.ofSeconds(1))
             .build();
 
+    public static final RateLimitRule IP_WEB_SOCKET_CONNECTION_RULE =
+        RateLimitRule.newBuilder()
+            .setName("ip_web_socket_connection_rule")
+            .setType(IP)
+            .setMaxPermits(1)
+            .setResetPeriod(Duration.ofSeconds(5))
+            .build();
+
     public static final ImmutableList<TypedPermitRequest> ONE_API_KEY_MATCHING_ENGINE_REQUEST =
         ImmutableList.of(API_KEY_MATCHING_ENGINE_REQUEST_RULE.forPermits(1));
 
@@ -166,6 +175,9 @@ public final class ApiFactory {
 
     public static final ImmutableList<TypedPermitRequest> ONE_IP_NON_MATCHING_ENGINE_REQUEST =
         ImmutableList.of(IP_NON_MATCHING_ENGINE_REQUEST_RULE.forPermits(1));
+
+    public static final ImmutableList<TypedPermitRequest> ONE_WEB_SOCKET_CONNECTION =
+        ImmutableList.of(IP_WEB_SOCKET_CONNECTION_RULE.forPermits(1));
 
     private RateLimits() {}
   }
