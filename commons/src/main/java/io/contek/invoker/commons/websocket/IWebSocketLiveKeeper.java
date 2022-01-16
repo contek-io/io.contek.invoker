@@ -10,7 +10,7 @@ public interface IWebSocketLiveKeeper extends IWebSocketListener {
     return IWebSocketLiveKeeper.NoOp.INSTANCE;
   }
 
-  void onHeartbeat(WebSocketSession session);
+  void onHeartbeat(WebSocketSession session) throws WebSocketSessionInactiveException;
 
   @Immutable
   final class NoOp implements IWebSocketLiveKeeper {
@@ -18,7 +18,7 @@ public interface IWebSocketLiveKeeper extends IWebSocketListener {
     private static final NoOp INSTANCE = new NoOp();
 
     @Override
-    public void onHeartbeat(WebSocketSession session) {}
+    public void onHeartbeat(WebSocketSession session) throws WebSocketSessionInactiveException {}
 
     @Override
     public void onMessage(AnyWebSocketMessage message, WebSocketSession session) {}

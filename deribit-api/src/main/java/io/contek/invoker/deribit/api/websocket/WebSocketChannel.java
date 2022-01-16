@@ -1,10 +1,7 @@
 package io.contek.invoker.deribit.api.websocket;
 
 import com.google.common.collect.ImmutableList;
-import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
-import io.contek.invoker.commons.websocket.BaseWebSocketChannel;
-import io.contek.invoker.commons.websocket.SubscriptionState;
-import io.contek.invoker.commons.websocket.WebSocketSession;
+import io.contek.invoker.commons.websocket.*;
 import io.contek.invoker.deribit.api.websocket.common.SubscriptionParams;
 import io.contek.invoker.deribit.api.websocket.common.WebSocketRequest;
 import io.contek.invoker.deribit.api.websocket.common.WebSocketSingleChannelMessage;
@@ -90,10 +87,16 @@ public abstract class WebSocketChannel<
       }
 
       WebSocketSubscriptionConfirmation confirmation = (WebSocketSubscriptionConfirmation) message;
-      if (confirmation.id == null
-          || !confirmation.id.equals(command.id)
-          || confirmation.result == null
-          || confirmation.result.isEmpty()) {
+      if (confirmation.id == null || !confirmation.id.equals(command.id)) {
+        return null;
+      }
+
+      if (confirmation.error != null) {
+        throw new WebSocketIllegalMessageException(
+            confirmation.error.code + ": " + confirmation.error.message);
+      }
+
+      if (confirmation.result == null || confirmation.result.isEmpty()) {
         return null;
       }
 

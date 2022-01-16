@@ -5,8 +5,6 @@ import javax.annotation.concurrent.NotThreadSafe;
 @NotThreadSafe
 public final class WebSocketIllegalMessageException extends WebSocketRuntimeException {
 
-  public WebSocketIllegalMessageException() {}
-
   public WebSocketIllegalMessageException(String message) {
     super(message);
   }

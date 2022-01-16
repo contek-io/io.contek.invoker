@@ -5,6 +5,7 @@ import io.contek.invoker.binancespot.api.rest.user.UserRestApi;
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.IWebSocketLiveKeeper;
 import io.contek.invoker.commons.websocket.WebSocketSession;
+import io.contek.invoker.commons.websocket.WebSocketSessionInactiveException;
 
 import javax.annotation.concurrent.Immutable;
 import java.time.Clock;
@@ -28,7 +29,7 @@ final class UserWebSocketLiveKeeper implements IWebSocketLiveKeeper {
   }
 
   @Override
-  public void onHeartbeat(WebSocketSession session) {
+  public void onHeartbeat(WebSocketSession session) throws WebSocketSessionInactiveException {
     synchronized (stateHolder) {
       State state = stateHolder.get();
       if (state == null) {
