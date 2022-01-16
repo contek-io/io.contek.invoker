@@ -3,6 +3,7 @@ package io.contek.invoker.hbdmlinear.api.websocket.common;
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.IWebSocketLiveKeeper;
 import io.contek.invoker.commons.websocket.WebSocketSession;
+import io.contek.invoker.commons.websocket.WebSocketSessionInactiveException;
 
 import javax.annotation.concurrent.Immutable;
 
@@ -14,7 +15,7 @@ public final class WebSocketLiveKeeper implements IWebSocketLiveKeeper {
   }
 
   @Override
-  public void onHeartbeat(WebSocketSession session) {}
+  public void onHeartbeat(WebSocketSession session) throws WebSocketSessionInactiveException {}
 
   @Override
   public void onMessage(AnyWebSocketMessage message, WebSocketSession session) {

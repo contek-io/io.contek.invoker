@@ -3,7 +3,7 @@ package io.contek.invoker.kraken.api.websocket;
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.IWebSocketLiveKeeper;
 import io.contek.invoker.commons.websocket.WebSocketSession;
-import io.contek.invoker.commons.websocket.WebSocketSessionIdleException;
+import io.contek.invoker.commons.websocket.WebSocketSessionInactiveException;
 import io.contek.invoker.kraken.api.websocket.common.WebSocketPingRequest;
 import io.contek.invoker.kraken.api.websocket.common.WebSocketPongResponse;
 
@@ -33,7 +33,7 @@ public final class WebSocketLiveKeeper implements IWebSocketLiveKeeper {
   }
 
   @Override
-  public void onHeartbeat(WebSocketSession session) {
+  public void onHeartbeat(WebSocketSession session) throws WebSocketSessionInactiveException {
     Instant now = clock.instant();
     state.updateAndGet(
         s -> {
@@ -44,7 +44,7 @@ public final class WebSocketLiveKeeper implements IWebSocketLiveKeeper {
             }
 
             if (!s.isCompleted()) {
-              throw new WebSocketSessionIdleException();
+              throw new WebSocketSessionInactiveException();
             }
           }
 

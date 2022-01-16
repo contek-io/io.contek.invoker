@@ -185,7 +185,12 @@ public abstract class BaseWebSocketApi implements IWebSocketApi {
           }
 
           synchronized (liveKeeper) {
-            liveKeeper.onHeartbeat(session);
+            try {
+              liveKeeper.onHeartbeat(session);
+            } catch (WebSocketSessionInactiveException e) {
+              log.warn("WebSocket session is inactive", e);
+              session.close();
+            }
           }
 
           synchronized (authenticator) {
@@ -254,6 +259,8 @@ public abstract class BaseWebSocketApi implements IWebSocketApi {
         log.warn("Server closed connection.", t);
       } else if (t instanceof IOException) {
         log.warn("Connection interrupted.", t);
+      } else if (t instanceof WebSocketIllegalMessageException) {
+        log.error("Unexpected message.", t);
       } else if (t instanceof WebSocketRuntimeException) {
         log.warn("Encountered runtime exception.", t);
       } else {
