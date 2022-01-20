@@ -164,7 +164,7 @@ public final class ApiFactory {
             .setName("ip_web_socket_connection_rule")
             .setType(IP)
             .setMaxPermits(1)
-            .setResetPeriod(Duration.ofSeconds(5))
+            .setResetPeriod(Duration.ofSeconds(1))
             .build();
 
     public static final ImmutableList<TypedPermitRequest> ONE_API_KEY_MATCHING_ENGINE_REQUEST =

@@ -259,10 +259,14 @@ public abstract class BaseWebSocketApi implements IWebSocketApi {
         log.warn("Server closed connection.", t);
       } else if (t instanceof IOException) {
         log.warn("Connection interrupted.", t);
-      } else if (t instanceof WebSocketIllegalMessageException) {
-        log.error("Unexpected message.", t);
-      } else if (t instanceof WebSocketRuntimeException) {
-        log.warn("Encountered runtime exception.", t);
+      } else if (t instanceof WebSocketServerRestartException) {
+        log.warn("Server requires restart.", t);
+      } else if (t instanceof WebSocketSessionExpiredException) {
+        log.warn("Session is expired.", t);
+      } else if (t instanceof WebSocketSessionInactiveException) {
+        log.warn("Session is inactive.", t);
+      } else if (t instanceof WebSocketIllegalStateException) {
+        log.warn("Channel has invalid state.", t);
       } else {
         log.error("Encountered unknown error: {}.", response, t);
       }
