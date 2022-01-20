@@ -1,6 +1,5 @@
 package io.contek.invoker.deribit.api.websocket.market;
 
-import io.contek.invoker.deribit.api.common._OrderBookLevel;
 import io.contek.invoker.deribit.api.websocket.WebSocketChannelId;
 import io.contek.invoker.deribit.api.websocket.WebSocketRequestIdGenerator;
 import io.contek.invoker.deribit.api.websocket.common.WebSocketSingleChannelMessage;
@@ -8,6 +7,7 @@ import io.contek.invoker.deribit.api.websocket.common.WebSocketSingleChannelMess
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
+import java.util.ArrayList;
 import java.util.List;
 
 import static io.contek.invoker.deribit.api.websocket.common.constants.WebSocketChannelKeys._book;
@@ -49,7 +49,10 @@ public final class BookChangeChannel
     public String instrument_name;
     public long prev_change_id;
     public long change_id;
-    public List<_OrderBookLevel> bids;
-    public List<_OrderBookLevel> asks;
+    public List<LevelUpdate> bids;
+    public List<LevelUpdate> asks;
   }
+
+  @NotThreadSafe
+  public static final class LevelUpdate extends ArrayList<String> {}
 }
