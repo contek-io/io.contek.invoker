@@ -64,10 +64,10 @@ final class WebSocketMessageParser extends WebSocketTextMessageParser {
   }
 
   private WebSocketInboundMessage toDataMessage(JsonObject obj) {
-    String channel = obj.get("params").getAsJsonObject().get("channel").getAsString();
+    JsonObject params = obj.getAsJsonObject("params");
+    String channel = params.get("channel").getAsString();
     if (channel.startsWith(WebSocketChannelKeys._book)) {
-      JsonObject data = obj.getAsJsonObject("data");
-      if (data.has("type")) {
+      if (params.has("type")) {
         return gson.fromJson(obj, BookChangeChannel.Message.class);
       }
       return gson.fromJson(obj, BookSnapshotChannel.Message.class);
