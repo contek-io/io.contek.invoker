@@ -9,7 +9,8 @@ import io.contek.invoker.commons.websocket.WebSocketTextMessageParser;
 import io.contek.invoker.deribit.api.websocket.common.WebSocketInboundMessage;
 import io.contek.invoker.deribit.api.websocket.common.WebSocketResponse;
 import io.contek.invoker.deribit.api.websocket.common.constants.WebSocketChannelKeys;
-import io.contek.invoker.deribit.api.websocket.market.BookChannel;
+import io.contek.invoker.deribit.api.websocket.market.BookChangeChannel;
+import io.contek.invoker.deribit.api.websocket.market.BookSnapshotChannel;
 import io.contek.invoker.deribit.api.websocket.market.TradesChannel;
 import io.contek.invoker.deribit.api.websocket.user.UserChangesChannel;
 import io.contek.invoker.deribit.api.websocket.user.UserOrdersChannel;
@@ -65,7 +66,11 @@ final class WebSocketMessageParser extends WebSocketTextMessageParser {
   private WebSocketInboundMessage toDataMessage(JsonObject obj) {
     String channel = obj.get("params").getAsJsonObject().get("channel").getAsString();
     if (channel.startsWith(WebSocketChannelKeys._book)) {
-      return gson.fromJson(obj, BookChannel.Message.class);
+      JsonObject data = obj.getAsJsonObject("data");
+      if (data.has("type")) {
+        return gson.fromJson(obj, BookChangeChannel.Message.class);
+      }
+      return gson.fromJson(obj, BookSnapshotChannel.Message.class);
     } else if (channel.startsWith(WebSocketChannelKeys._trades)) {
       return gson.fromJson(obj, TradesChannel.Message.class);
     } else if (channel.startsWith(WebSocketChannelKeys._user_changes)) {
