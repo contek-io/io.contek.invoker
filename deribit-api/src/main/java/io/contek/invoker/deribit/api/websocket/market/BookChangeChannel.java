@@ -47,7 +47,7 @@ public final class BookChangeChannel
     public String type;
     public long timestamp;
     public String instrument_name;
-    public long prev_change_id;
+    public Long prev_change_id;
     public long change_id;
     public List<LevelUpdate> bids;
     public List<LevelUpdate> asks;
