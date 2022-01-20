@@ -11,19 +11,33 @@ import java.util.Map;
 @ThreadSafe
 public final class MarketWebSocketApi extends WebSocketApi {
 
-  private final Map<BookChannel.Id, BookChannel> bookChannels = new HashMap<>();
+  private final Map<BookChangeChannel.Id, BookChangeChannel> bookChangeChannels = new HashMap<>();
+  private final Map<BookSnapshotChannel.Id, BookSnapshotChannel> bookSnapshotChannels =
+      new HashMap<>();
   private final Map<TradesChannel.Id, TradesChannel> tradesChannels = new HashMap<>();
 
   public MarketWebSocketApi(IActor actor, WebSocketContext context) {
     super(actor, context);
   }
 
-  public BookChannel getBookChannel(BookChannel.Id id) {
-    synchronized (bookChannels) {
-      return bookChannels.computeIfAbsent(
+  public BookChangeChannel getBookChangeChannel(BookChangeChannel.Id id) {
+    synchronized (bookChangeChannels) {
+      return bookChangeChannels.computeIfAbsent(
           id,
           k -> {
-            BookChannel result = new BookChannel(k, getRequestIdGenerator());
+            BookChangeChannel result = new BookChangeChannel(k, getRequestIdGenerator());
+            attach(result);
+            return result;
+          });
+    }
+  }
+
+  public BookSnapshotChannel getBookSnapshotChannel(BookSnapshotChannel.Id id) {
+    synchronized (bookSnapshotChannels) {
+      return bookSnapshotChannels.computeIfAbsent(
+          id,
+          k -> {
+            BookSnapshotChannel result = new BookSnapshotChannel(k, getRequestIdGenerator());
             attach(result);
             return result;
           });

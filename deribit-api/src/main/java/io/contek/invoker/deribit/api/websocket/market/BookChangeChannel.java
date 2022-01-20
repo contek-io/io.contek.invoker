@@ -14,15 +14,16 @@ import static io.contek.invoker.deribit.api.websocket.common.constants.WebSocket
 import static java.lang.String.format;
 
 @ThreadSafe
-public final class BookChannel extends MarketWebSocketChannel<BookChannel.Id, BookChannel.Message> {
+public final class BookChangeChannel
+    extends MarketWebSocketChannel<BookChangeChannel.Id, BookChangeChannel.Message> {
 
-  BookChannel(Id id, WebSocketRequestIdGenerator requestIdGenerator) {
+  BookChangeChannel(Id id, WebSocketRequestIdGenerator requestIdGenerator) {
     super(id, requestIdGenerator);
   }
 
   @Override
-  public Class<BookChannel.Message> getMessageType() {
-    return BookChannel.Message.class;
+  public Class<BookChangeChannel.Message> getMessageType() {
+    return BookChangeChannel.Message.class;
   }
 
   @Immutable
@@ -32,8 +33,8 @@ public final class BookChannel extends MarketWebSocketChannel<BookChannel.Id, Bo
       super(value);
     }
 
-    public static Id of(String instrumentName, String group, int depth, String interval) {
-      return new Id(format("%s.%s.%s.%d.%s", _book, instrumentName, group, depth, interval));
+    public static Id of(String instrumentName, String interval) {
+      return new Id(format("%s.%s.%s", _book, instrumentName, interval));
     }
   }
 
@@ -43,8 +44,10 @@ public final class BookChannel extends MarketWebSocketChannel<BookChannel.Id, Bo
   @NotThreadSafe
   public static final class Data {
 
+    public String type;
     public long timestamp;
     public String instrument_name;
+    public long prev_change_id;
     public long change_id;
     public List<_OrderBookLevel> bids;
     public List<_OrderBookLevel> asks;
