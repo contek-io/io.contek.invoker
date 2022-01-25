@@ -26,7 +26,7 @@ public final class Level2Channel extends WebSocketChannel<Level2Channel.Id, Leve
   public static final class Id extends WebSocketChannelId<Level2Channel.Message> {
 
     private Id(String productId) {
-      super("level2", productId);
+      super("level2_50", productId);
     }
 
     public static Id of(String productId) {
