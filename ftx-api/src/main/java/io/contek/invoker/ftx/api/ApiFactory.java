@@ -10,7 +10,6 @@ import io.contek.invoker.commons.actor.ratelimit.*;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.websocket.WebSocketContext;
 import io.contek.invoker.ftx.api.rest.market.MarketRestApi;
-import io.contek.invoker.ftx.api.rest.spotmargin.SpotMarginApi;
 import io.contek.invoker.ftx.api.rest.user.UserRestApi;
 import io.contek.invoker.ftx.api.websocket.market.MarketWebSocketApi;
 import io.contek.invoker.ftx.api.websocket.user.UserWebSocketApi;
@@ -99,12 +98,6 @@ public final class ApiFactory {
       RestContext restContext = context.getRestContext();
       IActor actor = actorFactory.create(apiKey, restContext);
       return new UserRestApi(actor, restContext);
-    }
-
-    public SpotMarginApi spotMargin(ApiKey apiKey) {
-      RestContext restContext = context.getRestContext();
-      IActor actor = actorFactory.create(apiKey, restContext);
-      return new SpotMarginApi(actor, restContext);
     }
   }
 
