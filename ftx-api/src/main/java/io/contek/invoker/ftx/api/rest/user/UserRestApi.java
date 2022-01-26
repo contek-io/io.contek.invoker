@@ -2,6 +2,7 @@ package io.contek.invoker.ftx.api.rest.user;
 
 import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.rest.RestContext;
+import io.contek.invoker.ftx.api.common._LendingOffer;
 
 import javax.annotation.concurrent.ThreadSafe;
 
@@ -68,7 +69,19 @@ public final class UserRestApi {
     return new PostOrders(actor, context);
   }
 
-  public GetFills getFills(){
+  public GetFills getFills() {
     return new GetFills(actor, context);
+  }
+
+  public GetLendingInfo getLendingInfo() {
+    return new GetLendingInfo(actor, context);
+  }
+
+  public GetLendingOffers getLendingOffers() {
+    return new GetLendingOffers(actor, context);
+  }
+
+  public PostLendingOffer postLendingOffer(final _LendingOffer lendingOffer) {
+    return new PostLendingOffer(actor, context);
   }
 }
