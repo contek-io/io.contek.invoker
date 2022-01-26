@@ -1,6 +1,7 @@
 include 'binancedelivery-api'
 include 'binancefutures-api'
 include 'binancespot-api'
+include 'bitfinex-api'
 include 'bitmex-api'
 include 'bitstamp-api'
 include 'bybit-api'

@@ -10,14 +10,14 @@ import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.IWebSocketComponent;
 import io.contek.invoker.commons.websocket.WebSocketTextMessageParser;
 
-import javax.annotation.concurrent.Immutable;
+import javax.annotation.concurrent.ThreadSafe;
 import java.util.HashMap;
 import java.util.Map;
 
 import static io.contek.invoker.bybit.api.websocket.common.constants.WebSocketDataMessageTypeKeys._delta;
 import static io.contek.invoker.bybit.api.websocket.common.constants.WebSocketDataMessageTypeKeys._snapshot;
 
-@Immutable
+@ThreadSafe
 final class WebSocketMessageParser extends WebSocketTextMessageParser {
 
   private final Gson gson = new Gson();
