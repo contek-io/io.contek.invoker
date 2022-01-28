@@ -6,38 +6,38 @@ import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
-import io.contek.invoker.okx.api.common._Order;
-import io.contek.invoker.okx.api.rest.common.PaginationRestResponse;
+import io.contek.invoker.okx.api.common._Position;
+import io.contek.invoker.okx.api.rest.common.RestResponse;
 
+import javax.annotation.Nullable;
 import javax.annotation.concurrent.NotThreadSafe;
-import java.util.List;
 
 import static io.contek.invoker.commons.rest.RestMethod.GET;
 import static io.contek.invoker.okx.api.ApiFactory.RateLimits.ONE_REST_REQUEST;
 
 @NotThreadSafe
-public final class GetOrderHistory extends UserRestRequest<GetOrderHistory.Response> {
+public final class GetAccountPositions extends UserRestRequest<GetAccountPositions.Response> {
 
-  private String market;
-  private Long startTime;
-  private Long endTime;
+  private String instType;
+  private String instId;
+  private String posId;
 
-  GetOrderHistory(IActor actor, RestContext context) {
+  GetAccountPositions(IActor actor, RestContext context) {
     super(actor, context);
   }
 
-  public GetOrderHistory setMarket(String market) {
-    this.market = market;
+  public GetAccountPositions setInstType(@Nullable String instType) {
+    this.instType = instType;
     return this;
   }
 
-  public GetOrderHistory setStartTime(Long startTime) {
-    this.startTime = startTime;
+  public GetAccountPositions setInstId(@Nullable String instId) {
+    this.instId = instId;
     return this;
   }
 
-  public GetOrderHistory setEndTime(Long endTime) {
-    this.endTime = endTime;
+  public GetAccountPositions setPosId(@Nullable String posId) {
+    this.posId = posId;
     return this;
   }
 
@@ -48,23 +48,23 @@ public final class GetOrderHistory extends UserRestRequest<GetOrderHistory.Respo
 
   @Override
   protected String getEndpointPath() {
-    return "/api/orders/history";
+    return "/api/v5/account/positions";
   }
 
   @Override
   protected RestParams getParams() {
     RestParams.Builder builder = RestParams.newBuilder();
 
-    if (market != null) {
-      builder.add("market", market);
+    if (instType != null) {
+      builder.add("instType", instType);
     }
 
-    if (startTime != null) {
-      builder.add("start_time", startTime);
+    if (instId != null) {
+      builder.add("instId", instId);
     }
 
-    if (endTime != null) {
-      builder.add("end_time", endTime);
+    if (posId != null) {
+      builder.add("posId", posId);
     }
 
     return builder.build();
@@ -81,5 +81,5 @@ public final class GetOrderHistory extends UserRestRequest<GetOrderHistory.Respo
   }
 
   @NotThreadSafe
-  public static final class Response extends PaginationRestResponse<List<_Order>> {}
+  public static final class Response extends RestResponse<_Position> {}
 }

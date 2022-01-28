@@ -6,7 +6,7 @@ import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
-import io.contek.invoker.okx.api.common._Fill;
+import io.contek.invoker.okx.api.common._Order;
 import io.contek.invoker.okx.api.rest.common.RestResponse;
 
 import javax.annotation.Nullable;
@@ -14,65 +14,68 @@ import javax.annotation.concurrent.NotThreadSafe;
 
 import static io.contek.invoker.commons.rest.RestMethod.GET;
 import static io.contek.invoker.okx.api.ApiFactory.RateLimits.ONE_REST_REQUEST;
+import static java.util.Objects.requireNonNull;
 
 @NotThreadSafe
-public final class GetTradeFills extends UserRestRequest<GetTradeFills.Response> {
+public final class GetTradeOrderHistory extends UserRestRequest<GetTradeOrderHistory.Response> {
 
   private String instType;
   private String uly;
   private String instId;
-  private String ordId;
+  private String ordType;
+  private String state;
+  private String category;
   private Long after;
   private Long before;
   private Integer limit;
 
-  GetTradeFills(IActor actor, RestContext context) {
+  GetTradeOrderHistory(IActor actor, RestContext context) {
     super(actor, context);
   }
 
-  public GetTradeFills setInstType(@Nullable String instType) {
+  public GetTradeOrderHistory setInstType(String instType) {
     this.instType = instType;
     return this;
   }
 
-  public GetTradeFills setUly(@Nullable String uly) {
+  public GetTradeOrderHistory setUly(@Nullable String uly) {
     this.uly = uly;
     return this;
   }
 
-  public GetTradeFills setInstId(@Nullable String instId) {
+  public GetTradeOrderHistory setInstId(@Nullable String instId) {
     this.instId = instId;
     return this;
   }
 
-  public GetTradeFills setOrdId(@Nullable String ordId) {
-    this.ordId = ordId;
+  public GetTradeOrderHistory setOrdType(@Nullable String ordType) {
+    this.ordType = ordType;
     return this;
   }
 
-  public GetTradeFills setAfter(@Nullable Long after) {
+  public GetTradeOrderHistory setState(@Nullable String state) {
+    this.state = state;
+    return this;
+  }
+
+  public GetTradeOrderHistory setCategory(@Nullable String category) {
+    this.category = category;
+    return this;
+  }
+
+  public GetTradeOrderHistory setAfter(@Nullable Long after) {
     this.after = after;
     return this;
   }
 
-  public GetTradeFills setBefore(@Nullable Long before) {
+  public GetTradeOrderHistory setBefore(@Nullable Long before) {
     this.before = before;
     return this;
   }
 
-  public GetTradeFills setLimit(@Nullable Integer limit) {
+  public GetTradeOrderHistory setLimit(@Nullable Integer limit) {
     this.limit = limit;
     return this;
-  }
-
-  @Override
-  protected ImmutableList<TypedPermitRequest> getRequiredQuotas() {
-    return ONE_REST_REQUEST;
-  }
-
-  @Override
-  protected Class<GetTradeFills.Response> getResponseType() {
-    return Response.class;
   }
 
   @Override
@@ -82,16 +85,15 @@ public final class GetTradeFills extends UserRestRequest<GetTradeFills.Response>
 
   @Override
   protected String getEndpointPath() {
-    return "/api/fills";
+    return "/api/v5/trade/orders-history";
   }
 
   @Override
   protected RestParams getParams() {
     RestParams.Builder builder = RestParams.newBuilder();
 
-    if (instType != null) {
-      builder.add("instType", instType);
-    }
+    requireNonNull(instType);
+    builder.add("instType", instType);
 
     if (uly != null) {
       builder.add("uly", uly);
@@ -101,8 +103,16 @@ public final class GetTradeFills extends UserRestRequest<GetTradeFills.Response>
       builder.add("instId", instId);
     }
 
-    if (ordId != null) {
-      builder.add("ordId", ordId);
+    if (ordType != null) {
+      builder.add("ordType", ordType);
+    }
+
+    if (state != null) {
+      builder.add("state", state);
+    }
+
+    if (category != null) {
+      builder.add("category", category);
     }
 
     if (after != null) {
@@ -120,6 +130,16 @@ public final class GetTradeFills extends UserRestRequest<GetTradeFills.Response>
     return builder.build();
   }
 
+  @Override
+  protected Class<Response> getResponseType() {
+    return Response.class;
+  }
+
+  @Override
+  protected ImmutableList<TypedPermitRequest> getRequiredQuotas() {
+    return ONE_REST_REQUEST;
+  }
+
   @NotThreadSafe
-  public static final class Response extends RestResponse<_Fill> {}
+  public static final class Response extends RestResponse<_Order> {}
 }

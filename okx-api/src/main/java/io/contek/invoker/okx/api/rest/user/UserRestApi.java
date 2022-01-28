@@ -16,43 +16,59 @@ public final class UserRestApi {
     this.context = context;
   }
 
-  public PostTradeCancelOrder postTradeCancelOrder() {
-    return new PostTradeCancelOrder(actor, context);
+  public GetAccountAccountPositionRisk getAccountAccountPositionRisk() {
+    return new GetAccountAccountPositionRisk(actor, context);
   }
 
-  public GetAccount getAccount() {
-    return new GetAccount(actor, context);
+  public GetAccountBalance getAccountBalance() {
+    return new GetAccountBalance(actor, context);
+  }
+
+  public GetAccountConfig getAccountConfig() {
+    return new GetAccountConfig(actor, context);
+  }
+
+  public GetAccountPositions getAccountPositions() {
+    return new GetAccountPositions(actor, context);
+  }
+
+  public GetTradeFills getTradeFills() {
+    return new GetTradeFills(actor, context);
+  }
+
+  public GetTradeFillsHistory getTradeFillsHistory() {
+    return new GetTradeFillsHistory(actor, context);
+  }
+
+  public GetTradeOrder getOrder() {
+    return new GetTradeOrder(actor, context);
+  }
+
+  public GetTradeOrderHistory getOrderHistory() {
+    return new GetTradeOrderHistory(actor, context);
+  }
+
+  public GetTradeOrderHistoryArchive getTradeOrderHistoryArchive() {
+    return new GetTradeOrderHistoryArchive(actor, context);
   }
 
   public GetTradeOrdersPending getTradeOrdersPending() {
     return new GetTradeOrdersPending(actor, context);
   }
 
-  public GetOrderHistory getOrderHistory() {
-    return new GetOrderHistory(actor, context);
-  }
-
-  public GetPositions getPositions() {
-    return new GetPositions(actor, context);
-  }
-
-  public GetWalletBalances getWalletBalances() {
-    return new GetWalletBalances(actor, context);
-  }
-
-  public GetWalletAllBalances getWalletAllBalances() {
-    return new GetWalletAllBalances(actor, context);
-  }
-
-  public PostAccountSetLeverage postAccountLeverage() {
+  public PostAccountSetLeverage postAccountSetLeverage() {
     return new PostAccountSetLeverage(actor, context);
+  }
+
+  public PostAccountSetPositionMode postAccountSetPositionMode() {
+    return new PostAccountSetPositionMode(actor, context);
+  }
+
+  public PostTradeCancelOrder postTradeCancelOrder() {
+    return new PostTradeCancelOrder(actor, context);
   }
 
   public PostTradeOrder postTradeOrder() {
     return new PostTradeOrder(actor, context);
-  }
-
-  public GetTradeFills getTradeFills() {
-    return new GetTradeFills(actor, context);
   }
 }

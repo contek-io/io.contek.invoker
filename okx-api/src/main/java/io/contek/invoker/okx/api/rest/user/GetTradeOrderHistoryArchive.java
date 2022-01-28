@@ -14,59 +14,67 @@ import javax.annotation.concurrent.NotThreadSafe;
 
 import static io.contek.invoker.commons.rest.RestMethod.GET;
 import static io.contek.invoker.okx.api.ApiFactory.RateLimits.ONE_REST_REQUEST;
+import static java.util.Objects.requireNonNull;
 
 @NotThreadSafe
-public final class GetTradeOrdersPending extends UserRestRequest<GetTradeOrdersPending.Response> {
+public final class GetTradeOrderHistoryArchive
+    extends UserRestRequest<GetTradeOrderHistoryArchive.Response> {
 
   private String instType;
   private String uly;
   private String instId;
   private String ordType;
   private String state;
+  private String category;
   private Long after;
   private Long before;
   private Integer limit;
 
-  GetTradeOrdersPending(IActor actor, RestContext context) {
+  GetTradeOrderHistoryArchive(IActor actor, RestContext context) {
     super(actor, context);
   }
 
-  public GetTradeOrdersPending setInstId(@Nullable String instId) {
-    this.instId = instId;
-    return this;
-  }
-
-  public GetTradeOrdersPending setInstType(@Nullable String instType) {
+  public GetTradeOrderHistoryArchive setInstType(String instType) {
     this.instType = instType;
     return this;
   }
 
-  public GetTradeOrdersPending setUly(@Nullable String uly) {
+  public GetTradeOrderHistoryArchive setUly(String uly) {
     this.uly = uly;
     return this;
   }
 
-  public GetTradeOrdersPending setOrdType(@Nullable String ordType) {
+  public GetTradeOrderHistoryArchive setInstId(@Nullable String instId) {
+    this.instId = instId;
+    return this;
+  }
+
+  public GetTradeOrderHistoryArchive setOrdType(@Nullable String ordType) {
     this.ordType = ordType;
     return this;
   }
 
-  public GetTradeOrdersPending setState(@Nullable String state) {
+  public GetTradeOrderHistoryArchive setState(@Nullable String state) {
     this.state = state;
     return this;
   }
 
-  public GetTradeOrdersPending setAfter(@Nullable Long after) {
+  public GetTradeOrderHistoryArchive setCategory(@Nullable String category) {
+    this.category = category;
+    return this;
+  }
+
+  public GetTradeOrderHistoryArchive setAfter(@Nullable Long after) {
     this.after = after;
     return this;
   }
 
-  public GetTradeOrdersPending setBefore(@Nullable Long before) {
+  public GetTradeOrderHistoryArchive setBefore(@Nullable Long before) {
     this.before = before;
     return this;
   }
 
-  public GetTradeOrdersPending setLimit(@Nullable Integer limit) {
+  public GetTradeOrderHistoryArchive setLimit(@Nullable Integer limit) {
     this.limit = limit;
     return this;
   }
@@ -78,23 +86,22 @@ public final class GetTradeOrdersPending extends UserRestRequest<GetTradeOrdersP
 
   @Override
   protected String getEndpointPath() {
-    return "/api/v5/trade/orders-pending";
+    return "/api/v5/trade/orders-history-archive";
   }
 
   @Override
   protected RestParams getParams() {
     RestParams.Builder builder = RestParams.newBuilder();
 
-    if (instType != null) {
-      builder.add("instType", instType);
-    }
+    requireNonNull(instType);
+    builder.add("instType", instType);
 
     if (uly != null) {
       builder.add("uly", uly);
     }
 
     if (instId != null) {
-      builder.add(instId, instId);
+      builder.add("instId", instId);
     }
 
     if (ordType != null) {
@@ -103,6 +110,10 @@ public final class GetTradeOrdersPending extends UserRestRequest<GetTradeOrdersP
 
     if (state != null) {
       builder.add("state", state);
+    }
+
+    if (category != null) {
+      builder.add("category", category);
     }
 
     if (after != null) {

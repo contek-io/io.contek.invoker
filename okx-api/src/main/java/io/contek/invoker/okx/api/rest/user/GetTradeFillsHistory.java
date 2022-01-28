@@ -14,9 +14,10 @@ import javax.annotation.concurrent.NotThreadSafe;
 
 import static io.contek.invoker.commons.rest.RestMethod.GET;
 import static io.contek.invoker.okx.api.ApiFactory.RateLimits.ONE_REST_REQUEST;
+import static java.util.Objects.requireNonNull;
 
 @NotThreadSafe
-public final class GetTradeFills extends UserRestRequest<GetTradeFills.Response> {
+public final class GetTradeFillsHistory extends UserRestRequest<GetTradeFillsHistory.Response> {
 
   private String instType;
   private String uly;
@@ -26,41 +27,41 @@ public final class GetTradeFills extends UserRestRequest<GetTradeFills.Response>
   private Long before;
   private Integer limit;
 
-  GetTradeFills(IActor actor, RestContext context) {
+  GetTradeFillsHistory(IActor actor, RestContext context) {
     super(actor, context);
   }
 
-  public GetTradeFills setInstType(@Nullable String instType) {
+  public GetTradeFillsHistory setInstType(String instType) {
     this.instType = instType;
     return this;
   }
 
-  public GetTradeFills setUly(@Nullable String uly) {
+  public GetTradeFillsHistory setUly(@Nullable String uly) {
     this.uly = uly;
     return this;
   }
 
-  public GetTradeFills setInstId(@Nullable String instId) {
+  public GetTradeFillsHistory setInstId(@Nullable String instId) {
     this.instId = instId;
     return this;
   }
 
-  public GetTradeFills setOrdId(@Nullable String ordId) {
+  public GetTradeFillsHistory setOrdId(@Nullable String ordId) {
     this.ordId = ordId;
     return this;
   }
 
-  public GetTradeFills setAfter(@Nullable Long after) {
+  public GetTradeFillsHistory setAfter(@Nullable Long after) {
     this.after = after;
     return this;
   }
 
-  public GetTradeFills setBefore(@Nullable Long before) {
+  public GetTradeFillsHistory setBefore(@Nullable Long before) {
     this.before = before;
     return this;
   }
 
-  public GetTradeFills setLimit(@Nullable Integer limit) {
+  public GetTradeFillsHistory setLimit(@Nullable Integer limit) {
     this.limit = limit;
     return this;
   }
@@ -71,7 +72,7 @@ public final class GetTradeFills extends UserRestRequest<GetTradeFills.Response>
   }
 
   @Override
-  protected Class<GetTradeFills.Response> getResponseType() {
+  protected Class<GetTradeFillsHistory.Response> getResponseType() {
     return Response.class;
   }
 
@@ -82,16 +83,15 @@ public final class GetTradeFills extends UserRestRequest<GetTradeFills.Response>
 
   @Override
   protected String getEndpointPath() {
-    return "/api/fills";
+    return "/api/fills-history";
   }
 
   @Override
   protected RestParams getParams() {
     RestParams.Builder builder = RestParams.newBuilder();
 
-    if (instType != null) {
-      builder.add("instType", instType);
-    }
+    requireNonNull(instType);
+    builder.add("instType", instType);
 
     if (uly != null) {
       builder.add("uly", uly);
