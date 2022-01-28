@@ -17,16 +17,8 @@ public final class UserRestApi {
     this.context = context;
   }
 
-  public DeleteAllOrders deleteAllOrders() {
-    return new DeleteAllOrders(actor, context);
-  }
-
   public DeleteOrders deleteOrders() {
     return new DeleteOrders(actor, context);
-  }
-
-  public DeleteOrdersByClientOrderId deleteOrdersByClientOrderId() {
-    return new DeleteOrdersByClientOrderId(actor, context);
   }
 
   public GetAccount getAccount() {
@@ -65,8 +57,8 @@ public final class UserRestApi {
     return new PostAccountLeverage(actor, context);
   }
 
-  public PostOrders postOrders() {
-    return new PostOrders(actor, context);
+  public PostTradeOrder postTradeOrder() {
+    return new PostTradeOrder(actor, context);
   }
 
   public GetFills getFills() {
