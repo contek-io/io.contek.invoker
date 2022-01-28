@@ -5,5 +5,8 @@ import javax.annotation.concurrent.NotThreadSafe;
 @NotThreadSafe
 public class _Leverage {
 
-  public Double leverage;
+  public String lever;
+  public String mgnMode;
+  public String instId;
+  public String posSide;
 }

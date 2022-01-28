@@ -8,7 +8,6 @@ import io.contek.invoker.okx.api.rest.common.RestResponse;
 
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.NotThreadSafe;
-import java.util.List;
 
 import static io.contek.invoker.okx.api.common.constants.InstrumentTypeKeys.*;
 import static java.util.Objects.requireNonNull;
@@ -76,5 +75,5 @@ public final class GetPublicInstruments extends MarketRestRequest<GetPublicInstr
   }
 
   @NotThreadSafe
-  public static final class Response extends RestResponse<List<_Instrument>> {}
+  public static final class Response extends RestResponse<_Instrument> {}
 }
