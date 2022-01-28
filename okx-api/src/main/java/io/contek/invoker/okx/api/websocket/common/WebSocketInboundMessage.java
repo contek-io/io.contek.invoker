@@ -5,7 +5,4 @@ import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import javax.annotation.concurrent.NotThreadSafe;
 
 @NotThreadSafe
-public abstract class WebSocketInboundMessage extends AnyWebSocketMessage {
-
-  public String type;
-}
+public abstract class WebSocketInboundMessage extends AnyWebSocketMessage {}

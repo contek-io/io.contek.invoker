@@ -1,28 +1,41 @@
 package io.contek.invoker.okx.api.websocket.user;
 
 import io.contek.invoker.commons.actor.IActor;
+import io.contek.invoker.commons.websocket.WebSocketCall;
 import io.contek.invoker.commons.websocket.WebSocketContext;
 import io.contek.invoker.okx.api.websocket.WebSocketApi;
+import io.contek.invoker.security.ICredential;
 
 import javax.annotation.concurrent.ThreadSafe;
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.HashMap;
+import java.util.Map;
 
 @ThreadSafe
 public final class UserWebSocketApi extends WebSocketApi {
 
-  private final AtomicReference<OrdersChannel> orderUpdateChannel = new AtomicReference<>();
+  private final WebSocketContext context;
+
+  private final Map<OrdersChannel.Id, OrdersChannel> ordersChannels = new HashMap<>();
 
   public UserWebSocketApi(IActor actor, WebSocketContext context) {
-    super(actor, context);
+    super(actor);
+    this.context = context;
   }
 
-  public OrdersChannel getOrderUpdateChannel() {
-    synchronized (orderUpdateChannel) {
-      if (orderUpdateChannel.get() == null) {
-        this.orderUpdateChannel.set(new OrdersChannel());
-        attach(this.orderUpdateChannel.get());
-      }
-      return orderUpdateChannel.get();
+  public OrdersChannel getOrdersChannel(OrdersChannel.Id id) {
+    synchronized (ordersChannels) {
+      return ordersChannels.computeIfAbsent(
+          id,
+          k -> {
+            OrdersChannel result = new OrdersChannel(k);
+            attach(result);
+            return result;
+          });
     }
+  }
+
+  @Override
+  protected WebSocketCall createCall(ICredential credential) {
+    return WebSocketCall.fromUrl(context.getBaseUrl() + "/ws/v5/private");
   }
 }

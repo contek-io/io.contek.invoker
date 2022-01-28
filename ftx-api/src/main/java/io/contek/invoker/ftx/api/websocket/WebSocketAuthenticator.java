@@ -39,12 +39,12 @@ public final class WebSocketAuthenticator implements IWebSocketAuthenticator {
     }
 
     WebSocketAuthenticationMessage request = new WebSocketAuthenticationMessage();
-    long currentTimeStamp = clock.instant().getEpochSecond() * 1000;
+    long currentMillis = clock.instant().toEpochMilli();
     request.op = WebSocketOutboundKeys._login;
     request.args = new WebSocketAuthenticationMessage.Args();
     request.args.key = credential.getApiKeyId();
-    request.args.sign = credential.sign(currentTimeStamp + WEBSOCKET_LOGIN);
-    request.args.time = currentTimeStamp;
+    request.args.sign = credential.sign(currentMillis + WEBSOCKET_LOGIN);
+    request.args.time = currentMillis;
     request.args.subaccount = credential.getProperties().get(FTX_SUBACCOUNT_KEY);
 
     log.info("Requesting authentication for {}.", credential.getApiKeyId());

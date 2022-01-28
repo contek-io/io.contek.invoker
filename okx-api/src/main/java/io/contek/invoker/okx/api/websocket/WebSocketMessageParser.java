@@ -3,14 +3,11 @@ package io.contek.invoker.okx.api.websocket;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.IWebSocketComponent;
 import io.contek.invoker.commons.websocket.WebSocketTextMessageParser;
-import io.contek.invoker.okx.api.websocket.common.WebSocketInboundMessage;
-import io.contek.invoker.okx.api.websocket.common.WebSocketInfoMessage;
-import io.contek.invoker.okx.api.websocket.common.WebSocketSubscriptionResponse;
+import io.contek.invoker.okx.api.websocket.common.*;
 import io.contek.invoker.okx.api.websocket.market.OrderBookChannel;
-import io.contek.invoker.okx.api.websocket.market.TickerChannel;
+import io.contek.invoker.okx.api.websocket.market.TickersChannel;
 import io.contek.invoker.okx.api.websocket.market.TradesChannel;
 import io.contek.invoker.okx.api.websocket.user.OrdersChannel;
 
@@ -18,6 +15,7 @@ import javax.annotation.concurrent.Immutable;
 
 import static io.contek.invoker.okx.api.websocket.common.constants.WebSocketChannelKeys.*;
 import static io.contek.invoker.okx.api.websocket.common.constants.WebSocketInboundKeys.*;
+import static io.contek.invoker.okx.api.websocket.common.constants.WebSocketOutboundKeys._login;
 
 @Immutable
 final class WebSocketMessageParser extends WebSocketTextMessageParser {
@@ -32,54 +30,69 @@ final class WebSocketMessageParser extends WebSocketTextMessageParser {
   public void register(IWebSocketComponent component) {}
 
   @Override
-  protected AnyWebSocketMessage fromText(String text) {
+  protected WebSocketInboundMessage fromText(String text) {
     JsonElement json = gson.fromJson(text, JsonElement.class);
     if (!json.isJsonObject()) {
       throw new IllegalArgumentException(text);
     }
+
     JsonObject obj = json.getAsJsonObject();
-    if (!obj.has(_type)) {
-      throw new IllegalArgumentException(text);
+    if (obj.has(_event)) {
+      return toEvent(obj);
     }
-    switch (obj.get(_type).getAsString()) {
-      case _subscribed:
-      case _unsubscribed:
+
+    if (obj.has(_data)) {
+      return toPushData(obj);
+    }
+
+    throw new IllegalArgumentException(text);
+  }
+
+  private WebSocketEvent toEvent(JsonObject obj) {
+    String event = obj.get(_event).getAsString();
+    switch (event) {
+      case _subscribe:
+      case _unsubscribe:
         return toSubscriptionMessage(obj);
-      case _partial:
-      case _update:
-        return toChannelMessage(obj);
+      case _login:
       case _error:
-      case _info:
-        return toInfoMessage(obj);
+        return toGeneralResponse(obj);
       default:
-        throw new IllegalArgumentException(text);
+        throw new IllegalArgumentException(event);
     }
   }
 
-  private WebSocketInboundMessage toSubscriptionMessage(JsonObject obj) {
+  private WebSocketSubscriptionResponse toSubscriptionMessage(JsonObject obj) {
     return gson.fromJson(obj, WebSocketSubscriptionResponse.class);
   }
 
-  private WebSocketInboundMessage toChannelMessage(JsonObject obj) {
-    if (!obj.has(_channel)) {
+  private WebSocketGeneralResponse toGeneralResponse(JsonObject obj) {
+    return gson.fromJson(obj, WebSocketGeneralResponse.class);
+  }
+
+  private WebSocketChannelPushData<?> toPushData(JsonObject obj) {
+    if (!obj.has(_arg)) {
       throw new IllegalArgumentException(obj.toString());
     }
-    switch (obj.get(_channel).getAsString()) {
-      case _orderbook:
+
+    JsonObject arg = obj.getAsJsonObject(_arg);
+    String channel = obj.get(_channel).getAsString();
+
+    switch (channel) {
+      case _books:
+      case _books5:
+      case _books50_l2_tbt:
+      case _books_l2_tbt:
         return gson.fromJson(obj, OrderBookChannel.Message.class);
       case _trades:
         return gson.fromJson(obj, TradesChannel.Message.class);
-      case _ticker:
-        return gson.fromJson(obj, TickerChannel.Message.class);
+      case _tickers:
+        return gson.fromJson(obj, TickersChannel.Message.class);
       case _orders:
         return gson.fromJson(obj, OrdersChannel.Message.class);
       default:
         throw new IllegalArgumentException(obj.toString());
     }
-  }
-
-  private WebSocketInfoMessage toInfoMessage(JsonObject obj) {
-    return gson.fromJson(obj, WebSocketInfoMessage.class);
   }
 
   private WebSocketMessageParser() {}

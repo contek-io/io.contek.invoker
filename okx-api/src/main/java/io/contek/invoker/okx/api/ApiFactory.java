@@ -22,7 +22,7 @@ import javax.annotation.concurrent.ThreadSafe;
 import java.time.Duration;
 import java.util.List;
 
-import static com.google.common.io.BaseEncoding.base16;
+import static com.google.common.io.BaseEncoding.base64;
 import static io.contek.invoker.commons.actor.ratelimit.LimitType.API_KEY;
 import static io.contek.invoker.commons.actor.ratelimit.LimitType.IP;
 import static io.contek.invoker.okx.api.ApiFactory.RateLimits.API_KEY_REST_ORDER_RULE;
@@ -34,8 +34,16 @@ public final class ApiFactory {
 
   public static final ApiContext MAIN_NET_CONTEXT =
       ApiContext.newBuilder()
-          .setRestContext(RestContext.forBaseUrl("https://ftx.com"))
-          .setWebSocketContext(WebSocketContext.forBaseUrl("wss://ftx.com", Duration.ofSeconds(15)))
+          .setRestContext(RestContext.forBaseUrl("https://www.okx.com"))
+          .setWebSocketContext(
+              WebSocketContext.forBaseUrl("wss://ws.okx.com:8443", Duration.ofSeconds(15)))
+          .build();
+
+  public static final ApiContext AWS_NET_CONTEXT =
+      ApiContext.newBuilder()
+          .setRestContext(RestContext.forBaseUrl("https://aws.okx.com"))
+          .setWebSocketContext(
+              WebSocketContext.forBaseUrl("wss://wsaws.okx.com:8443", Duration.ofSeconds(15)))
           .build();
 
   private final ApiContext context;
@@ -47,6 +55,10 @@ public final class ApiFactory {
   }
 
   public static ApiFactory getMainNet() {
+    return fromContext(MAIN_NET_CONTEXT);
+  }
+
+  public static ApiFactory getAwsNet() {
     return fromContext(MAIN_NET_CONTEXT);
   }
 
@@ -75,7 +87,7 @@ public final class ApiFactory {
   private static SimpleCredentialFactory createCredentialFactory() {
     return SimpleCredentialFactory.newBuilder()
         .setAlgorithm(HMAC_SHA256)
-        .setEncoding(base16().lowerCase())
+        .setEncoding(base64())
         .build();
   }
 

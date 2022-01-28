@@ -1,12 +1,13 @@
 package io.contek.invoker.okx.api.websocket.market;
 
 import io.contek.invoker.okx.api.common._OrderBook;
+import io.contek.invoker.okx.api.websocket.common.WebSocketChannelPushData;
 
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
 
-import static io.contek.invoker.okx.api.websocket.common.constants.WebSocketChannelKeys._orderbook;
+import static io.contek.invoker.okx.api.websocket.common.constants.WebSocketChannelKeys._books;
 
 @ThreadSafe
 public final class OrderBookChannel
@@ -24,12 +25,12 @@ public final class OrderBookChannel
   @Immutable
   public static final class Id extends WebSocketMarketChannelId<OrderBookChannel.Message> {
 
-    private Id(String market) {
-      super(_orderbook, market);
+    private Id(String instId) {
+      super(_books, instId);
     }
 
-    public static OrderBookChannel.Id of(String market) {
-      return new OrderBookChannel.Id(market);
+    public static OrderBookChannel.Id of(String instId) {
+      return new OrderBookChannel.Id(instId);
     }
   }
 
@@ -44,5 +45,5 @@ public final class OrderBookChannel
   }
 
   @NotThreadSafe
-  public static final class Message extends WebSocketMarketChannelMessage<Data> {}
+  public static final class Message extends WebSocketChannelPushData<Data> {}
 }

@@ -8,13 +8,18 @@ import io.contek.invoker.security.ICredential;
 
 import javax.annotation.concurrent.NotThreadSafe;
 import java.time.Clock;
+import java.time.format.DateTimeFormatter;
 
 import static io.contek.invoker.commons.rest.RestMediaType.JSON;
+import static java.time.ZoneOffset.UTC;
+import static java.time.format.DateTimeFormatter.ISO_INSTANT;
 
 @NotThreadSafe
 public abstract class RestRequest<R> extends BaseRestRequest<R> {
 
-  public static final String FTX_SUBACCOUNT_KEY = "FTX-SUBACCOUNT";
+  public static final String OK_ACCESS_PASSPHRASE = "OK-ACCESS-PASSPHRASE";
+
+  private static final DateTimeFormatter FORMATTER = ISO_INSTANT.withZone(UTC);
 
   private final RestContext context;
   private final Clock clock;
@@ -36,7 +41,6 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
     RestMethod method = getMethod();
     switch (method) {
       case GET:
-      case DELETE:
         String paramsString = buildParamsString();
         return RestCall.newBuilder()
             .setUrl(buildUrlString(paramsString))
@@ -44,7 +48,6 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
             .setHeaders(generateHeaders(paramsString, "", credential))
             .build();
       case POST:
-      case PUT:
         RestMediaBody body = JSON.createBody(getParams());
         return RestCall.newBuilder()
             .setUrl(buildUrlString(""))
@@ -62,15 +65,15 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
     if (credential.isAnonymous()) {
       return ImmutableMap.of();
     }
-    String ts = Long.toString(clock.millis());
+    String ts = FORMATTER.format(clock.instant());
     String payload = ts + getMethod() + getEndpointPath() + paramsString + bodyString;
     String signature = credential.sign(payload);
 
     ImmutableMap.Builder<String, String> result =
         ImmutableMap.<String, String>builder()
-            .put("FTX-KEY", credential.getApiKeyId())
-            .put("FTX-SIGN", signature)
-            .put("FTX-TS", ts);
+            .put("OK-ACCESS-KEY", credential.getApiKeyId())
+            .put("OK-ACCESS-SIGN", signature)
+            .put("OK-ACCESS-TIMESTAMP", ts);
     credential.getProperties().forEach(result::put);
 
     return result.build();
