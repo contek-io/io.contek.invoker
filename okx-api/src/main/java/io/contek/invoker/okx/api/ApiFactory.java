@@ -1,16 +1,18 @@
 package io.contek.invoker.okx.api;
 
-import com.google.common.collect.ImmutableList;
 import io.contek.invoker.commons.ApiContext;
 import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.actor.IActorFactory;
 import io.contek.invoker.commons.actor.SimpleActorFactory;
 import io.contek.invoker.commons.actor.http.SimpleHttpClientFactory;
-import io.contek.invoker.commons.actor.ratelimit.*;
+import io.contek.invoker.commons.actor.ratelimit.IRateLimitQuotaInterceptor;
+import io.contek.invoker.commons.actor.ratelimit.LimiterManagers;
+import io.contek.invoker.commons.actor.ratelimit.SimpleRateLimitThrottleFactory;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.websocket.WebSocketContext;
-import io.contek.invoker.okx.api.rest.market.MarketRestApi;
-import io.contek.invoker.okx.api.rest.user.UserRestApi;
+import io.contek.invoker.okx.api.rest.market.*;
+import io.contek.invoker.okx.api.rest.user.*;
+import io.contek.invoker.okx.api.websocket.WebSocketApi;
 import io.contek.invoker.okx.api.websocket.market.MarketWebSocketApi;
 import io.contek.invoker.okx.api.websocket.user.UserWebSocketApi;
 import io.contek.invoker.security.ApiKey;
@@ -23,10 +25,6 @@ import java.time.Duration;
 import java.util.List;
 
 import static com.google.common.io.BaseEncoding.base64;
-import static io.contek.invoker.commons.actor.ratelimit.LimitType.API_KEY;
-import static io.contek.invoker.commons.actor.ratelimit.LimitType.IP;
-import static io.contek.invoker.okx.api.ApiFactory.RateLimits.API_KEY_REST_ORDER_RULE;
-import static io.contek.invoker.okx.api.ApiFactory.RateLimits.IP_REST_REQUEST_RULE;
 import static io.contek.invoker.security.SecretKeyAlgorithm.HMAC_SHA256;
 
 @ThreadSafe
@@ -92,7 +90,30 @@ public final class ApiFactory {
   }
 
   private static LimiterManager createLimiterManager() {
-    return LimiterManagers.forRules(IP_REST_REQUEST_RULE, API_KEY_REST_ORDER_RULE);
+    return LimiterManagers.forRules(
+        GetMarketBooks.RATE_LIMIT_RULE,
+        GetMarketCandles.RATE_LIMIT_RULE,
+        GetMarketHistoryCandles.RATE_LIMIT_RULE,
+        GetMarketIndexCandles.RATE_LIMIT_RULE,
+        GetMarketMarkPriceCandles.RATE_LIMIT_RULE,
+        GetMarketTickers.RATE_LIMIT_RULE,
+        GetMarketTrades.RATE_LIMIT_RULE,
+        GetPublicInstruments.RATE_LIMIT_RULE,
+        GetAccountAccountPositionRisk.RATE_LIMIT_RULE,
+        GetAccountBalance.RATE_LIMIT_RULE,
+        GetAccountConfig.RATE_LIMIT_RULE,
+        GetAccountPositions.RATE_LIMIT_RULE,
+        GetTradeFills.RATE_LIMIT_RULE,
+        GetTradeFillsHistory.RATE_LIMIT_RULE,
+        GetTradeOrder.RATE_LIMIT_RULE,
+        GetTradeOrderHistory.RATE_LIMIT_RULE,
+        GetTradeOrderHistoryArchive.RATE_LIMIT_RULE,
+        GetTradeOrdersPending.RATE_LIMIT_RULE,
+        PostAccountSetLeverage.RATE_LIMIT_RULE,
+        PostAccountSetPositionMode.RATE_LIMIT_RULE,
+        PostTradeCancelOrder.RATE_LIMIT_RULE,
+        PostTradeCancelOrder.RATE_LIMIT_RULE,
+        WebSocketApi.RATE_LIMIT_RULE);
   }
 
   @ThreadSafe
@@ -133,25 +154,6 @@ public final class ApiFactory {
 
   @Immutable
   public static final class RateLimits {
-
-    public static final RateLimitRule IP_REST_REQUEST_RULE =
-        RateLimitRule.newBuilder()
-            .setName("ip_rest_request_rule")
-            .setType(IP)
-            .setMaxPermits(30)
-            .setResetPeriod(Duration.ofSeconds(1))
-            .build();
-
-    public static final RateLimitRule API_KEY_REST_ORDER_RULE =
-        RateLimitRule.newBuilder()
-            .setName("api_key_rest_order_rule")
-            .setType(API_KEY)
-            .setMaxPermits(2)
-            .setResetPeriod(Duration.ofMillis(200))
-            .build();
-
-    public static final ImmutableList<TypedPermitRequest> ONE_REST_REQUEST =
-        ImmutableList.of(IP_REST_REQUEST_RULE.forPermits(1));
 
     private RateLimits() {}
   }

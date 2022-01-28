@@ -2,6 +2,7 @@ package io.contek.invoker.okx.api.rest.user;
 
 import com.google.common.collect.ImmutableList;
 import io.contek.invoker.commons.actor.IActor;
+import io.contek.invoker.commons.actor.ratelimit.RateLimitRule;
 import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
@@ -11,12 +12,24 @@ import io.contek.invoker.okx.api.rest.common.RestResponse;
 
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.NotThreadSafe;
+import java.time.Duration;
 
+import static io.contek.invoker.commons.actor.ratelimit.LimitType.API_KEY;
 import static io.contek.invoker.commons.rest.RestMethod.GET;
-import static io.contek.invoker.okx.api.ApiFactory.RateLimits.ONE_REST_REQUEST;
 
 @NotThreadSafe
 public final class GetAccountPositions extends UserRestRequest<GetAccountPositions.Response> {
+
+  public static final RateLimitRule RATE_LIMIT_RULE =
+      RateLimitRule.newBuilder()
+          .setName("api_key_rest_get_account_positions")
+          .setType(API_KEY)
+          .setMaxPermits(10)
+          .setResetPeriod(Duration.ofSeconds(2))
+          .build();
+
+  private static final ImmutableList<TypedPermitRequest> REQUIRED_QUOTA =
+      ImmutableList.of(RATE_LIMIT_RULE.forPermits(1));
 
   private String instType;
   private String instId;
@@ -77,7 +90,7 @@ public final class GetAccountPositions extends UserRestRequest<GetAccountPositio
 
   @Override
   protected ImmutableList<TypedPermitRequest> getRequiredQuotas() {
-    return ONE_REST_REQUEST;
+    return REQUIRED_QUOTA;
   }
 
   @NotThreadSafe

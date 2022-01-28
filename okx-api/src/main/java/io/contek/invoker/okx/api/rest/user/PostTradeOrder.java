@@ -2,6 +2,7 @@ package io.contek.invoker.okx.api.rest.user;
 
 import com.google.common.collect.ImmutableList;
 import io.contek.invoker.commons.actor.IActor;
+import io.contek.invoker.commons.actor.ratelimit.RateLimitRule;
 import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
@@ -11,17 +12,25 @@ import io.contek.invoker.okx.api.rest.common.RestResponse;
 
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.NotThreadSafe;
+import java.time.Duration;
 
+import static io.contek.invoker.commons.actor.ratelimit.LimitType.API_KEY;
 import static io.contek.invoker.commons.rest.RestMethod.POST;
-import static io.contek.invoker.okx.api.ApiFactory.RateLimits.API_KEY_REST_ORDER_RULE;
-import static io.contek.invoker.okx.api.ApiFactory.RateLimits.IP_REST_REQUEST_RULE;
 import static java.util.Objects.requireNonNull;
 
 @NotThreadSafe
 public final class PostTradeOrder extends UserRestRequest<PostTradeOrder.Response> {
 
-  public static final ImmutableList<TypedPermitRequest> ONE_REST_ORDER_REQUEST =
-      ImmutableList.of(IP_REST_REQUEST_RULE.forPermits(1), API_KEY_REST_ORDER_RULE.forPermits(1));
+  public static final RateLimitRule RATE_LIMIT_RULE =
+      RateLimitRule.newBuilder()
+          .setName("api_key_rest_post_trade_order")
+          .setType(API_KEY)
+          .setMaxPermits(60)
+          .setResetPeriod(Duration.ofSeconds(2))
+          .build();
+
+  private static final ImmutableList<TypedPermitRequest> REQUIRED_QUOTA =
+      ImmutableList.of(RATE_LIMIT_RULE.forPermits(1));
 
   private String instId;
   private String tdMode;
@@ -167,7 +176,7 @@ public final class PostTradeOrder extends UserRestRequest<PostTradeOrder.Respons
 
   @Override
   protected ImmutableList<TypedPermitRequest> getRequiredQuotas() {
-    return ONE_REST_ORDER_REQUEST;
+    return REQUIRED_QUOTA;
   }
 
   @NotThreadSafe
