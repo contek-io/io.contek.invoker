@@ -17,7 +17,7 @@ public final class UserRestApi {
     this.context = context;
   }
 
-  public PostTradeCancelOrder deleteOrders() {
+  public PostTradeCancelOrder postTradeCancelOrder() {
     return new PostTradeCancelOrder(actor, context);
   }
 
