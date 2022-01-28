@@ -6,7 +6,7 @@ import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
-import io.contek.invoker.okx.api.common._OrderAck;
+import io.contek.invoker.okx.api.common._PlaceOrderAck;
 import io.contek.invoker.okx.api.rest.common.RestResponse;
 
 import javax.annotation.Nullable;
@@ -65,7 +65,7 @@ public final class PostTradeOrder extends UserRestRequest<PostTradeOrder.Respons
     return this;
   }
 
-  public PostTradeOrder setSide(@Nullable String side) {
+  public PostTradeOrder setSide(String side) {
     this.side = side;
     return this;
   }
@@ -171,5 +171,5 @@ public final class PostTradeOrder extends UserRestRequest<PostTradeOrder.Respons
   }
 
   @NotThreadSafe
-  public static final class Response extends RestResponse<_OrderAck> {}
+  public static final class Response extends RestResponse<_PlaceOrderAck> {}
 }
