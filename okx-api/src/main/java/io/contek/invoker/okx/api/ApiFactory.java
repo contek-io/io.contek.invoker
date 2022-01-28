@@ -19,7 +19,6 @@ import io.contek.invoker.security.ApiKey;
 import io.contek.invoker.security.SimpleCredentialFactory;
 import io.contek.ursa.cache.LimiterManager;
 
-import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.ThreadSafe;
 import java.time.Duration;
 import java.util.List;
@@ -150,11 +149,5 @@ public final class ApiFactory {
       IActor actor = actorFactory.create(apiKey, wsContext);
       return new UserWebSocketApi(actor, wsContext);
     }
-  }
-
-  @Immutable
-  public static final class RateLimits {
-
-    private RateLimits() {}
   }
 }
