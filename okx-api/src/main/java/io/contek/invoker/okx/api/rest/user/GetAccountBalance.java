@@ -6,20 +6,27 @@ import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
-import io.contek.invoker.okx.api.common._WalletBalance;
+import io.contek.invoker.okx.api.common._Balance;
 import io.contek.invoker.okx.api.rest.common.RestResponse;
 
+import javax.annotation.Nullable;
 import javax.annotation.concurrent.NotThreadSafe;
-import java.util.List;
 
 import static io.contek.invoker.commons.rest.RestMethod.GET;
 import static io.contek.invoker.okx.api.ApiFactory.RateLimits.ONE_REST_REQUEST;
 
 @NotThreadSafe
-public final class GetWalletBalances extends UserRestRequest<GetWalletBalances.Response> {
+public final class GetAccountBalance extends UserRestRequest<GetAccountBalance.Response> {
 
-  GetWalletBalances(IActor actor, RestContext context) {
+  private String ccy;
+
+  GetAccountBalance(IActor actor, RestContext context) {
     super(actor, context);
+  }
+
+  public GetAccountBalance setCcy(@Nullable String ccy) {
+    this.ccy = ccy;
+    return this;
   }
 
   @Override
@@ -29,12 +36,18 @@ public final class GetWalletBalances extends UserRestRequest<GetWalletBalances.R
 
   @Override
   protected String getEndpointPath() {
-    return "/api/wallet/balances";
+    return "/api/v5/account/balance";
   }
 
   @Override
   protected RestParams getParams() {
-    return RestParams.empty();
+    RestParams.Builder builder = RestParams.newBuilder();
+
+    if (ccy != null) {
+      builder.add("ccy", ccy);
+    }
+
+    return builder.build();
   }
 
   @Override
@@ -48,5 +61,5 @@ public final class GetWalletBalances extends UserRestRequest<GetWalletBalances.R
   }
 
   @NotThreadSafe
-  public static final class Response extends RestResponse<List<_WalletBalance>> {}
+  public static final class Response extends RestResponse<_Balance> {}
 }

@@ -9,8 +9,8 @@ import io.contek.invoker.commons.rest.RestParams;
 import io.contek.invoker.okx.api.common._Order;
 import io.contek.invoker.okx.api.rest.common.RestResponse;
 
+import javax.annotation.Nullable;
 import javax.annotation.concurrent.NotThreadSafe;
-import java.util.List;
 
 import static io.contek.invoker.commons.rest.RestMethod.GET;
 import static io.contek.invoker.okx.api.ApiFactory.RateLimits.ONE_REST_REQUEST;
@@ -32,12 +32,12 @@ public final class GetTradeOrder extends UserRestRequest<GetTradeOrder.Response>
     return this;
   }
 
-  public GetTradeOrder setOrdId(String ordId) {
+  public GetTradeOrder setOrdId(@Nullable String ordId) {
     this.ordId = ordId;
     return this;
   }
 
-  public GetTradeOrder setClOrdId(String clOrdId) {
+  public GetTradeOrder setClOrdId(@Nullable String clOrdId) {
     this.clOrdId = clOrdId;
     return this;
   }
@@ -80,5 +80,5 @@ public final class GetTradeOrder extends UserRestRequest<GetTradeOrder.Response>
   }
 
   @NotThreadSafe
-  public static final class Response extends RestResponse<List<_Order>> {}
+  public static final class Response extends RestResponse<_Order> {}
 }

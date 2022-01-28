@@ -6,46 +6,47 @@ import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
-import io.contek.invoker.okx.api.common._Position;
+import io.contek.invoker.okx.api.common._PositionMode;
 import io.contek.invoker.okx.api.rest.common.RestResponse;
 
 import javax.annotation.concurrent.NotThreadSafe;
-import java.util.List;
 
-import static io.contek.invoker.commons.rest.RestMethod.GET;
+import static io.contek.invoker.commons.rest.RestMethod.POST;
 import static io.contek.invoker.okx.api.ApiFactory.RateLimits.ONE_REST_REQUEST;
+import static java.util.Objects.requireNonNull;
 
 @NotThreadSafe
-public final class GetPositions extends UserRestRequest<GetPositions.Response> {
+public final class PostAccountSetPositionMode
+    extends UserRestRequest<PostAccountSetPositionMode.Response> {
 
-  private Boolean showAvgPrice;
+  private String posMode;
 
-  GetPositions(IActor actor, RestContext context) {
+  PostAccountSetPositionMode(IActor actor, RestContext context) {
     super(actor, context);
   }
 
-  public GetPositions setShowAvgPrice(Boolean showAvgPrice) {
-    this.showAvgPrice = showAvgPrice;
+  public PostAccountSetPositionMode setPosMode(String posMode) {
+    this.posMode = posMode;
     return this;
   }
 
   @Override
   protected RestMethod getMethod() {
-    return GET;
+    return POST;
   }
 
   @Override
   protected String getEndpointPath() {
-    return "/api/positions";
+    return "/api/v5/account/set-position-mode";
   }
 
   @Override
   protected RestParams getParams() {
     RestParams.Builder builder = RestParams.newBuilder();
 
-    if (showAvgPrice != null) {
-      builder.add("showAvgPrice", showAvgPrice);
-    }
+    requireNonNull(posMode);
+    builder.add("posMode", posMode);
+
     return builder.build();
   }
 
@@ -60,5 +61,5 @@ public final class GetPositions extends UserRestRequest<GetPositions.Response> {
   }
 
   @NotThreadSafe
-  public static final class Response extends RestResponse<List<_Position>> {}
+  public static final class Response extends RestResponse<_PositionMode> {}
 }

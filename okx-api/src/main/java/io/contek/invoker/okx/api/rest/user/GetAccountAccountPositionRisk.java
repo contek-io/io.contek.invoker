@@ -6,21 +6,28 @@ import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
-import io.contek.invoker.okx.api.common._WalletBalance;
+import io.contek.invoker.okx.api.common._AccountPositionRisk;
 import io.contek.invoker.okx.api.rest.common.RestResponse;
 
+import javax.annotation.Nullable;
 import javax.annotation.concurrent.NotThreadSafe;
-import java.util.List;
-import java.util.Map;
 
 import static io.contek.invoker.commons.rest.RestMethod.GET;
 import static io.contek.invoker.okx.api.ApiFactory.RateLimits.ONE_REST_REQUEST;
 
 @NotThreadSafe
-public final class GetWalletAllBalances extends UserRestRequest<GetWalletAllBalances.Response> {
+public final class GetAccountAccountPositionRisk
+    extends UserRestRequest<GetAccountAccountPositionRisk.Response> {
 
-  GetWalletAllBalances(IActor actor, RestContext context) {
+  private String instType;
+
+  GetAccountAccountPositionRisk(IActor actor, RestContext context) {
     super(actor, context);
+  }
+
+  public GetAccountAccountPositionRisk setInstType(@Nullable String instType) {
+    this.instType = instType;
+    return this;
   }
 
   @Override
@@ -30,12 +37,18 @@ public final class GetWalletAllBalances extends UserRestRequest<GetWalletAllBala
 
   @Override
   protected String getEndpointPath() {
-    return "/api/wallet/all_balances";
+    return "/api/v5/account/account-position-risk";
   }
 
   @Override
   protected RestParams getParams() {
-    return RestParams.empty();
+    RestParams.Builder builder = RestParams.newBuilder();
+
+    if (instType != null) {
+      builder.add("instType", instType);
+    }
+
+    return builder.build();
   }
 
   @Override
@@ -49,5 +62,5 @@ public final class GetWalletAllBalances extends UserRestRequest<GetWalletAllBala
   }
 
   @NotThreadSafe
-  public static final class Response extends RestResponse<Map<String, List<_WalletBalance>>> {}
+  public static final class Response extends RestResponse<_AccountPositionRisk> {}
 }
