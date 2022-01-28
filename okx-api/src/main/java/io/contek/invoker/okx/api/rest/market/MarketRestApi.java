@@ -36,6 +36,10 @@ public final class MarketRestApi {
     return new GetMarketMarkPriceCandles(actor, context);
   }
 
+  public GetMarketTickers getMarketTickers() {
+    return new GetMarketTickers(actor, context);
+  }
+
   public GetMarketTrades getMarketTrades() {
     return new GetMarketTrades(actor, context);
   }

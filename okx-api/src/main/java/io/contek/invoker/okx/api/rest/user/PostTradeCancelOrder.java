@@ -57,6 +57,7 @@ public final class PostTradeCancelOrder extends UserRestRequest<PostTradeCancelO
     RestParams.Builder builder = RestParams.newBuilder();
 
     requireNonNull(instId);
+    builder.add("instId", instId);
 
     if (ordId != null) {
       builder.add("ordId", ordId);
