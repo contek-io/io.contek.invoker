@@ -17,11 +17,32 @@ import static io.contek.invoker.ftx.api.ApiFactory.RateLimits.ONE_REST_REQUEST;
 public final class DeleteAllOrders extends UserRestRequest<DeleteAllOrders.Response> {
 
   private String market;
+  private String side;
   private Boolean conditionalOrdersOnly;
   private Boolean limitOrdersOnly;
 
   DeleteAllOrders(IActor actor, RestContext context) {
     super(actor, context);
+  }
+
+  public DeleteAllOrders setMarket(String market) {
+    this.market = market;
+    return this;
+  }
+
+  public DeleteAllOrders setSide(String side) {
+    this.side = side;
+    return this;
+  }
+
+  public DeleteAllOrders setConditionalOrdersOnly(Boolean conditionalOrdersOnly) {
+    this.conditionalOrdersOnly = conditionalOrdersOnly;
+    return this;
+  }
+
+  public DeleteAllOrders setLimitOrdersOnly(Boolean limitOrdersOnly) {
+    this.limitOrdersOnly = limitOrdersOnly;
+    return this;
   }
 
   @Override
@@ -40,6 +61,10 @@ public final class DeleteAllOrders extends UserRestRequest<DeleteAllOrders.Respo
 
     if (market != null) {
       builder.add("market", market);
+    }
+
+    if (side != null) {
+      builder.add("side", side);
     }
 
     if (conditionalOrdersOnly != null) {
