@@ -16,6 +16,7 @@ public final class UserWebSocketApi extends WebSocketApi {
   private final WebSocketContext context;
 
   private final Map<OrdersChannel.Id, OrdersChannel> ordersChannels = new HashMap<>();
+  private final Map<PositionsChannel.Id, PositionsChannel> positionsChannels = new HashMap<>();
 
   public UserWebSocketApi(IActor actor, WebSocketContext context) {
     super(actor);
@@ -28,6 +29,18 @@ public final class UserWebSocketApi extends WebSocketApi {
           id,
           k -> {
             OrdersChannel result = new OrdersChannel(k);
+            attach(result);
+            return result;
+          });
+    }
+  }
+
+  public PositionsChannel getOrdersChannel(PositionsChannel.Id id) {
+    synchronized (positionsChannels) {
+      return positionsChannels.computeIfAbsent(
+          id,
+          k -> {
+            PositionsChannel result = new PositionsChannel(k);
             attach(result);
             return result;
           });
