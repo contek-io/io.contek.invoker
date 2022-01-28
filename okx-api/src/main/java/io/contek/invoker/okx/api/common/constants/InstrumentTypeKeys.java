@@ -15,5 +15,7 @@ public final class InstrumentTypeKeys {
 
   public static final String _OPTION = "OPTION";
 
+  public static final String _ANY = "ANY";
+
   private InstrumentTypeKeys() {}
 }

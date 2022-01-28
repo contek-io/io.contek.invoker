@@ -3,26 +3,22 @@ package io.contek.invoker.okx.api.websocket;
 import com.google.common.collect.ImmutableList;
 import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
-import io.contek.invoker.commons.websocket.*;
-import io.contek.invoker.okx.api.websocket.common.WebSocketInfoMessage;
-import io.contek.invoker.security.ICredential;
+import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
+import io.contek.invoker.commons.websocket.BaseWebSocketApi;
+import io.contek.invoker.commons.websocket.IWebSocketLiveKeeper;
+import io.contek.invoker.commons.websocket.WebSocketRuntimeException;
 
 import javax.annotation.concurrent.ThreadSafe;
-
-import static io.contek.invoker.okx.api.websocket.common.constants.WebSocketInboundKeys._error;
 
 @ThreadSafe
 public abstract class WebSocketApi extends BaseWebSocketApi {
 
-  private final WebSocketContext context;
-
-  protected WebSocketApi(IActor actor, WebSocketContext context) {
+  protected WebSocketApi(IActor actor) {
     super(
         actor,
         WebSocketMessageParser.getInstance(),
         new WebSocketAuthenticator(actor.getCredential(), actor.getClock()),
         IWebSocketLiveKeeper.noOp());
-    this.context = context;
   }
 
   @Override
@@ -31,27 +27,6 @@ public abstract class WebSocketApi extends BaseWebSocketApi {
   }
 
   @Override
-  protected WebSocketCall createCall(ICredential credential) {
-    return WebSocketCall.fromUrl(context.getBaseUrl() + "/ws");
-  }
-
-  @Override
   protected final void checkErrorMessage(AnyWebSocketMessage message)
-      throws WebSocketRuntimeException {
-    if (message instanceof WebSocketInfoMessage) {
-      WebSocketInfoMessage info = (WebSocketInfoMessage) message;
-      if (!info.type.equals(_error)) {
-        return;
-      }
-
-      String msg = info.code + ": " + info.msg;
-      if (info.code == 20001) {
-        throw new WebSocketServerRestartException(msg);
-      }
-      if (info.code == 400) {
-        throw new WebSocketAuthenticationException(msg);
-      }
-      throw new WebSocketIllegalMessageException(msg);
-    }
-  }
+      throws WebSocketRuntimeException {}
 }

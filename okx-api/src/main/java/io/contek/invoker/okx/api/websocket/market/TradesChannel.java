@@ -1,11 +1,11 @@
 package io.contek.invoker.okx.api.websocket.market;
 
 import io.contek.invoker.okx.api.common._Trade;
+import io.contek.invoker.okx.api.websocket.common.WebSocketChannelPushData;
 
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
-import java.util.ArrayList;
 
 import static io.contek.invoker.okx.api.websocket.common.constants.WebSocketChannelKeys._trades;
 
@@ -25,18 +25,18 @@ public final class TradesChannel
   @Immutable
   public static final class Id extends WebSocketMarketChannelId<TradesChannel.Message> {
 
-    private Id(String market) {
-      super(_trades, market);
+    private Id(String instId) {
+      super(_trades, instId);
     }
 
-    public static Id of(String market) {
-      return new Id(market);
+    public static Id of(String instId) {
+      return new Id(instId);
     }
   }
 
   @NotThreadSafe
-  public static final class Data extends ArrayList<_Trade> {}
+  public static final class Data extends _Trade {}
 
   @NotThreadSafe
-  public static final class Message extends WebSocketMarketChannelMessage<Data> {}
+  public static final class Message extends WebSocketChannelPushData<Data> {}
 }

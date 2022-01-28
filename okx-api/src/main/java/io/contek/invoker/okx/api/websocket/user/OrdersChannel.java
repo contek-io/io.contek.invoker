@@ -1,19 +1,20 @@
 package io.contek.invoker.okx.api.websocket.user;
 
 import io.contek.invoker.okx.api.common._Order;
-import io.contek.invoker.okx.api.websocket.common.WebSocketChannelMessage;
-import io.contek.invoker.okx.api.websocket.common.constants.WebSocketChannelKeys;
+import io.contek.invoker.okx.api.websocket.common.WebSocketChannelPushData;
 
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
 
+import static io.contek.invoker.okx.api.websocket.common.constants.WebSocketChannelKeys._orders;
+
 @ThreadSafe
 public final class OrdersChannel
     extends WebSocketUserChannel<OrdersChannel.Id, OrdersChannel.Message> {
 
-  OrdersChannel() {
-    super(Id.INSTANCE);
+  OrdersChannel(OrdersChannel.Id id) {
+    super(id);
   }
 
   @Override
@@ -24,10 +25,12 @@ public final class OrdersChannel
   @Immutable
   public static final class Id extends WebSocketUserChannelId<OrdersChannel.Message> {
 
-    private static final Id INSTANCE = new Id();
+    private Id(String instId) {
+      super(_orders, instId);
+    }
 
-    private Id() {
-      super(WebSocketChannelKeys._orders);
+    public static OrdersChannel.Id of(String instId) {
+      return new OrdersChannel.Id(instId);
     }
   }
 
@@ -35,5 +38,5 @@ public final class OrdersChannel
   public static final class Data extends _Order {}
 
   @NotThreadSafe
-  public static final class Message extends WebSocketChannelMessage<Data> {}
+  public static final class Message extends WebSocketChannelPushData<Data> {}
 }

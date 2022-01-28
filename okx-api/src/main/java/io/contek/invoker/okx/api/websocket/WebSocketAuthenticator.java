@@ -1,10 +1,11 @@
 package io.contek.invoker.okx.api.websocket;
 
+import com.google.common.collect.ImmutableList;
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.IWebSocketAuthenticator;
 import io.contek.invoker.commons.websocket.WebSocketSession;
 import io.contek.invoker.okx.api.rest.RestRequest;
-import io.contek.invoker.okx.api.websocket.common.WebSocketAuthenticationMessage;
+import io.contek.invoker.okx.api.websocket.common.WebSocketLoginRequest;
 import io.contek.invoker.okx.api.websocket.common.constants.WebSocketOutboundKeys;
 import io.contek.invoker.security.ICredential;
 import org.slf4j.Logger;
@@ -17,8 +18,6 @@ import static org.slf4j.LoggerFactory.getLogger;
 
 @ThreadSafe
 public final class WebSocketAuthenticator implements IWebSocketAuthenticator {
-
-  public static final String WEBSOCKET_LOGIN = "websocket_login";
 
   private static final Logger log = getLogger(WebSocketAuthenticator.class);
 
@@ -38,14 +37,15 @@ public final class WebSocketAuthenticator implements IWebSocketAuthenticator {
       return;
     }
 
-    WebSocketAuthenticationMessage request = new WebSocketAuthenticationMessage();
-    long currentTimeStamp = clock.instant().getEpochSecond() * 1000;
+    WebSocketLoginRequest request = new WebSocketLoginRequest();
+    String currentSeconds = Long.toString(clock.instant().getEpochSecond());
     request.op = WebSocketOutboundKeys._login;
-    request.args = new WebSocketAuthenticationMessage.Args();
-    request.args.key = credential.getApiKeyId();
-    request.args.sign = credential.sign(currentTimeStamp + WEBSOCKET_LOGIN);
-    request.args.time = currentTimeStamp;
-    request.args.subaccount = credential.getProperties().get(RestRequest.FTX_SUBACCOUNT_KEY);
+    WebSocketLoginRequest.Arg arg = new WebSocketLoginRequest.Arg();
+    arg.apiKey = credential.getApiKeyId();
+    arg.passphrase = credential.getProperties().get(RestRequest.OK_ACCESS_PASSPHRASE);
+    arg.timestamp = currentSeconds;
+    arg.sign = credential.sign(arg.timestamp + "GET/users/self/verify");
+    request.args = ImmutableList.of(arg);
 
     log.info("Requesting authentication for {}.", credential.getApiKeyId());
     session.send(request);
