@@ -2,7 +2,6 @@ package io.contek.invoker.okx.api.rest.user;
 
 import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.rest.RestContext;
-import io.contek.invoker.okx.api.common._LendingOffer;
 
 import javax.annotation.concurrent.ThreadSafe;
 
@@ -25,20 +24,12 @@ public final class UserRestApi {
     return new GetAccount(actor, context);
   }
 
-  public GetOpenOrders getOpenOrders() {
-    return new GetOpenOrders(actor, context);
+  public GetTradeOrdersPending getTradeOrdersPending() {
+    return new GetTradeOrdersPending(actor, context);
   }
 
   public GetOrderHistory getOrderHistory() {
     return new GetOrderHistory(actor, context);
-  }
-
-  public GetOrders getOrders() {
-    return new GetOrders(actor, context);
-  }
-
-  public GetOrdersByClientId getOrdersByClientId() {
-    return new GetOrdersByClientId(actor, context);
   }
 
   public GetPositions getPositions() {
@@ -61,19 +52,7 @@ public final class UserRestApi {
     return new PostTradeOrder(actor, context);
   }
 
-  public GetFills getFills() {
-    return new GetFills(actor, context);
-  }
-
-  public GetLendingInfo getLendingInfo() {
-    return new GetLendingInfo(actor, context);
-  }
-
-  public GetLendingOffers getLendingOffers() {
-    return new GetLendingOffers(actor, context);
-  }
-
-  public PostLendingOffer postLendingOffer(final _LendingOffer lendingOffer) {
-    return new PostLendingOffer(actor, context);
+  public GetTradeFills getTradeFills() {
+    return new GetTradeFills(actor, context);
   }
 }

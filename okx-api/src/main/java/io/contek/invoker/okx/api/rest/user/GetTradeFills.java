@@ -17,40 +17,52 @@ import static io.contek.invoker.commons.rest.RestMethod.GET;
 import static io.contek.invoker.okx.api.ApiFactory.RateLimits.ONE_REST_REQUEST;
 
 @NotThreadSafe
-public final class GetFills extends UserRestRequest<GetFills.Response> {
+public final class GetTradeFills extends UserRestRequest<GetTradeFills.Response> {
 
-  private String market;
-  private Long start_time;
-  private Long end_time;
-  private String order;
-  private String orderId;
+  private String instType;
+  private String uly;
+  private String instId;
+  private String ordId;
+  private Long after;
+  private Long before;
+  private Integer limit;
 
-  GetFills(IActor actor, RestContext context) {
+  GetTradeFills(IActor actor, RestContext context) {
     super(actor, context);
   }
 
-  public GetFills setMarket(@Nullable String market) {
-    this.market = market;
+  public GetTradeFills setInstType(@Nullable String instType) {
+    this.instType = instType;
     return this;
   }
 
-  public GetFills setStartTime(@Nullable Long start_time) {
-    this.start_time = start_time;
+  public GetTradeFills setUly(@Nullable String uly) {
+    this.uly = uly;
     return this;
   }
 
-  public GetFills setEndTime(@Nullable Long end_time) {
-    this.end_time = end_time;
+  public GetTradeFills setInstId(@Nullable String instId) {
+    this.instId = instId;
     return this;
   }
 
-  public GetFills setOrder(@Nullable String order) {
-    this.order = order;
+  public GetTradeFills setOrdId(@Nullable String ordId) {
+    this.ordId = ordId;
     return this;
   }
 
-  public GetFills setOrderId(@Nullable String orderId) {
-    this.orderId = orderId;
+  public GetTradeFills setAfter(@Nullable Long after) {
+    this.after = after;
+    return this;
+  }
+
+  public GetTradeFills setBefore(@Nullable Long before) {
+    this.before = before;
+    return this;
+  }
+
+  public GetTradeFills setLimit(@Nullable Integer limit) {
+    this.limit = limit;
     return this;
   }
 
@@ -60,7 +72,7 @@ public final class GetFills extends UserRestRequest<GetFills.Response> {
   }
 
   @Override
-  protected Class<GetFills.Response> getResponseType() {
+  protected Class<GetTradeFills.Response> getResponseType() {
     return Response.class;
   }
 
@@ -78,21 +90,34 @@ public final class GetFills extends UserRestRequest<GetFills.Response> {
   protected RestParams getParams() {
     RestParams.Builder builder = RestParams.newBuilder();
 
-    if (market != null) {
-      builder.add("market", market);
+    if (instType != null) {
+      builder.add("instType", instType);
     }
-    if (start_time != null) {
-      builder.add("start_time", start_time);
+
+    if (uly != null) {
+      builder.add("uly", uly);
     }
-    if (end_time != null) {
-      builder.add("end_time", end_time);
+
+    if (instId != null) {
+      builder.add("instId", instId);
     }
-    if (order != null) {
-      builder.add("order", order);
+
+    if (ordId != null) {
+      builder.add("ordId", ordId);
     }
-    if (orderId != null) {
-      builder.add("orderId", orderId);
+
+    if (after != null) {
+      builder.add("after", after);
     }
+
+    if (before != null) {
+      builder.add("before", before);
+    }
+
+    if (limit != null) {
+      builder.add("limit", limit);
+    }
+
     return builder.build();
   }
 

@@ -10,23 +10,35 @@ import io.contek.invoker.okx.api.common._Order;
 import io.contek.invoker.okx.api.rest.common.RestResponse;
 
 import javax.annotation.concurrent.NotThreadSafe;
+import java.util.List;
 
 import static io.contek.invoker.commons.rest.RestMethod.GET;
 import static io.contek.invoker.okx.api.ApiFactory.RateLimits.ONE_REST_REQUEST;
-import static java.text.MessageFormat.format;
 import static java.util.Objects.requireNonNull;
 
 @NotThreadSafe
-public final class GetOrders extends UserRestRequest<GetOrders.Response> {
+public final class GetTradeOrder extends UserRestRequest<GetTradeOrder.Response> {
 
-  private String order_id;
+  private String instId;
+  private String ordId;
+  private String clOrdId;
 
-  GetOrders(IActor actor, RestContext context) {
+  GetTradeOrder(IActor actor, RestContext context) {
     super(actor, context);
   }
 
-  public GetOrders setOrderId(String order_id) {
-    this.order_id = order_id;
+  public GetTradeOrder setInstId(String instId) {
+    this.instId = instId;
+    return this;
+  }
+
+  public GetTradeOrder setOrdId(String ordId) {
+    this.ordId = ordId;
+    return this;
+  }
+
+  public GetTradeOrder setClOrdId(String clOrdId) {
+    this.clOrdId = clOrdId;
     return this;
   }
 
@@ -37,13 +49,24 @@ public final class GetOrders extends UserRestRequest<GetOrders.Response> {
 
   @Override
   protected String getEndpointPath() {
-    requireNonNull(order_id);
-    return format("/api/orders/{0}", order_id);
+    return "/api/v5/trade/order";
   }
 
   @Override
   protected RestParams getParams() {
-    return RestParams.empty();
+    RestParams.Builder builder = RestParams.newBuilder();
+
+    requireNonNull(instId);
+    builder.add("instId", instId);
+
+    if (ordId != null) {
+      builder.add("ordId", ordId);
+    } else {
+      requireNonNull(clOrdId);
+      builder.add("clOrdId", clOrdId);
+    }
+
+    return builder.build();
   }
 
   @Override
@@ -57,5 +80,5 @@ public final class GetOrders extends UserRestRequest<GetOrders.Response> {
   }
 
   @NotThreadSafe
-  public static final class Response extends RestResponse<_Order> {}
+  public static final class Response extends RestResponse<List<_Order>> {}
 }
