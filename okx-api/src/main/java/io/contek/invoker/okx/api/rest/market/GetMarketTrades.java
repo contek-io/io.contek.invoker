@@ -7,7 +7,6 @@ import io.contek.invoker.okx.api.common._Trade;
 import io.contek.invoker.okx.api.rest.common.RestResponse;
 
 import javax.annotation.concurrent.NotThreadSafe;
-import java.util.List;
 
 import static java.util.Objects.requireNonNull;
 
@@ -46,5 +45,5 @@ public final class GetMarketTrades extends MarketRestRequest<GetMarketTrades.Res
   }
 
   @NotThreadSafe
-  public static final class Response extends RestResponse<List<_Trade>> {}
+  public static final class Response extends RestResponse<_Trade> {}
 }

@@ -7,7 +7,6 @@ import io.contek.invoker.okx.api.common._PriceCandlestick;
 import io.contek.invoker.okx.api.rest.common.RestResponse;
 
 import javax.annotation.concurrent.NotThreadSafe;
-import java.util.List;
 
 import static java.util.Objects.requireNonNull;
 
@@ -87,5 +86,5 @@ public final class GetMarketMarkPriceCandles
   }
 
   @NotThreadSafe
-  public static final class Response extends RestResponse<List<_PriceCandlestick>> {}
+  public static final class Response extends RestResponse<_PriceCandlestick> {}
 }

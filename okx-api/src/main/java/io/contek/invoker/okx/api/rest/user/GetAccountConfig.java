@@ -6,47 +6,34 @@ import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
-import io.contek.invoker.okx.api.common._Leverage;
+import io.contek.invoker.okx.api.common._AccountConfig;
 import io.contek.invoker.okx.api.rest.common.RestResponse;
 
 import javax.annotation.concurrent.NotThreadSafe;
 
-import static io.contek.invoker.commons.rest.RestMethod.POST;
+import static io.contek.invoker.commons.rest.RestMethod.GET;
 import static io.contek.invoker.okx.api.ApiFactory.RateLimits.ONE_REST_REQUEST;
-import static java.util.Objects.requireNonNull;
 
 @NotThreadSafe
-public final class PostAccountLeverage extends UserRestRequest<PostAccountLeverage.Response> {
+public final class GetAccountConfig extends UserRestRequest<GetAccountConfig.Response> {
 
-  private Double leverage;
-
-  PostAccountLeverage(IActor actor, RestContext context) {
+  GetAccountConfig(IActor actor, RestContext context) {
     super(actor, context);
-  }
-
-  public PostAccountLeverage setLeverage(Double leverage) {
-    this.leverage = leverage;
-    return this;
   }
 
   @Override
   protected RestMethod getMethod() {
-    return POST;
+    return GET;
   }
 
   @Override
   protected String getEndpointPath() {
-    return "/account/leverage";
+    return "/api/v5/account/config";
   }
 
   @Override
   protected RestParams getParams() {
-    RestParams.Builder builder = RestParams.newBuilder();
-
-    requireNonNull(leverage);
-    builder.add("leverage", leverage);
-
-    return builder.build();
+    return RestParams.empty();
   }
 
   @Override
@@ -60,5 +47,5 @@ public final class PostAccountLeverage extends UserRestRequest<PostAccountLevera
   }
 
   @NotThreadSafe
-  public static final class Response extends RestResponse<_Leverage> {}
+  public static final class Response extends RestResponse<_AccountConfig> {}
 }

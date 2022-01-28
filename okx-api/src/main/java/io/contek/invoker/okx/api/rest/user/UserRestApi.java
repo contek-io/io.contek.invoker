@@ -44,8 +44,8 @@ public final class UserRestApi {
     return new GetWalletAllBalances(actor, context);
   }
 
-  public PostAccountLeverage postAccountLeverage() {
-    return new PostAccountLeverage(actor, context);
+  public PostAccountSetLeverage postAccountLeverage() {
+    return new PostAccountSetLeverage(actor, context);
   }
 
   public PostTradeOrder postTradeOrder() {
