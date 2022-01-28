@@ -13,6 +13,7 @@ include 'ftx-api'
 include 'hbdminverse-api'
 include 'hbdmlinear-api'
 include 'kraken-api'
+include 'okx-api'
 
 include 'commons'
 include 'security'
