@@ -4,4 +4,4 @@ import javax.annotation.concurrent.NotThreadSafe;
 import java.util.ArrayList;
 
 @NotThreadSafe
-public class _OrderBookLevel extends ArrayList<String> {}
+public class _PriceCandlestick extends ArrayList<String> {}

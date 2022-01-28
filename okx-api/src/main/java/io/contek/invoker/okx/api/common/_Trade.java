@@ -5,10 +5,10 @@ import javax.annotation.concurrent.NotThreadSafe;
 @NotThreadSafe
 public class _Trade {
 
-  public long id;
-  public boolean liquidation;
-  public double price;
+  public String instId;
+  public String tradeId;
+  public String px;
+  public String sz;
   public String side;
-  public double size;
-  public String time;
+  public String ts;
 }

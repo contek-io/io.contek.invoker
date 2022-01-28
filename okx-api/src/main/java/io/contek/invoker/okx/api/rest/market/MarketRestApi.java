@@ -16,19 +16,31 @@ public final class MarketRestApi {
     this.context = context;
   }
 
-  public GetMarkets getMarkets() {
-    return new GetMarkets(actor, context);
+  public GetMarketBooks getMarketBooks() {
+    return new GetMarketBooks(actor, context);
   }
 
-  public GetFutures getFutures() {
-    return new GetFutures(actor, context);
+  public GetMarketCandles getMarketCandles() {
+    return new GetMarketCandles(actor, context);
   }
 
-  public GetMarketsCandles getMarketsCandles() {
-    return new GetMarketsCandles(actor, context);
+  public GetMarketHistoryCandles getMarketHistoryCandles() {
+    return new GetMarketHistoryCandles(actor, context);
   }
 
-  public GetOrderBook getOrderBook() {
-    return new GetOrderBook(actor, context);
+  public GetMarketIndexCandles getMarketIndexCandles() {
+    return new GetMarketIndexCandles(actor, context);
+  }
+
+  public GetMarketMarkPriceCandles getMarketMarkPriceCandles() {
+    return new GetMarketMarkPriceCandles(actor, context);
+  }
+
+  public GetMarketTrades getMarketTrades() {
+    return new GetMarketTrades(actor, context);
+  }
+
+  public GetPublicInstruments getPublicInstruments() {
+    return new GetPublicInstruments(actor, context);
   }
 }
