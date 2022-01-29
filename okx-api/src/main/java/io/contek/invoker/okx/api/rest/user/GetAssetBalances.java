@@ -24,8 +24,8 @@ public final class GetAssetBalances extends UserRestRequest<GetAssetBalances.Res
       RateLimitRule.newBuilder()
           .setName("api_key_rest_get_asset_balances")
           .setType(API_KEY)
-          .setMaxPermits(10)
-          .setResetPeriod(Duration.ofSeconds(2))
+          .setMaxPermits(6)
+          .setResetPeriod(Duration.ofSeconds(1))
           .build();
 
   private static final ImmutableList<TypedPermitRequest> REQUIRED_QUOTA =
