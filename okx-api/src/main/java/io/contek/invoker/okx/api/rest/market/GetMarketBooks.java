@@ -18,6 +18,8 @@ import static java.util.Objects.requireNonNull;
 @NotThreadSafe
 public final class GetMarketBooks extends MarketRestRequest<GetMarketBooks.Response> {
 
+  public static final int MAX_DEPTH = 400;
+
   public static final RateLimitRule RATE_LIMIT_RULE =
       RateLimitRule.newBuilder()
           .setName("ip_rest_get_market_books")
