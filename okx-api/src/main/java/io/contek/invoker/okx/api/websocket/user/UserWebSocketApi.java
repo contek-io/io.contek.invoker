@@ -35,7 +35,7 @@ public final class UserWebSocketApi extends WebSocketApi {
     }
   }
 
-  public PositionsChannel getOrdersChannel(PositionsChannel.Id id) {
+  public PositionsChannel getPositionsChannel(PositionsChannel.Id id) {
     synchronized (positionsChannels) {
       return positionsChannels.computeIfAbsent(
           id,
