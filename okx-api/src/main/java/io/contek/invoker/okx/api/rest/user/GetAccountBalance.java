@@ -7,7 +7,7 @@ import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
-import io.contek.invoker.okx.api.common._Balance;
+import io.contek.invoker.okx.api.common._AccountBalance;
 import io.contek.invoker.okx.api.rest.common.RestResponse;
 
 import javax.annotation.Nullable;
@@ -74,5 +74,5 @@ public final class GetAccountBalance extends UserRestRequest<GetAccountBalance.R
   }
 
   @NotThreadSafe
-  public static final class Response extends RestResponse<_Balance> {}
+  public static final class Response extends RestResponse<_AccountBalance> {}
 }
