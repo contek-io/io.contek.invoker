@@ -40,11 +40,11 @@ public final class UserRestApi {
     return new GetTradeFillsHistory(actor, context);
   }
 
-  public GetTradeOrder getOrder() {
+  public GetTradeOrder getTradeOrder() {
     return new GetTradeOrder(actor, context);
   }
 
-  public GetTradeOrderHistory getOrderHistory() {
+  public GetTradeOrderHistory getTradeOrderHistory() {
     return new GetTradeOrderHistory(actor, context);
   }
 
