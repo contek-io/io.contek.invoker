@@ -4,7 +4,7 @@ import javax.annotation.concurrent.NotThreadSafe;
 import java.util.List;
 
 @NotThreadSafe
-public class _Balance {
+public class _AccountBalance {
 
   public String adjEq;
   public String imr;
@@ -15,5 +15,5 @@ public class _Balance {
   public String ordFroz;
   public String totalEq;
   public String uTime;
-  public List<_CurrencyBalance> details;
+  public List<_EquityBalance> details;
 }
