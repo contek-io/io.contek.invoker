@@ -32,6 +32,10 @@ public final class UserRestApi {
     return new GetAccountPositions(actor, context);
   }
 
+  public GetAssetBalances getAssetBalances() {
+    return new GetAssetBalances(actor, context);
+  }
+
   public GetTradeFills getTradeFills() {
     return new GetTradeFills(actor, context);
   }
