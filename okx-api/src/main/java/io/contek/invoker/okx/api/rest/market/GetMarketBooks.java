@@ -9,6 +9,7 @@ import io.contek.invoker.commons.rest.RestParams;
 import io.contek.invoker.okx.api.common._OrderBook;
 import io.contek.invoker.okx.api.rest.common.RestResponse;
 
+import javax.annotation.Nullable;
 import javax.annotation.concurrent.NotThreadSafe;
 import java.time.Duration;
 
@@ -43,7 +44,7 @@ public final class GetMarketBooks extends MarketRestRequest<GetMarketBooks.Respo
     return this;
   }
 
-  public GetMarketBooks setSz(Integer sz) {
+  public GetMarketBooks setSz(@Nullable Integer sz) {
     this.sz = sz;
     return this;
   }

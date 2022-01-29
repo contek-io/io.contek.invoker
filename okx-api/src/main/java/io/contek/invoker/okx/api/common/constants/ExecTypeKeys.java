@@ -5,9 +5,9 @@ import javax.annotation.concurrent.Immutable;
 @Immutable
 public final class ExecTypeKeys {
 
-  public static final String _taker = "taker";
+  public static final String _T = "T";
 
-  public static final String _maker = "maker";
+  public static final String _M = "M";
 
   private ExecTypeKeys() {}
 }
