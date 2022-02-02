@@ -20,7 +20,7 @@ public abstract class WebSocketApi extends BaseWebSocketApi {
         actor,
         WebSocketMessageParser.getInstance(),
         new WebSocketAuthenticator(actor.getCredential(), actor.getClock()),
-        IWebSocketLiveKeeper.noOp());
+        new WebSocketLiveKeeper(actor.getClock()));
     this.context = context;
   }
 

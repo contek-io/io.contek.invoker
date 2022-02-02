@@ -13,6 +13,7 @@ import io.contek.invoker.okx.api.websocket.user.OrdersChannel;
 
 import javax.annotation.concurrent.Immutable;
 
+import static io.contek.invoker.commons.websocket.constants.WebSocketPingPongKeys._pong;
 import static io.contek.invoker.okx.api.websocket.common.constants.WebSocketChannelKeys.*;
 import static io.contek.invoker.okx.api.websocket.common.constants.WebSocketInboundKeys.*;
 import static io.contek.invoker.okx.api.websocket.common.constants.WebSocketOutboundKeys._login;
