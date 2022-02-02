@@ -9,7 +9,7 @@ public final class WebSocketInboundKeys {
 
   public static final String _arg = "arg";
 
-  public static final String _data = "event";
+  public static final String _data = "data";
 
   public static final String _error = "error";
 
