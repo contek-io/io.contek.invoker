@@ -76,7 +76,7 @@ final class WebSocketMessageParser extends WebSocketTextMessageParser {
     }
 
     JsonObject arg = obj.getAsJsonObject(_arg);
-    String channel = obj.get(_channel).getAsString();
+    String channel = arg.get(_channel).getAsString();
 
     switch (channel) {
       case _books:
