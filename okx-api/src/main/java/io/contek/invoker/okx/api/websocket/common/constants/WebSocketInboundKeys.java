@@ -5,6 +5,8 @@ import javax.annotation.concurrent.Immutable;
 @Immutable
 public final class WebSocketInboundKeys {
 
+  public static final String _pong = "pong";
+
   public static final String _event = "event";
 
   public static final String _arg = "arg";

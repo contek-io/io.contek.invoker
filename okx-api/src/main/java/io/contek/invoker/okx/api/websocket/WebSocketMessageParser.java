@@ -31,6 +31,10 @@ final class WebSocketMessageParser extends WebSocketTextMessageParser {
 
   @Override
   protected WebSocketInboundMessage fromText(String text) {
+    if (text.equals(_pong)) {
+      return new WebSocketPong();
+    }
+
     JsonElement json = gson.fromJson(text, JsonElement.class);
     if (!json.isJsonObject()) {
       throw new IllegalArgumentException(text);
