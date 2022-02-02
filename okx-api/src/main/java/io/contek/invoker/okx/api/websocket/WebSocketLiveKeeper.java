@@ -17,7 +17,7 @@ import java.util.concurrent.atomic.AtomicReference;
 @ThreadSafe
 public final class WebSocketLiveKeeper implements IWebSocketLiveKeeper {
 
-  private static final Duration PING_INTERVAL = Duration.ofSeconds(20);
+  private static final Duration PING_INTERVAL = Duration.ofSeconds(10);
 
   private final Clock clock;
 
