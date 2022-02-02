@@ -15,6 +15,7 @@ import javax.annotation.concurrent.Immutable;
 
 import static io.contek.invoker.bitmex.api.websocket.common.constants.WebSocketRequestOperationKeys.*;
 import static io.contek.invoker.bitmex.api.websocket.common.constants.WebSocketTableKeys.*;
+import static io.contek.invoker.commons.websocket.constants.WebSocketPingPongKeys._pong;
 
 @Immutable
 final class WebSocketMessageParser extends WebSocketTextMessageParser {
@@ -30,6 +31,10 @@ final class WebSocketMessageParser extends WebSocketTextMessageParser {
 
   @Override
   protected AnyWebSocketMessage fromText(String text) {
+    if (text.equals(_pong)) {
+      return new WebSocketPong();
+    }
+
     JsonElement json = gson.fromJson(text, JsonElement.class);
     if (!json.isJsonObject()) {
       throw new IllegalArgumentException(text);
