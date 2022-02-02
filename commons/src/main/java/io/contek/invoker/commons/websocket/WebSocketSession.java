@@ -17,6 +17,12 @@ public final class WebSocketSession {
   }
 
   public void send(AnyWebSocketMessage message) {
+    if (message instanceof IWebSocketRawTextMessage) {
+      IWebSocketRawTextMessage casted = (IWebSocketRawTextMessage) message;
+      ws.send(casted.getRawText());
+      return;
+    }
+
     ws.send(gson.toJson(message));
   }
 
