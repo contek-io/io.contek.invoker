@@ -112,7 +112,7 @@ public final class ApiFactory {
         PostAccountSetLeverage.RATE_LIMIT_RULE,
         PostAccountSetPositionMode.RATE_LIMIT_RULE,
         PostTradeCancelOrder.RATE_LIMIT_RULE,
-        PostTradeCancelOrder.RATE_LIMIT_RULE,
+        PostTradeOrder.RATE_LIMIT_RULE,
         WebSocketApi.RATE_LIMIT_RULE);
   }
 
