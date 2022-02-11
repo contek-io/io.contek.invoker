@@ -9,17 +9,22 @@ import io.contek.invoker.security.ICredential;
 import javax.annotation.concurrent.NotThreadSafe;
 import java.time.Clock;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 
 import static io.contek.invoker.commons.rest.RestMediaType.JSON;
 import static java.time.ZoneOffset.UTC;
-import static java.time.format.DateTimeFormatter.ISO_INSTANT;
 
 @NotThreadSafe
 public abstract class RestRequest<R> extends BaseRestRequest<R> {
 
   public static final String OK_ACCESS_PASSPHRASE = "OK-ACCESS-PASSPHRASE";
 
-  private static final DateTimeFormatter FORMATTER = ISO_INSTANT.withZone(UTC);
+  private static final DateTimeFormatter FORMATTER =
+      new DateTimeFormatterBuilder()
+          .parseCaseInsensitive()
+          .appendInstant(3)
+          .toFormatter()
+          .withZone(UTC);
 
   private final RestContext context;
   private final Clock clock;
