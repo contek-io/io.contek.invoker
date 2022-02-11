@@ -153,8 +153,8 @@ public final class ApiFactory {
         RateLimitRule.newBuilder()
             .setName("ip_web_socket_connection_rule")
             .setType(IP)
-            .setMaxPermits(20)
-            .setResetPeriod(Duration.ofHours(1))
+            .setMaxPermits(5)
+            .setResetPeriod(Duration.ofSeconds(1))
             .build();
 
     public static final ImmutableList<TypedPermitRequest> ONE_REST_REQUEST =
