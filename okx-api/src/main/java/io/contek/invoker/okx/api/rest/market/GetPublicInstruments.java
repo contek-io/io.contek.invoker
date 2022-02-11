@@ -82,7 +82,7 @@ public final class GetPublicInstruments extends MarketRestRequest<GetPublicInstr
       builder.add("instId", instId);
     }
 
-    return RestParams.empty();
+    return builder.build();
   }
 
   @Override

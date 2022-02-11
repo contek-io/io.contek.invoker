@@ -63,7 +63,7 @@ public final class GetMarketTickers extends MarketRestRequest<GetMarketTickers.R
       builder.add("uly", uly);
     }
 
-    return RestParams.empty();
+    return builder.build();
   }
 
   @Override
