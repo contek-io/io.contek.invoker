@@ -7,6 +7,8 @@ import io.contek.invoker.okx.api.websocket.common.WebSocketChannelPushData;
 import javax.annotation.concurrent.Immutable;
 import java.util.Objects;
 
+import static io.contek.invoker.okx.api.common.constants.InstrumentTypeKeys._ANY;
+
 @Immutable
 public abstract class WebSocketUserChannelId<Message extends WebSocketChannelPushData<?>>
     extends WebSocketChannelId<Message> {
@@ -26,6 +28,7 @@ public abstract class WebSocketUserChannelId<Message extends WebSocketChannelPus
   public WebSocketChannelArg toChannelArg() {
     WebSocketChannelArg result = new WebSocketChannelArg();
     result.channel = getChannel();
+    result.instType = _ANY;
     result.instId = instId;
     return result;
   }
