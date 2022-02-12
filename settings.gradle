@@ -16,7 +16,7 @@ include 'okx-api'
 include 'commons'
 include 'security'
 
-rootProject.name = 'io.contek.invoker'
+rootProject.name = 'com.github.fenrur'
 rootProject.children.each { project ->
   project.buildFileName = "${project.name}.gradle"
 }

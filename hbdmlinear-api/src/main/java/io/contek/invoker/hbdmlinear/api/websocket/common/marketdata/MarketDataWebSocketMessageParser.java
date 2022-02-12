@@ -20,7 +20,7 @@ public final class MarketDataWebSocketMessageParser extends WebSocketBinaryMessa
   private final Map<String, Class<? extends MarketDataWebSocketChannelMessage>>
       channelMessageTypes = new HashMap<>();
 
-  public MarketDataWebSocketMessageParser() {}
+  MarketDataWebSocketMessageParser() {}
 
   @Override
   public void register(IWebSocketComponent component) {

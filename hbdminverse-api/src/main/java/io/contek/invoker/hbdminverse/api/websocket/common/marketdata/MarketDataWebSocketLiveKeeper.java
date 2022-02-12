@@ -1,15 +1,13 @@
-package io.contek.invoker.hbdminverse.api.websocket.common;
+package io.contek.invoker.hbdminverse.api.websocket.common.marketdata;
 
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.IWebSocketLiveKeeper;
 import io.contek.invoker.commons.websocket.WebSocketSession;
 import io.contek.invoker.commons.websocket.WebSocketSessionInactiveException;
 
-public final class WebSocketLiveKeeper implements IWebSocketLiveKeeper {
+final class MarketDataWebSocketLiveKeeper implements IWebSocketLiveKeeper {
 
-  private WebSocketLiveKeeper() {}
-
-  public static WebSocketLiveKeeper getInstance() {
+  static MarketDataWebSocketLiveKeeper getInstance() {
     return InstanceHolder.INSTANCE;
   }
 
@@ -18,9 +16,9 @@ public final class WebSocketLiveKeeper implements IWebSocketLiveKeeper {
 
   @Override
   public void onMessage(AnyWebSocketMessage message, WebSocketSession session) {
-    if (message instanceof WebSocketPing) {
-      WebSocketPing ping = (WebSocketPing) message;
-      WebSocketPong pong = new WebSocketPong();
+    if (message instanceof MarketDataWebSocketPing) {
+      MarketDataWebSocketPing ping = (MarketDataWebSocketPing) message;
+      MarketDataWebSocketPong pong = new MarketDataWebSocketPong();
       pong.pong = ping.ping;
       session.send(pong);
     }
@@ -29,8 +27,11 @@ public final class WebSocketLiveKeeper implements IWebSocketLiveKeeper {
   @Override
   public void afterDisconnect() {}
 
+  private MarketDataWebSocketLiveKeeper() {}
+
   private static final class InstanceHolder {
 
-    private static final WebSocketLiveKeeper INSTANCE = new WebSocketLiveKeeper();
+    private static final MarketDataWebSocketLiveKeeper INSTANCE =
+      new MarketDataWebSocketLiveKeeper();
   }
 }

@@ -14,5 +14,7 @@ public final class OpKeys {
 
   public static final String _notify = "notify";
 
+  public static final String _close = "close";
+
   private OpKeys() {}
 }

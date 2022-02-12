@@ -4,7 +4,6 @@ import com.google.common.collect.ImmutableList;
 import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
 import io.contek.invoker.commons.websocket.*;
-import io.contek.invoker.hbdminverse.api.websocket.common.WebSocketLiveKeeper;
 import io.contek.invoker.security.ICredential;
 
 import static io.contek.invoker.hbdminverse.api.ApiFactory.RateLimits.ONE_IP_WEB_SOCKET_CONNECTION_REQUEST;
@@ -20,7 +19,7 @@ public abstract class MarketDataWebSocketApi extends BaseWebSocketApi {
         actor,
         new MarketDataWebSocketMessageParser(),
         IWebSocketAuthenticator.noOp(),
-        WebSocketLiveKeeper.getInstance());
+        MarketDataWebSocketLiveKeeper.getInstance());
     this.context = context;
   }
 

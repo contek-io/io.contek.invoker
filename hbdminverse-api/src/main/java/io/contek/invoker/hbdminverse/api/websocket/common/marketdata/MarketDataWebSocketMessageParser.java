@@ -15,12 +15,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.zip.GZIPInputStream;
 
-public final class MarketDataWebSocketMessageParser extends WebSocketBinaryMessageParser {
+final class MarketDataWebSocketMessageParser extends WebSocketBinaryMessageParser {
 
   private final Map<String, Class<? extends MarketDataWebSocketChannelMessage>>
       channelMessageTypes = new HashMap<>();
 
-  public MarketDataWebSocketMessageParser() {}
+  MarketDataWebSocketMessageParser() {}
 
   @Override
   public void register(IWebSocketComponent component) {

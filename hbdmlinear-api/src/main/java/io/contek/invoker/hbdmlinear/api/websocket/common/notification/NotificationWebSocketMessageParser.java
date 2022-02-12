@@ -58,6 +58,7 @@ final class NotificationWebSocketMessageParser extends WebSocketBinaryMessagePar
       case _sub, _unsub -> obj.mapTo(NotificationWebSocketConfirmation.class);
       case _ping -> obj.mapTo(NotificationWebSocketPing.class);
       case _notify -> toMarketDataMessage(obj);
+      case _close -> obj.mapTo(NotificationWebSocketClose.class);
       default -> throw new UnsupportedOperationException(obj.toString());
     };
   }
