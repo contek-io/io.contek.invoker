@@ -7,7 +7,6 @@ import com.google.gson.JsonObject;
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.IWebSocketComponent;
 import io.contek.invoker.commons.websocket.WebSocketBinaryMessageParser;
-import io.contek.invoker.hbdminverse.api.websocket.common.WebSocketPing;
 
 import javax.annotation.concurrent.ThreadSafe;
 import java.io.ByteArrayInputStream;
@@ -19,14 +18,14 @@ import java.util.Map;
 import java.util.zip.GZIPInputStream;
 
 @ThreadSafe
-public final class MarketDataWebSocketMessageParser extends WebSocketBinaryMessageParser {
+final class MarketDataWebSocketMessageParser extends WebSocketBinaryMessageParser {
 
   private final Gson gson = new Gson();
 
   private final Map<String, Class<? extends MarketDataWebSocketChannelMessage>>
       channelMessageTypes = new HashMap<>();
 
-  public MarketDataWebSocketMessageParser() {}
+  MarketDataWebSocketMessageParser() {}
 
   @Override
   public void register(IWebSocketComponent component) {
@@ -66,7 +65,7 @@ public final class MarketDataWebSocketMessageParser extends WebSocketBinaryMessa
     }
 
     if (obj.has("ping")) {
-      return gson.fromJson(obj, WebSocketPing.class);
+      return gson.fromJson(obj, MarketDataWebSocketPing.class);
     }
 
     if (obj.has("subbed")) {

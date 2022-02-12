@@ -52,5 +52,9 @@ public abstract class NotificationWebSocketApi extends BaseWebSocketApi {
 
   @Override
   protected final void checkErrorMessage(AnyWebSocketMessage message)
-      throws WebSocketRuntimeException {}
+      throws WebSocketRuntimeException {
+    if (message instanceof NotificationWebSocketClose) {
+      throw new WebSocketServerRestartException();
+    }
+  }
 }

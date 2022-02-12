@@ -63,13 +63,15 @@ final class NotificationWebSocketMessageParser extends WebSocketBinaryMessagePar
     String op = obj.get("op").getAsString();
 
     switch (op) {
+      case _notify:
+        return toMarketDataMessage(obj);
+      case _ping:
+        return gson.fromJson(obj, NotificationWebSocketPing.class);
       case _sub:
       case _unsub:
         return gson.fromJson(obj, NotificationWebSocketConfirmation.class);
-      case _ping:
-        return gson.fromJson(obj, NotificationWebSocketPing.class);
-      case _notify:
-        return toMarketDataMessage(obj);
+      case _close:
+        return gson.fromJson(obj, NotificationWebSocketClose.class);
       default:
     }
 

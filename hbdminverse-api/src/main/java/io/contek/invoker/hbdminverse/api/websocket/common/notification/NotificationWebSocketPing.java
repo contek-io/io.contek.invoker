@@ -1,6 +1,6 @@
 package io.contek.invoker.hbdminverse.api.websocket.common.notification;
 
-import javax.annotation.concurrent.Immutable;
+import javax.annotation.concurrent.NotThreadSafe;
 
-@Immutable
+@NotThreadSafe
 public final class NotificationWebSocketPing extends NotificationWebSocketInboundMessage {}

@@ -10,9 +10,9 @@ import javax.annotation.concurrent.Immutable;
 import static io.contek.invoker.hbdminverse.api.websocket.user.constants.OpKeys._pong;
 
 @Immutable
-public final class NotificationWebSocketLiveKeeper implements IWebSocketLiveKeeper {
+final class NotificationWebSocketLiveKeeper implements IWebSocketLiveKeeper {
 
-  public static NotificationWebSocketLiveKeeper getInstance() {
+  static NotificationWebSocketLiveKeeper getInstance() {
     return InstanceHolder.INSTANCE;
   }
 
