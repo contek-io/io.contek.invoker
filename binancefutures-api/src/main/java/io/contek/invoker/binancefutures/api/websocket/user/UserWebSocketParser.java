@@ -5,9 +5,9 @@ import io.contek.invoker.commons.websocket.IWebSocketComponent;
 import io.contek.invoker.commons.websocket.WebSocketTextMessageParser;
 import io.vertx.core.json.JsonObject;
 
-public final class UserWebSocketParser extends WebSocketTextMessageParser {
+import static io.contek.invoker.binancefutures.api.websocket.user.constants.UserEventTypeKeys.*;
 
-  private UserWebSocketParser() {}
+public final class UserWebSocketParser extends WebSocketTextMessageParser {
 
   static UserWebSocketParser getInstance() {
     return UserWebSocketParser.InstanceHolder.INSTANCE;
@@ -33,14 +33,16 @@ public final class UserWebSocketParser extends WebSocketTextMessageParser {
   private WebSocketEventMessage toUserData(JsonObject obj) {
     String eventType = obj.getString("e");
     return switch (eventType) {
-      case "ACCOUNT_UPDATE" -> obj.mapTo(AccountUpdateChannel.Message.class);
-      case "ORDER_TRADE_UPDATE" -> obj.mapTo(OrderUpdateChannel.Message.class);
-      case "ACCOUNT_CONFIG_UPDATE" -> obj.mapTo(AccountConfigUpdateChannel.Message.class);
-      case "MARGIN_CALL" -> obj.mapTo(MarginCallChannel.Message.class);
-      case "listenKeyExpired" -> obj.mapTo(UserDataStreamExpiredEvent.class);
+      case _ACCOUNT_UPDATE -> obj.mapTo(AccountUpdateChannel.Message.class);
+      case _ORDER_TRADE_UPDATE -> obj.mapTo(OrderUpdateChannel.Message.class);
+      case _ACCOUNT_CONFIG_UPDATE -> obj.mapTo(AccountConfigUpdateChannel.Message.class);
+      case _MARGIN_CALL -> obj.mapTo(MarginCallChannel.Message.class);
+      case _listenKeyExpired -> obj.mapTo(UserDataStreamExpiredEvent.class);
       default -> throw new IllegalStateException("Unrecognized event type: " + eventType);
     };
   }
+
+  private UserWebSocketParser() {}
 
   private static class InstanceHolder {
 

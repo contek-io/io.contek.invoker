@@ -8,6 +8,7 @@ import io.contek.invoker.okx.api.websocket.market.TickersChannel;
 import io.contek.invoker.okx.api.websocket.market.TradesChannel;
 import io.contek.invoker.okx.api.websocket.user.OrdersChannel;
 import io.vertx.core.json.JsonObject;
+import io.contek.invoker.okx.api.websocket.user.PositionsChannel;
 
 import static io.contek.invoker.commons.websocket.constants.WebSocketPingPongKeys._pong;
 import static io.contek.invoker.okx.api.websocket.common.constants.WebSocketChannelKeys.*;
@@ -78,6 +79,7 @@ final class WebSocketMessageParser extends WebSocketTextMessageParser {
       case _trades -> obj.mapTo(TradesChannel.Message.class);
       case _tickers -> obj.mapTo(TickersChannel.Message.class);
       case _orders -> obj.mapTo(OrdersChannel.Message.class);
+      case _positions -> obj.mapTo(PositionsChannel.Message.class);
       default -> throw new IllegalArgumentException(obj.toString());
     };
   }
