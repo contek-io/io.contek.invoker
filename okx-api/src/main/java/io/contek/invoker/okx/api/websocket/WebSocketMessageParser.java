@@ -10,6 +10,7 @@ import io.contek.invoker.okx.api.websocket.market.OrderBookChannel;
 import io.contek.invoker.okx.api.websocket.market.TickersChannel;
 import io.contek.invoker.okx.api.websocket.market.TradesChannel;
 import io.contek.invoker.okx.api.websocket.user.OrdersChannel;
+import io.contek.invoker.okx.api.websocket.user.PositionsChannel;
 
 import javax.annotation.concurrent.Immutable;
 
@@ -95,6 +96,8 @@ final class WebSocketMessageParser extends WebSocketTextMessageParser {
         return gson.fromJson(obj, TickersChannel.Message.class);
       case _orders:
         return gson.fromJson(obj, OrdersChannel.Message.class);
+      case _positions:
+        return gson.fromJson(obj, PositionsChannel.Message.class);
       default:
         throw new IllegalArgumentException(obj.toString());
     }

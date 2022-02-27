@@ -10,6 +10,8 @@ import io.contek.invoker.commons.websocket.WebSocketTextMessageParser;
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.ThreadSafe;
 
+import static io.contek.invoker.binancedelivery.api.websocket.user.constants.UserEventTypeKeys.*;
+
 @ThreadSafe
 public final class UserWebSocketParser extends WebSocketTextMessageParser {
 
@@ -40,15 +42,15 @@ public final class UserWebSocketParser extends WebSocketTextMessageParser {
   private WebSocketEventMessage toUserData(JsonObject obj) {
     String eventType = obj.get("e").getAsString();
     switch (eventType) {
-      case "ACCOUNT_UPDATE":
+      case _ACCOUNT_UPDATE:
         return gson.fromJson(obj, AccountUpdateChannel.Message.class);
-      case "ORDER_TRADE_UPDATE":
+      case _ORDER_TRADE_UPDATE:
         return gson.fromJson(obj, OrderUpdateChannel.Message.class);
-      case "ACCOUNT_CONFIG_UPDATE":
+      case _ACCOUNT_CONFIG_UPDATE:
         return gson.fromJson(obj, AccountConfigUpdateChannel.Message.class);
-      case "MARGIN_CALL":
+      case _MARGIN_CALL:
         return gson.fromJson(obj, MarginCallChannel.Message.class);
-      case "listenKeyExpired":
+      case _listenKeyExpired:
         return gson.fromJson(obj, UserDataStreamExpiredEvent.class);
       default:
         throw new IllegalStateException("Unrecognized event type: " + eventType);
