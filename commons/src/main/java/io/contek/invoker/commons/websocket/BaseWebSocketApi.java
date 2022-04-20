@@ -265,6 +265,8 @@ public abstract class BaseWebSocketApi implements IWebSocketApi {
         log.warn("Session is expired.", t);
       } else if (t instanceof WebSocketSessionInactiveException) {
         log.warn("Session is inactive.", t);
+      } else if (t instanceof WebSocketIllegalSequenceException) {
+        log.warn("Received out of order message.", t);
       } else if (t instanceof WebSocketIllegalStateException) {
         log.warn("Channel has invalid state.", t);
       } else {
