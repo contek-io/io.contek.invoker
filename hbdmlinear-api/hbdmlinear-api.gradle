@@ -3,8 +3,8 @@ dependencies {
     implementation project(':security')
 
     implementation "com.google.code.gson:gson:${gsonVersion}"
-    implementation "io.contek.ursa:ursa-cache:${ursaVersion}"
-    implementation "io.contek.ursa:ursa-core-api:${ursaVersion}"
+//    implementation project(':ursa-cache')
+//    implementation project(':ursa-core-api')
 }
 
 description = 'Huobi Derivative Linear Java API'

@@ -9,14 +9,12 @@ import io.contek.invoker.commons.rest.RestParams;
 import io.contek.invoker.deribit.api.common._Order;
 import io.contek.invoker.deribit.api.rest.common.RestResponse;
 
-import javax.annotation.concurrent.NotThreadSafe;
 import java.util.List;
 
 import static io.contek.invoker.commons.rest.RestMethod.GET;
 import static io.contek.invoker.deribit.api.ApiFactory.RateLimits.ONE_API_KEY_NON_MATCHING_ENGINE_REQUEST;
 import static java.util.Objects.requireNonNull;
 
-@NotThreadSafe
 public final class GetOrderHistoryByCurrency
     extends UserRestRequest<GetOrderHistoryByCurrency.Response> {
 
@@ -111,6 +109,5 @@ public final class GetOrderHistoryByCurrency
     return Response.class;
   }
 
-  @NotThreadSafe
   public static final class Response extends RestResponse<List<_Order>> {}
 }

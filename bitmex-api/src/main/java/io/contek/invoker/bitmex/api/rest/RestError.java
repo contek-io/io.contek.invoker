@@ -1,8 +1,5 @@
 package io.contek.invoker.bitmex.api.rest;
 
-import javax.annotation.concurrent.Immutable;
-
-@Immutable
 public final class RestError {
 
   private final Details error;
@@ -15,7 +12,6 @@ public final class RestError {
     return error;
   }
 
-  @Immutable
   public static final class Details {
 
     private final String message;

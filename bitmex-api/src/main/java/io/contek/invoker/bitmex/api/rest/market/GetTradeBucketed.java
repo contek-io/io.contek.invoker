@@ -6,14 +6,11 @@ import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestParams;
 
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.NotThreadSafe;
 import java.util.ArrayList;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-@NotThreadSafe
 public final class GetTradeBucketed extends MarketRestRequest<Response> {
 
   public static final int MAX_COUNT = 750;
@@ -41,32 +38,32 @@ public final class GetTradeBucketed extends MarketRestRequest<Response> {
     return this;
   }
 
-  public GetTradeBucketed setPartial(@Nullable Boolean partial) {
+  public GetTradeBucketed setPartial(Boolean partial) {
     this.partial = partial;
     return this;
   }
 
-  public GetTradeBucketed setStart(@Nullable Integer start) {
+  public GetTradeBucketed setStart(Integer start) {
     this.start = start;
     return this;
   }
 
-  public GetTradeBucketed setCount(@Nullable Integer count) {
+  public GetTradeBucketed setCount(Integer count) {
     this.count = count;
     return this;
   }
 
-  public GetTradeBucketed setReverse(@Nullable Boolean reverse) {
+  public GetTradeBucketed setReverse(Boolean reverse) {
     this.reverse = reverse;
     return this;
   }
 
-  public GetTradeBucketed setStartTime(@Nullable String startTime) {
+  public GetTradeBucketed setStartTime(String startTime) {
     this.startTime = startTime;
     return this;
   }
 
-  public GetTradeBucketed setEndTime(@Nullable String endTime) {
+  public GetTradeBucketed setEndTime(String endTime) {
     this.endTime = endTime;
     return this;
   }
@@ -112,6 +109,5 @@ public final class GetTradeBucketed extends MarketRestRequest<Response> {
     return builder.build();
   }
 
-  @NotThreadSafe
   public static final class Response extends ArrayList<_TradeBin> {}
 }

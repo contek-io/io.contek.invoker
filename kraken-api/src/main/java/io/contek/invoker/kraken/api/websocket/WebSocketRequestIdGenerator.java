@@ -1,9 +1,7 @@
 package io.contek.invoker.kraken.api.websocket;
 
-import javax.annotation.concurrent.ThreadSafe;
 import java.util.concurrent.atomic.AtomicInteger;
 
-@ThreadSafe
 public final class WebSocketRequestIdGenerator {
 
   private final AtomicInteger count = new AtomicInteger(0);

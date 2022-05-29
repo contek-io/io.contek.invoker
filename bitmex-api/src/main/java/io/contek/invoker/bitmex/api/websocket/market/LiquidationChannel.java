@@ -5,13 +5,8 @@ import io.contek.invoker.bitmex.api.websocket.WebSocketChannel;
 import io.contek.invoker.bitmex.api.websocket.WebSocketChannelId;
 import io.contek.invoker.bitmex.api.websocket.common.WebSocketTableDataMessage;
 
-import javax.annotation.concurrent.Immutable;
-import javax.annotation.concurrent.NotThreadSafe;
-import javax.annotation.concurrent.ThreadSafe;
-
 import static java.lang.String.format;
 
-@ThreadSafe
 public final class LiquidationChannel
     extends WebSocketChannel<LiquidationChannel.Id, LiquidationChannel.Message> {
 
@@ -24,7 +19,6 @@ public final class LiquidationChannel
     return Message.class;
   }
 
-  @Immutable
   public static final class Id extends WebSocketChannelId<LiquidationChannel.Message> {
 
     private final String instrument;
@@ -44,6 +38,5 @@ public final class LiquidationChannel
     }
   }
 
-  @NotThreadSafe
   public static final class Message extends WebSocketTableDataMessage<_LiquidationOrder> {}
 }

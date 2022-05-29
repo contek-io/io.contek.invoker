@@ -6,10 +6,8 @@ import io.contek.invoker.commons.rest.RestParams;
 import io.contek.invoker.ftx.api.common._Market;
 import io.contek.invoker.ftx.api.rest.common.RestResponse;
 
-import javax.annotation.concurrent.NotThreadSafe;
 import java.util.List;
 
-@NotThreadSafe
 public final class GetMarkets extends MarketRestRequest<GetMarkets.Response> {
 
   GetMarkets(IActor actor, RestContext context) {
@@ -31,6 +29,5 @@ public final class GetMarkets extends MarketRestRequest<GetMarkets.Response> {
     return Response.class;
   }
 
-  @NotThreadSafe
   public static final class Response extends RestResponse<List<_Market>> {}
 }

@@ -1,9 +1,10 @@
 package io.contek.invoker.binancedelivery.api.common;
 
-import javax.annotation.concurrent.NotThreadSafe;
 import java.util.ArrayList;
 
 /**
+ *
+ *
  * <pre>
  *  0 openTime,
  *  1 open,
@@ -18,6 +19,4 @@ import java.util.ArrayList;
  * 10 takerBuyQuoteAssetVolume
  * </pre>
  */
-@NotThreadSafe
-public class _Candlestick extends ArrayList<Double> {
-}
+public class _Candlestick extends ArrayList<Double> {}

@@ -8,12 +8,10 @@ import io.contek.invoker.commons.rest.RestParams;
 import io.contek.invoker.deribit.api.common._Currency;
 import io.contek.invoker.deribit.api.rest.common.RestResponse;
 
-import javax.annotation.concurrent.NotThreadSafe;
 import java.util.List;
 
 import static io.contek.invoker.deribit.api.ApiFactory.RateLimits.ONE_IP_NON_MATCHING_ENGINE_REQUEST;
 
-@NotThreadSafe
 public final class GetCurrencies extends MarketRestRequest<GetCurrencies.Response> {
 
   GetCurrencies(IActor actor, RestContext context) {
@@ -40,6 +38,5 @@ public final class GetCurrencies extends MarketRestRequest<GetCurrencies.Respons
     return ONE_IP_NON_MATCHING_ENGINE_REQUEST;
   }
 
-  @NotThreadSafe
   public static final class Response extends RestResponse<List<_Currency>> {}
 }

@@ -8,14 +8,11 @@ import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestParams;
 
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.NotThreadSafe;
 import java.util.ArrayList;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static io.contek.invoker.binancedelivery.api.ApiFactory.RateLimits.ONE_REST_REQUEST;
 
-@NotThreadSafe
 public final class GetGlobalLongShortAccountRatio extends MarketRestRequest<Response> {
 
   private String symbol;
@@ -38,17 +35,17 @@ public final class GetGlobalLongShortAccountRatio extends MarketRestRequest<Resp
     return this;
   }
 
-  public GetGlobalLongShortAccountRatio setStartTime(@Nullable Long startTime) {
+  public GetGlobalLongShortAccountRatio setStartTime(Long startTime) {
     this.startTime = startTime;
     return this;
   }
 
-  public GetGlobalLongShortAccountRatio setEndTime(@Nullable Long endTime) {
+  public GetGlobalLongShortAccountRatio setEndTime(Long endTime) {
     this.endTime = endTime;
     return this;
   }
 
-  public GetGlobalLongShortAccountRatio setLimit(@Nullable Integer limit) {
+  public GetGlobalLongShortAccountRatio setLimit(Integer limit) {
     this.limit = limit;
     return this;
   }
@@ -89,6 +86,5 @@ public final class GetGlobalLongShortAccountRatio extends MarketRestRequest<Resp
     return ONE_REST_REQUEST;
   }
 
-  @NotThreadSafe
   public static final class Response extends ArrayList<_LongShortRatio> {}
 }

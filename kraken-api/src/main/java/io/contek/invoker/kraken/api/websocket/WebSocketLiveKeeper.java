@@ -7,7 +7,6 @@ import io.contek.invoker.commons.websocket.WebSocketSessionInactiveException;
 import io.contek.invoker.kraken.api.websocket.common.WebSocketPingRequest;
 import io.contek.invoker.kraken.api.websocket.common.WebSocketPongResponse;
 
-import javax.annotation.concurrent.ThreadSafe;
 import java.time.Clock;
 import java.time.Duration;
 import java.time.Instant;
@@ -16,7 +15,6 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import static io.contek.invoker.kraken.api.websocket.common.constants.WebSocketEventKeys._ping;
 
-@ThreadSafe
 public final class WebSocketLiveKeeper implements IWebSocketLiveKeeper {
 
   private static final Duration PING_INTERVAL = Duration.ofSeconds(20);
@@ -80,7 +78,6 @@ public final class WebSocketLiveKeeper implements IWebSocketLiveKeeper {
     state.set(null);
   }
 
-  @ThreadSafe
   private static final class PendingPing {
 
     private final int reqid;

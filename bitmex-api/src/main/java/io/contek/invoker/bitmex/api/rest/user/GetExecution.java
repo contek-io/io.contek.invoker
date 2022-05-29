@@ -8,57 +8,53 @@ import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
 
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.NotThreadSafe;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import static io.contek.invoker.commons.rest.RestMethod.GET;
 
-@NotThreadSafe
 public final class GetExecution extends UserRestRequest<Response> {
 
   private static final Gson gson = new Gson();
-
+  private final Map<String, String> filter = new HashMap<>();
   private String symbol;
   private String startTime;
   private String endTime;
   private Integer count;
   private Integer start;
   private Boolean reverse;
-  private final Map<String, String> filter = new HashMap<>();
 
   GetExecution(IActor actor, RestContext context) {
     super(actor, context);
   }
 
-  public GetExecution setSymbol(@Nullable String symbol) {
+  public GetExecution setSymbol(String symbol) {
     this.symbol = symbol;
     return this;
   }
 
-  public GetExecution setStartTime(@Nullable String startTime) {
+  public GetExecution setStartTime(String startTime) {
     this.startTime = startTime;
     return this;
   }
 
-  public GetExecution setEndTime(@Nullable String endTime) {
+  public GetExecution setEndTime(String endTime) {
     this.endTime = endTime;
     return this;
   }
 
-  public GetExecution setCount(@Nullable Integer count) {
+  public GetExecution setCount(Integer count) {
     this.count = count;
     return this;
   }
 
-  public GetExecution setStart(@Nullable Integer start) {
+  public GetExecution setStart(Integer start) {
     this.start = start;
     return this;
   }
 
-  public GetExecution setReverse(@Nullable Boolean reverse) {
+  public GetExecution setReverse(Boolean reverse) {
     this.reverse = reverse;
     return this;
   }
@@ -112,6 +108,5 @@ public final class GetExecution extends UserRestRequest<Response> {
     return builder.build();
   }
 
-  @NotThreadSafe
   public static final class Response extends ArrayList<_Execution> {}
 }

@@ -1,11 +1,8 @@
 package io.contek.invoker.commons.actor;
 
 import io.contek.invoker.commons.actor.http.IHttpClient;
-import io.contek.ursa.IPermitSession;
+import io.contek.invoker.ursa.core.api.IPermitSession;
 
-import javax.annotation.concurrent.ThreadSafe;
-
-@ThreadSafe
 public final class RequestContext implements AutoCloseable {
 
   private final IHttpClient client;

@@ -1,8 +1,5 @@
 package io.contek.invoker.bybitlinear.api.common.constants;
 
-import javax.annotation.concurrent.Immutable;
-
-@Immutable
 public class TriggerPriceTypeKeys {
 
   public static final String _LastPrice = "LastPrice";

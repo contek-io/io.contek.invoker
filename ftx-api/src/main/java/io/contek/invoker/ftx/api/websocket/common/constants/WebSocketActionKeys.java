@@ -1,8 +1,5 @@
 package io.contek.invoker.ftx.api.websocket.common.constants;
 
-import javax.annotation.concurrent.Immutable;
-
-@Immutable
 public final class WebSocketActionKeys {
 
   public static final String _partial = "partial";

@@ -9,13 +9,10 @@ import io.contek.invoker.commons.rest.RestParams;
 import io.contek.invoker.ftx.api.common._Leverage;
 import io.contek.invoker.ftx.api.rest.common.RestResponse;
 
-import javax.annotation.concurrent.NotThreadSafe;
-
 import static io.contek.invoker.commons.rest.RestMethod.POST;
 import static io.contek.invoker.ftx.api.ApiFactory.RateLimits.ONE_REST_REQUEST;
 import static java.util.Objects.requireNonNull;
 
-@NotThreadSafe
 public final class PostAccountLeverage extends UserRestRequest<PostAccountLeverage.Response> {
 
   private Double leverage;
@@ -59,6 +56,5 @@ public final class PostAccountLeverage extends UserRestRequest<PostAccountLevera
     return ONE_REST_REQUEST;
   }
 
-  @NotThreadSafe
   public static final class Response extends RestResponse<_Leverage> {}
 }

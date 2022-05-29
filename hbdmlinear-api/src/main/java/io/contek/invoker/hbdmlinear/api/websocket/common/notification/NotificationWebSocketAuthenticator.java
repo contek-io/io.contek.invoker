@@ -4,7 +4,6 @@ import io.contek.invoker.commons.rest.RestParams;
 import io.contek.invoker.commons.websocket.*;
 import io.contek.invoker.security.ICredential;
 
-import javax.annotation.concurrent.ThreadSafe;
 import java.net.URI;
 import java.time.Clock;
 import java.time.format.DateTimeFormatter;
@@ -18,7 +17,6 @@ import static java.time.ZoneOffset.UTC;
 import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME;
 import static java.time.temporal.ChronoField.MILLI_OF_SECOND;
 
-@ThreadSafe
 final class NotificationWebSocketAuthenticator implements IWebSocketAuthenticator {
 
   private static final DateTimeFormatter FORMATTER = ISO_LOCAL_DATE_TIME.withZone(UTC);

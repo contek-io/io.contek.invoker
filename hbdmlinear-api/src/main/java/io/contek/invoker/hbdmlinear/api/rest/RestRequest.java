@@ -6,7 +6,6 @@ import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
 import io.contek.invoker.commons.rest.*;
 import io.contek.invoker.security.ICredential;
 
-import javax.annotation.concurrent.NotThreadSafe;
 import java.net.URI;
 import java.time.Clock;
 import java.time.format.DateTimeFormatter;
@@ -16,7 +15,6 @@ import static io.contek.invoker.commons.rest.RestMediaType.JSON;
 import static java.time.ZoneOffset.UTC;
 import static java.time.temporal.ChronoField.MILLI_OF_SECOND;
 
-@NotThreadSafe
 public abstract class RestRequest<R> extends BaseRestRequest<R> {
 
   private static final DateTimeFormatter FORMATTER =

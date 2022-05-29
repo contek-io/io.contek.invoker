@@ -3,10 +3,8 @@ package io.contek.invoker.binancespot.api.websocket.market;
 import io.contek.invoker.binancespot.api.common._OrderBookLevel;
 import io.contek.invoker.binancespot.api.websocket.common.WebSocketEventMessage;
 
-import javax.annotation.concurrent.NotThreadSafe;
 import java.util.List;
 
-@NotThreadSafe
 public class DepthUpdateEvent extends WebSocketEventMessage {
 
   public long T; // transaction time

@@ -2,13 +2,11 @@ package io.contek.invoker.commons.actor.http;
 
 import okhttp3.OkHttpClient;
 
-import javax.annotation.concurrent.Immutable;
 import java.net.InetAddress;
 import java.time.Duration;
 
 import static java.net.InetAddress.getLoopbackAddress;
 
-@Immutable
 public final class SimpleHttpClientFactory implements IHttpClientFactory {
 
   private static final InetAddress LOCAL_HOST = getLoopbackAddress();
@@ -47,7 +45,6 @@ public final class SimpleHttpClientFactory implements IHttpClientFactory {
     return new SimpleHttpClient(builder.build(), LOCAL_HOST);
   }
 
-  @Immutable
   private static final class InstanceHolder {
 
     private static final SimpleHttpClientFactory INSTANCE = new SimpleHttpClientFactory();

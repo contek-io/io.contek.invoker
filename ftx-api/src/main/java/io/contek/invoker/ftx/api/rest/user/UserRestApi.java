@@ -4,9 +4,6 @@ import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.ftx.api.common._LendingOffer;
 
-import javax.annotation.concurrent.ThreadSafe;
-
-@ThreadSafe
 public final class UserRestApi {
 
   private final IActor actor;
@@ -83,5 +80,29 @@ public final class UserRestApi {
 
   public PostLendingOffer postLendingOffer(final _LendingOffer lendingOffer) {
     return new PostLendingOffer(actor, context);
+  }
+
+  public PostTriggerOrder postTriggerOrder() {
+    return new PostTriggerOrder(actor, context);
+  }
+
+  public ModifyTriggerOrders modifyTriggerOrders() {
+    return new ModifyTriggerOrders(actor, context);
+  }
+
+  public ModifyOrdersByClientId modifyOrdersByClientId() {
+    return new ModifyOrdersByClientId(actor, context);
+  }
+
+  public ModifyOrders modifyOrders() {
+    return new ModifyOrders(actor, context);
+  }
+
+  public GetAllSubAccounts getAllSubAccounts() {
+    return new GetAllSubAccounts(actor, context);
+  }
+
+  public DeleteTriggerOrder deleteTriggerOrder() {
+    return new DeleteTriggerOrder(actor, context);
   }
 }

@@ -10,15 +10,11 @@ import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
 
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.NotThreadSafe;
-
 import static io.contek.invoker.bybit.api.ApiFactory.RateLimits.ONE_REST_PRIVATE_ORDER_READ_REQUEST;
 import static io.contek.invoker.bybit.api.rest.user.GetOrderList.Response;
 import static io.contek.invoker.commons.rest.RestMethod.GET;
 import static java.util.Objects.requireNonNull;
 
-@NotThreadSafe
 public final class GetOrderList extends UserRestRequest<Response> {
 
   private String symbol;
@@ -36,22 +32,22 @@ public final class GetOrderList extends UserRestRequest<Response> {
     return this;
   }
 
-  public GetOrderList setOrderStatus(@Nullable String order_status) {
+  public GetOrderList setOrderStatus(String order_status) {
     this.order_status = order_status;
     return this;
   }
 
-  public GetOrderList setDirection(@Nullable String direction) {
+  public GetOrderList setDirection(String direction) {
     this.direction = direction;
     return this;
   }
 
-  public GetOrderList setLimit(@Nullable Integer limit) {
+  public GetOrderList setLimit(Integer limit) {
     this.limit = limit;
     return this;
   }
 
-  public GetOrderList setCursor(@Nullable String cursor) {
+  public GetOrderList setCursor(String cursor) {
     this.cursor = cursor;
     return this;
   }
@@ -102,6 +98,5 @@ public final class GetOrderList extends UserRestRequest<Response> {
     return Response.class;
   }
 
-  @NotThreadSafe
   public static final class Response extends RestResponse<RestPagedResult<_Order>> {}
 }

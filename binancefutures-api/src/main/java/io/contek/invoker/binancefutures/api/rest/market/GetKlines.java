@@ -8,8 +8,6 @@ import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestParams;
 
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.NotThreadSafe;
 import java.util.ArrayList;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -27,7 +25,6 @@ import static io.contek.invoker.binancefutures.api.ApiFactory.RateLimits.IP_REST
  *       starting time.
  * </ul>
  */
-@NotThreadSafe
 public final class GetKlines extends MarketRestRequest<Response> {
 
   public static final int MAX_LIMIT = 1000;
@@ -60,17 +57,17 @@ public final class GetKlines extends MarketRestRequest<Response> {
     return this;
   }
 
-  public GetKlines setStartTime(@Nullable Long startTime) {
+  public GetKlines setStartTime(Long startTime) {
     this.startTime = startTime;
     return this;
   }
 
-  public GetKlines setEndTime(@Nullable Long endTime) {
+  public GetKlines setEndTime(Long endTime) {
     this.endTime = endTime;
     return this;
   }
 
-  public GetKlines setLimit(@Nullable Integer limit) {
+  public GetKlines setLimit(Integer limit) {
     this.limit = limit;
     return this;
   }
@@ -125,6 +122,5 @@ public final class GetKlines extends MarketRestRequest<Response> {
     throw new IllegalArgumentException(Integer.toString(limit));
   }
 
-  @NotThreadSafe
   public static final class Response extends ArrayList<_Candlestick> {}
 }

@@ -6,14 +6,9 @@ import io.contek.invoker.hbdmlinear.api.common._Depth;
 import io.contek.invoker.hbdmlinear.api.websocket.common.constants.WebSocketDataTypeKeys;
 import io.contek.invoker.hbdmlinear.api.websocket.common.marketdata.*;
 
-import javax.annotation.concurrent.Immutable;
-import javax.annotation.concurrent.NotThreadSafe;
-import javax.annotation.concurrent.ThreadSafe;
-
 import static io.contek.invoker.commons.websocket.SubscriptionState.SUBSCRIBING;
 import static java.lang.String.format;
 
-@ThreadSafe
 public final class IncrementalDepthChannel
     extends MarketDataMarketWebSocketChannel<
         IncrementalDepthChannel.Id, IncrementalDepthChannel.Message> {
@@ -34,7 +29,6 @@ public final class IncrementalDepthChannel
     return SUBSCRIBING;
   }
 
-  @Immutable
   public static final class Id extends MarketDataWebSocketChannelId<Message> {
 
     private Id(String topic) {
@@ -46,23 +40,19 @@ public final class IncrementalDepthChannel
     }
   }
 
-  @NotThreadSafe
   public static final class Message extends MarketDataWebSocketTickMessage<Tick> {}
 
-  @NotThreadSafe
   public static final class Tick extends _Depth {
 
     public String event;
   }
 
-  @NotThreadSafe
   public static final class SubscribeIncrementalMarketDepthRequest
       extends MarketDataWebSocketSubscribeRequest {
 
     public String data_type;
   }
 
-  @Immutable
   public static final class SizeKeys {
 
     public static final int _20_unmerged_data = 20;

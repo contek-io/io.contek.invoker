@@ -9,14 +9,10 @@ import io.contek.invoker.commons.websocket.BaseWebSocketChannel;
 import io.contek.invoker.commons.websocket.SubscriptionState;
 import io.contek.invoker.commons.websocket.WebSocketSession;
 
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.ThreadSafe;
-
 import static io.contek.invoker.bybit.api.websocket.common.constants.WebSocketOperationKeys._subscribe;
 import static io.contek.invoker.bybit.api.websocket.common.constants.WebSocketOperationKeys._unsubscribe;
 import static io.contek.invoker.commons.websocket.SubscriptionState.*;
 
-@ThreadSafe
 public abstract class WebSocketChannel<
         Id extends WebSocketChannelId<Message>, Message extends WebSocketTopicMessage>
     extends BaseWebSocketChannel<Id, Message> {
@@ -45,7 +41,6 @@ public abstract class WebSocketChannel<
     return UNSUBSCRIBING;
   }
 
-  @Nullable
   @Override
   protected final SubscriptionState getState(AnyWebSocketMessage message) {
     if (message instanceof WebSocketOperationResponse) {

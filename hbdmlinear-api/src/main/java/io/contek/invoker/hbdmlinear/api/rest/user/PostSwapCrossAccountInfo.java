@@ -8,12 +8,10 @@ import io.contek.invoker.commons.rest.RestParams;
 import io.contek.invoker.hbdmlinear.api.common._CrossAccountInfo;
 import io.contek.invoker.hbdmlinear.api.rest.common.RestDataResponse;
 
-import javax.annotation.concurrent.NotThreadSafe;
 import java.util.List;
 
 import static io.contek.invoker.hbdmlinear.api.ApiFactory.RateLimits.ONE_API_KEY_REST_PRIVATE_READ_REQUEST;
 
-@NotThreadSafe
 public final class PostSwapCrossAccountInfo
     extends UserRestRequest<PostSwapCrossAccountInfo.Response> {
 
@@ -54,6 +52,5 @@ public final class PostSwapCrossAccountInfo
     return ONE_API_KEY_REST_PRIVATE_READ_REQUEST;
   }
 
-  @NotThreadSafe
   public static final class Response extends RestDataResponse<List<_CrossAccountInfo>> {}
 }

@@ -15,13 +15,11 @@ import io.contek.invoker.deribit.api.websocket.market.TradesChannel;
 import io.contek.invoker.deribit.api.websocket.user.UserChangesChannel;
 import io.contek.invoker.deribit.api.websocket.user.UserOrdersChannel;
 
-import javax.annotation.concurrent.ThreadSafe;
 import java.util.HashMap;
 import java.util.Map;
 
 import static java.lang.String.format;
 
-@ThreadSafe
 final class WebSocketMessageParser extends WebSocketTextMessageParser {
 
   private final Gson gson = new Gson();

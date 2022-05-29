@@ -1,8 +1,5 @@
 package io.contek.invoker.bitmex.api.websocket.common.constants;
 
-import javax.annotation.concurrent.Immutable;
-
-@Immutable
 public final class WebSocketTableKeys {
   // Site announcements
   public static final String _announcement = "announcement";

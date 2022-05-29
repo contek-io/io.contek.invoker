@@ -17,8 +17,6 @@ import io.contek.invoker.security.ApiKey;
 import io.contek.invoker.security.SimpleCredentialFactory;
 import io.contek.ursa.cache.LimiterManager;
 
-import javax.annotation.concurrent.Immutable;
-import javax.annotation.concurrent.ThreadSafe;
 import java.time.Duration;
 import java.util.List;
 
@@ -28,7 +26,6 @@ import static io.contek.invoker.commons.actor.ratelimit.LimitType.API_KEY;
 import static io.contek.invoker.commons.actor.ratelimit.LimitType.IP;
 import static io.contek.invoker.security.SecretKeyAlgorithm.HMAC_SHA256;
 
-@ThreadSafe
 public final class ApiFactory {
 
   public static final ApiContext MAIN_NET_CONTEXT =
@@ -63,14 +60,6 @@ public final class ApiFactory {
     return new ApiFactory(context, createActorFactory(context.getInterceptors()));
   }
 
-  public SelectingRestApi rest() {
-    return new SelectingRestApi();
-  }
-
-  public SelectingWebSocketApi ws() {
-    return new SelectingWebSocketApi();
-  }
-
   private static SimpleActorFactory createActorFactory(
       List<IRateLimitQuotaInterceptor> interceptors) {
     return SimpleActorFactory.newBuilder()
@@ -93,45 +82,14 @@ public final class ApiFactory {
         IP_REST_REQUEST_RULE, API_KEY_REST_ORDER_RULE, IP_WEB_SOCKET_CONNECTION_RULE);
   }
 
-  @ThreadSafe
-  public final class SelectingRestApi {
-
-    private SelectingRestApi() {}
-
-    public MarketRestApi market() {
-      RestContext restContext = context.getRestContext();
-      IActor actor = actorFactory.create(null, restContext);
-      return new MarketRestApi(actor, restContext);
-    }
-
-    public UserRestApi user(ApiKey apiKey) {
-      RestContext restContext = context.getRestContext();
-      IActor actor = actorFactory.create(apiKey, restContext);
-      return new UserRestApi(actor, restContext);
-    }
+  public SelectingRestApi rest() {
+    return new SelectingRestApi();
   }
 
-  @ThreadSafe
-  public final class SelectingWebSocketApi {
-
-    private SelectingWebSocketApi() {}
-
-    public MarketWebSocketApi market() {
-      WebSocketContext wsContext = context.getWebSocketContext();
-      IActor actor = actorFactory.create(null, wsContext);
-      return new MarketWebSocketApi(actor, wsContext);
-    }
-
-    public UserWebSocketApi user(ApiKey apiKey) {
-      WebSocketContext wsContext = context.getWebSocketContext();
-      IActor actor = actorFactory.create(apiKey, wsContext);
-      RestContext restContext = context.getRestContext();
-      return new UserWebSocketApi(
-          actor, context.getWebSocketContext(), new UserRestApi(actor, restContext));
-    }
+  public SelectingWebSocketApi ws() {
+    return new SelectingWebSocketApi();
   }
 
-  @Immutable
   public static final class RateLimits {
 
     public static final RateLimitRule IP_REST_REQUEST_RULE =
@@ -168,5 +126,41 @@ public final class ApiFactory {
         ImmutableList.of(IP_WEB_SOCKET_CONNECTION_RULE.forPermits(1));
 
     private RateLimits() {}
+  }
+
+  public final class SelectingRestApi {
+
+    private SelectingRestApi() {}
+
+    public MarketRestApi market() {
+      RestContext restContext = context.getRestContext();
+      IActor actor = actorFactory.create(null, restContext);
+      return new MarketRestApi(actor, restContext);
+    }
+
+    public UserRestApi user(ApiKey apiKey) {
+      RestContext restContext = context.getRestContext();
+      IActor actor = actorFactory.create(apiKey, restContext);
+      return new UserRestApi(actor, restContext);
+    }
+  }
+
+  public final class SelectingWebSocketApi {
+
+    private SelectingWebSocketApi() {}
+
+    public MarketWebSocketApi market() {
+      WebSocketContext wsContext = context.getWebSocketContext();
+      IActor actor = actorFactory.create(null, wsContext);
+      return new MarketWebSocketApi(actor, wsContext);
+    }
+
+    public UserWebSocketApi user(ApiKey apiKey) {
+      WebSocketContext wsContext = context.getWebSocketContext();
+      IActor actor = actorFactory.create(apiKey, wsContext);
+      RestContext restContext = context.getRestContext();
+      return new UserWebSocketApi(
+          actor, context.getWebSocketContext(), new UserRestApi(actor, restContext));
+    }
   }
 }

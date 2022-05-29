@@ -2,9 +2,6 @@ package io.contek.invoker.hbdmlinear.api.websocket.common.notification;
 
 import io.contek.invoker.commons.websocket.BaseWebSocketChannelId;
 
-import javax.annotation.concurrent.Immutable;
-
-@Immutable
 public abstract class NotificationWebSocketChannelId<
         Message extends NotificationWebSocketChannelMessage>
     extends BaseWebSocketChannelId<Message> {

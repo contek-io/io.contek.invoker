@@ -9,11 +9,6 @@ import io.contek.invoker.security.ApiKey;
 import io.contek.invoker.security.ICredential;
 import io.contek.invoker.security.ICredentialFactory;
 
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.NotThreadSafe;
-import javax.annotation.concurrent.ThreadSafe;
-
-@ThreadSafe
 public final class SimpleActorFactory implements IActorFactory {
 
   private final ICredentialFactory credentialFactory;
@@ -33,7 +28,7 @@ public final class SimpleActorFactory implements IActorFactory {
     return new Builder();
   }
 
-  public IActor create(@Nullable ApiKey apiKey, IHttpContext context) {
+  public IActor create(ApiKey apiKey, IHttpContext context) {
     ICredential credential =
         apiKey == null ? ICredential.anonymous() : credentialFactory.create(apiKey);
     IHttpClient httpClient = httpClientFactory.create(context);
@@ -43,12 +38,13 @@ public final class SimpleActorFactory implements IActorFactory {
     return new SimpleActor(credential, httpClient, rateLimitThrottle);
   }
 
-  @NotThreadSafe
   public static final class Builder {
 
     private ICredentialFactory credentialFactory;
     private IHttpClientFactory httpClientFactory;
     private IRateLimitThrottleFactory rateLimitThrottleFactory;
+
+    private Builder() {}
 
     public Builder setCredentialFactory(ICredentialFactory credentialFactory) {
       this.credentialFactory = credentialFactory;
@@ -77,7 +73,5 @@ public final class SimpleActorFactory implements IActorFactory {
       }
       return new SimpleActorFactory(credentialFactory, httpClientFactory, rateLimitThrottleFactory);
     }
-
-    private Builder() {}
   }
 }

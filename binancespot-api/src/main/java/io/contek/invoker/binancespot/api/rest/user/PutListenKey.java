@@ -8,13 +8,10 @@ import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
 
-import javax.annotation.concurrent.NotThreadSafe;
-
 import static com.google.common.base.Preconditions.checkNotNull;
 import static io.contek.invoker.binancespot.api.ApiFactory.RateLimits.ONE_REST_REQUEST;
 import static io.contek.invoker.commons.rest.RestMethod.PUT;
 
-@NotThreadSafe
 public final class PutListenKey extends UserRestRequest<Response> {
 
   private String listenKey;
@@ -58,6 +55,5 @@ public final class PutListenKey extends UserRestRequest<Response> {
     return ONE_REST_REQUEST;
   }
 
-  @NotThreadSafe
   public static final class Response {}
 }

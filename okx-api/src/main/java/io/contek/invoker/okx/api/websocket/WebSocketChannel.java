@@ -11,8 +11,6 @@ import io.contek.invoker.okx.api.websocket.common.WebSocketSubscriptionRequest;
 import io.contek.invoker.okx.api.websocket.common.WebSocketSubscriptionResponse;
 import io.contek.invoker.okx.api.websocket.common.constants.WebSocketOutboundKeys;
 
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.ThreadSafe;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -20,7 +18,6 @@ import static io.contek.invoker.commons.websocket.SubscriptionState.*;
 import static io.contek.invoker.okx.api.websocket.common.constants.WebSocketInboundKeys._subscribe;
 import static io.contek.invoker.okx.api.websocket.common.constants.WebSocketInboundKeys._unsubscribe;
 
-@ThreadSafe
 public abstract class WebSocketChannel<
         Id extends WebSocketChannelId<Message>, Message extends WebSocketChannelPushData<?>>
     extends BaseWebSocketChannel<Id, Message> {
@@ -64,7 +61,6 @@ public abstract class WebSocketChannel<
     return UNSUBSCRIBING;
   }
 
-  @Nullable
   @Override
   protected final SubscriptionState getState(AnyWebSocketMessage message) {
     if (!(message instanceof WebSocketSubscriptionResponse)) {

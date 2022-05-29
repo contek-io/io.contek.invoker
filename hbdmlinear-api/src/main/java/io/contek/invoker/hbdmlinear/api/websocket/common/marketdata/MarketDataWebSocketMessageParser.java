@@ -9,7 +9,6 @@ import io.contek.invoker.commons.websocket.IWebSocketComponent;
 import io.contek.invoker.commons.websocket.WebSocketBinaryMessageParser;
 import io.contek.invoker.hbdmlinear.api.websocket.common.WebSocketPing;
 
-import javax.annotation.concurrent.ThreadSafe;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -18,7 +17,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.zip.GZIPInputStream;
 
-@ThreadSafe
 public final class MarketDataWebSocketMessageParser extends WebSocketBinaryMessageParser {
 
   private final Gson gson = new Gson();

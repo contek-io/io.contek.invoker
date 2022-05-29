@@ -1,10 +1,7 @@
 package io.contek.invoker.commons.actor.http;
 
-import io.contek.ursa.AcquireTimeoutException;
+import io.contek.invoker.ursa.core.api.AcquireTimeoutException;
 
-import javax.annotation.concurrent.NotThreadSafe;
-
-@NotThreadSafe
 public final class HttpBusyException extends AnyHttpException {
 
   public HttpBusyException(AcquireTimeoutException cause) {

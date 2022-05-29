@@ -9,14 +9,11 @@ import io.contek.invoker.hbdminverse.api.common._OrderInfo;
 import io.contek.invoker.hbdminverse.api.rest.common.PaginatedData;
 import io.contek.invoker.hbdminverse.api.rest.common.RestDataResponse;
 
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.NotThreadSafe;
 import java.util.List;
 
 import static io.contek.invoker.hbdminverse.api.ApiFactory.RateLimits.ONE_API_KEY_REST_PRIVATE_WRITE_REQUEST;
 import static java.util.Objects.requireNonNull;
 
-@NotThreadSafe
 public final class PostSwapHisorders extends UserRestRequest<PostSwapHisorders.Response> {
 
   private String contract_code;
@@ -57,17 +54,17 @@ public final class PostSwapHisorders extends UserRestRequest<PostSwapHisorders.R
     return this;
   }
 
-  public PostSwapHisorders setPageIndex(@Nullable Integer page_index) {
+  public PostSwapHisorders setPageIndex(Integer page_index) {
     this.page_index = page_index;
     return this;
   }
 
-  public PostSwapHisorders setPageSize(@Nullable Integer page_size) {
+  public PostSwapHisorders setPageSize(Integer page_size) {
     this.page_size = page_size;
     return this;
   }
 
-  public PostSwapHisorders setSortBy(@Nullable String sort_by) {
+  public PostSwapHisorders setSortBy(String sort_by) {
     this.sort_by = sort_by;
     return this;
   }
@@ -125,10 +122,8 @@ public final class PostSwapHisorders extends UserRestRequest<PostSwapHisorders.R
     return ONE_API_KEY_REST_PRIVATE_WRITE_REQUEST;
   }
 
-  @NotThreadSafe
   public static final class Response extends RestDataResponse<Data> {}
 
-  @NotThreadSafe
   public static final class Data extends PaginatedData {
 
     public List<_OrderInfo> orders;

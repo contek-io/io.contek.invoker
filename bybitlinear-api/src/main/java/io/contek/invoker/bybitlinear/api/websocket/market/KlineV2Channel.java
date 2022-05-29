@@ -4,12 +4,8 @@ import io.contek.invoker.bybitlinear.api.websocket.WebSocketChannel;
 import io.contek.invoker.bybitlinear.api.websocket.WebSocketChannelId;
 import io.contek.invoker.bybitlinear.api.websocket.common.WebSocketTopicMessage;
 
-import javax.annotation.concurrent.Immutable;
-import javax.annotation.concurrent.NotThreadSafe;
-import javax.annotation.concurrent.ThreadSafe;
 import java.util.List;
 
-@ThreadSafe
 public final class KlineV2Channel
     extends WebSocketChannel<KlineV2Channel.Id, KlineV2Channel.Message> {
 
@@ -22,7 +18,6 @@ public final class KlineV2Channel
     return Message.class;
   }
 
-  @Immutable
   public static final class Id extends WebSocketChannelId<Message> {
 
     private Id(String topic) {
@@ -34,14 +29,12 @@ public final class KlineV2Channel
     }
   }
 
-  @NotThreadSafe
   public static final class Message extends WebSocketTopicMessage {
 
     public List<KlineV2> data;
     public Long timestamp_e6;
   }
 
-  @NotThreadSafe
   public static final class KlineV2 {
 
     public Long start; // Start timestamp point for result, in seconds

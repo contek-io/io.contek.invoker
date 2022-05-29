@@ -1,13 +1,11 @@
 package io.contek.invoker.commons.websocket;
 
-import javax.annotation.concurrent.NotThreadSafe;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
 import static io.contek.invoker.commons.websocket.ConsumerState.TERMINATED;
 
-@NotThreadSafe
 final class WebSocketComponentManager {
 
   private final List<IWebSocketComponent> active = new LinkedList<>();

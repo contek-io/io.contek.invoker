@@ -3,9 +3,6 @@ package io.contek.invoker.commons.rest;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 
-import javax.annotation.concurrent.Immutable;
-
-@Immutable
 public final class RestMediaBody {
 
   private final MediaType type;
@@ -21,6 +18,6 @@ public final class RestMediaBody {
   }
 
   RequestBody createRequestBody() {
-    return RequestBody.create(stringValue, type);
+    return RequestBody.create(type, stringValue);
   }
 }

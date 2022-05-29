@@ -10,15 +10,12 @@ import io.contek.invoker.kraken.api.websocket.common.WebSocketChannelDataMessage
 import io.contek.invoker.kraken.api.websocket.common.WebSocketSubscribeRequest;
 import io.contek.invoker.kraken.api.websocket.common.WebSocketSubscriptionStatus;
 
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.ThreadSafe;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static io.contek.invoker.commons.websocket.SubscriptionState.*;
 import static io.contek.invoker.kraken.api.websocket.common.constants.WebSocketEventKeys._subscribe;
 import static io.contek.invoker.kraken.api.websocket.common.constants.WebSocketEventKeys._unsubscribe;
 
-@ThreadSafe
 public abstract class WebSocketChannel<
         Id extends WebSocketChannelId<Message>, Message extends WebSocketChannelDataMessage<?>>
     extends BaseWebSocketChannel<Id, Message> {
@@ -73,7 +70,6 @@ public abstract class WebSocketChannel<
     return UNSUBSCRIBING;
   }
 
-  @Nullable
   @Override
   protected final SubscriptionState getState(AnyWebSocketMessage message) {
     if (!(message instanceof WebSocketSubscriptionStatus)) {

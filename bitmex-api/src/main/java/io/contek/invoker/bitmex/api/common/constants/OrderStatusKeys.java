@@ -1,8 +1,5 @@
 package io.contek.invoker.bitmex.api.common.constants;
 
-import javax.annotation.concurrent.Immutable;
-
-@Immutable
 public final class OrderStatusKeys {
 
   public static final String _New = "New";

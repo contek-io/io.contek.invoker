@@ -1,10 +1,6 @@
 package io.contek.invoker.bitmex.api.common;
 
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.NotThreadSafe;
-
 /** https://bitmexapi.com/#operation/Instrument.get */
-@NotThreadSafe
 public class _Instrument {
 
   /** Instrument symbol. */
@@ -42,28 +38,28 @@ public class _Instrument {
   public String typ;
 
   /** Date when the instrument get listed. */
-  @Nullable public String listing;
+  public String listing;
 
   /** Date when the instrument get expired. */
-  @Nullable public String expiry;
+  public String expiry;
 
   /** Date when the instrument get settled, always same as expiry. */
-  @Nullable public String settle;
+  public String settle;
 
   /** Relist interval, only applys to UPs and DOWNs, that are settled and relisted every 7 days. */
-  @Nullable public String relistInterval;
+  public String relistInterval;
 
   /** UPs and DOWNs only. Strike percent. */
-  @Nullable public Double optionStrikePcnt;
+  public Double optionStrikePcnt;
 
   /** UPs and DOWNs only. Strike round, always 250. */
-  @Nullable public Double optionStrikeRound;
+  public Double optionStrikeRound;
 
   /** UPs and DOWNs only. Strike price. */
-  @Nullable public Double optionStrikePrice;
+  public Double optionStrikePrice;
 
   /** UPs and DOWNs only. Contract multiplier. */
-  @Nullable public Double optionMultiplier;
+  public Double optionMultiplier;
 
   /**
    * Currency for your position of this contract. Depending on the type of this contract, It may
@@ -97,25 +93,28 @@ public class _Instrument {
   public String referenceSymbol;
 
   /** Calculation interval. Only available for BTMX reference indices. */
-  @Nullable public String calcInterval;
+  public String calcInterval;
 
   /** Publish interval. Available for all indices. */
-  @Nullable public String publishInterval;
+  public String publishInterval;
 
   /** Publish time. Only available for BTMX reference indices. */
-  @Nullable public String publishTime;
+  public String publishTime;
 
   /**
    * Maximum order quantity. Currenty it's always 100000000 when quoteCurrency is XBT, and always
    * 10000000 when quoteCurrency is USD. Applys to contracts only.
    */
-  @Nullable public Double maxOrderQty;
+  public Double maxOrderQty;
 
   /** Maximum price. Applys to contracts only. */
-  @Nullable public Double maxPrice;
+  public Double maxPrice;
 
-  /** Lot size. The minimum unit in a order quantity. Applys to contracts only. */
-  @Nullable public Double lotSize;
+  /**
+   * Lot size. The minimum unit in io.contek.invoker.ftx.api.a order quantity. Applys to contracts
+   * only.
+   */
+  public Double lotSize;
 
   /** Tick size. The minimum Double step for the instrument. */
   public Double tickSize;
@@ -125,7 +124,7 @@ public class _Instrument {
    * contract worth. Always in XBt(Satoshi). For negative values, please refer to the official blog
    * https://blog.bitmex.com/bitmex-vs-cme-futures-guide/
    */
-  @Nullable public Double multiplier;
+  public Double multiplier;
 
   /** Currency in Settlement. It's always XBt. */
   public String settlCurrency;
@@ -137,106 +136,106 @@ public class _Instrument {
   public Boolean isInverse;
 
   /** Initial margin rate. Taker fee not included. */
-  @Nullable public Double initMargin;
+  public Double initMargin;
 
   /** Maintenance margin rate. Exit taker fee not included. */
-  @Nullable public Double maintMargin;
+  public Double maintMargin;
 
   /** Risk limit. */
-  @Nullable public Long riskLimit;
+  public Long riskLimit;
 
   /** Risk step. */
-  @Nullable public Long riskStep;
+  public Long riskStep;
 
   /** Maker fee. */
-  @Nullable public Double makerFee;
+  public Double makerFee;
 
   /** Taker fee. */
-  @Nullable public Double takerFee;
+  public Double takerFee;
 
   /** Settlement fee. */
-  @Nullable public Double settlementFee;
+  public Double settlementFee;
 
   /** Only applys to quanto contracts. */
-  @Nullable public String fundingBaseSymbol;
+  public String fundingBaseSymbol;
 
   /** Only applys to quanto contracts. */
-  @Nullable public String fundingQuoteSymbol;
+  public String fundingQuoteSymbol;
 
   /** Only applys to quanto contracts. */
-  @Nullable public String fundingPremiumSymbol;
+  public String fundingPremiumSymbol;
 
   /** Only applys to quanto contracts. */
-  @Nullable public String fundingTimestamp;
+  public String fundingTimestamp;
 
   /** Only applys to quanto contracts. */
-  @Nullable public String fundingInterval;
+  public String fundingInterval;
 
   /** Only applys to quanto contracts. */
-  @Nullable public Double fundingRate;
+  public Double fundingRate;
 
   /** Only applys to quanto contracts. */
-  @Nullable public Double indicativeFundingRate;
+  public Double indicativeFundingRate;
 
   /** Opening timestamp of the last trading session of this contract. */
-  @Nullable public String openingTimestamp;
+  public String openingTimestamp;
 
   /** Closing timestamp of the last trading session of this contract. */
-  @Nullable public String closingTimestamp;
+  public String closingTimestamp;
 
   /** Session interval of this contract. */
-  @Nullable public String sessionInterval;
+  public String sessionInterval;
 
   /** Close Double of the previous trading session. */
-  @Nullable public Double prevClosePrice;
+  public Double prevClosePrice;
 
   /** Down limit of the order price. */
-  @Nullable public Double limitDownPrice;
+  public Double limitDownPrice;
 
   /** Up limit of the order price. */
-  @Nullable public Double limitUpPrice;
+  public Double limitUpPrice;
 
   /** Previous total volume at the end of the previous trading session. */
-  @Nullable public Double prevTotalVolume;
+  public Double prevTotalVolume;
 
   /** Current total volume. */
-  @Nullable public Double totalVolume;
+  public Double totalVolume;
 
   /** Volume of the past 24 hours. */
-  @Nullable public Double volume24h;
+  public Double volume24h;
 
   /** Previous total Double at the end of the previous trading session. */
-  @Nullable public Double prevTotalTurnover;
+  public Double prevTotalTurnover;
 
   /** Current total turnover. */
-  @Nullable public Double totalTurnover;
+  public Double totalTurnover;
 
   /** Double of the current trading session. */
-  @Nullable public Double turnover;
+  public Double turnover;
 
   /** Double of the past 24 hours. */
-  @Nullable public Double turnover24h;
+  public Double turnover24h;
 
   /** The volume24h in home notional, which usually is base currency. Eg, XBT for XBTUSD. */
-  @Nullable public Double homeNotional24h;
+  public Double homeNotional24h;
 
   /** The volume24h in foreign notional, which usually is quote currency. Eg, USD for XBTUSD. */
-  @Nullable public Double foreignNotional24h;
+  public Double foreignNotional24h;
 
   /** VWAP, Short for Volume Weighted Average Price, of the current trading session. */
-  @Nullable public Double vwap;
+  public Double vwap;
 
   /** Highest Double in the past 24 hours. */
-  @Nullable public Double highPrice;
+  public Double highPrice;
 
   /** Lowest Double in the past 24 hours. */
-  @Nullable public Double lowPrice;
+  public Double lowPrice;
 
   /** Last price. */
   public Double lastPrice;
 
   /** Refer to https://www.bitmex.com/app/fairPriceMarking#Last-Price-Protected-Marking */
-  @Nullable public Double lastPriceProtected;
+  public Double lastPriceProtected;
 
   /**
    * The relationship between the last trade's Double and the previous ones.
@@ -244,9 +243,9 @@ public class _Instrument {
    * <ul>
    *   <li>MinusTick this trade's Double is lower than the previous one.
    *   <li>ZeroMinusTick this trade's Double is equal to previous one, but lower than the last trade
-   *       of a different price.
+   *       of io.contek.invoker.ftx.api.a different price.
    *   <li>ZeroPlusTick this trade's Double is equal to previous one, but higher than the last trade
-   *       of a different price.
+   *       of io.contek.invoker.ftx.api.a different price.
    *   <li>PlusTick this trade's Double is higher than the previous one.
    * </ul>
    */
@@ -256,28 +255,28 @@ public class _Instrument {
   public Double lastChangePcnt;
 
   /** Last bid price. */
-  @Nullable public Double bidPrice;
+  public Double bidPrice;
 
   /** Average Double of bidPrice and askPrice. */
-  @Nullable public Double midPrice;
+  public Double midPrice;
 
   /** Last ask price. */
-  @Nullable public Double askPrice;
+  public Double askPrice;
 
   /** Refer to https://www.bitmex.com/app/fairPriceMarking#Impact-Bid-Ask-and-Mid-Price */
-  @Nullable public Double impactBidPrice;
+  public Double impactBidPrice;
 
   /** Refer to https://www.bitmex.com/app/fairPriceMarking#Impact-Bid-Ask-and-Mid-Price */
-  @Nullable public Double impactMidPrice;
+  public Double impactMidPrice;
 
   /** Refer to https://www.bitmex.com/app/fairPriceMarking#Impact-Bid-Ask-and-Mid-Price */
-  @Nullable public Double impactAskPrice;
+  public Double impactAskPrice;
 
   /** The instrument has liquidity or not. */
   public Boolean hasLiquidity;
 
   /** Total number of contracts in existance of this instrument. */
-  @Nullable public Double openInterest;
+  public Double openInterest;
 
   /** The openInterest in XBt(Satoshi). */
   public Long openValue;
@@ -292,16 +291,16 @@ public class _Instrument {
    *   <li>Empty string for indices and options
    * </ul>
    */
-  @Nullable public String fairMethod;
+  public String fairMethod;
 
   /** Fair basis rate. */
-  @Nullable public Double fairBasisRate;
+  public Double fairBasisRate;
 
   /** Fair basis. */
-  @Nullable public Double fairBasis;
+  public Double fairBasis;
 
   /** Fair price. */
-  @Nullable public Double fairPrice;
+  public Double fairPrice;
 
   /** Mark method. */
   public String markMethod;
@@ -310,16 +309,16 @@ public class _Instrument {
   public Double markPrice;
 
   /** Indicative tax rate. Always 0 for contracts, null for indices. */
-  @Nullable public Double indicativeTaxRate;
+  public Double indicativeTaxRate;
 
   /** Indicative settle price. */
-  @Nullable public Double indicativeSettlePrice;
+  public Double indicativeSettlePrice;
 
   /** Option underlying price. null for others. */
-  @Nullable public Double optionUnderlyingPrice;
+  public Double optionUnderlyingPrice;
 
   /** Settled price, for settled contracts. null for others. */
-  @Nullable public Double settledPrice;
+  public Double settledPrice;
 
   /** Timestamp. */
   public String timestamp;

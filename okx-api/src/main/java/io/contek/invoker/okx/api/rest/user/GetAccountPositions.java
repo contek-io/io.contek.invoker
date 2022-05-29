@@ -10,14 +10,11 @@ import io.contek.invoker.commons.rest.RestParams;
 import io.contek.invoker.okx.api.common._Position;
 import io.contek.invoker.okx.api.rest.common.RestResponse;
 
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.NotThreadSafe;
 import java.time.Duration;
 
 import static io.contek.invoker.commons.actor.ratelimit.LimitType.API_KEY;
 import static io.contek.invoker.commons.rest.RestMethod.GET;
 
-@NotThreadSafe
 public final class GetAccountPositions extends UserRestRequest<GetAccountPositions.Response> {
 
   public static final RateLimitRule RATE_LIMIT_RULE =
@@ -39,17 +36,17 @@ public final class GetAccountPositions extends UserRestRequest<GetAccountPositio
     super(actor, context);
   }
 
-  public GetAccountPositions setInstType(@Nullable String instType) {
+  public GetAccountPositions setInstType(String instType) {
     this.instType = instType;
     return this;
   }
 
-  public GetAccountPositions setInstId(@Nullable String instId) {
+  public GetAccountPositions setInstId(String instId) {
     this.instId = instId;
     return this;
   }
 
-  public GetAccountPositions setPosId(@Nullable String posId) {
+  public GetAccountPositions setPosId(String posId) {
     this.posId = posId;
     return this;
   }
@@ -93,6 +90,5 @@ public final class GetAccountPositions extends UserRestRequest<GetAccountPositio
     return REQUIRED_QUOTA;
   }
 
-  @NotThreadSafe
   public static final class Response extends RestResponse<_Position> {}
 }

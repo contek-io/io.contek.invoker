@@ -1,8 +1,5 @@
 package io.contek.invoker.commons.actor.http;
 
-import javax.annotation.concurrent.Immutable;
-
-@Immutable
 public abstract class BaseHttpContext implements IHttpContext {
 
   private final String baseUrl;

@@ -1,9 +1,7 @@
 package io.contek.invoker.bybitlinear.api.common;
 
-import javax.annotation.concurrent.NotThreadSafe;
 import java.util.List;
 
-@NotThreadSafe
 public class _ApiKey {
 
   public String api_key;

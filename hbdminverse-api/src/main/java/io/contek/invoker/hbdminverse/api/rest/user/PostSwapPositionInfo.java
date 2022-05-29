@@ -8,12 +8,10 @@ import io.contek.invoker.commons.rest.RestParams;
 import io.contek.invoker.hbdminverse.api.common._PositionInfo;
 import io.contek.invoker.hbdminverse.api.rest.common.RestDataResponse;
 
-import javax.annotation.concurrent.NotThreadSafe;
 import java.util.List;
 
 import static io.contek.invoker.hbdminverse.api.ApiFactory.RateLimits.ONE_API_KEY_REST_PRIVATE_READ_REQUEST;
 
-@NotThreadSafe
 public final class PostSwapPositionInfo extends UserRestRequest<PostSwapPositionInfo.Response> {
 
   private String contract_code;
@@ -53,6 +51,5 @@ public final class PostSwapPositionInfo extends UserRestRequest<PostSwapPosition
     return ONE_API_KEY_REST_PRIVATE_READ_REQUEST;
   }
 
-  @NotThreadSafe
   public static final class Response extends RestDataResponse<List<_PositionInfo>> {}
 }

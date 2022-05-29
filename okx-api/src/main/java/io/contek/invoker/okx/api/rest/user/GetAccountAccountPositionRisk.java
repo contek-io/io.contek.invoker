@@ -10,14 +10,11 @@ import io.contek.invoker.commons.rest.RestParams;
 import io.contek.invoker.okx.api.common._AccountPositionRisk;
 import io.contek.invoker.okx.api.rest.common.RestResponse;
 
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.NotThreadSafe;
 import java.time.Duration;
 
 import static io.contek.invoker.commons.actor.ratelimit.LimitType.API_KEY;
 import static io.contek.invoker.commons.rest.RestMethod.GET;
 
-@NotThreadSafe
 public final class GetAccountAccountPositionRisk
     extends UserRestRequest<GetAccountAccountPositionRisk.Response> {
 
@@ -38,7 +35,7 @@ public final class GetAccountAccountPositionRisk
     super(actor, context);
   }
 
-  public GetAccountAccountPositionRisk setInstType(@Nullable String instType) {
+  public GetAccountAccountPositionRisk setInstType(String instType) {
     this.instType = instType;
     return this;
   }
@@ -74,6 +71,5 @@ public final class GetAccountAccountPositionRisk
     return REQUIRED_QUOTA;
   }
 
-  @NotThreadSafe
   public static final class Response extends RestResponse<_AccountPositionRisk> {}
 }

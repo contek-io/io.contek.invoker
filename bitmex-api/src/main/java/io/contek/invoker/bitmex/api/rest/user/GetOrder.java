@@ -8,57 +8,53 @@ import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
 
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.NotThreadSafe;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import static io.contek.invoker.commons.rest.RestMethod.GET;
 
-@NotThreadSafe
 public final class GetOrder extends UserRestRequest<Response> {
 
   private static final Gson gson = new Gson();
-
+  private final Map<String, String> filter = new HashMap<>();
   private String symbol;
   private Integer count;
   private Integer start;
   private Boolean reverse;
   private String startTime;
   private String endTime;
-  private final Map<String, String> filter = new HashMap<>();
 
   GetOrder(IActor actor, RestContext context) {
     super(actor, context);
   }
 
-  public GetOrder setSymbol(@Nullable String symbol) {
+  public GetOrder setSymbol(String symbol) {
     this.symbol = symbol;
     return this;
   }
 
-  public GetOrder setCount(@Nullable Integer count) {
+  public GetOrder setCount(Integer count) {
     this.count = count;
     return this;
   }
 
-  public GetOrder setStart(@Nullable Integer start) {
+  public GetOrder setStart(Integer start) {
     this.start = start;
     return this;
   }
 
-  public GetOrder setReverse(@Nullable Boolean reverse) {
+  public GetOrder setReverse(Boolean reverse) {
     this.reverse = reverse;
     return this;
   }
 
-  public GetOrder setStartTime(@Nullable String startTime) {
+  public GetOrder setStartTime(String startTime) {
     this.startTime = startTime;
     return this;
   }
 
-  public GetOrder setEndTime(@Nullable String endTime) {
+  public GetOrder setEndTime(String endTime) {
     this.endTime = endTime;
     return this;
   }
@@ -112,6 +108,5 @@ public final class GetOrder extends UserRestRequest<Response> {
     return builder.build();
   }
 
-  @NotThreadSafe
   public static final class Response extends ArrayList<_Order> {}
 }

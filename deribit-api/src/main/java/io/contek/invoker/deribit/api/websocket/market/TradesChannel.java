@@ -4,15 +4,11 @@ import io.contek.invoker.deribit.api.websocket.WebSocketChannelId;
 import io.contek.invoker.deribit.api.websocket.WebSocketRequestIdGenerator;
 import io.contek.invoker.deribit.api.websocket.common.WebSocketSingleChannelMessage;
 
-import javax.annotation.concurrent.Immutable;
-import javax.annotation.concurrent.NotThreadSafe;
-import javax.annotation.concurrent.ThreadSafe;
 import java.util.List;
 
 import static io.contek.invoker.deribit.api.websocket.common.constants.WebSocketChannelKeys._trades;
 import static java.lang.String.format;
 
-@ThreadSafe
 public final class TradesChannel
     extends MarketWebSocketChannel<TradesChannel.Id, TradesChannel.Message> {
 
@@ -25,7 +21,6 @@ public final class TradesChannel
     return TradesChannel.Message.class;
   }
 
-  @Immutable
   public static final class Id extends WebSocketChannelId<TradesChannel.Message> {
 
     private Id(String value) {
@@ -37,10 +32,8 @@ public final class TradesChannel
     }
   }
 
-  @NotThreadSafe
   public static final class Message extends WebSocketSingleChannelMessage<List<Data>> {}
 
-  @NotThreadSafe
   public static final class Data {
 
     public long amount;

@@ -1,8 +1,5 @@
 package io.contek.invoker.hbdminverse.api.common;
 
-import javax.annotation.concurrent.NotThreadSafe;
-
-@NotThreadSafe
 public class _MarketDetail {
 
   public long id;

@@ -9,14 +9,11 @@ import io.contek.invoker.commons.rest.RestParams;
 import io.contek.invoker.ftx.api.common._Fill;
 import io.contek.invoker.ftx.api.rest.common.RestResponse;
 
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.NotThreadSafe;
 import java.util.List;
 
 import static io.contek.invoker.commons.rest.RestMethod.GET;
 import static io.contek.invoker.ftx.api.ApiFactory.RateLimits.ONE_REST_REQUEST;
 
-@NotThreadSafe
 public final class GetFills extends UserRestRequest<GetFills.Response> {
 
   private String market;
@@ -29,27 +26,27 @@ public final class GetFills extends UserRestRequest<GetFills.Response> {
     super(actor, context);
   }
 
-  public GetFills setMarket(@Nullable String market) {
+  public GetFills setMarket(String market) {
     this.market = market;
     return this;
   }
 
-  public GetFills setStartTime(@Nullable Long start_time) {
+  public GetFills setStartTime(Long start_time) {
     this.start_time = start_time;
     return this;
   }
 
-  public GetFills setEndTime(@Nullable Long end_time) {
+  public GetFills setEndTime(Long end_time) {
     this.end_time = end_time;
     return this;
   }
 
-  public GetFills setOrder(@Nullable String order) {
+  public GetFills setOrder(String order) {
     this.order = order;
     return this;
   }
 
-  public GetFills setOrderId(@Nullable String orderId) {
+  public GetFills setOrderId(String orderId) {
     this.orderId = orderId;
     return this;
   }
@@ -96,6 +93,5 @@ public final class GetFills extends UserRestRequest<GetFills.Response> {
     return builder.build();
   }
 
-  @NotThreadSafe
   public static final class Response extends RestResponse<List<_Fill>> {}
 }

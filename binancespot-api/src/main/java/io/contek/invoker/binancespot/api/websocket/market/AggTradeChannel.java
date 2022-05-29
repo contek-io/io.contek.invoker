@@ -3,11 +3,6 @@ package io.contek.invoker.binancespot.api.websocket.market;
 import io.contek.invoker.binancespot.api.websocket.WebSocketRequestIdGenerator;
 import io.contek.invoker.binancespot.api.websocket.common.WebSocketStreamMessage;
 
-import javax.annotation.concurrent.Immutable;
-import javax.annotation.concurrent.NotThreadSafe;
-import javax.annotation.concurrent.ThreadSafe;
-
-@ThreadSafe
 public final class AggTradeChannel
     extends MarketWebSocketChannel<AggTradeChannel.Id, AggTradeChannel.Message> {
 
@@ -20,7 +15,6 @@ public final class AggTradeChannel
     return Message.class;
   }
 
-  @Immutable
   public static final class Id extends MarketWebSocketChannelId<Message> {
 
     private Id(String symbol) {
@@ -32,6 +26,5 @@ public final class AggTradeChannel
     }
   }
 
-  @NotThreadSafe
   public static final class Message extends WebSocketStreamMessage<AggTradeEvent> {}
 }

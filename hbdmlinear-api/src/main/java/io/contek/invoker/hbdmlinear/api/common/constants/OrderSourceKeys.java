@@ -1,15 +1,12 @@
 package io.contek.invoker.hbdmlinear.api.common.constants;
 
-import javax.annotation.concurrent.Immutable;
-
-@Immutable
 public final class OrderSourceKeys {
 
   public static final String _system = "system";
 
   public static final String _web = "web";
 
-  public static final String _api = "api";
+  public static final String _api = "io/contek/invoker/ursa/core/api";
 
   public static final String _m = "m";
 

@@ -7,13 +7,11 @@ import io.contek.invoker.binancefutures.api.websocket.common.WebSocketEventMessa
 import io.contek.invoker.commons.websocket.IWebSocketComponent;
 import io.contek.invoker.commons.websocket.WebSocketTextMessageParser;
 
-import javax.annotation.concurrent.Immutable;
-import javax.annotation.concurrent.ThreadSafe;
-
-@ThreadSafe
 public final class UserWebSocketParser extends WebSocketTextMessageParser {
 
   private final Gson gson = new Gson();
+
+  private UserWebSocketParser() {}
 
   static UserWebSocketParser getInstance() {
     return UserWebSocketParser.InstanceHolder.INSTANCE;
@@ -55,9 +53,6 @@ public final class UserWebSocketParser extends WebSocketTextMessageParser {
     }
   }
 
-  private UserWebSocketParser() {}
-
-  @Immutable
   private static class InstanceHolder {
 
     private static final UserWebSocketParser INSTANCE = new UserWebSocketParser();

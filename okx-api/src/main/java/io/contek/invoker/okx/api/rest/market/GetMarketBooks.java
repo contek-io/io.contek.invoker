@@ -9,14 +9,11 @@ import io.contek.invoker.commons.rest.RestParams;
 import io.contek.invoker.okx.api.common._OrderBook;
 import io.contek.invoker.okx.api.rest.common.RestResponse;
 
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.NotThreadSafe;
 import java.time.Duration;
 
 import static io.contek.invoker.commons.actor.ratelimit.LimitType.IP;
 import static java.util.Objects.requireNonNull;
 
-@NotThreadSafe
 public final class GetMarketBooks extends MarketRestRequest<GetMarketBooks.Response> {
 
   public static final int MAX_DEPTH = 400;
@@ -44,7 +41,7 @@ public final class GetMarketBooks extends MarketRestRequest<GetMarketBooks.Respo
     return this;
   }
 
-  public GetMarketBooks setSz(@Nullable Integer sz) {
+  public GetMarketBooks setSz(Integer sz) {
     this.sz = sz;
     return this;
   }
@@ -78,6 +75,5 @@ public final class GetMarketBooks extends MarketRestRequest<GetMarketBooks.Respo
     return REQUIRED_QUOTA;
   }
 
-  @NotThreadSafe
   public static final class Response extends RestResponse<_OrderBook> {}
 }

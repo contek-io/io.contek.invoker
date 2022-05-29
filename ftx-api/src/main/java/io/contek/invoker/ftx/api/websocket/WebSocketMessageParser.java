@@ -8,21 +8,21 @@ import io.contek.invoker.commons.websocket.IWebSocketComponent;
 import io.contek.invoker.commons.websocket.WebSocketTextMessageParser;
 import io.contek.invoker.ftx.api.websocket.common.WebSocketInboundMessage;
 import io.contek.invoker.ftx.api.websocket.common.WebSocketInfoMessage;
+import io.contek.invoker.ftx.api.websocket.common.WebSocketPong;
 import io.contek.invoker.ftx.api.websocket.common.WebSocketSubscriptionResponse;
 import io.contek.invoker.ftx.api.websocket.market.OrderBookChannel;
 import io.contek.invoker.ftx.api.websocket.market.TickerChannel;
 import io.contek.invoker.ftx.api.websocket.market.TradesChannel;
 import io.contek.invoker.ftx.api.websocket.user.OrdersChannel;
 
-import javax.annotation.concurrent.Immutable;
-
 import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketChannelKeys.*;
 import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketInboundKeys.*;
 
-@Immutable
 final class WebSocketMessageParser extends WebSocketTextMessageParser {
 
   private final Gson gson = new Gson();
+
+  private WebSocketMessageParser() {}
 
   static WebSocketMessageParser getInstance() {
     return InstanceHolder.INSTANCE;
@@ -48,12 +48,18 @@ final class WebSocketMessageParser extends WebSocketTextMessageParser {
       case _partial:
       case _update:
         return toChannelMessage(obj);
+      case _pong:
+        return toPongMessage(obj);
       case _error:
       case _info:
         return toInfoMessage(obj);
       default:
         throw new IllegalArgumentException(text);
     }
+  }
+
+  private WebSocketPong toPongMessage(JsonObject obj) {
+    return gson.fromJson(obj, WebSocketPong.class);
   }
 
   private WebSocketInboundMessage toSubscriptionMessage(JsonObject obj) {
@@ -82,9 +88,6 @@ final class WebSocketMessageParser extends WebSocketTextMessageParser {
     return gson.fromJson(obj, WebSocketInfoMessage.class);
   }
 
-  private WebSocketMessageParser() {}
-
-  @Immutable
   private static final class InstanceHolder {
 
     private static final WebSocketMessageParser INSTANCE = new WebSocketMessageParser();

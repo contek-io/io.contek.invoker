@@ -1,20 +1,17 @@
 package io.contek.invoker.commons.actor.ratelimit;
 
 import com.google.common.collect.ImmutableList;
-import io.contek.ursa.AcquireTimeoutException;
-import io.contek.ursa.IPermitSession;
 import io.contek.ursa.cache.LimiterManager;
 import io.contek.ursa.cache.PermitRequest;
+import io.contek.invoker.ursa.core.api.AcquireTimeoutException;
+import io.contek.invoker.ursa.core.api.IPermitSession;
 
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.ThreadSafe;
 import java.time.Duration;
 import java.util.List;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 
-@ThreadSafe
 public final class SimpleRateLimitThrottle implements IRateLimitThrottle {
 
   private static final Duration TIMEOUT = Duration.ofMinutes(1);
@@ -27,7 +24,7 @@ public final class SimpleRateLimitThrottle implements IRateLimitThrottle {
 
   SimpleRateLimitThrottle(
       String boundLocalAddress,
-      @Nullable String apiKeyId,
+      String apiKeyId,
       LimiterManager manager,
       ImmutableList<IRateLimitQuotaInterceptor> interceptors) {
     this.boundLocalAddress = boundLocalAddress;

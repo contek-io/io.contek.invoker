@@ -9,15 +9,12 @@ import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
 
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.NotThreadSafe;
 import java.util.ArrayList;
 
 import static io.contek.invoker.binancefutures.api.ApiFactory.RateLimits.IP_REST_REQUEST_RULE;
 import static io.contek.invoker.binancefutures.api.ApiFactory.RateLimits.ONE_REST_REQUEST;
 import static io.contek.invoker.commons.rest.RestMethod.GET;
 
-@NotThreadSafe
 public final class GetOpenOrders extends UserRestRequest<Response> {
 
   private static final ImmutableList<TypedPermitRequest> ALL_SYMBOLS_REQUIRED_QUOTA =
@@ -29,7 +26,7 @@ public final class GetOpenOrders extends UserRestRequest<Response> {
     super(actor, context);
   }
 
-  public GetOpenOrders setSymbol(@Nullable String symbol) {
+  public GetOpenOrders setSymbol(String symbol) {
     this.symbol = symbol;
     return this;
   }
@@ -67,6 +64,5 @@ public final class GetOpenOrders extends UserRestRequest<Response> {
     return symbol != null ? ONE_REST_REQUEST : ALL_SYMBOLS_REQUIRED_QUOTA;
   }
 
-  @NotThreadSafe
   public static final class Response extends ArrayList<_Order> {}
 }

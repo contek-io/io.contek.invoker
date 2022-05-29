@@ -4,12 +4,8 @@ import io.contek.invoker.bybitlinear.api.websocket.WebSocketChannel;
 import io.contek.invoker.bybitlinear.api.websocket.WebSocketChannelId;
 import io.contek.invoker.bybitlinear.api.websocket.common.WebSocketTopicMessage;
 
-import javax.annotation.concurrent.Immutable;
-import javax.annotation.concurrent.NotThreadSafe;
-import javax.annotation.concurrent.ThreadSafe;
 import java.util.List;
 
-@ThreadSafe
 public final class InstrumentInfoChannel
     extends WebSocketChannel<InstrumentInfoChannel.Id, InstrumentInfoChannel.Message> {
 
@@ -22,7 +18,6 @@ public final class InstrumentInfoChannel
     return Message.class;
   }
 
-  @Immutable
   public static final class Id extends WebSocketChannelId<Message> {
 
     private Id(String topic) {
@@ -34,7 +29,6 @@ public final class InstrumentInfoChannel
     }
   }
 
-  @NotThreadSafe
   public static final class Message extends WebSocketTopicMessage {
 
     public String type;
@@ -43,7 +37,6 @@ public final class InstrumentInfoChannel
     public Long timestamp_e6;
   }
 
-  @NotThreadSafe
   public static final class InstrumentInfoData {
 
     public List<InstrumentInfo> delete;
@@ -51,7 +44,6 @@ public final class InstrumentInfoChannel
     public List<InstrumentInfo> insert;
   }
 
-  @NotThreadSafe
   public static final class InstrumentInfo {
 
     public String symbol; // Symbol

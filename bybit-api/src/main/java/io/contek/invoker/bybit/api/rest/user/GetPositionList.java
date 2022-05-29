@@ -9,14 +9,12 @@ import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
 
-import javax.annotation.concurrent.NotThreadSafe;
 import java.util.List;
 
 import static io.contek.invoker.bybit.api.ApiFactory.RateLimits.ONE_REST_PRIVATE_POSITION_READ_REQUEST;
 import static io.contek.invoker.bybit.api.rest.user.GetPositionList.Response;
 import static io.contek.invoker.commons.rest.RestMethod.GET;
 
-@NotThreadSafe
 public final class GetPositionList extends UserRestRequest<Response> {
 
   GetPositionList(IActor actor, RestContext context) {
@@ -48,10 +46,8 @@ public final class GetPositionList extends UserRestRequest<Response> {
     return Response.class;
   }
 
-  @NotThreadSafe
   public static final class Response extends RestResponse<List<Result>> {}
 
-  @NotThreadSafe
   public static final class Result {
 
     public boolean is_valid;

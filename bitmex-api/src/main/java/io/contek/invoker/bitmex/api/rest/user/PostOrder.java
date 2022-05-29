@@ -7,13 +7,9 @@ import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
 
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.NotThreadSafe;
-
 import static com.google.common.base.Preconditions.checkNotNull;
 import static io.contek.invoker.commons.rest.RestMethod.POST;
 
-@NotThreadSafe
 public final class PostOrder extends UserRestRequest<Response> {
 
   private String symbol;
@@ -49,12 +45,12 @@ public final class PostOrder extends UserRestRequest<Response> {
     return this;
   }
 
-  public PostOrder setTimeInForce(@Nullable String timeInForce) {
+  public PostOrder setTimeInForce(String timeInForce) {
     this.timeInForce = timeInForce;
     return this;
   }
 
-  public PostOrder setExecInst(@Nullable String execInst) {
+  public PostOrder setExecInst(String execInst) {
     this.execInst = execInst;
     return this;
   }
@@ -115,6 +111,5 @@ public final class PostOrder extends UserRestRequest<Response> {
     return builder.build();
   }
 
-  @NotThreadSafe
   public static final class Response extends _Order {}
 }

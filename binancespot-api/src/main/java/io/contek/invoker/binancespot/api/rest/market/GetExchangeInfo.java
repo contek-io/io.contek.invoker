@@ -7,13 +7,11 @@ import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestParams;
 
-import javax.annotation.concurrent.NotThreadSafe;
 import java.util.List;
 import java.util.Map;
 
 import static io.contek.invoker.binancespot.api.ApiFactory.RateLimits.IP_REST_REQUEST_RULE;
 
-@NotThreadSafe
 public final class GetExchangeInfo extends MarketRestRequest<Response> {
 
   private static final ImmutableList<TypedPermitRequest> REQUIRED_QUOTA =
@@ -43,7 +41,6 @@ public final class GetExchangeInfo extends MarketRestRequest<Response> {
     return REQUIRED_QUOTA;
   }
 
-  @NotThreadSafe
   public static final class Response {
 
     public List<MarketDetails> symbols;
@@ -56,7 +53,6 @@ public final class GetExchangeInfo extends MarketRestRequest<Response> {
     }
   }
 
-  @NotThreadSafe
   public static final class MarketDetails {
 
     public String symbol;

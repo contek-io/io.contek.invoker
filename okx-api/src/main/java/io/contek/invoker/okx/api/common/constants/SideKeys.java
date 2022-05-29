@@ -1,8 +1,5 @@
 package io.contek.invoker.okx.api.common.constants;
 
-import javax.annotation.concurrent.Immutable;
-
-@Immutable
 public final class SideKeys {
 
   public static final String _buy = "buy";

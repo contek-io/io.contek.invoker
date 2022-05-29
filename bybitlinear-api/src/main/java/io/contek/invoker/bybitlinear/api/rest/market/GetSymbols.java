@@ -6,12 +6,10 @@ import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestParams;
 
-import javax.annotation.concurrent.NotThreadSafe;
 import java.util.List;
 
 import static io.contek.invoker.bybitlinear.api.rest.market.GetSymbols.Response;
 
-@NotThreadSafe
 public final class GetSymbols extends MarketRestRequest<Response> {
 
   GetSymbols(IActor actor, RestContext context) {
@@ -34,6 +32,5 @@ public final class GetSymbols extends MarketRestRequest<Response> {
     return Response.class;
   }
 
-  @NotThreadSafe
   public static final class Response extends RestResponse<List<_Symbol>> {}
 }

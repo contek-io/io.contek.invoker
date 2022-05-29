@@ -6,13 +6,9 @@ import io.contek.invoker.commons.rest.RestParams;
 import io.contek.invoker.ftx.api.common._OrderBook;
 import io.contek.invoker.ftx.api.rest.common.RestResponse;
 
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.NotThreadSafe;
-
 import static java.text.MessageFormat.format;
 import static java.util.Objects.requireNonNull;
 
-@NotThreadSafe
 public final class GetOrderBook extends MarketRestRequest<GetOrderBook.Response> {
 
   private String market_name;
@@ -27,7 +23,7 @@ public final class GetOrderBook extends MarketRestRequest<GetOrderBook.Response>
     return this;
   }
 
-  public GetOrderBook setDepth(@Nullable Integer depth) {
+  public GetOrderBook setDepth(Integer depth) {
     this.depth = depth;
     return this;
   }
@@ -54,6 +50,5 @@ public final class GetOrderBook extends MarketRestRequest<GetOrderBook.Response>
     return Response.class;
   }
 
-  @NotThreadSafe
   public static final class Response extends RestResponse<_OrderBook> {}
 }

@@ -2,9 +2,6 @@ package io.contek.invoker.binancespot.api.websocket.market;
 
 import io.contek.invoker.binancespot.api.websocket.common.WebSocketEventMessage;
 
-import javax.annotation.concurrent.NotThreadSafe;
-
-@NotThreadSafe
 public class AggTradeEvent extends WebSocketEventMessage {
 
   public String s; // Symbol

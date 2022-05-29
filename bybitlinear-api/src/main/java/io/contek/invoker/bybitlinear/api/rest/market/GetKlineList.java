@@ -6,13 +6,11 @@ import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestParams;
 
-import javax.annotation.concurrent.NotThreadSafe;
 import java.util.List;
 
 import static io.contek.invoker.bybitlinear.api.rest.market.GetKlineList.Response;
 import static java.util.Objects.requireNonNull;
 
-@NotThreadSafe
 public final class GetKlineList extends MarketRestRequest<Response> {
 
   public static final int MAX_LIMIT = 200;
@@ -79,6 +77,5 @@ public final class GetKlineList extends MarketRestRequest<Response> {
     return Response.class;
   }
 
-  @NotThreadSafe
   public static final class Response extends RestResponse<List<_Kline>> {}
 }

@@ -1,8 +1,5 @@
 package io.contek.invoker.deribit.api.common.constants;
 
-import javax.annotation.concurrent.Immutable;
-
-@Immutable
 public final class TimeInForceKeys {
 
   public static String _good_til_cancelled = "good_til_cancelled";

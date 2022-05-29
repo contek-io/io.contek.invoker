@@ -4,16 +4,12 @@ import io.contek.invoker.deribit.api.websocket.WebSocketChannelId;
 import io.contek.invoker.deribit.api.websocket.WebSocketRequestIdGenerator;
 import io.contek.invoker.deribit.api.websocket.common.WebSocketSingleChannelMessage;
 
-import javax.annotation.concurrent.Immutable;
-import javax.annotation.concurrent.NotThreadSafe;
-import javax.annotation.concurrent.ThreadSafe;
 import java.util.ArrayList;
 import java.util.List;
 
 import static io.contek.invoker.deribit.api.websocket.common.constants.WebSocketChannelKeys._book;
 import static java.lang.String.format;
 
-@ThreadSafe
 public final class BookChangeChannel
     extends MarketWebSocketChannel<BookChangeChannel.Id, BookChangeChannel.Message> {
 
@@ -26,7 +22,6 @@ public final class BookChangeChannel
     return BookChangeChannel.Message.class;
   }
 
-  @Immutable
   public static final class Id extends WebSocketChannelId<Message> {
 
     private Id(String value) {
@@ -38,10 +33,8 @@ public final class BookChangeChannel
     }
   }
 
-  @NotThreadSafe
   public static final class Message extends WebSocketSingleChannelMessage<Data> {}
 
-  @NotThreadSafe
   public static final class Data {
 
     public String type;
@@ -53,6 +46,5 @@ public final class BookChangeChannel
     public List<LevelUpdate> asks;
   }
 
-  @NotThreadSafe
   public static final class LevelUpdate extends ArrayList<String> {}
 }

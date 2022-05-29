@@ -10,15 +10,12 @@ import io.contek.invoker.commons.rest.RestParams;
 import io.contek.invoker.okx.api.common._Order;
 import io.contek.invoker.okx.api.rest.common.RestResponse;
 
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.NotThreadSafe;
 import java.time.Duration;
 
 import static io.contek.invoker.commons.actor.ratelimit.LimitType.API_KEY;
 import static io.contek.invoker.commons.rest.RestMethod.GET;
 import static java.util.Objects.requireNonNull;
 
-@NotThreadSafe
 public final class GetTradeOrderHistoryArchive
     extends UserRestRequest<GetTradeOrderHistoryArchive.Response> {
 
@@ -57,37 +54,37 @@ public final class GetTradeOrderHistoryArchive
     return this;
   }
 
-  public GetTradeOrderHistoryArchive setInstId(@Nullable String instId) {
+  public GetTradeOrderHistoryArchive setInstId(String instId) {
     this.instId = instId;
     return this;
   }
 
-  public GetTradeOrderHistoryArchive setOrdType(@Nullable String ordType) {
+  public GetTradeOrderHistoryArchive setOrdType(String ordType) {
     this.ordType = ordType;
     return this;
   }
 
-  public GetTradeOrderHistoryArchive setState(@Nullable String state) {
+  public GetTradeOrderHistoryArchive setState(String state) {
     this.state = state;
     return this;
   }
 
-  public GetTradeOrderHistoryArchive setCategory(@Nullable String category) {
+  public GetTradeOrderHistoryArchive setCategory(String category) {
     this.category = category;
     return this;
   }
 
-  public GetTradeOrderHistoryArchive setAfter(@Nullable Long after) {
+  public GetTradeOrderHistoryArchive setAfter(Long after) {
     this.after = after;
     return this;
   }
 
-  public GetTradeOrderHistoryArchive setBefore(@Nullable Long before) {
+  public GetTradeOrderHistoryArchive setBefore(Long before) {
     this.before = before;
     return this;
   }
 
-  public GetTradeOrderHistoryArchive setLimit(@Nullable Integer limit) {
+  public GetTradeOrderHistoryArchive setLimit(Integer limit) {
     this.limit = limit;
     return this;
   }
@@ -154,6 +151,5 @@ public final class GetTradeOrderHistoryArchive
     return REQUIRED_QUOTA;
   }
 
-  @NotThreadSafe
   public static final class Response extends RestResponse<_Order> {}
 }

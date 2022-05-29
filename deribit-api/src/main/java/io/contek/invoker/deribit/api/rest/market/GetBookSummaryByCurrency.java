@@ -8,13 +8,11 @@ import io.contek.invoker.commons.rest.RestParams;
 import io.contek.invoker.deribit.api.common._BookSummary;
 import io.contek.invoker.deribit.api.rest.common.RestResponse;
 
-import javax.annotation.concurrent.NotThreadSafe;
 import java.util.List;
 
 import static io.contek.invoker.deribit.api.ApiFactory.RateLimits.ONE_IP_NON_MATCHING_ENGINE_REQUEST;
 import static java.util.Objects.requireNonNull;
 
-@NotThreadSafe
 public final class GetBookSummaryByCurrency
     extends MarketRestRequest<GetBookSummaryByCurrency.Response> {
 
@@ -63,6 +61,5 @@ public final class GetBookSummaryByCurrency
     return ONE_IP_NON_MATCHING_ENGINE_REQUEST;
   }
 
-  @NotThreadSafe
   public static final class Response extends RestResponse<List<_BookSummary>> {}
 }

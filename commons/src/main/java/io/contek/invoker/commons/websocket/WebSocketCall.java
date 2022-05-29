@@ -5,9 +5,6 @@ import okhttp3.Request;
 import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
 
-import javax.annotation.concurrent.Immutable;
-
-@Immutable
 public final class WebSocketCall {
 
   private final String url;

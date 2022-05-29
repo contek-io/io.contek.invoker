@@ -9,14 +9,11 @@ import io.contek.invoker.hbdmlinear.api.common._OrderInfo;
 import io.contek.invoker.hbdmlinear.api.rest.common.PaginatedData;
 import io.contek.invoker.hbdmlinear.api.rest.common.RestDataResponse;
 
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.NotThreadSafe;
 import java.util.List;
 
 import static io.contek.invoker.hbdmlinear.api.ApiFactory.RateLimits.ONE_API_KEY_REST_PRIVATE_WRITE_REQUEST;
 import static java.util.Objects.requireNonNull;
 
-@NotThreadSafe
 public final class PostSwapCrossHisorders extends UserRestRequest<PostSwapCrossHisorders.Response> {
 
   private String contract_code;
@@ -57,17 +54,17 @@ public final class PostSwapCrossHisorders extends UserRestRequest<PostSwapCrossH
     return this;
   }
 
-  public PostSwapCrossHisorders setPageIndex(@Nullable Integer page_index) {
+  public PostSwapCrossHisorders setPageIndex(Integer page_index) {
     this.page_index = page_index;
     return this;
   }
 
-  public PostSwapCrossHisorders setPageSize(@Nullable Integer page_size) {
+  public PostSwapCrossHisorders setPageSize(Integer page_size) {
     this.page_size = page_size;
     return this;
   }
 
-  public PostSwapCrossHisorders setSortBy(@Nullable String sort_by) {
+  public PostSwapCrossHisorders setSortBy(String sort_by) {
     this.sort_by = sort_by;
     return this;
   }
@@ -125,10 +122,8 @@ public final class PostSwapCrossHisorders extends UserRestRequest<PostSwapCrossH
     return ONE_API_KEY_REST_PRIVATE_WRITE_REQUEST;
   }
 
-  @NotThreadSafe
   public static final class Response extends RestDataResponse<Data> {}
 
-  @NotThreadSafe
   public static final class Data extends PaginatedData {
 
     public List<_OrderInfo> orders;

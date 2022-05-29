@@ -4,13 +4,10 @@ import io.contek.invoker.bybit.api.websocket.WebSocketChannel;
 import io.contek.invoker.bybit.api.websocket.WebSocketChannelId;
 import io.contek.invoker.bybit.api.websocket.common.WebSocketTopicMessage;
 
-import javax.annotation.concurrent.Immutable;
-import javax.annotation.concurrent.NotThreadSafe;
-import javax.annotation.concurrent.ThreadSafe;
 import java.util.List;
 
-@ThreadSafe
-public final class InstrumentInfoChannel extends WebSocketChannel<InstrumentInfoChannel.Id, InstrumentInfoChannel.Message> {
+public final class InstrumentInfoChannel
+    extends WebSocketChannel<InstrumentInfoChannel.Id, InstrumentInfoChannel.Message> {
 
   InstrumentInfoChannel(InstrumentInfoChannel.Id id) {
     super(id);
@@ -21,7 +18,6 @@ public final class InstrumentInfoChannel extends WebSocketChannel<InstrumentInfo
     return Message.class;
   }
 
-  @Immutable
   public static final class Id extends WebSocketChannelId<InstrumentInfoChannel.Message> {
 
     private Id(String topic) {
@@ -33,7 +29,6 @@ public final class InstrumentInfoChannel extends WebSocketChannel<InstrumentInfo
     }
   }
 
-  @NotThreadSafe
   public static final class Message extends WebSocketTopicMessage {
 
     public String type;
@@ -52,7 +47,6 @@ public final class InstrumentInfoChannel extends WebSocketChannel<InstrumentInfo
     }
   }
 
-  @NotThreadSafe
   public static final class InstrumentInfoData {
 
     public List<InstrumentInfo> delete;
@@ -69,7 +63,6 @@ public final class InstrumentInfoChannel extends WebSocketChannel<InstrumentInfo
     }
   }
 
-  @NotThreadSafe
   public static final class InstrumentInfo {
 
     public String symbol; // Symbol
@@ -83,8 +76,11 @@ public final class InstrumentInfoChannel extends WebSocketChannel<InstrumentInfo
     public Long price_1h_pcnt_e6; // Percentage change of market price relative to 1 hour ago * 10^6
     public Long mark_price_e4; // Mark price * 10^4
     public Long index_price_e4; // Index_price * 10^4
-    public Long open_interest; // Open interest. The update is not immediate - slowest update is 1 minute
-    public Long open_value_e8; // Open position value * 10^8. The update is not immediate - slowest update is 1 minute
+    public Long
+        open_interest; // Open interest. The update is not immediate - slowest update is 1 minute
+    public Long
+        open_value_e8; // Open position value * 10^8. The update is not immediate - slowest update
+                       // is 1 minute
     public Long total_turnover_e8; // Total turnover * 10^8
     public Long turnover_24h_e8; // Turnover for 24H * 10^8
     public Long total_volume; // Total volume

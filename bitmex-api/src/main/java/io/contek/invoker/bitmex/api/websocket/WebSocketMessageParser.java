@@ -11,16 +11,15 @@ import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.IWebSocketComponent;
 import io.contek.invoker.commons.websocket.WebSocketTextMessageParser;
 
-import javax.annotation.concurrent.Immutable;
-
 import static io.contek.invoker.bitmex.api.websocket.common.constants.WebSocketRequestOperationKeys.*;
 import static io.contek.invoker.bitmex.api.websocket.common.constants.WebSocketTableKeys.*;
 import static io.contek.invoker.commons.websocket.constants.WebSocketPingPongKeys._pong;
 
-@Immutable
 final class WebSocketMessageParser extends WebSocketTextMessageParser {
 
   private final Gson gson = new Gson();
+
+  private WebSocketMessageParser() {}
 
   static WebSocketMessageParser getInstance() {
     return InstanceHolder.INSTANCE;
@@ -97,9 +96,6 @@ final class WebSocketMessageParser extends WebSocketTextMessageParser {
     return gson.fromJson(obj, WebSocketInfo.class);
   }
 
-  private WebSocketMessageParser() {}
-
-  @Immutable
   private static class InstanceHolder {
 
     private static final WebSocketMessageParser INSTANCE = new WebSocketMessageParser();

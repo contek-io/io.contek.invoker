@@ -9,8 +9,6 @@ import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
 
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.NotThreadSafe;
 import java.util.ArrayList;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -18,7 +16,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static io.contek.invoker.binancespot.api.ApiFactory.RateLimits.IP_REST_REQUEST_RULE;
 import static io.contek.invoker.commons.rest.RestMethod.GET;
 
-@NotThreadSafe
 public final class GetAllOrders extends UserRestRequest<Response> {
 
   public static final int MAX_LIMIT = 1000;
@@ -40,22 +37,22 @@ public final class GetAllOrders extends UserRestRequest<Response> {
     return this;
   }
 
-  public GetAllOrders setOrderId(@Nullable Long orderId) {
+  public GetAllOrders setOrderId(Long orderId) {
     this.orderId = orderId;
     return this;
   }
 
-  public GetAllOrders setStartTime(@Nullable Long startTime) {
+  public GetAllOrders setStartTime(Long startTime) {
     this.startTime = startTime;
     return this;
   }
 
-  public GetAllOrders setEndTime(@Nullable Long endTime) {
+  public GetAllOrders setEndTime(Long endTime) {
     this.endTime = endTime;
     return this;
   }
 
-  public GetAllOrders setLimit(@Nullable Integer limit) {
+  public GetAllOrders setLimit(Integer limit) {
     this.limit = limit;
     return this;
   }
@@ -109,6 +106,5 @@ public final class GetAllOrders extends UserRestRequest<Response> {
     return REQUIRED_QUOTA;
   }
 
-  @NotThreadSafe
   public static final class Response extends ArrayList<_Order> {}
 }

@@ -1,12 +1,9 @@
 package io.contek.invoker.commons.actor.ratelimit;
 
-import io.contek.ursa.RateLimit;
+import io.contek.invoker.ursa.core.api.RateLimit;
 
-import javax.annotation.concurrent.Immutable;
-import javax.annotation.concurrent.NotThreadSafe;
 import java.time.Duration;
 
-@Immutable
 public final class RateLimitRule {
 
   private final String name;
@@ -39,13 +36,14 @@ public final class RateLimitRule {
     return limit;
   }
 
-  @NotThreadSafe
   public static final class Builder {
 
     private String name;
     private LimitType type;
     private int maxPermits;
     private Duration resetPeriod;
+
+    private Builder() {}
 
     public Builder setName(String name) {
       this.name = name;
@@ -82,7 +80,5 @@ public final class RateLimitRule {
       }
       return new RateLimitRule(name, type, new RateLimit(maxPermits, resetPeriod));
     }
-
-    private Builder() {}
   }
 }

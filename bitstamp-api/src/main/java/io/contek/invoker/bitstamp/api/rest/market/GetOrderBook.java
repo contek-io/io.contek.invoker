@@ -7,11 +7,8 @@ import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
 
-import javax.annotation.concurrent.NotThreadSafe;
-
 import static io.contek.invoker.commons.rest.RestMethod.GET;
 
-@NotThreadSafe
 public final class GetOrderBook extends RestRequest<GetOrderBook.Response> {
 
   private String currencyPair;
@@ -57,6 +54,5 @@ public final class GetOrderBook extends RestRequest<GetOrderBook.Response> {
     return builder.build();
   }
 
-  @NotThreadSafe
   public static final class Response extends _OrderBook {}
 }

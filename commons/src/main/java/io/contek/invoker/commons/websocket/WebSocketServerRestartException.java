@@ -1,8 +1,5 @@
 package io.contek.invoker.commons.websocket;
 
-import javax.annotation.concurrent.NotThreadSafe;
-
-@NotThreadSafe
 public final class WebSocketServerRestartException extends WebSocketRuntimeException {
 
   public WebSocketServerRestartException() {}

@@ -7,14 +7,10 @@ import io.contek.invoker.deribit.api.websocket.WebSocketChannelId;
 import io.contek.invoker.deribit.api.websocket.WebSocketRequestIdGenerator;
 import io.contek.invoker.deribit.api.websocket.common.WebSocketSingleChannelMessage;
 
-import javax.annotation.concurrent.Immutable;
-import javax.annotation.concurrent.NotThreadSafe;
-import javax.annotation.concurrent.ThreadSafe;
 import java.util.List;
 
 import static java.lang.String.format;
 
-@ThreadSafe
 public final class UserChangesChannel
     extends UserWebSocketChannel<UserChangesChannel.Id, UserChangesChannel.Message> {
 
@@ -27,7 +23,6 @@ public final class UserChangesChannel
     return UserChangesChannel.Message.class;
   }
 
-  @Immutable
   public static final class Id extends WebSocketChannelId<UserChangesChannel.Message> {
 
     private Id(String value) {
@@ -39,10 +34,8 @@ public final class UserChangesChannel
     }
   }
 
-  @NotThreadSafe
   public static final class Message extends WebSocketSingleChannelMessage<Data> {}
 
-  @NotThreadSafe
   public static final class Data {
 
     public String instrument_name;

@@ -7,19 +7,15 @@ import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
 import io.contek.invoker.commons.websocket.*;
 import io.contek.invoker.security.ICredential;
 
-import javax.annotation.concurrent.ThreadSafe;
-
 import static io.contek.invoker.binancefutures.api.ApiFactory.RateLimits.ONE_WEB_SOCKET_CONNECTION;
 
-@ThreadSafe
 public final class UserWebSocketApi extends BaseWebSocketApi {
 
+  private final WebSocketContext context;
   public AccountUpdateChannel accountUpdateChannel;
   public OrderUpdateChannel orderUpdateChannel;
   public MarginCallChannel marginCallChannel;
   public AccountConfigUpdateChannel accountConfigUpdateChannel;
-
-  private final WebSocketContext context;
 
   public UserWebSocketApi(IActor actor, WebSocketContext context, UserRestApi userRestApi) {
     super(

@@ -9,12 +9,9 @@ import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
 
-import javax.annotation.concurrent.NotThreadSafe;
-
 import static io.contek.invoker.binancedelivery.api.ApiFactory.RateLimits.ONE_REST_REQUEST;
 import static io.contek.invoker.commons.rest.RestMethod.POST;
 
-@NotThreadSafe
 public final class PostPositionSideDual extends UserRestRequest<Response> {
 
   private Boolean dualSidePosition;
@@ -57,6 +54,5 @@ public final class PostPositionSideDual extends UserRestRequest<Response> {
     return ONE_REST_REQUEST;
   }
 
-  @NotThreadSafe
   public static final class Response extends RestUpdateResponse {}
 }

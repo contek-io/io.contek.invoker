@@ -9,14 +9,10 @@ import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
 
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.NotThreadSafe;
-
 import static com.google.common.base.Preconditions.checkNotNull;
 import static io.contek.invoker.binancespot.api.ApiFactory.RateLimits.ONE_REST_ORDER_REQUEST;
 import static io.contek.invoker.commons.rest.RestMethod.POST;
 
-@NotThreadSafe
 public final class PostOrder extends UserRestRequest<Response> {
 
   private String symbol;
@@ -50,42 +46,42 @@ public final class PostOrder extends UserRestRequest<Response> {
     return this;
   }
 
-  public PostOrder setTimeInForce(@Nullable String timeInForce) {
+  public PostOrder setTimeInForce(String timeInForce) {
     this.timeInForce = timeInForce;
     return this;
   }
 
-  public PostOrder setQuantity(@Nullable Double quantity) {
+  public PostOrder setQuantity(Double quantity) {
     this.quantity = quantity;
     return this;
   }
 
-  public PostOrder setQuoteOrderQty(@Nullable Double quoteOrderQty) {
+  public PostOrder setQuoteOrderQty(Double quoteOrderQty) {
     this.quoteOrderQty = quoteOrderQty;
     return this;
   }
 
-  public PostOrder setPrice(@Nullable Double price) {
+  public PostOrder setPrice(Double price) {
     this.price = price;
     return this;
   }
 
-  public PostOrder setNewClientOrderId(@Nullable String newClientOrderId) {
+  public PostOrder setNewClientOrderId(String newClientOrderId) {
     this.newClientOrderId = newClientOrderId;
     return this;
   }
 
-  public PostOrder setStopPrice(@Nullable Double stopPrice) {
+  public PostOrder setStopPrice(Double stopPrice) {
     this.stopPrice = stopPrice;
     return this;
   }
 
-  public PostOrder setIcebergQty(@Nullable Double icebergQty) {
+  public PostOrder setIcebergQty(Double icebergQty) {
     this.icebergQty = icebergQty;
     return this;
   }
 
-  public PostOrder setNewOrderRespType(@Nullable String newOrderRespType) {
+  public PostOrder setNewOrderRespType(String newOrderRespType) {
     this.newOrderRespType = newOrderRespType;
     return this;
   }
@@ -160,6 +156,5 @@ public final class PostOrder extends UserRestRequest<Response> {
     return ONE_REST_ORDER_REQUEST;
   }
 
-  @NotThreadSafe
   public static final class Response extends _Order {}
 }

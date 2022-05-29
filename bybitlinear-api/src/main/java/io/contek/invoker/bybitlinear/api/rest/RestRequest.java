@@ -4,12 +4,10 @@ import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.rest.*;
 import io.contek.invoker.security.ICredential;
 
-import javax.annotation.concurrent.ThreadSafe;
 import java.time.Clock;
 
 import static io.contek.invoker.commons.rest.RestMediaType.JSON;
 
-@ThreadSafe
 public abstract class RestRequest<R> extends BaseRestRequest<R> {
 
   private static final String API_KEY = "api_key";

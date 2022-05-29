@@ -5,13 +5,9 @@ import io.contek.invoker.commons.websocket.BaseWebSocketChannel;
 import io.contek.invoker.commons.websocket.SubscriptionState;
 import io.contek.invoker.commons.websocket.WebSocketSession;
 
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.ThreadSafe;
-
 import static io.contek.invoker.commons.websocket.SubscriptionState.*;
 import static io.contek.invoker.hbdmlinear.api.websocket.common.constants.WebSocketStatusKeys._ok;
 
-@ThreadSafe
 public abstract class MarketDataMarketWebSocketChannel<
         Id extends MarketDataWebSocketChannelId<Message>,
         Message extends MarketDataWebSocketChannelMessage>
@@ -42,7 +38,6 @@ public abstract class MarketDataMarketWebSocketChannel<
     return UNSUBSCRIBING;
   }
 
-  @Nullable
   @Override
   protected final SubscriptionState getState(AnyWebSocketMessage message) {
     if (message instanceof MarketDataWebSocketSubscribeConfirmation) {

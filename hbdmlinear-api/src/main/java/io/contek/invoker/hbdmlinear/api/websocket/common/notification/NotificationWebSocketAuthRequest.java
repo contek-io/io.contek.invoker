@@ -1,8 +1,5 @@
 package io.contek.invoker.hbdmlinear.api.websocket.common.notification;
 
-import javax.annotation.concurrent.NotThreadSafe;
-
-@NotThreadSafe
 public final class NotificationWebSocketAuthRequest extends NotificationWebSocketRequest {
 
   public String type;

@@ -4,9 +4,6 @@ import io.contek.invoker.okx.api.websocket.WebSocketChannel;
 import io.contek.invoker.okx.api.websocket.WebSocketChannelId;
 import io.contek.invoker.okx.api.websocket.common.WebSocketChannelPushData;
 
-import javax.annotation.concurrent.ThreadSafe;
-
-@ThreadSafe
 public abstract class WebSocketUserChannel<
         Id extends WebSocketChannelId<Message>, Message extends WebSocketChannelPushData<?>>
     extends WebSocketChannel<Id, Message> {

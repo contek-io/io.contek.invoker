@@ -7,15 +7,12 @@ import io.contek.invoker.deribit.api.websocket.common.WebSocketRequest;
 import io.contek.invoker.deribit.api.websocket.common.WebSocketSingleChannelMessage;
 import io.contek.invoker.deribit.api.websocket.common.WebSocketSubscriptionConfirmation;
 
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.ThreadSafe;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static io.contek.invoker.commons.websocket.SubscriptionState.*;
 import static io.contek.invoker.deribit.api.websocket.common.constants.WebSocketOutboundKeys._subscribe;
 import static io.contek.invoker.deribit.api.websocket.common.constants.WebSocketOutboundKeys._unsubscribe;
 
-@ThreadSafe
 public abstract class WebSocketChannel<
         Id extends WebSocketChannelId<Message>, Message extends WebSocketSingleChannelMessage<?>>
     extends BaseWebSocketChannel<Id, Message> {
@@ -73,7 +70,6 @@ public abstract class WebSocketChannel<
     return UNSUBSCRIBING;
   }
 
-  @Nullable
   @Override
   protected final SubscriptionState getState(AnyWebSocketMessage message) {
     if (!(message instanceof WebSocketSubscriptionConfirmation)) {

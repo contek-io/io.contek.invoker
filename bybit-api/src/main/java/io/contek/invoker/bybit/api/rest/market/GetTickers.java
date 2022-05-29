@@ -6,12 +6,10 @@ import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestParams;
 
-import javax.annotation.concurrent.NotThreadSafe;
 import java.util.List;
 
 import static io.contek.invoker.bybit.api.rest.market.GetTickers.Response;
 
-@NotThreadSafe
 public final class GetTickers extends MarketRestRequest<Response> {
 
   private String symbol;
@@ -46,6 +44,5 @@ public final class GetTickers extends MarketRestRequest<Response> {
     return Response.class;
   }
 
-  @NotThreadSafe
   public static final class Response extends RestResponse<List<_Ticker>> {}
 }

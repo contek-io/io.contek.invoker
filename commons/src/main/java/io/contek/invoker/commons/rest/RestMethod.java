@@ -4,11 +4,8 @@ import okhttp3.Headers;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.Immutable;
 import java.util.function.Function;
 
-@Immutable
 public enum RestMethod {
   GET(
       body -> {
@@ -39,7 +36,7 @@ public enum RestMethod {
     this.builder = builder;
   }
 
-  Request createRequest(String url, Headers headers, @Nullable RequestBody body) {
+  Request createRequest(String url, Headers headers, RequestBody body) {
     return builder.apply(body).url(url).headers(headers).build();
   }
 }

@@ -5,12 +5,9 @@ import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.hbdmlinear.api.rest.RestRequest;
 
-import javax.annotation.concurrent.NotThreadSafe;
-
 import static com.google.common.base.Preconditions.checkArgument;
 import static io.contek.invoker.commons.rest.RestMethod.POST;
 
-@NotThreadSafe
 abstract class UserRestRequest<T> extends RestRequest<T> {
 
   UserRestRequest(IActor actor, RestContext context) {

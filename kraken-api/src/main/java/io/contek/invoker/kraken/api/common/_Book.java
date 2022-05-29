@@ -1,9 +1,7 @@
 package io.contek.invoker.kraken.api.common;
 
-import javax.annotation.concurrent.NotThreadSafe;
 import java.util.List;
 
-@NotThreadSafe
 public final class _Book {
 
   // snapshot payload

@@ -6,15 +6,11 @@ import io.contek.invoker.commons.websocket.SubscriptionState;
 import io.contek.invoker.ftx.api.websocket.common.WebSocketChannelMessage;
 import io.contek.invoker.ftx.api.websocket.common.WebSocketSubscriptionResponse;
 
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.ThreadSafe;
-
 import static io.contek.invoker.commons.websocket.SubscriptionState.SUBSCRIBED;
 import static io.contek.invoker.commons.websocket.SubscriptionState.UNSUBSCRIBED;
 import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketInboundKeys._subscribed;
 import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketInboundKeys._unsubscribed;
 
-@ThreadSafe
 public abstract class WebSocketChannel<
         Id extends WebSocketChannelId<Message>, Message extends WebSocketChannelMessage<?>>
     extends BaseWebSocketChannel<Id, Message> {
@@ -23,7 +19,6 @@ public abstract class WebSocketChannel<
     super(id);
   }
 
-  @Nullable
   @Override
   protected final SubscriptionState getState(AnyWebSocketMessage message) {
     if (message instanceof WebSocketSubscriptionResponse) {

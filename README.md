@@ -130,7 +130,8 @@ api.getAggTradeChannel("BTCUSDT").addConsumer(consumer);
 
 ## Goals
 
-This project aims to provide a neat solution to connect cryptocurrency exchanges via their REST and WebSocket APIs.
+This project aims to provide io.contek.invoker.ftx.api.a neat solution to connect cryptocurrency exchanges via their
+REST and WebSocket APIs.
 
 It handles tedious things that are common in many exchanges, for example: rate limit, authentication, reconnection etc.
 
@@ -181,7 +182,8 @@ Endpoint implementations shall always follow their official API documents. We sh
 introducing random constant values that are not described in the API documents.
 
 **Example 1:**\
-*Q:* I can't find a rate limit restriction for XXX endpoint, but I think there must be a limit. Shall I cap it to 10
+*Q:* I can't find io.contek.invoker.ftx.api.a rate limit restriction for XXX endpoint, but I think there must be
+io.contek.invoker.ftx.api.a limit. Shall I cap it to 10
 times per minute?\
 *A:* No, because you are likely wrong.
 

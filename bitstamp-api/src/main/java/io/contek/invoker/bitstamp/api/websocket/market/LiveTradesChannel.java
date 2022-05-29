@@ -4,11 +4,6 @@ import io.contek.invoker.bitstamp.api.websocket.WebSocketChannel;
 import io.contek.invoker.bitstamp.api.websocket.WebSocketChannelId;
 import io.contek.invoker.bitstamp.api.websocket.common.WebSocketChannelMessage;
 
-import javax.annotation.concurrent.Immutable;
-import javax.annotation.concurrent.NotThreadSafe;
-import javax.annotation.concurrent.ThreadSafe;
-
-@ThreadSafe
 public final class LiveTradesChannel
     extends WebSocketChannel<LiveTradesChannel.Id, LiveTradesChannel.Message> {
 
@@ -23,7 +18,6 @@ public final class LiveTradesChannel
     return LiveTradesChannel.Message.class;
   }
 
-  @Immutable
   public static final class Id extends WebSocketChannelId<LiveTradesChannel.Message> {
 
     private Id(String currencyPair) {
@@ -35,10 +29,8 @@ public final class LiveTradesChannel
     }
   }
 
-  @NotThreadSafe
   public static final class Message extends WebSocketChannelMessage<Data> {}
 
-  @NotThreadSafe
   public static final class Data {
 
     public Long id;

@@ -5,9 +5,6 @@ import io.contek.invoker.deribit.api.websocket.WebSocketChannelId;
 import io.contek.invoker.deribit.api.websocket.WebSocketRequestIdGenerator;
 import io.contek.invoker.deribit.api.websocket.common.WebSocketSingleChannelMessage;
 
-import javax.annotation.concurrent.ThreadSafe;
-
-@ThreadSafe
 public abstract class UserWebSocketChannel<
         Id extends WebSocketChannelId<Message>, Message extends WebSocketSingleChannelMessage<?>>
     extends WebSocketChannel<Id, Message> {

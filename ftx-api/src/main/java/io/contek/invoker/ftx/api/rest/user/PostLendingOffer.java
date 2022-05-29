@@ -8,12 +8,9 @@ import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
 import io.contek.invoker.ftx.api.rest.common.RestResponse;
 
-import javax.annotation.concurrent.NotThreadSafe;
-
 import static io.contek.invoker.ftx.api.ApiFactory.RateLimits.ONE_REST_REQUEST;
 import static java.util.Objects.requireNonNull;
 
-@NotThreadSafe
 public final class PostLendingOffer extends UserRestRequest<PostLendingOffer.Response> {
 
   public String coin;
@@ -75,6 +72,5 @@ public final class PostLendingOffer extends UserRestRequest<PostLendingOffer.Res
     return builder.build();
   }
 
-  @NotThreadSafe
   public static final class Response extends RestResponse<String> {}
 }

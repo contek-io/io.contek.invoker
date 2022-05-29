@@ -7,7 +7,6 @@ import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
 
-import javax.annotation.concurrent.NotThreadSafe;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -15,7 +14,6 @@ import java.util.Set;
 import static com.google.common.base.Preconditions.checkArgument;
 import static io.contek.invoker.commons.rest.RestMethod.DELETE;
 
-@NotThreadSafe
 public final class DeleteOrder extends UserRestRequest<Response> {
 
   private final Set<String> orderID = new HashSet<>();
@@ -68,6 +66,5 @@ public final class DeleteOrder extends UserRestRequest<Response> {
     return builder.build();
   }
 
-  @NotThreadSafe
   public static final class Response extends ArrayList<_Order> {}
 }

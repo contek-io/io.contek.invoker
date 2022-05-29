@@ -7,7 +7,6 @@ import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
 import io.contek.invoker.commons.rest.*;
 import io.contek.invoker.security.ICredential;
 
-import javax.annotation.concurrent.NotThreadSafe;
 import java.net.URI;
 import java.time.Clock;
 import java.util.UUID;
@@ -16,7 +15,6 @@ import static com.google.common.net.UrlEscapers.urlPathSegmentEscaper;
 import static io.contek.invoker.bitstamp.api.ApiFactory.RateLimits.ONE_REST_REQUEST;
 import static io.contek.invoker.commons.rest.RestMediaType.FORM;
 
-@NotThreadSafe
 public abstract class RestRequest<R> extends BaseRestRequest<R> {
 
   private static final String AUTH_VERSION = "v2";

@@ -6,10 +6,8 @@ import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestParams;
 
-import javax.annotation.concurrent.NotThreadSafe;
 import java.util.ArrayList;
 
-@NotThreadSafe
 public final class GetInstrumentActive extends MarketRestRequest<Response> {
 
   GetInstrumentActive(IActor actor, RestContext context) {
@@ -31,6 +29,5 @@ public final class GetInstrumentActive extends MarketRestRequest<Response> {
     return RestParams.empty();
   }
 
-  @NotThreadSafe
   public static final class Response extends ArrayList<_Instrument> {}
 }

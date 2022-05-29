@@ -2,8 +2,6 @@ package io.contek.invoker.commons.websocket;
 
 import org.slf4j.Logger;
 
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.ThreadSafe;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
@@ -12,7 +10,6 @@ import static io.contek.invoker.commons.websocket.ConsumerState.*;
 import static io.contek.invoker.commons.websocket.SubscriptionState.*;
 import static org.slf4j.LoggerFactory.getLogger;
 
-@ThreadSafe
 public abstract class BaseWebSocketChannel<
         Id extends BaseWebSocketChannelId<Message>, Message extends AnyWebSocketMessage>
     implements IWebSocketComponent {
@@ -85,6 +82,15 @@ public abstract class BaseWebSocketChannel<
     }
   }
 
+  private void setState(SubscriptionState state) {
+    synchronized (consumers) {
+      synchronized (stateHolder) {
+        consumers.forEach(consumer -> consumer.onStateChange(state));
+        stateHolder.set(state);
+      }
+    }
+  }
+
   @Override
   public final void onMessage(AnyWebSocketMessage message, WebSocketSession session) {
     synchronized (consumers) {
@@ -113,7 +119,6 @@ public abstract class BaseWebSocketChannel<
 
   protected abstract SubscriptionState unsubscribe(WebSocketSession session);
 
-  @Nullable
   protected abstract SubscriptionState getState(AnyWebSocketMessage message);
 
   protected abstract void reset();
@@ -125,21 +130,11 @@ public abstract class BaseWebSocketChannel<
     }
   }
 
-  @Nullable
   private Message tryCast(AnyWebSocketMessage message) {
     if (!getMessageType().isAssignableFrom(message.getClass())) {
       return null;
     }
     Message casted = getMessageType().cast(message);
     return id.accepts(casted) ? casted : null;
-  }
-
-  private void setState(SubscriptionState state) {
-    synchronized (consumers) {
-      synchronized (stateHolder) {
-        consumers.forEach(consumer -> consumer.onStateChange(state));
-        stateHolder.set(state);
-      }
-    }
   }
 }

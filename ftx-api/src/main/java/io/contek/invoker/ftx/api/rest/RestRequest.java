@@ -6,12 +6,10 @@ import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.rest.*;
 import io.contek.invoker.security.ICredential;
 
-import javax.annotation.concurrent.NotThreadSafe;
 import java.time.Clock;
 
 import static io.contek.invoker.commons.rest.RestMediaType.JSON;
 
-@NotThreadSafe
 public abstract class RestRequest<R> extends BaseRestRequest<R> {
 
   public static final String FTX_SUBACCOUNT_KEY = "FTX-SUBACCOUNT";

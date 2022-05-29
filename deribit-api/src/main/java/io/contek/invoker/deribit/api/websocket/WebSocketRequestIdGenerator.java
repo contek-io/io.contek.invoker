@@ -2,10 +2,8 @@ package io.contek.invoker.deribit.api.websocket;
 
 import io.contek.invoker.deribit.api.websocket.common.WebSocketResponse;
 
-import javax.annotation.concurrent.ThreadSafe;
 import java.util.concurrent.atomic.AtomicInteger;
 
-@ThreadSafe
 public final class WebSocketRequestIdGenerator {
 
   private final WebSocketMessageParser parser;

@@ -1,8 +1,5 @@
 package io.contek.invoker.ftx.api.websocket.common.constants;
 
-import javax.annotation.concurrent.Immutable;
-
-@Immutable
 public final class WebSocketInboundKeys {
 
   public static final String _type = "type";
@@ -18,4 +15,6 @@ public final class WebSocketInboundKeys {
   public static final String _update = "update";
 
   public static final String _info = "info";
+
+  public static final String _pong = "pong";
 }

@@ -8,14 +8,12 @@ import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
 import io.contek.invoker.commons.rest.*;
 import io.contek.invoker.security.ICredential;
 
-import javax.annotation.concurrent.NotThreadSafe;
 import java.time.Clock;
 import java.util.Random;
 
 import static com.google.common.net.UrlEscapers.urlPathSegmentEscaper;
 import static io.contek.invoker.commons.rest.RestMediaType.JSON;
 
-@NotThreadSafe
 public abstract class RestRequest<R> extends BaseRestRequest<R> {
 
   private final RestContext context;
@@ -25,6 +23,12 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
     super(actor);
     this.context = context;
     clock = actor.getClock();
+  }
+
+  private static String generateNounce() {
+    byte[] randomBytes = new byte[8];
+    (new Random()).nextBytes(randomBytes);
+    return BaseEncoding.base32().encode(randomBytes);
   }
 
   protected abstract RestMethod getMethod();
@@ -78,12 +82,6 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
         String.format(
             "deri-hmac-sha256 id=%s,ts=%s,sig=%s,nonce=%s", clientId, timestamp, signature, nonce);
     return ImmutableMap.<String, String>builder().put("Authorization", authorizationValue).build();
-  }
-
-  private static String generateNounce() {
-    byte[] randomBytes = new byte[8];
-    (new Random()).nextBytes(randomBytes);
-    return BaseEncoding.base32().encode(randomBytes);
   }
 
   private String buildParamsString() {

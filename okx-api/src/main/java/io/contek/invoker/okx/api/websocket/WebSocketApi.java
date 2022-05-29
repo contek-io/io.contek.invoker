@@ -10,13 +10,11 @@ import io.contek.invoker.commons.websocket.WebSocketIllegalStateException;
 import io.contek.invoker.commons.websocket.WebSocketRuntimeException;
 import io.contek.invoker.okx.api.websocket.common.WebSocketGeneralResponse;
 
-import javax.annotation.concurrent.ThreadSafe;
 import java.time.Duration;
 
 import static io.contek.invoker.commons.actor.ratelimit.LimitType.IP;
 import static io.contek.invoker.okx.api.websocket.common.constants.WebSocketInboundKeys._error;
 
-@ThreadSafe
 public abstract class WebSocketApi extends BaseWebSocketApi {
 
   public static final RateLimitRule RATE_LIMIT_RULE =

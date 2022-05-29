@@ -1,8 +1,5 @@
 package io.contek.invoker.bybitlinear.api.rest.common;
 
-import javax.annotation.concurrent.NotThreadSafe;
-
-@NotThreadSafe
 public abstract class RestResponse<R> {
 
   public int ret_code;

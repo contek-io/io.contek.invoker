@@ -2,10 +2,8 @@ package io.contek.invoker.ftx.api.websocket.market;
 
 import io.contek.invoker.ftx.api.websocket.WebSocketChannelId;
 
-import javax.annotation.concurrent.Immutable;
 import java.util.Objects;
 
-@Immutable
 public abstract class WebSocketMarketChannelId<Message extends WebSocketMarketChannelMessage<?>>
     extends WebSocketChannelId<Message> {
 

@@ -10,15 +10,12 @@ import io.contek.invoker.commons.websocket.BaseWebSocketChannel;
 import io.contek.invoker.commons.websocket.SubscriptionState;
 import io.contek.invoker.commons.websocket.WebSocketSession;
 
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.ThreadSafe;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static io.contek.invoker.binancedelivery.api.websocket.common.constants.WebSocketMethods.SUBSCRIBE;
 import static io.contek.invoker.binancedelivery.api.websocket.common.constants.WebSocketMethods.UNSUBSCRIBE;
 import static io.contek.invoker.commons.websocket.SubscriptionState.*;
 
-@ThreadSafe
 public abstract class MarketWebSocketChannel<
         Id extends MarketWebSocketChannelId<Message>, Message extends WebSocketStreamMessage<?>>
     extends BaseWebSocketChannel<Id, Message> {
@@ -68,7 +65,6 @@ public abstract class MarketWebSocketChannel<
     return UNSUBSCRIBING;
   }
 
-  @Nullable
   @Override
   protected final SubscriptionState getState(AnyWebSocketMessage message) {
     if (!(message instanceof WebSocketCommandConfirmation)) {

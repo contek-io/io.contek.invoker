@@ -5,13 +5,8 @@ import io.contek.invoker.bitmex.api.websocket.WebSocketChannel;
 import io.contek.invoker.bitmex.api.websocket.WebSocketChannelId;
 import io.contek.invoker.bitmex.api.websocket.common.WebSocketTableDataMessage;
 
-import javax.annotation.concurrent.Immutable;
-import javax.annotation.concurrent.NotThreadSafe;
-import javax.annotation.concurrent.ThreadSafe;
-
 import static java.lang.String.format;
 
-@ThreadSafe
 public final class QuoteChannel extends WebSocketChannel<QuoteChannel.Id, QuoteChannel.Message> {
 
   QuoteChannel(QuoteChannel.Id id) {
@@ -23,7 +18,6 @@ public final class QuoteChannel extends WebSocketChannel<QuoteChannel.Id, QuoteC
     return QuoteChannel.Message.class;
   }
 
-  @Immutable
   public static final class Id extends WebSocketChannelId<QuoteChannel.Message> {
 
     private final String instrument;
@@ -43,6 +37,5 @@ public final class QuoteChannel extends WebSocketChannel<QuoteChannel.Id, QuoteC
     }
   }
 
-  @NotThreadSafe
   public static final class Message extends WebSocketTableDataMessage<_Quote> {}
 }

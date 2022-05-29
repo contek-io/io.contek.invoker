@@ -1,8 +1,5 @@
 package io.contek.invoker.bybitlinear.api.common.constants;
 
-import javax.annotation.concurrent.Immutable;
-
-@Immutable
 public final class StopOrderStatusKeys {
 
   public static final String _Active = "Active";

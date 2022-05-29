@@ -1,8 +1,5 @@
 package io.contek.invoker.bitmex.api.common;
 
-import javax.annotation.concurrent.NotThreadSafe;
-
-@NotThreadSafe
 public class _Margin {
 
   public Long account;

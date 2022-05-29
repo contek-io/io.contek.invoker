@@ -1,8 +1,5 @@
 package io.contek.invoker.binancespot.api.websocket.user.constants;
 
-import javax.annotation.concurrent.Immutable;
-
-@Immutable
 public final class UserEventTypeKeys {
 
   public static final String _listenKeyExpired = "listenKeyExpired";

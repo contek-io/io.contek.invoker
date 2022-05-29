@@ -1,8 +1,5 @@
 package io.contek.invoker.hbdmlinear.api.common;
 
-import javax.annotation.concurrent.NotThreadSafe;
-
-@NotThreadSafe
 public class _CrossAccountContractDetail {
 
   public String symbol;

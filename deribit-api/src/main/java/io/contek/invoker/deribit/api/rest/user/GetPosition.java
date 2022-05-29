@@ -9,13 +9,10 @@ import io.contek.invoker.commons.rest.RestParams;
 import io.contek.invoker.deribit.api.common._Position;
 import io.contek.invoker.deribit.api.rest.common.RestResponse;
 
-import javax.annotation.concurrent.NotThreadSafe;
-
 import static io.contek.invoker.commons.rest.RestMethod.GET;
 import static io.contek.invoker.deribit.api.ApiFactory.RateLimits.ONE_API_KEY_NON_MATCHING_ENGINE_REQUEST;
 import static java.util.Objects.requireNonNull;
 
-@NotThreadSafe
 public final class GetPosition extends UserRestRequest<GetPosition.Response> {
 
   private String instrumentName;
@@ -59,6 +56,5 @@ public final class GetPosition extends UserRestRequest<GetPosition.Response> {
     return GetPosition.Response.class;
   }
 
-  @NotThreadSafe
   public static final class Response extends RestResponse<_Position> {}
 }

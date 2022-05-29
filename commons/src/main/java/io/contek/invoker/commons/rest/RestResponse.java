@@ -3,10 +3,6 @@ package io.contek.invoker.commons.rest;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.Immutable;
-
-@Immutable
 public final class RestResponse {
 
   private static final Gson gson = new Gson();
@@ -14,7 +10,7 @@ public final class RestResponse {
   private final int code;
   private final String stringValue;
 
-  RestResponse(int code, @Nullable String stringValue) {
+  RestResponse(int code, String stringValue) {
     this.code = code;
     this.stringValue = stringValue;
   }
@@ -23,12 +19,10 @@ public final class RestResponse {
     return code;
   }
 
-  @Nullable
   public String getStringValue() {
     return stringValue;
   }
 
-  @Nullable
   public <T> T getAs(Class<T> type) throws RestParsingException {
     try {
       return stringValue == null ? null : gson.fromJson(stringValue, type);

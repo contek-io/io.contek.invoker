@@ -12,13 +12,11 @@ import io.contek.invoker.kraken.api.websocket.market.MarketWebSocketApi;
 import io.contek.invoker.security.SimpleCredentialFactory;
 import io.contek.ursa.cache.LimiterManager;
 
-import javax.annotation.concurrent.ThreadSafe;
 import java.util.List;
 
 import static com.google.common.io.BaseEncoding.base16;
 import static io.contek.invoker.security.SecretKeyAlgorithm.HMAC_SHA256;
 
-@ThreadSafe
 public final class ApiFactory {
 
   public static final ApiContext MAIN_NET_CONTEXT =
@@ -51,10 +49,6 @@ public final class ApiFactory {
     return new ApiFactory(context, createActorFactory(context.getInterceptors()));
   }
 
-  public SelectingWebSocketApi ws() {
-    return new SelectingWebSocketApi();
-  }
-
   private static SimpleActorFactory createActorFactory(
       List<IRateLimitQuotaInterceptor> interceptors) {
     return SimpleActorFactory.newBuilder()
@@ -76,15 +70,18 @@ public final class ApiFactory {
     return LimiterManager.newBuilder().build();
   }
 
-  @ThreadSafe
+  public SelectingWebSocketApi ws() {
+    return new SelectingWebSocketApi();
+  }
+
   public final class SelectingWebSocketApi {
+
+    private SelectingWebSocketApi() {}
 
     public MarketWebSocketApi market() {
       WebSocketContext wsContext = context.getWebSocketContext();
       IActor actor = actorFactory.create(null, wsContext);
       return new MarketWebSocketApi(actor, wsContext);
     }
-
-    private SelectingWebSocketApi() {}
   }
 }

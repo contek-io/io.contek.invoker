@@ -5,14 +5,9 @@ import io.contek.invoker.commons.websocket.WebSocketSession;
 import io.contek.invoker.hbdminverse.api.common._TradeDetail;
 import io.contek.invoker.hbdminverse.api.websocket.common.marketdata.*;
 
-import javax.annotation.concurrent.Immutable;
-import javax.annotation.concurrent.NotThreadSafe;
-import javax.annotation.concurrent.ThreadSafe;
-
 import static io.contek.invoker.commons.websocket.SubscriptionState.SUBSCRIBING;
 import static java.lang.String.format;
 
-@ThreadSafe
 public final class TradeDetailChannel
     extends MarketDataMarketWebSocketChannel<TradeDetailChannel.Id, TradeDetailChannel.Message> {
 
@@ -30,7 +25,6 @@ public final class TradeDetailChannel
     return SUBSCRIBING;
   }
 
-  @Immutable
   public static final class Id extends MarketDataWebSocketChannelId<Message> {
 
     private Id(String topic) {
@@ -42,10 +36,8 @@ public final class TradeDetailChannel
     }
   }
 
-  @NotThreadSafe
   public static final class Message extends MarketDataWebSocketTickMessage<_TradeDetail> {}
 
-  @NotThreadSafe
   public static final class SubscribeTradeDetailRequest
       extends MarketDataWebSocketSubscribeRequest {
 

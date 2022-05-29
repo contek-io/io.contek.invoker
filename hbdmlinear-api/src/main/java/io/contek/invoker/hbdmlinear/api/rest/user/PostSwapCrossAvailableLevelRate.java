@@ -8,11 +8,8 @@ import io.contek.invoker.commons.rest.RestParams;
 import io.contek.invoker.hbdmlinear.api.common._AvailableLevelRate;
 import io.contek.invoker.hbdmlinear.api.rest.common.RestDataResponse;
 
-import javax.annotation.concurrent.NotThreadSafe;
-
 import static io.contek.invoker.hbdmlinear.api.ApiFactory.RateLimits.ONE_API_KEY_REST_PRIVATE_READ_REQUEST;
 
-@NotThreadSafe
 public final class PostSwapCrossAvailableLevelRate
     extends UserRestRequest<PostSwapCrossAvailableLevelRate.Response> {
 
@@ -53,6 +50,5 @@ public final class PostSwapCrossAvailableLevelRate
     return ONE_API_KEY_REST_PRIVATE_READ_REQUEST;
   }
 
-  @NotThreadSafe
   public static final class Response extends RestDataResponse<_AvailableLevelRate> {}
 }

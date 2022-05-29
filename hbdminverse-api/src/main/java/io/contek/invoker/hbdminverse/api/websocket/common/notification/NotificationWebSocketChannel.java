@@ -2,15 +2,12 @@ package io.contek.invoker.hbdminverse.api.websocket.common.notification;
 
 import io.contek.invoker.commons.websocket.*;
 
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.ThreadSafe;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static io.contek.invoker.commons.websocket.SubscriptionState.*;
 import static io.contek.invoker.hbdminverse.api.websocket.user.constants.OpKeys._sub;
 import static io.contek.invoker.hbdminverse.api.websocket.user.constants.OpKeys._unsub;
 
-@ThreadSafe
 public abstract class NotificationWebSocketChannel<
         Id extends NotificationWebSocketChannelId<Message>,
         Message extends NotificationWebSocketChannelMessage>
@@ -67,7 +64,6 @@ public abstract class NotificationWebSocketChannel<
     return UNSUBSCRIBING;
   }
 
-  @Nullable
   @Override
   protected final SubscriptionState getState(AnyWebSocketMessage message) {
     if (!(message instanceof NotificationWebSocketConfirmation)) {

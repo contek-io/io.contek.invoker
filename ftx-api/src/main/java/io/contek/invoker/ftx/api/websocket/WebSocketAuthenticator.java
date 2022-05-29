@@ -8,14 +8,12 @@ import io.contek.invoker.ftx.api.websocket.common.constants.WebSocketOutboundKey
 import io.contek.invoker.security.ICredential;
 import org.slf4j.Logger;
 
-import javax.annotation.concurrent.ThreadSafe;
 import java.time.Clock;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static io.contek.invoker.ftx.api.rest.RestRequest.FTX_SUBACCOUNT_KEY;
 import static org.slf4j.LoggerFactory.getLogger;
 
-@ThreadSafe
 public final class WebSocketAuthenticator implements IWebSocketAuthenticator {
 
   public static final String WEBSOCKET_LOGIN = "websocket_login";

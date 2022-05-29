@@ -1,8 +1,5 @@
 package io.contek.invoker.kraken.api.websocket.market.constants;
 
-import javax.annotation.concurrent.Immutable;
-
-@Immutable
 public final class WebSocketOrderBookDepthKeys {
 
   public static final int _10 = 10;

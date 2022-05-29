@@ -5,13 +5,8 @@ import io.contek.invoker.deribit.api.websocket.WebSocketChannelId;
 import io.contek.invoker.deribit.api.websocket.WebSocketRequestIdGenerator;
 import io.contek.invoker.deribit.api.websocket.common.WebSocketSingleChannelMessage;
 
-import javax.annotation.concurrent.Immutable;
-import javax.annotation.concurrent.NotThreadSafe;
-import javax.annotation.concurrent.ThreadSafe;
-
 import static java.lang.String.format;
 
-@ThreadSafe
 public final class UserOrdersChannel
     extends UserWebSocketChannel<UserOrdersChannel.Id, UserOrdersChannel.Message> {
 
@@ -24,7 +19,6 @@ public final class UserOrdersChannel
     return UserOrdersChannel.Message.class;
   }
 
-  @Immutable
   public static final class Id extends WebSocketChannelId<UserOrdersChannel.Message> {
 
     private Id(String value) {
@@ -36,9 +30,7 @@ public final class UserOrdersChannel
     }
   }
 
-  @NotThreadSafe
   public static final class Message extends WebSocketSingleChannelMessage<Data> {}
 
-  @NotThreadSafe
   public static final class Data extends _Order {}
 }

@@ -6,11 +6,8 @@ import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
 import io.contek.invoker.commons.websocket.*;
 import io.contek.invoker.security.ICredential;
 
-import javax.annotation.concurrent.ThreadSafe;
-
 import static io.contek.invoker.hbdmlinear.api.ApiFactory.RateLimits.ONE_IP_WEB_SOCKET_CONNECTION_REQUEST;
 
-@ThreadSafe
 public abstract class NotificationWebSocketApi extends BaseWebSocketApi {
 
   private static final String PATH = "/linear-swap-notification";

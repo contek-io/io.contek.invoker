@@ -9,14 +9,12 @@ import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
 
-import javax.annotation.concurrent.NotThreadSafe;
 import java.util.ArrayList;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static io.contek.invoker.binancefutures.api.ApiFactory.RateLimits.ONE_REST_REQUEST;
 import static io.contek.invoker.commons.rest.RestMethod.DELETE;
 
-@NotThreadSafe
 public final class DeleteAllOpenOrders extends UserRestRequest<Response> {
 
   private String symbol;
@@ -62,6 +60,5 @@ public final class DeleteAllOpenOrders extends UserRestRequest<Response> {
     return ONE_REST_REQUEST;
   }
 
-  @NotThreadSafe
   public static final class Response extends ArrayList<_Order> {}
 }

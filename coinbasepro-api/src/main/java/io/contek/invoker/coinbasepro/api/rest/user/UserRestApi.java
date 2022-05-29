@@ -3,9 +3,6 @@ package io.contek.invoker.coinbasepro.api.rest.user;
 import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.rest.RestContext;
 
-import javax.annotation.concurrent.ThreadSafe;
-
-@ThreadSafe
 public final class UserRestApi {
 
   private final IActor actor;

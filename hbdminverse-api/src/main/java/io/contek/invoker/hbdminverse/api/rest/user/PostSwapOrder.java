@@ -8,13 +8,9 @@ import io.contek.invoker.commons.rest.RestParams;
 import io.contek.invoker.hbdminverse.api.common._OrderIdentifier;
 import io.contek.invoker.hbdminverse.api.rest.common.RestDataResponse;
 
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.NotThreadSafe;
-
 import static io.contek.invoker.hbdminverse.api.ApiFactory.RateLimits.ONE_API_KEY_REST_PRIVATE_WRITE_REQUEST;
 import static java.util.Objects.requireNonNull;
 
-@NotThreadSafe
 public final class PostSwapOrder extends UserRestRequest<PostSwapOrder.Response> {
 
   private String contract_code;
@@ -41,12 +37,12 @@ public final class PostSwapOrder extends UserRestRequest<PostSwapOrder.Response>
     return this;
   }
 
-  public PostSwapOrder setClientOrderId(@Nullable Long client_order_id) {
+  public PostSwapOrder setClientOrderId(Long client_order_id) {
     this.client_order_id = client_order_id;
     return this;
   }
 
-  public PostSwapOrder setPrice(@Nullable Double price) {
+  public PostSwapOrder setPrice(Double price) {
     this.price = price;
     return this;
   }
@@ -76,32 +72,32 @@ public final class PostSwapOrder extends UserRestRequest<PostSwapOrder.Response>
     return this;
   }
 
-  public PostSwapOrder setTpTriggerPrice(@Nullable Double tp_trigger_price) {
+  public PostSwapOrder setTpTriggerPrice(Double tp_trigger_price) {
     this.tp_trigger_price = tp_trigger_price;
     return this;
   }
 
-  public PostSwapOrder setTpOrderPrice(@Nullable Double tp_order_price) {
+  public PostSwapOrder setTpOrderPrice(Double tp_order_price) {
     this.tp_order_price = tp_order_price;
     return this;
   }
 
-  public PostSwapOrder setTpOrderPriceType(@Nullable String tp_order_price_type) {
+  public PostSwapOrder setTpOrderPriceType(String tp_order_price_type) {
     this.tp_order_price_type = tp_order_price_type;
     return this;
   }
 
-  public PostSwapOrder setSlTriggerPrice(@Nullable Double sl_trigger_price) {
+  public PostSwapOrder setSlTriggerPrice(Double sl_trigger_price) {
     this.sl_trigger_price = sl_trigger_price;
     return this;
   }
 
-  public PostSwapOrder setSlOrderPrice(@Nullable Double sl_order_price) {
+  public PostSwapOrder setSlOrderPrice(Double sl_order_price) {
     this.sl_order_price = sl_order_price;
     return this;
   }
 
-  public PostSwapOrder setSlOrderPriceType(@Nullable String sl_order_price_type) {
+  public PostSwapOrder setSlOrderPriceType(String sl_order_price_type) {
     this.sl_order_price_type = sl_order_price_type;
     return this;
   }
@@ -178,6 +174,5 @@ public final class PostSwapOrder extends UserRestRequest<PostSwapOrder.Response>
     return ONE_API_KEY_REST_PRIVATE_WRITE_REQUEST;
   }
 
-  @NotThreadSafe
   public static final class Response extends RestDataResponse<_OrderIdentifier> {}
 }

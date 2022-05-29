@@ -10,15 +10,12 @@ import io.contek.invoker.commons.rest.RestParams;
 import io.contek.invoker.okx.api.common._CancelOrderAck;
 import io.contek.invoker.okx.api.rest.common.RestResponse;
 
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.NotThreadSafe;
 import java.time.Duration;
 
 import static io.contek.invoker.commons.actor.ratelimit.LimitType.API_KEY;
 import static io.contek.invoker.commons.rest.RestMethod.POST;
 import static java.util.Objects.requireNonNull;
 
-@NotThreadSafe
 public final class PostTradeCancelOrder extends UserRestRequest<PostTradeCancelOrder.Response> {
 
   public static final RateLimitRule RATE_LIMIT_RULE =
@@ -45,12 +42,12 @@ public final class PostTradeCancelOrder extends UserRestRequest<PostTradeCancelO
     return this;
   }
 
-  public PostTradeCancelOrder setOrdId(@Nullable String ordId) {
+  public PostTradeCancelOrder setOrdId(String ordId) {
     this.ordId = ordId;
     return this;
   }
 
-  public PostTradeCancelOrder setClOrdId(@Nullable String clOrdId) {
+  public PostTradeCancelOrder setClOrdId(String clOrdId) {
     this.clOrdId = clOrdId;
     return this;
   }
@@ -92,6 +89,5 @@ public final class PostTradeCancelOrder extends UserRestRequest<PostTradeCancelO
     return REQUIRED_QUOTA;
   }
 
-  @NotThreadSafe
   public static final class Response extends RestResponse<_CancelOrderAck> {}
 }

@@ -9,7 +9,6 @@ import io.contek.invoker.commons.websocket.WebSocketSession;
 import io.contek.invoker.security.ICredential;
 import org.slf4j.Logger;
 
-import javax.annotation.concurrent.ThreadSafe;
 import java.time.Clock;
 import java.time.Duration;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -17,7 +16,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import static io.contek.invoker.bybit.api.websocket.common.constants.WebSocketOperationKeys._auth;
 import static org.slf4j.LoggerFactory.getLogger;
 
-@ThreadSafe
 final class WebSocketAuthenticator implements IWebSocketAuthenticator {
 
   private static final Duration EXPIRE_DELAY = Duration.ofSeconds(30);

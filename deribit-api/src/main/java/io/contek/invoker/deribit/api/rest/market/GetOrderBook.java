@@ -8,13 +8,9 @@ import io.contek.invoker.commons.rest.RestParams;
 import io.contek.invoker.deribit.api.common._OrderBook;
 import io.contek.invoker.deribit.api.rest.common.RestResponse;
 
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.NotThreadSafe;
-
 import static io.contek.invoker.deribit.api.ApiFactory.RateLimits.ONE_IP_NON_MATCHING_ENGINE_REQUEST;
 import static java.util.Objects.requireNonNull;
 
-@NotThreadSafe
 public final class GetOrderBook extends MarketRestRequest<GetOrderBook.Response> {
 
   private String instrument_name;
@@ -29,7 +25,7 @@ public final class GetOrderBook extends MarketRestRequest<GetOrderBook.Response>
     return this;
   }
 
-  public GetOrderBook setDepth(@Nullable Integer depth) {
+  public GetOrderBook setDepth(Integer depth) {
     this.depth = depth;
     return this;
   }
@@ -63,6 +59,5 @@ public final class GetOrderBook extends MarketRestRequest<GetOrderBook.Response>
     return ONE_IP_NON_MATCHING_ENGINE_REQUEST;
   }
 
-  @NotThreadSafe
   public static final class Response extends RestResponse<_OrderBook> {}
 }

@@ -6,13 +6,11 @@ import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestParams;
 
-import javax.annotation.concurrent.NotThreadSafe;
 import java.util.List;
 
 import static io.contek.invoker.bybit.api.rest.market.GetAccountRatio.Response;
 import static java.util.Objects.requireNonNull;
 
-@NotThreadSafe
 public final class GetAccountRatio extends MarketRestRequest<Response> {
 
   public static final int MAX_LIMIT = 500;
@@ -70,6 +68,5 @@ public final class GetAccountRatio extends MarketRestRequest<Response> {
     return Response.class;
   }
 
-  @NotThreadSafe
   public static final class Response extends RestResponse<List<_AccountRatio>> {}
 }

@@ -11,8 +11,6 @@ import io.contek.invoker.deribit.api.websocket.user.WebSocketAuthenticationConfi
 import io.contek.invoker.security.ICredential;
 import org.slf4j.Logger;
 
-import javax.annotation.concurrent.NotThreadSafe;
-import javax.annotation.concurrent.ThreadSafe;
 import java.time.Clock;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -22,7 +20,6 @@ import static com.google.common.io.BaseEncoding.base32Hex;
 import static io.contek.invoker.deribit.api.websocket.common.constants.WebSocketAuthGrantTypeKeys._client_signature;
 import static org.slf4j.LoggerFactory.getLogger;
 
-@ThreadSafe
 final class WebSocketAuthenticator implements IWebSocketAuthenticator {
 
   private static final Logger log = getLogger(WebSocketAuthenticator.class);
@@ -133,7 +130,6 @@ final class WebSocketAuthenticator implements IWebSocketAuthenticator {
     }
   }
 
-  @NotThreadSafe
   public static final class AuthParams {
 
     public String grant_type;

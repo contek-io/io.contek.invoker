@@ -1,8 +1,5 @@
 package io.contek.invoker.coinbasepro.api.websocket.common.constants;
 
-import javax.annotation.concurrent.Immutable;
-
-@Immutable
 public final class WebSocketMessageKeys {
 
   public static final String _type = "type";

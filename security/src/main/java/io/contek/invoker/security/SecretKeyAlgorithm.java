@@ -1,6 +1,5 @@
 package io.contek.invoker.security;
 
-import javax.annotation.concurrent.Immutable;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import java.security.InvalidKeyException;
@@ -9,7 +8,6 @@ import java.security.NoSuchAlgorithmException;
 
 import static com.google.common.base.Charsets.UTF_8;
 
-@Immutable
 public enum SecretKeyAlgorithm {
   HMAC_MD5("HmacMD5"),
   HMAC_SHA256("HmacSHA256"),

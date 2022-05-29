@@ -9,13 +9,10 @@ import io.contek.invoker.commons.rest.RestParams;
 import io.contek.invoker.deribit.api.common._PlaceOrderResponse;
 import io.contek.invoker.deribit.api.rest.common.RestResponse;
 
-import javax.annotation.concurrent.NotThreadSafe;
-
 import static io.contek.invoker.commons.rest.RestMethod.GET;
 import static io.contek.invoker.deribit.api.ApiFactory.RateLimits.ONE_API_KEY_MATCHING_ENGINE_REQUEST;
 import static java.util.Objects.requireNonNull;
 
-@NotThreadSafe
 public abstract class BasePlaceOrderRequest
     extends UserRestRequest<BasePlaceOrderRequest.Response> {
 
@@ -186,6 +183,5 @@ public abstract class BasePlaceOrderRequest
     return ONE_API_KEY_MATCHING_ENGINE_REQUEST;
   }
 
-  @NotThreadSafe
   public static final class Response extends RestResponse<_PlaceOrderResponse> {}
 }

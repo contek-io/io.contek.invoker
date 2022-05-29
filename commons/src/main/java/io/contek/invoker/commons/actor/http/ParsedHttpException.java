@@ -1,11 +1,7 @@
 package io.contek.invoker.commons.actor.http;
 
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.NotThreadSafe;
-
 import static java.lang.String.format;
 
-@NotThreadSafe
 public final class ParsedHttpException extends AnyHttpException {
 
   private final Object parsedEntity;
@@ -28,7 +24,6 @@ public final class ParsedHttpException extends AnyHttpException {
     return result;
   }
 
-  @Nullable
   public <T> T tryGetParsedEntityAs(Class<T> type) {
     if (type.isAssignableFrom(parsedEntity.getClass())) {
       return type.cast(parsedEntity);

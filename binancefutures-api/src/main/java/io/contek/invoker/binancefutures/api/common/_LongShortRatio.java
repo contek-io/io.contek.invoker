@@ -1,8 +1,5 @@
 package io.contek.invoker.binancefutures.api.common;
 
-import javax.annotation.concurrent.NotThreadSafe;
-
-@NotThreadSafe
 public final class _LongShortRatio {
 
   public String symbol;

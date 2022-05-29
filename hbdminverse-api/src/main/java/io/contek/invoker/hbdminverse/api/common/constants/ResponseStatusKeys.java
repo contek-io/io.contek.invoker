@@ -1,8 +1,5 @@
 package io.contek.invoker.hbdminverse.api.common.constants;
 
-import javax.annotation.concurrent.Immutable;
-
-@Immutable
 public final class ResponseStatusKeys {
 
   public static final String _ok = "ok";

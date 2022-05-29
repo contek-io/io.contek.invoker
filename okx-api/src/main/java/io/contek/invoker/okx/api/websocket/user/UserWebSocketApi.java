@@ -6,11 +6,9 @@ import io.contek.invoker.commons.websocket.WebSocketContext;
 import io.contek.invoker.okx.api.websocket.WebSocketApi;
 import io.contek.invoker.security.ICredential;
 
-import javax.annotation.concurrent.ThreadSafe;
 import java.util.HashMap;
 import java.util.Map;
 
-@ThreadSafe
 public final class UserWebSocketApi extends WebSocketApi {
 
   private final WebSocketContext context;

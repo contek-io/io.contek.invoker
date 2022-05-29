@@ -2,12 +2,9 @@ package io.contek.invoker.security;
 
 import com.google.common.collect.ImmutableMap;
 
-import javax.annotation.concurrent.Immutable;
-import javax.annotation.concurrent.NotThreadSafe;
 import java.util.HashMap;
 import java.util.Map;
 
-@Immutable
 public final class ApiKey {
 
   private final String id;
@@ -36,12 +33,13 @@ public final class ApiKey {
     return properties;
   }
 
-  @NotThreadSafe
   public static final class Builder {
 
     private String id;
     private String secret;
     private Map<String, String> properties = new HashMap<>();
+
+    private Builder() {}
 
     public Builder setId(String id) {
       this.id = id;
@@ -72,7 +70,5 @@ public final class ApiKey {
       }
       return new ApiKey(id, secret, ImmutableMap.copyOf(properties));
     }
-
-    private Builder() {}
   }
 }

@@ -20,3 +20,4 @@ rootProject.name = 'io.contek.invoker'
 rootProject.children.each { project ->
     project.buildFileName = "${project.name}.gradle"
 }
+

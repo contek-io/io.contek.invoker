@@ -1,8 +1,5 @@
 package io.contek.invoker.bybitlinear.api.common;
 
-import javax.annotation.concurrent.NotThreadSafe;
-
-@NotThreadSafe
 public class _Order {
 
   public String order_id;

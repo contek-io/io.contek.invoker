@@ -9,12 +9,10 @@ import io.contek.invoker.commons.rest.RestParams;
 import io.contek.invoker.ftx.api.common._LendingInfo;
 import io.contek.invoker.ftx.api.rest.common.RestResponse;
 
-import javax.annotation.concurrent.NotThreadSafe;
 import java.util.List;
 
 import static io.contek.invoker.ftx.api.ApiFactory.RateLimits.ONE_REST_REQUEST;
 
-@NotThreadSafe
 public final class GetLendingInfo extends UserRestRequest<GetLendingInfo.Response> {
 
   GetLendingInfo(IActor actor, RestContext context) {
@@ -46,6 +44,5 @@ public final class GetLendingInfo extends UserRestRequest<GetLendingInfo.Respons
     return RestParams.empty();
   }
 
-  @NotThreadSafe
   public static final class Response extends RestResponse<List<_LendingInfo>> {}
 }

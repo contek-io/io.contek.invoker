@@ -10,14 +10,13 @@ import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.IWebSocketComponent;
 import io.contek.invoker.commons.websocket.WebSocketTextMessageParser;
 
-import javax.annotation.concurrent.Immutable;
-
 import static io.contek.invoker.coinbasepro.api.websocket.common.constants.WebSocketMessageKeys.*;
 
-@Immutable
 final class WebSocketMessageParser extends WebSocketTextMessageParser {
 
   private final Gson gson = new Gson();
+
+  private WebSocketMessageParser() {}
 
   static WebSocketMessageParser getInstance() {
     return InstanceHolder.INSTANCE;
@@ -65,9 +64,6 @@ final class WebSocketMessageParser extends WebSocketTextMessageParser {
     return gson.fromJson(obj, MatchesChannel.Message.class);
   }
 
-  private WebSocketMessageParser() {}
-
-  @Immutable
   private static final class InstanceHolder {
 
     private static final WebSocketMessageParser INSTANCE = new WebSocketMessageParser();

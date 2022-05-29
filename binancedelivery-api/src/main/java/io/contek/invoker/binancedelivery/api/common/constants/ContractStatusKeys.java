@@ -1,8 +1,5 @@
 package io.contek.invoker.binancedelivery.api.common.constants;
 
-import javax.annotation.concurrent.Immutable;
-
-@Immutable
 public final class ContractStatusKeys {
 
   public static final String _PENDING_TRADING = "PENDING_TRADING";
@@ -15,6 +12,5 @@ public final class ContractStatusKeys {
 
   public static final String _DELIVERED = "DELIVERED";
 
-  private ContractStatusKeys() {
-  }
+  private ContractStatusKeys() {}
 }

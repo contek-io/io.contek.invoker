@@ -10,15 +10,12 @@ import io.contek.invoker.commons.rest.RestParams;
 import io.contek.invoker.okx.api.common._Order;
 import io.contek.invoker.okx.api.rest.common.RestResponse;
 
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.NotThreadSafe;
 import java.time.Duration;
 
 import static io.contek.invoker.commons.actor.ratelimit.LimitType.API_KEY;
 import static io.contek.invoker.commons.rest.RestMethod.GET;
 import static java.util.Objects.requireNonNull;
 
-@NotThreadSafe
 public final class GetTradeOrderHistory extends UserRestRequest<GetTradeOrderHistory.Response> {
 
   public static final RateLimitRule RATE_LIMIT_RULE =
@@ -51,42 +48,42 @@ public final class GetTradeOrderHistory extends UserRestRequest<GetTradeOrderHis
     return this;
   }
 
-  public GetTradeOrderHistory setUly(@Nullable String uly) {
+  public GetTradeOrderHistory setUly(String uly) {
     this.uly = uly;
     return this;
   }
 
-  public GetTradeOrderHistory setInstId(@Nullable String instId) {
+  public GetTradeOrderHistory setInstId(String instId) {
     this.instId = instId;
     return this;
   }
 
-  public GetTradeOrderHistory setOrdType(@Nullable String ordType) {
+  public GetTradeOrderHistory setOrdType(String ordType) {
     this.ordType = ordType;
     return this;
   }
 
-  public GetTradeOrderHistory setState(@Nullable String state) {
+  public GetTradeOrderHistory setState(String state) {
     this.state = state;
     return this;
   }
 
-  public GetTradeOrderHistory setCategory(@Nullable String category) {
+  public GetTradeOrderHistory setCategory(String category) {
     this.category = category;
     return this;
   }
 
-  public GetTradeOrderHistory setAfter(@Nullable Long after) {
+  public GetTradeOrderHistory setAfter(Long after) {
     this.after = after;
     return this;
   }
 
-  public GetTradeOrderHistory setBefore(@Nullable Long before) {
+  public GetTradeOrderHistory setBefore(Long before) {
     this.before = before;
     return this;
   }
 
-  public GetTradeOrderHistory setLimit(@Nullable Integer limit) {
+  public GetTradeOrderHistory setLimit(Integer limit) {
     this.limit = limit;
     return this;
   }
@@ -153,6 +150,5 @@ public final class GetTradeOrderHistory extends UserRestRequest<GetTradeOrderHis
     return REQUIRED_QUOTA;
   }
 
-  @NotThreadSafe
   public static final class Response extends RestResponse<_Order> {}
 }

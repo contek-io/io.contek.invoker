@@ -8,14 +8,11 @@ import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestParams;
 
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.NotThreadSafe;
 import java.util.ArrayList;
 
 import static io.contek.invoker.binancedelivery.api.ApiFactory.RateLimits.IP_REST_REQUEST_RULE;
 import static io.contek.invoker.binancedelivery.api.ApiFactory.RateLimits.ONE_REST_REQUEST;
 
-@NotThreadSafe
 public final class GetTickerBookTicker extends MarketRestRequest<Response> {
 
   private static final ImmutableList<TypedPermitRequest> MULTI_SYMBOLS_REQUIRED_QUOTA =
@@ -28,12 +25,12 @@ public final class GetTickerBookTicker extends MarketRestRequest<Response> {
     super(actor, context);
   }
 
-  public GetTickerBookTicker setSymbol(@Nullable String symbol) {
+  public GetTickerBookTicker setSymbol(String symbol) {
     this.symbol = symbol;
     return this;
   }
 
-  public GetTickerBookTicker setPair(@Nullable String pair) {
+  public GetTickerBookTicker setPair(String pair) {
     this.pair = pair;
     return this;
   }
@@ -71,6 +68,5 @@ public final class GetTickerBookTicker extends MarketRestRequest<Response> {
     return MULTI_SYMBOLS_REQUIRED_QUOTA;
   }
 
-  @NotThreadSafe
   public static final class Response extends ArrayList<_BookTicker> {}
 }

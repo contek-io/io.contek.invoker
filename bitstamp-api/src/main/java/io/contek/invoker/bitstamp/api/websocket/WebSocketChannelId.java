@@ -3,9 +3,6 @@ package io.contek.invoker.bitstamp.api.websocket;
 import io.contek.invoker.bitstamp.api.websocket.common.WebSocketChannelMessage;
 import io.contek.invoker.commons.websocket.BaseWebSocketChannelId;
 
-import javax.annotation.concurrent.Immutable;
-
-@Immutable
 public abstract class WebSocketChannelId<Message extends WebSocketChannelMessage<?>>
     extends BaseWebSocketChannelId<Message> {
 

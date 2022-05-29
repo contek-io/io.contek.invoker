@@ -10,7 +10,6 @@ import io.contek.invoker.commons.websocket.WebSocketSession;
 import io.contek.invoker.commons.websocket.WebSocketSessionInactiveException;
 import org.slf4j.Logger;
 
-import javax.annotation.concurrent.Immutable;
 import java.time.Clock;
 import java.time.Duration;
 import java.time.Instant;
@@ -18,7 +17,6 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
-@Immutable
 final class UserWebSocketLiveKeeper implements IWebSocketLiveKeeper {
 
   private static final Logger log = getLogger(UserWebSocketLiveKeeper.class);
@@ -84,7 +82,6 @@ final class UserWebSocketLiveKeeper implements IWebSocketLiveKeeper {
     }
   }
 
-  @Immutable
   private static final class State {
 
     private final String listenKey;

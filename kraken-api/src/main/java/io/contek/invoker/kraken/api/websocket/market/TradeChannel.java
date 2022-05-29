@@ -7,14 +7,10 @@ import io.contek.invoker.kraken.api.websocket.WebSocketRequestIdGenerator;
 import io.contek.invoker.kraken.api.websocket.common.Subscription;
 import io.contek.invoker.kraken.api.websocket.common.WebSocketChannelDataMessage;
 
-import javax.annotation.concurrent.Immutable;
-import javax.annotation.concurrent.NotThreadSafe;
-import javax.annotation.concurrent.ThreadSafe;
 import java.util.List;
 
 import static io.contek.invoker.kraken.api.websocket.common.constants.WebSocketChannelKeys._trade;
 
-@ThreadSafe
 public final class TradeChannel extends WebSocketChannel<TradeChannel.Id, TradeChannel.Message> {
 
   TradeChannel(Id id, WebSocketRequestIdGenerator requestIdGenerator) {
@@ -33,7 +29,6 @@ public final class TradeChannel extends WebSocketChannel<TradeChannel.Id, TradeC
     return subscription;
   }
 
-  @Immutable
   public static final class Id extends WebSocketChannelId<TradeChannel.Message> {
 
     private Id(String pair) {
@@ -45,6 +40,5 @@ public final class TradeChannel extends WebSocketChannel<TradeChannel.Id, TradeC
     }
   }
 
-  @NotThreadSafe
   public static final class Message extends WebSocketChannelDataMessage<List<_Trade>> {}
 }

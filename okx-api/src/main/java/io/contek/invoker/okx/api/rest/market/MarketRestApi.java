@@ -3,9 +3,6 @@ package io.contek.invoker.okx.api.rest.market;
 import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.rest.RestContext;
 
-import javax.annotation.concurrent.ThreadSafe;
-
-@ThreadSafe
 public final class MarketRestApi {
 
   private final IActor actor;

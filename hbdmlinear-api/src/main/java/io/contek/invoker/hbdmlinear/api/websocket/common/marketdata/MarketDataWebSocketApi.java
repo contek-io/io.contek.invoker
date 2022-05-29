@@ -7,11 +7,8 @@ import io.contek.invoker.commons.websocket.*;
 import io.contek.invoker.hbdmlinear.api.websocket.common.WebSocketLiveKeeper;
 import io.contek.invoker.security.ICredential;
 
-import javax.annotation.concurrent.ThreadSafe;
-
 import static io.contek.invoker.hbdmlinear.api.ApiFactory.RateLimits.ONE_IP_WEB_SOCKET_CONNECTION_REQUEST;
 
-@ThreadSafe
 public abstract class MarketDataWebSocketApi extends BaseWebSocketApi {
 
   private final WebSocketContext context;

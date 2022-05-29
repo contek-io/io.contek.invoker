@@ -1,8 +1,5 @@
 package io.contek.invoker.binancespot.api.websocket.common.constants;
 
-import javax.annotation.concurrent.Immutable;
-
-@Immutable
 public final class WebSocketMethods {
 
   public static final String SUBSCRIBE = "SUBSCRIBE";

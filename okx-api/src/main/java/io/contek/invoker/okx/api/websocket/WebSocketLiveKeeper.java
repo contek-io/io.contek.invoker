@@ -7,14 +7,12 @@ import io.contek.invoker.commons.websocket.WebSocketSessionInactiveException;
 import io.contek.invoker.okx.api.websocket.common.WebSocketPing;
 import io.contek.invoker.okx.api.websocket.common.WebSocketPong;
 
-import javax.annotation.concurrent.ThreadSafe;
 import java.time.Clock;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
-@ThreadSafe
 public final class WebSocketLiveKeeper implements IWebSocketLiveKeeper {
 
   private static final Duration PING_INTERVAL = Duration.ofSeconds(10);
@@ -67,7 +65,6 @@ public final class WebSocketLiveKeeper implements IWebSocketLiveKeeper {
     state.set(null);
   }
 
-  @ThreadSafe
   private static final class PendingPing {
 
     private final Instant timestamp;

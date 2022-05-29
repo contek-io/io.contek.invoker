@@ -1,8 +1,5 @@
 package io.contek.invoker.binancedelivery.api.common.constants;
 
-import javax.annotation.concurrent.Immutable;
-
-@Immutable
 public final class OrderTypeKeys {
 
   public static final String _LIMIT = "LIMIT";
@@ -19,6 +16,5 @@ public final class OrderTypeKeys {
 
   public static final String _LIMIT_MAKER = "LIMIT_MAKER";
 
-  private OrderTypeKeys() {
-  }
+  private OrderTypeKeys() {}
 }

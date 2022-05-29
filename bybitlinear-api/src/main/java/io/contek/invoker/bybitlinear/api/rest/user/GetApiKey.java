@@ -9,13 +9,10 @@ import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
 
-import javax.annotation.concurrent.NotThreadSafe;
-
 import static io.contek.invoker.bybitlinear.api.ApiFactory.RateLimits.ONE_REST_PRIVATE_KEY_INFO_READ_REQUEST;
 import static io.contek.invoker.bybitlinear.api.rest.user.GetApiKey.Response;
 import static io.contek.invoker.commons.rest.RestMethod.GET;
 
-@NotThreadSafe
 public final class GetApiKey extends UserRestRequest<Response> {
 
   GetApiKey(IActor actor, RestContext context) {
@@ -49,6 +46,5 @@ public final class GetApiKey extends UserRestRequest<Response> {
     return Response.class;
   }
 
-  @NotThreadSafe
   public static final class Response extends RestResponse<_ApiKey> {}
 }

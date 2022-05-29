@@ -8,12 +8,10 @@ import io.contek.invoker.commons.rest.RestParams;
 import io.contek.invoker.hbdminverse.api.common._ContractInfo;
 import io.contek.invoker.hbdminverse.api.rest.common.RestDataResponse;
 
-import javax.annotation.concurrent.NotThreadSafe;
 import java.util.List;
 
 import static io.contek.invoker.hbdminverse.api.ApiFactory.RateLimits.ONE_IP_REST_PUBLIC_MARKET_DATA_REQUEST;
 
-@NotThreadSafe
 public final class GetSwapContractInfo extends MarketRestRequest<GetSwapContractInfo.Response> {
 
   private String contract_code;
@@ -53,6 +51,5 @@ public final class GetSwapContractInfo extends MarketRestRequest<GetSwapContract
     return ONE_IP_REST_PUBLIC_MARKET_DATA_REQUEST;
   }
 
-  @NotThreadSafe
   public static final class Response extends RestDataResponse<List<_ContractInfo>> {}
 }

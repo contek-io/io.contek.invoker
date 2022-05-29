@@ -4,12 +4,8 @@ import io.contek.invoker.bybitlinear.api.websocket.WebSocketChannel;
 import io.contek.invoker.bybitlinear.api.websocket.WebSocketChannelId;
 import io.contek.invoker.bybitlinear.api.websocket.common.WebSocketTopicMessage;
 
-import javax.annotation.concurrent.Immutable;
-import javax.annotation.concurrent.NotThreadSafe;
-import javax.annotation.concurrent.ThreadSafe;
 import java.util.List;
 
-@ThreadSafe
 public final class PositionChannel
     extends WebSocketChannel<PositionChannel.Id, PositionChannel.Message> {
 
@@ -22,7 +18,6 @@ public final class PositionChannel
     return Message.class;
   }
 
-  @Immutable
   public static final class Id extends WebSocketChannelId<Message> {
 
     private static final Id INSTANCE = new Id();
@@ -32,13 +27,11 @@ public final class PositionChannel
     }
   }
 
-  @NotThreadSafe
   public static final class Message extends WebSocketTopicMessage {
 
     public List<Data> data;
   }
 
-  @NotThreadSafe
   public static final class Data {
 
     public Long user_id; // user ID

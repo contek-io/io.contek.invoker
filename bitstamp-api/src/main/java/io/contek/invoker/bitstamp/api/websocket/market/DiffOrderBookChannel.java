@@ -5,12 +5,8 @@ import io.contek.invoker.bitstamp.api.websocket.WebSocketChannel;
 import io.contek.invoker.bitstamp.api.websocket.WebSocketChannelId;
 import io.contek.invoker.bitstamp.api.websocket.common.WebSocketChannelMessage;
 
-import javax.annotation.concurrent.Immutable;
-import javax.annotation.concurrent.NotThreadSafe;
-import javax.annotation.concurrent.ThreadSafe;
 import java.util.List;
 
-@ThreadSafe
 public final class DiffOrderBookChannel
     extends WebSocketChannel<DiffOrderBookChannel.Id, DiffOrderBookChannel.Message> {
 
@@ -25,7 +21,6 @@ public final class DiffOrderBookChannel
     return Message.class;
   }
 
-  @Immutable
   public static final class Id extends WebSocketChannelId<DiffOrderBookChannel.Message> {
 
     private Id(String currencyPair) {
@@ -37,10 +32,8 @@ public final class DiffOrderBookChannel
     }
   }
 
-  @NotThreadSafe
   public static final class Message extends WebSocketChannelMessage<Data> {}
 
-  @NotThreadSafe
   public static final class Data {
 
     public Long timestamp;

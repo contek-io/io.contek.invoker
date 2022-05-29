@@ -4,12 +4,8 @@ import io.contek.invoker.bybitlinear.api.websocket.WebSocketChannel;
 import io.contek.invoker.bybitlinear.api.websocket.WebSocketChannelId;
 import io.contek.invoker.bybitlinear.api.websocket.common.WebSocketTopicMessage;
 
-import javax.annotation.concurrent.Immutable;
-import javax.annotation.concurrent.NotThreadSafe;
-import javax.annotation.concurrent.ThreadSafe;
 import java.util.List;
 
-@ThreadSafe
 public final class TradeChannel extends WebSocketChannel<TradeChannel.Id, TradeChannel.Message> {
 
   TradeChannel(TradeChannel.Id id) {
@@ -21,7 +17,6 @@ public final class TradeChannel extends WebSocketChannel<TradeChannel.Id, TradeC
     return Message.class;
   }
 
-  @Immutable
   public static final class Id extends WebSocketChannelId<Message> {
 
     private Id(String topic) {
@@ -33,13 +28,11 @@ public final class TradeChannel extends WebSocketChannel<TradeChannel.Id, TradeC
     }
   }
 
-  @NotThreadSafe
   public static final class Message extends WebSocketTopicMessage {
 
     public List<Trade> data;
   }
 
-  @NotThreadSafe
   public static final class Trade {
 
     public String timestamp; // UTC time

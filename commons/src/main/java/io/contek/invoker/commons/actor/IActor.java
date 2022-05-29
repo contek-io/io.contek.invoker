@@ -2,13 +2,11 @@ package io.contek.invoker.commons.actor;
 
 import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
 import io.contek.invoker.security.ICredential;
-import io.contek.ursa.AcquireTimeoutException;
+import io.contek.invoker.ursa.core.api.AcquireTimeoutException;
 
-import javax.annotation.concurrent.ThreadSafe;
 import java.time.Clock;
 import java.util.List;
 
-@ThreadSafe
 public interface IActor {
 
   ICredential getCredential();

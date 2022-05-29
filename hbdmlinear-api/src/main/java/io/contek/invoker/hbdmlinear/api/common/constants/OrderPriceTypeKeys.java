@@ -1,8 +1,5 @@
 package io.contek.invoker.hbdmlinear.api.common.constants;
 
-import javax.annotation.concurrent.Immutable;
-
-@Immutable
 public final class OrderPriceTypeKeys {
 
   public static final String _limit = "limit";

@@ -1,9 +1,7 @@
 package io.contek.invoker.hbdmlinear.api.common;
 
-import javax.annotation.concurrent.NotThreadSafe;
 import java.util.List;
 
-@NotThreadSafe
 public class _CrossAccountPositionInfo {
 
   public String margin_mode;

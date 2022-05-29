@@ -8,12 +8,11 @@ import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.IWebSocketComponent;
 import io.contek.invoker.commons.websocket.WebSocketTextMessageParser;
 
-import javax.annotation.concurrent.Immutable;
-
-@Immutable
 public final class MarketWebSocketMessageParser extends WebSocketTextMessageParser {
 
   private final Gson gson = new Gson();
+
+  private MarketWebSocketMessageParser() {}
 
   static MarketWebSocketMessageParser getInstance() {
     return MarketWebSocketMessageParser.InstanceHolder.INSTANCE;
@@ -57,9 +56,6 @@ public final class MarketWebSocketMessageParser extends WebSocketTextMessagePars
     return gson.fromJson(obj, BookTickerEvent.class);
   }
 
-  private MarketWebSocketMessageParser() {}
-
-  @Immutable
   private static class InstanceHolder {
 
     private static final MarketWebSocketMessageParser INSTANCE = new MarketWebSocketMessageParser();

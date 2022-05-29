@@ -9,13 +9,11 @@ import io.contek.invoker.commons.rest.RestParams;
 import io.contek.invoker.ftx.api.common._Position;
 import io.contek.invoker.ftx.api.rest.common.RestResponse;
 
-import javax.annotation.concurrent.NotThreadSafe;
 import java.util.List;
 
 import static io.contek.invoker.commons.rest.RestMethod.GET;
 import static io.contek.invoker.ftx.api.ApiFactory.RateLimits.ONE_REST_REQUEST;
 
-@NotThreadSafe
 public final class GetPositions extends UserRestRequest<GetPositions.Response> {
 
   private Boolean showAvgPrice;
@@ -59,6 +57,5 @@ public final class GetPositions extends UserRestRequest<GetPositions.Response> {
     return ONE_REST_REQUEST;
   }
 
-  @NotThreadSafe
   public static final class Response extends RestResponse<List<_Position>> {}
 }

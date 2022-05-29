@@ -10,13 +10,11 @@ import io.contek.invoker.commons.rest.RestParams;
 import io.contek.invoker.okx.api.common._AccountConfig;
 import io.contek.invoker.okx.api.rest.common.RestResponse;
 
-import javax.annotation.concurrent.NotThreadSafe;
 import java.time.Duration;
 
 import static io.contek.invoker.commons.actor.ratelimit.LimitType.API_KEY;
 import static io.contek.invoker.commons.rest.RestMethod.GET;
 
-@NotThreadSafe
 public final class GetAccountConfig extends UserRestRequest<GetAccountConfig.Response> {
 
   public static final RateLimitRule RATE_LIMIT_RULE =
@@ -59,6 +57,5 @@ public final class GetAccountConfig extends UserRestRequest<GetAccountConfig.Res
     return REQUIRED_QUOTA;
   }
 
-  @NotThreadSafe
   public static final class Response extends RestResponse<_AccountConfig> {}
 }

@@ -1,8 +1,5 @@
 package io.contek.invoker.deribit.api.websocket.market.constants;
 
-import javax.annotation.concurrent.Immutable;
-
-@Immutable
 public final class BookSnapshotGroupKeys {
 
   public static final String _none = "none";

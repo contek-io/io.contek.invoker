@@ -9,13 +9,11 @@ import io.contek.invoker.commons.rest.RestParams;
 import io.contek.invoker.ftx.api.common._WalletBalance;
 import io.contek.invoker.ftx.api.rest.common.RestResponse;
 
-import javax.annotation.concurrent.NotThreadSafe;
 import java.util.List;
 
 import static io.contek.invoker.commons.rest.RestMethod.GET;
 import static io.contek.invoker.ftx.api.ApiFactory.RateLimits.ONE_REST_REQUEST;
 
-@NotThreadSafe
 public final class GetWalletBalances extends UserRestRequest<GetWalletBalances.Response> {
 
   GetWalletBalances(IActor actor, RestContext context) {
@@ -47,6 +45,5 @@ public final class GetWalletBalances extends UserRestRequest<GetWalletBalances.R
     return ONE_REST_REQUEST;
   }
 
-  @NotThreadSafe
   public static final class Response extends RestResponse<List<_WalletBalance>> {}
 }

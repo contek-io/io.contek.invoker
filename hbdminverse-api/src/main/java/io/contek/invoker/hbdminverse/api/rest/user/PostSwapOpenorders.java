@@ -9,14 +9,11 @@ import io.contek.invoker.hbdminverse.api.common._OrderInfo;
 import io.contek.invoker.hbdminverse.api.rest.common.PaginatedData;
 import io.contek.invoker.hbdminverse.api.rest.common.RestDataResponse;
 
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.NotThreadSafe;
 import java.util.List;
 
 import static io.contek.invoker.hbdminverse.api.ApiFactory.RateLimits.ONE_API_KEY_REST_PRIVATE_WRITE_REQUEST;
 import static java.util.Objects.requireNonNull;
 
-@NotThreadSafe
 public final class PostSwapOpenorders extends UserRestRequest<PostSwapOpenorders.Response> {
 
   private String contract_code;
@@ -34,22 +31,22 @@ public final class PostSwapOpenorders extends UserRestRequest<PostSwapOpenorders
     return this;
   }
 
-  public PostSwapOpenorders setPageIndex(@Nullable Integer page_index) {
+  public PostSwapOpenorders setPageIndex(Integer page_index) {
     this.page_index = page_index;
     return this;
   }
 
-  public PostSwapOpenorders setPageSize(@Nullable Integer page_size) {
+  public PostSwapOpenorders setPageSize(Integer page_size) {
     this.page_size = page_size;
     return this;
   }
 
-  public PostSwapOpenorders setSortBy(@Nullable String sort_by) {
+  public PostSwapOpenorders setSortBy(String sort_by) {
     this.sort_by = sort_by;
     return this;
   }
 
-  public PostSwapOpenorders setTradeType(@Nullable Integer trade_type) {
+  public PostSwapOpenorders setTradeType(Integer trade_type) {
     this.trade_type = trade_type;
     return this;
   }
@@ -95,10 +92,8 @@ public final class PostSwapOpenorders extends UserRestRequest<PostSwapOpenorders
     return ONE_API_KEY_REST_PRIVATE_WRITE_REQUEST;
   }
 
-  @NotThreadSafe
   public static final class Response extends RestDataResponse<Data> {}
 
-  @NotThreadSafe
   public static final class Data extends PaginatedData {
 
     public List<_OrderInfo> orders;

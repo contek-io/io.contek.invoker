@@ -8,13 +8,10 @@ import io.contek.invoker.commons.actor.http.HttpBusyException;
 import io.contek.invoker.commons.actor.http.HttpInterruptedException;
 import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
 import io.contek.invoker.security.ICredential;
-import io.contek.ursa.AcquireTimeoutException;
-
-import javax.annotation.concurrent.NotThreadSafe;
+import io.contek.invoker.ursa.core.api.AcquireTimeoutException;
 
 import static java.util.Objects.requireNonNull;
 
-@NotThreadSafe
 public abstract class BaseRestRequest<R> {
 
   private final IActor actor;

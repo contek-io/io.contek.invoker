@@ -7,15 +7,13 @@ import io.contek.invoker.commons.actor.http.HttpBusyException;
 import io.contek.invoker.commons.actor.http.HttpInterruptedException;
 import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
 import io.contek.invoker.security.ICredential;
-import io.contek.ursa.AcquireTimeoutException;
+import io.contek.invoker.ursa.core.api.AcquireTimeoutException;
 import okhttp3.Response;
 import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
 import okio.ByteString;
-import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 
-import javax.annotation.concurrent.ThreadSafe;
 import java.io.EOFException;
 import java.io.IOException;
 import java.net.SocketTimeoutException;
@@ -27,7 +25,6 @@ import java.util.concurrent.atomic.AtomicReference;
 import static java.util.concurrent.Executors.newSingleThreadScheduledExecutor;
 import static org.slf4j.LoggerFactory.getLogger;
 
-@ThreadSafe
 public abstract class BaseWebSocketApi implements IWebSocketApi {
 
   private static final Logger log = getLogger(BaseWebSocketApi.class);
@@ -238,7 +235,6 @@ public abstract class BaseWebSocketApi implements IWebSocketApi {
     }
   }
 
-  @ThreadSafe
   private final class Handler extends WebSocketListener {
 
     @Override
@@ -252,7 +248,7 @@ public abstract class BaseWebSocketApi implements IWebSocketApi {
     }
 
     @Override
-    public void onFailure(WebSocket ws, Throwable t, @Nullable Response response) {
+    public void onFailure(WebSocket ws, Throwable t, Response response) {
       if (t instanceof SocketTimeoutException) {
         log.warn("Shutting down inactive session.", t);
       } else if (t instanceof EOFException) {

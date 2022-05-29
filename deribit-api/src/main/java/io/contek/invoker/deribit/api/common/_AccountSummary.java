@@ -1,9 +1,7 @@
 package io.contek.invoker.deribit.api.common;
 
-import javax.annotation.concurrent.NotThreadSafe;
 import java.util.List;
 
-@NotThreadSafe
 public class _AccountSummary {
 
   public double options_gamma;

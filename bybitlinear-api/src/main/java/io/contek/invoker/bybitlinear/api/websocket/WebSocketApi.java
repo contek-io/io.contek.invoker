@@ -6,9 +6,6 @@ import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
 import io.contek.invoker.commons.websocket.*;
 import io.contek.invoker.security.ICredential;
 
-import javax.annotation.concurrent.ThreadSafe;
-
-@ThreadSafe
 public abstract class WebSocketApi extends BaseWebSocketApi {
 
   private final WebSocketContext context;

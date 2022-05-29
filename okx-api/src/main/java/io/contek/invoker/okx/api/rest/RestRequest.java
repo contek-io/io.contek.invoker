@@ -6,7 +6,6 @@ import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.rest.*;
 import io.contek.invoker.security.ICredential;
 
-import javax.annotation.concurrent.NotThreadSafe;
 import java.time.Clock;
 import java.time.format.DateTimeFormatter;
 
@@ -14,7 +13,6 @@ import static io.contek.invoker.commons.rest.RestMediaType.JSON;
 import static java.time.ZoneOffset.UTC;
 import static java.time.format.DateTimeFormatter.ISO_INSTANT;
 
-@NotThreadSafe
 public abstract class RestRequest<R> extends BaseRestRequest<R> {
 
   public static final String OK_ACCESS_PASSPHRASE = "OK-ACCESS-PASSPHRASE";

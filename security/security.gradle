@@ -2,3 +2,7 @@ dependencies {
 }
 
 description = "Security"
+
+ext.moduleName = 'io.contek.invoker.security'
+
+description = "Exchange Common Utilities"

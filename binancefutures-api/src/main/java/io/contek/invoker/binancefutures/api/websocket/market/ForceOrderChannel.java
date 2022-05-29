@@ -3,11 +3,6 @@ package io.contek.invoker.binancefutures.api.websocket.market;
 import io.contek.invoker.binancefutures.api.websocket.WebSocketRequestIdGenerator;
 import io.contek.invoker.binancefutures.api.websocket.common.WebSocketStreamMessage;
 
-import javax.annotation.concurrent.Immutable;
-import javax.annotation.concurrent.NotThreadSafe;
-import javax.annotation.concurrent.ThreadSafe;
-
-@ThreadSafe
 public final class ForceOrderChannel
     extends MarketWebSocketChannel<ForceOrderChannel.Id, ForceOrderChannel.Message> {
 
@@ -20,7 +15,6 @@ public final class ForceOrderChannel
     return ForceOrderChannel.Message.class;
   }
 
-  @Immutable
   public static final class Id extends MarketWebSocketChannelId<ForceOrderChannel.Message> {
 
     private Id(String symbol) {
@@ -32,6 +26,5 @@ public final class ForceOrderChannel
     }
   }
 
-  @NotThreadSafe
   public static final class Message extends WebSocketStreamMessage<ForceOrderEvent> {}
 }

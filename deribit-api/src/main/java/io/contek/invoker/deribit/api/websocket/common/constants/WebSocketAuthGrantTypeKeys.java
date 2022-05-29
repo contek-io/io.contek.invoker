@@ -1,8 +1,5 @@
 package io.contek.invoker.deribit.api.websocket.common.constants;
 
-import javax.annotation.concurrent.Immutable;
-
-@Immutable
 public final class WebSocketAuthGrantTypeKeys {
 
   public static final String _client_credentials = "client_credentials";

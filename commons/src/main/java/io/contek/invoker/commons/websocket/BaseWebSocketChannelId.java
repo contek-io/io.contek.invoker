@@ -1,9 +1,7 @@
 package io.contek.invoker.commons.websocket;
 
-import javax.annotation.concurrent.Immutable;
 import java.util.Objects;
 
-@Immutable
 public abstract class BaseWebSocketChannelId<M extends AnyWebSocketMessage> {
 
   private final String value;

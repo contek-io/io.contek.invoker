@@ -8,11 +8,8 @@ import io.contek.invoker.commons.rest.RestParams;
 import io.contek.invoker.hbdmlinear.api.common._MarketDetail;
 import io.contek.invoker.hbdmlinear.api.rest.common.RestTicksResponse;
 
-import javax.annotation.concurrent.NotThreadSafe;
-
 import static io.contek.invoker.hbdmlinear.api.ApiFactory.RateLimits.ONE_IP_REST_PUBLIC_MARKET_DATA_REQUEST;
 
-@NotThreadSafe
 public final class GetMarketDetailBatchMerged
     extends MarketRestRequest<GetMarketDetailBatchMerged.Response> {
 
@@ -53,6 +50,5 @@ public final class GetMarketDetailBatchMerged
     return ONE_IP_REST_PUBLIC_MARKET_DATA_REQUEST;
   }
 
-  @NotThreadSafe
   public static final class Response extends RestTicksResponse<_MarketDetail> {}
 }

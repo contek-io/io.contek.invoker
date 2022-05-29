@@ -15,7 +15,6 @@ import io.contek.invoker.kraken.api.websocket.common.*;
 import io.contek.invoker.kraken.api.websocket.market.BookChannel;
 import io.contek.invoker.kraken.api.websocket.market.TradeChannel;
 
-import javax.annotation.concurrent.Immutable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,48 +23,16 @@ import static io.contek.invoker.kraken.api.websocket.common.constants.WebSocketC
 import static io.contek.invoker.kraken.api.websocket.common.constants.WebSocketChannelKeys._trade;
 import static io.contek.invoker.kraken.api.websocket.common.constants.WebSocketEventKeys.*;
 
-@Immutable
 final class WebSocketMessageParser extends WebSocketTextMessageParser {
 
   private static final String FIELD_EVENT = "event";
 
   private final Gson gson = new Gson();
 
+  private WebSocketMessageParser() {}
+
   static WebSocketMessageParser getInstance() {
     return InstanceHolder.INSTANCE;
-  }
-
-  @Override
-  public void register(IWebSocketComponent component) {}
-
-  @Override
-  protected AnyWebSocketMessage fromText(String text) {
-    JsonElement json = gson.fromJson(text, JsonElement.class);
-
-    if (json.isJsonArray()) {
-      return toDataMessage(json.getAsJsonArray());
-    } else if (json.isJsonObject()) {
-      return toWebSocketResponse(json.getAsJsonObject());
-    } else {
-      throw new IllegalArgumentException(text);
-    }
-  }
-
-  private WebSocketGeneralMessage toWebSocketResponse(JsonObject obj) {
-    String event = obj.get(FIELD_EVENT).getAsString();
-    switch (event) {
-      case _pong:
-        return gson.fromJson(obj, WebSocketPongResponse.class);
-      case _heartbeat:
-        return gson.fromJson(obj, WebSocketHeartbeat.class);
-      case _systemStatus:
-        return gson.fromJson(obj, WebSocketSystemStatus.class);
-      case _subscriptionStatus:
-        return gson.fromJson(obj, WebSocketSubscriptionStatus.class);
-      default:
-    }
-
-    throw new UnsupportedOperationException(event);
   }
 
   private static WebSocketChannelDataMessage<?> toDataMessage(JsonArray array) {
@@ -107,8 +74,8 @@ final class WebSocketMessageParser extends WebSocketTextMessageParser {
         result.data.b = toOrderBookEntries(obj.get("b"));
       }
 
-      if (obj.has("a")) {
-        result.data.a = toOrderBookEntries(obj.get("a"));
+      if (obj.has("io.contek.invoker.ftx.api.a")) {
+        result.data.a = toOrderBookEntries(obj.get("io.contek.invoker.ftx.api.a"));
       }
     }
 
@@ -144,9 +111,39 @@ final class WebSocketMessageParser extends WebSocketTextMessageParser {
     return trades;
   }
 
-  private WebSocketMessageParser() {}
+  @Override
+  public void register(IWebSocketComponent component) {}
 
-  @Immutable
+  @Override
+  protected AnyWebSocketMessage fromText(String text) {
+    JsonElement json = gson.fromJson(text, JsonElement.class);
+
+    if (json.isJsonArray()) {
+      return toDataMessage(json.getAsJsonArray());
+    } else if (json.isJsonObject()) {
+      return toWebSocketResponse(json.getAsJsonObject());
+    } else {
+      throw new IllegalArgumentException(text);
+    }
+  }
+
+  private WebSocketGeneralMessage toWebSocketResponse(JsonObject obj) {
+    String event = obj.get(FIELD_EVENT).getAsString();
+    switch (event) {
+      case _pong:
+        return gson.fromJson(obj, WebSocketPongResponse.class);
+      case _heartbeat:
+        return gson.fromJson(obj, WebSocketHeartbeat.class);
+      case _systemStatus:
+        return gson.fromJson(obj, WebSocketSystemStatus.class);
+      case _subscriptionStatus:
+        return gson.fromJson(obj, WebSocketSubscriptionStatus.class);
+      default:
+    }
+
+    throw new UnsupportedOperationException(event);
+  }
+
   private static final class InstanceHolder {
 
     private static final WebSocketMessageParser INSTANCE = new WebSocketMessageParser();

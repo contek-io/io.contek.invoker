@@ -10,15 +10,12 @@ import io.contek.invoker.commons.rest.RestParams;
 import io.contek.invoker.okx.api.common._PlaceOrderAck;
 import io.contek.invoker.okx.api.rest.common.RestResponse;
 
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.NotThreadSafe;
 import java.time.Duration;
 
 import static io.contek.invoker.commons.actor.ratelimit.LimitType.API_KEY;
 import static io.contek.invoker.commons.rest.RestMethod.POST;
 import static java.util.Objects.requireNonNull;
 
-@NotThreadSafe
 public final class PostTradeOrder extends UserRestRequest<PostTradeOrder.Response> {
 
   public static final RateLimitRule RATE_LIMIT_RULE =
@@ -59,17 +56,17 @@ public final class PostTradeOrder extends UserRestRequest<PostTradeOrder.Respons
     return this;
   }
 
-  public PostTradeOrder setCcy(@Nullable String ccy) {
+  public PostTradeOrder setCcy(String ccy) {
     this.ccy = ccy;
     return this;
   }
 
-  public PostTradeOrder setClOrdId(@Nullable String clOrdId) {
+  public PostTradeOrder setClOrdId(String clOrdId) {
     this.clOrdId = clOrdId;
     return this;
   }
 
-  public PostTradeOrder setTag(@Nullable String tag) {
+  public PostTradeOrder setTag(String tag) {
     this.tag = tag;
     return this;
   }
@@ -79,7 +76,7 @@ public final class PostTradeOrder extends UserRestRequest<PostTradeOrder.Respons
     return this;
   }
 
-  public PostTradeOrder setPosSide(@Nullable String posSide) {
+  public PostTradeOrder setPosSide(String posSide) {
     this.posSide = posSide;
     return this;
   }
@@ -94,17 +91,17 @@ public final class PostTradeOrder extends UserRestRequest<PostTradeOrder.Respons
     return this;
   }
 
-  public PostTradeOrder setPx(@Nullable String px) {
+  public PostTradeOrder setPx(String px) {
     this.px = px;
     return this;
   }
 
-  public PostTradeOrder setReduceOnly(@Nullable Boolean reduceOnly) {
+  public PostTradeOrder setReduceOnly(Boolean reduceOnly) {
     this.reduceOnly = reduceOnly;
     return this;
   }
 
-  public PostTradeOrder setTgtCcy(@Nullable String tgtCcy) {
+  public PostTradeOrder setTgtCcy(String tgtCcy) {
     this.tgtCcy = tgtCcy;
     return this;
   }
@@ -179,6 +176,5 @@ public final class PostTradeOrder extends UserRestRequest<PostTradeOrder.Respons
     return REQUIRED_QUOTA;
   }
 
-  @NotThreadSafe
   public static final class Response extends RestResponse<_PlaceOrderAck> {}
 }

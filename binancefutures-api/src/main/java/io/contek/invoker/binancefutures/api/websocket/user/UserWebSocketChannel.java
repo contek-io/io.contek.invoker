@@ -6,13 +6,9 @@ import io.contek.invoker.commons.websocket.BaseWebSocketChannel;
 import io.contek.invoker.commons.websocket.SubscriptionState;
 import io.contek.invoker.commons.websocket.WebSocketSession;
 
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.ThreadSafe;
-
 import static io.contek.invoker.commons.websocket.SubscriptionState.SUBSCRIBED;
 import static io.contek.invoker.commons.websocket.SubscriptionState.UNSUBSCRIBED;
 
-@ThreadSafe
 public abstract class UserWebSocketChannel<
         Id extends UserWebSocketChannelId<Message>, Message extends WebSocketEventMessage>
     extends BaseWebSocketChannel<Id, Message> {
@@ -29,14 +25,14 @@ public abstract class UserWebSocketChannel<
   }
 
   // We do no action in unsubscription phase since all the user-related channel shared the same
-  // underlying web socket connection, and there is no way to unsubscribe to a given topic. Either
+  // underlying web socket connection, and there is no way to unsubscribe to
+  // io.contek.invoker.ftx.api.a given topic. Either
   // all user related events will be pushed to us, or the connection is closed altogether.
   @Override
   protected final SubscriptionState unsubscribe(WebSocketSession session) {
     return UNSUBSCRIBED;
   }
 
-  @Nullable
   @Override
   protected final SubscriptionState getState(AnyWebSocketMessage message) {
     if (message instanceof UserDataStreamExpiredEvent) {

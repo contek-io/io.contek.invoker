@@ -6,28 +6,18 @@ import okio.BufferedSource;
 import okio.ByteString;
 import org.slf4j.Logger;
 
-import javax.annotation.concurrent.Immutable;
 import java.io.IOException;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
-@Immutable
 public final class HttpLoggingInterceptor implements Interceptor {
 
   private static final Logger log = getLogger(HttpLoggingInterceptor.class);
 
+  private HttpLoggingInterceptor() {}
+
   public static HttpLoggingInterceptor getInstance() {
     return InstanceHolder.INSTANCE;
-  }
-
-  @Override
-  public Response intercept(Chain chain) throws IOException {
-    Request request = chain.request();
-    logRequest(request);
-
-    Response response = chain.proceed(request);
-    logResponse(request, response);
-    return response;
   }
 
   private static void logRequest(Request request) {
@@ -76,9 +66,16 @@ public final class HttpLoggingInterceptor implements Interceptor {
     }
   }
 
-  private HttpLoggingInterceptor() {}
+  @Override
+  public Response intercept(Chain chain) throws IOException {
+    Request request = chain.request();
+    logRequest(request);
 
-  @Immutable
+    Response response = chain.proceed(request);
+    logResponse(request, response);
+    return response;
+  }
+
   private static final class InstanceHolder {
 
     private static final HttpLoggingInterceptor INSTANCE = new HttpLoggingInterceptor();

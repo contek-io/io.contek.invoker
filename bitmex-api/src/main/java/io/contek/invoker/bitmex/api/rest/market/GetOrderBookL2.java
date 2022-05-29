@@ -6,12 +6,8 @@ import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestParams;
 
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.NotThreadSafe;
-
 import static com.google.common.base.Preconditions.checkNotNull;
 
-@NotThreadSafe
 public final class GetOrderBookL2 extends MarketRestRequest<Response> {
 
   private String symbol;
@@ -26,7 +22,7 @@ public final class GetOrderBookL2 extends MarketRestRequest<Response> {
     return this;
   }
 
-  public GetOrderBookL2 setDepth(@Nullable Integer depth) {
+  public GetOrderBookL2 setDepth(Integer depth) {
     this.depth = depth;
     return this;
   }
@@ -52,6 +48,5 @@ public final class GetOrderBookL2 extends MarketRestRequest<Response> {
     return builder.build();
   }
 
-  @NotThreadSafe
   public static final class Response extends _OrderBook {}
 }

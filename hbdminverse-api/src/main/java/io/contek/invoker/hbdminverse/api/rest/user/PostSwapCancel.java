@@ -8,13 +8,11 @@ import io.contek.invoker.commons.rest.RestParams;
 import io.contek.invoker.hbdminverse.api.rest.common.RestDataResponse;
 import io.contek.invoker.hbdminverse.api.rest.common.RestError;
 
-import javax.annotation.concurrent.NotThreadSafe;
 import java.util.List;
 
 import static io.contek.invoker.hbdminverse.api.ApiFactory.RateLimits.ONE_API_KEY_REST_PRIVATE_WRITE_REQUEST;
 import static java.util.Objects.requireNonNull;
 
-@NotThreadSafe
 public final class PostSwapCancel extends UserRestRequest<PostSwapCancel.Response> {
 
   private String order_id;
@@ -73,10 +71,8 @@ public final class PostSwapCancel extends UserRestRequest<PostSwapCancel.Respons
     return ONE_API_KEY_REST_PRIVATE_WRITE_REQUEST;
   }
 
-  @NotThreadSafe
   public static final class Response extends RestDataResponse<Data> {}
 
-  @NotThreadSafe
   public static final class Data {
 
     public List<Error> errors;
@@ -91,7 +87,6 @@ public final class PostSwapCancel extends UserRestRequest<PostSwapCancel.Respons
     }
   }
 
-  @NotThreadSafe
   public static final class Error extends RestError {
 
     public String order_id;

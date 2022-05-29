@@ -6,13 +6,11 @@ import io.contek.invoker.commons.rest.RestParams;
 import io.contek.invoker.ftx.api.common._Candle;
 import io.contek.invoker.ftx.api.rest.common.RestResponse;
 
-import javax.annotation.concurrent.NotThreadSafe;
 import java.util.List;
 
 import static java.text.MessageFormat.format;
 import static java.util.Objects.requireNonNull;
 
-@NotThreadSafe
 public final class GetMarketsCandles extends MarketRestRequest<GetMarketsCandles.Response> {
 
   private String market_name;
@@ -83,6 +81,5 @@ public final class GetMarketsCandles extends MarketRestRequest<GetMarketsCandles
     return Response.class;
   }
 
-  @NotThreadSafe
   public static final class Response extends RestResponse<List<_Candle>> {}
 }

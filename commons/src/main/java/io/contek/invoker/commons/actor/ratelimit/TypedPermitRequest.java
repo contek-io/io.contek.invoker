@@ -1,8 +1,5 @@
 package io.contek.invoker.commons.actor.ratelimit;
 
-import javax.annotation.concurrent.Immutable;
-
-@Immutable
 public final class TypedPermitRequest {
 
   private final String name;

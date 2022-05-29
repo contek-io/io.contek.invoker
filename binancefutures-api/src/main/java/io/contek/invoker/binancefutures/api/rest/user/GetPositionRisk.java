@@ -9,13 +9,11 @@ import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
 
-import javax.annotation.concurrent.NotThreadSafe;
 import java.util.ArrayList;
 
 import static io.contek.invoker.binancefutures.api.ApiFactory.RateLimits.IP_REST_REQUEST_RULE;
 import static io.contek.invoker.commons.rest.RestMethod.GET;
 
-@NotThreadSafe
 public final class GetPositionRisk extends UserRestRequest<Response> {
 
   private static final ImmutableList<TypedPermitRequest> REQUIRED_QUOTA =
@@ -65,6 +63,5 @@ public final class GetPositionRisk extends UserRestRequest<Response> {
     return REQUIRED_QUOTA;
   }
 
-  @NotThreadSafe
   public static final class Response extends ArrayList<_PositionRisk> {}
 }

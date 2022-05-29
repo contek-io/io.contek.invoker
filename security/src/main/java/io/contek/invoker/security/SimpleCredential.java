@@ -3,11 +3,8 @@ package io.contek.invoker.security;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.io.BaseEncoding;
 
-import javax.annotation.concurrent.Immutable;
-
 import static com.google.common.base.Charsets.UTF_8;
 
-@Immutable
 public final class SimpleCredential implements ICredential {
 
   private final ApiKey apiKey;

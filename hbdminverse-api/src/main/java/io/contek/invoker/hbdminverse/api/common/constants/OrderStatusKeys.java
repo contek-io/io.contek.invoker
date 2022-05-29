@@ -1,8 +1,5 @@
 package io.contek.invoker.hbdminverse.api.common.constants;
 
-import javax.annotation.concurrent.Immutable;
-
-@Immutable
 public final class OrderStatusKeys {
 
   public static final int _1_not_activated = 1;

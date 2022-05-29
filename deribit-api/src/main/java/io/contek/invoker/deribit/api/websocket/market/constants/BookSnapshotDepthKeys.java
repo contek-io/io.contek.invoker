@@ -1,8 +1,5 @@
 package io.contek.invoker.deribit.api.websocket.market.constants;
 
-import javax.annotation.concurrent.Immutable;
-
-@Immutable
 public final class BookSnapshotDepthKeys {
 
   public static final int _1 = 1;

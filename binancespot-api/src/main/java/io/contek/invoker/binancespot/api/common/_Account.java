@@ -1,9 +1,7 @@
 package io.contek.invoker.binancespot.api.common;
 
-import javax.annotation.concurrent.NotThreadSafe;
 import java.util.List;
 
-@NotThreadSafe
 public class _Account {
 
   public Integer makerCommission;

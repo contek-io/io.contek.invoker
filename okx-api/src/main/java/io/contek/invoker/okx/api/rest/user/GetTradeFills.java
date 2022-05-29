@@ -10,14 +10,11 @@ import io.contek.invoker.commons.rest.RestParams;
 import io.contek.invoker.okx.api.common._Fill;
 import io.contek.invoker.okx.api.rest.common.RestResponse;
 
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.NotThreadSafe;
 import java.time.Duration;
 
 import static io.contek.invoker.commons.actor.ratelimit.LimitType.API_KEY;
 import static io.contek.invoker.commons.rest.RestMethod.GET;
 
-@NotThreadSafe
 public final class GetTradeFills extends UserRestRequest<GetTradeFills.Response> {
 
   public static final RateLimitRule RATE_LIMIT_RULE =
@@ -43,37 +40,37 @@ public final class GetTradeFills extends UserRestRequest<GetTradeFills.Response>
     super(actor, context);
   }
 
-  public GetTradeFills setInstType(@Nullable String instType) {
+  public GetTradeFills setInstType(String instType) {
     this.instType = instType;
     return this;
   }
 
-  public GetTradeFills setUly(@Nullable String uly) {
+  public GetTradeFills setUly(String uly) {
     this.uly = uly;
     return this;
   }
 
-  public GetTradeFills setInstId(@Nullable String instId) {
+  public GetTradeFills setInstId(String instId) {
     this.instId = instId;
     return this;
   }
 
-  public GetTradeFills setOrdId(@Nullable String ordId) {
+  public GetTradeFills setOrdId(String ordId) {
     this.ordId = ordId;
     return this;
   }
 
-  public GetTradeFills setAfter(@Nullable Long after) {
+  public GetTradeFills setAfter(Long after) {
     this.after = after;
     return this;
   }
 
-  public GetTradeFills setBefore(@Nullable Long before) {
+  public GetTradeFills setBefore(Long before) {
     this.before = before;
     return this;
   }
 
-  public GetTradeFills setLimit(@Nullable Integer limit) {
+  public GetTradeFills setLimit(Integer limit) {
     this.limit = limit;
     return this;
   }
@@ -133,6 +130,5 @@ public final class GetTradeFills extends UserRestRequest<GetTradeFills.Response>
     return builder.build();
   }
 
-  @NotThreadSafe
   public static final class Response extends RestResponse<_Fill> {}
 }

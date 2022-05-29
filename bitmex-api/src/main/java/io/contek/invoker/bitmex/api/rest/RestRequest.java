@@ -7,7 +7,6 @@ import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
 import io.contek.invoker.commons.rest.*;
 import io.contek.invoker.security.ICredential;
 
-import javax.annotation.concurrent.NotThreadSafe;
 import java.time.Clock;
 import java.time.Duration;
 
@@ -17,7 +16,6 @@ import static io.contek.invoker.bitmex.api.ApiFactory.RateLimits.ONE_AUTHENTICAT
 import static io.contek.invoker.commons.rest.RestMediaType.JSON;
 import static java.time.temporal.ChronoUnit.MINUTES;
 
-@NotThreadSafe
 public abstract class RestRequest<R> extends BaseRestRequest<R> {
 
   private static final String API_EXPIRES = "api-expires";

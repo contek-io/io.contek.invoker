@@ -7,14 +7,11 @@ import io.contek.invoker.ftx.api.websocket.WebSocketChannelId;
 import io.contek.invoker.ftx.api.websocket.common.WebSocketChannelMessage;
 import io.contek.invoker.ftx.api.websocket.common.WebSocketSubscriptionRequest;
 
-import javax.annotation.concurrent.ThreadSafe;
-
 import static io.contek.invoker.commons.websocket.SubscriptionState.SUBSCRIBING;
 import static io.contek.invoker.commons.websocket.SubscriptionState.UNSUBSCRIBING;
 import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketOutboundKeys._subscribe;
 import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketOutboundKeys._unsubscribe;
 
-@ThreadSafe
 public abstract class WebSocketUserChannel<
         Id extends WebSocketChannelId<Message>, Message extends WebSocketChannelMessage<?>>
     extends WebSocketChannel<Id, Message> {

@@ -10,14 +10,11 @@ import io.contek.invoker.commons.rest.RestParams;
 import io.contek.invoker.okx.api.common._Order;
 import io.contek.invoker.okx.api.rest.common.RestResponse;
 
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.NotThreadSafe;
 import java.time.Duration;
 
 import static io.contek.invoker.commons.actor.ratelimit.LimitType.API_KEY;
 import static io.contek.invoker.commons.rest.RestMethod.GET;
 
-@NotThreadSafe
 public final class GetTradeOrdersPending extends UserRestRequest<GetTradeOrdersPending.Response> {
 
   public static final RateLimitRule RATE_LIMIT_RULE =
@@ -44,42 +41,42 @@ public final class GetTradeOrdersPending extends UserRestRequest<GetTradeOrdersP
     super(actor, context);
   }
 
-  public GetTradeOrdersPending setInstId(@Nullable String instId) {
+  public GetTradeOrdersPending setInstId(String instId) {
     this.instId = instId;
     return this;
   }
 
-  public GetTradeOrdersPending setInstType(@Nullable String instType) {
+  public GetTradeOrdersPending setInstType(String instType) {
     this.instType = instType;
     return this;
   }
 
-  public GetTradeOrdersPending setUly(@Nullable String uly) {
+  public GetTradeOrdersPending setUly(String uly) {
     this.uly = uly;
     return this;
   }
 
-  public GetTradeOrdersPending setOrdType(@Nullable String ordType) {
+  public GetTradeOrdersPending setOrdType(String ordType) {
     this.ordType = ordType;
     return this;
   }
 
-  public GetTradeOrdersPending setState(@Nullable String state) {
+  public GetTradeOrdersPending setState(String state) {
     this.state = state;
     return this;
   }
 
-  public GetTradeOrdersPending setAfter(@Nullable Long after) {
+  public GetTradeOrdersPending setAfter(Long after) {
     this.after = after;
     return this;
   }
 
-  public GetTradeOrdersPending setBefore(@Nullable Long before) {
+  public GetTradeOrdersPending setBefore(Long before) {
     this.before = before;
     return this;
   }
 
-  public GetTradeOrdersPending setLimit(@Nullable Integer limit) {
+  public GetTradeOrdersPending setLimit(Integer limit) {
     this.limit = limit;
     return this;
   }
@@ -143,6 +140,5 @@ public final class GetTradeOrdersPending extends UserRestRequest<GetTradeOrdersP
     return REQUIRED_QUOTA;
   }
 
-  @NotThreadSafe
   public static final class Response extends RestResponse<_Order> {}
 }

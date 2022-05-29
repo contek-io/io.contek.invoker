@@ -4,11 +4,9 @@ import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.websocket.WebSocketContext;
 import io.contek.invoker.hbdminverse.api.websocket.common.notification.NotificationWebSocketApi;
 
-import javax.annotation.concurrent.ThreadSafe;
 import java.util.HashMap;
 import java.util.Map;
 
-@ThreadSafe
 public final class MarketNotificationWebSocketApi extends NotificationWebSocketApi {
 
   private final Map<LiquidationOrderChannel.Id, LiquidationOrderChannel> liquidationOrderChannels =

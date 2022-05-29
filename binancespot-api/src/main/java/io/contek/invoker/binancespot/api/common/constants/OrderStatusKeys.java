@@ -1,8 +1,5 @@
 package io.contek.invoker.binancespot.api.common.constants;
 
-import javax.annotation.concurrent.Immutable;
-
-@Immutable
 public final class OrderStatusKeys {
 
   public static final String _NEW = "NEW";

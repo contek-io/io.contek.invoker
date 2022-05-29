@@ -9,14 +9,12 @@ import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
 
-import javax.annotation.concurrent.NotThreadSafe;
 import java.util.Map;
 
 import static io.contek.invoker.bybit.api.ApiFactory.RateLimits.ONE_REST_PRIVATE_POSITION_READ_REQUEST;
 import static io.contek.invoker.bybit.api.rest.user.GetWalletBalance.Response;
 import static io.contek.invoker.commons.rest.RestMethod.GET;
 
-@NotThreadSafe
 public final class GetWalletBalance extends UserRestRequest<Response> {
 
   private String coin;
@@ -61,6 +59,5 @@ public final class GetWalletBalance extends UserRestRequest<Response> {
     return Response.class;
   }
 
-  @NotThreadSafe
   public static final class Response extends RestResponse<Map<String, _WalletBalance>> {}
 }

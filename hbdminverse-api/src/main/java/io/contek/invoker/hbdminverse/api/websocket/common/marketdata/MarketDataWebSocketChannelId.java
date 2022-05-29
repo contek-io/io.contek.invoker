@@ -2,9 +2,6 @@ package io.contek.invoker.hbdminverse.api.websocket.common.marketdata;
 
 import io.contek.invoker.commons.websocket.BaseWebSocketChannelId;
 
-import javax.annotation.concurrent.Immutable;
-
-@Immutable
 public abstract class MarketDataWebSocketChannelId<
         Message extends MarketDataWebSocketChannelMessage>
     extends BaseWebSocketChannelId<Message> {

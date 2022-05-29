@@ -8,14 +8,11 @@ import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
 import io.contek.invoker.ftx.api.rest.common.RestResponse;
 
-import javax.annotation.concurrent.NotThreadSafe;
-
 import static io.contek.invoker.commons.rest.RestMethod.DELETE;
 import static io.contek.invoker.ftx.api.ApiFactory.RateLimits.ONE_REST_REQUEST;
 import static java.text.MessageFormat.format;
 import static java.util.Objects.requireNonNull;
 
-@NotThreadSafe
 public final class DeleteOrdersByClientOrderId
     extends UserRestRequest<DeleteOrdersByClientOrderId.Response> {
 
@@ -56,6 +53,5 @@ public final class DeleteOrdersByClientOrderId
     return ONE_REST_REQUEST;
   }
 
-  @NotThreadSafe
   public static final class Response extends RestResponse<String> {}
 }

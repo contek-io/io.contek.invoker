@@ -5,10 +5,9 @@ import io.contek.invoker.commons.websocket.IWebSocketLiveKeeper;
 import io.contek.invoker.commons.websocket.WebSocketSession;
 import io.contek.invoker.commons.websocket.WebSocketSessionInactiveException;
 
-import javax.annotation.concurrent.Immutable;
-
-@Immutable
 public final class WebSocketLiveKeeper implements IWebSocketLiveKeeper {
+
+  private WebSocketLiveKeeper() {}
 
   public static WebSocketLiveKeeper getInstance() {
     return InstanceHolder.INSTANCE;
@@ -30,9 +29,6 @@ public final class WebSocketLiveKeeper implements IWebSocketLiveKeeper {
   @Override
   public void afterDisconnect() {}
 
-  private WebSocketLiveKeeper() {}
-
-  @Immutable
   private static final class InstanceHolder {
 
     private static final WebSocketLiveKeeper INSTANCE = new WebSocketLiveKeeper();

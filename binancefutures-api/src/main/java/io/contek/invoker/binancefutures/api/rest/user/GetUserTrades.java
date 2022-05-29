@@ -9,15 +9,12 @@ import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
 
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.NotThreadSafe;
 import java.util.ArrayList;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static io.contek.invoker.binancefutures.api.ApiFactory.RateLimits.IP_REST_REQUEST_RULE;
 import static io.contek.invoker.commons.rest.RestMethod.GET;
 
-@NotThreadSafe
 public final class GetUserTrades extends UserRestRequest<Response> {
 
   public static final int DEFAULT_LIMIT = 500;
@@ -41,22 +38,22 @@ public final class GetUserTrades extends UserRestRequest<Response> {
     return this;
   }
 
-  public GetUserTrades setStartTime(@Nullable Long startTime) {
+  public GetUserTrades setStartTime(Long startTime) {
     this.startTime = startTime;
     return this;
   }
 
-  public GetUserTrades setEndTime(@Nullable Long endTime) {
+  public GetUserTrades setEndTime(Long endTime) {
     this.endTime = endTime;
     return this;
   }
 
-  public GetUserTrades setFromId(@Nullable Long fromId) {
+  public GetUserTrades setFromId(Long fromId) {
     this.fromId = fromId;
     return this;
   }
 
-  public GetUserTrades setLimit(@Nullable Integer limit) {
+  public GetUserTrades setLimit(Integer limit) {
     this.limit = limit;
     return this;
   }
@@ -106,6 +103,5 @@ public final class GetUserTrades extends UserRestRequest<Response> {
     return REQUIRED_QUOTA;
   }
 
-  @NotThreadSafe
   public static final class Response extends ArrayList<_UserTrade> {}
 }

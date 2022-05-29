@@ -2,12 +2,8 @@ package io.contek.invoker.commons.rest;
 
 import io.contek.invoker.commons.actor.http.BaseHttpContext;
 
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.Immutable;
-import javax.annotation.concurrent.NotThreadSafe;
 import java.time.Duration;
 
-@Immutable
 public final class RestContext extends BaseHttpContext {
 
   private final Duration connectionTimeout;
@@ -15,10 +11,7 @@ public final class RestContext extends BaseHttpContext {
   private final Duration writeTimeout;
 
   private RestContext(
-      String baseUrl,
-      @Nullable Duration connectionTimeout,
-      @Nullable Duration readTimeout,
-      @Nullable Duration writeTimeout) {
+      String baseUrl, Duration connectionTimeout, Duration readTimeout, Duration writeTimeout) {
     super(baseUrl);
     this.connectionTimeout = connectionTimeout;
     this.readTimeout = readTimeout;
@@ -33,25 +26,21 @@ public final class RestContext extends BaseHttpContext {
     return new Builder();
   }
 
-  @Nullable
   @Override
   public Duration getConnectionTimeout() {
     return connectionTimeout;
   }
 
-  @Nullable
   @Override
   public Duration getReadTimeout() {
     return readTimeout;
   }
 
-  @Nullable
   @Override
   public Duration getWriteTimeout() {
     return writeTimeout;
   }
 
-  @NotThreadSafe
   public static final class Builder {
 
     private String baseUrl;
@@ -59,22 +48,24 @@ public final class RestContext extends BaseHttpContext {
     private Duration readTimeout;
     private Duration writeTimeout;
 
+    private Builder() {}
+
     public Builder setBaseUrl(String baseUrl) {
       this.baseUrl = baseUrl;
       return this;
     }
 
-    public Builder setConnectionTimeout(@Nullable Duration connectionTimeout) {
+    public Builder setConnectionTimeout(Duration connectionTimeout) {
       this.connectionTimeout = connectionTimeout;
       return this;
     }
 
-    public Builder setReadTimeout(@Nullable Duration readTimeout) {
+    public Builder setReadTimeout(Duration readTimeout) {
       this.readTimeout = readTimeout;
       return this;
     }
 
-    public Builder setWriteTimeout(@Nullable Duration writeTimeout) {
+    public Builder setWriteTimeout(Duration writeTimeout) {
       this.writeTimeout = writeTimeout;
       return this;
     }
@@ -85,7 +76,5 @@ public final class RestContext extends BaseHttpContext {
       }
       return new RestContext(baseUrl, connectionTimeout, readTimeout, writeTimeout);
     }
-
-    private Builder() {}
   }
 }

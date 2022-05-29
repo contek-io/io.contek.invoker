@@ -17,8 +17,6 @@ import io.contek.invoker.security.ApiKey;
 import io.contek.invoker.security.SimpleCredentialFactory;
 import io.contek.ursa.cache.LimiterManager;
 
-import javax.annotation.concurrent.Immutable;
-import javax.annotation.concurrent.ThreadSafe;
 import java.time.Duration;
 import java.util.List;
 
@@ -27,7 +25,6 @@ import static io.contek.invoker.bitstamp.api.ApiFactory.RateLimits.IP_REST_REQUE
 import static io.contek.invoker.commons.actor.ratelimit.LimitType.IP;
 import static io.contek.invoker.security.SecretKeyAlgorithm.HMAC_SHA256;
 
-@ThreadSafe
 public final class ApiFactory {
 
   public static final ApiContext MAIN_NET_CONTEXT =
@@ -52,14 +49,6 @@ public final class ApiFactory {
     return new ApiFactory(context, createActorFactory(context.getInterceptors()));
   }
 
-  public SelectingRestApi rest() {
-    return new SelectingRestApi();
-  }
-
-  public SelectingWebSocketApi ws() {
-    return new SelectingWebSocketApi();
-  }
-
   private static SimpleActorFactory createActorFactory(
       List<IRateLimitQuotaInterceptor> interceptors) {
     return SimpleActorFactory.newBuilder()
@@ -81,7 +70,30 @@ public final class ApiFactory {
     return LimiterManagers.forRules(IP_REST_REQUEST_RULE);
   }
 
-  @ThreadSafe
+  public SelectingRestApi rest() {
+    return new SelectingRestApi();
+  }
+
+  public SelectingWebSocketApi ws() {
+    return new SelectingWebSocketApi();
+  }
+
+  public static final class RateLimits {
+
+    public static final RateLimitRule IP_REST_REQUEST_RULE =
+        RateLimitRule.newBuilder()
+            .setName("ip_rest_request")
+            .setType(IP)
+            .setMaxPermits(8000)
+            .setResetPeriod(Duration.ofMinutes(10))
+            .build();
+
+    public static final ImmutableList<TypedPermitRequest> ONE_REST_REQUEST =
+        ImmutableList.of(IP_REST_REQUEST_RULE.forPermits(1));
+
+    private RateLimits() {}
+  }
+
   public final class SelectingRestApi {
 
     private SelectingRestApi() {}
@@ -99,7 +111,6 @@ public final class ApiFactory {
     }
   }
 
-  @ThreadSafe
   public final class SelectingWebSocketApi {
 
     private SelectingWebSocketApi() {}
@@ -115,22 +126,5 @@ public final class ApiFactory {
       IActor actor = actorFactory.create(apiKey, wsContext);
       return new UserWebSocketApi(actor, wsContext);
     }
-  }
-
-  @Immutable
-  public static final class RateLimits {
-
-    public static final RateLimitRule IP_REST_REQUEST_RULE =
-        RateLimitRule.newBuilder()
-            .setName("ip_rest_request")
-            .setType(IP)
-            .setMaxPermits(8000)
-            .setResetPeriod(Duration.ofMinutes(10))
-            .build();
-
-    public static final ImmutableList<TypedPermitRequest> ONE_REST_REQUEST =
-        ImmutableList.of(IP_REST_REQUEST_RULE.forPermits(1));
-
-    private RateLimits() {}
   }
 }

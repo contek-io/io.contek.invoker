@@ -1,6 +1,5 @@
 package io.contek.invoker.binancefutures.api.common;
 
-import javax.annotation.concurrent.NotThreadSafe;
 import java.util.ArrayList;
 
 /**
@@ -20,5 +19,4 @@ import java.util.ArrayList;
  * 10 takerBuyQuoteAssetVolume
  * </pre>
  */
-@NotThreadSafe
 public class _Candlestick extends ArrayList<Double> {}

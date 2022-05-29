@@ -9,15 +9,12 @@ import io.contek.invoker.commons.rest.RestParams;
 import io.contek.invoker.okx.api.common._Instrument;
 import io.contek.invoker.okx.api.rest.common.RestResponse;
 
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.NotThreadSafe;
 import java.time.Duration;
 
 import static io.contek.invoker.commons.actor.ratelimit.LimitType.IP;
 import static io.contek.invoker.okx.api.common.constants.InstrumentTypeKeys.*;
 import static java.util.Objects.requireNonNull;
 
-@NotThreadSafe
 public final class GetPublicInstruments extends MarketRestRequest<GetPublicInstruments.Response> {
 
   public static final RateLimitRule RATE_LIMIT_RULE =
@@ -44,12 +41,12 @@ public final class GetPublicInstruments extends MarketRestRequest<GetPublicInstr
     return this;
   }
 
-  public GetPublicInstruments setUly(@Nullable String uly) {
+  public GetPublicInstruments setUly(String uly) {
     this.uly = uly;
     return this;
   }
 
-  public GetPublicInstruments setInstId(@Nullable String instId) {
+  public GetPublicInstruments setInstId(String instId) {
     this.instId = instId;
     return this;
   }
@@ -95,6 +92,5 @@ public final class GetPublicInstruments extends MarketRestRequest<GetPublicInstr
     return REQUIRED_QUOTA;
   }
 
-  @NotThreadSafe
   public static final class Response extends RestResponse<_Instrument> {}
 }

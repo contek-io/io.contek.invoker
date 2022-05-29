@@ -10,14 +10,11 @@ import io.contek.invoker.commons.rest.RestParams;
 import io.contek.invoker.okx.api.common._AccountBalance;
 import io.contek.invoker.okx.api.rest.common.RestResponse;
 
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.NotThreadSafe;
 import java.time.Duration;
 
 import static io.contek.invoker.commons.actor.ratelimit.LimitType.API_KEY;
 import static io.contek.invoker.commons.rest.RestMethod.GET;
 
-@NotThreadSafe
 public final class GetAccountBalance extends UserRestRequest<GetAccountBalance.Response> {
 
   public static final RateLimitRule RATE_LIMIT_RULE =
@@ -37,7 +34,7 @@ public final class GetAccountBalance extends UserRestRequest<GetAccountBalance.R
     super(actor, context);
   }
 
-  public GetAccountBalance setCcy(@Nullable String ccy) {
+  public GetAccountBalance setCcy(String ccy) {
     this.ccy = ccy;
     return this;
   }
@@ -73,6 +70,5 @@ public final class GetAccountBalance extends UserRestRequest<GetAccountBalance.R
     return REQUIRED_QUOTA;
   }
 
-  @NotThreadSafe
   public static final class Response extends RestResponse<_AccountBalance> {}
 }

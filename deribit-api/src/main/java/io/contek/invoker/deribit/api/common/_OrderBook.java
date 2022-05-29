@@ -1,11 +1,11 @@
 package io.contek.invoker.deribit.api.common;
 
-import javax.annotation.concurrent.NotThreadSafe;
 import java.util.List;
 
-// Note that we used the same naming convention as in the API documentation, since Deribit uses snake case so we use it
+// Note that we used the same naming convention as in the API documentation, since Deribit uses
+// snake case so we use it
 // here as well.
-@NotThreadSafe
+
 public class _OrderBook {
   public double ask_iv; // use -1 to represent empty maybe?
   public List<_OrderBookLevel> asks;
@@ -68,4 +68,3 @@ public class _OrderBook {
             '}';
   }
 }
-

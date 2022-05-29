@@ -8,57 +8,53 @@ import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
 
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.NotThreadSafe;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import static io.contek.invoker.commons.rest.RestMethod.GET;
 
-@NotThreadSafe
 public final class GetExecutionTradeHistory extends UserRestRequest<Response> {
 
   private static final Gson gson = new Gson();
-
+  private final Map<String, String> filter = new HashMap<>();
   private String symbol;
   private String startTime;
   private String endTime;
   private Integer count;
   private Integer start;
   private Boolean reverse;
-  private final Map<String, String> filter = new HashMap<>();
 
   GetExecutionTradeHistory(IActor actor, RestContext context) {
     super(actor, context);
   }
 
-  public GetExecutionTradeHistory setSymbol(@Nullable String symbol) {
+  public GetExecutionTradeHistory setSymbol(String symbol) {
     this.symbol = symbol;
     return this;
   }
 
-  public GetExecutionTradeHistory setStartTime(@Nullable String startTime) {
+  public GetExecutionTradeHistory setStartTime(String startTime) {
     this.startTime = startTime;
     return this;
   }
 
-  public GetExecutionTradeHistory setEndTime(@Nullable String endTime) {
+  public GetExecutionTradeHistory setEndTime(String endTime) {
     this.endTime = endTime;
     return this;
   }
 
-  public GetExecutionTradeHistory setCount(@Nullable Integer count) {
+  public GetExecutionTradeHistory setCount(Integer count) {
     this.count = count;
     return this;
   }
 
-  public GetExecutionTradeHistory setStart(@Nullable Integer start) {
+  public GetExecutionTradeHistory setStart(Integer start) {
     this.start = start;
     return this;
   }
 
-  public GetExecutionTradeHistory setReverse(@Nullable Boolean reverse) {
+  public GetExecutionTradeHistory setReverse(Boolean reverse) {
     this.reverse = reverse;
     return this;
   }
@@ -112,6 +108,5 @@ public final class GetExecutionTradeHistory extends UserRestRequest<Response> {
     return builder.build();
   }
 
-  @NotThreadSafe
   public static final class Response extends ArrayList<_Execution> {}
 }

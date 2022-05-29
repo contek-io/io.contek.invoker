@@ -1,9 +1,7 @@
 package io.contek.invoker.hbdminverse.api.common;
 
-import javax.annotation.concurrent.NotThreadSafe;
 import java.util.List;
 
-@NotThreadSafe
 public class _AccountPositionInfo {
 
   public String symbol;

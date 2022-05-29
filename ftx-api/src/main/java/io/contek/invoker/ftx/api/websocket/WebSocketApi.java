@@ -7,11 +7,8 @@ import io.contek.invoker.commons.websocket.*;
 import io.contek.invoker.ftx.api.websocket.common.WebSocketInfoMessage;
 import io.contek.invoker.security.ICredential;
 
-import javax.annotation.concurrent.ThreadSafe;
-
 import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketInboundKeys._error;
 
-@ThreadSafe
 public abstract class WebSocketApi extends BaseWebSocketApi {
 
   private final WebSocketContext context;
@@ -21,7 +18,7 @@ public abstract class WebSocketApi extends BaseWebSocketApi {
         actor,
         WebSocketMessageParser.getInstance(),
         new WebSocketAuthenticator(actor.getCredential(), actor.getClock()),
-        IWebSocketLiveKeeper.noOp());
+        new WebSocketLiveKeeper(actor.getClock()));
     this.context = context;
   }
 

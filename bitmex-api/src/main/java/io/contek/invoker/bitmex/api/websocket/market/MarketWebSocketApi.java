@@ -4,11 +4,9 @@ import io.contek.invoker.bitmex.api.websocket.WebSocketApi;
 import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.websocket.WebSocketContext;
 
-import javax.annotation.concurrent.ThreadSafe;
 import java.util.HashMap;
 import java.util.Map;
 
-@ThreadSafe
 public final class MarketWebSocketApi extends WebSocketApi {
 
   private final Map<LiquidationChannel.Id, LiquidationChannel> liquidationChannels =

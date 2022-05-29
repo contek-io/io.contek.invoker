@@ -3,9 +3,6 @@ package io.contek.invoker.binancefutures.api.websocket.market;
 import io.contek.invoker.binancefutures.api.websocket.common.WebSocketStreamMessage;
 import io.contek.invoker.commons.websocket.BaseWebSocketChannelId;
 
-import javax.annotation.concurrent.Immutable;
-
-@Immutable
 public abstract class MarketWebSocketChannelId<Message extends WebSocketStreamMessage<?>>
     extends BaseWebSocketChannelId<Message> {
 

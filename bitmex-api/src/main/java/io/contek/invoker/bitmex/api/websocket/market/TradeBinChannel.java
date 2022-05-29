@@ -5,13 +5,8 @@ import io.contek.invoker.bitmex.api.websocket.WebSocketChannel;
 import io.contek.invoker.bitmex.api.websocket.WebSocketChannelId;
 import io.contek.invoker.bitmex.api.websocket.common.WebSocketTableDataMessage;
 
-import javax.annotation.concurrent.Immutable;
-import javax.annotation.concurrent.NotThreadSafe;
-import javax.annotation.concurrent.ThreadSafe;
-
 import static java.lang.String.format;
 
-@ThreadSafe
 public final class TradeBinChannel
     extends WebSocketChannel<TradeBinChannel.Id, TradeBinChannel.Message> {
 
@@ -24,7 +19,6 @@ public final class TradeBinChannel
     return Message.class;
   }
 
-  @Immutable
   public static final class Id extends WebSocketChannelId<TradeBinChannel.Message> {
 
     private final String binSize;
@@ -46,6 +40,5 @@ public final class TradeBinChannel
     }
   }
 
-  @NotThreadSafe
   public static final class Message extends WebSocketTableDataMessage<_TradeBin> {}
 }

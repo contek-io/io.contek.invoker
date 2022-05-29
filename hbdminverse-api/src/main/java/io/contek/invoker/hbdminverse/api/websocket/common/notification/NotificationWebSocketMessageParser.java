@@ -8,7 +8,6 @@ import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.IWebSocketComponent;
 import io.contek.invoker.commons.websocket.WebSocketBinaryMessageParser;
 
-import javax.annotation.concurrent.Immutable;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -19,7 +18,6 @@ import java.util.zip.GZIPInputStream;
 
 import static io.contek.invoker.hbdminverse.api.websocket.user.constants.OpKeys.*;
 
-@Immutable
 final class NotificationWebSocketMessageParser extends WebSocketBinaryMessageParser {
 
   private final Gson gson = new Gson();

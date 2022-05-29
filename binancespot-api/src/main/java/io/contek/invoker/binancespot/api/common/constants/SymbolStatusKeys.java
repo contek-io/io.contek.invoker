@@ -1,8 +1,5 @@
 package io.contek.invoker.binancespot.api.common.constants;
 
-import javax.annotation.concurrent.Immutable;
-
-@Immutable
 public final class SymbolStatusKeys {
 
   public static final String _PRE_TRADING = "PRE_TRADING";

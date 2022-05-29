@@ -1,8 +1,5 @@
 package io.contek.invoker.bitmex.api.websocket.common.constants;
 
-import javax.annotation.concurrent.Immutable;
-
-@Immutable
 public final class WebSocketTableDataActionKeys {
 
   public static final String _partial = "partial";

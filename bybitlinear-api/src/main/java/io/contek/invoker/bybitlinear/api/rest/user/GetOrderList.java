@@ -10,15 +10,11 @@ import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
 
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.NotThreadSafe;
-
 import static io.contek.invoker.bybitlinear.api.ApiFactory.RateLimits.ONE_REST_PRIVATE_ORDER_READ_REQUEST;
 import static io.contek.invoker.bybitlinear.api.rest.user.GetOrderList.Response;
 import static io.contek.invoker.commons.rest.RestMethod.GET;
 import static java.util.Objects.requireNonNull;
 
-@NotThreadSafe
 public final class GetOrderList extends UserRestRequest<Response> {
 
   private String symbol;
@@ -38,32 +34,32 @@ public final class GetOrderList extends UserRestRequest<Response> {
     return this;
   }
 
-  public GetOrderList setOrderStatus(@Nullable String order_status) {
+  public GetOrderList setOrderStatus(String order_status) {
     this.order_status = order_status;
     return this;
   }
 
-  public GetOrderList setOrderId(@Nullable String order_id) {
+  public GetOrderList setOrderId(String order_id) {
     this.order_id = order_id;
     return this;
   }
 
-  public GetOrderList setOrderLinkId(@Nullable String order_link_id) {
+  public GetOrderList setOrderLinkId(String order_link_id) {
     this.order_link_id = order_link_id;
     return this;
   }
 
-  public GetOrderList setOrder(@Nullable String order) {
+  public GetOrderList setOrder(String order) {
     this.order = order;
     return this;
   }
 
-  public GetOrderList setPage(@Nullable Integer page) {
+  public GetOrderList setPage(Integer page) {
     this.page = page;
     return this;
   }
 
-  public GetOrderList setLimit(@Nullable Integer limit) {
+  public GetOrderList setLimit(Integer limit) {
     this.limit = limit;
     return this;
   }
@@ -122,6 +118,5 @@ public final class GetOrderList extends UserRestRequest<Response> {
     return Response.class;
   }
 
-  @NotThreadSafe
   public static final class Response extends RestResponse<RestPagedResult<_Order>> {}
 }

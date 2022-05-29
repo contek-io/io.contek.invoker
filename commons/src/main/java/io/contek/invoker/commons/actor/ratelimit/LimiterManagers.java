@@ -2,10 +2,9 @@ package io.contek.invoker.commons.actor.ratelimit;
 
 import io.contek.ursa.cache.LimiterManager;
 
-import javax.annotation.concurrent.Immutable;
-
-@Immutable
 public final class LimiterManagers {
+
+  private LimiterManagers() {}
 
   public static LimiterManager forRules(RateLimitRule... rules) {
     LimiterManager.Builder builder = LimiterManager.newBuilder();
@@ -14,6 +13,4 @@ public final class LimiterManagers {
     }
     return builder.build();
   }
-
-  private LimiterManagers() {}
 }

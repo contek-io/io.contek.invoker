@@ -1,9 +1,5 @@
 package io.contek.invoker.commons.websocket;
 
-import javax.annotation.concurrent.Immutable;
-import javax.annotation.concurrent.ThreadSafe;
-
-@ThreadSafe
 public interface IWebSocketAuthenticator extends IWebSocketListener {
 
   static NoOp noOp() {
@@ -16,10 +12,11 @@ public interface IWebSocketAuthenticator extends IWebSocketListener {
 
   boolean isCompleted();
 
-  @Immutable
   final class NoOp implements IWebSocketAuthenticator {
 
     private static final NoOp INSTANCE = new NoOp();
+
+    private NoOp() {}
 
     @Override
     public void handshake(WebSocketSession session) {}
@@ -39,7 +36,5 @@ public interface IWebSocketAuthenticator extends IWebSocketListener {
 
     @Override
     public void afterDisconnect() {}
-
-    private NoOp() {}
   }
 }

@@ -9,12 +9,9 @@ import io.contek.invoker.commons.rest.RestParams;
 import io.contek.invoker.ftx.api.common._AccountInformation;
 import io.contek.invoker.ftx.api.rest.common.RestResponse;
 
-import javax.annotation.concurrent.NotThreadSafe;
-
 import static io.contek.invoker.commons.rest.RestMethod.GET;
 import static io.contek.invoker.ftx.api.ApiFactory.RateLimits.ONE_REST_REQUEST;
 
-@NotThreadSafe
 public final class GetAccount extends UserRestRequest<GetAccount.Response> {
 
   GetAccount(IActor actor, RestContext context) {
@@ -46,6 +43,5 @@ public final class GetAccount extends UserRestRequest<GetAccount.Response> {
     return ONE_REST_REQUEST;
   }
 
-  @NotThreadSafe
   public static final class Response extends RestResponse<_AccountInformation> {}
 }

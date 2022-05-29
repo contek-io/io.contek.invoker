@@ -9,14 +9,12 @@ import io.contek.invoker.commons.rest.RestParams;
 import io.contek.invoker.deribit.api.common._Deposit;
 import io.contek.invoker.deribit.api.rest.common.RestResponse;
 
-import javax.annotation.concurrent.NotThreadSafe;
 import java.util.List;
 
 import static io.contek.invoker.commons.rest.RestMethod.GET;
 import static io.contek.invoker.deribit.api.ApiFactory.RateLimits.ONE_API_KEY_NON_MATCHING_ENGINE_REQUEST;
 import static java.util.Objects.requireNonNull;
 
-@NotThreadSafe
 public final class GetDeposits extends UserRestRequest<GetDeposits.Response> {
 
   private String currency;
@@ -60,13 +58,11 @@ public final class GetDeposits extends UserRestRequest<GetDeposits.Response> {
     return builder.build();
   }
 
-  @NotThreadSafe
   public static final class Result {
 
     public int count;
     public List<_Deposit> data;
   }
 
-  @NotThreadSafe
   public static final class Response extends RestResponse<Result> {}
 }

@@ -19,14 +19,12 @@ import io.contek.invoker.security.ApiKey;
 import io.contek.invoker.security.SimpleCredentialFactory;
 import io.contek.ursa.cache.LimiterManager;
 
-import javax.annotation.concurrent.ThreadSafe;
 import java.time.Duration;
 import java.util.List;
 
 import static com.google.common.io.BaseEncoding.base64;
 import static io.contek.invoker.security.SecretKeyAlgorithm.HMAC_SHA256;
 
-@ThreadSafe
 public final class ApiFactory {
 
   public static final ApiContext MAIN_NET_CONTEXT =
@@ -61,14 +59,6 @@ public final class ApiFactory {
 
   public static ApiFactory fromContext(ApiContext context) {
     return new ApiFactory(context, createActorFactory(context.getInterceptors()));
-  }
-
-  public SelectingRestApi rest() {
-    return new SelectingRestApi();
-  }
-
-  public SelectingWebSocketApi ws() {
-    return new SelectingWebSocketApi();
   }
 
   private static SimpleActorFactory createActorFactory(
@@ -116,7 +106,14 @@ public final class ApiFactory {
         WebSocketApi.RATE_LIMIT_RULE);
   }
 
-  @ThreadSafe
+  public SelectingRestApi rest() {
+    return new SelectingRestApi();
+  }
+
+  public SelectingWebSocketApi ws() {
+    return new SelectingWebSocketApi();
+  }
+
   public final class SelectingRestApi {
 
     private SelectingRestApi() {}
@@ -134,7 +131,6 @@ public final class ApiFactory {
     }
   }
 
-  @ThreadSafe
   public final class SelectingWebSocketApi {
 
     private SelectingWebSocketApi() {}

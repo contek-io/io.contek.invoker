@@ -3,11 +3,8 @@ package io.contek.invoker.kraken.api.websocket;
 import io.contek.invoker.commons.websocket.BaseWebSocketChannelId;
 import io.contek.invoker.kraken.api.websocket.common.WebSocketChannelDataMessage;
 
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.Immutable;
 import java.util.Objects;
 
-@Immutable
 public abstract class WebSocketChannelId<Message extends WebSocketChannelDataMessage<?>>
     extends BaseWebSocketChannelId<Message> {
 
@@ -18,6 +15,13 @@ public abstract class WebSocketChannelId<Message extends WebSocketChannelDataMes
     super(combine(channelName, pair));
     this.channelName = channelName;
     this.pair = pair;
+  }
+
+  private static String combine(String channel, String market) {
+    if (market == null) {
+      return channel;
+    }
+    return String.join(".", channel, market);
   }
 
   public final String getChannelName() {
@@ -31,12 +35,5 @@ public abstract class WebSocketChannelId<Message extends WebSocketChannelDataMes
   @Override
   public final boolean accepts(Message message) {
     return Objects.equals(pair, message.pair);
-  }
-
-  private static String combine(String channel, @Nullable String market) {
-    if (market == null) {
-      return channel;
-    }
-    return String.join(".", channel, market);
   }
 }

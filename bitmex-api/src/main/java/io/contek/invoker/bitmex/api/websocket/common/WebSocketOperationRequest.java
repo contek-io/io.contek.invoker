@@ -2,11 +2,9 @@ package io.contek.invoker.bitmex.api.websocket.common;
 
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 
-import javax.annotation.concurrent.NotThreadSafe;
 import java.util.ArrayList;
 import java.util.List;
 
-@NotThreadSafe
 public final class WebSocketOperationRequest extends AnyWebSocketMessage {
 
   public String op;

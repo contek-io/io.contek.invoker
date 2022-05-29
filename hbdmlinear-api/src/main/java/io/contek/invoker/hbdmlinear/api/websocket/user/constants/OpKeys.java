@@ -1,8 +1,5 @@
 package io.contek.invoker.hbdmlinear.api.websocket.user.constants;
 
-import javax.annotation.concurrent.Immutable;
-
-@Immutable
 public final class OpKeys {
 
   public static final String _ping = "ping";

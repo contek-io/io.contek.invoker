@@ -1,8 +1,5 @@
 package io.contek.invoker.binancedelivery.api.common.constants;
 
-import javax.annotation.concurrent.Immutable;
-
-@Immutable
 public final class OrderExecutionTypeKeys {
 
   public static final String _NEW = "NEW";
@@ -17,6 +14,5 @@ public final class OrderExecutionTypeKeys {
 
   public static final String _EXPIRED = "EXPIRED";
 
-  private OrderExecutionTypeKeys() {
-  }
+  private OrderExecutionTypeKeys() {}
 }

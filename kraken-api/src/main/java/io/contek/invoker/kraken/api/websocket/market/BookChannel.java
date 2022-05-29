@@ -7,13 +7,8 @@ import io.contek.invoker.kraken.api.websocket.WebSocketRequestIdGenerator;
 import io.contek.invoker.kraken.api.websocket.common.Subscription;
 import io.contek.invoker.kraken.api.websocket.common.WebSocketChannelDataMessage;
 
-import javax.annotation.concurrent.Immutable;
-import javax.annotation.concurrent.NotThreadSafe;
-import javax.annotation.concurrent.ThreadSafe;
-
 import static io.contek.invoker.kraken.api.websocket.common.constants.WebSocketChannelKeys._book;
 
-@ThreadSafe
 public final class BookChannel extends WebSocketChannel<BookChannel.Id, BookChannel.Message> {
 
   BookChannel(Id id, WebSocketRequestIdGenerator requestIdGenerator) {
@@ -34,7 +29,6 @@ public final class BookChannel extends WebSocketChannel<BookChannel.Id, BookChan
     return BookChannel.Message.class;
   }
 
-  @Immutable
   public static final class Id extends WebSocketChannelId<BookChannel.Message> {
 
     private final int depth;
@@ -53,6 +47,5 @@ public final class BookChannel extends WebSocketChannel<BookChannel.Id, BookChan
     }
   }
 
-  @NotThreadSafe
   public static final class Message extends WebSocketChannelDataMessage<_Book> {}
 }

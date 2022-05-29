@@ -1,12 +1,8 @@
 package io.contek.invoker.commons.actor.http;
 
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.NotThreadSafe;
-
-@NotThreadSafe
 public abstract class AnyHttpException extends RuntimeException {
 
-  public AnyHttpException(@Nullable String message) {
+  public AnyHttpException(String message) {
     super(message);
   }
 
@@ -14,7 +10,7 @@ public abstract class AnyHttpException extends RuntimeException {
     super(cause);
   }
 
-  public AnyHttpException(@Nullable String message, Throwable cause) {
+  public AnyHttpException(String message, Throwable cause) {
     super(message, cause);
   }
 }

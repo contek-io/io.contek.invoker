@@ -10,15 +10,12 @@ import io.contek.invoker.commons.rest.RestParams;
 import io.contek.invoker.okx.api.common._Fill;
 import io.contek.invoker.okx.api.rest.common.RestResponse;
 
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.NotThreadSafe;
 import java.time.Duration;
 
 import static io.contek.invoker.commons.actor.ratelimit.LimitType.API_KEY;
 import static io.contek.invoker.commons.rest.RestMethod.GET;
 import static java.util.Objects.requireNonNull;
 
-@NotThreadSafe
 public final class GetTradeFillsHistory extends UserRestRequest<GetTradeFillsHistory.Response> {
 
   public static final RateLimitRule RATE_LIMIT_RULE =
@@ -49,32 +46,32 @@ public final class GetTradeFillsHistory extends UserRestRequest<GetTradeFillsHis
     return this;
   }
 
-  public GetTradeFillsHistory setUly(@Nullable String uly) {
+  public GetTradeFillsHistory setUly(String uly) {
     this.uly = uly;
     return this;
   }
 
-  public GetTradeFillsHistory setInstId(@Nullable String instId) {
+  public GetTradeFillsHistory setInstId(String instId) {
     this.instId = instId;
     return this;
   }
 
-  public GetTradeFillsHistory setOrdId(@Nullable String ordId) {
+  public GetTradeFillsHistory setOrdId(String ordId) {
     this.ordId = ordId;
     return this;
   }
 
-  public GetTradeFillsHistory setAfter(@Nullable Long after) {
+  public GetTradeFillsHistory setAfter(Long after) {
     this.after = after;
     return this;
   }
 
-  public GetTradeFillsHistory setBefore(@Nullable Long before) {
+  public GetTradeFillsHistory setBefore(Long before) {
     this.before = before;
     return this;
   }
 
-  public GetTradeFillsHistory setLimit(@Nullable Integer limit) {
+  public GetTradeFillsHistory setLimit(Integer limit) {
     this.limit = limit;
     return this;
   }
@@ -133,6 +130,5 @@ public final class GetTradeFillsHistory extends UserRestRequest<GetTradeFillsHis
     return builder.build();
   }
 
-  @NotThreadSafe
   public static final class Response extends RestResponse<_Fill> {}
 }

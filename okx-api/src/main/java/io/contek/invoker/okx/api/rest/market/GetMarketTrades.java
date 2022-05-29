@@ -9,13 +9,11 @@ import io.contek.invoker.commons.rest.RestParams;
 import io.contek.invoker.okx.api.common._Trade;
 import io.contek.invoker.okx.api.rest.common.RestResponse;
 
-import javax.annotation.concurrent.NotThreadSafe;
 import java.time.Duration;
 
 import static io.contek.invoker.commons.actor.ratelimit.LimitType.IP;
 import static java.util.Objects.requireNonNull;
 
-@NotThreadSafe
 public final class GetMarketTrades extends MarketRestRequest<GetMarketTrades.Response> {
 
   public static final RateLimitRule RATE_LIMIT_RULE =
@@ -65,6 +63,5 @@ public final class GetMarketTrades extends MarketRestRequest<GetMarketTrades.Res
     return REQUIRED_QUOTA;
   }
 
-  @NotThreadSafe
   public static final class Response extends RestResponse<_Trade> {}
 }

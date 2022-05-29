@@ -9,13 +9,11 @@ import io.contek.invoker.commons.rest.RestParams;
 import io.contek.invoker.okx.api.common._PriceCandlestick;
 import io.contek.invoker.okx.api.rest.common.RestResponse;
 
-import javax.annotation.concurrent.NotThreadSafe;
 import java.time.Duration;
 
 import static io.contek.invoker.commons.actor.ratelimit.LimitType.IP;
 import static java.util.Objects.requireNonNull;
 
-@NotThreadSafe
 public final class GetMarketMarkPriceCandles
     extends MarketRestRequest<GetMarketMarkPriceCandles.Response> {
 
@@ -106,6 +104,5 @@ public final class GetMarketMarkPriceCandles
     return REQUIRED_QUOTA;
   }
 
-  @NotThreadSafe
   public static final class Response extends RestResponse<_PriceCandlestick> {}
 }

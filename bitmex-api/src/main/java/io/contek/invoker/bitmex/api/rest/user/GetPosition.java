@@ -8,27 +8,23 @@ import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
 
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.NotThreadSafe;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import static io.contek.invoker.commons.rest.RestMethod.GET;
 
-@NotThreadSafe
 public final class GetPosition extends UserRestRequest<Response> {
 
   private static final Gson gson = new Gson();
-
-  private Integer count;
   private final Map<String, String> filter = new HashMap<>();
+  private Integer count;
 
   GetPosition(IActor actor, RestContext context) {
     super(actor, context);
   }
 
-  public GetPosition setCount(@Nullable Integer count) {
+  public GetPosition setCount(Integer count) {
     this.count = count;
     return this;
   }
@@ -67,6 +63,5 @@ public final class GetPosition extends UserRestRequest<Response> {
     return builder.build();
   }
 
-  @NotThreadSafe
   public static final class Response extends ArrayList<_Position> {}
 }

@@ -3,9 +3,6 @@ package io.contek.invoker.binancedelivery.api.websocket.user;
 import io.contek.invoker.binancedelivery.api.websocket.common.WebSocketEventMessage;
 import io.contek.invoker.commons.websocket.BaseWebSocketChannelId;
 
-import javax.annotation.concurrent.Immutable;
-
-@Immutable
 public abstract class UserWebSocketChannelId<Message extends WebSocketEventMessage>
     extends BaseWebSocketChannelId<Message> {
 

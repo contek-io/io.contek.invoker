@@ -7,13 +7,11 @@ import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestParams;
 
-import javax.annotation.concurrent.NotThreadSafe;
 import java.util.List;
 import java.util.Map;
 
 import static io.contek.invoker.binancefutures.api.ApiFactory.RateLimits.ONE_REST_REQUEST;
 
-@NotThreadSafe
 public final class GetExchangeInfo extends MarketRestRequest<Response> {
 
   GetExchangeInfo(IActor actor, RestContext context) {
@@ -40,13 +38,11 @@ public final class GetExchangeInfo extends MarketRestRequest<Response> {
     return ONE_REST_REQUEST;
   }
 
-  @NotThreadSafe
   public static final class Response {
 
     public List<MarketDetails> symbols;
   }
 
-  @NotThreadSafe
   public static final class MarketDetails {
 
     public String symbol;

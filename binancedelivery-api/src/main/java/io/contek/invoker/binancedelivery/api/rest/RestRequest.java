@@ -5,11 +5,8 @@ import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.rest.*;
 import io.contek.invoker.security.ICredential;
 
-import javax.annotation.concurrent.ThreadSafe;
-
 import static io.contek.invoker.commons.rest.RestMediaType.FORM;
 
-@ThreadSafe
 public abstract class RestRequest<R> extends BaseRestRequest<R> {
 
   private static final String X_MBX_API_KEY = "X-MBX-APIKEY";
@@ -20,6 +17,13 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
   protected RestRequest(IActor actor, RestContext context) {
     super(actor);
     this.context = context;
+  }
+
+  private static RestParams addSignature(
+      RestParams params, String bodyString, ICredential credential) {
+    String payload = params.getQueryString() + bodyString;
+    String signature = credential.sign(payload);
+    return RestParams.newBuilder().addAll(params.getValues()).add(SIGNATURE, signature).build();
   }
 
   protected abstract RestMethod getMethod();
@@ -85,12 +89,5 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
       return url;
     }
     return url + "?" + addSignature(RestParams.empty(), bodyString, credential).getQueryString();
-  }
-
-  private static RestParams addSignature(
-      RestParams params, String bodyString, ICredential credential) {
-    String payload = params.getQueryString() + bodyString;
-    String signature = credential.sign(payload);
-    return RestParams.newBuilder().addAll(params.getValues()).add(SIGNATURE, signature).build();
   }
 }

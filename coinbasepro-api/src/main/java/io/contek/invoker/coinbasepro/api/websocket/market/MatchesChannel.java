@@ -4,11 +4,6 @@ import io.contek.invoker.coinbasepro.api.websocket.WebSocketChannel;
 import io.contek.invoker.coinbasepro.api.websocket.WebSocketChannelId;
 import io.contek.invoker.coinbasepro.api.websocket.common.WebSocketChannelMessage;
 
-import javax.annotation.concurrent.Immutable;
-import javax.annotation.concurrent.NotThreadSafe;
-import javax.annotation.concurrent.ThreadSafe;
-
-@ThreadSafe
 public final class MatchesChannel
     extends WebSocketChannel<MatchesChannel.Id, MatchesChannel.Message> {
 
@@ -21,7 +16,6 @@ public final class MatchesChannel
     return Message.class;
   }
 
-  @Immutable
   public static final class Id extends WebSocketChannelId<MatchesChannel.Message> {
 
     private Id(String productId) {
@@ -33,7 +27,6 @@ public final class MatchesChannel
     }
   }
 
-  @NotThreadSafe
   public static final class Message extends WebSocketChannelMessage {
 
     public Long trade_id;

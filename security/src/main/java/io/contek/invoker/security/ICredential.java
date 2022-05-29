@@ -2,9 +2,6 @@ package io.contek.invoker.security;
 
 import com.google.common.collect.ImmutableMap;
 
-import javax.annotation.concurrent.Immutable;
-
-@Immutable
 public interface ICredential {
 
   static Anonymous anonymous() {
@@ -21,10 +18,11 @@ public interface ICredential {
 
   String sign(String payload);
 
-  @Immutable
   final class Anonymous implements ICredential {
 
     private static final Anonymous INSTANCE = new Anonymous();
+
+    private Anonymous() {}
 
     @Override
     public boolean isAnonymous() {
@@ -50,7 +48,5 @@ public interface ICredential {
     public String sign(String payload) {
       throw new UnsupportedOperationException();
     }
-
-    private Anonymous() {}
   }
 }

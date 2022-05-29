@@ -9,14 +9,11 @@ import io.contek.invoker.commons.rest.RestParams;
 import io.contek.invoker.ftx.api.common._Order;
 import io.contek.invoker.ftx.api.rest.common.RestResponse;
 
-import javax.annotation.concurrent.NotThreadSafe;
-
 import static io.contek.invoker.commons.rest.RestMethod.POST;
 import static io.contek.invoker.ftx.api.ApiFactory.RateLimits.API_KEY_REST_ORDER_RULE;
 import static io.contek.invoker.ftx.api.ApiFactory.RateLimits.IP_REST_REQUEST_RULE;
 import static java.util.Objects.requireNonNull;
 
-@NotThreadSafe
 public final class PostOrders extends UserRestRequest<PostOrders.Response> {
 
   public static final ImmutableList<TypedPermitRequest> ONE_REST_ORDER_REQUEST =
@@ -107,9 +104,7 @@ public final class PostOrders extends UserRestRequest<PostOrders.Response> {
     requireNonNull(size);
     builder.add("size", size);
 
-    if (price != null) {
-      builder.add("price", price);
-    }
+    builder.add("price", price);
 
     if (reduceOnly != null) {
       builder.add("reduceOnly", reduceOnly);
@@ -140,6 +135,5 @@ public final class PostOrders extends UserRestRequest<PostOrders.Response> {
     return ONE_REST_ORDER_REQUEST;
   }
 
-  @NotThreadSafe
   public static final class Response extends RestResponse<_Order> {}
 }

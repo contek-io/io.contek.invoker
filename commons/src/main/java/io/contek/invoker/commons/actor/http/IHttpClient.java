@@ -5,10 +5,8 @@ import okhttp3.Response;
 import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
 
-import javax.annotation.concurrent.ThreadSafe;
 import java.net.InetAddress;
 
-@ThreadSafe
 public interface IHttpClient {
 
   Response submit(Request request) throws HttpConnectionException;

@@ -4,11 +4,9 @@ import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.websocket.WebSocketContext;
 import io.contek.invoker.deribit.api.websocket.WebSocketApi;
 
-import javax.annotation.concurrent.ThreadSafe;
 import java.util.HashMap;
 import java.util.Map;
 
-@ThreadSafe
 public final class UserWebSocketApi extends WebSocketApi {
 
   private final Map<UserOrdersChannel.Id, UserOrdersChannel> userOrdersChannels = new HashMap<>();

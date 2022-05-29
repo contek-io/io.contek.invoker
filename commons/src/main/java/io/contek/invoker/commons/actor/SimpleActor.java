@@ -4,14 +4,12 @@ import io.contek.invoker.commons.actor.http.IHttpClient;
 import io.contek.invoker.commons.actor.ratelimit.IRateLimitThrottle;
 import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
 import io.contek.invoker.security.ICredential;
-import io.contek.ursa.AcquireTimeoutException;
-import io.contek.ursa.IPermitSession;
+import io.contek.invoker.ursa.core.api.AcquireTimeoutException;
+import io.contek.invoker.ursa.core.api.IPermitSession;
 
-import javax.annotation.concurrent.ThreadSafe;
 import java.time.Clock;
 import java.util.List;
 
-@ThreadSafe
 public final class SimpleActor implements IActor {
 
   private final ICredential credential;

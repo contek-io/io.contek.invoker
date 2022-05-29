@@ -4,11 +4,9 @@ import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.websocket.WebSocketContext;
 import io.contek.invoker.hbdminverse.api.websocket.common.marketdata.MarketDataWebSocketApi;
 
-import javax.annotation.concurrent.ThreadSafe;
 import java.util.HashMap;
 import java.util.Map;
 
-@ThreadSafe
 public final class MarketWebSocketApi extends MarketDataWebSocketApi {
 
   private final Map<IncrementalDepthChannel.Id, IncrementalDepthChannel> incrementalDepthChannels =

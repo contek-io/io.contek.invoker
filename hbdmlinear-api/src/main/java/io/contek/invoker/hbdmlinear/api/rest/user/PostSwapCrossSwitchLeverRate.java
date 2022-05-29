@@ -8,12 +8,9 @@ import io.contek.invoker.commons.rest.RestParams;
 import io.contek.invoker.hbdmlinear.api.common._LeverRate;
 import io.contek.invoker.hbdmlinear.api.rest.common.RestDataResponse;
 
-import javax.annotation.concurrent.NotThreadSafe;
-
 import static io.contek.invoker.hbdmlinear.api.ApiFactory.RateLimits.ONE_API_KEY_REST_PRIVATE_WRITE_REQUEST;
 import static java.util.Objects.requireNonNull;
 
-@NotThreadSafe
 public final class PostSwapCrossSwitchLeverRate
     extends UserRestRequest<PostSwapCrossSwitchLeverRate.Response> {
 
@@ -62,6 +59,5 @@ public final class PostSwapCrossSwitchLeverRate
     return ONE_API_KEY_REST_PRIVATE_WRITE_REQUEST;
   }
 
-  @NotThreadSafe
   public static final class Response extends RestDataResponse<_LeverRate> {}
 }

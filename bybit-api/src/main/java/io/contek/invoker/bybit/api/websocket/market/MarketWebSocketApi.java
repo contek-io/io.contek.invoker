@@ -4,11 +4,9 @@ import io.contek.invoker.bybit.api.websocket.WebSocketApi;
 import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.websocket.WebSocketContext;
 
-import javax.annotation.concurrent.ThreadSafe;
 import java.util.HashMap;
 import java.util.Map;
 
-@ThreadSafe
 public final class MarketWebSocketApi extends WebSocketApi {
 
   private final Map<OrderBook25Channel.Id, OrderBook25Channel> orderBook25Channels =
@@ -18,8 +16,7 @@ public final class MarketWebSocketApi extends WebSocketApi {
   private final Map<TradeChannel.Id, TradeChannel> tradeChannels = new HashMap<>();
   private final Map<InstrumentInfoChannel.Id, InstrumentInfoChannel> instrumentInfoChannels =
       new HashMap<>();
-  private final Map<KlineV2Channel.Id, KlineV2Channel> klineV2Channels =
-      new HashMap<>();
+  private final Map<KlineV2Channel.Id, KlineV2Channel> klineV2Channels = new HashMap<>();
 
   public MarketWebSocketApi(IActor actor, WebSocketContext context) {
     super(actor, context);

@@ -8,12 +8,9 @@ import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestParams;
 
-import javax.annotation.concurrent.NotThreadSafe;
-
 import static com.google.common.base.Preconditions.checkNotNull;
 import static io.contek.invoker.binancefutures.api.ApiFactory.RateLimits.ONE_REST_REQUEST;
 
-@NotThreadSafe
 public final class GetOpenInterest extends MarketRestRequest<Response> {
 
   private String symbol;
@@ -52,6 +49,5 @@ public final class GetOpenInterest extends MarketRestRequest<Response> {
     return ONE_REST_REQUEST;
   }
 
-  @NotThreadSafe
   public static final class Response extends _OpenInterest {}
 }

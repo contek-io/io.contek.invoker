@@ -8,14 +8,10 @@ import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
 
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.NotThreadSafe;
-
 import static io.contek.invoker.bybit.api.ApiFactory.RateLimits.ONE_REST_PRIVATE_POSITION_WRITE_REQUEST;
 import static io.contek.invoker.commons.rest.RestMethod.POST;
 import static java.util.Objects.requireNonNull;
 
-@NotThreadSafe
 public final class PostPositionLeverageSave
     extends UserRestRequest<PostPositionLeverageSave.Response> {
 
@@ -37,7 +33,7 @@ public final class PostPositionLeverageSave
     return this;
   }
 
-  public PostPositionLeverageSave setLeverageOnly(@Nullable Boolean leverage_only) {
+  public PostPositionLeverageSave setLeverageOnly(Boolean leverage_only) {
     this.leverage_only = leverage_only;
     return this;
   }
@@ -79,6 +75,5 @@ public final class PostPositionLeverageSave
     return Response.class;
   }
 
-  @NotThreadSafe
   public static final class Response extends RestResponse<Double> {}
 }

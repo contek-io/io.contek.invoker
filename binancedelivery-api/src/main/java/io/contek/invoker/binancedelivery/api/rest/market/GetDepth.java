@@ -9,15 +9,12 @@ import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestParams;
 
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.NotThreadSafe;
 import java.util.List;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static io.contek.invoker.binancedelivery.api.ApiFactory.RateLimits.IP_REST_REQUEST_RULE;
 
-@NotThreadSafe
 public final class GetDepth extends MarketRestRequest<Response> {
 
   public static final ImmutableSortedSet<Integer> SUPPORTED_LIMITS =
@@ -43,7 +40,7 @@ public final class GetDepth extends MarketRestRequest<Response> {
     return this;
   }
 
-  public GetDepth setLimit(@Nullable Integer limit) {
+  public GetDepth setLimit(Integer limit) {
     this.limit = limit;
     return this;
   }
@@ -91,7 +88,6 @@ public final class GetDepth extends MarketRestRequest<Response> {
     throw new IllegalArgumentException(Integer.toString(limit));
   }
 
-  @NotThreadSafe
   public static final class Response {
 
     public Long lastUpdateId;

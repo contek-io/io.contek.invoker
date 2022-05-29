@@ -1,8 +1,5 @@
 package io.contek.invoker.deribit.api.common;
 
-import javax.annotation.concurrent.NotThreadSafe;
-
-@NotThreadSafe
 public class _Order {
 
   public String order_state;
