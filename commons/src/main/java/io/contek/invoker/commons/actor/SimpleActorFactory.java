@@ -1,6 +1,5 @@
 package io.contek.invoker.commons.actor;
 
-import io.contek.invoker.commons.actor.http.IHttpClient;
 import io.contek.invoker.commons.actor.http.IHttpClientFactory;
 import io.contek.invoker.commons.actor.http.IHttpContext;
 import io.contek.invoker.commons.actor.ratelimit.IRateLimitThrottle;
@@ -8,6 +7,7 @@ import io.contek.invoker.commons.actor.ratelimit.IRateLimitThrottleFactory;
 import io.contek.invoker.security.ApiKey;
 import io.contek.invoker.security.ICredential;
 import io.contek.invoker.security.ICredentialFactory;
+import io.vertx.core.http.HttpClient;
 
 public final class SimpleActorFactory implements IActorFactory {
 
@@ -31,7 +31,7 @@ public final class SimpleActorFactory implements IActorFactory {
   public IActor create(ApiKey apiKey, IHttpContext context) {
     ICredential credential =
         apiKey == null ? ICredential.anonymous() : credentialFactory.create(apiKey);
-    IHttpClient httpClient = httpClientFactory.create(context);
+    HttpClient httpClient = httpClientFactory.create(context);
     IRateLimitThrottle rateLimitThrottle =
         rateLimitThrottleFactory.create(
             httpClient.getBoundLocalAddress(), apiKey == null ? null : apiKey.getId());
