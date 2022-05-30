@@ -2,7 +2,6 @@ module io.contek.invoker.hbdminverse.api {
   requires io.contek.invoker.commons;
   requires com.google.common;
   requires io.contek.invoker.security;
-  requires com.google.gson;
   requires io.vertx.core;
 
   exports io.contek.invoker.hbdminverse.api;

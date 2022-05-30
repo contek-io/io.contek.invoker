@@ -1,10 +1,8 @@
 package io.contek.invoker.ftx.api.common;
 
-import javax.annotation.concurrent.NotThreadSafe;
 import java.io.Serializable;
 import java.util.List;
 
-@NotThreadSafe
 public class _AccountInformation implements Serializable {
 
   public Boolean backstopProvider;

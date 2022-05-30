@@ -1,8 +1,5 @@
 package io.contek.invoker.deribit.api.websocket;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.IWebSocketComponent;
 import io.contek.invoker.commons.websocket.WebSocketTextMessageParser;
@@ -14,6 +11,7 @@ import io.contek.invoker.deribit.api.websocket.market.BookSnapshotChannel;
 import io.contek.invoker.deribit.api.websocket.market.TradesChannel;
 import io.contek.invoker.deribit.api.websocket.user.UserChangesChannel;
 import io.contek.invoker.deribit.api.websocket.user.UserOrdersChannel;
+import io.vertx.core.json.JsonObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,8 +19,6 @@ import java.util.Map;
 import static java.lang.String.format;
 
 final class WebSocketMessageParser extends WebSocketTextMessageParser {
-
-  private final Gson gson = new Gson();
 
   private final Map<Integer, Class<? extends WebSocketResponse<?>>> pendingRequests =
       new HashMap<>();
@@ -38,14 +34,11 @@ final class WebSocketMessageParser extends WebSocketTextMessageParser {
 
   @Override
   protected AnyWebSocketMessage fromText(String text) {
-    JsonElement json = gson.fromJson(text, JsonElement.class);
-    if (!json.isJsonObject()) {
-      throw new IllegalArgumentException(text);
-    }
-    JsonObject obj = json.getAsJsonObject();
-    if (obj.has("id")) {
+    final JsonObject obj = new JsonObject(text);
+
+    if (obj.containsKey("id")) {
       return toResponseMessage(obj);
-    } else if (obj.has("params")) {
+    } else if (obj.containsKey("params")) {
       return toDataMessage(obj);
     } else {
       throw new IllegalArgumentException(text);
@@ -53,30 +46,30 @@ final class WebSocketMessageParser extends WebSocketTextMessageParser {
   }
 
   private WebSocketResponse<?> toResponseMessage(JsonObject obj) {
-    int id = obj.get("id").getAsInt();
+    int id = obj.getInteger("id");
     Class<? extends WebSocketResponse<?>> type = pendingRequests.remove(id);
     if (type == null) {
       throw new IllegalStateException(format("Expected response type not found: %d", id));
     }
-    return gson.fromJson(obj, type);
+    return obj.mapTo(type);
   }
 
   private WebSocketInboundMessage toDataMessage(JsonObject obj) {
-    JsonObject params = obj.getAsJsonObject("params");
-    String channel = params.get("channel").getAsString();
+    JsonObject params = obj.getJsonObject("params");
+    String channel = params.getString("channel");
     if (channel.startsWith(WebSocketChannelKeys._book)) {
-      JsonObject data = params.getAsJsonObject("data");
-      if (data.has("type")) {
-        return gson.fromJson(obj, BookChangeChannel.Message.class);
+      JsonObject data = params.getJsonObject("data");
+      if (data.containsKey("type")) {
+        return obj.mapTo(BookChangeChannel.Message.class);
       }
-      return gson.fromJson(obj, BookSnapshotChannel.Message.class);
+      return obj.mapTo(BookSnapshotChannel.Message.class);
     } else if (channel.startsWith(WebSocketChannelKeys._trades)) {
-      return gson.fromJson(obj, TradesChannel.Message.class);
+      return obj.mapTo(TradesChannel.Message.class);
     } else if (channel.startsWith(WebSocketChannelKeys._user_changes)) {
-      return gson.fromJson(obj, UserChangesChannel.Message.class);
+      return obj.mapTo(UserChangesChannel.Message.class);
     }
     if (channel.startsWith(WebSocketChannelKeys._user_orders)) {
-      return gson.fromJson(obj, UserOrdersChannel.Message.class);
+      return obj.mapTo(UserOrdersChannel.Message.class);
     } else {
       throw new IllegalArgumentException(obj.toString());
     }

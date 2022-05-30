@@ -1,15 +1,11 @@
 package io.contek.invoker.binancespot.api.websocket.user;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import io.contek.invoker.binancespot.api.websocket.common.WebSocketEventMessage;
 import io.contek.invoker.commons.websocket.IWebSocketComponent;
 import io.contek.invoker.commons.websocket.WebSocketTextMessageParser;
+import io.vertx.core.json.JsonObject;
 
 public final class UserWebSocketParser extends WebSocketTextMessageParser {
-
-  private final Gson gson = new Gson();
 
   private UserWebSocketParser() {}
 
@@ -22,21 +18,23 @@ public final class UserWebSocketParser extends WebSocketTextMessageParser {
 
   @Override
   public WebSocketEventMessage fromText(String text) {
-    JsonElement json = gson.fromJson(text, JsonElement.class);
-    if (!json.isJsonObject()) {
-      throw new IllegalArgumentException(text);
-    }
+    try {
+      final JsonObject obj = new JsonObject(text);
+      if (obj.isEmpty()) {
+        throw new IllegalArgumentException(text);
+      }
 
-    JsonObject obj = json.getAsJsonObject();
-    if (obj.has("e")) {
-      return toUserData(obj);
+      if (obj.containsKey("e")) {
+        return toUserData(obj);
+      }
+    } catch (Exception e) {
+      throw new RuntimeException(e);
     }
-
-    throw new IllegalStateException(text);
+    throw new IllegalArgumentException(text);
   }
 
   private WebSocketEventMessage toUserData(JsonObject obj) {
-    String eventType = obj.get("e").getAsString();
+    String eventType = obj.getString("e");
     switch (eventType) {
       default:
         throw new IllegalStateException("Unrecognized event type: " + eventType);

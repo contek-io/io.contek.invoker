@@ -1,9 +1,7 @@
 package io.contek.invoker.ftx.api.common;
 
-import javax.annotation.concurrent.NotThreadSafe;
 import java.io.Serializable;
 
-@NotThreadSafe
 public class _Order implements Serializable {
 
   public String createdAt;

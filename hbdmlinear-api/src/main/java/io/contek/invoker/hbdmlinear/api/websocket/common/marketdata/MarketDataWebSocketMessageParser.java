@@ -1,14 +1,12 @@
 package io.contek.invoker.hbdmlinear.api.websocket.common.marketdata;
 
 import com.google.common.io.CharStreams;
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import io.contek.invoker.commons.buffer.BufferInputStream;
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.IWebSocketComponent;
 import io.contek.invoker.commons.websocket.WebSocketBinaryMessageParser;
 import io.contek.invoker.hbdmlinear.api.websocket.common.WebSocketPing;
+import io.vertx.core.json.JsonObject;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -18,8 +16,6 @@ import java.util.Map;
 import java.util.zip.GZIPInputStream;
 
 public final class MarketDataWebSocketMessageParser extends WebSocketBinaryMessageParser {
-
-  private final Gson gson = new Gson();
 
   private final Map<String, Class<? extends MarketDataWebSocketChannelMessage>>
       channelMessageTypes = new HashMap<>();
@@ -50,39 +46,40 @@ public final class MarketDataWebSocketMessageParser extends WebSocketBinaryMessa
 
   @Override
   protected AnyWebSocketMessage fromText(String text) {
-    JsonElement json = gson.fromJson(text, JsonElement.class);
-    return parse(json);
+    try {
+      final JsonObject obj = new JsonObject(text);
+      parse(obj);
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
+    throw new IllegalArgumentException(text);
   }
 
-  private AnyWebSocketMessage parse(JsonElement json) {
-    if (!json.isJsonObject()) {
-      throw new IllegalArgumentException(json.toString());
-    }
-    JsonObject obj = json.getAsJsonObject();
-    if (obj.has("ch")) {
+  private AnyWebSocketMessage parse(JsonObject obj) {
+    if (obj.containsKey("ch")) {
       return toMarketDataMessage(obj);
     }
 
-    if (obj.has("ping")) {
-      return gson.fromJson(obj, WebSocketPing.class);
+    if (obj.containsKey("ping")) {
+      return obj.mapTo(WebSocketPing.class);
     }
 
-    if (obj.has("subbed")) {
-      return gson.fromJson(obj, MarketDataWebSocketSubscribeConfirmation.class);
+    if (obj.containsKey("subbed")) {
+      return obj.mapTo(MarketDataWebSocketSubscribeConfirmation.class);
     }
 
-    if (obj.has("unsubbed")) {
-      return gson.fromJson(obj, MarketDataWebSocketUnsubscribeConfirmation.class);
+    if (obj.containsKey("unsubbed")) {
+      return obj.mapTo(MarketDataWebSocketUnsubscribeConfirmation.class);
     }
 
-    throw new UnsupportedOperationException(json.toString());
+    throw new UnsupportedOperationException(obj.toString());
   }
 
   private MarketDataWebSocketChannelMessage toMarketDataMessage(JsonObject obj) {
-    String ch = obj.get("ch").getAsString();
+    String ch = obj.getString("ch");
     synchronized (channelMessageTypes) {
       Class<? extends MarketDataWebSocketChannelMessage> type = channelMessageTypes.get(ch);
-      return gson.fromJson(obj, type);
+      return obj.mapTo(type);
     }
   }
 }

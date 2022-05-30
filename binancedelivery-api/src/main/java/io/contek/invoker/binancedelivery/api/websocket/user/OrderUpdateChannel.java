@@ -2,13 +2,8 @@ package io.contek.invoker.binancedelivery.api.websocket.user;
 
 import io.contek.invoker.binancedelivery.api.websocket.common.WebSocketEventMessage;
 
-import javax.annotation.concurrent.Immutable;
-import javax.annotation.concurrent.NotThreadSafe;
-import javax.annotation.concurrent.ThreadSafe;
-
 import static io.contek.invoker.binancedelivery.api.websocket.user.constants.UserEventTypeKeys._ORDER_TRADE_UPDATE;
 
-@ThreadSafe
 public final class OrderUpdateChannel
     extends UserWebSocketChannel<OrderUpdateChannel.Id, OrderUpdateChannel.Message> {
 
@@ -21,7 +16,6 @@ public final class OrderUpdateChannel
     return Message.class;
   }
 
-  @Immutable
   public static final class Id extends UserWebSocketChannelId<Message> {
 
     private static final Id INSTANCE = new Id();
@@ -31,7 +25,6 @@ public final class OrderUpdateChannel
     }
   }
 
-  @NotThreadSafe
   public static final class Message extends WebSocketEventMessage {
 
     public long T; // trasnaction time
@@ -45,7 +38,6 @@ public final class OrderUpdateChannel
               '}';
     }
 
-    @NotThreadSafe
     public static class Order {
 
       public String s; // symbol

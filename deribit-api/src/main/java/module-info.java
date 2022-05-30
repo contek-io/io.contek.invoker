@@ -2,7 +2,6 @@ module io.contek.invoker.deribit.api {
   requires io.contek.invoker.commons;
   requires com.google.common;
   requires io.contek.invoker.security;
-  requires com.google.gson;
   requires org.slf4j;
   requires io.vertx.core;
 

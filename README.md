@@ -1,139 +1,201 @@
-# io.contek.invoker
+# Exchange Connector
 
-A Java library to connect cryptocurrency exchanges.
+****
 
-## Maven
+A Java library to **connect cryptocurrency exchanges** with **[Vertx](https://vertx.io/)** ([Event Loop IO](https://alexey-soshin.medium.com/understanding-vert-x-event-loop-46373115fb3e) and [reactive programming](https://www.techtarget.com/searchapparchitecture/definition/reactive-programming)).
+
+This is a fork of **[io.contek.invoker](https://github.com/contek-io/io.contek.invoker)**
+
+****
+
+## Actual version
+
+```1.0.0```
+
+****
+
+## Project java version
+
+```17```
+
+****
+
+## Required Maven Dependencies
 
 ``` xml
 <dependency>
-    <groupId>io.contek.invoker</groupId>
-    <artifactId>binancedelivery-api</artifactId>
-    <version>2.15.0</version>
+    <groupId>com.github.fenrur</groupId>
+    <artifactId>exchange-connector-commons</artifactId>
+    <version>1.0.0</version>
 </dependency>
 
 <dependency>
-    <groupId>io.contek.invoker</groupId>
-    <artifactId>binancefutures-api</artifactId>
-    <version>2.15.0</version>
-</dependency>
-
-<dependency>
-    <groupId>io.contek.invoker</groupId>
-    <artifactId>bitmex-api</artifactId>
-    <version>2.15.0</version>
-</dependency>
-
-<dependency>
-    <groupId>io.contek.invoker</groupId>
-    <artifactId>bitstamp-api</artifactId>
-    <version>2.15.0</version>
-</dependency>
-
-<dependency>
-    <groupId>io.contek.invoker</groupId>
-    <artifactId>bybit-api</artifactId>
-    <version>2.15.0</version>
-</dependency>
-
-<dependency>
-    <groupId>io.contek.invoker</groupId>
-    <artifactId>coinbasepro-api</artifactId>
-    <version>2.15.0</version>
-</dependency>
-
-<dependency>
-    <groupId>io.contek.invoker</groupId>
-    <artifactId>deribit-api</artifactId>
-    <version>2.15.0</version>
-</dependency>
-
-<dependency>
-    <groupId>io.contek.invoker</groupId>
-    <artifactId>ftx-api</artifactId>
-    <version>2.15.0</version>
-</dependency>
-
-<dependency>
-    <groupId>io.contek.invoker</groupId>
-    <artifactId>hbdmlinear-api</artifactId>
-    <version>2.15.0</version>
-</dependency>
-
-<dependency>
-    <groupId>io.contek.invoker</groupId>
-    <artifactId>hbdminverse-api</artifactId>
-    <version>2.15.0</version>
-</dependency>
-
-<dependency>
-    <groupId>io.contek.invoker</groupId>
-    <artifactId>kraken-api</artifactId>
-    <version>2.15.0</version>
+    <groupId>com.github.fenrur</groupId>
+    <artifactId>exchange-connector-security</artifactId>
+    <version>1.0.0</version>
 </dependency>
 ```
 
-## Examples
+## Required Gradle Dependencies
 
-### Binance Futures Main Net Get Order Book
-
-``` java
-MarketRestApi api = ApiFactory.getMainNet().rest().market();
-GetDepth.Response response = api.getDepth().setSymbol("BTCUSDT").setLimit(100).submit();
-double bestBid = response.bids.get(0).get(0);
-double bestAsk = response.asks.get(0).get(0);
-System.out.println("Best bid: " + bestBid + ", best ask: " + bestAsk);
+``` kotlin
+implementation("com.github.fenrur:exchange-connector-commons:1.0.0")
+implementation("com.github.fenrur:exchange-connector-security:1.0.0")
 ```
 
-### Binance Futures Test Net Place Order
+****
 
-``` java
-ApiKey key = ApiKey.newBuilder().setId("foo").setSecret("bar").build();
-UserRestApi api = ApiFactory.getTestNet().rest().user(key);
-PostOrder.Response response =
-    api.postOrder()
-        .setSymbol("BTCUSDT")
-        .setSide(OrderSides.BUY)
-        .setType(OrderTypes.LIMIT)
-        .setPrice(9981.05d)
-        .setQuantity(0.03d)
-        .submit();
-System.out.println("My order ID is: " + response.orderId);
+## All available Exchanges API
+
+| api name        | artifact id                            |
+|-----------------|----------------------------------------|
+| binancedelivery | exchange-connector-binancedelivery-api |
+| binancefutures  | exchange-connector-binancefutures-api  |
+| binancespot     | exchange-connector-binancespot-api     |
+| bitmex          | exchange-connector-bitmex-api          |
+| bitstamp        | exchange-connector-bitstamp-api        |
+| bybit           | exchange-connector-bybit-api           |
+| bybitlinear     | exchange-connector-bybitlinear-api     |
+| coinbasepro     | exchange-connector-coinbasepro-api     |
+| deribit         | exchange-connector-deribit-api         |
+| ftx             | exchange-connector-ftx-api             |
+| hbdminverse     | exchange-connector-hbdminverse-api     |
+| kraken          | exchange-connector-kraken-api          |
+| okx             | exchange-connector-okx-api             |
+
+## Examples with FTX
+
+### Setup Dependencies
+
+``` kotlin
+implementation("com.github.fenrur:exchange-connector-commons:1.0.0")
+implementation("com.github.fenrur:exchange-connector-security:1.0.0")
+implementation("com.github.fenrur:exchange-connector-ftx-api:1.0.0")
 ```
 
-### Binance Futures Main Net Subscribe Trades
+### Setup Vertx
 
 ``` java
-ISubscribingConsumer<Message> consumer =
-    new ISubscribingConsumer<Message>() {
-      @Override
-      public void onNext(AggTradeChannel.Message message) {
-        double price = message.data.p;
-        double quantity = message.data.q;
-        System.out.println("New trade price: " + price + ", quantity: " + quantity);
-      }
+Vertx vertx = Vertx.vertx();
+vertx.getOrCreateContext();
+```
 
-      @Override
-      public void onStateChange(SubscriptionState state) {
-        if (state == SubscriptionState.SUBSCRIBED) {
-          System.out.println("Start receiving trade data");
-        }
-      }
+### Public Rest Api
 
-      @Override
-      public ConsumerState getState() {
-        return ConsumerState.ACTIVE;
-      }
-    };
-MarketWebSocketApi api = ApiFactory.getMainNet().ws().market();
-api.getAggTradeChannel("BTCUSDT").addConsumer(consumer);
+``` java
+final MarketRestApi restMarket = ApiFactory
+  .getMainNet()
+  .rest()
+  .market(vertx);
+
+restMarket
+  .getSingleMarket()
+  .setMarket("BTC-PERP")
+  .submit()
+  .onSuccess(response -> {
+    final _Market result = response.result;
+    System.out.println(result.price);
+  });
+```
+
+### Private Rest Api
+
+``` java
+final ApiKey apiKey = ApiKey.newBuilder()
+  .setId("id")
+  .setSecret("secret")
+  .setProperties(Map.of("FTX_SUBACCOUNT_KEY", "subaccount"))
+  .build();
+
+final UserRestApi restUser = ApiFactory
+  .getMainNet()
+  .rest()
+  .user(vertx, apiKey);
+
+  restUser
+  .postOrders()
+  .setType(OrderTypeKeys._market)
+  .setSide(SideKeys._buy)
+  .setSize(0.5)
+  .submit()
+  .onSuccess(response -> {
+    final _Order result = response.result;
+  });
+```
+
+### Public Websocket channel
+
+``` java
+final MarketWebSocketApi wsMarket = ApiFactory
+  .getMainNet()
+  .ws()
+  .market(vertx);
+
+wsMarket
+  .getTradesChannel(TradesChannel.Id.of("BTC/USD"))
+  .addConsumer(new ISubscribingConsumer<>() {
+    @Override
+    public void onStateChange(SubscriptionState subscriptionState) {
+
+    }
+
+    @Override
+    public void onNext(TradesChannel.Message message) {
+      System.out.println(message.data);
+    }
+
+    @Override
+    public ConsumerState getState() {
+      return ConsumerState.ACTIVE;
+    }
+  });
+```
+
+### Private Websocket channel
+
+``` java
+final ApiKey apiKey = ApiKey.newBuilder()
+  .setId("id")
+  .setSecret("secret")
+  .setProperties(Map.of("FTX_SUBACCOUNT_KEY", "subaccount"))
+  .build();
+
+final UserWebSocketApi wsUser = ApiFactory
+  .getMainNet()
+  .ws()
+  .user(vertx, apikey);
+
+wsUser
+  .getOrderUpdateChannel()
+  .addConsumer(new ISubscribingConsumer<>() {
+    @Override
+    public void onStateChange(SubscriptionState subscriptionState) {
+
+    }
+
+    @Override
+    public void onNext(OrdersChannel.Message message) {
+      final OrdersChannel.Data data = message.data;
+    }
+
+    @Override
+    public ConsumerState getState() {
+      return ConsumerState.ACTIVE;
+    }
+  });
 ```
 
 ## Goals
 
-This project aims to provide io.contek.invoker.ftx.api.a neat solution to connect cryptocurrency exchanges via their
-REST and WebSocket APIs.
+This project aims to provide a neat solution to connect cryptocurrency exchanges via their REST and WebSocket APIs.
 
 It handles tedious things that are common in many exchanges, for example: rate limit, authentication, reconnection etc.
+
+[Modularized java project](https://openjdk.java.net/jeps/261)
+
+Keep the same conventions as the parent project (file name, packages...)
+
+Non-blocking IO call
 
 ## Non-goals
 
@@ -180,39 +242,3 @@ forget to remove some fields. It may lead to rejection or unexpected outcomes.
 
 Endpoint implementations shall always follow their official API documents. We shall make the best effort to avoid
 introducing random constant values that are not described in the API documents.
-
-**Example 1:**\
-*Q:* I can't find io.contek.invoker.ftx.api.a rate limit restriction for XXX endpoint, but I think there must be
-io.contek.invoker.ftx.api.a limit. Shall I cap it to 10
-times per minute?\
-*A:* No, because you are likely wrong.
-
-**Example 2:**\
-*Q:* I found XXX endpoint accepts XXX argument, which is not specified in the API document. Shall I add it?\
-*A:* No, because it may cause unexpected outcomes.
-
-**Example 3:**\
-*Q:* The example in the official document suggests the field name is XXX but in fact it is YYY. What shall I do?\
-*A:* We probably don't want to implement this endpoint yet. Wait for them to fix it first.
-
-## FAQs
-
-### Is this the official API client for XXX exchange?
-
-No.
-
-### Why is there no test for XXX?
-
-We do not have the resources to write those tests (yet).
-
-### Is XXX stable?
-
-We do not know and we suggest you find it out in their official API document.
-
-### Why is XXX not up to date?
-
-The current version is (probably) good enough for us already. However, feel free to update it and submit pull requests.
-
-### Why is XXX not implemented?
-
-We are probably not using this endpoint. However, feel free to implement it and submit pull requests.

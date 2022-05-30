@@ -1,6 +1,6 @@
 package io.contek.invoker.kraken.api.common;
 
-import com.google.gson.JsonArray;
+import io.vertx.core.json.JsonArray;
 
 public final class _BookLevel {
 
@@ -11,11 +11,11 @@ public final class _BookLevel {
 
   public static _BookLevel toOrderBookLevel(JsonArray jsonArray) {
     _BookLevel level = new _BookLevel();
-    level.price = jsonArray.get(0).getAsDouble();
-    level.volume = jsonArray.get(1).getAsDouble();
-    level.timestamp = jsonArray.get(2).getAsDouble();
+    level.price = jsonArray.getDouble(0);
+    level.volume = jsonArray.getDouble(1);
+    level.timestamp = jsonArray.getDouble(2);
     if (jsonArray.size() == 4) {
-      level.updateType = jsonArray.get(3).getAsString();
+      level.updateType = jsonArray.getString(3);
     }
     return level;
   }

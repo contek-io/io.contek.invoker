@@ -1,14 +1,12 @@
 package io.contek.invoker.bybit.api.websocket;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import io.contek.invoker.bybit.api.websocket.common.WebSocketOperationResponse;
 import io.contek.invoker.bybit.api.websocket.common.WebSocketTopicMessage;
 import io.contek.invoker.bybit.api.websocket.market.OrderBookChannel;
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.IWebSocketComponent;
 import io.contek.invoker.commons.websocket.WebSocketTextMessageParser;
+import io.vertx.core.json.JsonObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,8 +15,6 @@ import static io.contek.invoker.bybit.api.websocket.common.constants.WebSocketDa
 import static io.contek.invoker.bybit.api.websocket.common.constants.WebSocketDataMessageTypeKeys._snapshot;
 
 final class WebSocketMessageParser extends WebSocketTextMessageParser {
-
-  private final Gson gson = new Gson();
 
   private final Map<String, Class<? extends WebSocketTopicMessage>> channelMessageTypes =
       new HashMap<>();
@@ -36,22 +32,26 @@ final class WebSocketMessageParser extends WebSocketTextMessageParser {
 
   @Override
   protected AnyWebSocketMessage fromText(String text) {
-    JsonElement json = gson.fromJson(text, JsonElement.class);
-    if (!json.isJsonObject()) {
-      throw new IllegalArgumentException(text);
-    }
-    JsonObject obj = json.getAsJsonObject();
-    if (obj.has("request")) {
-      return toOperationResponse(obj);
-    }
-    if (obj.has("topic")) {
-      return toTopicMessage(obj);
+    try {
+      final JsonObject obj = new JsonObject(text);
+      if (obj.isEmpty()) {
+        throw new IllegalArgumentException(text);
+      }
+
+      if (obj.containsKey("request")) {
+        return toOperationResponse(obj);
+      }
+      if (obj.containsKey("topic")) {
+        return toTopicMessage(obj);
+      }
+    } catch (Exception e) {
+      throw new RuntimeException(e);
     }
     throw new IllegalArgumentException(text);
   }
 
   private AnyWebSocketMessage toTopicMessage(JsonObject obj) {
-    String topic = obj.get("topic").getAsString();
+    String topic = obj.getString("topic");
     synchronized (channelMessageTypes) {
       Class<? extends WebSocketTopicMessage> type = channelMessageTypes.get(topic);
       if (type == null) {
@@ -59,21 +59,18 @@ final class WebSocketMessageParser extends WebSocketTextMessageParser {
       }
 
       if (type.equals(OrderBookChannel.Message.class)) {
-        switch (obj.get("type").getAsString()) {
-          case _snapshot:
-            return gson.fromJson(obj, OrderBookChannel.SnapshotMessage.class);
-          case _delta:
-            return gson.fromJson(obj, OrderBookChannel.DeltaMessage.class);
-          default:
-            throw new IllegalStateException();
-        }
+        return switch (obj.getString("type")) {
+          case _snapshot -> obj.mapTo(OrderBookChannel.SnapshotMessage.class);
+          case _delta -> obj.mapTo(OrderBookChannel.DeltaMessage.class);
+          default -> throw new IllegalStateException();
+        };
       }
 
-      return gson.fromJson(obj, type);
+      return obj.mapTo(type);
     }
   }
 
   private WebSocketOperationResponse toOperationResponse(JsonObject obj) {
-    return gson.fromJson(obj, WebSocketOperationResponse.class);
+    return obj.mapTo(WebSocketOperationResponse.class);
   }
 }

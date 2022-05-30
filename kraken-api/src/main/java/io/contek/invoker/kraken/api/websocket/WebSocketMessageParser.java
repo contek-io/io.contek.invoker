@@ -1,10 +1,6 @@
 package io.contek.invoker.kraken.api.websocket;
 
 import com.google.common.collect.ImmutableList;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.IWebSocketComponent;
 import io.contek.invoker.commons.websocket.WebSocketTextMessageParser;
@@ -14,6 +10,8 @@ import io.contek.invoker.kraken.api.common._Trade;
 import io.contek.invoker.kraken.api.websocket.common.*;
 import io.contek.invoker.kraken.api.websocket.market.BookChannel;
 import io.contek.invoker.kraken.api.websocket.market.TradeChannel;
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,8 +25,6 @@ final class WebSocketMessageParser extends WebSocketTextMessageParser {
 
   private static final String FIELD_EVENT = "event";
 
-  private final Gson gson = new Gson();
-
   private WebSocketMessageParser() {}
 
   static WebSocketMessageParser getInstance() {
@@ -37,7 +33,7 @@ final class WebSocketMessageParser extends WebSocketTextMessageParser {
 
   private static WebSocketChannelDataMessage<?> toDataMessage(JsonArray array) {
     // The type of the response is in the second to the last position.
-    String type = array.get(array.size() - 2).getAsString();
+    String type = array.getString(array.size() - 2);
     if (type.equals(_trade)) {
       return toTradeChannelMessage(array);
     } else if (type.startsWith(_book)) {
@@ -49,9 +45,9 @@ final class WebSocketMessageParser extends WebSocketTextMessageParser {
 
   public static BookChannel.Message toBookChannelMessage(JsonArray array) {
     BookChannel.Message result = new BookChannel.Message();
-    result.channelID = array.get(0).getAsInt();
-    result.channelName = array.get(array.size() - 2).getAsString();
-    result.pair = array.get(array.size() - 1).getAsString();
+    result.channelID = array.getInteger(0);
+    result.channelName = array.getString(array.size() - 2);
+    result.pair = array.getString(array.size() - 1);
 
     result.data = new _Book();
     result.data.bs = ImmutableList.of();
@@ -60,51 +56,52 @@ final class WebSocketMessageParser extends WebSocketTextMessageParser {
     result.data.a = ImmutableList.of();
 
     for (int i = 1; i < array.size() - 2; i++) {
-      JsonObject obj = array.get(i).getAsJsonObject();
+      JsonObject obj = array.getJsonObject(i);
 
-      if (obj.has("bs")) {
-        result.data.bs = toOrderBookEntries(obj.get("bs"));
+      if (obj.containsKey("bs")) {
+        result.data.bs = toOrderBookEntries(obj.getJsonArray("bs"));
       }
 
-      if (obj.has("as")) {
-        result.data.as = toOrderBookEntries(obj.get("as"));
+      if (obj.containsKey("as")) {
+        result.data.as = toOrderBookEntries(obj.getJsonArray("as"));
       }
 
-      if (obj.has("b")) {
-        result.data.b = toOrderBookEntries(obj.get("b"));
+      if (obj.containsKey("b")) {
+        result.data.b = toOrderBookEntries(obj.getJsonArray("b"));
       }
 
-      if (obj.has("io.contek.invoker.ftx.api.a")) {
-        result.data.a = toOrderBookEntries(obj.get("io.contek.invoker.ftx.api.a"));
+      if (obj.containsKey("a")) {
+        result.data.a = toOrderBookEntries(obj.getJsonArray("a"));
       }
     }
 
     return result;
   }
 
-  private static List<_BookLevel> toOrderBookEntries(JsonElement jsonArray) {
+  private static List<_BookLevel> toOrderBookEntries(JsonArray jsonArray) {
     List<_BookLevel> orderBookEntries = new ArrayList<>();
-    for (JsonElement jsonElement : jsonArray.getAsJsonArray()) {
-      orderBookEntries.add(toOrderBookLevel(jsonElement.getAsJsonArray()));
+    for (int i = 0; i < jsonArray.size(); i++) {
+      final JsonArray arr = jsonArray.getJsonArray(i);
+      orderBookEntries.add(toOrderBookLevel(arr));
     }
     return orderBookEntries;
   }
 
   private static TradeChannel.Message toTradeChannelMessage(JsonArray array) {
-    JsonElement trades_arr = array.get(1);
+    JsonArray trades_arr = array.getJsonArray(1);
 
     TradeChannel.Message trades = new TradeChannel.Message();
-    trades.pair = array.get(3).getAsString();
+    trades.pair = array.getString(3);
     trades.data = new ArrayList<>();
-    for (JsonElement element : trades_arr.getAsJsonArray()) {
-      JsonArray trade_arr = element.getAsJsonArray();
+    for (int i = 0; i < trades_arr.size(); i++) {
+      final JsonArray trade_arr = trades_arr.getJsonArray(i);
       _Trade trade = new _Trade();
-      trade.price = trade_arr.get(0).getAsDouble();
-      trade.volume = trade_arr.get(1).getAsDouble();
-      trade.time = trade_arr.get(2).getAsDouble();
-      trade.side = trade_arr.get(3).getAsString();
-      trade.orderType = trade_arr.get(4).getAsString();
-      trade.misc = trade_arr.get(5).getAsString();
+      trade.price = trade_arr.getDouble(0);
+      trade.volume = trade_arr.getDouble(1);
+      trade.time = trade_arr.getDouble(2);
+      trade.side = trade_arr.getString(3);
+      trade.orderType = trade_arr.getString(4);
+      trade.misc = trade_arr.getString(5);
       trades.data.add(trade);
     }
 
@@ -116,32 +113,30 @@ final class WebSocketMessageParser extends WebSocketTextMessageParser {
 
   @Override
   protected AnyWebSocketMessage fromText(String text) {
-    JsonElement json = gson.fromJson(text, JsonElement.class);
-
-    if (json.isJsonArray()) {
-      return toDataMessage(json.getAsJsonArray());
-    } else if (json.isJsonObject()) {
-      return toWebSocketResponse(json.getAsJsonObject());
-    } else {
-      throw new IllegalArgumentException(text);
+    try {
+      final JsonObject obj = new JsonObject(text);
+      return toWebSocketResponse(obj);
+    } catch (Exception ignored) {
     }
+
+    try {
+      final JsonArray array = new JsonArray(text);
+      return toDataMessage(array);
+    } catch (Exception ignored) {
+    }
+
+    throw new IllegalArgumentException(text);
   }
 
   private WebSocketGeneralMessage toWebSocketResponse(JsonObject obj) {
-    String event = obj.get(FIELD_EVENT).getAsString();
-    switch (event) {
-      case _pong:
-        return gson.fromJson(obj, WebSocketPongResponse.class);
-      case _heartbeat:
-        return gson.fromJson(obj, WebSocketHeartbeat.class);
-      case _systemStatus:
-        return gson.fromJson(obj, WebSocketSystemStatus.class);
-      case _subscriptionStatus:
-        return gson.fromJson(obj, WebSocketSubscriptionStatus.class);
-      default:
-    }
-
-    throw new UnsupportedOperationException(event);
+    String event = obj.getString(FIELD_EVENT);
+    return switch (event) {
+      case _pong -> obj.mapTo(WebSocketPongResponse.class);
+      case _heartbeat -> obj.mapTo(WebSocketHeartbeat.class);
+      case _systemStatus -> obj.mapTo(WebSocketSystemStatus.class);
+      case _subscriptionStatus -> obj.mapTo(WebSocketSubscriptionStatus.class);
+      default -> throw new UnsupportedOperationException(event);
+    };
   }
 
   private static final class InstanceHolder {

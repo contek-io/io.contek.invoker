@@ -2,9 +2,9 @@ dependencies {
   implementation project(':commons')
   implementation project(':security')
 
-//    implementation project(':ursa-cache')
-//    implementation project(':ursa-core-api')
-  implementation "com.google.code.gson:gson:${gsonVersion}"
+
+
+
   implementation "io.vertx:vertx-core:${vertxVersion}"
 }
 

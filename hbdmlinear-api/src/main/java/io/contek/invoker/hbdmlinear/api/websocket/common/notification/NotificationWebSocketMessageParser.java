@@ -1,13 +1,11 @@
 package io.contek.invoker.hbdmlinear.api.websocket.common.notification;
 
 import com.google.common.io.CharStreams;
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import io.contek.invoker.commons.buffer.BufferInputStream;
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.IWebSocketComponent;
 import io.contek.invoker.commons.websocket.WebSocketBinaryMessageParser;
+import io.vertx.core.json.JsonObject;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -19,8 +17,6 @@ import java.util.zip.GZIPInputStream;
 import static io.contek.invoker.hbdmlinear.api.websocket.user.constants.OpKeys.*;
 
 final class NotificationWebSocketMessageParser extends WebSocketBinaryMessageParser {
-
-  private final Gson gson = new Gson();
 
   private final Map<String, Class<? extends NotificationWebSocketChannelMessage>>
       channelMessageTypes = new HashMap<>();
@@ -48,37 +44,37 @@ final class NotificationWebSocketMessageParser extends WebSocketBinaryMessagePar
 
   @Override
   protected AnyWebSocketMessage fromText(String text) {
-    JsonElement json = gson.fromJson(text, JsonElement.class);
-    return parse(json);
+    try {
+      final JsonObject obj = new JsonObject(text);
+      parse(obj);
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
+    throw new IllegalArgumentException(text);
   }
 
-  private NotificationWebSocketInboundMessage parse(JsonElement json) {
-    if (!json.isJsonObject()) {
-      throw new IllegalArgumentException(json.toString());
-    }
-
-    JsonObject obj = json.getAsJsonObject();
-    String op = obj.get("op").getAsString();
+  private NotificationWebSocketInboundMessage parse(JsonObject obj) {
+    String op = obj.getString("op");
 
     switch (op) {
       case _sub:
       case _unsub:
-        return gson.fromJson(obj, NotificationWebSocketConfirmation.class);
+        return obj.mapTo(NotificationWebSocketConfirmation.class);
       case _ping:
-        return gson.fromJson(obj, NotificationWebSocketPing.class);
+        return obj.mapTo(NotificationWebSocketPing.class);
       case _notify:
         return toMarketDataMessage(obj);
       default:
     }
 
-    throw new UnsupportedOperationException(json.toString());
+    throw new UnsupportedOperationException(obj.toString());
   }
 
   private NotificationWebSocketChannelMessage toMarketDataMessage(JsonObject obj) {
-    String topic = obj.get("topic").getAsString();
+    String topic = obj.getString("topic");
     synchronized (channelMessageTypes) {
       Class<? extends NotificationWebSocketChannelMessage> type = channelMessageTypes.get(topic);
-      return gson.fromJson(obj, type);
+      return obj.mapTo(type);
     }
   }
 }

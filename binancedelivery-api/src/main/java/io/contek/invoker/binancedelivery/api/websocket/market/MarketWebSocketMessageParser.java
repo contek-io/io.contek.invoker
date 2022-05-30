@@ -1,16 +1,12 @@
 package io.contek.invoker.binancedelivery.api.websocket.market;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import io.contek.invoker.binancedelivery.api.websocket.common.WebSocketCommandConfirmation;
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.IWebSocketComponent;
 import io.contek.invoker.commons.websocket.WebSocketTextMessageParser;
+import io.vertx.core.json.JsonObject;
 
 public final class MarketWebSocketMessageParser extends WebSocketTextMessageParser {
-
-  private final Gson gson = new Gson();
 
   private MarketWebSocketMessageParser() {}
 
@@ -23,40 +19,41 @@ public final class MarketWebSocketMessageParser extends WebSocketTextMessagePars
 
   @Override
   protected AnyWebSocketMessage fromText(String text) {
-    JsonElement json = gson.fromJson(text, JsonElement.class);
-    if (!json.isJsonObject()) {
-      throw new IllegalArgumentException(text);
+    try {
+      final JsonObject obj = new JsonObject(text);
+
+      if (obj.containsKey("id")) {
+        return toRequestConfirmation(obj);
+      }
+      if (obj.containsKey("stream")) {
+        return toStreamData(obj);
+      }
+      return toBookTicker(obj);
+    } catch (Exception e) {
+      throw new RuntimeException(e);
     }
-    JsonObject obj = json.getAsJsonObject();
-    if (obj.has("id")) {
-      return toRequestConfirmation(obj);
-    }
-    if (obj.has("stream")) {
-      return toStreamData(obj);
-    }
-    return toBookTicker(obj);
   }
 
   private AnyWebSocketMessage toRequestConfirmation(JsonObject obj) {
-    return gson.fromJson(obj, WebSocketCommandConfirmation.class);
+    return obj.mapTo(WebSocketCommandConfirmation.class);
   }
 
   private AnyWebSocketMessage toStreamData(JsonObject obj) {
-    String stream = obj.get("stream").getAsString();
+    String stream = obj.getString("stream");
     if (stream.endsWith("@aggTrade")) {
-      return gson.fromJson(obj, AggTradeChannel.Message.class);
+      return obj.mapTo(AggTradeChannel.Message.class);
     }
     if (stream.endsWith("@depth@100ms")) {
-      return gson.fromJson(obj, DepthUpdateChannel.Message.class);
+      return obj.mapTo(DepthUpdateChannel.Message.class);
     }
     if (stream.endsWith("@forceOrder")) {
-      return gson.fromJson(obj, ForceOrderChannel.Message.class);
+      return obj.mapTo(ForceOrderChannel.Message.class);
     }
     throw new IllegalStateException();
   }
 
   private AnyWebSocketMessage toBookTicker(JsonObject obj) {
-    return gson.fromJson(obj, BookTickerEvent.class);
+    return obj.mapTo(BookTickerEvent.class);
   }
 
   private static class InstanceHolder {

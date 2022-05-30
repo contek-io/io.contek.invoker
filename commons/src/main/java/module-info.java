@@ -1,5 +1,4 @@
 module io.contek.invoker.commons {
-  requires com.google.gson;
   requires io.contek.invoker.security;
   requires com.google.common;
   requires org.slf4j;

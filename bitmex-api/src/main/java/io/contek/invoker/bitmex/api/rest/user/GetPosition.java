@@ -1,12 +1,12 @@
 package io.contek.invoker.bitmex.api.rest.user;
 
-import com.google.gson.Gson;
 import io.contek.invoker.bitmex.api.common._Position;
 import io.contek.invoker.bitmex.api.rest.user.GetPosition.Response;
 import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
+import io.vertx.core.json.Json;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,7 +16,6 @@ import static io.contek.invoker.commons.rest.RestMethod.GET;
 
 public final class GetPosition extends UserRestRequest<Response> {
 
-  private static final Gson gson = new Gson();
   private final Map<String, String> filter = new HashMap<>();
   private Integer count;
 
@@ -57,7 +56,9 @@ public final class GetPosition extends UserRestRequest<Response> {
       builder.add("count", count);
     }
     if (!filter.isEmpty()) {
-      builder.add("filter", gson.toJson(filter, Map.class));
+//      builder.add("filter", gson.toJson(filter, Map.class));
+      builder.add("filter", Json.encode(filter));
+      // TODO
     }
 
     return builder.build();

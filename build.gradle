@@ -15,7 +15,6 @@ subprojects {
   apply plugin: 'signing'
 
   ext {
-    gsonVersion = '2.8.8'
     vertxVersion = '4.3.1'
   }
 
@@ -30,12 +29,13 @@ subprojects {
   }
 
   dependencies {
+    implementation gr
     implementation 'com.google.guava:guava:31.1-jre'
     implementation 'org.slf4j:slf4j-api:1.7.36'
   }
 
-  group = 'io.contek.invoker'
-  version = '3.0.0-SNAPSHOT'
+  group = 'com.github.fenrur'
+  version = '1.0.0'
 
   task sourcesJar(type: Jar) {
     from sourceSets.main.allSource
@@ -50,7 +50,7 @@ subprojects {
   publishing {
     publications {
       mavenJava(MavenPublication) {
-        artifactId = "invoker-${project.name}"
+        artifactId = "exchange-connector-${project.name}"
         from components.java
         artifact sourcesJar
         artifact javadocJar
@@ -61,12 +61,12 @@ subprojects {
             description = project.description
           }
 
-          url = 'https://github.com/contek-io/io.contek.invoker'
+          url = 'https://github.com/Fenrur/exchange-connector'
 
           scm {
-            connection = 'scm:git:git://github.com/contek-io/io.contek.invoker.git'
-            developerConnection = 'scm:git:ssh://github.com/contek-io/io.contek.invoker.git'
-            url = 'http://github.com/contek-io/io.contek.invoker/tree/master'
+            connection = 'scm:git:git://github.com/Fenrur/exchange-connector.git'
+            developerConnection = 'scm:git:ssh://github.com/Fenrur/exchange-connector.git'
+            url = 'https://github.com/Fenrur/exchange-connector/tree/master'
           }
 
           licenses {
@@ -80,9 +80,8 @@ subprojects {
             developer {
               id = 'Fenrur'
               name = 'Fenrur'
-//              email = 'dev@contek.io'
+              email = 'Fenrur@protonmail.com'
               organization = 'Fenrur'
-//              organizationUrl = 'https://contek.io'
             }
           }
         }
