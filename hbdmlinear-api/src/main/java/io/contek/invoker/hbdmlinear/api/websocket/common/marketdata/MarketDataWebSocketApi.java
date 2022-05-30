@@ -35,7 +35,7 @@ public abstract class MarketDataWebSocketApi extends BaseWebSocketApi {
 
   @Override
   protected final WebSocketCall createCall(ICredential credential) {
-    return WebSocketCall.fromUrl(context.getBaseUrl() + "/linear-swap-ws");
+    return WebSocketCall.fromUrl(context.baseUrl() + "/linear-swap-ws");
   }
 
   @Override

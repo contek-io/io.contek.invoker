@@ -9,7 +9,6 @@ import io.contek.invoker.security.ICredential;
 import org.slf4j.Logger;
 
 import java.time.Clock;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import static io.contek.invoker.ftx.api.rest.RestRequest.FTX_SUBACCOUNT_KEY;
 import static org.slf4j.LoggerFactory.getLogger;
@@ -23,7 +22,7 @@ public final class WebSocketAuthenticator implements IWebSocketAuthenticator {
   private final ICredential credential;
   private final Clock clock;
 
-  private final AtomicBoolean authenticated = new AtomicBoolean();
+  private boolean authenticated = false;
 
   public WebSocketAuthenticator(ICredential credential, Clock clock) {
     this.credential = credential;
@@ -47,7 +46,7 @@ public final class WebSocketAuthenticator implements IWebSocketAuthenticator {
 
     log.info("Requesting authentication for {}.", credential.getApiKeyId());
     session.send(request);
-    authenticated.set(true);
+    authenticated = true;
   }
 
   @Override
@@ -57,7 +56,7 @@ public final class WebSocketAuthenticator implements IWebSocketAuthenticator {
 
   @Override
   public boolean isCompleted() {
-    return credential.isAnonymous() || authenticated.get();
+    return credential.isAnonymous() || authenticated;
   }
 
   @Override
@@ -65,6 +64,6 @@ public final class WebSocketAuthenticator implements IWebSocketAuthenticator {
 
   @Override
   public void afterDisconnect() {
-    authenticated.set(false);
+    authenticated = false;
   }
 }

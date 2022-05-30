@@ -27,7 +27,7 @@ public abstract class NotificationWebSocketApi extends BaseWebSocketApi {
         actor,
         new NotificationWebSocketMessageParser(),
         new NotificationWebSocketAuthenticator(
-            actor.getCredential(), PATH, requestIdGenerator, context, actor.getClock()),
+            actor.credential(), PATH, requestIdGenerator, context, actor.clock()),
         NotificationWebSocketLiveKeeper.getInstance());
     this.context = context;
     this.requestIdGenerator = requestIdGenerator;
@@ -44,7 +44,7 @@ public abstract class NotificationWebSocketApi extends BaseWebSocketApi {
 
   @Override
   protected final WebSocketCall createCall(ICredential credential) {
-    return WebSocketCall.fromUrl(context.getBaseUrl() + PATH);
+    return WebSocketCall.fromUrl(context.baseUrl() + PATH);
   }
 
   @Override

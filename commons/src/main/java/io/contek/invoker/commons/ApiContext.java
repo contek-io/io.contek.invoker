@@ -53,17 +53,9 @@ public final class ApiContext {
 
     private Builder() {}
 
-    public Builder setRestContext(RestContext.Builder builder) {
-      return setRestContext(builder == null ? null : builder.build());
-    }
-
     public Builder setRestContext(RestContext restContext) {
       this.restContext = restContext;
       return this;
-    }
-
-    public Builder setWebSocketContext(WebSocketContext.Builder builder) {
-      return setWebSocketContext(builder == null ? null : builder.build());
     }
 
     public Builder setWebSocketContext(WebSocketContext webSocketContext) {

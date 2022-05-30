@@ -1,6 +1,8 @@
 package io.contek.invoker.commons.actor.http;
 
+import io.vertx.core.http.HttpClient;
+
 public interface IHttpClientFactory {
 
-  IHttpClient create(IHttpContext context);
+  HttpClient create(IHttpContext context);
 }

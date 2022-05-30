@@ -80,7 +80,7 @@ public final class InstrumentInfoChannel
         open_interest; // Open interest. The update is not immediate - slowest update is 1 minute
     public Long
         open_value_e8; // Open position value * 10^8. The update is not immediate - slowest update
-                       // is 1 minute
+    // is 1 minute
     public Long total_turnover_e8; // Total turnover * 10^8
     public Long turnover_24h_e8; // Turnover for 24H * 10^8
     public Long total_volume; // Total volume

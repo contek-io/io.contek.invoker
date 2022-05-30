@@ -1,29 +1,21 @@
 package io.contek.invoker.commons.websocket;
 
-import com.google.gson.Gson;
-import okhttp3.WebSocket;
+import io.contek.invoker.commons.json.Json;
+import io.vertx.core.http.WebSocket;
 
-public final class WebSocketSession {
-
-  private static final Gson gson = new Gson();
-
-  protected final WebSocket ws;
-
-  WebSocketSession(WebSocket ws) {
-    this.ws = ws;
-  }
+public record WebSocketSession(WebSocket webSocket) {
 
   public void send(AnyWebSocketMessage message) {
     if (message instanceof IWebSocketRawTextMessage) {
       IWebSocketRawTextMessage casted = (IWebSocketRawTextMessage) message;
-      ws.send(casted.getRawText());
+      webSocket.writeFinalTextFrame(casted.getRawText());
       return;
     }
 
-    ws.send(gson.toJson(message));
+    webSocket.writeFinalTextFrame(Json.encode(message));
   }
 
   void close() {
-    ws.close(1000, null);
+    webSocket.close((short) 1000);
   }
 }

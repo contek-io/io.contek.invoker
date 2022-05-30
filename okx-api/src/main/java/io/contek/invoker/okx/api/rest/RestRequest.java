@@ -5,6 +5,7 @@ import com.google.common.net.UrlEscapers;
 import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.rest.*;
 import io.contek.invoker.security.ICredential;
+import io.vertx.core.buffer.Buffer;
 
 import java.time.Clock;
 import java.time.format.DateTimeFormatter;
@@ -25,7 +26,7 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
   protected RestRequest(IActor actor, RestContext context) {
     super(actor);
     this.context = context;
-    clock = actor.getClock();
+    clock = actor.clock();
   }
 
   protected abstract RestMethod getMethod();
@@ -43,14 +44,14 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
         return RestCall.newBuilder()
             .setUrl(buildUrlString(paramsString))
             .setMethod(method)
-            .setHeaders(generateHeaders(paramsString, "", credential))
+            .setHeaders(generateHeaders(paramsString, Buffer.buffer(""), credential))
             .build();
       case POST:
-        RestMediaBody body = JSON.createBody(getParams());
+        RestMediaBody body = JSON.create(getParams());
         return RestCall.newBuilder()
             .setUrl(buildUrlString(""))
             .setMethod(method)
-            .setHeaders(generateHeaders("", body.getStringValue(), credential))
+            .setHeaders(generateHeaders("", body.body(), credential))
             .setBody(body)
             .build();
       default:
@@ -59,12 +60,12 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
   }
 
   private ImmutableMap<String, String> generateHeaders(
-      String paramsString, String bodyString, ICredential credential) {
+      String paramsString, Buffer body, ICredential credential) {
     if (credential.isAnonymous()) {
       return ImmutableMap.of();
     }
     String ts = FORMATTER.format(clock.instant());
-    String payload = ts + getMethod() + getEndpointPath() + paramsString + bodyString;
+    String payload = ts + getMethod() + getEndpointPath() + paramsString + body.toString();
     String signature = credential.sign(payload);
 
     ImmutableMap.Builder<String, String> result =
@@ -86,6 +87,6 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
   }
 
   private String buildUrlString(String paramsString) {
-    return context.getBaseUrl() + getEndpointPath() + paramsString;
+    return context.baseUrl() + getEndpointPath() + paramsString;
   }
 }

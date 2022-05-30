@@ -6,6 +6,7 @@ import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
 import io.contek.invoker.commons.rest.*;
 import io.contek.invoker.security.ICredential;
+import io.vertx.core.buffer.Buffer;
 
 import java.net.URI;
 import java.time.Clock;
@@ -26,8 +27,8 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
   protected RestRequest(IActor actor, RestContext context) {
     super(actor);
     this.context = context;
-    urlHost = URI.create(context.getBaseUrl()).getHost();
-    clock = actor.getClock();
+    urlHost = URI.create(context.baseUrl()).getHost();
+    clock = actor.clock();
   }
 
   protected abstract RestMethod getMethod();
@@ -51,15 +52,15 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
         return RestCall.newBuilder()
             .setUrl(buildUrlString(paramsString))
             .setMethod(method)
-            .setHeaders(generateHeaders(method, paramsString, "", credential))
+            .setHeaders(generateHeaders(method, paramsString, Buffer.buffer(""), credential))
             .build();
       case POST:
       case PUT:
-        RestMediaBody body = FORM.createBody(getParams());
+        RestMediaBody body = FORM.create(getParams());
         return RestCall.newBuilder()
             .setUrl(buildUrlString(""))
             .setMethod(method)
-            .setHeaders(generateHeaders(method, "", body.getStringValue(), credential))
+            .setHeaders(generateHeaders(method, "", body.body(), credential))
             .setBody(body)
             .build();
       default:
@@ -68,13 +69,14 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
   }
 
   private ImmutableMap<String, String> generateHeaders(
-      RestMethod method, String paramsString, String bodyString, ICredential credential) {
+      RestMethod method, String paramsString, Buffer body, ICredential credential) {
     if (credential.isAnonymous()) {
       return ImmutableMap.of();
     }
     String auth = "BITSTAMP" + credential.getApiKeyId();
     String timestamp = String.valueOf(clock.millis());
     String nonce = UUID.randomUUID().toString();
+    final String bodyString = body.toString();
     String contentType = bodyString.isEmpty() ? "" : FORM.getValue();
     String payload =
         auth
@@ -107,6 +109,6 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
   }
 
   private String buildUrlString(String paramsString) {
-    return context.getBaseUrl() + getEndpointPath() + paramsString;
+    return context.baseUrl() + getEndpointPath() + paramsString;
   }
 }

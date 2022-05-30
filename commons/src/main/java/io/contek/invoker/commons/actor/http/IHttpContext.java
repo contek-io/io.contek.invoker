@@ -1,24 +1,13 @@
 package io.contek.invoker.commons.actor.http;
 
-import java.time.Duration;
+import io.contek.invoker.commons.rest.RestContext;
+import io.contek.invoker.commons.websocket.WebSocketContext;
+import io.vertx.core.http.HttpClientOptions;
 
-public interface IHttpContext {
+public sealed interface IHttpContext permits WebSocketContext, RestContext {
 
-  String getBaseUrl();
+  String baseUrl();
 
-  default Duration getConnectionTimeout() {
-    return null;
-  }
+  HttpClientOptions options();
 
-  default Duration getReadTimeout() {
-    return null;
-  }
-
-  default Duration getWriteTimeout() {
-    return null;
-  }
-
-  default Duration getPingInterval() {
-    return null;
-  }
 }

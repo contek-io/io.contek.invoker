@@ -1,18 +1,26 @@
 package io.contek.invoker.commons.actor;
 
+import io.contek.invoker.commons.actor.http.IHttpClient;
 import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
 import io.contek.invoker.security.ICredential;
 import io.contek.invoker.ursa.core.api.AcquireTimeoutException;
+import io.vertx.core.Vertx;
 
 import java.time.Clock;
 import java.util.List;
 
 public interface IActor {
 
-  ICredential getCredential();
+  ICredential credential();
 
-  RequestContext getRequestContext(String requestName, List<TypedPermitRequest> quota)
+  RequestContext requestContext(String requestName, List<TypedPermitRequest> quota)
       throws AcquireTimeoutException, InterruptedException;
 
-  Clock getClock();
+  Clock clock();
+
+  IHttpClient httpClient();
+
+  Vertx vertx();
+
+  void runOnContext(Runnable runnable);
 }

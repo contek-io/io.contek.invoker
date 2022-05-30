@@ -1,8 +1,11 @@
 dependencies {
-    implementation project(':security')
+  implementation project(':security')
 
 //    implementation project(':ursa-cache')
 //    implementation project(':ursa-core-api')
-    implementation "com.google.code.gson:gson:${gsonVersion}"
-    implementation "com.squareup.okhttp3:okhttp:${okhttpVersion}"
+  implementation "com.google.code.gson:gson:${gsonVersion}"
+  implementation "com.fasterxml.jackson.core:jackson-databind:2.13.3"
+  implementation "io.vertx:vertx-core:${vertxVersion}"
+  implementation "io.vertx:vertx-web-client:${vertxVersion}"
+  implementation "io.netty:netty-buffer:4.1.77.Final"
 }

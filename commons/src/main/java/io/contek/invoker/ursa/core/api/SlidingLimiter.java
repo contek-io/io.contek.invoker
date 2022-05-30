@@ -22,6 +22,16 @@ public final class SlidingLimiter {
     scheduler = createScheduler();
   }
 
+  private static ListeningScheduledExecutorService createScheduler() {
+    ThreadFactory factory =
+        target -> {
+          Thread thread = new Thread(target);
+          thread.setDaemon(true);
+          return thread;
+        };
+    return listeningDecorator(newSingleThreadScheduledExecutor(factory));
+  }
+
   public RateLimit getLimit() {
     return limit;
   }
@@ -64,15 +74,5 @@ public final class SlidingLimiter {
     }
 
     scheduler.schedule(() -> semaphore.release(permits), limit.getPeriod());
-  }
-
-  private static ListeningScheduledExecutorService createScheduler() {
-    ThreadFactory factory =
-        target -> {
-          Thread thread = new Thread(target);
-          thread.setDaemon(true);
-          return thread;
-        };
-    return listeningDecorator(newSingleThreadScheduledExecutor(factory));
   }
 }

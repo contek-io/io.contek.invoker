@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.rest.*;
 import io.contek.invoker.security.ICredential;
+import io.vertx.core.buffer.Buffer;
 
 import static io.contek.invoker.commons.rest.RestMediaType.FORM;
 
@@ -19,11 +20,10 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
     this.context = context;
   }
 
-  private static RestParams addSignature(
-      RestParams params, String bodyString, ICredential credential) {
-    String payload = params.getQueryString() + bodyString;
+  private static RestParams addSignature(RestParams params, Buffer body, ICredential credential) {
+    String payload = params.getQueryString() + body.toString();
     String signature = credential.sign(payload);
-    return RestParams.newBuilder().addAll(params.getValues()).add(SIGNATURE, signature).build();
+    return RestParams.newBuilder().addAll(params.values()).add(SIGNATURE, signature).build();
   }
 
   protected abstract RestMethod getMethod();
@@ -45,9 +45,9 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
             .build();
       case POST:
       case PUT:
-        RestMediaBody body = FORM.createBody(getParams());
+        RestMediaBody body = FORM.create(getParams());
         return RestCall.newBuilder()
-            .setUrl(buildUrlWithoutParams(body.getStringValue(), credential))
+            .setUrl(buildUrlWithoutParams(body.body(), credential))
             .setMethod(method)
             .setHeaders(buildHeaders(credential))
             .setBody(body)
@@ -67,7 +67,7 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
   }
 
   private String buildUrlWithParams(ICredential credential) {
-    String url = context.getBaseUrl() + getEndpointPath();
+    String url = context.baseUrl() + getEndpointPath();
     String params = buildUrlParamsString(credential);
     if (!params.isEmpty()) {
       url += "?" + params;
@@ -80,14 +80,14 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
     if (credential.isAnonymous()) {
       return params.getQueryString();
     }
-    return addSignature(params, "", credential).getQueryString();
+    return addSignature(params, Buffer.buffer(""), credential).getQueryString();
   }
 
-  private String buildUrlWithoutParams(String bodyString, ICredential credential) {
-    String url = context.getBaseUrl() + getEndpointPath();
+  private String buildUrlWithoutParams(Buffer body, ICredential credential) {
+    String url = context.baseUrl() + getEndpointPath();
     if (credential.isAnonymous()) {
       return url;
     }
-    return url + "?" + addSignature(RestParams.empty(), bodyString, credential).getQueryString();
+    return url + "?" + addSignature(RestParams.empty(), body, credential).getQueryString();
   }
 }

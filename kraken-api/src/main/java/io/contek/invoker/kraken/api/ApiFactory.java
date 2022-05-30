@@ -4,13 +4,13 @@ import io.contek.invoker.commons.ApiContext;
 import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.actor.IActorFactory;
 import io.contek.invoker.commons.actor.SimpleActorFactory;
-import io.contek.invoker.commons.actor.http.SimpleHttpClientFactory;
 import io.contek.invoker.commons.actor.ratelimit.IRateLimitQuotaInterceptor;
 import io.contek.invoker.commons.actor.ratelimit.SimpleRateLimitThrottleFactory;
 import io.contek.invoker.commons.websocket.WebSocketContext;
 import io.contek.invoker.kraken.api.websocket.market.MarketWebSocketApi;
 import io.contek.invoker.security.SimpleCredentialFactory;
 import io.contek.ursa.cache.LimiterManager;
+import io.vertx.core.Vertx;
 
 import java.util.List;
 
@@ -21,12 +21,12 @@ public final class ApiFactory {
 
   public static final ApiContext MAIN_NET_CONTEXT =
       ApiContext.newBuilder()
-          .setWebSocketContext(WebSocketContext.forBaseUrl("wss://ws.kraken.com"))
+          .setWebSocketContext(WebSocketContext.of("wss://ws.kraken.com"))
           .build();
 
   public static final ApiContext TEST_NET_CONTEXT =
       ApiContext.newBuilder()
-          .setWebSocketContext(WebSocketContext.forBaseUrl("wss://beta-ws.kraken.com"))
+          .setWebSocketContext(WebSocketContext.of("wss://beta-ws.kraken.com"))
           .build();
 
   private final ApiContext context;
@@ -53,7 +53,6 @@ public final class ApiFactory {
       List<IRateLimitQuotaInterceptor> interceptors) {
     return SimpleActorFactory.newBuilder()
         .setCredentialFactory(createCredentialFactory())
-        .setHttpClientFactory(SimpleHttpClientFactory.getInstance())
         .setRateLimitThrottleFactory(
             SimpleRateLimitThrottleFactory.create(createLimiterManager(), interceptors))
         .build();
@@ -78,9 +77,9 @@ public final class ApiFactory {
 
     private SelectingWebSocketApi() {}
 
-    public MarketWebSocketApi market() {
+    public MarketWebSocketApi market(Vertx vertx) {
       WebSocketContext wsContext = context.getWebSocketContext();
-      IActor actor = actorFactory.create(null, wsContext);
+      IActor actor = actorFactory.create(null, vertx, wsContext);
       return new MarketWebSocketApi(actor, wsContext);
     }
   }

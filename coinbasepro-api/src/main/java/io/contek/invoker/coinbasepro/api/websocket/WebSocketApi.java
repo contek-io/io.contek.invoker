@@ -28,7 +28,7 @@ public abstract class WebSocketApi extends BaseWebSocketApi {
 
   @Override
   protected WebSocketCall createCall(ICredential credential) {
-    return WebSocketCall.fromUrl(context.getBaseUrl());
+    return WebSocketCall.fromUrl(context.baseUrl());
   }
 
   @Override

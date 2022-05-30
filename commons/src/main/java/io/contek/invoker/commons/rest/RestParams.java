@@ -11,13 +11,11 @@ import java.util.TreeMap;
 
 import static java.util.stream.Collectors.joining;
 
-public final class RestParams {
+public record RestParams(Map<String, Object> values) {
 
   private static final RestParams EMPTY = RestParams.newBuilder().build();
 
-  private final Map<String, Object> values;
-
-  private RestParams(Map<String, Object> values) {
+  public RestParams(Map<String, Object> values) {
     this.values = Collections.unmodifiableMap(values);
   }
 
@@ -31,8 +29,8 @@ public final class RestParams {
 
   private static String toQueryString(Map<String, Object> params, Escaper escaper) {
     return params.entrySet().stream()
-        .map(entry -> entry.getKey() + "=" + escaper.escape(entry.getValue().toString()))
-        .collect(joining("&"));
+            .map(entry -> entry.getKey() + "=" + escaper.escape(entry.getValue().toString()))
+            .collect(joining("&"));
   }
 
   public Builder toBuilder() {
@@ -41,10 +39,6 @@ public final class RestParams {
 
   public boolean isEmpty() {
     return values.isEmpty();
-  }
-
-  public Map<String, Object> getValues() {
-    return values;
   }
 
   public String getQueryString() {
@@ -59,7 +53,8 @@ public final class RestParams {
 
     private final Map<String, Object> values = new LinkedHashMap<>();
 
-    private Builder() {}
+    private Builder() {
+    }
 
     public Builder add(String key, long value) {
       values.put(key, value);

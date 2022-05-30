@@ -9,7 +9,7 @@ public final class LimiterManagers {
   public static LimiterManager forRules(RateLimitRule... rules) {
     LimiterManager.Builder builder = LimiterManager.newBuilder();
     for (RateLimitRule rule : rules) {
-      builder.addRateLimit(rule.getName(), rule.getLimit());
+      builder.addRateLimit(rule.name(), rule.limit());
     }
     return builder.build();
   }

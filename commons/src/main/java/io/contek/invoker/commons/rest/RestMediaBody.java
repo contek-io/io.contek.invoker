@@ -1,23 +1,8 @@
 package io.contek.invoker.commons.rest;
 
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
+import com.google.common.net.MediaType;
+import io.vertx.core.buffer.Buffer;
 
-public final class RestMediaBody {
+public record RestMediaBody(MediaType type, Buffer body) {
 
-  private final MediaType type;
-  private final String stringValue;
-
-  public RestMediaBody(MediaType type, String stringValue) {
-    this.type = type;
-    this.stringValue = stringValue;
-  }
-
-  public String getStringValue() {
-    return stringValue;
-  }
-
-  RequestBody createRequestBody() {
-    return RequestBody.create(type, stringValue);
-  }
 }

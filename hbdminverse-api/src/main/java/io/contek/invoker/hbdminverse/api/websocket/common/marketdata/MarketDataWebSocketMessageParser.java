@@ -4,12 +4,12 @@ import com.google.common.io.CharStreams;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import io.contek.invoker.commons.buffer.BufferInputStream;
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.IWebSocketComponent;
 import io.contek.invoker.commons.websocket.WebSocketBinaryMessageParser;
 import io.contek.invoker.hbdminverse.api.websocket.common.WebSocketPing;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -39,9 +39,9 @@ public final class MarketDataWebSocketMessageParser extends WebSocketBinaryMessa
   }
 
   @Override
-  protected String decode(byte[] bytes) {
+  protected String decode(io.vertx.core.buffer.Buffer binary) {
     try (Reader reader =
-        new InputStreamReader(new GZIPInputStream(new ByteArrayInputStream(bytes)))) {
+        new InputStreamReader(new GZIPInputStream(new BufferInputStream(binary)))) {
       return CharStreams.toString(reader);
     } catch (IOException e) {
       throw new RuntimeException(e);

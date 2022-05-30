@@ -1,28 +1,24 @@
 package io.contek.invoker.commons.websocket;
 
 import io.contek.invoker.commons.actor.http.IHttpClient;
-import okhttp3.Request;
-import okhttp3.WebSocket;
-import okhttp3.WebSocketListener;
+import io.vertx.core.Future;
+import io.vertx.core.MultiMap;
+import io.vertx.core.http.WebSocket;
+import io.vertx.core.http.WebsocketVersion;
 
-public final class WebSocketCall {
+import java.util.List;
 
-  private final String url;
+public interface WebSocketCall {
 
-  private WebSocketCall(String url) {
-    this.url = url;
+  static WebSocketCall fromUrl(String url) {
+    return client -> {
+      if (client instanceof IHttpClient.WebSocketClient webSocketClient) {
+        return webSocketClient.httpClient().webSocketAbs(url, MultiMap.caseInsensitiveMultiMap(), WebsocketVersion.V13, List.of());
+      }
+
+      throw new RuntimeException("Can't submit websocket call from RestClient");
+    };
   }
 
-  public static WebSocketCall fromUrl(String url) {
-    return new WebSocketCall(url);
-  }
-
-  WebSocketSession submit(IHttpClient client, WebSocketListener listener) {
-    WebSocket ws = client.submit(createRequest(), listener);
-    return new WebSocketSession(ws);
-  }
-
-  private Request createRequest() {
-    return new Request.Builder().url(url).build();
-  }
+  Future<WebSocket> submit(IHttpClient client);
 }

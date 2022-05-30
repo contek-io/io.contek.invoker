@@ -4,17 +4,7 @@ import io.contek.invoker.ursa.core.api.RateLimit;
 
 import java.time.Duration;
 
-public final class RateLimitRule {
-
-  private final String name;
-  private final LimitType type;
-  private final RateLimit limit;
-
-  private RateLimitRule(String name, LimitType type, RateLimit limit) {
-    this.name = name;
-    this.type = type;
-    this.limit = limit;
-  }
+public record RateLimitRule(String name, LimitType type, RateLimit limit) {
 
   public static Builder newBuilder() {
     return new Builder();
@@ -24,18 +14,6 @@ public final class RateLimitRule {
     return new TypedPermitRequest(name, type, permits);
   }
 
-  public String getName() {
-    return name;
-  }
-
-  public LimitType getType() {
-    return type;
-  }
-
-  public RateLimit getLimit() {
-    return limit;
-  }
-
   public static final class Builder {
 
     private String name;
@@ -43,7 +21,8 @@ public final class RateLimitRule {
     private int maxPermits;
     private Duration resetPeriod;
 
-    private Builder() {}
+    private Builder() {
+    }
 
     public Builder setName(String name) {
       this.name = name;

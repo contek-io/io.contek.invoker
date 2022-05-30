@@ -12,7 +12,7 @@ abstract class UserRestRequest<T> extends RestRequest<T> {
 
   UserRestRequest(IActor actor, RestContext context) {
     super(actor, context);
-    checkArgument(!actor.getCredential().isAnonymous());
+    checkArgument(!actor.credential().isAnonymous());
   }
 
   @Override

@@ -6,6 +6,7 @@ import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
 import io.contek.invoker.commons.websocket.*;
 import io.contek.invoker.security.ICredential;
+import io.vertx.core.Future;
 
 import static io.contek.invoker.binancefutures.api.ApiFactory.RateLimits.ONE_WEB_SOCKET_CONNECTION;
 
@@ -22,7 +23,7 @@ public final class UserWebSocketApi extends BaseWebSocketApi {
         actor,
         UserWebSocketParser.getInstance(),
         IWebSocketAuthenticator.noOp(),
-        new UserWebSocketLiveKeeper(userRestApi, actor.getClock()));
+        new UserWebSocketLiveKeeper(userRestApi, actor.clock()));
     this.context = context;
   }
 
@@ -61,8 +62,10 @@ public final class UserWebSocketApi extends BaseWebSocketApi {
   @Override
   protected WebSocketCall createCall(ICredential credential) {
     UserWebSocketLiveKeeper liveKeeper = (UserWebSocketLiveKeeper) getLiveKeeper();
-    String listenKey = liveKeeper.init();
-    return WebSocketCall.fromUrl(context.getBaseUrl() + "/ws/" + listenKey);
+    final Future<String> init = liveKeeper.init();
+    return httpClient ->
+        init.map(listenKey -> WebSocketCall.fromUrl(context.baseUrl() + "/ws/" + listenKey))
+            .flatMap(webSocketCall -> webSocketCall.submit(httpClient));
   }
 
   @Override

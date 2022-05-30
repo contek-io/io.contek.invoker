@@ -2,9 +2,9 @@ package io.contek.invoker.commons.websocket;
 
 import org.slf4j.Logger;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.locks.ReentrantLock;
 
 import static io.contek.invoker.commons.websocket.ConsumerState.*;
 import static io.contek.invoker.commons.websocket.SubscriptionState.*;
@@ -17,13 +17,13 @@ public abstract class BaseWebSocketChannel<
   private static final Logger log = getLogger(BaseWebSocketChannel.class);
 
   private final Id id;
-
-  private final AtomicReference<SubscriptionState> stateHolder =
-      new AtomicReference<>(UNSUBSCRIBED);
-  private final List<ISubscribingConsumer<Message>> consumers = new LinkedList<>();
+  private final List<ISubscribingConsumer<Message>> consumers = new ArrayList<>();
+  private final ReentrantLock lock;
+  private volatile SubscriptionState stateHolder = UNSUBSCRIBED;
 
   protected BaseWebSocketChannel(Id id) {
     this.id = id;
+    this.lock = new ReentrantLock();
   }
 
   public final Id getId() {
@@ -31,79 +31,86 @@ public abstract class BaseWebSocketChannel<
   }
 
   public final void addConsumer(ISubscribingConsumer<Message> consumer) {
-    synchronized (consumers) {
-      synchronized (stateHolder) {
-        SubscriptionState state = stateHolder.get();
-        consumer.onStateChange(state);
-      }
+    lock.lock();
+    try {
+      SubscriptionState state = stateHolder;
+      consumer.onStateChange(state);
       consumers.add(consumer);
+    } finally {
+      lock.unlock();
     }
   }
 
   @Override
   public final void heartbeat(WebSocketSession session) {
-    synchronized (consumers) {
+    lock.lock();
+    try {
       ConsumerState childConsumerState = getChildConsumerState();
 
-      synchronized (stateHolder) {
-        SubscriptionState currentState = stateHolder.get();
-        SubscriptionState newState = null;
-        if (currentState == SUBSCRIBED && childConsumerState == IDLE) {
-          log.info("Unsubscribing channel {}.", id);
-          newState = unsubscribe(session);
-          if (newState == SUBSCRIBED || newState == SUBSCRIBING) {
-            log.error("Channel {} has invalid state after unsubscribe: {}.", id, newState);
-          }
-        } else if (currentState == UNSUBSCRIBED && childConsumerState == ACTIVE) {
-          log.info("Subscribing channel {}.", id);
-          newState = subscribe(session);
-          if (newState == UNSUBSCRIBED || newState == UNSUBSCRIBING) {
-            log.error("Channel {} has invalid state after subscribe: {}.", id, newState);
-          }
+      SubscriptionState currentState = stateHolder;
+      SubscriptionState newState = null;
+      if (currentState == SUBSCRIBED && childConsumerState == IDLE) {
+        log.info("Unsubscribing channel {}.", id);
+        newState = unsubscribe(session);
+        if (newState == SUBSCRIBED || newState == SUBSCRIBING) {
+          log.error("Channel {} has invalid state after unsubscribe: {}.", id, newState);
         }
-
-        if (newState != null) {
-          setState(newState);
+      } else if (currentState == UNSUBSCRIBED && childConsumerState == ACTIVE) {
+        log.info("Subscribing channel {}.", id);
+        newState = subscribe(session);
+        if (newState == UNSUBSCRIBED || newState == UNSUBSCRIBING) {
+          log.error("Channel {} has invalid state after subscribe: {}.", id, newState);
         }
       }
+
+      if (newState != null) {
+        setState(newState);
+      }
+    } finally {
+      lock.unlock();
     }
   }
 
   @Override
   public final ConsumerState getState() {
-    synchronized (consumers) {
+    lock.lock();
+    try {
       if (getChildConsumerState() == ACTIVE) {
         return ACTIVE;
       }
-    }
 
-    synchronized (stateHolder) {
-      return stateHolder.get() != UNSUBSCRIBED ? ACTIVE : IDLE;
+      return stateHolder != UNSUBSCRIBED ? ACTIVE : IDLE;
+    } finally {
+      lock.unlock();
     }
   }
 
   private void setState(SubscriptionState state) {
-    synchronized (consumers) {
-      synchronized (stateHolder) {
-        consumers.forEach(consumer -> consumer.onStateChange(state));
-        stateHolder.set(state);
-      }
+    lock.lock();
+    try {
+      consumers.forEach(consumer -> consumer.onStateChange(state));
+      stateHolder = state;
+    } finally {
+      lock.unlock();
     }
   }
 
   @Override
   public final void onMessage(AnyWebSocketMessage message, WebSocketSession session) {
-    synchronized (consumers) {
+    lock.lock();
+    try {
       Message casted = tryCast(message);
       if (casted != null) {
         consumers.forEach(consumer -> consumer.onNext(casted));
       }
-    }
 
-    SubscriptionState newState = getState(message);
-    if (newState != null) {
-      log.info("Channel {} is now {}.", id, newState);
-      setState(newState);
+      SubscriptionState newState = getState(message);
+      if (newState != null) {
+        log.info("Channel {} is now {}.", id, newState);
+        setState(newState);
+      }
+    } finally {
+      lock.unlock();
     }
   }
 
@@ -124,9 +131,12 @@ public abstract class BaseWebSocketChannel<
   protected abstract void reset();
 
   private ConsumerState getChildConsumerState() {
-    synchronized (consumers) {
+    lock.lock();
+    try {
       consumers.removeIf(consumer -> consumer.getState() == TERMINATED);
       return consumers.stream().anyMatch(consumer -> consumer.getState() == ACTIVE) ? ACTIVE : IDLE;
+    } finally {
+      lock.unlock();
     }
   }
 

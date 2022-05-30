@@ -2,6 +2,8 @@ package io.contek.invoker.ursa.core.api;
 
 public final class ZeroPermitSession implements IPermitSession {
 
+  private ZeroPermitSession() {}
+
   public static ZeroPermitSession getInstance() {
     return Holder.INSTANCE;
   }
@@ -11,8 +13,6 @@ public final class ZeroPermitSession implements IPermitSession {
 
   @Override
   public void close() {}
-
-  private ZeroPermitSession() {}
 
   private static final class Holder {
 

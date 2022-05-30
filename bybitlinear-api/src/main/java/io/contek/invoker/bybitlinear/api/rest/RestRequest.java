@@ -20,7 +20,7 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
   protected RestRequest(IActor actor, RestContext context) {
     super(actor);
     this.context = context;
-    clock = actor.getClock();
+    clock = actor.clock();
   }
 
   protected abstract RestMethod getMethod();
@@ -64,7 +64,7 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
   }
 
   private String buildUrlWithoutParams() {
-    return context.getBaseUrl() + getEndpointPath();
+    return context.baseUrl() + getEndpointPath();
   }
 
   private RestMediaBody buildBody(ICredential credential) {
@@ -72,7 +72,7 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
     if (!credential.isAnonymous()) {
       params = addSignature(params, credential);
     }
-    return JSON.createBody(params);
+    return JSON.create(params);
   }
 
   private RestParams addSignature(RestParams params, ICredential credential) {

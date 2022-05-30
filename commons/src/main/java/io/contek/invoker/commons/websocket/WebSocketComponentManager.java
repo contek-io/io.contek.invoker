@@ -1,15 +1,15 @@
 package io.contek.invoker.commons.websocket;
 
+import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 
 import static io.contek.invoker.commons.websocket.ConsumerState.TERMINATED;
 
 final class WebSocketComponentManager {
 
-  private final List<IWebSocketComponent> active = new LinkedList<>();
-  private final List<IWebSocketComponent> idle = new LinkedList<>();
+  private final List<IWebSocketComponent> active = new ArrayList<>();
+  private final List<IWebSocketComponent> idle = new ArrayList<>();
 
   void attach(IWebSocketComponent component) {
     switch (component.getState()) {

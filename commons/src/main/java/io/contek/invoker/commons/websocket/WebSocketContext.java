@@ -1,57 +1,29 @@
 package io.contek.invoker.commons.websocket;
 
-import io.contek.invoker.commons.actor.http.BaseHttpContext;
+import io.contek.invoker.commons.actor.http.IHttpContext;
+import io.vertx.core.http.HttpClientOptions;
 
 import java.time.Duration;
+import java.util.Objects;
 
-public final class WebSocketContext extends BaseHttpContext {
+public record WebSocketContext(String baseUrl, HttpClientOptions options,
+                               Duration pingInterval) implements IHttpContext {
 
-  private final Duration pingInterval;
-
-  private WebSocketContext(String baseUrl, Duration pingInterval) {
-    super(baseUrl);
-    this.pingInterval = pingInterval;
+  public WebSocketContext {
+    Objects.requireNonNull(baseUrl);
+    Objects.requireNonNull(options);
   }
 
-  public static WebSocketContext forBaseUrl(String baseUrl) {
-    return forBaseUrl(baseUrl, null);
+  public static WebSocketContext of(String baseUrl, HttpClientOptions options, Duration pingInterval) {
+    return new WebSocketContext(baseUrl, options, pingInterval);
   }
 
-  public static WebSocketContext forBaseUrl(String baseUrl, Duration pingInterval) {
-    return WebSocketContext.newBuilder().setBaseUrl(baseUrl).setPingInterval(pingInterval).build();
+  public static WebSocketContext of(String baseUrl) {
+    return of(baseUrl, new HttpClientOptions(), null);
   }
 
-  public static Builder newBuilder() {
-    return new Builder();
+  public static WebSocketContext of(String baseUrl, Duration pingInterval) {
+    return of(baseUrl, new HttpClientOptions(), pingInterval);
   }
 
-  @Override
-  public Duration getPingInterval() {
-    return pingInterval;
-  }
-
-  public static final class Builder {
-
-    private String baseUrl;
-    private Duration pingInterval;
-
-    private Builder() {}
-
-    public Builder setBaseUrl(String baseUrl) {
-      this.baseUrl = baseUrl;
-      return this;
-    }
-
-    public Builder setPingInterval(Duration pingInterval) {
-      this.pingInterval = pingInterval;
-      return this;
-    }
-
-    public WebSocketContext build() {
-      if (baseUrl == null) {
-        throw new IllegalArgumentException("No base URL specified");
-      }
-      return new WebSocketContext(baseUrl, pingInterval);
-    }
-  }
 }

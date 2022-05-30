@@ -1,5 +1,6 @@
 package io.contek.invoker.commons.websocket;
 
+import io.vertx.core.buffer.Buffer;
 import org.slf4j.Logger;
 
 import static org.slf4j.LoggerFactory.getLogger;
@@ -9,17 +10,17 @@ public abstract class WebSocketBinaryMessageParser implements IWebSocketMessageP
   private static final Logger log = getLogger(WebSocketBinaryMessageParser.class);
 
   @Override
-  public final ParseResult parse(String text) {
+  public final ParseResult parseText(String text) {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public final ParseResult parse(byte[] bytes) {
+  public final ParseResult parseBinary(Buffer binary) {
     String text;
     try {
-      text = decode(bytes);
+      text = decode(binary);
     } catch (Throwable t) {
-      log.error("Failed to decode binary message: size {}.", bytes.length, t);
+      log.error("Failed to decode binary message: size {}.", binary.length(), t);
       throw new WebSocketIllegalMessageException(t);
     }
 
@@ -32,7 +33,7 @@ public abstract class WebSocketBinaryMessageParser implements IWebSocketMessageP
     }
   }
 
-  protected abstract String decode(byte[] bytes);
+  protected abstract String decode(Buffer binary);
 
   protected abstract AnyWebSocketMessage fromText(String text);
 }

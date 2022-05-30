@@ -26,7 +26,7 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
   protected RestRequest(IActor actor, RestContext context) {
     super(actor);
     this.context = context;
-    clock = actor.getClock();
+    clock = actor.clock();
   }
 
   protected abstract RestMethod getMethod();
@@ -49,7 +49,7 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
             .build();
       case POST:
       case PUT:
-        RestMediaBody body = JSON.createBody(getParams());
+        RestMediaBody body = JSON.create(getParams());
         return RestCall.newBuilder()
             .setUrl(generateUrl(method, getEndpointPath(), RestParams.empty(), credential))
             .setMethod(method)
@@ -66,7 +66,7 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
         credential.isAnonymous()
             ? generateParamString(endpointParams)
             : generateSignedParamString(method, endpointPath, endpointParams, credential);
-    return context.getBaseUrl() + endpointPath + paramString;
+    return context.baseUrl() + endpointPath + paramString;
   }
 
   private String generateParamString(RestParams params) {
@@ -87,7 +87,7 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
     String queryString = withIdentity.getQueryString(urlFormParameterEscaper());
     String payload =
         String.join(
-            "\n", method.name(), URI.create(context.getBaseUrl()).getHost(), path, queryString);
+            "\n", method.name(), URI.create(context.baseUrl()).getHost(), path, queryString);
     String sign = credential.sign(payload);
     return "?" + queryString + "&Signature=" + urlFormParameterEscaper().escape(sign);
   }

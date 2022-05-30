@@ -7,6 +7,7 @@ import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
 import io.contek.invoker.commons.rest.*;
 import io.contek.invoker.security.ICredential;
+import io.vertx.core.buffer.Buffer;
 
 import java.time.Clock;
 import java.util.Random;
@@ -22,7 +23,7 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
   protected RestRequest(IActor actor, RestContext context) {
     super(actor);
     this.context = context;
-    clock = actor.getClock();
+    clock = actor.clock();
   }
 
   private static String generateNounce() {
@@ -49,15 +50,15 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
         return RestCall.newBuilder()
             .setUrl(buildUrlString(paramsString))
             .setMethod(method)
-            .setHeaders(generateHeaders(method, paramsString, "", credential))
+            .setHeaders(generateHeaders(method, paramsString, Buffer.buffer(""), credential))
             .build();
       case POST:
       case PUT:
-        RestMediaBody body = JSON.createBody(getParams());
+        RestMediaBody body = JSON.create(getParams());
         return RestCall.newBuilder()
             .setUrl(buildUrlString(""))
             .setMethod(method)
-            .setHeaders(generateHeaders(method, "", body.getStringValue(), credential))
+            .setHeaders(generateHeaders(method, "", body.body(), credential))
             .setBody(body)
             .build();
       default:
@@ -66,7 +67,7 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
   }
 
   private ImmutableMap<String, String> generateHeaders(
-      RestMethod method, String paramsString, String bodyString, ICredential credential) {
+      RestMethod method, String paramsString, Buffer body, ICredential credential) {
 
     if (credential.isAnonymous()) {
       return ImmutableMap.of();
@@ -76,7 +77,7 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
     String nonce = generateNounce();
     String uri = getEndpointPath() + paramsString;
     String payload =
-        timestamp + "\n" + nonce + "\n" + method + "\n" + uri + "\n" + bodyString + "\n";
+        timestamp + "\n" + nonce + "\n" + method + "\n" + uri + "\n" + body.toString() + "\n";
     String signature = credential.sign(payload);
     String authorizationValue =
         String.format(
@@ -93,6 +94,6 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
   }
 
   private String buildUrlString(String paramsString) {
-    return context.getBaseUrl() + getEndpointPath() + paramsString;
+    return context.baseUrl() + getEndpointPath() + paramsString;
   }
 }

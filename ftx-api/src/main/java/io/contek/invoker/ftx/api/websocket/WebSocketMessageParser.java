@@ -1,8 +1,5 @@
 package io.contek.invoker.ftx.api.websocket;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.IWebSocketComponent;
 import io.contek.invoker.commons.websocket.WebSocketTextMessageParser;
@@ -14,15 +11,15 @@ import io.contek.invoker.ftx.api.websocket.market.OrderBookChannel;
 import io.contek.invoker.ftx.api.websocket.market.TickerChannel;
 import io.contek.invoker.ftx.api.websocket.market.TradesChannel;
 import io.contek.invoker.ftx.api.websocket.user.OrdersChannel;
+import io.vertx.core.json.JsonObject;
 
 import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketChannelKeys.*;
 import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketInboundKeys.*;
 
 final class WebSocketMessageParser extends WebSocketTextMessageParser {
 
-  private final Gson gson = new Gson();
-
-  private WebSocketMessageParser() {}
+  private WebSocketMessageParser() {
+  }
 
   static WebSocketMessageParser getInstance() {
     return InstanceHolder.INSTANCE;
@@ -33,59 +30,57 @@ final class WebSocketMessageParser extends WebSocketTextMessageParser {
 
   @Override
   protected AnyWebSocketMessage fromText(String text) {
-    JsonElement json = gson.fromJson(text, JsonElement.class);
-    if (!json.isJsonObject()) {
-      throw new IllegalArgumentException(text);
-    }
-    JsonObject obj = json.getAsJsonObject();
-    if (!obj.has(_type)) {
-      throw new IllegalArgumentException(text);
-    }
-    switch (obj.get(_type).getAsString()) {
-      case _subscribed:
-      case _unsubscribed:
-        return toSubscriptionMessage(obj);
-      case _partial:
-      case _update:
-        return toChannelMessage(obj);
-      case _pong:
-        return toPongMessage(obj);
-      case _error:
-      case _info:
-        return toInfoMessage(obj);
-      default:
+    try {
+      JsonObject obj = new JsonObject(text);
+
+      if (obj.isEmpty()) {
         throw new IllegalArgumentException(text);
+      }
+
+      if (!obj.containsKey(_type)) {
+        throw new IllegalArgumentException(text);
+      }
+
+      return switch (obj.getString(_type)) {
+        case _subscribed, _unsubscribed -> toSubscriptionMessage(obj);
+        case _partial, _update -> toChannelMessage(obj);
+        case _pong -> toPongMessage(obj);
+        case _error, _info -> toInfoMessage(obj);
+        default -> throw new IllegalArgumentException(text);
+      };
+    } catch (Exception e) {
+      throw new IllegalArgumentException(e);
     }
   }
 
   private WebSocketPong toPongMessage(JsonObject obj) {
-    return gson.fromJson(obj, WebSocketPong.class);
+    return obj.mapTo(WebSocketPong.class);
   }
 
   private WebSocketInboundMessage toSubscriptionMessage(JsonObject obj) {
-    return gson.fromJson(obj, WebSocketSubscriptionResponse.class);
+    return obj.mapTo(WebSocketSubscriptionResponse.class);
   }
 
   private WebSocketInboundMessage toChannelMessage(JsonObject obj) {
-    if (!obj.has(_channel)) {
+    if (!obj.containsKey(_channel)) {
       throw new IllegalArgumentException(obj.toString());
     }
-    switch (obj.get(_channel).getAsString()) {
+    switch (obj.getString(_channel)) {
       case _orderbook:
-        return gson.fromJson(obj, OrderBookChannel.Message.class);
+        return obj.mapTo(OrderBookChannel.Message.class);
       case _trades:
-        return gson.fromJson(obj, TradesChannel.Message.class);
+        return obj.mapTo(TradesChannel.Message.class);
       case _ticker:
-        return gson.fromJson(obj, TickerChannel.Message.class);
+        return obj.mapTo(TickerChannel.Message.class);
       case _orders:
-        return gson.fromJson(obj, OrdersChannel.Message.class);
+        return obj.mapTo(OrdersChannel.Message.class);
       default:
         throw new IllegalArgumentException(obj.toString());
     }
   }
 
   private WebSocketInfoMessage toInfoMessage(JsonObject obj) {
-    return gson.fromJson(obj, WebSocketInfoMessage.class);
+    return obj.mapTo(WebSocketInfoMessage.class);
   }
 
   private static final class InstanceHolder {

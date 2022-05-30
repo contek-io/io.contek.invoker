@@ -1,10 +1,12 @@
 package io.contek.invoker.commons.websocket;
 
+import io.vertx.core.buffer.Buffer;
+
 public interface IWebSocketMessageParser {
 
-  ParseResult parse(String text);
+  ParseResult parseText(String text);
 
-  ParseResult parse(byte[] bytes);
+  ParseResult parseBinary(Buffer binary);
 
   void register(IWebSocketComponent component);
 }

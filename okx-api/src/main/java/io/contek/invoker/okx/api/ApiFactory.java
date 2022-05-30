@@ -4,7 +4,6 @@ import io.contek.invoker.commons.ApiContext;
 import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.actor.IActorFactory;
 import io.contek.invoker.commons.actor.SimpleActorFactory;
-import io.contek.invoker.commons.actor.http.SimpleHttpClientFactory;
 import io.contek.invoker.commons.actor.ratelimit.IRateLimitQuotaInterceptor;
 import io.contek.invoker.commons.actor.ratelimit.LimiterManagers;
 import io.contek.invoker.commons.actor.ratelimit.SimpleRateLimitThrottleFactory;
@@ -18,6 +17,7 @@ import io.contek.invoker.okx.api.websocket.user.UserWebSocketApi;
 import io.contek.invoker.security.ApiKey;
 import io.contek.invoker.security.SimpleCredentialFactory;
 import io.contek.ursa.cache.LimiterManager;
+import io.vertx.core.Vertx;
 
 import java.time.Duration;
 import java.util.List;
@@ -29,16 +29,15 @@ public final class ApiFactory {
 
   public static final ApiContext MAIN_NET_CONTEXT =
       ApiContext.newBuilder()
-          .setRestContext(RestContext.forBaseUrl("https://www.okx.com"))
-          .setWebSocketContext(
-              WebSocketContext.forBaseUrl("wss://ws.okx.com:8443", Duration.ofSeconds(15)))
+          .setRestContext(RestContext.of("https://www.okx.com"))
+          .setWebSocketContext(WebSocketContext.of("wss://ws.okx.com:8443", Duration.ofSeconds(15)))
           .build();
 
   public static final ApiContext AWS_NET_CONTEXT =
       ApiContext.newBuilder()
-          .setRestContext(RestContext.forBaseUrl("https://aws.okx.com"))
+          .setRestContext(RestContext.of("https://aws.okx.com"))
           .setWebSocketContext(
-              WebSocketContext.forBaseUrl("wss://wsaws.okx.com:8443", Duration.ofSeconds(15)))
+              WebSocketContext.of("wss://wsaws.okx.com:8443", Duration.ofSeconds(15)))
           .build();
 
   private final ApiContext context;
@@ -65,7 +64,6 @@ public final class ApiFactory {
       List<IRateLimitQuotaInterceptor> interceptors) {
     return SimpleActorFactory.newBuilder()
         .setCredentialFactory(createCredentialFactory())
-        .setHttpClientFactory(SimpleHttpClientFactory.getInstance())
         .setRateLimitThrottleFactory(
             SimpleRateLimitThrottleFactory.create(createLimiterManager(), interceptors))
         .build();
@@ -118,15 +116,15 @@ public final class ApiFactory {
 
     private SelectingRestApi() {}
 
-    public MarketRestApi market() {
+    public MarketRestApi market(Vertx vertx) {
       RestContext restContext = context.getRestContext();
-      IActor actor = actorFactory.create(null, restContext);
+      IActor actor = actorFactory.create(null, vertx, restContext);
       return new MarketRestApi(actor, restContext);
     }
 
-    public UserRestApi user(ApiKey apiKey) {
+    public UserRestApi user(Vertx vertx, ApiKey apiKey) {
       RestContext restContext = context.getRestContext();
-      IActor actor = actorFactory.create(apiKey, restContext);
+      IActor actor = actorFactory.create(apiKey, vertx, restContext);
       return new UserRestApi(actor, restContext);
     }
   }
@@ -135,15 +133,15 @@ public final class ApiFactory {
 
     private SelectingWebSocketApi() {}
 
-    public MarketWebSocketApi market() {
+    public MarketWebSocketApi market(Vertx vertx) {
       WebSocketContext wsContext = context.getWebSocketContext();
-      IActor actor = actorFactory.create(null, wsContext);
+      IActor actor = actorFactory.create(null, vertx, wsContext);
       return new MarketWebSocketApi(actor, wsContext);
     }
 
-    public UserWebSocketApi user(ApiKey apiKey) {
+    public UserWebSocketApi user(Vertx vertx, ApiKey apiKey) {
       WebSocketContext wsContext = context.getWebSocketContext();
-      IActor actor = actorFactory.create(apiKey, wsContext);
+      IActor actor = actorFactory.create(apiKey, vertx, wsContext);
       return new UserWebSocketApi(actor, wsContext);
     }
   }

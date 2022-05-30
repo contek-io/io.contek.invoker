@@ -14,7 +14,7 @@ public abstract class WebSocketApi extends BaseWebSocketApi {
     super(
         actor,
         new WebSocketMessageParser(),
-        new WebSocketAuthenticator(actor.getCredential(), actor.getClock()),
+        new WebSocketAuthenticator(actor.credential(), actor.clock()),
         IWebSocketLiveKeeper.noOp());
     this.context = context;
   }
@@ -26,7 +26,7 @@ public abstract class WebSocketApi extends BaseWebSocketApi {
 
   @Override
   protected WebSocketCall createCall(ICredential credential) {
-    return WebSocketCall.fromUrl(context.getBaseUrl() + "/realtime");
+    return WebSocketCall.fromUrl(context.baseUrl() + "/realtime");
   }
 
   @Override

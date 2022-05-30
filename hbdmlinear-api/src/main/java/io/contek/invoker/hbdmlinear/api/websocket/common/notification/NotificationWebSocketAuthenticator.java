@@ -120,7 +120,7 @@ final class NotificationWebSocketAuthenticator implements IWebSocketAuthenticato
     RestParams withIdentity = builder.build(true);
     String queryString = withIdentity.getQueryString(urlFormParameterEscaper());
     String payload =
-        String.join("\n", "GET", URI.create(context.getBaseUrl()).getHost(), path, queryString);
+        String.join("\n", "GET", URI.create(context.baseUrl()).getHost(), path, queryString);
     return credential.sign(payload);
   }
 

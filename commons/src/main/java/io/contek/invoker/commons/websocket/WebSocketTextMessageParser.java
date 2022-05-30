@@ -1,5 +1,6 @@
 package io.contek.invoker.commons.websocket;
 
+import io.vertx.core.buffer.Buffer;
 import org.slf4j.Logger;
 
 import static org.slf4j.LoggerFactory.getLogger;
@@ -9,7 +10,7 @@ public abstract class WebSocketTextMessageParser implements IWebSocketMessagePar
   private static final Logger log = getLogger(WebSocketTextMessageParser.class);
 
   @Override
-  public final ParseResult parse(String text) {
+  public final ParseResult parseText(String text) {
     try {
       AnyWebSocketMessage message = fromText(text);
       return new ParseResult(text, message);
@@ -20,7 +21,7 @@ public abstract class WebSocketTextMessageParser implements IWebSocketMessagePar
   }
 
   @Override
-  public final ParseResult parse(byte[] bytes) {
+  public final ParseResult parseBinary(Buffer binary) {
     throw new UnsupportedOperationException();
   }
 

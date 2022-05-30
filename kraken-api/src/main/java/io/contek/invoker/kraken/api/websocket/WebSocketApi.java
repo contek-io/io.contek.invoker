@@ -21,7 +21,7 @@ public abstract class WebSocketApi extends BaseWebSocketApi {
         actor,
         WebSocketMessageParser.getInstance(),
         IWebSocketAuthenticator.noOp(),
-        new WebSocketLiveKeeper(requestIdGenerator, actor.getClock()));
+        new WebSocketLiveKeeper(requestIdGenerator, actor.clock()));
     this.context = context;
     this.requestIdGenerator = requestIdGenerator;
   }
@@ -33,7 +33,7 @@ public abstract class WebSocketApi extends BaseWebSocketApi {
 
   @Override
   protected WebSocketCall createCall(ICredential credential) {
-    return WebSocketCall.fromUrl(context.getBaseUrl());
+    return WebSocketCall.fromUrl(context.baseUrl());
   }
 
   @Override

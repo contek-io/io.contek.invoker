@@ -1,58 +1,71 @@
 package io.contek.invoker.commons.actor;
 
-import io.contek.invoker.commons.actor.http.IHttpClientFactory;
+import io.contek.invoker.commons.actor.http.IHttpClient;
 import io.contek.invoker.commons.actor.http.IHttpContext;
 import io.contek.invoker.commons.actor.ratelimit.IRateLimitThrottle;
 import io.contek.invoker.commons.actor.ratelimit.IRateLimitThrottleFactory;
+import io.contek.invoker.commons.rest.RestContext;
+import io.contek.invoker.commons.websocket.WebSocketContext;
 import io.contek.invoker.security.ApiKey;
 import io.contek.invoker.security.ICredential;
 import io.contek.invoker.security.ICredentialFactory;
-import io.vertx.core.http.HttpClient;
+import io.vertx.core.Vertx;
+import io.vertx.ext.web.client.WebClient;
 
-public final class SimpleActorFactory implements IActorFactory {
+import java.net.InetAddress;
 
-  private final ICredentialFactory credentialFactory;
-  private final IHttpClientFactory httpClientFactory;
-  private final IRateLimitThrottleFactory rateLimitThrottleFactory;
+public record SimpleActorFactory(ICredentialFactory credentialFactory,
+                                 IRateLimitThrottleFactory rateLimitThrottleFactory) implements IActorFactory {
 
-  private SimpleActorFactory(
-      ICredentialFactory credentialFactory,
-      IHttpClientFactory httpClientFactory,
-      IRateLimitThrottleFactory rateLimitThrottleFactory) {
-    this.credentialFactory = credentialFactory;
-    this.httpClientFactory = httpClientFactory;
-    this.rateLimitThrottleFactory = rateLimitThrottleFactory;
+  public SimpleActorFactory {
+    if (credentialFactory == null) {
+      throw new IllegalArgumentException("No credential factory specified");
+    }
+    if (rateLimitThrottleFactory == null) {
+      throw new IllegalArgumentException("No rate limit throttle factory specified");
+    }
+  }
+
+  private SimpleActorFactory(Builder builder) {
+    this(builder.credentialFactory, builder.rateLimitThrottleFactory);
   }
 
   public static Builder newBuilder() {
     return new Builder();
   }
 
-  public IActor create(ApiKey apiKey, IHttpContext context) {
+  public IActor create(ApiKey apiKey, Vertx vertx, IHttpContext context) {
     ICredential credential =
-        apiKey == null ? ICredential.anonymous() : credentialFactory.create(apiKey);
-    HttpClient httpClient = httpClientFactory.create(context);
+            apiKey == null ? ICredential.anonymous() : credentialFactory.create(apiKey);
+
+    final IHttpClient httpClient;
+    if (context instanceof RestContext restContext) {
+      httpClient = new IHttpClient.RestClient(WebClient.create(vertx, restContext.options()));
+    }
+    else if (context instanceof WebSocketContext webSocketContext){
+      httpClient = new IHttpClient.WebSocketClient(vertx.createHttpClient(webSocketContext.options()));
+    }
+    else {
+      throw new RuntimeException();
+    }
+
     IRateLimitThrottle rateLimitThrottle =
-        rateLimitThrottleFactory.create(
-            httpClient.getBoundLocalAddress(), apiKey == null ? null : apiKey.getId());
-    return new SimpleActor(credential, httpClient, rateLimitThrottle);
+      rateLimitThrottleFactory.create(
+        InetAddress.getLoopbackAddress(), apiKey == null ? null : apiKey.getId());
+    return new SimpleActor(credential, httpClient, rateLimitThrottle, vertx);
+
+
   }
 
   public static final class Builder {
-
     private ICredentialFactory credentialFactory;
-    private IHttpClientFactory httpClientFactory;
     private IRateLimitThrottleFactory rateLimitThrottleFactory;
 
-    private Builder() {}
+    private Builder() {
+    }
 
     public Builder setCredentialFactory(ICredentialFactory credentialFactory) {
       this.credentialFactory = credentialFactory;
-      return this;
-    }
-
-    public Builder setHttpClientFactory(IHttpClientFactory httpClientFactory) {
-      this.httpClientFactory = httpClientFactory;
       return this;
     }
 
@@ -62,16 +75,7 @@ public final class SimpleActorFactory implements IActorFactory {
     }
 
     public SimpleActorFactory build() {
-      if (credentialFactory == null) {
-        throw new IllegalArgumentException("No credential factory specified");
-      }
-      if (httpClientFactory == null) {
-        throw new IllegalArgumentException("No http client factory specified");
-      }
-      if (rateLimitThrottleFactory == null) {
-        throw new IllegalArgumentException("No rate limit throttle factory specified");
-      }
-      return new SimpleActorFactory(credentialFactory, httpClientFactory, rateLimitThrottleFactory);
+      return new SimpleActorFactory(this);
     }
   }
 }

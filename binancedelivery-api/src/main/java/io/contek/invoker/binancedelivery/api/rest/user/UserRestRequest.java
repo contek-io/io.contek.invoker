@@ -14,8 +14,8 @@ abstract class UserRestRequest<T> extends RestRequest<T> {
 
   UserRestRequest(IActor actor, RestContext context) {
     super(actor, context);
-    clock = actor.getClock();
-    checkArgument(!actor.getCredential().isAnonymous());
+    clock = actor.clock();
+    checkArgument(!actor.credential().isAnonymous());
   }
 
   long getMillis() {

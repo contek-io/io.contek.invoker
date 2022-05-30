@@ -2,56 +2,59 @@ package io.contek.invoker.commons.rest;
 
 import com.google.common.collect.ImmutableMap;
 import io.contek.invoker.commons.actor.http.HttpConnectionException;
-import io.contek.invoker.commons.actor.http.IHttpClient;
-import okhttp3.Headers;
-import okhttp3.Request;
-import okhttp3.Response;
-import okhttp3.ResponseBody;
+import io.vertx.core.Future;
+import io.vertx.core.buffer.Buffer;
+import io.vertx.ext.web.client.HttpRequest;
+import io.vertx.ext.web.client.HttpResponse;
+import io.vertx.ext.web.client.WebClient;
 
-import java.io.IOException;
 import java.util.Map;
 
-public final class RestCall {
-
-  private final RestMethod method;
-  private final String url;
-  private final ImmutableMap<String, String> headers;
-  private final RestMediaBody body;
-
-  private RestCall(
-      RestMethod method, String url, ImmutableMap<String, String> headers, RestMediaBody body) {
-    this.method = method;
-    this.url = url;
-    this.headers = headers;
-    this.body = body;
-  }
+public record RestCall(RestMethod method, String url, ImmutableMap<String, String> headers, RestMediaBody mediaBody) {
 
   public static Builder newBuilder() {
     return new Builder();
   }
 
-  RestResponse submit(IHttpClient client) throws RestErrorException, HttpConnectionException {
-    Request request = createRequest();
-    Response response = client.submit(request);
-
-    try {
-      ResponseBody body = response.body();
-      String bodyString = body == null ? null : body.string();
-      RestResponse result = new RestResponse(response.code(), bodyString);
-      if (response.isSuccessful()) {
-        return result;
-      } else {
-        throw new RestErrorException(result);
-      }
-    } catch (IOException e) {
-      throw new HttpConnectionException(e);
-    }
+  HttpRequest<Buffer> createHttpRequestWithoutBody(WebClient webClient) {
+    final HttpRequest<Buffer> request = webClient.requestAbs(method.getVertxHttpMethod(), url);
+    request.headers().addAll(headers);
+    return request;
   }
 
-  private Request createRequest() {
-    final Headers h = Headers.of(headers);
-    return method.createRequest(
-        url, h, body == null ? null : body.createRequestBody());
+  Future<HttpResponse<Buffer>> sendRequestWithoutBody(WebClient webClient) {
+    return createHttpRequestWithoutBody(webClient)
+      .send();
+  }
+
+  Future<HttpResponse<Buffer>> sendRequestWithBody(WebClient webClient) {
+    return createHttpRequestWithoutBody(webClient)
+      .putHeader("Content-Type", mediaBody.type().toString())
+      .sendBuffer(mediaBody.body());
+  }
+
+  Future<HttpResponse<Buffer>> submit(WebClient webClient) throws RestErrorException, HttpConnectionException {
+    return switch (method) {
+      case GET -> {
+        if (mediaBody != null) {
+          throw new IllegalArgumentException("mediaBody must to be null");
+        }
+        yield sendRequestWithoutBody(webClient);
+      }
+      case POST, PUT -> {
+        if (mediaBody == null) {
+          throw new IllegalArgumentException("mediaBody must not to be null");
+        }
+        yield sendRequestWithBody(webClient);
+      }
+      case DELETE -> {
+        if (mediaBody == null) {
+          yield sendRequestWithoutBody(webClient);
+        } else {
+          yield sendRequestWithBody(webClient);
+        }
+      }
+    };
   }
 
   public static final class Builder {
@@ -61,7 +64,8 @@ public final class RestCall {
     private Map<String, String> headers;
     private RestMediaBody body;
 
-    private Builder() {}
+    private Builder() {
+    }
 
     public Builder setMethod(RestMethod method) {
       this.method = method;
@@ -85,7 +89,7 @@ public final class RestCall {
 
     public RestCall build() {
       return new RestCall(
-          method, url, headers == null ? ImmutableMap.of() : ImmutableMap.copyOf(headers), body);
+        method, url, headers == null ? ImmutableMap.of() : ImmutableMap.copyOf(headers), body);
     }
   }
 }

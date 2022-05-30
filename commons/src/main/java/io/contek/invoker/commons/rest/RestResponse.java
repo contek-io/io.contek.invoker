@@ -1,11 +1,9 @@
 package io.contek.invoker.commons.rest;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
+import io.contek.invoker.commons.json.Json;
+import io.vertx.core.json.DecodeException;
 
 public final class RestResponse {
-
-  private static final Gson gson = new Gson();
 
   private final int code;
   private final String stringValue;
@@ -25,8 +23,8 @@ public final class RestResponse {
 
   public <T> T getAs(Class<T> type) throws RestParsingException {
     try {
-      return stringValue == null ? null : gson.fromJson(stringValue, type);
-    } catch (JsonSyntaxException e) {
+      return getStringValue() == null ? null : Json.decodeValue(getStringValue(), type);
+    } catch (DecodeException e) {
       throw new RestParsingException(this, type, e);
     }
   }
