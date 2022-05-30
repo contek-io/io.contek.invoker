@@ -35,17 +35,17 @@ subprojects {
   }
 
   group = 'io.contek.invoker'
-  version = '3.0.0-local-SNAPSHOT'
+  version = '3.0.0-SNAPSHOT'
 
   task sourcesJar(type: Jar) {
     from sourceSets.main.allSource
     archiveClassifier.set('sources')
   }
 
-//  task javadocJar(type: Jar) {
-//    from javadoc
-//    archiveClassifier.set('javadoc')
-//  }
+  task javadocJar(type: Jar) {
+    from javadoc
+    archiveClassifier.set('javadoc')
+  }
 
   publishing {
     publications {
@@ -53,7 +53,7 @@ subprojects {
         artifactId = "invoker-${project.name}"
         from components.java
         artifact sourcesJar
-//        artifact javadocJar
+        artifact javadocJar
 
         pom {
           afterEvaluate {
