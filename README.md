@@ -1,24 +1,16 @@
 # Exchange Connector
 
-****
-
 A Java library to **connect cryptocurrency exchanges** with **[Vertx](https://vertx.io/)** ([Event Loop IO](https://alexey-soshin.medium.com/understanding-vert-x-event-loop-46373115fb3e) and [reactive programming](https://www.techtarget.com/searchapparchitecture/definition/reactive-programming)).
 
 This is a fork of **[io.contek.invoker](https://github.com/contek-io/io.contek.invoker)**
-
-****
 
 ## Actual version
 
 ```1.0.0```
 
-****
-
 ## Project java version
 
 ```17```
-
-****
 
 ## Required Maven Dependencies
 
@@ -42,8 +34,6 @@ This is a fork of **[io.contek.invoker](https://github.com/contek-io/io.contek.i
 implementation("com.github.fenrur:exchange-connector-commons:1.0.0")
 implementation("com.github.fenrur:exchange-connector-security:1.0.0")
 ```
-
-****
 
 ## All available Exchanges API
 
