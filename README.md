@@ -177,28 +177,31 @@ wsUser
 
 ## Goals
 
-This project aims to provide a neat solution to connect cryptocurrency exchanges via their REST and WebSocket APIs.
+* Non-blocking IO call
 
-It handles tedious things that are common in many exchanges, for example: rate limit, authentication, reconnection etc.
+* High Performance
 
-[Modularized java project](https://openjdk.java.net/jeps/261)
+* This project aims to provide a neat solution to connect cryptocurrency exchanges via their REST and WebSocket APIs.
 
-Keep the same conventions as the parent project (file name, packages...)
+* It handles tedious things that are common in many exchanges, for example: rate limit, authentication, reconnection etc.
 
-Non-blocking IO call
+* [Modularized java project](https://openjdk.java.net/jeps/261)
+
+* Keep the same conventions as the parent project (file name, packages...)
+
 
 ## Non-goals
 
-This project does not make money for you. It does not contain any logic that predicts the market.
+* This project does not make money for you. It does not contain any logic that predicts the market.
 
-This project does not explain the usages of API endpoints. It is absolutely necessary to read the official API document
+* This project does not explain the usages of API endpoints. It is absolutely necessary to read the official API document
 before using an endpoint.
 
 ## Audiences
 
-Data scientists who want to (freely and legally) download historical market data from exchanges.
+* Data scientists who want to (freely and legally) download historical market data from exchanges.
 
-Traders who want to interact with the market programmatically.
+* Traders who want to interact with the market programmatically.
 
 ## Contribution Guidelines
 
