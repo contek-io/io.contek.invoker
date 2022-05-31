@@ -26,10 +26,8 @@ final class NotificationWebSocketMessageParser extends WebSocketBinaryMessagePar
     if (!(component instanceof NotificationWebSocketChannel)) {
       return;
     }
-    synchronized (channelMessageTypes) {
       NotificationWebSocketChannel<?, ?> channel = (NotificationWebSocketChannel<?, ?>) component;
       channelMessageTypes.put(channel.getId().getTopic(), channel.getMessageType());
-    }
   }
 
   @Override
@@ -56,25 +54,17 @@ final class NotificationWebSocketMessageParser extends WebSocketBinaryMessagePar
   private NotificationWebSocketInboundMessage parse(JsonObject obj) {
     String op = obj.getString("op");
 
-    switch (op) {
-      case _sub:
-      case _unsub:
-        return obj.mapTo(NotificationWebSocketConfirmation.class);
-      case _ping:
-        return obj.mapTo(NotificationWebSocketPing.class);
-      case _notify:
-        return toMarketDataMessage(obj);
-      default:
-    }
-
-    throw new UnsupportedOperationException(obj.toString());
+    return switch (op) {
+      case _sub, _unsub -> obj.mapTo(NotificationWebSocketConfirmation.class);
+      case _ping -> obj.mapTo(NotificationWebSocketPing.class);
+      case _notify -> toMarketDataMessage(obj);
+      default -> throw new UnsupportedOperationException(obj.toString());
+    };
   }
 
   private NotificationWebSocketChannelMessage toMarketDataMessage(JsonObject obj) {
     String topic = obj.getString("topic");
-    synchronized (channelMessageTypes) {
       Class<? extends NotificationWebSocketChannelMessage> type = channelMessageTypes.get(topic);
       return obj.mapTo(type);
-    }
   }
 }

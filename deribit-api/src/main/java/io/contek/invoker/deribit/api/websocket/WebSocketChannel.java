@@ -20,8 +20,7 @@ public abstract class WebSocketChannel<
   private final String scope;
   private final WebSocketRequestIdGenerator requestIdGenerator;
 
-  private final AtomicReference<WebSocketRequest<SubscriptionParams>> pendingRequestHolder =
-      new AtomicReference<>();
+  private WebSocketRequest<SubscriptionParams> pendingRequestHolder = null;
 
   protected WebSocketChannel(Id id, String scope, WebSocketRequestIdGenerator requestIdGenerator) {
     super(id);
@@ -31,8 +30,7 @@ public abstract class WebSocketChannel<
 
   @Override
   protected final SubscriptionState subscribe(WebSocketSession session) {
-    synchronized (pendingRequestHolder) {
-      if (pendingRequestHolder.get() != null) {
+      if (pendingRequestHolder != null) {
         throw new IllegalStateException();
       }
       Id id = getId();
@@ -44,15 +42,13 @@ public abstract class WebSocketChannel<
       request.method = getSubscribeMethod();
       request.params = params;
       session.send(request);
-      pendingRequestHolder.set(request);
-    }
+      pendingRequestHolder = request;
     return SUBSCRIBING;
   }
 
   @Override
   protected final SubscriptionState unsubscribe(WebSocketSession session) {
-    synchronized (pendingRequestHolder) {
-      if (pendingRequestHolder.get() != null) {
+      if (pendingRequestHolder != null) {
         throw new IllegalStateException();
       }
       Id id = getId();
@@ -64,8 +60,7 @@ public abstract class WebSocketChannel<
       request.method = getUnsubscribeMethod();
       request.params = params;
       session.send(request);
-      pendingRequestHolder.set(request);
-    }
+      pendingRequestHolder = request;
 
     return UNSUBSCRIBING;
   }
@@ -76,8 +71,7 @@ public abstract class WebSocketChannel<
       return null;
     }
 
-    synchronized (pendingRequestHolder) {
-      WebSocketRequest<SubscriptionParams> command = pendingRequestHolder.get();
+      WebSocketRequest<SubscriptionParams> command = pendingRequestHolder;
       if (command == null) {
         return null;
       }
@@ -104,14 +98,11 @@ public abstract class WebSocketChannel<
         return UNSUBSCRIBED;
       }
       throw new IllegalStateException();
-    }
   }
 
   @Override
   protected final void reset() {
-    synchronized (pendingRequestHolder) {
-      pendingRequestHolder.set(null);
-    }
+      pendingRequestHolder = null;
   }
 
   private String getSubscribeMethod() {

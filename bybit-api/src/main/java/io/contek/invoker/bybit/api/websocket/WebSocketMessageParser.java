@@ -24,10 +24,8 @@ final class WebSocketMessageParser extends WebSocketTextMessageParser {
     if (!(component instanceof WebSocketChannel)) {
       return;
     }
-    synchronized (channelMessageTypes) {
       WebSocketChannel<?, ?> channel = (WebSocketChannel<?, ?>) component;
       channelMessageTypes.put(channel.getId().getTopic(), channel.getMessageType());
-    }
   }
 
   @Override
@@ -52,7 +50,6 @@ final class WebSocketMessageParser extends WebSocketTextMessageParser {
 
   private AnyWebSocketMessage toTopicMessage(JsonObject obj) {
     String topic = obj.getString("topic");
-    synchronized (channelMessageTypes) {
       Class<? extends WebSocketTopicMessage> type = channelMessageTypes.get(topic);
       if (type == null) {
         throw new IllegalArgumentException(topic);
@@ -67,7 +64,6 @@ final class WebSocketMessageParser extends WebSocketTextMessageParser {
       }
 
       return obj.mapTo(type);
-    }
   }
 
   private WebSocketOperationResponse toOperationResponse(JsonObject obj) {

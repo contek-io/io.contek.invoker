@@ -27,11 +27,9 @@ public final class MarketDataWebSocketMessageParser extends WebSocketBinaryMessa
     if (!(component instanceof MarketDataMarketWebSocketChannel)) {
       return;
     }
-    synchronized (channelMessageTypes) {
       MarketDataMarketWebSocketChannel<?, ?> channel =
           (MarketDataMarketWebSocketChannel<?, ?>) component;
       channelMessageTypes.put(channel.getId().getChannel(), channel.getMessageType());
-    }
   }
 
   @Override
@@ -76,9 +74,7 @@ public final class MarketDataWebSocketMessageParser extends WebSocketBinaryMessa
 
   private MarketDataWebSocketChannelMessage toMarketDataMessage(JsonObject obj) {
     final String ch = obj.getString("ch");
-    synchronized (channelMessageTypes) {
       Class<? extends MarketDataWebSocketChannelMessage> type = channelMessageTypes.get(ch);
       return obj.mapTo(type);
-    }
   }
 }

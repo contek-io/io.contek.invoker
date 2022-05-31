@@ -22,7 +22,7 @@ public abstract class MarketWebSocketChannel<
 
   private final WebSocketRequestIdGenerator requestIdGenerator;
 
-  private final AtomicReference<WebSocketCommand> pendingCommandHolder = new AtomicReference<>();
+  private WebSocketCommand pendingCommandHolder = null;
 
   protected MarketWebSocketChannel(Id id, WebSocketRequestIdGenerator requestIdGenerator) {
     super(id);
@@ -31,8 +31,7 @@ public abstract class MarketWebSocketChannel<
 
   @Override
   protected final SubscriptionState subscribe(WebSocketSession session) {
-    synchronized (pendingCommandHolder) {
-      if (pendingCommandHolder.get() != null) {
+      if (pendingCommandHolder != null) {
         throw new IllegalStateException();
       }
 
@@ -42,15 +41,13 @@ public abstract class MarketWebSocketChannel<
       command.params = ImmutableList.of(id.getStreamName());
       command.id = requestIdGenerator.getNextRequestId();
       session.send(command);
-      pendingCommandHolder.set(command);
-    }
+      pendingCommandHolder = command;
     return SUBSCRIBING;
   }
 
   @Override
   protected final SubscriptionState unsubscribe(WebSocketSession session) {
-    synchronized (pendingCommandHolder) {
-      if (pendingCommandHolder.get() != null) {
+      if (pendingCommandHolder != null) {
         throw new IllegalStateException();
       }
 
@@ -60,8 +57,7 @@ public abstract class MarketWebSocketChannel<
       command.params = ImmutableList.of(id.getStreamName());
       command.id = requestIdGenerator.getNextRequestId();
       session.send(command);
-      pendingCommandHolder.set(command);
-    }
+      pendingCommandHolder = command;
     return UNSUBSCRIBING;
   }
 
@@ -72,8 +68,7 @@ public abstract class MarketWebSocketChannel<
     }
     WebSocketCommandConfirmation confirmation = (WebSocketCommandConfirmation) message;
 
-    synchronized (pendingCommandHolder) {
-      WebSocketCommand command = pendingCommandHolder.get();
+      WebSocketCommand command = pendingCommandHolder;
       if (command == null) {
         return null;
       }
@@ -81,21 +76,15 @@ public abstract class MarketWebSocketChannel<
         return null;
       }
       reset();
-      switch (command.method) {
-        case SUBSCRIBE:
-          return SUBSCRIBED;
-        case UNSUBSCRIBE:
-          return UNSUBSCRIBED;
-        default:
-          throw new IllegalStateException();
-      }
-    }
+    return switch (command.method) {
+      case SUBSCRIBE -> SUBSCRIBED;
+      case UNSUBSCRIBE -> UNSUBSCRIBED;
+      default -> throw new IllegalStateException();
+    };
   }
 
   @Override
   protected final void reset() {
-    synchronized (pendingCommandHolder) {
-      pendingCommandHolder.set(null);
-    }
+      pendingCommandHolder = null;
   }
 }

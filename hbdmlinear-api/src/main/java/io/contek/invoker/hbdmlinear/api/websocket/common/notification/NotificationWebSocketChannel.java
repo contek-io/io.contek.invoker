@@ -15,8 +15,7 @@ public abstract class NotificationWebSocketChannel<
 
   private final NotificationWebSocketRequestIdGenerator requestIdGenerator;
 
-  private final AtomicReference<NotificationWebSocketRequest> pendingRequestHolder =
-      new AtomicReference<>(null);
+  private NotificationWebSocketRequest pendingRequestHolder = null;
 
   protected NotificationWebSocketChannel(
       Id id, NotificationWebSocketRequestIdGenerator requestIdGenerator) {
@@ -26,8 +25,7 @@ public abstract class NotificationWebSocketChannel<
 
   @Override
   protected final SubscriptionState subscribe(WebSocketSession session) {
-    synchronized (pendingRequestHolder) {
-      if (pendingRequestHolder.get() != null) {
+      if (pendingRequestHolder != null) {
         throw new IllegalStateException();
       }
 
@@ -38,16 +36,14 @@ public abstract class NotificationWebSocketChannel<
       request.topic = id.getTopic();
       request.cid = requestIdGenerator.generateNext();
       session.send(request);
-      pendingRequestHolder.set(request);
-    }
+      pendingRequestHolder = request;
 
     return SUBSCRIBING;
   }
 
   @Override
   protected final SubscriptionState unsubscribe(WebSocketSession session) {
-    synchronized (pendingRequestHolder) {
-      if (pendingRequestHolder.get() != null) {
+      if (pendingRequestHolder != null) {
         throw new IllegalStateException();
       }
 
@@ -58,8 +54,7 @@ public abstract class NotificationWebSocketChannel<
       request.topic = id.getTopic();
       request.cid = requestIdGenerator.generateNext();
       session.send(request);
-      pendingRequestHolder.set(request);
-    }
+      pendingRequestHolder = request;
 
     return UNSUBSCRIBING;
   }
@@ -71,8 +66,7 @@ public abstract class NotificationWebSocketChannel<
     }
     NotificationWebSocketConfirmation confirmation = (NotificationWebSocketConfirmation) message;
 
-    synchronized (pendingRequestHolder) {
-      NotificationWebSocketRequest request = pendingRequestHolder.get();
+      NotificationWebSocketRequest request = pendingRequestHolder;
       if (request == null) {
         return null;
       }
@@ -87,21 +81,15 @@ public abstract class NotificationWebSocketChannel<
       }
 
       reset();
-      switch (request.op) {
-        case _sub:
-          return SUBSCRIBED;
-        case _unsub:
-          return UNSUBSCRIBED;
-        default:
-          throw new IllegalStateException();
-      }
-    }
+    return switch (request.op) {
+      case _sub -> SUBSCRIBED;
+      case _unsub -> UNSUBSCRIBED;
+      default -> throw new IllegalStateException();
+    };
   }
 
   @Override
   protected final void reset() {
-    synchronized (pendingRequestHolder) {
-      pendingRequestHolder.set(null);
-    }
+      pendingRequestHolder = null;
   }
 }

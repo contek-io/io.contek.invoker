@@ -26,10 +26,8 @@ final class NotificationWebSocketMessageParser extends WebSocketBinaryMessagePar
     if (!(component instanceof NotificationWebSocketChannel)) {
       return;
     }
-    synchronized (channelMessageTypes) {
       NotificationWebSocketChannel<?, ?> channel = (NotificationWebSocketChannel<?, ?>) component;
       channelMessageTypes.put(channel.getId().getTopic(), channel.getMessageType());
-    }
   }
 
   @Override
@@ -66,9 +64,7 @@ final class NotificationWebSocketMessageParser extends WebSocketBinaryMessagePar
 
   private NotificationWebSocketChannelMessage toMarketDataMessage(JsonObject obj) {
     String topic = obj.getString("topic");
-    synchronized (channelMessageTypes) {
       Class<? extends NotificationWebSocketChannelMessage> type = channelMessageTypes.get(topic);
       return obj.mapTo(type);
-    }
   }
 }

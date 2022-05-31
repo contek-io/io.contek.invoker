@@ -28,8 +28,7 @@ final class NotificationWebSocketAuthenticator implements IWebSocketAuthenticato
   private final Clock clock;
 
   private final AtomicBoolean authenticated = new AtomicBoolean();
-  private final AtomicReference<NotificationWebSocketAuthRequest> pendingCommandHolder =
-      new AtomicReference<>(null);
+  private NotificationWebSocketAuthRequest pendingCommandHolder = null;
 
   NotificationWebSocketAuthenticator(
       ICredential credential,
@@ -50,7 +49,6 @@ final class NotificationWebSocketAuthenticator implements IWebSocketAuthenticato
       return;
     }
 
-    synchronized (pendingCommandHolder) {
       NotificationWebSocketAuthRequest request = new NotificationWebSocketAuthRequest();
       request.op = _auth;
       request.type = _api;
@@ -61,13 +59,12 @@ final class NotificationWebSocketAuthenticator implements IWebSocketAuthenticato
       request.Timestamp = FORMATTER.format(clock.instant().with(MILLI_OF_SECOND, 0));
       request.Signature = generateSignature(request);
       session.send(request);
-      pendingCommandHolder.set(request);
-    }
+      pendingCommandHolder = request;
   }
 
   @Override
   public boolean isPending() {
-    return pendingCommandHolder.get() != null;
+    return pendingCommandHolder != null;
   }
 
   @Override
@@ -86,8 +83,7 @@ final class NotificationWebSocketAuthenticator implements IWebSocketAuthenticato
     }
     NotificationWebSocketConfirmation response = (NotificationWebSocketConfirmation) message;
 
-    synchronized (pendingCommandHolder) {
-      NotificationWebSocketAuthRequest request = pendingCommandHolder.get();
+      NotificationWebSocketAuthRequest request = pendingCommandHolder;
       if (request == null) {
         return;
       }
@@ -96,14 +92,13 @@ final class NotificationWebSocketAuthenticator implements IWebSocketAuthenticato
         return;
       }
 
-      pendingCommandHolder.set(null);
+      pendingCommandHolder = null;
       if (response.err_code != 0) {
         throw new WebSocketIllegalMessageException(response.err_code + ": " + response.err_msg);
       }
 
       reset();
       authenticated.set(true);
-    }
   }
 
   @Override
@@ -126,8 +121,6 @@ final class NotificationWebSocketAuthenticator implements IWebSocketAuthenticato
 
   private void reset() {
     authenticated.set(false);
-    synchronized (pendingCommandHolder) {
-      pendingCommandHolder.set(null);
-    }
+      pendingCommandHolder = null;
   }
 }

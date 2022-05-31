@@ -22,8 +22,7 @@ public abstract class WebSocketChannel<
         Id extends WebSocketChannelId<Message>, Message extends WebSocketChannelPushData<?>>
     extends BaseWebSocketChannel<Id, Message> {
 
-  private final AtomicReference<WebSocketSubscriptionRequest> pendingRequestHolder =
-      new AtomicReference<>(null);
+  private WebSocketSubscriptionRequest pendingRequestHolder = null;
 
   protected WebSocketChannel(Id id) {
     super(id);
@@ -31,8 +30,7 @@ public abstract class WebSocketChannel<
 
   @Override
   protected final SubscriptionState subscribe(WebSocketSession session) {
-    synchronized (pendingRequestHolder) {
-      if (pendingRequestHolder.get() != null) {
+      if (pendingRequestHolder != null) {
         throw new IllegalStateException();
       }
 
@@ -40,15 +38,13 @@ public abstract class WebSocketChannel<
       request.op = WebSocketOutboundKeys._subscribe;
       request.args = ImmutableList.of(getId().toChannelArg());
       session.send(request);
-      pendingRequestHolder.set(request);
-    }
+      pendingRequestHolder = request;
     return SUBSCRIBING;
   }
 
   @Override
   protected final SubscriptionState unsubscribe(WebSocketSession session) {
-    synchronized (pendingRequestHolder) {
-      if (pendingRequestHolder.get() != null) {
+      if (pendingRequestHolder != null) {
         throw new IllegalStateException();
       }
 
@@ -56,8 +52,7 @@ public abstract class WebSocketChannel<
       request.op = WebSocketOutboundKeys._unsubscribe;
       request.args = ImmutableList.of(getId().toChannelArg());
       session.send(request);
-      pendingRequestHolder.set(request);
-    }
+      pendingRequestHolder = request;
     return UNSUBSCRIBING;
   }
 
@@ -68,8 +63,7 @@ public abstract class WebSocketChannel<
     }
 
     WebSocketSubscriptionResponse response = (WebSocketSubscriptionResponse) message;
-    synchronized (pendingRequestHolder) {
-      WebSocketSubscriptionRequest request = pendingRequestHolder.get();
+      WebSocketSubscriptionRequest request = pendingRequestHolder;
       if (request == null) {
         return null;
       }
@@ -84,21 +78,15 @@ public abstract class WebSocketChannel<
       }
 
       reset();
-      switch (response.event) {
-        case _subscribe:
-          return SUBSCRIBED;
-        case _unsubscribe:
-          return UNSUBSCRIBED;
-        default:
-          throw new IllegalArgumentException(response.event);
-      }
-    }
+    return switch (response.event) {
+      case _subscribe -> SUBSCRIBED;
+      case _unsubscribe -> UNSUBSCRIBED;
+      default -> throw new IllegalArgumentException(response.event);
+    };
   }
 
   @Override
   protected final void reset() {
-    synchronized (pendingRequestHolder) {
-      pendingRequestHolder.set(null);
-    }
+      pendingRequestHolder = null;
   }
 }

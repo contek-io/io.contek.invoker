@@ -24,9 +24,7 @@ final class WebSocketMessageParser extends WebSocketTextMessageParser {
       new HashMap<>();
 
   public void register(Integer id, Class<? extends WebSocketResponse<?>> type) {
-    synchronized (pendingRequests) {
       pendingRequests.put(id, type);
-    }
   }
 
   @Override

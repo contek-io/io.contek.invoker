@@ -18,8 +18,7 @@ public abstract class WebSocketChannel<
         Id extends WebSocketChannelId<Message>, Message extends WebSocketChannelMessage>
     extends BaseWebSocketChannel<Id, Message> {
 
-  private final AtomicReference<WebSocketSubscriptionMessage> pendingRequestHolder =
-      new AtomicReference<>();
+  private WebSocketSubscriptionMessage pendingRequestHolder = null;
 
   protected WebSocketChannel(Id id) {
     super(id);
@@ -56,34 +55,29 @@ public abstract class WebSocketChannel<
 
   @Override
   protected final SubscriptionState subscribe(WebSocketSession session) {
-    synchronized (pendingRequestHolder) {
       Id id = getId();
       WebSocketSubscriptionMessage request = new WebSocketSubscriptionMessage();
       request.type = _subscribe;
       request.channels = ImmutableList.of(getChannelInfo(id));
       session.send(request);
-      pendingRequestHolder.set(request);
+      pendingRequestHolder = request;
       return SUBSCRIBING;
-    }
   }
 
   @Override
   protected final SubscriptionState unsubscribe(WebSocketSession session) {
-    synchronized (pendingRequestHolder) {
       Id id = getId();
       WebSocketSubscriptionMessage request = new WebSocketSubscriptionMessage();
       request.type = _unsubscribe;
       request.channels = ImmutableList.of(getChannelInfo(id));
       session.send(request);
-      pendingRequestHolder.set(request);
+      pendingRequestHolder = request;
       return UNSUBSCRIBING;
-    }
   }
 
   @Override
   protected final SubscriptionState getState(AnyWebSocketMessage message) {
-    synchronized (pendingRequestHolder) {
-      WebSocketSubscriptionMessage pendingRequest = pendingRequestHolder.get();
+      WebSocketSubscriptionMessage pendingRequest = pendingRequestHolder;
       if (pendingRequest == null) {
         return null;
       }
@@ -98,26 +92,23 @@ public abstract class WebSocketChannel<
       Id id = getId();
       if (_subscribe.equals(pendingRequest.type)) {
         if (hasActiveChannel(casted, id)) {
-          pendingRequestHolder.set(null);
+          pendingRequestHolder = null;
           return SUBSCRIBED;
         }
         return null;
       }
       if (_unsubscribe.equals(pendingRequest.type)) {
         if (!hasActiveChannel(casted, id)) {
-          pendingRequestHolder.set(null);
+          pendingRequestHolder = null;
           return UNSUBSCRIBED;
         }
         return null;
       }
       throw new IllegalStateException(pendingRequest.type);
-    }
   }
 
   @Override
   protected final void reset() {
-    synchronized (pendingRequestHolder) {
-      pendingRequestHolder.set(null);
-    }
+      pendingRequestHolder = null;
   }
 }
