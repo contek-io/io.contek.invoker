@@ -65,18 +65,13 @@ final class WebSocketMessageParser extends WebSocketTextMessageParser {
     if (!obj.containsKey(_channel)) {
       throw new IllegalArgumentException(obj.toString());
     }
-    switch (obj.getString(_channel)) {
-      case _orderbook:
-        return obj.mapTo(OrderBookChannel.Message.class);
-      case _trades:
-        return obj.mapTo(TradesChannel.Message.class);
-      case _ticker:
-        return obj.mapTo(TickerChannel.Message.class);
-      case _orders:
-        return obj.mapTo(OrdersChannel.Message.class);
-      default:
-        throw new IllegalArgumentException(obj.toString());
-    }
+    return switch (obj.getString(_channel)) {
+      case _orderbook -> obj.mapTo(OrderBookChannel.Message.class);
+      case _trades -> obj.mapTo(TradesChannel.Message.class);
+      case _ticker -> obj.mapTo(TickerChannel.Message.class);
+      case _orders -> obj.mapTo(OrdersChannel.Message.class);
+      default -> throw new IllegalArgumentException(obj.toString());
+    };
   }
 
   private WebSocketInfoMessage toInfoMessage(JsonObject obj) {

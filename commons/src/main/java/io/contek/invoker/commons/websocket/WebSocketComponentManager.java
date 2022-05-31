@@ -13,14 +13,9 @@ final class WebSocketComponentManager {
 
   void attach(IWebSocketComponent component) {
     switch (component.getState()) {
-      case ACTIVE:
-        active.add(component);
-        break;
-      case IDLE:
-        idle.add(component);
-        break;
-      default:
-        throw new IllegalStateException(component.getState().name());
+      case ACTIVE -> active.add(component);
+      case IDLE -> idle.add(component);
+      default -> throw new IllegalStateException(component.getState().name());
     }
   }
 

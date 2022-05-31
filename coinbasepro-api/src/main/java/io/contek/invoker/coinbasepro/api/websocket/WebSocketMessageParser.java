@@ -30,17 +30,13 @@ final class WebSocketMessageParser extends WebSocketTextMessageParser {
       }
 
       if (obj.containsKey(_type)) {
-        switch (obj.getString(_type)) {
-          case _subscriptions:
-            return toSubscriptionMessage(obj);
-          case _snapshot:
-            return toSnapshotMessage(obj);
-          case _l2update:
-            return toL2UpdateMessage(obj);
-          case _match:
-          case _last_match:
-            return toMatchMessage(obj);
-        }
+        return switch (obj.getString(_type)) {
+          case _subscriptions -> toSubscriptionMessage(obj);
+          case _snapshot -> toSnapshotMessage(obj);
+          case _l2update -> toL2UpdateMessage(obj);
+          case _match, _last_match -> toMatchMessage(obj);
+          default -> throw new IllegalStateException("Unexpected value: " + obj.getString(_type));
+        };
       }
     } catch (Exception e) {
       throw new RuntimeException(e);

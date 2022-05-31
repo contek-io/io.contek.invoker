@@ -27,14 +27,11 @@ public abstract class WebSocketChannel<
         return null;
       }
 
-      switch (confirmation.type) {
-        case _subscribed:
-          return SUBSCRIBED;
-        case _unsubscribed:
-          return UNSUBSCRIBED;
-        default:
-          throw new IllegalArgumentException(confirmation.type);
-      }
+      return switch (confirmation.type) {
+        case _subscribed -> SUBSCRIBED;
+        case _unsubscribed -> UNSUBSCRIBED;
+        default -> throw new IllegalArgumentException(confirmation.type);
+      };
     }
     return null;
   }

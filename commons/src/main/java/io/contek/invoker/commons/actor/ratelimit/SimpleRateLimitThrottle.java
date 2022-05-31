@@ -32,14 +32,12 @@ public record SimpleRateLimitThrottle(String boundLocalAddress, String apiKeyId,
     checkArgument(quota.permits() > 0);
 
     return switch (quota.type()) {
-      case IP -> {
-        yield PermitRequest.newBuilder()
-                .setName(quota.name())
-                .setKey(boundLocalAddress)
-                .setPermits(quota.permits())
-                .setTimeout(TIMEOUT)
-                .build();
-      }
+      case IP -> PermitRequest.newBuilder()
+              .setName(quota.name())
+              .setKey(boundLocalAddress)
+              .setPermits(quota.permits())
+              .setTimeout(TIMEOUT)
+              .build();
       case API_KEY -> {
         if (apiKeyId == null) {
           throw new IllegalArgumentException();
