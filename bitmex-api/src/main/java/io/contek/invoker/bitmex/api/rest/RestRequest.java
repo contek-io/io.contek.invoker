@@ -48,27 +48,25 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
   @Override
   protected final RestCall createCall(ICredential credential) {
     RestMethod method = getMethod();
-    switch (method) {
-      case GET:
-      case DELETE:
+    return switch (method) {
+      case GET, DELETE -> {
         String paramsString = buildParamsString();
-        return RestCall.newBuilder()
-            .setUrl(buildUrlString(paramsString))
-            .setMethod(method)
-            .setHeaders(generateHeaders(paramsString, Buffer.buffer(""), credential))
-            .build();
-      case POST:
-      case PUT:
+        yield RestCall.newBuilder()
+          .setUrl(buildUrlString(paramsString))
+          .setMethod(method)
+          .setHeaders(generateHeaders(paramsString, Buffer.buffer(""), credential))
+          .build();
+      }
+      case POST, PUT -> {
         RestMediaBody body = JSON.create(getParams());
-        return RestCall.newBuilder()
-            .setUrl(buildUrlString(""))
-            .setMethod(method)
-            .setHeaders(generateHeaders("", body.body(), credential))
-            .setBody(body)
-            .build();
-      default:
-        throw new IllegalStateException(getMethod().name());
-    }
+        yield RestCall.newBuilder()
+          .setUrl(buildUrlString(""))
+          .setMethod(method)
+          .setHeaders(generateHeaders("", body.body(), credential))
+          .setBody(body)
+          .build();
+      }
+    };
   }
 
   private ImmutableMap<String, String> generateHeaders(

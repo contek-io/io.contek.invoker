@@ -40,24 +40,21 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
   @Override
   protected final RestCall createCall(ICredential credential) {
     RestMethod method = getMethod();
-    switch (method) {
-      case GET:
-      case DELETE:
-        return RestCall.newBuilder()
+    return switch (method) {
+      case GET, DELETE ->
+        RestCall.newBuilder()
             .setUrl(generateUrl(method, getEndpointPath(), getParams(), credential))
             .setMethod(method)
             .build();
-      case POST:
-      case PUT:
+      case POST, PUT -> {
         RestMediaBody body = JSON.create(getParams());
-        return RestCall.newBuilder()
+        yield RestCall.newBuilder()
             .setUrl(generateUrl(method, getEndpointPath(), RestParams.empty(), credential))
             .setMethod(method)
             .setBody(body)
             .build();
-      default:
-        throw new IllegalStateException(getMethod().name());
-    }
+      }
+    };
   }
 
   private String generateUrl(

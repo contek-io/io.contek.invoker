@@ -35,26 +35,23 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
   @Override
   protected final RestCall createCall(ICredential credential) {
     RestMethod method = getMethod();
-    switch (method) {
-      case GET:
-      case DELETE:
-        return RestCall.newBuilder()
+    return switch (method) {
+      case GET, DELETE ->
+        RestCall.newBuilder()
             .setUrl(buildUrlWithParams(credential))
             .setMethod(method)
             .setHeaders(buildHeaders(credential))
             .build();
-      case POST:
-      case PUT:
+      case POST, PUT -> {
         RestMediaBody body = FORM.create(getParams());
-        return RestCall.newBuilder()
+        yield RestCall.newBuilder()
             .setUrl(buildUrlWithoutParams(body.body(), credential))
             .setMethod(method)
             .setHeaders(buildHeaders(credential))
             .setBody(body)
             .build();
-      default:
-        throw new IllegalStateException(getMethod().name());
-    }
+      }
+    };
   }
 
   private ImmutableMap<String, String> buildHeaders(ICredential credential) {
