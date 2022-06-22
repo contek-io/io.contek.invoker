@@ -33,13 +33,13 @@ subprojects {
 
     dependencies {
         implementation 'com.google.guava:guava:31.1-jre'
-        implementation 'org.slf4j:slf4j-api:1.7.32'
+        implementation 'org.slf4j:slf4j-api:1.7.36'
 
         compileOnly 'com.github.spotbugs:spotbugs-annotations:4.2.0'
     }
 
     group = 'io.contek.invoker'
-    version = '2.19.0'
+    version = '2.19.1'
 
     task sourcesJar(type: Jar) {
         from sourceSets.main.allSource
