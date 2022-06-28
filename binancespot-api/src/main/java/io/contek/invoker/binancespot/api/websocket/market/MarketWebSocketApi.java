@@ -17,6 +17,7 @@ public final class MarketWebSocketApi extends BaseWebSocketApi {
   private final WebSocketContext context;
   private final WebSocketRequestIdGenerator requestIdGenerator = new WebSocketRequestIdGenerator();
 
+  private final Map<TradeChannel.Id, TradeChannel> tradeChannels = new HashMap<>();
   private final Map<AggTradeChannel.Id, AggTradeChannel> aggTradeChannels = new HashMap<>();
   private final Map<DepthUpdateChannel.Id, DepthUpdateChannel> depthUpdateChannels =
       new HashMap<>();
@@ -28,6 +29,18 @@ public final class MarketWebSocketApi extends BaseWebSocketApi {
         IWebSocketAuthenticator.noOp(),
         IWebSocketLiveKeeper.noOp());
     this.context = context;
+  }
+
+  public TradeChannel getTradeChannel(TradeChannel.Id id) {
+    synchronized (tradeChannels) {
+      return tradeChannels.computeIfAbsent(
+          id,
+          k -> {
+            TradeChannel result = new TradeChannel(k, requestIdGenerator);
+            attach(result);
+            return result;
+          });
+    }
   }
 
   public AggTradeChannel getAggTradeChannel(AggTradeChannel.Id id) {
