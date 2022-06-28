@@ -44,6 +44,9 @@ public final class MarketWebSocketMessageParser extends WebSocketTextMessagePars
 
   private AnyWebSocketMessage toStreamData(JsonObject obj) {
     String stream = obj.get("stream").getAsString();
+    if (stream.endsWith("@trade")) {
+      return gson.fromJson(obj, TradeChannel.Message.class);
+    }
     if (stream.endsWith("@aggTrade")) {
       return gson.fromJson(obj, AggTradeChannel.Message.class);
     }
