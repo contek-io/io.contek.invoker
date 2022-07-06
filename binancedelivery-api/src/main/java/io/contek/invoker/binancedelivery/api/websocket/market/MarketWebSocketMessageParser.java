@@ -1,5 +1,6 @@
 package io.contek.invoker.binancedelivery.api.websocket.market;
 
+import com.google.common.base.Splitter;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -9,6 +10,7 @@ import io.contek.invoker.commons.websocket.IWebSocketComponent;
 import io.contek.invoker.commons.websocket.WebSocketTextMessageParser;
 
 import javax.annotation.concurrent.Immutable;
+import java.util.List;
 
 @Immutable
 public final class MarketWebSocketMessageParser extends WebSocketTextMessageParser {
@@ -44,17 +46,20 @@ public final class MarketWebSocketMessageParser extends WebSocketTextMessagePars
 
   private AnyWebSocketMessage toStreamData(JsonObject obj) {
     String stream = obj.get("stream").getAsString();
-    if (stream.endsWith("@trade")) {
-      return gson.fromJson(obj, TradeChannel.Message.class);
+    List<String> parts = Splitter.on('@').splitToList(stream);
+    if (parts.size() < 2) {
+      throw new IllegalArgumentException(stream);
     }
-    if (stream.endsWith("@aggTrade")) {
-      return gson.fromJson(obj, AggTradeChannel.Message.class);
-    }
-    if (stream.endsWith("@depth@100ms")) {
-      return gson.fromJson(obj, DepthUpdateChannel.Message.class);
-    }
-    if (stream.endsWith("@forceOrder")) {
-      return gson.fromJson(obj, ForceOrderChannel.Message.class);
+    String type = parts.get(1);
+    switch (type) {
+      case "trade":
+        return gson.fromJson(obj, TradeChannel.Message.class);
+      case "aggTrade":
+        return gson.fromJson(obj, AggTradeChannel.Message.class);
+      case "depth":
+        return gson.fromJson(obj, DepthUpdateChannel.Message.class);
+      case "forceOrder":
+        return gson.fromJson(obj, ForceOrderChannel.Message.class);
     }
     throw new IllegalStateException();
   }
