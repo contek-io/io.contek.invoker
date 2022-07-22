@@ -28,4 +28,6 @@ public class _Position {
   public Double stop_loss;
   public Double take_profit;
   public Double trailing_stop;
+  public Integer position_idx;
+  public String mode;
 }

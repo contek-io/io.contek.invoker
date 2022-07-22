@@ -48,6 +48,10 @@ public final class UserRestApi {
     return new PostPositionSwitchIsolated(actor, context);
   }
 
+  public PostPositionSwitchMode postPositionSwitchMode() {
+    return new PostPositionSwitchMode(actor, context);
+  }
+
   public PostPositionSetLeverage postPositionSetLeverage() {
     return new PostPositionSetLeverage(actor, context);
   }

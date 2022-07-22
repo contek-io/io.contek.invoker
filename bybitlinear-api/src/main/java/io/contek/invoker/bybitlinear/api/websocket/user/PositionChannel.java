@@ -61,7 +61,18 @@ public final class PositionChannel
     public String
         sl_trigger_by; // stop loss trigger price, eg: LastPrice, IndexPrice. Conditional order only
     public String realised_pnl; // realised PNL
+    public String auto_add_margin; // Whether or not auto-margin replenishment is enabled
     public String cum_realised_pnl; // Total realized profit and loss
-    public Long position_seq; // position version number
+    public String position_status; // Position status: Normal, Liq, Adl
+    public String position_seq; // position version number
+    public Double
+        free_qty; // Qty which can be closed. (If you have a long position, free_qty is negative.
+    // vice versa)
+    public String tp_sl_mode; // TrailingProfit or StopLoss mode Full or Partial
+    public String risk_id; // Risk ID
+    public Boolean isolated; // true means isolated margin mode; false means cross margin mode
+    public String mode; // 	Position mode, MergedSingle or BothSide
+    public String
+        position_idx; // Position idx, used to identify positions in different position modes
   }
 }

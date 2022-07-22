@@ -30,6 +30,9 @@ public final class PostOrderCreate extends UserRestRequest<Response> {
   private Boolean reduce_only;
   private Boolean close_on_trigger;
   private String order_link_id;
+  private String tp_trigger_by;
+  private String sl_trigger_by;
+  private Integer position_idx;
 
   PostOrderCreate(IActor actor, RestContext context) {
     super(actor, context);
@@ -90,6 +93,21 @@ public final class PostOrderCreate extends UserRestRequest<Response> {
     return this;
   }
 
+  public PostOrderCreate setTpTriggerBy(String tp_trigger_by) {
+    this.tp_trigger_by = tp_trigger_by;
+    return this;
+  }
+
+  public PostOrderCreate setSlTriggerBy(String sl_trigger_by) {
+    this.sl_trigger_by = sl_trigger_by;
+    return this;
+  }
+
+  public PostOrderCreate setPositionIdx(Integer position_idx) {
+    this.position_idx = position_idx;
+    return this;
+  }
+
   @Override
   protected RestMethod getMethod() {
     return POST;
@@ -141,6 +159,18 @@ public final class PostOrderCreate extends UserRestRequest<Response> {
 
     if (order_link_id != null) {
       builder.add("order_link_id", order_link_id);
+    }
+
+    if (tp_trigger_by != null) {
+      builder.add("tp_trigger_by", tp_trigger_by);
+    }
+
+    if (sl_trigger_by != null) {
+      builder.add("sl_trigger_by", sl_trigger_by);
+    }
+
+    if (position_idx != null) {
+      builder.add("position_idx", position_idx);
     }
 
     return builder.build();

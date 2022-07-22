@@ -63,5 +63,6 @@ public final class OrderChannel extends WebSocketChannel<OrderChannel.Id, OrderC
     public Boolean close_on_trigger;
     public String create_time;
     public String update_time;
+    public String position_idx;
   }
 }
