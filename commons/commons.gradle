@@ -1,10 +1,10 @@
 dependencies {
-    implementation project(':security')
+    api project(':security')
 
-    implementation "io.contek.ursa:ursa-cache:${ursaVersion}"
-    implementation "io.contek.ursa:ursa-core-api:${ursaVersion}"
-    implementation "com.google.code.gson:gson:${gsonVersion}"
-    implementation "com.squareup.okhttp3:okhttp:${okhttpVersion}"
+    api "io.contek.ursa:ursa-cache:${ursaVersion}"
+    api "io.contek.ursa:ursa-core-api:${ursaVersion}"
+    api "com.google.code.gson:gson:${gsonVersion}"
+    api "com.squareup.okhttp3:okhttp:${okhttpVersion}"
 }
 
 description = "Exchange Common Utilities"

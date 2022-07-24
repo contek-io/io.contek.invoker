@@ -1,10 +1,10 @@
 dependencies {
-    implementation project(':commons')
-    implementation project(':security')
+    api project(':commons')
+}
 
-    implementation "io.contek.ursa:ursa-cache:${ursaVersion}"
-    implementation "io.contek.ursa:ursa-core-api:${ursaVersion}"
-    implementation "com.google.code.gson:gson:${gsonVersion}"
+jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
 }
 
 description = 'FTX Java API'
