@@ -43,6 +43,11 @@ public final class ApiFactory {
               WebSocketContext.forBaseUrl("wss://wsaws.okx.com:8443", Duration.ofSeconds(15)))
           .build();
 
+  public static final ApiContext DEMO_CONTEXT = ApiContext.newBuilder()
+          .setRestContext(RestContext.forBaseUrl("https://www.okx.com"))
+          .setWebSocketContext(WebSocketContext.forBaseUrl("wss://wspap.okx.com:8443", Duration.ofSeconds(15L), true))
+          .build();
+
   private final ApiContext context;
   private final IActorFactory actorFactory;
 
@@ -113,6 +118,7 @@ public final class ApiFactory {
         PostAccountSetPositionMode.RATE_LIMIT_RULE,
         PostTradeCancelOrder.RATE_LIMIT_RULE,
         PostTradeOrder.RATE_LIMIT_RULE,
+        PostTradeOrderAlgo.RATE_LIMIT_RULE,
         WebSocketApi.RATE_LIMIT_RULE);
   }
 
@@ -122,8 +128,12 @@ public final class ApiFactory {
     private SelectingRestApi() {}
 
     public MarketRestApi market() {
+      return market(null);
+    }
+
+    public MarketRestApi market(ApiKey apiKey) {
       RestContext restContext = context.getRestContext();
-      IActor actor = actorFactory.create(null, restContext);
+      IActor actor = actorFactory.create(apiKey, restContext);
       return new MarketRestApi(actor, restContext);
     }
 

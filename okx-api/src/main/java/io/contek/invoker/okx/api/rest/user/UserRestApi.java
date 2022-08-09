@@ -75,4 +75,8 @@ public final class UserRestApi {
   public PostTradeOrder postTradeOrder() {
     return new PostTradeOrder(actor, context);
   }
+
+  public PostTradeOrderAlgo postTradeOrderAlgo() {
+    return new PostTradeOrderAlgo(actor, context);
+  }
 }
