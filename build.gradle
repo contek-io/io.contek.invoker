@@ -15,7 +15,7 @@ subprojects {
     apply plugin: 'signing'
 
     ext {
-        gsonVersion = '2.9.0'
+        gsonVersion = '2.9.1'
         okhttpVersion = '4.10.0'
 
         ursaVersion = '1.3.0'
@@ -39,7 +39,7 @@ subprojects {
     }
 
     group = 'io.contek.invoker'
-    version = '2.20.3'
+    version = '2.20.4'
 
     task sourcesJar(type: Jar) {
         from sourceSets.main.allSource
