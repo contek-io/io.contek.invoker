@@ -1,8 +1,8 @@
 package io.contek.invoker.deribit.api.common;
 
 public class _Stats {
-  public double high;
-  public double low;
-  public double price_change;
-  public double volume;
+  public Double high;
+  public Double low;
+  public Double price_change;
+  public Double volume;
 }

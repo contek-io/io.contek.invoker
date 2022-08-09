@@ -6,20 +6,20 @@ import javax.annotation.concurrent.NotThreadSafe;
 public class _Instrument {
 
   public String base_currency;
-  public double block_trade_commission;
-  public double contract_size;
-  public long creation_timestamp;
-  public long expiration_timestamp;
+  public Double block_trade_commission;
+  public Double contract_size;
+  public Long creation_timestamp;
+  public Long expiration_timestamp;
   public String instrument_name;
-  public boolean is_active;
+  public Boolean is_active;
   public String kind;
-  public long leverage;
-  public double maker_commission;
-  public double min_trade_amount;
+  public Long leverage;
+  public Double maker_commission;
+  public Double min_trade_amount;
   public String option_type;
   public String quote_currency;
   public String settlement_period;
-  public double strike;
-  public double taker_commission;
-  public double tick_size;
+  public Double strike;
+  public Double taker_commission;
+  public Double tick_size;
 }

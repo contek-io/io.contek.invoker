@@ -5,6 +5,6 @@ import javax.annotation.concurrent.NotThreadSafe;
 @NotThreadSafe
 public class _Limit {
 
-  public int rate;
-  public int burst;
+  public Integer rate;
+  public Integer burst;
 }
