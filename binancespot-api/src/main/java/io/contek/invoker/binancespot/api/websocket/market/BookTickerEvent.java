@@ -8,7 +8,6 @@ import javax.annotation.concurrent.NotThreadSafe;
 public class BookTickerEvent extends WebSocketEventMessage {
 
   public Long u; // order book updateId
-  public Long T; // transaction time
   public String s; // symbol
   public Double b; // best bid price
   public Double B; // best bid qty

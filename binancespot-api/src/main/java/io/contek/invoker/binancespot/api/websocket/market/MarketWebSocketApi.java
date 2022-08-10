@@ -17,6 +17,7 @@ public final class MarketWebSocketApi extends BaseWebSocketApi {
   private final WebSocketContext context;
   private final WebSocketRequestIdGenerator requestIdGenerator = new WebSocketRequestIdGenerator();
 
+  private final Map<BookTickerChannel.Id, BookTickerChannel> bookTickerChannels = new HashMap<>();
   private final Map<TradeChannel.Id, TradeChannel> tradeChannels = new HashMap<>();
   private final Map<AggTradeChannel.Id, AggTradeChannel> aggTradeChannels = new HashMap<>();
   private final Map<DepthUpdateChannel.Id, DepthUpdateChannel> depthUpdateChannels =
@@ -29,6 +30,18 @@ public final class MarketWebSocketApi extends BaseWebSocketApi {
         IWebSocketAuthenticator.noOp(),
         IWebSocketLiveKeeper.noOp());
     this.context = context;
+  }
+
+  public BookTickerChannel getBookTickerChannel(BookTickerChannel.Id id) {
+    synchronized (bookTickerChannels) {
+      return bookTickerChannels.computeIfAbsent(
+          id,
+          k -> {
+            BookTickerChannel result = new BookTickerChannel(k, requestIdGenerator);
+            attach(result);
+            return result;
+          });
+    }
   }
 
   public TradeChannel getTradeChannel(TradeChannel.Id id) {
