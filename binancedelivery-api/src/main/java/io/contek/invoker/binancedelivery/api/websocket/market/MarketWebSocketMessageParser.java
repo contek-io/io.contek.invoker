@@ -52,6 +52,8 @@ public final class MarketWebSocketMessageParser extends WebSocketTextMessagePars
     }
     String type = parts.get(1);
     switch (type) {
+      case "bookTicker":
+        return gson.fromJson(obj, BookTickerChannel.Message.class);
       case "trade":
         return gson.fromJson(obj, TradeChannel.Message.class);
       case "aggTrade":
