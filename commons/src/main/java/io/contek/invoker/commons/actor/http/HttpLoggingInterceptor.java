@@ -61,7 +61,7 @@ public final class HttpLoggingInterceptor implements Interceptor {
       body.writeTo(buffer);
       return buffer.readUtf8();
     } catch (IOException e) {
-      throw new RuntimeException();
+      throw new RuntimeException(e);
     }
   }
 
@@ -72,7 +72,7 @@ public final class HttpLoggingInterceptor implements Interceptor {
       ByteString bytes = source.getBuffer().snapshot();
       return bytes.utf8();
     } catch (IOException e) {
-      throw new RuntimeException();
+      throw new RuntimeException(e);
     }
   }
 
