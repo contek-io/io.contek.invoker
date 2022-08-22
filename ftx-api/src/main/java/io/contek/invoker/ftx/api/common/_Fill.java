@@ -16,9 +16,9 @@ public class _Fill {
   public String quoteCurrency;
   public Long orderId;
   public Long tradeId;
-  public double price;
+  public Double price;
   public String side;
-  public double size;
+  public Double size;
   public String time;
   public String type;
 }

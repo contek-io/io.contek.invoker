@@ -13,6 +13,8 @@ public final class WebSocketChannelKeys {
 
   public static final String _orderbook = "orderbook";
 
+  public static final String _fills = "fills";
+
   public static final String _orders = "orders";
 
   private WebSocketChannelKeys() {}

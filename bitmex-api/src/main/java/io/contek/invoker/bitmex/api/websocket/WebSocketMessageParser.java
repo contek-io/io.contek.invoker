@@ -5,6 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import io.contek.invoker.bitmex.api.websocket.common.*;
 import io.contek.invoker.bitmex.api.websocket.market.*;
+import io.contek.invoker.bitmex.api.websocket.user.ExecutionChannel;
 import io.contek.invoker.bitmex.api.websocket.user.OrderChannel;
 import io.contek.invoker.bitmex.api.websocket.user.PositionChannel;
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
@@ -70,6 +71,8 @@ final class WebSocketMessageParser extends WebSocketTextMessageParser {
         return gson.fromJson(obj, TradeBinChannel.Message.class);
       case _liquidation:
         return gson.fromJson(obj, LiquidationChannel.Message.class);
+      case _execution:
+        return gson.fromJson(obj, ExecutionChannel.Message.class);
       case _order:
         return gson.fromJson(obj, OrderChannel.Message.class);
       case _position:
