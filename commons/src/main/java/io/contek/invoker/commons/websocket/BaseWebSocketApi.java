@@ -117,7 +117,7 @@ public abstract class BaseWebSocketApi implements IWebSocketApi {
           components.onMessage(message, session);
         }
       }
-    } catch (IllegalStateException e) {
+    } catch (IllegalStateException | NullPointerException e) {
       log.error("Failed to handle message: {}.", result.getStringValue(), e);
       throw new WebSocketIllegalMessageException(e);
     }
