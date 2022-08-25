@@ -30,7 +30,7 @@ public final class HttpLoggingInterceptor implements Interceptor {
     return response;
   }
 
-  private static void logRequest(Request request) {
+  private static void logRequest(Request request) throws IOException {
     RequestBody body = request.body();
     if (body == null) {
       log.info("Sending {} request to {}.", request.method(), request.url());
@@ -41,7 +41,7 @@ public final class HttpLoggingInterceptor implements Interceptor {
     }
   }
 
-  private static void logResponse(Request request, Response response) {
+  private static void logResponse(Request request, Response response) throws IOException {
     ResponseBody body = response.body();
     if (body == null) {
       log.info("Received {} response from {}.", request.method(), request.url());
@@ -55,25 +55,17 @@ public final class HttpLoggingInterceptor implements Interceptor {
     }
   }
 
-  private static String readString(RequestBody body) {
-    try {
-      Buffer buffer = new Buffer();
-      body.writeTo(buffer);
-      return buffer.readUtf8();
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
+  private static String readString(RequestBody body) throws IOException {
+    Buffer buffer = new Buffer();
+    body.writeTo(buffer);
+    return buffer.readUtf8();
   }
 
-  private static String readString(ResponseBody body) {
-    try {
-      BufferedSource source = body.source();
-      source.request(Integer.MAX_VALUE);
-      ByteString bytes = source.getBuffer().snapshot();
-      return bytes.utf8();
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
+  private static String readString(ResponseBody body) throws IOException {
+    BufferedSource source = body.source();
+    source.request(Integer.MAX_VALUE);
+    ByteString bytes = source.getBuffer().snapshot();
+    return bytes.utf8();
   }
 
   private HttpLoggingInterceptor() {}
