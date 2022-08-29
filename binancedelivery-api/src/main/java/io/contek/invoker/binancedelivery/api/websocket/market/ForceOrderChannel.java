@@ -7,6 +7,8 @@ import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
 
+import static io.contek.invoker.binancedelivery.api.websocket.common.constants.WebSocketChannelKeys._forceOrder;
+
 @ThreadSafe
 public final class ForceOrderChannel
     extends MarketWebSocketChannel<ForceOrderChannel.Id, ForceOrderChannel.Message> {
@@ -24,7 +26,7 @@ public final class ForceOrderChannel
   public static final class Id extends MarketWebSocketChannelId<Message> {
 
     private Id(String symbol) {
-      super(symbol, "forceOrder");
+      super(symbol, _forceOrder);
     }
 
     public static Id of(String symbol) {

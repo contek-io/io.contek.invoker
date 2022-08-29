@@ -7,6 +7,8 @@ import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
 
+import static io.contek.invoker.binancespot.api.websocket.common.constants.WebSocketChannelKeys._trade;
+
 @ThreadSafe
 public final class TradeChannel
     extends MarketWebSocketChannel<TradeChannel.Id, TradeChannel.Message> {
@@ -24,7 +26,7 @@ public final class TradeChannel
   public static final class Id extends MarketWebSocketChannelId<Message> {
 
     private Id(String symbol) {
-      super(symbol, "trade");
+      super(symbol, _trade);
     }
 
     public static Id of(String symbol) {

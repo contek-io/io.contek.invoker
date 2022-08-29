@@ -8,16 +8,16 @@ import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
 
 @ThreadSafe
-public final class DepthUpdateChannel
-    extends MarketWebSocketChannel<DepthUpdateChannel.Id, DepthUpdateChannel.Message> {
+public final class DepthDiffChannel
+    extends MarketWebSocketChannel<DepthDiffChannel.Id, DepthDiffChannel.Message> {
 
-  DepthUpdateChannel(DepthUpdateChannel.Id id, WebSocketRequestIdGenerator requestIdGenerator) {
+  DepthDiffChannel(DepthDiffChannel.Id id, WebSocketRequestIdGenerator requestIdGenerator) {
     super(id, requestIdGenerator);
   }
 
   @Override
-  public Class<DepthUpdateChannel.Message> getMessageType() {
-    return DepthUpdateChannel.Message.class;
+  public Class<DepthDiffChannel.Message> getMessageType() {
+    return DepthDiffChannel.Message.class;
   }
 
   @Immutable

@@ -7,11 +7,13 @@ import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
 
-@ThreadSafe
-public final class DepthUpdateChannel
-    extends MarketWebSocketChannel<DepthUpdateChannel.Id, DepthUpdateChannel.Message> {
+import static io.contek.invoker.binancedelivery.api.websocket.common.constants.WebSocketChannelKeys._depth;
 
-  DepthUpdateChannel(Id id, WebSocketRequestIdGenerator requestIdGenerator) {
+@ThreadSafe
+public final class DepthDiffChannel
+    extends MarketWebSocketChannel<DepthDiffChannel.Id, DepthDiffChannel.Message> {
+
+  DepthDiffChannel(Id id, WebSocketRequestIdGenerator requestIdGenerator) {
     super(id, requestIdGenerator);
   }
 
@@ -24,7 +26,7 @@ public final class DepthUpdateChannel
   public static final class Id extends MarketWebSocketChannelId<Message> {
 
     private Id(String symbol, String interval) {
-      super(symbol, "depth@" + interval);
+      super(symbol, _depth + "@" + interval);
     }
 
     public static Id of(String symbol, String interval) {

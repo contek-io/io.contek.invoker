@@ -12,6 +12,8 @@ import io.contek.invoker.commons.websocket.WebSocketTextMessageParser;
 import javax.annotation.concurrent.Immutable;
 import java.util.List;
 
+import static io.contek.invoker.binancefutures.api.websocket.common.constants.WebSocketChannelKeys.*;
+
 @Immutable
 public final class MarketWebSocketMessageParser extends WebSocketTextMessageParser {
 
@@ -52,16 +54,21 @@ public final class MarketWebSocketMessageParser extends WebSocketTextMessagePars
     }
     String type = parts.get(1);
     switch (type) {
-      case "bookTicker":
+      case _bookTicker:
         return gson.fromJson(obj, BookTickerChannel.Message.class);
-      case "trade":
+      case _trade:
         return gson.fromJson(obj, TradeChannel.Message.class);
-      case "aggTrade":
+      case _aggTrade:
         return gson.fromJson(obj, AggTradeChannel.Message.class);
-      case "depth":
-        return gson.fromJson(obj, DepthUpdateChannel.Message.class);
-      case "forceOrder":
+      case _depth:
+        return gson.fromJson(obj, DepthDiffChannel.Message.class);
+      case _depth5:
+      case _depth10:
+      case _depth20:
+        return gson.fromJson(obj, DepthPartialChannel.Message.class);
+      case _forceOrder:
         return gson.fromJson(obj, ForceOrderChannel.Message.class);
+      default:
     }
     throw new IllegalStateException();
   }

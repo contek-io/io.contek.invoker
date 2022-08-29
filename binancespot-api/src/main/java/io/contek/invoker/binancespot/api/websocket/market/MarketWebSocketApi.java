@@ -20,7 +20,8 @@ public final class MarketWebSocketApi extends BaseWebSocketApi {
   private final Map<BookTickerChannel.Id, BookTickerChannel> bookTickerChannels = new HashMap<>();
   private final Map<TradeChannel.Id, TradeChannel> tradeChannels = new HashMap<>();
   private final Map<AggTradeChannel.Id, AggTradeChannel> aggTradeChannels = new HashMap<>();
-  private final Map<DepthUpdateChannel.Id, DepthUpdateChannel> depthUpdateChannels =
+  private final Map<DepthDiffChannel.Id, DepthDiffChannel> depthDiffChannels = new HashMap<>();
+  private final Map<DepthPartialChannel.Id, DepthPartialChannel> depthPartialChannels =
       new HashMap<>();
 
   public MarketWebSocketApi(IActor actor, WebSocketContext context) {
@@ -68,12 +69,24 @@ public final class MarketWebSocketApi extends BaseWebSocketApi {
     }
   }
 
-  public DepthUpdateChannel getDepthUpdateChannel(DepthUpdateChannel.Id id) {
-    synchronized (depthUpdateChannels) {
-      return depthUpdateChannels.computeIfAbsent(
+  public DepthPartialChannel getDepthPartialChannel(DepthPartialChannel.Id id) {
+    synchronized (depthPartialChannels) {
+      return depthPartialChannels.computeIfAbsent(
           id,
           k -> {
-            DepthUpdateChannel result = new DepthUpdateChannel(k, requestIdGenerator);
+            DepthPartialChannel result = new DepthPartialChannel(k, requestIdGenerator);
+            attach(result);
+            return result;
+          });
+    }
+  }
+
+  public DepthDiffChannel getDepthDiffChannel(DepthDiffChannel.Id id) {
+    synchronized (depthDiffChannels) {
+      return depthDiffChannels.computeIfAbsent(
+          id,
+          k -> {
+            DepthDiffChannel result = new DepthDiffChannel(k, requestIdGenerator);
             attach(result);
             return result;
           });
