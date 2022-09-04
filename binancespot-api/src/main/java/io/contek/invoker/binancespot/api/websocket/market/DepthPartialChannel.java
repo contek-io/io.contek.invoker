@@ -49,5 +49,5 @@ public final class DepthPartialChannel
   }
 
   @NotThreadSafe
-  public static final class Message extends WebSocketStreamMessage<DepthUpdateEvent> {}
+  public static final class Message extends WebSocketStreamMessage<DepthPartialEvent> {}
 }

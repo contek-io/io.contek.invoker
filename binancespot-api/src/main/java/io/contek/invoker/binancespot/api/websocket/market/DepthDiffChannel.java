@@ -33,5 +33,5 @@ public final class DepthDiffChannel
   }
 
   @NotThreadSafe
-  public static final class Message extends WebSocketStreamMessage<DepthUpdateEvent> {}
+  public static final class Message extends WebSocketStreamMessage<DepthDiffEvent> {}
 }

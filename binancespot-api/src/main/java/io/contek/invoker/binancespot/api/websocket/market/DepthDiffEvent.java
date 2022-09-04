@@ -7,7 +7,7 @@ import javax.annotation.concurrent.NotThreadSafe;
 import java.util.List;
 
 @NotThreadSafe
-public class DepthUpdateEvent extends WebSocketEventMessage {
+public class DepthDiffEvent extends WebSocketEventMessage {
 
   public long T; // transaction time
   public String s; // Symbol
