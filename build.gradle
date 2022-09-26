@@ -48,6 +48,7 @@ subprojects {
 
     task javadocJar(type: Jar) {
         from javadoc
+        javadoc.options.addStringOption('Xdoclint:none', '-quiet')
         archiveClassifier.set('javadoc')
     }
 
