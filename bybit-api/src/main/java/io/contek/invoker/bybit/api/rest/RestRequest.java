@@ -34,23 +34,18 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
   @Override
   protected final RestCall createCall(ICredential credential) {
     RestMethod method = getMethod();
-    switch (method) {
-      case GET:
-      case DELETE:
-        return RestCall.newBuilder()
-            .setUrl(buildUrlWithParams(credential))
-            .setMethod(method)
-            .build();
-      case POST:
-      case PUT:
-        return RestCall.newBuilder()
-            .setUrl(buildUrlWithoutParams())
-            .setMethod(method)
-            .setBody(buildBody(credential))
-            .build();
-      default:
-        throw new IllegalStateException(getMethod().name());
-    }
+    return switch (method) {
+      case GET, DELETE -> RestCall.newBuilder()
+          .setUrl(buildUrlWithParams(credential))
+          .setMethod(method)
+          .build();
+      case POST, PUT -> RestCall.newBuilder()
+          .setUrl(buildUrlWithoutParams())
+          .setMethod(method)
+          .setBody(buildBody(credential))
+          .build();
+      default -> throw new IllegalStateException(getMethod().name());
+    };
   }
 
   private String buildUrlWithParams(ICredential credential) {

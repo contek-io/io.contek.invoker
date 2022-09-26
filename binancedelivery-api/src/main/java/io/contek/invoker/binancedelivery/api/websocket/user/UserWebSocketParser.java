@@ -41,20 +41,14 @@ public final class UserWebSocketParser extends WebSocketTextMessageParser {
 
   private WebSocketEventMessage toUserData(JsonObject obj) {
     String eventType = obj.get("e").getAsString();
-    switch (eventType) {
-      case _ACCOUNT_UPDATE:
-        return gson.fromJson(obj, AccountUpdateChannel.Message.class);
-      case _ORDER_TRADE_UPDATE:
-        return gson.fromJson(obj, OrderUpdateChannel.Message.class);
-      case _ACCOUNT_CONFIG_UPDATE:
-        return gson.fromJson(obj, AccountConfigUpdateChannel.Message.class);
-      case _MARGIN_CALL:
-        return gson.fromJson(obj, MarginCallChannel.Message.class);
-      case _listenKeyExpired:
-        return gson.fromJson(obj, UserDataStreamExpiredEvent.class);
-      default:
-        throw new IllegalStateException("Unrecognized event type: " + eventType);
-    }
+    return switch (eventType) {
+      case _ACCOUNT_UPDATE -> gson.fromJson(obj, AccountUpdateChannel.Message.class);
+      case _ORDER_TRADE_UPDATE -> gson.fromJson(obj, OrderUpdateChannel.Message.class);
+      case _ACCOUNT_CONFIG_UPDATE -> gson.fromJson(obj, AccountConfigUpdateChannel.Message.class);
+      case _MARGIN_CALL -> gson.fromJson(obj, MarginCallChannel.Message.class);
+      case _listenKeyExpired -> gson.fromJson(obj, UserDataStreamExpiredEvent.class);
+      default -> throw new IllegalStateException("Unrecognized event type: " + eventType);
+    };
   }
 
   private UserWebSocketParser() {}

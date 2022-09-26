@@ -38,8 +38,7 @@ public abstract class WebSocketApi extends BaseWebSocketApi {
   @Override
   protected final void checkErrorMessage(AnyWebSocketMessage message)
       throws WebSocketRuntimeException {
-    if (message instanceof WebSocketInfoMessage) {
-      WebSocketInfoMessage info = (WebSocketInfoMessage) message;
+    if (message instanceof WebSocketInfoMessage info) {
       if (!info.type.equals(_error)) {
         return;
       }

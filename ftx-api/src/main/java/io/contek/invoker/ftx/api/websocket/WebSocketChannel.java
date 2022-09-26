@@ -26,20 +26,16 @@ public abstract class WebSocketChannel<
   @Nullable
   @Override
   protected final SubscriptionState getState(AnyWebSocketMessage message) {
-    if (message instanceof WebSocketSubscriptionResponse) {
-      WebSocketSubscriptionResponse confirmation = (WebSocketSubscriptionResponse) message;
+    if (message instanceof WebSocketSubscriptionResponse confirmation) {
       if (!getId().getChannel().equals(confirmation.channel)) {
         return null;
       }
 
-      switch (confirmation.type) {
-        case _subscribed:
-          return SUBSCRIBED;
-        case _unsubscribed:
-          return UNSUBSCRIBED;
-        default:
-          throw new IllegalArgumentException(confirmation.type);
-      }
+      return switch (confirmation.type) {
+        case _subscribed -> SUBSCRIBED;
+        case _unsubscribed -> UNSUBSCRIBED;
+        default -> throw new IllegalArgumentException(confirmation.type);
+      };
     }
     return null;
   }

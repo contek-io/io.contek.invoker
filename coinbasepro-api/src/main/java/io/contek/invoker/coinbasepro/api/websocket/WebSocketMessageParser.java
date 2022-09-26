@@ -34,17 +34,14 @@ final class WebSocketMessageParser extends WebSocketTextMessageParser {
     }
     JsonObject obj = json.getAsJsonObject();
     if (obj.has(_type)) {
-      switch (obj.get(_type).getAsString()) {
-        case _subscriptions:
-          return toSubscriptionMessage(obj);
-        case _snapshot:
-          return toSnapshotMessage(obj);
-        case _l2update:
-          return toL2UpdateMessage(obj);
-        case _match:
-        case _last_match:
-          return toMatchMessage(obj);
-      }
+      String type = obj.get(_type).getAsString();
+      return switch (type) {
+        case _subscriptions -> toSubscriptionMessage(obj);
+        case _snapshot -> toSnapshotMessage(obj);
+        case _l2update -> toL2UpdateMessage(obj);
+        case _match, _last_match -> toMatchMessage(obj);
+        default -> throw new IllegalArgumentException(type);
+      };
     }
     throw new IllegalArgumentException(text);
   }

@@ -47,16 +47,15 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
   protected final RestCall createCall(ICredential credential) {
     RestMethod method = getMethod();
     switch (method) {
-      case GET:
-      case DELETE:
+      case GET, DELETE -> {
         String paramsString = buildParamsString();
         return RestCall.newBuilder()
             .setUrl(buildUrlString(paramsString))
             .setMethod(method)
             .setHeaders(generateHeaders(method, paramsString, "", credential))
             .build();
-      case POST:
-      case PUT:
+      }
+      case POST, PUT -> {
         RestMediaBody body = FORM.createBody(getParams());
         return RestCall.newBuilder()
             .setUrl(buildUrlString(""))
@@ -64,8 +63,8 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
             .setHeaders(generateHeaders(method, "", body.getStringValue(), credential))
             .setBody(body)
             .build();
-      default:
-        throw new IllegalStateException(getMethod().name());
+      }
+      default -> throw new IllegalStateException(getMethod().name());
     }
   }
 

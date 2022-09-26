@@ -70,11 +70,10 @@ final class WebSocketAuthenticator implements IWebSocketAuthenticator {
     if (isCompleted()) {
       return;
     }
-    if (!(message instanceof WebSocketAuthKeyExpiresResponse)) {
+    if (!(message instanceof WebSocketAuthKeyExpiresResponse confirmation)) {
       return;
     }
 
-    WebSocketAuthKeyExpiresResponse confirmation = (WebSocketAuthKeyExpiresResponse) message;
     pending.set(false);
     if (!confirmation.success) {
       throw new IllegalStateException();

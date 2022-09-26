@@ -71,11 +71,10 @@ final class WebSocketAuthenticator implements IWebSocketAuthenticator {
       return;
     }
 
-    if (!(message instanceof WebSocketOperationResponse)) {
+    if (!(message instanceof WebSocketOperationResponse confirmation)) {
       return;
     }
 
-    WebSocketOperationResponse confirmation = (WebSocketOperationResponse) message;
     if (!confirmation.request.op.equals(_auth)) {
       return;
     }

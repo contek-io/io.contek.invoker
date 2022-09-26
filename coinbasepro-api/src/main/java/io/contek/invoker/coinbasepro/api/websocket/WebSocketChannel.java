@@ -62,10 +62,9 @@ public abstract class WebSocketChannel<
       if (pendingRequest == null) {
         return null;
       }
-      if (!(message instanceof WebSocketSubscriptionMessage)) {
+      if (!(message instanceof WebSocketSubscriptionMessage casted)) {
         return null;
       }
-      WebSocketSubscriptionMessage casted = (WebSocketSubscriptionMessage) message;
       if (!_subscriptions.equals(casted.type)) {
         return null;
       }

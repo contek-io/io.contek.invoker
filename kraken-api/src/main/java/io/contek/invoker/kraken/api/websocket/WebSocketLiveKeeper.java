@@ -58,8 +58,7 @@ public final class WebSocketLiveKeeper implements IWebSocketLiveKeeper {
 
   @Override
   public void onMessage(AnyWebSocketMessage message, WebSocketSession session) {
-    if (message instanceof WebSocketPongResponse) {
-      WebSocketPongResponse response = (WebSocketPongResponse) message;
+    if (message instanceof WebSocketPongResponse response) {
       state.updateAndGet(
           s -> {
             if (s != null) {

@@ -48,12 +48,11 @@ public abstract class WebSocketChannel<
   @Nullable
   @Override
   protected final SubscriptionState getState(AnyWebSocketMessage message) {
-    if (!(message instanceof WebSocketRequestConfirmationMessage)) {
+    if (!(message instanceof WebSocketRequestConfirmationMessage casted)) {
       return null;
     }
 
     Id id = getId();
-    WebSocketRequestConfirmationMessage casted = (WebSocketRequestConfirmationMessage) message;
     if (!id.getChannel().equals(casted.channel)) {
       return null;
     }

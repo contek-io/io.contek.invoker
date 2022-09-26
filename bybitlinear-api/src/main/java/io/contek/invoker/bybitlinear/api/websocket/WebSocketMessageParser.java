@@ -27,11 +27,10 @@ final class WebSocketMessageParser extends WebSocketTextMessageParser {
 
   @Override
   public void register(IWebSocketComponent component) {
-    if (!(component instanceof WebSocketChannel)) {
+    if (!(component instanceof WebSocketChannel<?, ?> channel)) {
       return;
     }
     synchronized (channelMessageTypes) {
-      WebSocketChannel<?, ?> channel = (WebSocketChannel<?, ?>) component;
       channelMessageTypes.put(channel.getId().getTopic(), channel.getMessageType());
     }
   }
@@ -61,14 +60,11 @@ final class WebSocketMessageParser extends WebSocketTextMessageParser {
       }
 
       if (type.equals(OrderBookChannel.Message.class)) {
-        switch (obj.get("type").getAsString()) {
-          case _snapshot:
-            return gson.fromJson(obj, OrderBookChannel.SnapshotMessage.class);
-          case _delta:
-            return gson.fromJson(obj, OrderBookChannel.DeltaMessage.class);
-          default:
-            throw new IllegalStateException();
-        }
+        return switch (obj.get("type").getAsString()) {
+          case _snapshot -> gson.fromJson(obj, OrderBookChannel.SnapshotMessage.class);
+          case _delta -> gson.fromJson(obj, OrderBookChannel.DeltaMessage.class);
+          default -> throw new IllegalStateException();
+        };
       }
 
       return gson.fromJson(obj, type);

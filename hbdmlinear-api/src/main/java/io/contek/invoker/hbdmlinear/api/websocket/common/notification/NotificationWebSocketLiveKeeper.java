@@ -21,8 +21,7 @@ final class NotificationWebSocketLiveKeeper implements IWebSocketLiveKeeper {
 
   @Override
   public void onMessage(AnyWebSocketMessage message, WebSocketSession session) {
-    if (message instanceof NotificationWebSocketPing) {
-      NotificationWebSocketPing ping = (NotificationWebSocketPing) message;
+    if (message instanceof NotificationWebSocketPing ping) {
       NotificationWebSocketPong pong = new NotificationWebSocketPong();
       pong.op = _pong;
       pong.ts = ping.ts;

@@ -19,8 +19,7 @@ final class MarketDataWebSocketLiveKeeper implements IWebSocketLiveKeeper {
 
   @Override
   public void onMessage(AnyWebSocketMessage message, WebSocketSession session) {
-    if (message instanceof MarketDataWebSocketPing) {
-      MarketDataWebSocketPing ping = (MarketDataWebSocketPing) message;
+    if (message instanceof MarketDataWebSocketPing ping) {
       MarketDataWebSocketPong pong = new MarketDataWebSocketPong();
       pong.pong = ping.ping;
       session.send(pong);

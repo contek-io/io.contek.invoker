@@ -56,16 +56,11 @@ final class WebSocketMessageParser extends WebSocketTextMessageParser {
 
   private WebSocketEvent toEvent(JsonObject obj) {
     String event = obj.get(_event).getAsString();
-    switch (event) {
-      case _subscribe:
-      case _unsubscribe:
-        return toSubscriptionMessage(obj);
-      case _login:
-      case _error:
-        return toGeneralResponse(obj);
-      default:
-        throw new IllegalArgumentException(event);
-    }
+    return switch (event) {
+      case _subscribe, _unsubscribe -> toSubscriptionMessage(obj);
+      case _login, _error -> toGeneralResponse(obj);
+      default -> throw new IllegalArgumentException(event);
+    };
   }
 
   private WebSocketSubscriptionResponse toSubscriptionMessage(JsonObject obj) {
@@ -84,23 +79,15 @@ final class WebSocketMessageParser extends WebSocketTextMessageParser {
     JsonObject arg = obj.getAsJsonObject(_arg);
     String channel = arg.get(_channel).getAsString();
 
-    switch (channel) {
-      case _books:
-      case _books5:
-      case _books50_l2_tbt:
-      case _books_l2_tbt:
-        return gson.fromJson(obj, OrderBookChannel.Message.class);
-      case _trades:
-        return gson.fromJson(obj, TradesChannel.Message.class);
-      case _tickers:
-        return gson.fromJson(obj, TickersChannel.Message.class);
-      case _orders:
-        return gson.fromJson(obj, OrdersChannel.Message.class);
-      case _positions:
-        return gson.fromJson(obj, PositionsChannel.Message.class);
-      default:
-        throw new IllegalArgumentException(obj.toString());
-    }
+    return switch (channel) {
+      case _books, _books5, _books50_l2_tbt, _books_l2_tbt -> gson.fromJson(
+          obj, OrderBookChannel.Message.class);
+      case _trades -> gson.fromJson(obj, TradesChannel.Message.class);
+      case _tickers -> gson.fromJson(obj, TickersChannel.Message.class);
+      case _orders -> gson.fromJson(obj, OrdersChannel.Message.class);
+      case _positions -> gson.fromJson(obj, PositionsChannel.Message.class);
+      default -> throw new IllegalArgumentException(obj.toString());
+    };
   }
 
   private WebSocketMessageParser() {}

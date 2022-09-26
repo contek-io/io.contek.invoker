@@ -8,6 +8,6 @@ import javax.annotation.concurrent.NotThreadSafe;
 public final class HttpBusyException extends AnyHttpException {
 
   public HttpBusyException(AcquireTimeoutException cause) {
-    super(cause);
+    super(null, cause);
   }
 }

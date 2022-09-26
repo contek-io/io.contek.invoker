@@ -10,8 +10,8 @@ public final class ParsedHttpException extends AnyHttpException {
 
   private final Object parsedEntity;
 
-  public ParsedHttpException(Object parsedEntity, String message) {
-    super(message);
+  public ParsedHttpException(int code, Object parsedEntity, String message) {
+    super(code, message);
     this.parsedEntity = parsedEntity;
   }
 

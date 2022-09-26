@@ -46,8 +46,7 @@ public abstract class WebSocketApi extends BaseWebSocketApi {
   @Override
   protected final void checkErrorMessage(AnyWebSocketMessage message)
       throws WebSocketRuntimeException {
-    if (message instanceof WebSocketGeneralResponse) {
-      WebSocketGeneralResponse response = (WebSocketGeneralResponse) message;
+    if (message instanceof WebSocketGeneralResponse response) {
       if (_error.equals(response.event)) {
         throw new WebSocketIllegalStateException(response.code + ": " + response.msg);
       }

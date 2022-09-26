@@ -70,10 +70,9 @@ public abstract class NotificationWebSocketChannel<
   @Nullable
   @Override
   protected final SubscriptionState getState(AnyWebSocketMessage message) {
-    if (!(message instanceof NotificationWebSocketConfirmation)) {
+    if (!(message instanceof NotificationWebSocketConfirmation confirmation)) {
       return null;
     }
-    NotificationWebSocketConfirmation confirmation = (NotificationWebSocketConfirmation) message;
 
     synchronized (pendingRequestHolder) {
       NotificationWebSocketRequest request = pendingRequestHolder.get();
@@ -91,14 +90,11 @@ public abstract class NotificationWebSocketChannel<
       }
 
       reset();
-      switch (request.op) {
-        case _sub:
-          return SUBSCRIBED;
-        case _unsub:
-          return UNSUBSCRIBED;
-        default:
-          throw new IllegalStateException();
-      }
+      return switch (request.op) {
+        case _sub -> SUBSCRIBED;
+        case _unsub -> UNSUBSCRIBED;
+        default -> throw new IllegalStateException();
+      };
     }
   }
 

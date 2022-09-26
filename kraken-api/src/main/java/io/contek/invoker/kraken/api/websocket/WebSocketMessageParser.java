@@ -53,19 +53,13 @@ final class WebSocketMessageParser extends WebSocketTextMessageParser {
 
   private WebSocketGeneralMessage toWebSocketResponse(JsonObject obj) {
     String event = obj.get(FIELD_EVENT).getAsString();
-    switch (event) {
-      case _pong:
-        return gson.fromJson(obj, WebSocketPongResponse.class);
-      case _heartbeat:
-        return gson.fromJson(obj, WebSocketHeartbeat.class);
-      case _systemStatus:
-        return gson.fromJson(obj, WebSocketSystemStatus.class);
-      case _subscriptionStatus:
-        return gson.fromJson(obj, WebSocketSubscriptionStatus.class);
-      default:
-    }
-
-    throw new UnsupportedOperationException(event);
+    return switch (event) {
+      case _pong -> gson.fromJson(obj, WebSocketPongResponse.class);
+      case _heartbeat -> gson.fromJson(obj, WebSocketHeartbeat.class);
+      case _systemStatus -> gson.fromJson(obj, WebSocketSystemStatus.class);
+      case _subscriptionStatus -> gson.fromJson(obj, WebSocketSubscriptionStatus.class);
+      default -> throw new UnsupportedOperationException(event);
+    };
   }
 
   private static WebSocketChannelDataMessage<?> toDataMessage(JsonArray array) {

@@ -76,7 +76,7 @@ public abstract class WebSocketChannel<
   @Nullable
   @Override
   protected final SubscriptionState getState(AnyWebSocketMessage message) {
-    if (!(message instanceof WebSocketSubscriptionConfirmation)) {
+    if (!(message instanceof WebSocketSubscriptionConfirmation confirmation)) {
       return null;
     }
 
@@ -86,7 +86,6 @@ public abstract class WebSocketChannel<
         return null;
       }
 
-      WebSocketSubscriptionConfirmation confirmation = (WebSocketSubscriptionConfirmation) message;
       if (confirmation.id == null || !confirmation.id.equals(command.id)) {
         return null;
       }

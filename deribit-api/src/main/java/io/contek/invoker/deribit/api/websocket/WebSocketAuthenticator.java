@@ -92,7 +92,7 @@ final class WebSocketAuthenticator implements IWebSocketAuthenticator {
       return;
     }
 
-    if (!(message instanceof WebSocketAuthenticationConfirmation)) {
+    if (!(message instanceof WebSocketAuthenticationConfirmation response)) {
       return;
     }
 
@@ -101,7 +101,6 @@ final class WebSocketAuthenticator implements IWebSocketAuthenticator {
       return;
     }
 
-    WebSocketAuthenticationConfirmation response = (WebSocketAuthenticationConfirmation) message;
     if (!response.id.equals(request.id)) {
       return;
     }

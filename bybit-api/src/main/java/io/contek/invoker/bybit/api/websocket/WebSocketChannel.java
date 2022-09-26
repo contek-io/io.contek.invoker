@@ -48,8 +48,7 @@ public abstract class WebSocketChannel<
   @Nullable
   @Override
   protected final SubscriptionState getState(AnyWebSocketMessage message) {
-    if (message instanceof WebSocketOperationResponse) {
-      WebSocketOperationResponse confirmation = (WebSocketOperationResponse) message;
+    if (message instanceof WebSocketOperationResponse confirmation) {
       WebSocketOperationRequest request = confirmation.request;
       if (!request.args.contains(getId().getTopic())) {
         return null;
@@ -57,14 +56,11 @@ public abstract class WebSocketChannel<
       if (!confirmation.success) {
         throw new IllegalStateException();
       }
-      switch (request.op) {
-        case _subscribe:
-          return SUBSCRIBED;
-        case _unsubscribe:
-          return UNSUBSCRIBED;
-        default:
-          throw new IllegalStateException();
-      }
+      return switch (request.op) {
+        case _subscribe -> SUBSCRIBED;
+        case _unsubscribe -> UNSUBSCRIBED;
+        default -> throw new IllegalStateException();
+      };
     }
     return null;
   }

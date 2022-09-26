@@ -40,8 +40,7 @@ public final class UserWebSocketParser extends WebSocketTextMessageParser {
   private WebSocketEventMessage toUserData(JsonObject obj) {
     String eventType = obj.get("e").getAsString();
     switch (eventType) {
-      default:
-        throw new IllegalStateException("Unrecognized event type: " + eventType);
+      default -> throw new IllegalStateException("Unrecognized event type: " + eventType);
     }
   }
 

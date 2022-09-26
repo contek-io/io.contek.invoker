@@ -53,22 +53,14 @@ public final class MarketWebSocketMessageParser extends WebSocketTextMessagePars
       throw new IllegalArgumentException(stream);
     }
     String type = parts.get(1);
-    switch (type) {
-      case _bookTicker:
-        return gson.fromJson(obj, BookTickerChannel.Message.class);
-      case _trade:
-        return gson.fromJson(obj, TradeChannel.Message.class);
-      case _aggTrade:
-        return gson.fromJson(obj, AggTradeChannel.Message.class);
-      case _depth:
-        return gson.fromJson(obj, DepthDiffChannel.Message.class);
-      case _depth5:
-      case _depth10:
-      case _depth20:
-        return gson.fromJson(obj, DepthPartialChannel.Message.class);
-      default:
-    }
-    throw new IllegalStateException();
+    return switch (type) {
+      case _bookTicker -> gson.fromJson(obj, BookTickerChannel.Message.class);
+      case _trade -> gson.fromJson(obj, TradeChannel.Message.class);
+      case _aggTrade -> gson.fromJson(obj, AggTradeChannel.Message.class);
+      case _depth -> gson.fromJson(obj, DepthDiffChannel.Message.class);
+      case _depth5, _depth10, _depth20 -> gson.fromJson(obj, DepthPartialChannel.Message.class);
+      default -> throw new IllegalStateException();
+    };
   }
 
   private AnyWebSocketMessage toBookTicker(JsonObject obj) {

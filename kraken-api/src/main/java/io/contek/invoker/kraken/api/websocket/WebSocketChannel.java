@@ -76,11 +76,10 @@ public abstract class WebSocketChannel<
   @Nullable
   @Override
   protected final SubscriptionState getState(AnyWebSocketMessage message) {
-    if (!(message instanceof WebSocketSubscriptionStatus)) {
+    if (!(message instanceof WebSocketSubscriptionStatus response)) {
       return null;
     }
 
-    WebSocketSubscriptionStatus response = (WebSocketSubscriptionStatus) message;
     synchronized (pendingRequestHolder) {
       WebSocketSubscribeRequest request = pendingRequestHolder.get();
       if (request == null) {
@@ -93,14 +92,11 @@ public abstract class WebSocketChannel<
         return null;
       }
       reset();
-      switch (response.status) {
-        case "subscribed":
-          return SUBSCRIBED;
-        case "unsubscribed":
-          return UNSUBSCRIBED;
-        default:
-          throw new IllegalStateException(response.status + ": " + response.errorMessage);
-      }
+      return switch (response.status) {
+        case "subscribed" -> SUBSCRIBED;
+        case "unsubscribed" -> UNSUBSCRIBED;
+        default -> throw new IllegalStateException(response.status + ": " + response.errorMessage);
+      };
     }
   }
 

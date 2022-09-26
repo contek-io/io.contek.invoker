@@ -46,8 +46,7 @@ public abstract class WebSocketChannel<
   @Nullable
   @Override
   protected final SubscriptionState getState(AnyWebSocketMessage message) {
-    if (message instanceof WebSocketSubscribeResponse) {
-      WebSocketSubscribeResponse confirmation = (WebSocketSubscribeResponse) message;
+    if (message instanceof WebSocketSubscribeResponse confirmation) {
       if (!confirmation.success) {
         throw new WebSocketIllegalMessageException(confirmation.ret_msg);
       }
@@ -57,8 +56,7 @@ public abstract class WebSocketChannel<
       }
     }
 
-    if (message instanceof WebSocketUnsubscribeResponse) {
-      WebSocketUnsubscribeResponse confirmation = (WebSocketUnsubscribeResponse) message;
+    if (message instanceof WebSocketUnsubscribeResponse confirmation) {
       if (!confirmation.success) {
         throw new WebSocketIllegalMessageException(confirmation.ret_msg);
       }

@@ -71,10 +71,9 @@ public abstract class MarketWebSocketChannel<
   @Nullable
   @Override
   protected final SubscriptionState getState(AnyWebSocketMessage message) {
-    if (!(message instanceof WebSocketCommandConfirmation)) {
+    if (!(message instanceof WebSocketCommandConfirmation confirmation)) {
       return null;
     }
-    WebSocketCommandConfirmation confirmation = (WebSocketCommandConfirmation) message;
 
     synchronized (pendingCommandHolder) {
       WebSocketCommand command = pendingCommandHolder.get();
@@ -85,14 +84,11 @@ public abstract class MarketWebSocketChannel<
         return null;
       }
       reset();
-      switch (command.method) {
-        case SUBSCRIBE:
-          return SUBSCRIBED;
-        case UNSUBSCRIBE:
-          return UNSUBSCRIBED;
-        default:
-          throw new IllegalStateException();
-      }
+      return switch (command.method) {
+        case SUBSCRIBE -> SUBSCRIBED;
+        case UNSUBSCRIBE -> UNSUBSCRIBED;
+        default -> throw new IllegalStateException();
+      };
     }
   }
 
