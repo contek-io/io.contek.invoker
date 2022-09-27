@@ -3,7 +3,10 @@ package io.contek.invoker.okx.api.rest;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.net.UrlEscapers;
 import io.contek.invoker.commons.actor.IActor;
+import io.contek.invoker.commons.actor.http.AnyHttpException;
+import io.contek.invoker.commons.actor.http.ParsedHttpException;
 import io.contek.invoker.commons.rest.*;
+import io.contek.invoker.okx.api.rest.common.ResponseWrapper;
 import io.contek.invoker.security.ICredential;
 
 import javax.annotation.concurrent.NotThreadSafe;
@@ -15,7 +18,7 @@ import static io.contek.invoker.commons.rest.RestMediaType.JSON;
 import static java.time.ZoneOffset.UTC;
 
 @NotThreadSafe
-public abstract class RestRequest<R> extends BaseRestRequest<R> {
+public abstract class RestRequest<R extends ResponseWrapper<?>> extends BaseRestRequest<R> {
 
   public static final String OK_ACCESS_PASSPHRASE = "OK-ACCESS-PASSPHRASE";
 
@@ -64,6 +67,15 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
       }
       default -> throw new IllegalStateException(getMethod().name());
     }
+  }
+
+  @Override
+  protected final void checkResult(R result, RestResponse response) throws AnyHttpException {
+    if (result.code.equals("0")) {
+      return;
+    }
+
+    throw new ParsedHttpException(response.getCode(), result, result.msg);
   }
 
   private ImmutableMap<String, String> generateHeaders(

@@ -2,12 +2,8 @@ package io.contek.invoker.binancefutures.api.rest;
 
 import com.google.common.collect.ImmutableMap;
 import io.contek.invoker.commons.actor.IActor;
-import io.contek.invoker.commons.rest.BaseRestRequest;
-import io.contek.invoker.commons.rest.RestCall;
-import io.contek.invoker.commons.rest.RestContext;
-import io.contek.invoker.commons.rest.RestMediaBody;
-import io.contek.invoker.commons.rest.RestMethod;
-import io.contek.invoker.commons.rest.RestParams;
+import io.contek.invoker.commons.actor.http.AnyHttpException;
+import io.contek.invoker.commons.rest.*;
 import io.contek.invoker.security.ICredential;
 
 import javax.annotation.concurrent.ThreadSafe;
@@ -57,6 +53,9 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
         throw new IllegalStateException(getMethod().name());
     }
   }
+
+  @Override
+  protected final void checkResult(R result, RestResponse response) throws AnyHttpException {}
 
   private ImmutableMap<String, String> buildHeaders(ICredential credential) {
     if (credential.isAnonymous()) {

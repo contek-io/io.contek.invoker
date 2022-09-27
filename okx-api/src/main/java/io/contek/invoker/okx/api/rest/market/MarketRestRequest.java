@@ -4,13 +4,14 @@ import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.okx.api.rest.RestRequest;
+import io.contek.invoker.okx.api.rest.common.ResponseWrapper;
 
 import javax.annotation.concurrent.ThreadSafe;
 
 import static io.contek.invoker.commons.rest.RestMethod.GET;
 
 @ThreadSafe
-abstract class MarketRestRequest<T> extends RestRequest<T> {
+abstract class MarketRestRequest<T extends ResponseWrapper<?>> extends RestRequest<T> {
 
   MarketRestRequest(IActor actor, RestContext context) {
     super(actor, context);

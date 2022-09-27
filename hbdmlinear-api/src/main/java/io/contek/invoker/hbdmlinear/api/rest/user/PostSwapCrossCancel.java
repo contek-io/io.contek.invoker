@@ -5,8 +5,8 @@ import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestParams;
+import io.contek.invoker.hbdmlinear.api.rest.common.ResponseWrapper;
 import io.contek.invoker.hbdmlinear.api.rest.common.RestDataResponse;
-import io.contek.invoker.hbdmlinear.api.rest.common.RestError;
 
 import javax.annotation.concurrent.NotThreadSafe;
 import java.util.List;
@@ -84,7 +84,7 @@ public final class PostSwapCrossCancel extends UserRestRequest<PostSwapCrossCanc
   }
 
   @NotThreadSafe
-  public static final class Error extends RestError {
+  public static final class Error extends ResponseWrapper {
 
     public String order_id;
   }

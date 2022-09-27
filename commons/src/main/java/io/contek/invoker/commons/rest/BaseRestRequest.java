@@ -29,7 +29,9 @@ public abstract class BaseRestRequest<R> {
     try (RequestContext context =
         actor.getRequestContext(getClass().getSimpleName(), getRequiredQuotas())) {
       RestResponse response = call.submit(context.getClient());
-      return requireNonNull(response.getAs(getResponseType()));
+      R result = requireNonNull(response.getAs(getResponseType()));
+      checkResult(result, response);
+      return result;
     } catch (AcquireTimeoutException e) {
       throw new HttpBusyException(e);
     } catch (InterruptedException e) {
@@ -42,4 +44,6 @@ public abstract class BaseRestRequest<R> {
   protected abstract RestCall createCall(ICredential credential);
 
   protected abstract Class<R> getResponseType();
+
+  protected abstract void checkResult(R result, RestResponse response) throws AnyHttpException;
 }

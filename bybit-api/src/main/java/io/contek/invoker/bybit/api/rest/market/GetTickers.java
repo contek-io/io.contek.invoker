@@ -1,7 +1,7 @@
 package io.contek.invoker.bybit.api.rest.market;
 
 import io.contek.invoker.bybit.api.common._Ticker;
-import io.contek.invoker.bybit.api.rest.common.RestResponse;
+import io.contek.invoker.bybit.api.rest.common.ResponseWrapper;
 import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestParams;
@@ -47,5 +47,5 @@ public final class GetTickers extends MarketRestRequest<Response> {
   }
 
   @NotThreadSafe
-  public static final class Response extends RestResponse<List<_Ticker>> {}
+  public static final class Response extends ResponseWrapper<List<_Ticker>> {}
 }

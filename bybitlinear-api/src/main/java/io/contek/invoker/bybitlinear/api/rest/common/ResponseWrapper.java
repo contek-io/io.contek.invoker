@@ -3,7 +3,7 @@ package io.contek.invoker.bybitlinear.api.rest.common;
 import javax.annotation.concurrent.NotThreadSafe;
 
 @NotThreadSafe
-public abstract class RestResponse<R> {
+public abstract class ResponseWrapper<R> {
 
   public Integer ret_code;
   public String ret_msg;

@@ -1,7 +1,7 @@
 package io.contek.invoker.bybit.api.rest.market;
 
 import io.contek.invoker.bybit.api.common._OrderBook;
-import io.contek.invoker.bybit.api.rest.common.RestResponse;
+import io.contek.invoker.bybit.api.rest.common.ResponseWrapper;
 import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestParams;
@@ -46,5 +46,5 @@ public final class GetOrderBookL2 extends MarketRestRequest<Response> {
   }
 
   @NotThreadSafe
-  public static final class Response extends RestResponse<_OrderBook> {}
+  public static final class Response extends ResponseWrapper<_OrderBook> {}
 }

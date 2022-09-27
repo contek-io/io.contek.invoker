@@ -1,6 +1,9 @@
 package io.contek.invoker.bybitlinear.api.rest;
 
+import io.contek.invoker.bybitlinear.api.rest.common.ResponseWrapper;
 import io.contek.invoker.commons.actor.IActor;
+import io.contek.invoker.commons.actor.http.AnyHttpException;
+import io.contek.invoker.commons.actor.http.ParsedHttpException;
 import io.contek.invoker.commons.rest.*;
 import io.contek.invoker.security.ICredential;
 
@@ -10,7 +13,7 @@ import java.time.Clock;
 import static io.contek.invoker.commons.rest.RestMediaType.JSON;
 
 @ThreadSafe
-public abstract class RestRequest<R> extends BaseRestRequest<R> {
+public abstract class RestRequest<R extends ResponseWrapper<?>> extends BaseRestRequest<R> {
 
   private static final String API_KEY = "api_key";
   private static final String TIMESTAMP = "timestamp";
@@ -44,8 +47,16 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
           .setMethod(method)
           .setBody(buildBody(credential))
           .build();
-      default -> throw new IllegalStateException(getMethod().name());
     };
+  }
+
+  @Override
+  protected final void checkResult(R result, RestResponse response) throws AnyHttpException {
+    if (result.ret_code == 0) {
+      return;
+    }
+
+    throw new ParsedHttpException(response.getCode(), result, result.ret_msg);
   }
 
   private String buildUrlWithParams(ICredential credential) {

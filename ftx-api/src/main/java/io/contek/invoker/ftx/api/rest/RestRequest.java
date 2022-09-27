@@ -3,6 +3,7 @@ package io.contek.invoker.ftx.api.rest;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.net.UrlEscapers;
 import io.contek.invoker.commons.actor.IActor;
+import io.contek.invoker.commons.actor.http.AnyHttpException;
 import io.contek.invoker.commons.rest.*;
 import io.contek.invoker.security.ICredential;
 
@@ -55,6 +56,9 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
       default -> throw new IllegalStateException(getMethod().name());
     }
   }
+
+  @Override
+  protected final void checkResult(R result, RestResponse response) throws AnyHttpException {}
 
   private ImmutableMap<String, String> generateHeaders(
       String paramsString, String bodyString, ICredential credential) {

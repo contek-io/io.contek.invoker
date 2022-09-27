@@ -8,7 +8,7 @@ import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
 import io.contek.invoker.okx.api.common._AccountConfig;
-import io.contek.invoker.okx.api.rest.common.RestResponse;
+import io.contek.invoker.okx.api.rest.common.ResponseWrapper;
 
 import javax.annotation.concurrent.NotThreadSafe;
 import java.time.Duration;
@@ -60,5 +60,5 @@ public final class GetAccountConfig extends UserRestRequest<GetAccountConfig.Res
   }
 
   @NotThreadSafe
-  public static final class Response extends RestResponse<_AccountConfig> {}
+  public static final class Response extends ResponseWrapper<_AccountConfig> {}
 }
