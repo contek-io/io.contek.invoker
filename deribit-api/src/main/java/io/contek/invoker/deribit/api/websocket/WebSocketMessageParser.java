@@ -3,6 +3,7 @@ package io.contek.invoker.deribit.api.websocket;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import io.contek.invoker.commons.GsonFactory;
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.IWebSocketComponent;
 import io.contek.invoker.commons.websocket.WebSocketTextMessageParser;
@@ -24,7 +25,7 @@ import static java.lang.String.format;
 @ThreadSafe
 final class WebSocketMessageParser extends WebSocketTextMessageParser {
 
-  private final Gson gson = new Gson();
+  private final Gson gson = GsonFactory.buildGson();
 
   private final Map<Integer, Class<? extends WebSocketResponse<?>>> pendingRequests =
       new HashMap<>();

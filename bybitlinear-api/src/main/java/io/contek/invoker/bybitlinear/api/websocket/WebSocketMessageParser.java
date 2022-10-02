@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import io.contek.invoker.bybitlinear.api.websocket.common.WebSocketOperationResponse;
 import io.contek.invoker.bybitlinear.api.websocket.common.WebSocketTopicMessage;
 import io.contek.invoker.bybitlinear.api.websocket.market.OrderBookChannel;
+import io.contek.invoker.commons.GsonFactory;
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.IWebSocketComponent;
 import io.contek.invoker.commons.websocket.WebSocketTextMessageParser;
@@ -20,7 +21,7 @@ import static io.contek.invoker.bybitlinear.api.websocket.common.constants.WebSo
 @ThreadSafe
 final class WebSocketMessageParser extends WebSocketTextMessageParser {
 
-  private final Gson gson = new Gson();
+  private final Gson gson = GsonFactory.buildGson();
 
   private final Map<String, Class<? extends WebSocketTopicMessage>> channelMessageTypes =
       new HashMap<>();

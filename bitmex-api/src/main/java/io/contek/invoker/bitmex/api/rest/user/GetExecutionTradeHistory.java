@@ -3,6 +3,7 @@ package io.contek.invoker.bitmex.api.rest.user;
 import com.google.gson.Gson;
 import io.contek.invoker.bitmex.api.common._Execution;
 import io.contek.invoker.bitmex.api.rest.user.GetExecutionTradeHistory.Response;
+import io.contek.invoker.commons.GsonFactory;
 import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
@@ -19,7 +20,7 @@ import static io.contek.invoker.commons.rest.RestMethod.GET;
 @NotThreadSafe
 public final class GetExecutionTradeHistory extends UserRestRequest<Response> {
 
-  private static final Gson gson = new Gson();
+  private static final Gson gson = GsonFactory.buildGson();
 
   private String symbol;
   private String startTime;

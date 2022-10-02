@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import io.contek.invoker.binancefutures.api.websocket.common.WebSocketCommandConfirmation;
+import io.contek.invoker.commons.GsonFactory;
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.IWebSocketComponent;
 import io.contek.invoker.commons.websocket.WebSocketTextMessageParser;
@@ -17,7 +18,7 @@ import static io.contek.invoker.binancefutures.api.websocket.common.constants.We
 @Immutable
 public final class MarketWebSocketMessageParser extends WebSocketTextMessageParser {
 
-  private final Gson gson = new Gson();
+  private final Gson gson = GsonFactory.buildGson();
 
   static MarketWebSocketMessageParser getInstance() {
     return MarketWebSocketMessageParser.InstanceHolder.INSTANCE;

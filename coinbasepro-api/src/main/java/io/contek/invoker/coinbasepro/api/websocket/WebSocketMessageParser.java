@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import io.contek.invoker.coinbasepro.api.websocket.common.WebSocketSubscriptionMessage;
 import io.contek.invoker.coinbasepro.api.websocket.market.Level2Channel;
 import io.contek.invoker.coinbasepro.api.websocket.market.MatchesChannel;
+import io.contek.invoker.commons.GsonFactory;
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.IWebSocketComponent;
 import io.contek.invoker.commons.websocket.WebSocketTextMessageParser;
@@ -17,7 +18,7 @@ import static io.contek.invoker.coinbasepro.api.websocket.common.constants.WebSo
 @Immutable
 final class WebSocketMessageParser extends WebSocketTextMessageParser {
 
-  private final Gson gson = new Gson();
+  private final Gson gson = GsonFactory.buildGson();
 
   static WebSocketMessageParser getInstance() {
     return InstanceHolder.INSTANCE;
