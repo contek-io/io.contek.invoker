@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import io.contek.invoker.binancedelivery.api.websocket.common.WebSocketEventMessage;
+import io.contek.invoker.commons.GsonFactory;
 import io.contek.invoker.commons.websocket.IWebSocketComponent;
 import io.contek.invoker.commons.websocket.WebSocketTextMessageParser;
 
@@ -15,7 +16,7 @@ import static io.contek.invoker.binancedelivery.api.websocket.user.constants.Use
 @ThreadSafe
 public final class UserWebSocketParser extends WebSocketTextMessageParser {
 
-  private final Gson gson = new Gson();
+  private final Gson gson = GsonFactory.buildGson();
 
   static UserWebSocketParser getInstance() {
     return InstanceHolder.INSTANCE;

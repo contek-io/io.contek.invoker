@@ -8,6 +8,7 @@ import io.contek.invoker.bitmex.api.websocket.market.*;
 import io.contek.invoker.bitmex.api.websocket.user.ExecutionChannel;
 import io.contek.invoker.bitmex.api.websocket.user.OrderChannel;
 import io.contek.invoker.bitmex.api.websocket.user.PositionChannel;
+import io.contek.invoker.commons.GsonFactory;
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.IWebSocketComponent;
 import io.contek.invoker.commons.websocket.WebSocketTextMessageParser;
@@ -21,7 +22,7 @@ import static io.contek.invoker.commons.websocket.constants.WebSocketPingPongKey
 @Immutable
 final class WebSocketMessageParser extends WebSocketTextMessageParser {
 
-  private final Gson gson = new Gson();
+  private final Gson gson = GsonFactory.buildGson();
 
   static WebSocketMessageParser getInstance() {
     return InstanceHolder.INSTANCE;
