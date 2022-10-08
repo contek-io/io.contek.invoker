@@ -1,11 +1,11 @@
 package io.contek.invoker.binancefutures.api.websocket.market;
 
-import io.contek.invoker.binancefutures.api.websocket.common.WebSocketEventMessage;
+import io.contek.invoker.binancefutures.api.websocket.common.WebSocketEventData;
 
 import javax.annotation.concurrent.NotThreadSafe;
 
 @NotThreadSafe
-public class MarkPriceUpdateEvent extends WebSocketEventMessage {
+public class MarkPriceUpdateEvent extends WebSocketEventData {
 
   public String s; // Symbol
   public Double p; // Mark price

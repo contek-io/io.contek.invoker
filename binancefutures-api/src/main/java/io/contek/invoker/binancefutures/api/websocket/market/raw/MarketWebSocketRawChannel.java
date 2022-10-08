@@ -1,4 +1,4 @@
-package io.contek.invoker.binancefutures.api.websocket.user;
+package io.contek.invoker.binancefutures.api.websocket.market.raw;
 
 import io.contek.invoker.binancefutures.api.websocket.common.WebSocketEventData;
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
@@ -13,28 +13,28 @@ import static io.contek.invoker.commons.websocket.SubscriptionState.SUBSCRIBED;
 import static io.contek.invoker.commons.websocket.SubscriptionState.UNSUBSCRIBED;
 
 @ThreadSafe
-public abstract class UserWebSocketChannel<Message extends WebSocketEventData>
-    extends BaseWebSocketChannel<UserWebSocketChannelId<Message>, Message, Message> {
+public final class MarketWebSocketRawChannel<Data extends WebSocketEventData>
+    extends BaseWebSocketChannel<MarketWebSocketRawChannelId<Data>, Data, Data> {
 
-  public UserWebSocketChannel(UserWebSocketChannelId<Message> id) {
+  MarketWebSocketRawChannel(MarketWebSocketRawChannelId<Data> id) {
     super(id);
   }
 
   @Override
-  protected Message getData(Message message) {
+  public final Class<Data> getMessageType() {
+    return getId().getType();
+  }
+
+  @Override
+  protected final Data getData(Data message) {
     return message;
   }
 
-  // We do no action during the subscription phase since the data will be pushed to our end when
-  // opening the web socket connection.
   @Override
   protected final SubscriptionState subscribe(WebSocketSession session) {
     return SUBSCRIBED;
   }
 
-  // We do no action in unsubscription phase since all the user-related channel shared the same
-  // underlying web socket connection, and there is no way to unsubscribe to a given topic. Either
-  // all user related events will be pushed to us, or the connection is closed altogether.
   @Override
   protected final SubscriptionState unsubscribe(WebSocketSession session) {
     return UNSUBSCRIBED;
@@ -43,9 +43,6 @@ public abstract class UserWebSocketChannel<Message extends WebSocketEventData>
   @Nullable
   @Override
   protected final SubscriptionState getState(AnyWebSocketMessage message) {
-    if (message instanceof UserDataStreamExpiredEvent) {
-      return UNSUBSCRIBED;
-    }
     return null;
   }
 

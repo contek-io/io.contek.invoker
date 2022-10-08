@@ -1,11 +1,11 @@
 package io.contek.invoker.binancefutures.api.websocket.market;
 
-import io.contek.invoker.binancefutures.api.websocket.common.WebSocketEventMessage;
+import io.contek.invoker.binancefutures.api.websocket.common.WebSocketEventData;
 
 import javax.annotation.concurrent.NotThreadSafe;
 
 @NotThreadSafe
-public class AggTradeEvent extends WebSocketEventMessage {
+public class AggTradeEvent extends WebSocketEventData {
 
   public String s; // Symbol
   public Long a; // Aggregate trade ID

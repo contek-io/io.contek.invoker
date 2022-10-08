@@ -14,8 +14,8 @@ import static org.slf4j.LoggerFactory.getLogger;
 
 @ThreadSafe
 public abstract class BaseWebSocketChannel<
-        Id extends BaseWebSocketChannelId<Message>, Message extends AnyWebSocketMessage>
-    implements IWebSocketComponent {
+        Id extends BaseWebSocketChannelId<Message>, Message extends AnyWebSocketMessage, Data>
+    implements IWebSocketComponent, IWebSocketChannel<Data> {
 
   private static final Logger log = getLogger(BaseWebSocketChannel.class);
 
@@ -23,7 +23,7 @@ public abstract class BaseWebSocketChannel<
 
   private final AtomicReference<SubscriptionState> stateHolder =
       new AtomicReference<>(UNSUBSCRIBED);
-  private final List<ISubscribingConsumer<Message>> consumers = new LinkedList<>();
+  private final List<ISubscribingConsumer<Data>> consumers = new LinkedList<>();
 
   protected BaseWebSocketChannel(Id id) {
     this.id = id;
@@ -33,7 +33,8 @@ public abstract class BaseWebSocketChannel<
     return id;
   }
 
-  public final void addConsumer(ISubscribingConsumer<Message> consumer) {
+  @Override
+  public final void addConsumer(ISubscribingConsumer<Data> consumer) {
     synchronized (consumers) {
       synchronized (stateHolder) {
         SubscriptionState state = stateHolder.get();
@@ -90,7 +91,8 @@ public abstract class BaseWebSocketChannel<
     synchronized (consumers) {
       Message casted = tryCast(message);
       if (casted != null) {
-        consumers.forEach(consumer -> consumer.onNext(casted));
+        Data data = getData(casted);
+        consumers.forEach(consumer -> consumer.onNext(data));
       }
     }
 
@@ -108,6 +110,8 @@ public abstract class BaseWebSocketChannel<
   }
 
   public abstract Class<Message> getMessageType();
+
+  protected abstract Data getData(Message message);
 
   protected abstract SubscriptionState subscribe(WebSocketSession session);
 

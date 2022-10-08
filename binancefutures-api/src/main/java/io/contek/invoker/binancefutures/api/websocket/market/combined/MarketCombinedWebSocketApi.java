@@ -1,18 +1,21 @@
-package io.contek.invoker.binancefutures.api.websocket.market;
+package io.contek.invoker.binancefutures.api.websocket.market.combined;
 
 import com.google.common.collect.ImmutableList;
 import io.contek.invoker.binancefutures.api.websocket.WebSocketRequestIdGenerator;
+import io.contek.invoker.binancefutures.api.websocket.market.IMarketWebSocketApi;
 import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
 import io.contek.invoker.commons.websocket.*;
 import io.contek.invoker.security.ICredential;
 
+import javax.annotation.Nullable;
 import javax.annotation.concurrent.ThreadSafe;
 import java.util.HashMap;
 import java.util.Map;
 
 @ThreadSafe
-public final class MarketWebSocketApi extends BaseWebSocketApi {
+public final class MarketCombinedWebSocketApi extends BaseWebSocketApi
+    implements IMarketWebSocketApi {
 
   private final WebSocketContext context;
   private final WebSocketRequestIdGenerator requestIdGenerator = new WebSocketRequestIdGenerator();
@@ -25,19 +28,19 @@ public final class MarketWebSocketApi extends BaseWebSocketApi {
       new HashMap<>();
   private final Map<ForceOrderChannel.Id, ForceOrderChannel> forceOrderChannels = new HashMap<>();
 
-  public MarketWebSocketApi(IActor actor, WebSocketContext context) {
+  public MarketCombinedWebSocketApi(IActor actor, WebSocketContext context) {
     super(
         actor,
-        MarketWebSocketMessageParser.getInstance(),
+        MarketCombinedMessageParser.getInstance(),
         IWebSocketAuthenticator.noOp(),
         IWebSocketLiveKeeper.noOp());
     this.context = context;
   }
 
-  public BookTickerChannel getBookTickerChannel(BookTickerChannel.Id id) {
+  public BookTickerChannel getBookTickerChannel(String symbol) {
     synchronized (bookTickerChannels) {
       return bookTickerChannels.computeIfAbsent(
-          id,
+          BookTickerChannel.Id.of(symbol),
           k -> {
             BookTickerChannel result = new BookTickerChannel(k, requestIdGenerator);
             attach(result);
@@ -46,10 +49,10 @@ public final class MarketWebSocketApi extends BaseWebSocketApi {
     }
   }
 
-  public TradeChannel getTradeChannel(TradeChannel.Id id) {
+  public TradeChannel getTradeChannel(String symbol) {
     synchronized (tradeChannels) {
       return tradeChannels.computeIfAbsent(
-          id,
+          TradeChannel.Id.of(symbol),
           k -> {
             TradeChannel result = new TradeChannel(k, requestIdGenerator);
             attach(result);
@@ -58,10 +61,10 @@ public final class MarketWebSocketApi extends BaseWebSocketApi {
     }
   }
 
-  public AggTradeChannel getAggTradeChannel(AggTradeChannel.Id id) {
+  public AggTradeChannel getAggTradeChannel(String symbol) {
     synchronized (aggTradeChannels) {
       return aggTradeChannels.computeIfAbsent(
-          id,
+          AggTradeChannel.Id.of(symbol),
           k -> {
             AggTradeChannel result = new AggTradeChannel(k, requestIdGenerator);
             attach(result);
@@ -70,10 +73,10 @@ public final class MarketWebSocketApi extends BaseWebSocketApi {
     }
   }
 
-  public DepthDiffChannel getDepthDiffChannel(DepthDiffChannel.Id id) {
+  public DepthDiffChannel getDepthDiffChannel(String symbol, String interval) {
     synchronized (depthDiffChannels) {
       return depthDiffChannels.computeIfAbsent(
-          id,
+          DepthDiffChannel.Id.of(symbol, interval),
           k -> {
             DepthDiffChannel result = new DepthDiffChannel(k, requestIdGenerator);
             attach(result);
@@ -82,10 +85,11 @@ public final class MarketWebSocketApi extends BaseWebSocketApi {
     }
   }
 
-  public DepthPartialChannel getDepthPartialChannel(DepthPartialChannel.Id id) {
+  public DepthPartialChannel getDepthPartialChannel(
+      String symbol, int levels, @Nullable String interval) {
     synchronized (depthPartialChannels) {
       return depthPartialChannels.computeIfAbsent(
-          id,
+          DepthPartialChannel.Id.of(symbol, levels, interval),
           k -> {
             DepthPartialChannel result = new DepthPartialChannel(k, requestIdGenerator);
             attach(result);
@@ -94,10 +98,10 @@ public final class MarketWebSocketApi extends BaseWebSocketApi {
     }
   }
 
-  public ForceOrderChannel getForceOrderChannel(ForceOrderChannel.Id id) {
+  public ForceOrderChannel getForceOrderChannel(String symbol) {
     synchronized (forceOrderChannels) {
       return forceOrderChannels.computeIfAbsent(
-          id,
+          ForceOrderChannel.Id.of(symbol),
           k -> {
             ForceOrderChannel result = new ForceOrderChannel(k, requestIdGenerator);
             attach(result);

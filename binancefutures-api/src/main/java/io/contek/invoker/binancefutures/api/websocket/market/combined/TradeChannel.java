@@ -1,17 +1,16 @@
-package io.contek.invoker.binancefutures.api.websocket.market;
+package io.contek.invoker.binancefutures.api.websocket.market.combined;
 
 import io.contek.invoker.binancefutures.api.websocket.WebSocketRequestIdGenerator;
-import io.contek.invoker.binancefutures.api.websocket.common.WebSocketStreamMessage;
+import io.contek.invoker.binancefutures.api.websocket.market.TradeEvent;
 
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
 
-import static io.contek.invoker.binancefutures.api.websocket.common.constants.WebSocketChannelKeys._trade;
+import static io.contek.invoker.binancefutures.api.websocket.common.constants.WebSocketChannelKeys.trade;
 
 @ThreadSafe
-public final class TradeChannel
-    extends MarketWebSocketChannel<TradeChannel.Id, TradeChannel.Message> {
+public final class TradeChannel extends MarketCombinedChannel<TradeChannel.Message, TradeEvent> {
 
   TradeChannel(Id id, WebSocketRequestIdGenerator requestIdGenerator) {
     super(id, requestIdGenerator);
@@ -23,10 +22,10 @@ public final class TradeChannel
   }
 
   @Immutable
-  public static final class Id extends MarketWebSocketChannelId<Message> {
+  public static final class Id extends MarketCombinedChannelId<Message> {
 
     private Id(String symbol) {
-      super(symbol, _trade);
+      super(trade(symbol));
     }
 
     public static Id of(String symbol) {

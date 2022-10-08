@@ -1,19 +1,19 @@
-package io.contek.invoker.binancefutures.api.websocket.market;
+package io.contek.invoker.binancefutures.api.websocket.market.combined;
 
 import io.contek.invoker.binancefutures.api.websocket.WebSocketRequestIdGenerator;
-import io.contek.invoker.binancefutures.api.websocket.common.WebSocketStreamMessage;
+import io.contek.invoker.binancefutures.api.websocket.market.ForceOrderEvent;
 
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
 
-import static io.contek.invoker.binancefutures.api.websocket.common.constants.WebSocketChannelKeys._forceOrder;
+import static io.contek.invoker.binancefutures.api.websocket.common.constants.WebSocketChannelKeys.forceOrder;
 
 @ThreadSafe
 public final class ForceOrderChannel
-    extends MarketWebSocketChannel<ForceOrderChannel.Id, ForceOrderChannel.Message> {
+    extends MarketCombinedChannel<ForceOrderChannel.Message, ForceOrderEvent> {
 
-  ForceOrderChannel(ForceOrderChannel.Id id, WebSocketRequestIdGenerator requestIdGenerator) {
+  ForceOrderChannel(Id id, WebSocketRequestIdGenerator requestIdGenerator) {
     super(id, requestIdGenerator);
   }
 
@@ -23,10 +23,10 @@ public final class ForceOrderChannel
   }
 
   @Immutable
-  public static final class Id extends MarketWebSocketChannelId<ForceOrderChannel.Message> {
+  public static final class Id extends MarketCombinedChannelId<Message> {
 
     private Id(String symbol) {
-      super(symbol, _forceOrder);
+      super(forceOrder(symbol));
     }
 
     public static Id of(String symbol) {

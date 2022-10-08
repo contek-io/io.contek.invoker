@@ -1,6 +1,6 @@
 package io.contek.invoker.binancefutures.api.websocket.user;
 
-import io.contek.invoker.binancefutures.api.websocket.common.WebSocketEventMessage;
+import io.contek.invoker.binancefutures.api.websocket.common.WebSocketEventData;
 
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
@@ -9,20 +9,19 @@ import javax.annotation.concurrent.ThreadSafe;
 import static io.contek.invoker.binancefutures.api.websocket.user.constants.UserEventTypeKeys._ORDER_TRADE_UPDATE;
 
 @ThreadSafe
-public final class OrderUpdateChannel
-    extends UserWebSocketChannel<OrderUpdateChannel.Id, OrderUpdateChannel.Message> {
+public final class OrderUpdateChannel extends UserWebSocketChannel<OrderUpdateChannel.Data> {
 
   OrderUpdateChannel() {
     super(Id.INSTANCE);
   }
 
   @Override
-  public Class<OrderUpdateChannel.Message> getMessageType() {
-    return OrderUpdateChannel.Message.class;
+  public Class<Data> getMessageType() {
+    return Data.class;
   }
 
   @Immutable
-  public static final class Id extends UserWebSocketChannelId<OrderUpdateChannel.Message> {
+  public static final class Id extends UserWebSocketChannelId<Data> {
 
     private static final Id INSTANCE = new Id();
 
@@ -32,7 +31,7 @@ public final class OrderUpdateChannel
   }
 
   @NotThreadSafe
-  public static final class Message extends WebSocketEventMessage {
+  public static final class Data extends WebSocketEventData {
 
     public long T; // trasnaction time
     public Order o;

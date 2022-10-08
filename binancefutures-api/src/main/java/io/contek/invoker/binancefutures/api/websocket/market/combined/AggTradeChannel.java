@@ -1,19 +1,19 @@
-package io.contek.invoker.binancefutures.api.websocket.market;
+package io.contek.invoker.binancefutures.api.websocket.market.combined;
 
 import io.contek.invoker.binancefutures.api.websocket.WebSocketRequestIdGenerator;
-import io.contek.invoker.binancefutures.api.websocket.common.WebSocketStreamMessage;
+import io.contek.invoker.binancefutures.api.websocket.market.AggTradeEvent;
 
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
 
-import static io.contek.invoker.binancefutures.api.websocket.common.constants.WebSocketChannelKeys._aggTrade;
+import static io.contek.invoker.binancefutures.api.websocket.common.constants.WebSocketChannelKeys.aggTrade;
 
 @ThreadSafe
 public final class AggTradeChannel
-    extends MarketWebSocketChannel<AggTradeChannel.Id, AggTradeChannel.Message> {
+    extends MarketCombinedChannel<AggTradeChannel.Message, AggTradeEvent> {
 
-  AggTradeChannel(AggTradeChannel.Id id, WebSocketRequestIdGenerator requestIdGenerator) {
+  AggTradeChannel(Id id, WebSocketRequestIdGenerator requestIdGenerator) {
     super(id, requestIdGenerator);
   }
 
@@ -23,10 +23,10 @@ public final class AggTradeChannel
   }
 
   @Immutable
-  public static final class Id extends MarketWebSocketChannelId<AggTradeChannel.Message> {
+  public static final class Id extends MarketCombinedChannelId<Message> {
 
     private Id(String symbol) {
-      super(symbol, _aggTrade);
+      super(aggTrade(symbol));
     }
 
     public static Id of(String symbol) {
