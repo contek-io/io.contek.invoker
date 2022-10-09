@@ -12,9 +12,8 @@ import static io.contek.invoker.hbdmlinear.api.websocket.user.constants.OpKeys._
 
 @ThreadSafe
 public abstract class NotificationWebSocketChannel<
-        Id extends NotificationWebSocketChannelId<Message>,
-        Message extends NotificationWebSocketChannelMessage>
-    extends BaseWebSocketChannel<Id, Message> {
+        Message extends NotificationWebSocketDataMessage<Data>, Data>
+    extends BaseWebSocketChannel<NotificationWebSocketChannelId<Message>, Message, Data> {
 
   private final NotificationWebSocketRequestIdGenerator requestIdGenerator;
 
@@ -22,9 +21,15 @@ public abstract class NotificationWebSocketChannel<
       new AtomicReference<>(null);
 
   protected NotificationWebSocketChannel(
-      Id id, NotificationWebSocketRequestIdGenerator requestIdGenerator) {
+      NotificationWebSocketChannelId<Message> id,
+      NotificationWebSocketRequestIdGenerator requestIdGenerator) {
     super(id);
     this.requestIdGenerator = requestIdGenerator;
+  }
+
+  @Override
+  protected final Data getData(Message message) {
+    return message.data;
   }
 
   @Override
@@ -34,7 +39,7 @@ public abstract class NotificationWebSocketChannel<
         throw new IllegalStateException();
       }
 
-      Id id = getId();
+      NotificationWebSocketChannelId<Message> id = getId();
       NotificationWebSocketSubscriptionRequest request =
           new NotificationWebSocketSubscriptionRequest();
       request.op = _sub;
@@ -54,7 +59,7 @@ public abstract class NotificationWebSocketChannel<
         throw new IllegalStateException();
       }
 
-      Id id = getId();
+      NotificationWebSocketChannelId<Message> id = getId();
       NotificationWebSocketSubscriptionRequest request =
           new NotificationWebSocketSubscriptionRequest();
       request.op = _unsub;

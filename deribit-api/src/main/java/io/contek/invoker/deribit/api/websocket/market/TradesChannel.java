@@ -14,19 +14,19 @@ import static java.lang.String.format;
 
 @ThreadSafe
 public final class TradesChannel
-    extends MarketWebSocketChannel<TradesChannel.Id, TradesChannel.Message> {
+    extends MarketWebSocketChannel<TradesChannel.Message, List<TradesChannel.Data>> {
 
   TradesChannel(TradesChannel.Id id, WebSocketRequestIdGenerator requestIdGenerator) {
     super(id, requestIdGenerator);
   }
 
   @Override
-  public Class<TradesChannel.Message> getMessageType() {
-    return TradesChannel.Message.class;
+  public Class<Message> getMessageType() {
+    return Message.class;
   }
 
   @Immutable
-  public static final class Id extends WebSocketChannelId<TradesChannel.Message> {
+  public static final class Id extends WebSocketChannelId<Message> {
 
     private Id(String value) {
       super(value);

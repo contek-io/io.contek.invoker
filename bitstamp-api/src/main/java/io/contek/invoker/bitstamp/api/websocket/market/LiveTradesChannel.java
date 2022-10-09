@@ -10,7 +10,7 @@ import javax.annotation.concurrent.ThreadSafe;
 
 @ThreadSafe
 public final class LiveTradesChannel
-    extends WebSocketChannel<LiveTradesChannel.Id, LiveTradesChannel.Message> {
+    extends WebSocketChannel<LiveTradesChannel.Message, LiveTradesChannel.Data> {
 
   public static final String PREFIX = "live_trades_";
 

@@ -14,8 +14,9 @@ import static io.contek.invoker.hbdmlinear.api.websocket.common.constants.WebSoc
 @ThreadSafe
 public abstract class MarketDataMarketWebSocketChannel<
         Id extends MarketDataWebSocketChannelId<Message>,
-        Message extends MarketDataWebSocketChannelMessage>
-    extends BaseWebSocketChannel<Id, Message> {
+        Message extends MarketDataWebSocketTickMessage<Data>,
+        Data>
+    extends BaseWebSocketChannel<Id, Message, Data> {
 
   private final Class<Message> type;
   private final MarketDataWebSocketRequestIdGenerator requestIdGenerator;
@@ -33,8 +34,13 @@ public abstract class MarketDataMarketWebSocketChannel<
   }
 
   @Override
+  protected final Data getData(Message message) {
+    return message.tick;
+  }
+
+  @Override
   protected final SubscriptionState unsubscribe(WebSocketSession session) {
-    Id id = getId();
+    MarketDataWebSocketChannelId<Message> id = getId();
     MarketDataWebSocketUnsubscribeRequest request = new MarketDataWebSocketUnsubscribeRequest();
     request.unsub = id.getChannel();
     request.id = generateNexRequestId();
@@ -46,7 +52,7 @@ public abstract class MarketDataMarketWebSocketChannel<
   @Override
   protected final SubscriptionState getState(AnyWebSocketMessage message) {
     if (message instanceof MarketDataWebSocketSubscribeConfirmation confirmation) {
-      Id id = getId();
+      MarketDataWebSocketChannelId<Message> id = getId();
       if (confirmation.subbed.equals(id.getChannel())) {
         if (!_ok.equals(confirmation.status)) {
           throw new IllegalStateException(confirmation.status);
@@ -55,7 +61,7 @@ public abstract class MarketDataMarketWebSocketChannel<
       }
     }
     if (message instanceof MarketDataWebSocketUnsubscribeConfirmation confirmation) {
-      Id id = getId();
+      MarketDataWebSocketChannelId<Message> id = getId();
       if (confirmation.unsubbed.equals(id.getChannel())) {
         if (!_ok.equals(confirmation.status)) {
           throw new IllegalStateException(confirmation.status);

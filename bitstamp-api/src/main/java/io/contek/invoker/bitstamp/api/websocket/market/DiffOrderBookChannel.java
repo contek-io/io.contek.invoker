@@ -12,7 +12,7 @@ import java.util.List;
 
 @ThreadSafe
 public final class DiffOrderBookChannel
-    extends WebSocketChannel<DiffOrderBookChannel.Id, DiffOrderBookChannel.Message> {
+    extends WebSocketChannel<DiffOrderBookChannel.Message, DiffOrderBookChannel.Data> {
 
   public static final String PREFIX = "diff_order_book_";
 

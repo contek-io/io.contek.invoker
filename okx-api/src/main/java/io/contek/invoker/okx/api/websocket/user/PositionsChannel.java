@@ -11,7 +11,7 @@ import static io.contek.invoker.okx.api.websocket.common.constants.WebSocketChan
 
 @ThreadSafe
 public final class PositionsChannel
-    extends WebSocketUserChannel<PositionsChannel.Id, PositionsChannel.Message> {
+    extends WebSocketUserChannel<PositionsChannel.Message, _Position> {
 
   PositionsChannel(PositionsChannel.Id id) {
     super(id);
@@ -19,24 +19,21 @@ public final class PositionsChannel
 
   @Override
   public Class<Message> getMessageType() {
-    return PositionsChannel.Message.class;
+    return Message.class;
   }
 
   @Immutable
-  public static final class Id extends WebSocketUserChannelId<PositionsChannel.Message> {
+  public static final class Id extends WebSocketUserChannelId<Message> {
 
     private Id(String instId) {
       super(_positions, instId);
     }
 
-    public static PositionsChannel.Id of(String instId) {
-      return new PositionsChannel.Id(instId);
+    public static Id of(String instId) {
+      return new Id(instId);
     }
   }
 
   @NotThreadSafe
-  public static final class Data extends _Position {}
-
-  @NotThreadSafe
-  public static final class Message extends WebSocketChannelPushData<Data> {}
+  public static final class Message extends WebSocketChannelPushData<_Position> {}
 }

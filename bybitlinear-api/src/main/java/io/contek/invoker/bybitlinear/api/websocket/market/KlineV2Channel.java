@@ -10,8 +10,7 @@ import javax.annotation.concurrent.ThreadSafe;
 import java.util.List;
 
 @ThreadSafe
-public final class KlineV2Channel
-    extends WebSocketChannel<KlineV2Channel.Id, KlineV2Channel.Message> {
+public final class KlineV2Channel extends WebSocketChannel<KlineV2Channel.Message> {
 
   KlineV2Channel(KlineV2Channel.Id id) {
     super(id);

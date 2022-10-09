@@ -20,8 +20,10 @@ import static io.contek.invoker.kraken.api.websocket.common.constants.WebSocketE
 
 @ThreadSafe
 public abstract class WebSocketChannel<
-        Id extends WebSocketChannelId<Message>, Message extends WebSocketChannelDataMessage<?>>
-    extends BaseWebSocketChannel<Id, Message> {
+        Id extends WebSocketChannelId<Message>,
+        Message extends WebSocketChannelDataMessage<Data>,
+        Data>
+    extends BaseWebSocketChannel<Id, Message, Data> {
 
   private final WebSocketRequestIdGenerator requestIdGenerator;
 
@@ -36,13 +38,18 @@ public abstract class WebSocketChannel<
   protected abstract Subscription getSubscription();
 
   @Override
+  protected final Data getData(Message message) {
+    return message.data;
+  }
+
+  @Override
   protected final SubscriptionState subscribe(WebSocketSession session) {
     synchronized (pendingRequestHolder) {
       if (pendingRequestHolder.get() != null) {
         throw new IllegalStateException();
       }
 
-      Id id = getId();
+      WebSocketChannelId<Message> id = getId();
       WebSocketSubscribeRequest request = new WebSocketSubscribeRequest();
       request.event = _subscribe;
       request.reqid = requestIdGenerator.generateNext();
@@ -61,7 +68,7 @@ public abstract class WebSocketChannel<
         throw new IllegalStateException();
       }
 
-      Id id = getId();
+      WebSocketChannelId<Message> id = getId();
       WebSocketSubscribeRequest request = new WebSocketSubscribeRequest();
       request.event = _unsubscribe;
       request.reqid = requestIdGenerator.generateNext();

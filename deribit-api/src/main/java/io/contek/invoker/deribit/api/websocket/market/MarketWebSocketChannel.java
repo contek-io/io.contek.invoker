@@ -9,10 +9,11 @@ import javax.annotation.concurrent.ThreadSafe;
 
 @ThreadSafe
 public abstract class MarketWebSocketChannel<
-        Id extends WebSocketChannelId<Message>, Message extends WebSocketSingleChannelMessage<?>>
-    extends WebSocketChannel<Id, Message> {
+        Message extends WebSocketSingleChannelMessage<Data>, Data>
+    extends WebSocketChannel<Message, Data> {
 
-  MarketWebSocketChannel(Id id, WebSocketRequestIdGenerator requestIdGenerator) {
+  MarketWebSocketChannel(
+      WebSocketChannelId<Message> id, WebSocketRequestIdGenerator requestIdGenerator) {
     super(id, "public", requestIdGenerator);
   }
 }

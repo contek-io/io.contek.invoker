@@ -15,7 +15,8 @@ import java.util.List;
 import static io.contek.invoker.kraken.api.websocket.common.constants.WebSocketChannelKeys._trade;
 
 @ThreadSafe
-public final class TradeChannel extends WebSocketChannel<TradeChannel.Id, TradeChannel.Message> {
+public final class TradeChannel
+    extends WebSocketChannel<TradeChannel.Id, TradeChannel.Message, List<_Trade>> {
 
   TradeChannel(Id id, WebSocketRequestIdGenerator requestIdGenerator) {
     super(id, requestIdGenerator);

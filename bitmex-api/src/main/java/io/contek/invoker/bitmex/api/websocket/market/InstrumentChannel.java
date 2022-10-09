@@ -13,7 +13,7 @@ import static java.lang.String.format;
 
 @ThreadSafe
 public final class InstrumentChannel
-    extends WebSocketChannel<InstrumentChannel.Id, InstrumentChannel.Message> {
+    extends WebSocketChannel<InstrumentChannel.Message, _Instrument> {
 
   InstrumentChannel(InstrumentChannel.Id id) {
     super(id);

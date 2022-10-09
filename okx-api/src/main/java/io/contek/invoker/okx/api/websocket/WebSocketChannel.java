@@ -13,6 +13,7 @@ import io.contek.invoker.okx.api.websocket.common.constants.WebSocketOutboundKey
 
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.ThreadSafe;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -21,15 +22,19 @@ import static io.contek.invoker.okx.api.websocket.common.constants.WebSocketInbo
 import static io.contek.invoker.okx.api.websocket.common.constants.WebSocketInboundKeys._unsubscribe;
 
 @ThreadSafe
-public abstract class WebSocketChannel<
-        Id extends WebSocketChannelId<Message>, Message extends WebSocketChannelPushData<?>>
-    extends BaseWebSocketChannel<Id, Message> {
+public abstract class WebSocketChannel<Message extends WebSocketChannelPushData<Data>, Data>
+    extends BaseWebSocketChannel<WebSocketChannelId<Message>, Message, List<Data>> {
 
   private final AtomicReference<WebSocketSubscriptionRequest> pendingRequestHolder =
       new AtomicReference<>(null);
 
-  protected WebSocketChannel(Id id) {
+  protected WebSocketChannel(WebSocketChannelId<Message> id) {
     super(id);
+  }
+
+  @Override
+  protected List<Data> getData(Message message) {
+    return message.data;
   }
 
   @Override

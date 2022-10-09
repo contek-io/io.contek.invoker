@@ -9,10 +9,9 @@ import javax.annotation.concurrent.ThreadSafe;
 import java.util.List;
 
 @ThreadSafe
-public abstract class OrderBookChannel<Id extends WebSocketChannelId<OrderBookChannel.Message>>
-    extends WebSocketChannel<Id, OrderBookChannel.Message> {
+public abstract class OrderBookChannel extends WebSocketChannel<OrderBookChannel.Message> {
 
-  OrderBookChannel(Id id) {
+  OrderBookChannel(WebSocketChannelId<OrderBookChannel.Message> id) {
     super(id);
   }
 

@@ -16,7 +16,7 @@ import static java.lang.String.format;
 @ThreadSafe
 public final class IncrementalDepthChannel
     extends MarketDataMarketWebSocketChannel<
-        IncrementalDepthChannel.Id, IncrementalDepthChannel.Message> {
+        IncrementalDepthChannel.Id, IncrementalDepthChannel.Message, IncrementalDepthChannel.Data> {
 
   IncrementalDepthChannel(
       IncrementalDepthChannel.Id id, MarketDataWebSocketRequestIdGenerator requestIdGenerator) {
@@ -47,10 +47,10 @@ public final class IncrementalDepthChannel
   }
 
   @NotThreadSafe
-  public static final class Message extends MarketDataWebSocketTickMessage<Tick> {}
+  public static final class Message extends MarketDataWebSocketTickMessage<Data> {}
 
   @NotThreadSafe
-  public static final class Tick extends _Depth {
+  public static final class Data extends _Depth {
 
     public String event;
   }

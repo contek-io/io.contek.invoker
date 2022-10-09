@@ -10,8 +10,7 @@ import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
 
 @ThreadSafe
-public final class ExecutionChannel
-    extends WebSocketChannel<ExecutionChannel.Id, ExecutionChannel.Message> {
+public final class ExecutionChannel extends WebSocketChannel<ExecutionChannel.Message, _Execution> {
 
   ExecutionChannel() {
     super(Id.INSTANCE);
@@ -19,11 +18,11 @@ public final class ExecutionChannel
 
   @Override
   public Class<Message> getMessageType() {
-    return ExecutionChannel.Message.class;
+    return Message.class;
   }
 
   @Immutable
-  public static final class Id extends WebSocketChannelId<ExecutionChannel.Message> {
+  public static final class Id extends WebSocketChannelId<Message> {
 
     private static final Id INSTANCE = new Id();
 
@@ -32,14 +31,11 @@ public final class ExecutionChannel
     }
 
     @Override
-    public boolean accepts(ExecutionChannel.Message message) {
+    public boolean accepts(Message message) {
       return true;
     }
   }
 
   @NotThreadSafe
-  public static final class Data extends _Execution {}
-
-  @NotThreadSafe
-  public static final class Message extends WebSocketTableDataMessage<Data> {}
+  public static final class Message extends WebSocketTableDataMessage<_Execution> {}
 }

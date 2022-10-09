@@ -6,7 +6,7 @@ import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.ThreadSafe;
 
 @ThreadSafe
-public final class OrderBook200Channel extends OrderBookChannel<OrderBook200Channel.Id> {
+public final class OrderBook200Channel extends OrderBookChannel {
 
   public OrderBook200Channel(OrderBook200Channel.Id id) {
     super(id);

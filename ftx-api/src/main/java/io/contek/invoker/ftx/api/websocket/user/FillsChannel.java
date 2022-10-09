@@ -10,8 +10,7 @@ import javax.annotation.concurrent.ThreadSafe;
 import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketChannelKeys._fills;
 
 @ThreadSafe
-public final class FillsChannel
-    extends WebSocketUserChannel<FillsChannel.Id, FillsChannel.Message> {
+public final class FillsChannel extends WebSocketUserChannel<FillsChannel.Message, _Fill> {
 
   FillsChannel() {
     super(Id.INSTANCE);
@@ -19,11 +18,11 @@ public final class FillsChannel
 
   @Override
   public Class<Message> getMessageType() {
-    return FillsChannel.Message.class;
+    return Message.class;
   }
 
   @Immutable
-  public static final class Id extends WebSocketUserChannelId<FillsChannel.Message> {
+  public static final class Id extends WebSocketUserChannelId<Message> {
 
     private static final Id INSTANCE = new Id();
 
@@ -33,8 +32,5 @@ public final class FillsChannel
   }
 
   @NotThreadSafe
-  public static final class Data extends _Fill {}
-
-  @NotThreadSafe
-  public static final class Message extends WebSocketChannelMessage<FillsChannel.Data> {}
+  public static final class Message extends WebSocketChannelMessage<_Fill> {}
 }

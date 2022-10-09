@@ -10,33 +10,29 @@ import javax.annotation.concurrent.ThreadSafe;
 import static io.contek.invoker.okx.api.websocket.common.constants.WebSocketChannelKeys._tickers;
 
 @ThreadSafe
-public final class TickersChannel
-    extends WebSocketMarketChannel<TickersChannel.Id, TickersChannel.Message> {
+public final class TickersChannel extends WebSocketMarketChannel<TickersChannel.Message, _Ticker> {
 
   TickersChannel(TickersChannel.Id id) {
     super(id);
   }
 
   @Override
-  public Class<TickersChannel.Message> getMessageType() {
-    return TickersChannel.Message.class;
+  public Class<Message> getMessageType() {
+    return Message.class;
   }
 
   @Immutable
-  public static final class Id extends WebSocketMarketChannelId<TickersChannel.Message> {
+  public static final class Id extends WebSocketMarketChannelId<Message> {
 
     private Id(String instId) {
       super(_tickers, instId);
     }
 
-    public static TickersChannel.Id of(String instId) {
-      return new TickersChannel.Id(instId);
+    public static Id of(String instId) {
+      return new Id(instId);
     }
   }
 
   @NotThreadSafe
-  public static final class Data extends _Ticker {}
-
-  @NotThreadSafe
-  public static final class Message extends WebSocketChannelPushData<Data> {}
+  public static final class Message extends WebSocketChannelPushData<_Ticker> {}
 }

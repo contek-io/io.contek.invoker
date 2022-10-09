@@ -9,33 +9,29 @@ import javax.annotation.concurrent.ThreadSafe;
 import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketChannelKeys._ticker;
 
 @ThreadSafe
-public final class TickerChannel
-    extends WebSocketMarketChannel<TickerChannel.Id, TickerChannel.Message> {
+public final class TickerChannel extends WebSocketMarketChannel<TickerChannel.Message, _Ticker> {
 
   TickerChannel(TickerChannel.Id id) {
     super(id);
   }
 
   @Override
-  public Class<TickerChannel.Message> getMessageType() {
-    return TickerChannel.Message.class;
+  public Class<Message> getMessageType() {
+    return Message.class;
   }
 
   @Immutable
-  public static final class Id extends WebSocketMarketChannelId<TickerChannel.Message> {
+  public static final class Id extends WebSocketMarketChannelId<Message> {
 
     private Id(String market) {
       super(_ticker, market);
     }
 
-    public static TickerChannel.Id of(String market) {
-      return new TickerChannel.Id(market);
+    public static Id of(String market) {
+      return new Id(market);
     }
   }
 
   @NotThreadSafe
-  public static final class Data extends _Ticker {}
-
-  @NotThreadSafe
-  public static final class Message extends WebSocketMarketChannelMessage<Data> {}
+  public static final class Message extends WebSocketMarketChannelMessage<_Ticker> {}
 }

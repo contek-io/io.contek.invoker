@@ -13,7 +13,7 @@ import static java.lang.String.format;
 
 @ThreadSafe
 public final class OrderBookL2Channel
-    extends WebSocketChannel<OrderBookL2Channel.Id, OrderBookL2Channel.Message> {
+    extends WebSocketChannel<OrderBookL2Channel.Message, _OrderBookLevel> {
 
   OrderBookL2Channel(Id id) {
     super(id);

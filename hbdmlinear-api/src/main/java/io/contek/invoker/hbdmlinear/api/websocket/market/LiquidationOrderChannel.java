@@ -16,7 +16,7 @@ import static java.lang.String.format;
 @ThreadSafe
 public final class LiquidationOrderChannel
     extends NotificationWebSocketChannel<
-        LiquidationOrderChannel.Id, LiquidationOrderChannel.Message> {
+        LiquidationOrderChannel.Message, LiquidationOrderChannel.Data> {
 
   LiquidationOrderChannel(
       LiquidationOrderChannel.Id id, NotificationWebSocketRequestIdGenerator requestIdGenerator) {
@@ -42,8 +42,7 @@ public final class LiquidationOrderChannel
   }
 
   @NotThreadSafe
-  public static final class Message
-      extends NotificationWebSocketDataMessage<LiquidationOrderChannel.Data> {}
+  public static final class Message extends NotificationWebSocketDataMessage<Data> {}
 
   @NotThreadSafe
   public static final class Data extends ArrayList<_LiquidationOrder> {}

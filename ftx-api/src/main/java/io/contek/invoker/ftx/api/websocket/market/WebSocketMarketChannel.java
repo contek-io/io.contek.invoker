@@ -14,17 +14,16 @@ import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketOutb
 
 @ThreadSafe
 public abstract class WebSocketMarketChannel<
-        Id extends WebSocketMarketChannelId<Message>,
-        Message extends WebSocketMarketChannelMessage<?>>
-    extends WebSocketChannel<Id, Message> {
+        Message extends WebSocketMarketChannelMessage<Data>, Data>
+    extends WebSocketChannel<WebSocketMarketChannelId<Message>, Message, Data> {
 
-  protected WebSocketMarketChannel(Id id) {
+  protected WebSocketMarketChannel(WebSocketMarketChannelId<Message> id) {
     super(id);
   }
 
   @Override
   protected final SubscriptionState subscribe(WebSocketSession session) {
-    Id id = getId();
+    WebSocketMarketChannelId<Message> id = getId();
     WebSocketSubscriptionRequest request = new WebSocketSubscriptionRequest();
     request.op = _subscribe;
     request.channel = id.getChannel();
@@ -35,7 +34,7 @@ public abstract class WebSocketMarketChannel<
 
   @Override
   protected final SubscriptionState unsubscribe(WebSocketSession session) {
-    Id id = getId();
+    WebSocketMarketChannelId<Message> id = getId();
     WebSocketSubscriptionRequest request = new WebSocketSubscriptionRequest();
     request.op = _unsubscribe;
     request.channel = getId().getChannel();

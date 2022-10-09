@@ -13,7 +13,7 @@ import static java.lang.String.format;
 
 @ThreadSafe
 public final class LiquidationChannel
-    extends WebSocketChannel<LiquidationChannel.Id, LiquidationChannel.Message> {
+    extends WebSocketChannel<LiquidationChannel.Message, _LiquidationOrder> {
 
   LiquidationChannel(LiquidationChannel.Id id) {
     super(id);

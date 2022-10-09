@@ -11,7 +11,7 @@ import static io.contek.invoker.okx.api.websocket.common.constants.WebSocketChan
 
 @ThreadSafe
 public final class OrderBookChannel
-    extends WebSocketMarketChannel<OrderBookChannel.Id, OrderBookChannel.Message> {
+    extends WebSocketMarketChannel<OrderBookChannel.Message, OrderBookChannel.Data> {
 
   OrderBookChannel(Id id) {
     super(id);

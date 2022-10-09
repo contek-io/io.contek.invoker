@@ -10,8 +10,7 @@ import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
 
 @ThreadSafe
-public final class PositionChannel
-    extends WebSocketChannel<PositionChannel.Id, PositionChannel.Message> {
+public final class PositionChannel extends WebSocketChannel<PositionChannel.Message, _Position> {
 
   PositionChannel() {
     super(Id.INSTANCE);
@@ -19,11 +18,11 @@ public final class PositionChannel
 
   @Override
   public Class<Message> getMessageType() {
-    return PositionChannel.Message.class;
+    return Message.class;
   }
 
   @Immutable
-  public static final class Id extends WebSocketChannelId<PositionChannel.Message> {
+  public static final class Id extends WebSocketChannelId<Message> {
 
     private static final Id INSTANCE = new Id();
 
@@ -32,14 +31,11 @@ public final class PositionChannel
     }
 
     @Override
-    public boolean accepts(PositionChannel.Message message) {
+    public boolean accepts(Message message) {
       return true;
     }
   }
 
   @NotThreadSafe
-  public static final class Data extends _Position {}
-
-  @NotThreadSafe
-  public static final class Message extends WebSocketTableDataMessage<Data> {}
+  public static final class Message extends WebSocketTableDataMessage<_Position> {}
 }

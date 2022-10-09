@@ -10,8 +10,7 @@ import javax.annotation.concurrent.ThreadSafe;
 import java.util.List;
 
 @ThreadSafe
-public final class InstrumentInfoChannel
-    extends WebSocketChannel<InstrumentInfoChannel.Id, InstrumentInfoChannel.Message> {
+public final class InstrumentInfoChannel extends WebSocketChannel<InstrumentInfoChannel.Message> {
 
   InstrumentInfoChannel(InstrumentInfoChannel.Id id) {
     super(id);

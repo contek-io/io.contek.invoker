@@ -10,20 +10,19 @@ import javax.annotation.concurrent.ThreadSafe;
 import static io.contek.invoker.okx.api.websocket.common.constants.WebSocketChannelKeys._trades;
 
 @ThreadSafe
-public final class TradesChannel
-    extends WebSocketMarketChannel<TradesChannel.Id, TradesChannel.Message> {
+public final class TradesChannel extends WebSocketMarketChannel<TradesChannel.Message, _Trade> {
 
   TradesChannel(TradesChannel.Id id) {
     super(id);
   }
 
   @Override
-  public Class<TradesChannel.Message> getMessageType() {
-    return TradesChannel.Message.class;
+  public Class<Message> getMessageType() {
+    return Message.class;
   }
 
   @Immutable
-  public static final class Id extends WebSocketMarketChannelId<TradesChannel.Message> {
+  public static final class Id extends WebSocketMarketChannelId<Message> {
 
     private Id(String instId) {
       super(_trades, instId);
@@ -35,8 +34,5 @@ public final class TradesChannel
   }
 
   @NotThreadSafe
-  public static final class Data extends _Trade {}
-
-  @NotThreadSafe
-  public static final class Message extends WebSocketChannelPushData<Data> {}
+  public static final class Message extends WebSocketChannelPushData<_Trade> {}
 }

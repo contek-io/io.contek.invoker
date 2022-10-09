@@ -16,7 +16,7 @@ import static java.lang.String.format;
 
 @ThreadSafe
 public final class UserChangesChannel
-    extends UserWebSocketChannel<UserChangesChannel.Id, UserChangesChannel.Message> {
+    extends UserWebSocketChannel<UserChangesChannel.Message, UserChangesChannel.Data> {
 
   UserChangesChannel(Id id, WebSocketRequestIdGenerator requestIdGenerator) {
     super(id, requestIdGenerator);
@@ -28,7 +28,7 @@ public final class UserChangesChannel
   }
 
   @Immutable
-  public static final class Id extends WebSocketChannelId<UserChangesChannel.Message> {
+  public static final class Id extends WebSocketChannelId<Message> {
 
     private Id(String value) {
       super(value);

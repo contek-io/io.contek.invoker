@@ -14,7 +14,8 @@ import static java.lang.String.format;
 
 @ThreadSafe
 public final class TradeDetailChannel
-    extends MarketDataMarketWebSocketChannel<TradeDetailChannel.Id, TradeDetailChannel.Message> {
+    extends MarketDataMarketWebSocketChannel<
+        TradeDetailChannel.Id, TradeDetailChannel.Message, _TradeDetail> {
 
   TradeDetailChannel(
       TradeDetailChannel.Id id, MarketDataWebSocketRequestIdGenerator requestIdGenerator) {

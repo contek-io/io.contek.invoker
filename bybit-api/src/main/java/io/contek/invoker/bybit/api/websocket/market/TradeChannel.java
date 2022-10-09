@@ -10,7 +10,7 @@ import javax.annotation.concurrent.ThreadSafe;
 import java.util.List;
 
 @ThreadSafe
-public final class TradeChannel extends WebSocketChannel<TradeChannel.Id, TradeChannel.Message> {
+public final class TradeChannel extends WebSocketChannel<TradeChannel.Message> {
 
   TradeChannel(TradeChannel.Id id) {
     super(id);

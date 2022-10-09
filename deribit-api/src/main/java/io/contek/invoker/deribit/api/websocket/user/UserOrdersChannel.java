@@ -13,7 +13,7 @@ import static java.lang.String.format;
 
 @ThreadSafe
 public final class UserOrdersChannel
-    extends UserWebSocketChannel<UserOrdersChannel.Id, UserOrdersChannel.Message> {
+    extends UserWebSocketChannel<UserOrdersChannel.Message, UserOrdersChannel.Data> {
 
   UserOrdersChannel(Id id, WebSocketRequestIdGenerator requestIdGenerator) {
     super(id, requestIdGenerator);

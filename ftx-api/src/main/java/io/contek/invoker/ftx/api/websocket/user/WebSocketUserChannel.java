@@ -3,7 +3,6 @@ package io.contek.invoker.ftx.api.websocket.user;
 import io.contek.invoker.commons.websocket.SubscriptionState;
 import io.contek.invoker.commons.websocket.WebSocketSession;
 import io.contek.invoker.ftx.api.websocket.WebSocketChannel;
-import io.contek.invoker.ftx.api.websocket.WebSocketChannelId;
 import io.contek.invoker.ftx.api.websocket.common.WebSocketChannelMessage;
 import io.contek.invoker.ftx.api.websocket.common.WebSocketSubscriptionRequest;
 
@@ -15,17 +14,16 @@ import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketOutb
 import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketOutboundKeys._unsubscribe;
 
 @ThreadSafe
-public abstract class WebSocketUserChannel<
-        Id extends WebSocketChannelId<Message>, Message extends WebSocketChannelMessage<?>>
-    extends WebSocketChannel<Id, Message> {
+public abstract class WebSocketUserChannel<Message extends WebSocketChannelMessage<Data>, Data>
+    extends WebSocketChannel<WebSocketUserChannelId<Message>, Message, Data> {
 
-  protected WebSocketUserChannel(Id id) {
+  protected WebSocketUserChannel(WebSocketUserChannelId<Message> id) {
     super(id);
   }
 
   @Override
   protected final SubscriptionState subscribe(WebSocketSession session) {
-    Id id = getId();
+    WebSocketUserChannelId<Message> id = getId();
     WebSocketSubscriptionRequest request = new WebSocketSubscriptionRequest();
     request.op = _subscribe;
     request.channel = id.getChannel();
@@ -35,7 +33,7 @@ public abstract class WebSocketUserChannel<
 
   @Override
   protected final SubscriptionState unsubscribe(WebSocketSession session) {
-    Id id = getId();
+    WebSocketUserChannelId<Message> id = getId();
     WebSocketSubscriptionRequest request = new WebSocketSubscriptionRequest();
     request.op = _unsubscribe;
     request.channel = getId().getChannel();

@@ -15,7 +15,7 @@ import static java.lang.String.format;
 
 @ThreadSafe
 public final class BookChangeChannel
-    extends MarketWebSocketChannel<BookChangeChannel.Id, BookChangeChannel.Message> {
+    extends MarketWebSocketChannel<BookChangeChannel.Message, BookChangeChannel.Data> {
 
   BookChangeChannel(Id id, WebSocketRequestIdGenerator requestIdGenerator) {
     super(id, requestIdGenerator);

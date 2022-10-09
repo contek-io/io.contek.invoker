@@ -27,7 +27,7 @@ final class WebSocketMessageParser extends WebSocketTextMessageParser {
 
   @Override
   public void register(IWebSocketComponent component) {
-    if (!(component instanceof WebSocketChannel<?, ?> channel)) {
+    if (!(component instanceof WebSocketChannel<?> channel)) {
       return;
     }
     synchronized (channelMessageTypes) {

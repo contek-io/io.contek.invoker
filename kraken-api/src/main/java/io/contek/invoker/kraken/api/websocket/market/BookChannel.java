@@ -14,7 +14,8 @@ import javax.annotation.concurrent.ThreadSafe;
 import static io.contek.invoker.kraken.api.websocket.common.constants.WebSocketChannelKeys._book;
 
 @ThreadSafe
-public final class BookChannel extends WebSocketChannel<BookChannel.Id, BookChannel.Message> {
+public final class BookChannel
+    extends WebSocketChannel<BookChannel.Id, BookChannel.Message, _Book> {
 
   BookChannel(Id id, WebSocketRequestIdGenerator requestIdGenerator) {
     super(id, requestIdGenerator);
@@ -30,12 +31,12 @@ public final class BookChannel extends WebSocketChannel<BookChannel.Id, BookChan
   }
 
   @Override
-  public Class<BookChannel.Message> getMessageType() {
-    return BookChannel.Message.class;
+  public Class<Message> getMessageType() {
+    return Message.class;
   }
 
   @Immutable
-  public static final class Id extends WebSocketChannelId<BookChannel.Message> {
+  public static final class Id extends WebSocketChannelId<Message> {
 
     private final int depth;
 

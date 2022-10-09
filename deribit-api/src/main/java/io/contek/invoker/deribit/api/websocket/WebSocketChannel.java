@@ -16,9 +16,8 @@ import static io.contek.invoker.deribit.api.websocket.common.constants.WebSocket
 import static io.contek.invoker.deribit.api.websocket.common.constants.WebSocketOutboundKeys._unsubscribe;
 
 @ThreadSafe
-public abstract class WebSocketChannel<
-        Id extends WebSocketChannelId<Message>, Message extends WebSocketSingleChannelMessage<?>>
-    extends BaseWebSocketChannel<Id, Message> {
+public abstract class WebSocketChannel<Message extends WebSocketSingleChannelMessage<Data>, Data>
+    extends BaseWebSocketChannel<WebSocketChannelId<Message>, Message, Data> {
 
   private final String scope;
   private final WebSocketRequestIdGenerator requestIdGenerator;
@@ -26,10 +25,18 @@ public abstract class WebSocketChannel<
   private final AtomicReference<WebSocketRequest<SubscriptionParams>> pendingRequestHolder =
       new AtomicReference<>();
 
-  protected WebSocketChannel(Id id, String scope, WebSocketRequestIdGenerator requestIdGenerator) {
+  protected WebSocketChannel(
+      WebSocketChannelId<Message> id,
+      String scope,
+      WebSocketRequestIdGenerator requestIdGenerator) {
     super(id);
     this.scope = scope;
     this.requestIdGenerator = requestIdGenerator;
+  }
+
+  @Override
+  protected final Data getData(Message message) {
+    return message.params.data;
   }
 
   @Override
@@ -38,7 +45,8 @@ public abstract class WebSocketChannel<
       if (pendingRequestHolder.get() != null) {
         throw new IllegalStateException();
       }
-      Id id = getId();
+
+      WebSocketChannelId<Message> id = getId();
       SubscriptionParams params = new SubscriptionParams();
       params.channels = ImmutableList.of(id.getChannel());
 
@@ -58,7 +66,8 @@ public abstract class WebSocketChannel<
       if (pendingRequestHolder.get() != null) {
         throw new IllegalStateException();
       }
-      Id id = getId();
+
+      WebSocketChannelId<Message> id = getId();
       SubscriptionParams params = new SubscriptionParams();
       params.channels = ImmutableList.of(id.getChannel());
 

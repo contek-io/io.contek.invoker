@@ -16,11 +16,16 @@ import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketInbo
 
 @ThreadSafe
 public abstract class WebSocketChannel<
-        Id extends WebSocketChannelId<Message>, Message extends WebSocketChannelMessage<?>>
-    extends BaseWebSocketChannel<Id, Message> {
+        Id extends WebSocketChannelId<Message>, Message extends WebSocketChannelMessage<Data>, Data>
+    extends BaseWebSocketChannel<Id, Message, Data> {
 
   protected WebSocketChannel(Id id) {
     super(id);
+  }
+
+  @Override
+  protected final Data getData(Message message) {
+    return message.data;
   }
 
   @Nullable

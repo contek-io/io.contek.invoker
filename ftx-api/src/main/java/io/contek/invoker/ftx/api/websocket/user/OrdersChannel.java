@@ -10,8 +10,7 @@ import javax.annotation.concurrent.ThreadSafe;
 import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketChannelKeys._orders;
 
 @ThreadSafe
-public final class OrdersChannel
-    extends WebSocketUserChannel<OrdersChannel.Id, OrdersChannel.Message> {
+public final class OrdersChannel extends WebSocketUserChannel<OrdersChannel.Message, _Order> {
 
   OrdersChannel() {
     super(Id.INSTANCE);
@@ -33,8 +32,5 @@ public final class OrdersChannel
   }
 
   @NotThreadSafe
-  public static final class Data extends _Order {}
-
-  @NotThreadSafe
-  public static final class Message extends WebSocketChannelMessage<OrdersChannel.Data> {}
+  public static final class Message extends WebSocketChannelMessage<_Order> {}
 }
