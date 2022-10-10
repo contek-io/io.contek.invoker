@@ -29,7 +29,7 @@ final class MarketDataWebSocketMessageParser extends WebSocketBinaryMessageParse
 
   @Override
   public void register(IWebSocketComponent component) {
-    if (!(component instanceof MarketDataMarketWebSocketChannel<?, ?> channel)) {
+    if (!(component instanceof MarketDataMarketWebSocketChannel<?, ?, ?> channel)) {
       return;
     }
     synchronized (channelMessageTypes) {

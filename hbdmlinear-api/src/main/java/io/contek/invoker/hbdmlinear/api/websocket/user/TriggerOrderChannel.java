@@ -5,18 +5,16 @@ import io.contek.invoker.hbdmlinear.api.websocket.common.notification.Notificati
 import io.contek.invoker.hbdmlinear.api.websocket.common.notification.NotificationWebSocketChannelId;
 import io.contek.invoker.hbdmlinear.api.websocket.common.notification.NotificationWebSocketDataMessage;
 import io.contek.invoker.hbdmlinear.api.websocket.common.notification.NotificationWebSocketRequestIdGenerator;
-import io.contek.invoker.hbdmlinear.api.websocket.market.LiquidationOrderChannel;
 
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
-import java.util.ArrayList;
 
 import static java.lang.String.format;
 
 @ThreadSafe
 public final class TriggerOrderChannel
-    extends NotificationWebSocketChannel<TriggerOrderChannel.Id, TriggerOrderChannel.Message> {
+    extends NotificationWebSocketChannel<TriggerOrderChannel.Message, _LiquidationOrder> {
 
   TriggerOrderChannel(
       TriggerOrderChannel.Id id, NotificationWebSocketRequestIdGenerator requestIdGenerator) {
@@ -41,9 +39,5 @@ public final class TriggerOrderChannel
   }
 
   @NotThreadSafe
-  public static final class Message
-      extends NotificationWebSocketDataMessage<LiquidationOrderChannel.Data> {}
-
-  @NotThreadSafe
-  public static final class Data extends ArrayList<_LiquidationOrder> {}
+  public static final class Message extends NotificationWebSocketDataMessage<_LiquidationOrder> {}
 }

@@ -4,6 +4,7 @@ import io.contek.invoker.commons.websocket.*;
 
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.ThreadSafe;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static io.contek.invoker.commons.websocket.SubscriptionState.*;
@@ -13,7 +14,7 @@ import static io.contek.invoker.hbdmlinear.api.websocket.user.constants.OpKeys._
 @ThreadSafe
 public abstract class NotificationWebSocketChannel<
         Message extends NotificationWebSocketDataMessage<Data>, Data>
-    extends BaseWebSocketChannel<NotificationWebSocketChannelId<Message>, Message, Data> {
+    extends BaseWebSocketChannel<NotificationWebSocketChannelId<Message>, Message, List<Data>> {
 
   private final NotificationWebSocketRequestIdGenerator requestIdGenerator;
 
@@ -28,7 +29,7 @@ public abstract class NotificationWebSocketChannel<
   }
 
   @Override
-  protected final Data getData(Message message) {
+  protected final List<Data> getData(Message message) {
     return message.data;
   }
 

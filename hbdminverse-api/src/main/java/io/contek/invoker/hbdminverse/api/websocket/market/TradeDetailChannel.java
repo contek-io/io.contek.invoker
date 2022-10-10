@@ -14,14 +14,15 @@ import static java.lang.String.format;
 
 @ThreadSafe
 public final class TradeDetailChannel
-    extends MarketDataMarketWebSocketChannel<TradeDetailChannel.Id, TradeDetailChannel.Message> {
+    extends MarketDataMarketWebSocketChannel<
+        TradeDetailChannel.Id, TradeDetailChannel.Message, _TradeDetail> {
 
   TradeDetailChannel(Id id, MarketDataWebSocketRequestIdGenerator requestIdGenerator) {
     super(id, Message.class, requestIdGenerator);
   }
 
   @Override
-  protected final SubscriptionState subscribe(WebSocketSession session) {
+  protected SubscriptionState subscribe(WebSocketSession session) {
     Id id = getId();
     SubscribeTradeDetailRequest request = new SubscribeTradeDetailRequest();
     request.sub = id.getChannel();

@@ -14,7 +14,7 @@ import static java.lang.String.format;
 
 @ThreadSafe
 public final class DepthChannel
-    extends MarketDataMarketWebSocketChannel<DepthChannel.Id, DepthChannel.Message> {
+    extends MarketDataMarketWebSocketChannel<DepthChannel.Id, DepthChannel.Message, _Depth> {
 
   DepthChannel(Id id, MarketDataWebSocketRequestIdGenerator requestIdGenerator) {
     super(id, Message.class, requestIdGenerator);

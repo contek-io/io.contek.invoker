@@ -1,10 +1,11 @@
 package io.contek.invoker.hbdminverse.api.websocket.common.notification;
 
 import javax.annotation.concurrent.NotThreadSafe;
+import java.util.List;
 
 @NotThreadSafe
 public abstract class NotificationWebSocketDataMessage<T>
     extends NotificationWebSocketChannelMessage {
 
-  public T data;
+  public List<T> data;
 }
