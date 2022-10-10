@@ -1,4 +1,4 @@
-package io.contek.invoker.binancefutures.api.websocket.market.raw;
+package io.contek.invoker.binancefutures.api.websocket.market.direct;
 
 import io.contek.invoker.binancefutures.api.websocket.market.*;
 import io.contek.invoker.commons.actor.IActor;
@@ -11,22 +11,24 @@ import java.util.HashMap;
 import java.util.Map;
 
 @ThreadSafe
-public final class MarketRawWebSocketApi implements IMarketWebSocketApi {
+public final class MarketDirectWebSocketApi implements IMarketWebSocketApi {
 
   private final IActor actor;
   private final WebSocketContext context;
 
-  private final Map<BookTickerRawStream.Id, BookTickerRawStream> bookTickerChannels =
+  private final Map<BookTickerDirectStream.Id, BookTickerDirectStream> bookTickerChannels =
       new HashMap<>();
-  private final Map<TradeRawStream.Id, TradeRawStream> tradeChannels = new HashMap<>();
-  private final Map<AggTradeRawStream.Id, AggTradeRawStream> aggTradeChannels = new HashMap<>();
-  private final Map<DepthDiffRawStream.Id, DepthDiffRawStream> depthDiffChannels = new HashMap<>();
-  private final Map<DepthPartialRawStream.Id, DepthPartialRawStream> depthPartialChannels =
+  private final Map<TradeDirectStream.Id, TradeDirectStream> tradeChannels = new HashMap<>();
+  private final Map<AggTradeDirectStream.Id, AggTradeDirectStream> aggTradeChannels =
       new HashMap<>();
-  private final Map<ForceOrderRawStream.Id, ForceOrderRawStream> forceOrderChannels =
+  private final Map<DepthDiffDirectStream.Id, DepthDiffDirectStream> depthDiffChannels =
+      new HashMap<>();
+  private final Map<DepthPartialDirectStream.Id, DepthPartialDirectStream> depthPartialChannels =
+      new HashMap<>();
+  private final Map<ForceOrderDirectStream.Id, ForceOrderDirectStream> forceOrderChannels =
       new HashMap<>();
 
-  public MarketRawWebSocketApi(IActor actor, WebSocketContext context) {
+  public MarketDirectWebSocketApi(IActor actor, WebSocketContext context) {
     this.actor = actor;
     this.context = context;
   }
@@ -35,7 +37,8 @@ public final class MarketRawWebSocketApi implements IMarketWebSocketApi {
     synchronized (bookTickerChannels) {
       return bookTickerChannels
           .computeIfAbsent(
-              BookTickerRawStream.Id.of(symbol), k -> new BookTickerRawStream(k, actor, context))
+              BookTickerDirectStream.Id.of(symbol),
+              k -> new BookTickerDirectStream(k, actor, context))
           .getChannel();
     }
   }
@@ -43,7 +46,8 @@ public final class MarketRawWebSocketApi implements IMarketWebSocketApi {
   public IWebSocketChannel<TradeEvent> getTradeChannel(String symbol) {
     synchronized (tradeChannels) {
       return tradeChannels
-          .computeIfAbsent(TradeRawStream.Id.of(symbol), k -> new TradeRawStream(k, actor, context))
+          .computeIfAbsent(
+              TradeDirectStream.Id.of(symbol), k -> new TradeDirectStream(k, actor, context))
           .getChannel();
     }
   }
@@ -52,7 +56,7 @@ public final class MarketRawWebSocketApi implements IMarketWebSocketApi {
     synchronized (aggTradeChannels) {
       return aggTradeChannels
           .computeIfAbsent(
-              AggTradeRawStream.Id.of(symbol), k -> new AggTradeRawStream(k, actor, context))
+              AggTradeDirectStream.Id.of(symbol), k -> new AggTradeDirectStream(k, actor, context))
           .getChannel();
     }
   }
@@ -61,8 +65,8 @@ public final class MarketRawWebSocketApi implements IMarketWebSocketApi {
     synchronized (depthDiffChannels) {
       return depthDiffChannels
           .computeIfAbsent(
-              DepthDiffRawStream.Id.of(symbol, interval),
-              k -> new DepthDiffRawStream(k, actor, context))
+              DepthDiffDirectStream.Id.of(symbol, interval),
+              k -> new DepthDiffDirectStream(k, actor, context))
           .getChannel();
     }
   }
@@ -72,8 +76,8 @@ public final class MarketRawWebSocketApi implements IMarketWebSocketApi {
     synchronized (depthPartialChannels) {
       return depthPartialChannels
           .computeIfAbsent(
-              DepthPartialRawStream.Id.of(symbol, levels, interval),
-              k -> new DepthPartialRawStream(k, actor, context))
+              DepthPartialDirectStream.Id.of(symbol, levels, interval),
+              k -> new DepthPartialDirectStream(k, actor, context))
           .getChannel();
     }
   }
@@ -82,7 +86,8 @@ public final class MarketRawWebSocketApi implements IMarketWebSocketApi {
     synchronized (forceOrderChannels) {
       return forceOrderChannels
           .computeIfAbsent(
-              ForceOrderRawStream.Id.of(symbol), k -> new ForceOrderRawStream(k, actor, context))
+              ForceOrderDirectStream.Id.of(symbol),
+              k -> new ForceOrderDirectStream(k, actor, context))
           .getChannel();
     }
   }

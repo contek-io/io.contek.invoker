@@ -1,4 +1,4 @@
-package io.contek.invoker.binancefutures.api.websocket.market.raw;
+package io.contek.invoker.binancefutures.api.websocket.market.direct;
 
 import io.contek.invoker.binancefutures.api.websocket.market.TradeEvent;
 import io.contek.invoker.commons.actor.IActor;
@@ -10,14 +10,14 @@ import javax.annotation.concurrent.ThreadSafe;
 import static io.contek.invoker.binancefutures.api.websocket.common.constants.WebSocketChannelKeys.trade;
 
 @ThreadSafe
-public final class TradeRawStream extends RawStream<TradeEvent> {
+public final class TradeDirectStream extends DirectStream<TradeEvent> {
 
-  public TradeRawStream(Id id, IActor actor, WebSocketContext context) {
+  public TradeDirectStream(Id id, IActor actor, WebSocketContext context) {
     super(id, actor, context);
   }
 
   @Immutable
-  public static final class Id extends MarketWebSocketRawChannelId<TradeEvent> {
+  public static final class Id extends MarketWebSocketDirectChannelId<TradeEvent> {
 
     private Id(String symbol) {
       super(trade(symbol));

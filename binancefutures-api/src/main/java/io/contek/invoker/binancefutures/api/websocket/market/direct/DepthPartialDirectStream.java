@@ -1,4 +1,4 @@
-package io.contek.invoker.binancefutures.api.websocket.market.raw;
+package io.contek.invoker.binancefutures.api.websocket.market.direct;
 
 import io.contek.invoker.binancefutures.api.websocket.market.DepthUpdateEvent;
 import io.contek.invoker.commons.actor.IActor;
@@ -11,14 +11,14 @@ import javax.annotation.concurrent.ThreadSafe;
 import static io.contek.invoker.binancefutures.api.websocket.common.constants.WebSocketChannelKeys.depthPartial;
 
 @ThreadSafe
-public final class DepthPartialRawStream extends RawStream<DepthUpdateEvent> {
+public final class DepthPartialDirectStream extends DirectStream<DepthUpdateEvent> {
 
-  public DepthPartialRawStream(Id id, IActor actor, WebSocketContext context) {
+  public DepthPartialDirectStream(Id id, IActor actor, WebSocketContext context) {
     super(id, actor, context);
   }
 
   @Immutable
-  public static final class Id extends MarketWebSocketRawChannelId<DepthUpdateEvent> {
+  public static final class Id extends MarketWebSocketDirectChannelId<DepthUpdateEvent> {
 
     private Id(String symbol, int levels, @Nullable String interval) {
       super(depthPartial(symbol, levels, interval));

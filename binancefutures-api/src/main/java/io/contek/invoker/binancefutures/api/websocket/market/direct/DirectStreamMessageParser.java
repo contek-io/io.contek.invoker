@@ -1,4 +1,4 @@
-package io.contek.invoker.binancefutures.api.websocket.market.raw;
+package io.contek.invoker.binancefutures.api.websocket.market.direct;
 
 import com.google.gson.Gson;
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
@@ -8,13 +8,13 @@ import io.contek.invoker.commons.websocket.WebSocketTextMessageParser;
 import javax.annotation.concurrent.ThreadSafe;
 
 @ThreadSafe
-final class RawStreamMessageParser<T extends AnyWebSocketMessage>
+final class DirectStreamMessageParser<T extends AnyWebSocketMessage>
     extends WebSocketTextMessageParser {
 
   private final Class<T> type;
   private final Gson gson = new Gson();
 
-  RawStreamMessageParser(Class<T> type) {
+  DirectStreamMessageParser(Class<T> type) {
     this.type = type;
   }
 

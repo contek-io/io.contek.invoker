@@ -1,4 +1,4 @@
-package io.contek.invoker.binancefutures.api.websocket.market.raw;
+package io.contek.invoker.binancefutures.api.websocket.market.direct;
 
 import com.google.common.collect.ImmutableList;
 import io.contek.invoker.binancefutures.api.websocket.common.WebSocketEventData;
@@ -11,23 +11,23 @@ import javax.annotation.concurrent.ThreadSafe;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 @ThreadSafe
-abstract class RawStream<Data extends WebSocketEventData> extends BaseWebSocketApi {
+abstract class DirectStream<Data extends WebSocketEventData> extends BaseWebSocketApi {
 
-  private final MarketWebSocketRawChannelId<Data> id;
+  private final MarketWebSocketDirectChannelId<Data> id;
   private final WebSocketContext context;
-  private final MarketWebSocketRawChannel<Data> channel;
+  private final MarketWebSocketDirectChannel<Data> channel;
 
   private final AtomicBoolean attached = new AtomicBoolean(false);
 
-  RawStream(MarketWebSocketRawChannelId<Data> id, IActor actor, WebSocketContext context) {
+  DirectStream(MarketWebSocketDirectChannelId<Data> id, IActor actor, WebSocketContext context) {
     super(
         actor,
-        new RawStreamMessageParser<>(id.getType()),
+        new DirectStreamMessageParser<>(id.getType()),
         IWebSocketAuthenticator.noOp(),
         IWebSocketLiveKeeper.noOp());
     this.id = id;
     this.context = context;
-    channel = new MarketWebSocketRawChannel<>(id);
+    channel = new MarketWebSocketDirectChannel<>(id);
   }
 
   @Override
@@ -43,7 +43,7 @@ abstract class RawStream<Data extends WebSocketEventData> extends BaseWebSocketA
   @Override
   protected void checkErrorMessage(AnyWebSocketMessage message) throws WebSocketRuntimeException {}
 
-  MarketWebSocketRawChannel<Data> getChannel() {
+  MarketWebSocketDirectChannel<Data> getChannel() {
     if (!attached.get()) {
       attach(channel);
     }

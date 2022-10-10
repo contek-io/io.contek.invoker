@@ -5,7 +5,7 @@ import io.contek.invoker.binancefutures.api.rest.market.MarketRestApi;
 import io.contek.invoker.binancefutures.api.rest.user.UserRestApi;
 import io.contek.invoker.binancefutures.api.websocket.market.IMarketWebSocketApi;
 import io.contek.invoker.binancefutures.api.websocket.market.combined.MarketCombinedWebSocketApi;
-import io.contek.invoker.binancefutures.api.websocket.market.raw.MarketRawWebSocketApi;
+import io.contek.invoker.binancefutures.api.websocket.market.direct.MarketDirectWebSocketApi;
 import io.contek.invoker.binancefutures.api.websocket.user.UserWebSocketApi;
 import io.contek.invoker.commons.ApiContext;
 import io.contek.invoker.commons.actor.IActor;
@@ -121,11 +121,11 @@ public final class ApiFactory {
 
     private SelectingWebSocketApi() {}
 
-    public IMarketWebSocketApi market(boolean raw) {
+    public IMarketWebSocketApi market(boolean direct) {
       WebSocketContext wsContext = context.getWebSocketContext();
       IActor actor = actorFactory.create(null, wsContext);
-      return raw
-          ? new MarketRawWebSocketApi(actor, wsContext)
+      return direct
+          ? new MarketDirectWebSocketApi(actor, wsContext)
           : new MarketCombinedWebSocketApi(actor, wsContext);
     }
 

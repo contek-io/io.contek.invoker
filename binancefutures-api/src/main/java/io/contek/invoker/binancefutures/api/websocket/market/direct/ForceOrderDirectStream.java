@@ -1,4 +1,4 @@
-package io.contek.invoker.binancefutures.api.websocket.market.raw;
+package io.contek.invoker.binancefutures.api.websocket.market.direct;
 
 import io.contek.invoker.binancefutures.api.websocket.market.ForceOrderEvent;
 import io.contek.invoker.commons.actor.IActor;
@@ -10,14 +10,14 @@ import javax.annotation.concurrent.ThreadSafe;
 import static io.contek.invoker.binancefutures.api.websocket.common.constants.WebSocketChannelKeys.forceOrder;
 
 @ThreadSafe
-public final class ForceOrderRawStream extends RawStream<ForceOrderEvent> {
+public final class ForceOrderDirectStream extends DirectStream<ForceOrderEvent> {
 
-  public ForceOrderRawStream(Id id, IActor actor, WebSocketContext context) {
+  public ForceOrderDirectStream(Id id, IActor actor, WebSocketContext context) {
     super(id, actor, context);
   }
 
   @Immutable
-  public static final class Id extends MarketWebSocketRawChannelId<ForceOrderEvent> {
+  public static final class Id extends MarketWebSocketDirectChannelId<ForceOrderEvent> {
 
     private Id(String symbol) {
       super(forceOrder(symbol));

@@ -1,4 +1,4 @@
-package io.contek.invoker.binancefutures.api.websocket.market.raw;
+package io.contek.invoker.binancefutures.api.websocket.market.direct;
 
 import io.contek.invoker.binancefutures.api.websocket.common.WebSocketEventData;
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
@@ -13,10 +13,10 @@ import static io.contek.invoker.commons.websocket.SubscriptionState.SUBSCRIBED;
 import static io.contek.invoker.commons.websocket.SubscriptionState.UNSUBSCRIBED;
 
 @ThreadSafe
-public final class MarketWebSocketRawChannel<Data extends WebSocketEventData>
-    extends BaseWebSocketChannel<MarketWebSocketRawChannelId<Data>, Data, Data> {
+public final class MarketWebSocketDirectChannel<Data extends WebSocketEventData>
+    extends BaseWebSocketChannel<MarketWebSocketDirectChannelId<Data>, Data, Data> {
 
-  MarketWebSocketRawChannel(MarketWebSocketRawChannelId<Data> id) {
+  MarketWebSocketDirectChannel(MarketWebSocketDirectChannelId<Data> id) {
     super(id);
   }
 
