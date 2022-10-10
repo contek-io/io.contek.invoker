@@ -1,4 +1,4 @@
-package io.contek.invoker.binancespot.api.websocket.market;
+package io.contek.invoker.binancespot.api.websocket.market.combined;
 
 import com.google.common.collect.ImmutableList;
 import io.contek.invoker.binancespot.api.websocket.WebSocketRequestIdGenerator;
@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @ThreadSafe
-public final class MarketWebSocketApi extends BaseWebSocketApi {
+public final class MarketCombinedWebSocketApi extends BaseWebSocketApi {
 
   private final WebSocketContext context;
   private final WebSocketRequestIdGenerator requestIdGenerator = new WebSocketRequestIdGenerator();
@@ -24,10 +24,10 @@ public final class MarketWebSocketApi extends BaseWebSocketApi {
   private final Map<DepthPartialChannel.Id, DepthPartialChannel> depthPartialChannels =
       new HashMap<>();
 
-  public MarketWebSocketApi(IActor actor, WebSocketContext context) {
+  public MarketCombinedWebSocketApi(IActor actor, WebSocketContext context) {
     super(
         actor,
-        MarketWebSocketMessageParser.getInstance(),
+        MarketCombinedMessageParser.getInstance(),
         IWebSocketAuthenticator.noOp(),
         IWebSocketLiveKeeper.noOp());
     this.context = context;

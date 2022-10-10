@@ -1,30 +1,32 @@
-package io.contek.invoker.binancespot.api.websocket.market;
+package io.contek.invoker.binancespot.api.websocket.market.combined;
 
 import io.contek.invoker.binancespot.api.websocket.WebSocketRequestIdGenerator;
-import io.contek.invoker.binancespot.api.websocket.common.WebSocketStreamMessage;
+import io.contek.invoker.binancespot.api.websocket.market.DepthDiffEvent;
 
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
 
+import static io.contek.invoker.binancespot.api.websocket.common.constants.WebSocketChannelKeys.depth;
+
 @ThreadSafe
 public final class DepthDiffChannel
-    extends MarketWebSocketChannel<DepthDiffChannel.Id, DepthDiffChannel.Message> {
+    extends MarketCombinedChannel<DepthDiffChannel.Message, DepthDiffEvent> {
 
   DepthDiffChannel(DepthDiffChannel.Id id, WebSocketRequestIdGenerator requestIdGenerator) {
     super(id, requestIdGenerator);
   }
 
   @Override
-  public Class<DepthDiffChannel.Message> getMessageType() {
-    return DepthDiffChannel.Message.class;
+  public Class<Message> getMessageType() {
+    return Message.class;
   }
 
   @Immutable
-  public static final class Id extends MarketWebSocketChannelId<Message> {
+  public static final class Id extends MarketCombinedChannelId<Message> {
 
     private Id(String symbol, String interval) {
-      super(symbol, "depth@" + interval);
+      super(depth(symbol, interval));
     }
 
     public static Id of(String symbol, String interval) {

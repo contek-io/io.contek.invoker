@@ -1,4 +1,4 @@
-package io.contek.invoker.binancedelivery.api.websocket.common;
+package io.contek.invoker.binancespot.api.websocket.market.combined;
 
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 

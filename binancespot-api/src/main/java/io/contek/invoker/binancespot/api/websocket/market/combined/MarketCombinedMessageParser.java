@@ -1,10 +1,10 @@
-package io.contek.invoker.binancedelivery.api.websocket.market;
+package io.contek.invoker.binancespot.api.websocket.market.combined;
 
 import com.google.common.base.Splitter;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import io.contek.invoker.binancedelivery.api.websocket.common.WebSocketCommandConfirmation;
+import io.contek.invoker.binancespot.api.websocket.market.BookTickerEvent;
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.IWebSocketComponent;
 import io.contek.invoker.commons.websocket.WebSocketTextMessageParser;
@@ -12,15 +12,15 @@ import io.contek.invoker.commons.websocket.WebSocketTextMessageParser;
 import javax.annotation.concurrent.Immutable;
 import java.util.List;
 
-import static io.contek.invoker.binancedelivery.api.websocket.common.constants.WebSocketChannelKeys.*;
+import static io.contek.invoker.binancespot.api.websocket.common.constants.WebSocketChannelKeys.*;
 
 @Immutable
-public final class MarketWebSocketMessageParser extends WebSocketTextMessageParser {
+final class MarketCombinedMessageParser extends WebSocketTextMessageParser {
 
   private final Gson gson = new Gson();
 
-  static MarketWebSocketMessageParser getInstance() {
-    return InstanceHolder.INSTANCE;
+  static MarketCombinedMessageParser getInstance() {
+    return MarketCombinedMessageParser.InstanceHolder.INSTANCE;
   }
 
   @Override
@@ -59,7 +59,6 @@ public final class MarketWebSocketMessageParser extends WebSocketTextMessagePars
       case _aggTrade -> gson.fromJson(obj, AggTradeChannel.Message.class);
       case _depth -> gson.fromJson(obj, DepthDiffChannel.Message.class);
       case _depth5, _depth10, _depth20 -> gson.fromJson(obj, DepthPartialChannel.Message.class);
-      case _forceOrder -> gson.fromJson(obj, ForceOrderChannel.Message.class);
       default -> throw new IllegalStateException();
     };
   }
@@ -68,12 +67,12 @@ public final class MarketWebSocketMessageParser extends WebSocketTextMessagePars
     return gson.fromJson(obj, BookTickerEvent.class);
   }
 
-  private MarketWebSocketMessageParser() {}
+  private MarketCombinedMessageParser() {}
 
   @Immutable
   private static class InstanceHolder {
 
-    private static final MarketWebSocketMessageParser INSTANCE = new MarketWebSocketMessageParser();
+    private static final MarketCombinedMessageParser INSTANCE = new MarketCombinedMessageParser();
 
     private InstanceHolder() {}
   }

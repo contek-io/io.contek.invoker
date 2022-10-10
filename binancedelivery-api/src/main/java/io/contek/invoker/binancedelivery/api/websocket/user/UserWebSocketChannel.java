@@ -1,6 +1,6 @@
 package io.contek.invoker.binancedelivery.api.websocket.user;
 
-import io.contek.invoker.binancedelivery.api.websocket.common.WebSocketEventMessage;
+import io.contek.invoker.binancedelivery.api.websocket.common.WebSocketEventData;
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.BaseWebSocketChannel;
 import io.contek.invoker.commons.websocket.SubscriptionState;
@@ -13,12 +13,16 @@ import static io.contek.invoker.commons.websocket.SubscriptionState.SUBSCRIBED;
 import static io.contek.invoker.commons.websocket.SubscriptionState.UNSUBSCRIBED;
 
 @ThreadSafe
-public abstract class UserWebSocketChannel<
-        Id extends UserWebSocketChannelId<Message>, Message extends WebSocketEventMessage>
-    extends BaseWebSocketChannel<Id, Message> {
+public abstract class UserWebSocketChannel<Message extends WebSocketEventData>
+    extends BaseWebSocketChannel<UserWebSocketChannelId<Message>, Message, Message> {
 
-  public UserWebSocketChannel(Id id) {
+  public UserWebSocketChannel(UserWebSocketChannelId<Message> id) {
     super(id);
+  }
+
+  @Override
+  protected final Message getData(Message message) {
+    return message;
   }
 
   // We do no action during the subscription phase since the data will be pushed to our end when

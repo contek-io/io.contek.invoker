@@ -3,7 +3,7 @@ package io.contek.invoker.binancespot.api;
 import com.google.common.collect.ImmutableList;
 import io.contek.invoker.binancespot.api.rest.market.MarketRestApi;
 import io.contek.invoker.binancespot.api.rest.user.UserRestApi;
-import io.contek.invoker.binancespot.api.websocket.market.MarketWebSocketApi;
+import io.contek.invoker.binancespot.api.websocket.market.combined.MarketCombinedWebSocketApi;
 import io.contek.invoker.binancespot.api.websocket.user.UserWebSocketApi;
 import io.contek.invoker.commons.ApiContext;
 import io.contek.invoker.commons.actor.IActor;
@@ -116,10 +116,10 @@ public final class ApiFactory {
 
     private SelectingWebSocketApi() {}
 
-    public MarketWebSocketApi market() {
+    public MarketCombinedWebSocketApi market() {
       WebSocketContext wsContext = context.getWebSocketContext();
       IActor actor = actorFactory.create(null, wsContext);
-      return new MarketWebSocketApi(actor, wsContext);
+      return new MarketCombinedWebSocketApi(actor, wsContext);
     }
 
     public UserWebSocketApi user(ApiKey apiKey) {

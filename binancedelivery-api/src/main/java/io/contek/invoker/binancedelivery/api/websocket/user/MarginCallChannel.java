@@ -1,6 +1,6 @@
 package io.contek.invoker.binancedelivery.api.websocket.user;
 
-import io.contek.invoker.binancedelivery.api.websocket.common.WebSocketEventMessage;
+import io.contek.invoker.binancedelivery.api.websocket.common.WebSocketEventData;
 
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
@@ -10,20 +10,19 @@ import java.util.List;
 import static io.contek.invoker.binancedelivery.api.websocket.user.constants.UserEventTypeKeys._MARGIN_CALL;
 
 @ThreadSafe
-public final class MarginCallChannel
-    extends UserWebSocketChannel<MarginCallChannel.Id, MarginCallChannel.Message> {
+public final class MarginCallChannel extends UserWebSocketChannel<MarginCallChannel.Data> {
 
   MarginCallChannel() {
     super(Id.INSTANCE);
   }
 
   @Override
-  public Class<Message> getMessageType() {
-    return Message.class;
+  public Class<Data> getMessageType() {
+    return Data.class;
   }
 
   @Immutable
-  public static final class Id extends UserWebSocketChannelId<Message> {
+  public static final class Id extends UserWebSocketChannelId<Data> {
 
     private static final Id INSTANCE = new Id();
 
@@ -33,7 +32,7 @@ public final class MarginCallChannel
   }
 
   @NotThreadSafe
-  public static final class Message extends WebSocketEventMessage {
+  public static final class Data extends WebSocketEventData {
 
     public Double cw; // transaction time
     public List<PositionForMarginCall> p;

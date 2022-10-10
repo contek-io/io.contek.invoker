@@ -1,17 +1,17 @@
-package io.contek.invoker.binancedelivery.api.websocket.market;
+package io.contek.invoker.binancedelivery.api.websocket.market.combined;
 
 import io.contek.invoker.binancedelivery.api.websocket.WebSocketRequestIdGenerator;
-import io.contek.invoker.binancedelivery.api.websocket.common.WebSocketStreamMessage;
+import io.contek.invoker.binancedelivery.api.websocket.market.DepthUpdateEvent;
 
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
 
-import static io.contek.invoker.binancedelivery.api.websocket.common.constants.WebSocketChannelKeys._depth;
+import static io.contek.invoker.binancedelivery.api.websocket.common.constants.WebSocketChannelKeys.depth;
 
 @ThreadSafe
 public final class DepthDiffChannel
-    extends MarketWebSocketChannel<DepthDiffChannel.Id, DepthDiffChannel.Message> {
+    extends MarketCombinedChannel<DepthDiffChannel.Message, DepthUpdateEvent> {
 
   DepthDiffChannel(Id id, WebSocketRequestIdGenerator requestIdGenerator) {
     super(id, requestIdGenerator);
@@ -23,10 +23,10 @@ public final class DepthDiffChannel
   }
 
   @Immutable
-  public static final class Id extends MarketWebSocketChannelId<Message> {
+  public static final class Id extends MarketCombinedChannelId<Message> {
 
     private Id(String symbol, String interval) {
-      super(symbol, _depth + "@" + interval);
+      super(depth(symbol, interval));
     }
 
     public static Id of(String symbol, String interval) {

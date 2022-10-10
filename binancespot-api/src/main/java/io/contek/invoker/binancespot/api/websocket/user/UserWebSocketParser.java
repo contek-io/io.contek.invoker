@@ -3,7 +3,7 @@ package io.contek.invoker.binancespot.api.websocket.user;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import io.contek.invoker.binancespot.api.websocket.common.WebSocketEventMessage;
+import io.contek.invoker.binancespot.api.websocket.common.WebSocketEventData;
 import io.contek.invoker.commons.websocket.IWebSocketComponent;
 import io.contek.invoker.commons.websocket.WebSocketTextMessageParser;
 
@@ -23,7 +23,7 @@ public final class UserWebSocketParser extends WebSocketTextMessageParser {
   public void register(IWebSocketComponent component) {}
 
   @Override
-  public WebSocketEventMessage fromText(String text) {
+  public WebSocketEventData fromText(String text) {
     JsonElement json = gson.fromJson(text, JsonElement.class);
     if (!json.isJsonObject()) {
       throw new IllegalArgumentException(text);
@@ -37,7 +37,7 @@ public final class UserWebSocketParser extends WebSocketTextMessageParser {
     throw new IllegalStateException(text);
   }
 
-  private WebSocketEventMessage toUserData(JsonObject obj) {
+  private WebSocketEventData toUserData(JsonObject obj) {
     String eventType = obj.get("e").getAsString();
     switch (eventType) {
       default -> throw new IllegalStateException("Unrecognized event type: " + eventType);

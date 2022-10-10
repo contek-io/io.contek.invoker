@@ -1,17 +1,17 @@
-package io.contek.invoker.binancedelivery.api.websocket.market;
+package io.contek.invoker.binancedelivery.api.websocket.market.combined;
 
 import io.contek.invoker.binancedelivery.api.websocket.WebSocketRequestIdGenerator;
-import io.contek.invoker.binancedelivery.api.websocket.common.WebSocketStreamMessage;
+import io.contek.invoker.binancedelivery.api.websocket.market.BookTickerEvent;
 
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
 
-import static io.contek.invoker.binancedelivery.api.websocket.common.constants.WebSocketChannelKeys._bookTicker;
+import static io.contek.invoker.binancedelivery.api.websocket.common.constants.WebSocketChannelKeys.bookTicker;
 
 @ThreadSafe
 public final class BookTickerChannel
-    extends MarketWebSocketChannel<BookTickerChannel.Id, BookTickerChannel.Message> {
+    extends MarketCombinedChannel<BookTickerChannel.Message, BookTickerEvent> {
 
   BookTickerChannel(Id id, WebSocketRequestIdGenerator requestIdGenerator) {
     super(id, requestIdGenerator);
@@ -23,10 +23,10 @@ public final class BookTickerChannel
   }
 
   @Immutable
-  public static final class Id extends MarketWebSocketChannelId<Message> {
+  public static final class Id extends MarketCombinedChannelId<Message> {
 
     private Id(String symbol) {
-      super(symbol, _bookTicker);
+      super(bookTicker(symbol));
     }
 
     public static Id of(String symbol) {

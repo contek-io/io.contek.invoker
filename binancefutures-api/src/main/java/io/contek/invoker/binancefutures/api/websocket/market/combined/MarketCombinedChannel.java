@@ -32,7 +32,7 @@ abstract class MarketCombinedChannel<
   }
 
   @Override
-  protected Data getData(Message message) {
+  protected final Data getData(Message message) {
     return message.data;
   }
 
