@@ -23,10 +23,10 @@ public final class UserWebSocketApi extends WebSocketApi {
     this.context = context;
   }
 
-  public OrdersChannel getOrdersChannel(OrdersChannel.Id id) {
+  public OrdersChannel getOrdersChannel(String instId) {
     synchronized (ordersChannels) {
       return ordersChannels.computeIfAbsent(
-          id,
+          OrdersChannel.Id.of(instId),
           k -> {
             OrdersChannel result = new OrdersChannel(k);
             attach(result);
@@ -35,10 +35,10 @@ public final class UserWebSocketApi extends WebSocketApi {
     }
   }
 
-  public PositionsChannel getPositionsChannel(PositionsChannel.Id id) {
+  public PositionsChannel getPositionsChannel(String instId) {
     synchronized (positionsChannels) {
       return positionsChannels.computeIfAbsent(
-          id,
+          PositionsChannel.Id.of(instId),
           k -> {
             PositionsChannel result = new PositionsChannel(k);
             attach(result);

@@ -15,6 +15,8 @@ public final class WebSocketChannelKeys {
 
   public static final String _books5 = "books5";
 
+  public static final String _bbo_tbt = "bbo-tbt";
+
   public static final String _books50_l2_tbt = "books50-l2-tbt";
 
   public static final String _books_l2_tbt = "books-l2-tbt";
@@ -22,6 +24,31 @@ public final class WebSocketChannelKeys {
   public static final String _positions = "positions";
 
   public static final String _orders = "orders";
+
+  public static String books(int depth, boolean l2, boolean tbt) {
+    if (l2) {
+      if (depth == 50) {
+        return _books50_l2_tbt;
+      }
+      if (depth == 400) {
+        if (tbt) {
+          return _books_l2_tbt;
+        }
+        return _books;
+      }
+
+      throw new IllegalArgumentException("Unsupported L2 depth: " + depth);
+    }
+
+    if (depth == 1) {
+      return _bbo_tbt;
+    }
+    if (depth == 5) {
+      return _books5;
+    }
+
+    throw new IllegalArgumentException("Unsupported partial depth: " + depth);
+  }
 
   private WebSocketChannelKeys() {}
 }

@@ -18,13 +18,13 @@ public final class MarketNotificationWebSocketApi extends NotificationWebSocketA
     super(actor, context);
   }
 
-  public LiquidationOrderChannel getLiquidationOrderChannel(LiquidationOrderChannel.Id id) {
+  public LiquidationOrderChannel getLiquidationOrderChannel(String contractCode) {
     synchronized (liquidationOrderChannels) {
       return liquidationOrderChannels.computeIfAbsent(
-          id,
+          LiquidationOrderChannel.Id.of(contractCode),
           k -> {
             LiquidationOrderChannel result =
-                new LiquidationOrderChannel(id, getRequestIdGenerator());
+                new LiquidationOrderChannel(k, getRequestIdGenerator());
             attach(result);
             return result;
           });

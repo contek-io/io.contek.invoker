@@ -18,10 +18,10 @@ public final class UserWebSocketApi extends NotificationWebSocketApi {
     super(actor, context);
   }
 
-  public TriggerOrderChannel getTriggerOrderChannel(TriggerOrderChannel.Id id) {
+  public TriggerOrderChannel getTriggerOrderChannel(String contractCode) {
     synchronized (tradeDetailChannels) {
       return tradeDetailChannels.computeIfAbsent(
-          id,
+          TriggerOrderChannel.Id.of(contractCode),
           k -> {
             TriggerOrderChannel result = new TriggerOrderChannel(k, getRequestIdGenerator());
             attach(result);

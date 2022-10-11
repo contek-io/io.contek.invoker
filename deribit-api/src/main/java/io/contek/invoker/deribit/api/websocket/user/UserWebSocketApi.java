@@ -19,10 +19,10 @@ public final class UserWebSocketApi extends WebSocketApi {
     super(actor, context);
   }
 
-  public UserOrdersChannel getUserOrdersChannel(UserOrdersChannel.Id id) {
+  public UserOrdersChannel getUserOrdersChannel(String instrumentName, String interval) {
     synchronized (userOrdersChannels) {
       return userOrdersChannels.computeIfAbsent(
-          id,
+          UserOrdersChannel.Id.of(instrumentName, interval),
           k -> {
             UserOrdersChannel result = new UserOrdersChannel(k, getRequestIdGenerator());
             attach(result);
@@ -31,10 +31,10 @@ public final class UserWebSocketApi extends WebSocketApi {
     }
   }
 
-  public UserChangesChannel getUserChangesChannel(UserChangesChannel.Id id) {
+  public UserChangesChannel getUserChangesChannel(String instrumentName, String interval) {
     synchronized (userChangesChannels) {
       return userChangesChannels.computeIfAbsent(
-          id,
+          UserChangesChannel.Id.of(instrumentName, interval),
           k -> {
             UserChangesChannel result = new UserChangesChannel(k, getRequestIdGenerator());
             attach(result);

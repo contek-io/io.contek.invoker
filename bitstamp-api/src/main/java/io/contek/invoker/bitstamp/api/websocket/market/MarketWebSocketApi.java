@@ -19,10 +19,10 @@ public final class MarketWebSocketApi extends WebSocketApi {
     super(actor, context);
   }
 
-  public DiffOrderBookChannel getDiffOrderBookChannel(DiffOrderBookChannel.Id id) {
+  public DiffOrderBookChannel getDiffOrderBookChannel(String currencyPair) {
     synchronized (diffOrderBookChannels) {
       return diffOrderBookChannels.computeIfAbsent(
-          id,
+          DiffOrderBookChannel.Id.of(currencyPair),
           k -> {
             DiffOrderBookChannel result = new DiffOrderBookChannel(k);
             attach(result);
@@ -31,10 +31,10 @@ public final class MarketWebSocketApi extends WebSocketApi {
     }
   }
 
-  public LiveTradesChannel getLiveTradesChannel(LiveTradesChannel.Id id) {
+  public LiveTradesChannel getLiveTradesChannel(String currencyPair) {
     synchronized (liveTradesChannels) {
       return liveTradesChannels.computeIfAbsent(
-          id,
+          LiveTradesChannel.Id.of(currencyPair),
           k -> {
             LiveTradesChannel result = new LiveTradesChannel(k);
             attach(result);

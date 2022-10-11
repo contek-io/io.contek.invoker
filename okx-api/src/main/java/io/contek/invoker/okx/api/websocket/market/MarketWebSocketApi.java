@@ -24,10 +24,10 @@ public final class MarketWebSocketApi extends WebSocketApi {
     this.context = context;
   }
 
-  public OrderBookChannel getOrderBookChannel(OrderBookChannel.Id id) {
+  public OrderBookChannel getOrderBookChannel(String instId, int depth, boolean l2, boolean tbt) {
     synchronized (orderBookChannels) {
       return orderBookChannels.computeIfAbsent(
-          id,
+          OrderBookChannel.Id.of(instId, depth, l2, tbt),
           k -> {
             OrderBookChannel result = new OrderBookChannel(k);
             attach(result);
@@ -36,10 +36,10 @@ public final class MarketWebSocketApi extends WebSocketApi {
     }
   }
 
-  public TickersChannel getTickerChannel(TickersChannel.Id id) {
+  public TickersChannel getTickerChannel(String instId) {
     synchronized (tickerChannels) {
       return tickerChannels.computeIfAbsent(
-          id,
+          TickersChannel.Id.of(instId),
           k -> {
             TickersChannel result = new TickersChannel(k);
             attach(result);
@@ -48,10 +48,10 @@ public final class MarketWebSocketApi extends WebSocketApi {
     }
   }
 
-  public TradesChannel getTradesChannel(TradesChannel.Id id) {
+  public TradesChannel getTradesChannel(String instId) {
     synchronized (tradesChannels) {
       return tradesChannels.computeIfAbsent(
-          id,
+          TradesChannel.Id.of(instId),
           k -> {
             TradesChannel result = new TradesChannel(k);
             attach(result);

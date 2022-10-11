@@ -18,10 +18,10 @@ public final class MarketWebSocketApi extends WebSocketApi {
     super(actor, context);
   }
 
-  public Level2Channel getLevel2Channel(Level2Channel.Id id) {
+  public Level2Channel getLevel2Channel(String productId) {
     synchronized (level2Channels) {
       return level2Channels.computeIfAbsent(
-          id,
+          Level2Channel.Id.of(productId),
           k -> {
             Level2Channel result = new Level2Channel(k);
             attach(result);
@@ -30,10 +30,10 @@ public final class MarketWebSocketApi extends WebSocketApi {
     }
   }
 
-  public MatchesChannel getMatchesChannel(MatchesChannel.Id id) {
+  public MatchesChannel getMatchesChannel(String productId) {
     synchronized (matchesChannels) {
       return matchesChannels.computeIfAbsent(
-          id,
+          MatchesChannel.Id.of(productId),
           k -> {
             MatchesChannel result = new MatchesChannel(k);
             attach(result);

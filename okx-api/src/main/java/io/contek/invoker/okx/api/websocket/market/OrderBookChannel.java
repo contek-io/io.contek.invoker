@@ -7,7 +7,7 @@ import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
 
-import static io.contek.invoker.okx.api.websocket.common.constants.WebSocketChannelKeys.*;
+import static io.contek.invoker.okx.api.websocket.common.constants.WebSocketChannelKeys.books;
 
 @ThreadSafe
 public final class OrderBookChannel
@@ -18,31 +18,19 @@ public final class OrderBookChannel
   }
 
   @Override
-  public Class<OrderBookChannel.Message> getMessageType() {
-    return OrderBookChannel.Message.class;
+  public Class<Message> getMessageType() {
+    return Message.class;
   }
 
   @Immutable
-  public static final class Id extends WebSocketMarketChannelId<OrderBookChannel.Message> {
+  public static final class Id extends WebSocketMarketChannelId<Message> {
 
     private Id(String channel, String instId) {
       super(channel, instId);
     }
 
-    public static OrderBookChannel.Id ofBooks(String instId) {
-      return new OrderBookChannel.Id(_books, instId);
-    }
-
-    public static OrderBookChannel.Id ofBooks5(String instId) {
-      return new OrderBookChannel.Id(_books5, instId);
-    }
-
-    public static OrderBookChannel.Id ofBooks50L2Tbt(String instId) {
-      return new OrderBookChannel.Id(_books50_l2_tbt, instId);
-    }
-
-    public static OrderBookChannel.Id ofBooksL2Tbt(String instId) {
-      return new OrderBookChannel.Id(_books_l2_tbt, instId);
+    public static Id of(String instId, int depth, boolean l2, boolean tbt) {
+      return new Id(books(depth, l2, tbt), instId);
     }
   }
 

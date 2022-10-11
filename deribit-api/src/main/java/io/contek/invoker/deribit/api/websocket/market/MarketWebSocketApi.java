@@ -20,10 +20,10 @@ public final class MarketWebSocketApi extends WebSocketApi {
     super(actor, context);
   }
 
-  public BookChangeChannel getBookChangeChannel(BookChangeChannel.Id id) {
+  public BookChangeChannel getBookChangeChannel(String instrumentName, String interval) {
     synchronized (bookChangeChannels) {
       return bookChangeChannels.computeIfAbsent(
-          id,
+          BookChangeChannel.Id.of(instrumentName, interval),
           k -> {
             BookChangeChannel result = new BookChangeChannel(k, getRequestIdGenerator());
             attach(result);
@@ -32,10 +32,11 @@ public final class MarketWebSocketApi extends WebSocketApi {
     }
   }
 
-  public BookSnapshotChannel getBookSnapshotChannel(BookSnapshotChannel.Id id) {
+  public BookSnapshotChannel getBookSnapshotChannel(
+      String instrumentName, String group, int depth, String interval) {
     synchronized (bookSnapshotChannels) {
       return bookSnapshotChannels.computeIfAbsent(
-          id,
+          BookSnapshotChannel.Id.of(instrumentName, group, depth, interval),
           k -> {
             BookSnapshotChannel result = new BookSnapshotChannel(k, getRequestIdGenerator());
             attach(result);
@@ -44,10 +45,10 @@ public final class MarketWebSocketApi extends WebSocketApi {
     }
   }
 
-  public TradesChannel getTradesChannel(TradesChannel.Id id) {
+  public TradesChannel getTradesChannel(String instrumentName, String interval) {
     synchronized (tradesChannels) {
       return tradesChannels.computeIfAbsent(
-          id,
+          TradesChannel.Id.of(instrumentName, interval),
           k -> {
             TradesChannel result = new TradesChannel(k, getRequestIdGenerator());
             attach(result);
