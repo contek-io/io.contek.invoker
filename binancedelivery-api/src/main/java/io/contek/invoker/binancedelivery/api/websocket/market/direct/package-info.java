@@ -1,6 +1,6 @@
 @ParametersAreNonnullByDefault
 @ReturnValuesAreNonnullByDefault
-package io.contek.invoker.binancespot.api.websocket.market.raw;
+package io.contek.invoker.binancedelivery.api.websocket.market.direct;
 
 import edu.umd.cs.findbugs.annotations.ReturnValuesAreNonnullByDefault;
 

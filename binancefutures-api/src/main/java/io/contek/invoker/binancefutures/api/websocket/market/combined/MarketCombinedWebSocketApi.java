@@ -37,6 +37,7 @@ public final class MarketCombinedWebSocketApi extends BaseWebSocketApi
     this.context = context;
   }
 
+  @Override
   public BookTickerChannel getBookTickerChannel(String symbol) {
     synchronized (bookTickerChannels) {
       return bookTickerChannels.computeIfAbsent(
@@ -49,6 +50,7 @@ public final class MarketCombinedWebSocketApi extends BaseWebSocketApi
     }
   }
 
+  @Override
   public TradeChannel getTradeChannel(String symbol) {
     synchronized (tradeChannels) {
       return tradeChannels.computeIfAbsent(
@@ -61,6 +63,7 @@ public final class MarketCombinedWebSocketApi extends BaseWebSocketApi
     }
   }
 
+  @Override
   public AggTradeChannel getAggTradeChannel(String symbol) {
     synchronized (aggTradeChannels) {
       return aggTradeChannels.computeIfAbsent(
@@ -73,6 +76,7 @@ public final class MarketCombinedWebSocketApi extends BaseWebSocketApi
     }
   }
 
+  @Override
   public DepthDiffChannel getDepthDiffChannel(String symbol, String interval) {
     synchronized (depthDiffChannels) {
       return depthDiffChannels.computeIfAbsent(
@@ -85,6 +89,7 @@ public final class MarketCombinedWebSocketApi extends BaseWebSocketApi
     }
   }
 
+  @Override
   public DepthPartialChannel getDepthPartialChannel(
       String symbol, int levels, @Nullable String interval) {
     synchronized (depthPartialChannels) {
@@ -98,6 +103,7 @@ public final class MarketCombinedWebSocketApi extends BaseWebSocketApi
     }
   }
 
+  @Override
   public ForceOrderChannel getForceOrderChannel(String symbol) {
     synchronized (forceOrderChannels) {
       return forceOrderChannels.computeIfAbsent(

@@ -2,17 +2,20 @@ package io.contek.invoker.binancedelivery.api.websocket.market.combined;
 
 import com.google.common.collect.ImmutableList;
 import io.contek.invoker.binancedelivery.api.websocket.WebSocketRequestIdGenerator;
+import io.contek.invoker.binancedelivery.api.websocket.market.IMarketWebSocketApi;
 import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
 import io.contek.invoker.commons.websocket.*;
 import io.contek.invoker.security.ICredential;
 
+import javax.annotation.Nullable;
 import javax.annotation.concurrent.ThreadSafe;
 import java.util.HashMap;
 import java.util.Map;
 
 @ThreadSafe
-public final class MarketCombinedWebSocketApi extends BaseWebSocketApi {
+public final class MarketCombinedWebSocketApi extends BaseWebSocketApi
+    implements IMarketWebSocketApi {
 
   private final WebSocketContext context;
   private final WebSocketRequestIdGenerator requestIdGenerator = new WebSocketRequestIdGenerator();
@@ -34,10 +37,11 @@ public final class MarketCombinedWebSocketApi extends BaseWebSocketApi {
     this.context = context;
   }
 
-  public BookTickerChannel getBookTickerChannel(BookTickerChannel.Id id) {
+  @Override
+  public BookTickerChannel getBookTickerChannel(String symbol) {
     synchronized (bookTickerChannels) {
       return bookTickerChannels.computeIfAbsent(
-          id,
+          BookTickerChannel.Id.of(symbol),
           k -> {
             BookTickerChannel result = new BookTickerChannel(k, requestIdGenerator);
             attach(result);
@@ -46,10 +50,11 @@ public final class MarketCombinedWebSocketApi extends BaseWebSocketApi {
     }
   }
 
-  public TradeChannel getTradeChannel(TradeChannel.Id id) {
+  @Override
+  public TradeChannel getTradeChannel(String symbol) {
     synchronized (tradeChannels) {
       return tradeChannels.computeIfAbsent(
-          id,
+          TradeChannel.Id.of(symbol),
           k -> {
             TradeChannel result = new TradeChannel(k, requestIdGenerator);
             attach(result);
@@ -58,10 +63,11 @@ public final class MarketCombinedWebSocketApi extends BaseWebSocketApi {
     }
   }
 
-  public AggTradeChannel getAggTradeChannel(AggTradeChannel.Id id) {
+  @Override
+  public AggTradeChannel getAggTradeChannel(String symbol) {
     synchronized (aggTradeChannels) {
       return aggTradeChannels.computeIfAbsent(
-          id,
+          AggTradeChannel.Id.of(symbol),
           k -> {
             AggTradeChannel result = new AggTradeChannel(k, requestIdGenerator);
             attach(result);
@@ -70,10 +76,11 @@ public final class MarketCombinedWebSocketApi extends BaseWebSocketApi {
     }
   }
 
-  public DepthDiffChannel getDepthDiffChannel(DepthDiffChannel.Id id) {
+  @Override
+  public DepthDiffChannel getDepthDiffChannel(String symbol, String interval) {
     synchronized (depthDiffChannels) {
       return depthDiffChannels.computeIfAbsent(
-          id,
+          DepthDiffChannel.Id.of(symbol, interval),
           k -> {
             DepthDiffChannel result = new DepthDiffChannel(k, requestIdGenerator);
             attach(result);
@@ -82,10 +89,12 @@ public final class MarketCombinedWebSocketApi extends BaseWebSocketApi {
     }
   }
 
-  public DepthPartialChannel getDepthPartialChannel(DepthPartialChannel.Id id) {
+  @Override
+  public DepthPartialChannel getDepthPartialChannel(
+      String symbol, int levels, @Nullable String interval) {
     synchronized (depthPartialChannels) {
       return depthPartialChannels.computeIfAbsent(
-          id,
+          DepthPartialChannel.Id.of(symbol, levels, interval),
           k -> {
             DepthPartialChannel result = new DepthPartialChannel(k, requestIdGenerator);
             attach(result);
@@ -94,10 +103,11 @@ public final class MarketCombinedWebSocketApi extends BaseWebSocketApi {
     }
   }
 
-  public ForceOrderChannel getForceOrderChannel(ForceOrderChannel.Id id) {
+  @Override
+  public ForceOrderChannel getForceOrderChannel(String symbol) {
     synchronized (forceOrderChannels) {
       return forceOrderChannels.computeIfAbsent(
-          id,
+          ForceOrderChannel.Id.of(symbol),
           k -> {
             ForceOrderChannel result = new ForceOrderChannel(k, requestIdGenerator);
             attach(result);
