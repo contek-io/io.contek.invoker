@@ -14,9 +14,8 @@ import static io.contek.invoker.hbdmlinear.api.websocket.common.constants.WebSoc
 @ThreadSafe
 public abstract class MarketDataMarketWebSocketChannel<
         Id extends MarketDataWebSocketChannelId<Message>,
-        Message extends MarketDataWebSocketTickMessage<Data>,
-        Data>
-    extends BaseWebSocketChannel<Id, Message, Data> {
+        Message extends MarketDataWebSocketTickMessage<?>>
+    extends BaseWebSocketChannel<Id, Message, Message> {
 
   private final Class<Message> type;
   private final MarketDataWebSocketRequestIdGenerator requestIdGenerator;
@@ -34,8 +33,8 @@ public abstract class MarketDataMarketWebSocketChannel<
   }
 
   @Override
-  protected final Data getData(Message message) {
-    return message.tick;
+  protected final Message getData(Message message) {
+    return message;
   }
 
   @Override
