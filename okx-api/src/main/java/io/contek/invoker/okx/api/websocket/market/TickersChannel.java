@@ -10,7 +10,7 @@ import javax.annotation.concurrent.ThreadSafe;
 import static io.contek.invoker.okx.api.websocket.common.constants.WebSocketChannelKeys._tickers;
 
 @ThreadSafe
-public final class TickersChannel extends WebSocketMarketChannel<TickersChannel.Message, _Ticker> {
+public final class TickersChannel extends WebSocketMarketChannel<TickersChannel.Message> {
 
   TickersChannel(TickersChannel.Id id) {
     super(id);

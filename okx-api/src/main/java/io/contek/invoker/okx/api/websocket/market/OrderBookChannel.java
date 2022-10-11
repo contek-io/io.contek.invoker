@@ -10,8 +10,7 @@ import javax.annotation.concurrent.ThreadSafe;
 import static io.contek.invoker.okx.api.websocket.common.constants.WebSocketChannelKeys.books;
 
 @ThreadSafe
-public final class OrderBookChannel
-    extends WebSocketMarketChannel<OrderBookChannel.Message, OrderBookChannel.Data> {
+public final class OrderBookChannel extends WebSocketMarketChannel<OrderBookChannel.Message> {
 
   OrderBookChannel(Id id) {
     super(id);

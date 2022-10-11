@@ -1,6 +1,7 @@
 package io.contek.invoker.binancedelivery.api;
 
 import com.google.common.collect.ImmutableList;
+import io.contek.invoker.binancedelivery.api.rest.market.MarketRestApi;
 import io.contek.invoker.binancedelivery.api.rest.user.UserRestApi;
 import io.contek.invoker.binancedelivery.api.websocket.market.IMarketWebSocketApi;
 import io.contek.invoker.binancedelivery.api.websocket.market.combined.MarketCombinedWebSocketApi;
@@ -99,12 +100,10 @@ public final class ApiFactory {
 
     private SelectingRestApi() {}
 
-    public IMarketWebSocketApi market(boolean direct) {
-      WebSocketContext wsContext = context.getWebSocketContext();
-      IActor actor = actorFactory.create(null, wsContext);
-      return direct
-          ? new MarketDirectWebSocketApi(actor, wsContext)
-          : new MarketCombinedWebSocketApi(actor, wsContext);
+    public MarketRestApi market() {
+      RestContext restContext = context.getRestContext();
+      IActor actor = actorFactory.create(null, restContext);
+      return new MarketRestApi(actor, restContext);
     }
 
     public UserRestApi user(ApiKey apiKey) {
@@ -119,10 +118,12 @@ public final class ApiFactory {
 
     private SelectingWebSocketApi() {}
 
-    public MarketCombinedWebSocketApi market() {
+    public IMarketWebSocketApi market(boolean direct) {
       WebSocketContext wsContext = context.getWebSocketContext();
       IActor actor = actorFactory.create(null, wsContext);
-      return new MarketCombinedWebSocketApi(actor, wsContext);
+      return direct
+          ? new MarketDirectWebSocketApi(actor, wsContext)
+          : new MarketCombinedWebSocketApi(actor, wsContext);
     }
 
     public UserWebSocketApi user(ApiKey apiKey) {

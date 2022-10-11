@@ -7,8 +7,8 @@ import io.contek.invoker.okx.api.websocket.common.WebSocketChannelPushData;
 import javax.annotation.concurrent.ThreadSafe;
 
 @ThreadSafe
-public abstract class WebSocketUserChannel<Message extends WebSocketChannelPushData<Data>, Data>
-    extends WebSocketChannel<Message, Data> {
+public abstract class WebSocketUserChannel<Message extends WebSocketChannelPushData<?>>
+    extends WebSocketChannel<Message> {
 
   protected WebSocketUserChannel(WebSocketChannelId<Message> id) {
     super(id);

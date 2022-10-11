@@ -10,8 +10,7 @@ import javax.annotation.concurrent.ThreadSafe;
 import static io.contek.invoker.okx.api.websocket.common.constants.WebSocketChannelKeys._positions;
 
 @ThreadSafe
-public final class PositionsChannel
-    extends WebSocketUserChannel<PositionsChannel.Message, _Position> {
+public final class PositionsChannel extends WebSocketUserChannel<PositionsChannel.Message> {
 
   PositionsChannel(PositionsChannel.Id id) {
     super(id);
