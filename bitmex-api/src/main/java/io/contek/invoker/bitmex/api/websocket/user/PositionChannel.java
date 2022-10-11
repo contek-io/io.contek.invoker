@@ -10,7 +10,7 @@ import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
 
 @ThreadSafe
-public final class PositionChannel extends WebSocketChannel<PositionChannel.Message, _Position> {
+public final class PositionChannel extends WebSocketChannel<PositionChannel.Message> {
 
   PositionChannel() {
     super(Id.INSTANCE);

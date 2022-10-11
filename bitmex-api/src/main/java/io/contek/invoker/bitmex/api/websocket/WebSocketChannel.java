@@ -9,23 +9,22 @@ import io.contek.invoker.commons.websocket.*;
 
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.ThreadSafe;
-import java.util.List;
 
 import static io.contek.invoker.bitmex.api.websocket.common.constants.WebSocketRequestOperationKeys._subscribe;
 import static io.contek.invoker.bitmex.api.websocket.common.constants.WebSocketRequestOperationKeys._unsubscribe;
 import static io.contek.invoker.commons.websocket.SubscriptionState.*;
 
 @ThreadSafe
-public abstract class WebSocketChannel<Message extends WebSocketTableDataMessage<Data>, Data>
-    extends BaseWebSocketChannel<WebSocketChannelId<Message>, Message, List<Data>> {
+public abstract class WebSocketChannel<Message extends WebSocketTableDataMessage<?>>
+    extends BaseWebSocketChannel<WebSocketChannelId<Message>, Message, Message> {
 
   protected WebSocketChannel(WebSocketChannelId<Message> id) {
     super(id);
   }
 
   @Override
-  protected final List<Data> getData(Message message) {
-    return message.data;
+  protected final Message getData(Message message) {
+    return message;
   }
 
   @Override

@@ -10,7 +10,7 @@ import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
 
 @ThreadSafe
-public final class OrderChannel extends WebSocketChannel<OrderChannel.Message, _Order> {
+public final class OrderChannel extends WebSocketChannel<OrderChannel.Message> {
 
   OrderChannel() {
     super(Id.INSTANCE);

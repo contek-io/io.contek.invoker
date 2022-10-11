@@ -12,7 +12,7 @@ import javax.annotation.concurrent.ThreadSafe;
 import static java.lang.String.format;
 
 @ThreadSafe
-public final class QuoteChannel extends WebSocketChannel<QuoteChannel.Message, _Quote> {
+public final class QuoteChannel extends WebSocketChannel<QuoteChannel.Message> {
 
   QuoteChannel(QuoteChannel.Id id) {
     super(id);

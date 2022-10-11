@@ -12,8 +12,7 @@ import javax.annotation.concurrent.ThreadSafe;
 import static java.lang.String.format;
 
 @ThreadSafe
-public final class InstrumentChannel
-    extends WebSocketChannel<InstrumentChannel.Message, _Instrument> {
+public final class InstrumentChannel extends WebSocketChannel<InstrumentChannel.Message> {
 
   InstrumentChannel(InstrumentChannel.Id id) {
     super(id);
