@@ -18,14 +18,14 @@ public class _Ticker {
   public String price_1h_pcnt; // Empty if none
   public String mark_price; // Empty if none
   public String index_price; // Empty if none
-  public double open_interest;
-  public double open_value;
-  public double total_turnover;
-  public double turnover_24h;
-  public double total_volume;
-  public double volume_24h;
-  public double funding_rate;
-  public double predicted_funding_rate;
+  public String open_interest;
+  public String funding_rate;
+  public String predicted_funding_rate;
   public String next_funding_time;
-  public int countdown_hour;
+  public String countdown_hour;
+  public String volume_24h;
+  public String turnover_24h;
+  public String open_value;
+  public String total_turnover;
+  public String total_volume;
 }
