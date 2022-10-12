@@ -10,6 +10,8 @@ import io.contek.invoker.security.ICredential;
 import javax.annotation.concurrent.ThreadSafe;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import static io.contek.invoker.binancedelivery.api.ApiFactory.RateLimits.ONE_WEB_SOCKET_CONNECTION;
+
 @ThreadSafe
 abstract class DirectStream<Data extends WebSocketEventData> extends BaseWebSocketApi {
 
@@ -32,7 +34,7 @@ abstract class DirectStream<Data extends WebSocketEventData> extends BaseWebSock
 
   @Override
   protected final ImmutableList<TypedPermitRequest> getRequiredQuotas() {
-    return ImmutableList.of();
+    return ONE_WEB_SOCKET_CONNECTION;
   }
 
   @Override

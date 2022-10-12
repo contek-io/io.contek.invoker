@@ -13,6 +13,8 @@ import javax.annotation.concurrent.ThreadSafe;
 import java.util.HashMap;
 import java.util.Map;
 
+import static io.contek.invoker.binancespot.api.ApiFactory.RateLimits.ONE_WEB_SOCKET_CONNECTION;
+
 @ThreadSafe
 public final class MarketCombinedWebSocketApi extends BaseWebSocketApi
     implements IMarketWebSocketApi {
@@ -109,7 +111,7 @@ public final class MarketCombinedWebSocketApi extends BaseWebSocketApi
 
   @Override
   protected ImmutableList<TypedPermitRequest> getRequiredQuotas() {
-    return ImmutableList.of();
+    return ONE_WEB_SOCKET_CONNECTION;
   }
 
   @Override
