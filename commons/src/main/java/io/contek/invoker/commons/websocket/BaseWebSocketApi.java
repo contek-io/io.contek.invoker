@@ -274,8 +274,10 @@ public abstract class BaseWebSocketApi implements IWebSocketApi {
       }
 
       try {
+        log.info("Closing connection.");
         ws.cancel();
         afterDisconnect();
+        log.info("Component states reset.");
       } catch (Throwable t2) {
         log.error("Failed to handle failure.", t2);
       }

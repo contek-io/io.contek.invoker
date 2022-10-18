@@ -21,31 +21,31 @@ public final class MarketWebSocketDirectChannel<Data extends WebSocketEventData>
   }
 
   @Override
-  public final Class<Data> getMessageType() {
+  public Class<Data> getMessageType() {
     return getId().getType();
   }
 
   @Override
-  protected final Data getData(Data message) {
+  protected Data getData(Data message) {
     return message;
   }
 
   @Override
-  protected final SubscriptionState subscribe(WebSocketSession session) {
+  protected SubscriptionState subscribe(WebSocketSession session) {
     return SUBSCRIBED;
   }
 
   @Override
-  protected final SubscriptionState unsubscribe(WebSocketSession session) {
+  protected SubscriptionState unsubscribe(WebSocketSession session) {
     return UNSUBSCRIBED;
   }
 
   @Nullable
   @Override
-  protected final SubscriptionState getState(AnyWebSocketMessage message) {
+  protected SubscriptionState getState(AnyWebSocketMessage message) {
     return null;
   }
 
   @Override
-  protected final void reset() {}
+  protected void reset() {}
 }
