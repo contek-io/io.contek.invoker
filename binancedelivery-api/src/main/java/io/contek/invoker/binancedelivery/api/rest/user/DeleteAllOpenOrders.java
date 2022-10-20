@@ -1,7 +1,6 @@
 package io.contek.invoker.binancedelivery.api.rest.user;
 
 import com.google.common.collect.ImmutableList;
-import io.contek.invoker.binancedelivery.api.common._Order;
 import io.contek.invoker.binancedelivery.api.rest.user.DeleteAllOpenOrders.Response;
 import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
@@ -10,7 +9,6 @@ import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
 
 import javax.annotation.concurrent.NotThreadSafe;
-import java.util.ArrayList;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static io.contek.invoker.binancedelivery.api.ApiFactory.RateLimits.ONE_REST_REQUEST;
@@ -63,5 +61,9 @@ public final class DeleteAllOpenOrders extends UserRestRequest<Response> {
   }
 
   @NotThreadSafe
-  public static final class Response extends ArrayList<_Order> {}
+  public static final class Response {
+
+    public String code;
+    public String msg;
+  }
 }
