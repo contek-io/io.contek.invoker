@@ -22,7 +22,14 @@ public final class SimpleHttpClientFactory implements IHttpClientFactory {
   @Override
   public IHttpClient create(IHttpContext context) {
     OkHttpClient.Builder builder =
-        new OkHttpClient().newBuilder().addInterceptor(HttpLoggingInterceptor.getInstance());
+        new OkHttpClient()
+            .newBuilder()
+            .addInterceptor(
+                HttpLoggingInterceptor.newBuilder()
+                    .setLogHeader(context.getLogHeaders())
+                    .setLogPayload(context.getLogPayload())
+                    .setLogTimestamps(context.getLogTimestamps())
+                    .build());
 
     Duration connectionTimeout = context.getConnectionTimeout();
     if (connectionTimeout != null) {

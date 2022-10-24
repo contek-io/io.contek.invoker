@@ -9,6 +9,18 @@ public interface IHttpContext {
 
   String getBaseUrl();
 
+  default boolean getLogHeaders() {
+    return false;
+  }
+
+  default boolean getLogPayload() {
+    return false;
+  }
+
+  default boolean getLogTimestamps() {
+    return false;
+  }
+
   @Nullable
   default Duration getConnectionTimeout() {
     return null;
