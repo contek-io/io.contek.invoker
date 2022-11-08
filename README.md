@@ -13,7 +13,7 @@ A Java library to connect cryptocurrency exchanges.
 
 <dependency>
     <groupId>io.contek.invoker</groupId>
-    <artifactId>binancefutures-api</artifactId>
+    <artifactId>binancelinear-api</artifactId>
     <version>2.15.0</version>
 </dependency>
 
