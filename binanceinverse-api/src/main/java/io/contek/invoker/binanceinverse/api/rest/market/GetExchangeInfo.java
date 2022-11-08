@@ -49,6 +49,8 @@ public final class GetExchangeInfo extends MarketRestRequest<Response> {
   @NotThreadSafe
   public static final class MarketDetails {
 
+    public String liquidationFee;
+    public String marketTakeBound;
     public String symbol;
     public String pair;
     public String contractType;
@@ -63,6 +65,9 @@ public final class GetExchangeInfo extends MarketRestRequest<Response> {
     public Integer quantityPrecision;
     public Integer baseAssetPrecision;
     public Integer quotePrecision;
+    public String triggerProtect;
+    public String maintMarginPercent;
+    public String requiredMarginPercent;
     public String underlyingType;
     public List<Map<String, Object>> filters;
   }

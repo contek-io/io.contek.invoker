@@ -47,18 +47,34 @@ public final class GetExchangeInfo extends MarketRestRequest<Response> {
   }
 
   @NotThreadSafe
+  public static final class AssetDetails {
+
+    public String asset;
+    public Boolean marginAvailable;
+    public Integer autoAssetExchange;
+  }
+
+  @NotThreadSafe
   public static final class MarketDetails {
 
     public String symbol;
+    public String pair;
+    public String contractType;
+    public Long deliveryDate;
+    public Long onboardDate;
     public String status;
-    public Double maintMarginPercent;
-    public Double requiredMarginPercent;
+    public String maintMarginPercent;
+    public String requiredMarginPercent;
     public String baseAsset;
     public String quoteAsset;
+    public String marginAsset;
     public Integer pricePrecision;
+    public Integer quantityPrecision;
     public Integer baseAssetPrecision;
     public Integer quotePrecision;
-    public Integer quantityPrecision;
+    public String underlyingType;
+    public List<String> underlyingSubType;
+    public String triggerProtect;
 
     public List<Map<String, Object>> filters;
   }
