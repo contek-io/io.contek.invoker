@@ -6,14 +6,18 @@ import javax.annotation.concurrent.NotThreadSafe;
 public class _AccountPosition {
 
   public String symbol;
-  public Double initialMargin;
-  public Double maintMargin;
-  public Double unrealizedProfit;
-  public Double positionInitialMargin;
-  public Integer leverage;
+  public String initialMargin;
+  public String maintMargin;
+  public String unrealizedProfit;
+  public String positionInitialMargin;
+  public String openOrderInitialMargin;
+  public String leverage;
   public Boolean isolated;
-  public Double openOrderInitialMargin;
-  public Double entryPrice;
-  public Double maxNotional;
+  public String entryPrice;
+  public String maxNotional;
+  public String bidNotional;
+  public String askNotional;
   public String positionSide;
+  public String positionAmt;
+  public Long updateTime;
 }

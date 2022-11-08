@@ -5,16 +5,19 @@ import javax.annotation.concurrent.NotThreadSafe;
 @NotThreadSafe
 public class _PositionRisk {
 
-  public Double entryPrice;
+  public String entryPrice;
   public String marginType;
-  public Boolean isAutoAddMargin;
-  public Double isolatedMargin;
-  public Double leverage;
-  public Double liquidationPrice;
-  public Double markPrice;
-  public Double positionAmt;
+  public String isAutoAddMargin;
+  public String isolatedMargin;
+  public String leverage;
+  public String liquidationPrice;
+  public String markPrice;
+  public String maxNotionalValue;
+  public String positionAmt;
+  public String notional;
+  public String isolatedWallet;
   public String symbol;
   public Double unRealizedProfit;
   public String positionSide;
-  public long updateTime;
+  public Long updateTime;
 }

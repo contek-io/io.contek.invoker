@@ -6,15 +6,15 @@ import javax.annotation.concurrent.NotThreadSafe;
 public class _AccountAsset {
 
   public String asset;
-  public Double walletBalance;
-  public Double unrealizedProfit;
-  public Double marginBalance;
-  public Double maintMargin;
-  public Double initialMargin;
-  public Double positionInitialMargin;
-  public Double openOrderInitialMargin;
-  public Double maxWithdrawAmount;
-  public Double crossWalletBalance;
-  public Double crossUnPnl;
-  public Double availableBalance;
+  public String walletBalance;
+  public String unrealizedProfit;
+  public String marginBalance;
+  public String maintMargin;
+  public String initialMargin;
+  public String positionInitialMargin;
+  public String openOrderInitialMargin;
+  public String maxWithdrawAmount;
+  public String crossWalletBalance;
+  public String crossUnPnl;
+  public String availableBalance;
 }
