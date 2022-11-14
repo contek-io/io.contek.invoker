@@ -1,8 +1,7 @@
 package io.contek.invoker.binancelinear.api.rest.user;
 
 import com.google.common.collect.ImmutableList;
-import io.contek.invoker.binancelinear.api.rest.common.RestUpdateResponse;
-import io.contek.invoker.binancelinear.api.rest.user.DeleteAllOpenOrders.Response;
+import io.contek.invoker.binancelinear.api.common._MultiAssetMode;
 import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
 import io.contek.invoker.commons.rest.RestContext;
@@ -11,22 +10,22 @@ import io.contek.invoker.commons.rest.RestParams;
 
 import javax.annotation.concurrent.NotThreadSafe;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-import static io.contek.invoker.binancelinear.api.ApiFactory.RateLimits.ONE_REST_REQUEST;
-import static io.contek.invoker.commons.rest.RestMethod.DELETE;
+import static io.contek.invoker.binancelinear.api.ApiFactory.RateLimits.IP_REST_REQUEST_RULE;
+import static io.contek.invoker.commons.rest.RestMethod.GET;
 
 @NotThreadSafe
-public final class DeleteAllOpenOrders extends UserRestRequest<Response> {
+public final class GetMultiAssetsMargin extends UserRestRequest<GetMultiAssetsMargin.Response> {
 
-  private String symbol;
+  private static final ImmutableList<TypedPermitRequest> REQUIRED_QUOTA =
+      ImmutableList.of(IP_REST_REQUEST_RULE.forPermits(30));
 
-  DeleteAllOpenOrders(IActor actor, RestContext context) {
+  GetMultiAssetsMargin(IActor actor, RestContext context) {
     super(actor, context);
   }
 
-  public DeleteAllOpenOrders setSymbol(String symbol) {
-    this.symbol = symbol;
-    return this;
+  @Override
+  protected RestMethod getMethod() {
+    return GET;
   }
 
   @Override
@@ -35,21 +34,13 @@ public final class DeleteAllOpenOrders extends UserRestRequest<Response> {
   }
 
   @Override
-  protected RestMethod getMethod() {
-    return DELETE;
-  }
-
-  @Override
   protected String getEndpointPath() {
-    return "/fapi/v1/allOpenOrders";
+    return "/fapi/v1/multiAssetsMargin";
   }
 
   @Override
   protected RestParams getParams() {
     RestParams.Builder builder = RestParams.newBuilder();
-
-    checkNotNull(symbol);
-    builder.add("symbol", symbol);
 
     builder.add("timestamp", getMillis());
 
@@ -58,9 +49,9 @@ public final class DeleteAllOpenOrders extends UserRestRequest<Response> {
 
   @Override
   protected ImmutableList<TypedPermitRequest> getRequiredQuotas() {
-    return ONE_REST_REQUEST;
+    return REQUIRED_QUOTA;
   }
 
   @NotThreadSafe
-  public static final class Response extends RestUpdateResponse {}
+  public static final class Response extends _MultiAssetMode {}
 }

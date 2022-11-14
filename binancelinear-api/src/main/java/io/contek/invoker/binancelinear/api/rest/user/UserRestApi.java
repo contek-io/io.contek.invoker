@@ -32,6 +32,10 @@ public final class UserRestApi {
     return new GetAllOrders(actor, context);
   }
 
+  public GetMultiAssetsMargin getMultiAssetsMargin() {
+    return new GetMultiAssetsMargin(actor, context);
+  }
+
   public GetOpenOrders getOpenOrders() {
     return new GetOpenOrders(actor, context);
   }
@@ -58,6 +62,10 @@ public final class UserRestApi {
 
   public GetPositionSideDual getPositionSideDual() {
     return new GetPositionSideDual(actor, context);
+  }
+
+  public PostMultiAssetsMargin postMultiAssetsMargin() {
+    return new PostMultiAssetsMargin(actor, context);
   }
 
   public PostOrder postOrder() {

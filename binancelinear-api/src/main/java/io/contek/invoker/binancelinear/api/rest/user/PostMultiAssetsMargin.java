@@ -1,8 +1,7 @@
-package io.contek.invoker.binanceinverse.api.rest.user;
+package io.contek.invoker.binancelinear.api.rest.user;
 
 import com.google.common.collect.ImmutableList;
-import io.contek.invoker.binanceinverse.api.rest.common.RestUpdateResponse;
-import io.contek.invoker.binanceinverse.api.rest.user.DeleteAllOpenOrders.Response;
+import io.contek.invoker.binancelinear.api.rest.common.RestUpdateResponse;
 import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
 import io.contek.invoker.commons.rest.RestContext;
@@ -11,22 +10,26 @@ import io.contek.invoker.commons.rest.RestParams;
 
 import javax.annotation.concurrent.NotThreadSafe;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-import static io.contek.invoker.binanceinverse.api.ApiFactory.RateLimits.ONE_REST_REQUEST;
-import static io.contek.invoker.commons.rest.RestMethod.DELETE;
+import static io.contek.invoker.binancelinear.api.ApiFactory.RateLimits.ONE_REST_REQUEST;
+import static io.contek.invoker.commons.rest.RestMethod.POST;
 
 @NotThreadSafe
-public final class DeleteAllOpenOrders extends UserRestRequest<Response> {
+public final class PostMultiAssetsMargin extends UserRestRequest<PostMultiAssetsMargin.Response> {
 
-  private String symbol;
+  private Boolean multiAssetsMargin;
 
-  DeleteAllOpenOrders(IActor actor, RestContext context) {
+  PostMultiAssetsMargin(IActor actor, RestContext context) {
     super(actor, context);
   }
 
-  public DeleteAllOpenOrders setSymbol(String symbol) {
-    this.symbol = symbol;
+  public PostMultiAssetsMargin setMultiAssetsMargin(Boolean multiAssetsMargin) {
+    this.multiAssetsMargin = multiAssetsMargin;
     return this;
+  }
+
+  @Override
+  protected RestMethod getMethod() {
+    return POST;
   }
 
   @Override
@@ -35,22 +38,14 @@ public final class DeleteAllOpenOrders extends UserRestRequest<Response> {
   }
 
   @Override
-  protected RestMethod getMethod() {
-    return DELETE;
-  }
-
-  @Override
   protected String getEndpointPath() {
-    return "/dapi/v1/allOpenOrders";
+    return "/fapi/v1/multiAssetsMargin";
   }
 
   @Override
   protected RestParams getParams() {
     RestParams.Builder builder = RestParams.newBuilder();
-
-    checkNotNull(symbol);
-    builder.add("symbol", symbol);
-
+    builder.add("multiAssetsMargin", Boolean.toString(multiAssetsMargin));
     builder.add("timestamp", getMillis());
 
     return builder.build();
