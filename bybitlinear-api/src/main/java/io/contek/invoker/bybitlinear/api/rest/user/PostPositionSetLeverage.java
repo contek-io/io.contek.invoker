@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import io.contek.invoker.bybitlinear.api.rest.common.ResponseWrapper;
 import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
+import io.contek.invoker.commons.rest.Empty;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
@@ -78,5 +79,5 @@ public final class PostPositionSetLeverage extends UserRestRequest<Response> {
   }
 
   @NotThreadSafe
-  public static final class Response extends ResponseWrapper<Void> {}
+  public static final class Response extends ResponseWrapper<Empty> {}
 }
