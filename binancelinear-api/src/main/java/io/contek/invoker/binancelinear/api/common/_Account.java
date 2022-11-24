@@ -11,6 +11,7 @@ public class _Account {
   public Boolean canDeposit;
   public Boolean canWithdraw;
   public Long updateTime;
+  public Boolean multiAssetsMargin;
   public String totalInitialMargin;
   public String totalMaintMargin;
   public String totalWalletBalance;
