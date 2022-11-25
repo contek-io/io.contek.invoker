@@ -80,5 +80,5 @@ public final class PostPositionLeverageSave
   }
 
   @NotThreadSafe
-  public static final class Response extends ResponseWrapper<Double> {}
+  public static final class Response extends ResponseWrapper<Object> {}
 }
