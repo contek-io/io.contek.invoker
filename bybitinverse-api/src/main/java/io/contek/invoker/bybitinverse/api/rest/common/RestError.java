@@ -1,4 +1,4 @@
-package io.contek.invoker.bybitlinear.api.rest.common;
+package io.contek.invoker.bybitinverse.api.rest.common;
 
 import javax.annotation.concurrent.NotThreadSafe;
 
