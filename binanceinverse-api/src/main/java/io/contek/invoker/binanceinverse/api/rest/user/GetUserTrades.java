@@ -19,7 +19,7 @@ import static io.contek.invoker.commons.rest.RestMethod.GET;
 public final class GetUserTrades extends UserRestRequest<GetUserTrades.Response> {
 
   public static final int DEFAULT_LIMIT = 50;
-  public static final int MAX_LIMIT = 100;
+  public static final int MAX_LIMIT = 1000;
 
   private static final ImmutableList<TypedPermitRequest> REQUIRED_QUOTA_WITH_SYMBOL =
       ImmutableList.of(IP_REST_REQUEST_RULE.forPermits(20));
