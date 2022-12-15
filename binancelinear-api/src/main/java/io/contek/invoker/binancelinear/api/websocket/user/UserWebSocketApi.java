@@ -8,16 +8,19 @@ import io.contek.invoker.commons.websocket.*;
 import io.contek.invoker.security.ICredential;
 
 import javax.annotation.concurrent.ThreadSafe;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static io.contek.invoker.binancelinear.api.ApiFactory.RateLimits.ONE_WEB_SOCKET_CONNECTION;
 
 @ThreadSafe
 public final class UserWebSocketApi extends BaseWebSocketApi {
 
-  public AccountUpdateChannel accountUpdateChannel;
-  public OrderUpdateChannel orderUpdateChannel;
-  public MarginCallChannel marginCallChannel;
-  public AccountConfigUpdateChannel accountConfigUpdateChannel;
+  private final AtomicReference<AccountUpdateChannel> accountUpdateChannel =
+      new AtomicReference<>();
+  private final AtomicReference<OrderUpdateChannel> orderUpdateChannel = new AtomicReference<>();
+  private final AtomicReference<MarginCallChannel> marginCallChannel = new AtomicReference<>();
+  private final AtomicReference<AccountConfigUpdateChannel> accountConfigUpdateChannel =
+      new AtomicReference<>();
 
   private final WebSocketContext context;
 
@@ -31,35 +34,51 @@ public final class UserWebSocketApi extends BaseWebSocketApi {
   }
 
   public AccountUpdateChannel getAccountUpdateChannel() {
-    if (accountUpdateChannel == null) {
-      accountUpdateChannel = new AccountUpdateChannel();
-      attach(accountUpdateChannel);
+    synchronized (accountUpdateChannel) {
+      AccountUpdateChannel channel = accountUpdateChannel.get();
+      if (channel == null) {
+        channel = new AccountUpdateChannel();
+        attach(channel);
+        accountUpdateChannel.set(channel);
+      }
+      return channel;
     }
-    return accountUpdateChannel;
   }
 
   public OrderUpdateChannel getOrderUpdateChannel() {
-    if (orderUpdateChannel == null) {
-      orderUpdateChannel = new OrderUpdateChannel();
-      attach(orderUpdateChannel);
+    synchronized (orderUpdateChannel) {
+      OrderUpdateChannel channel = orderUpdateChannel.get();
+      if (channel == null) {
+        channel = new OrderUpdateChannel();
+        attach(channel);
+        orderUpdateChannel.set(channel);
+      }
+      return channel;
     }
-    return orderUpdateChannel;
   }
 
   public MarginCallChannel getMarginCallChannel() {
-    if (marginCallChannel == null) {
-      marginCallChannel = new MarginCallChannel();
-      attach(marginCallChannel);
+    synchronized (marginCallChannel) {
+      MarginCallChannel channel = marginCallChannel.get();
+      if (channel == null) {
+        channel = new MarginCallChannel();
+        attach(channel);
+        marginCallChannel.set(channel);
+      }
+      return channel;
     }
-    return marginCallChannel;
   }
 
   public AccountConfigUpdateChannel getLeverageUpdateChannel() {
-    if (accountConfigUpdateChannel == null) {
-      accountConfigUpdateChannel = new AccountConfigUpdateChannel();
-      attach(accountConfigUpdateChannel);
+    synchronized (accountConfigUpdateChannel) {
+      AccountConfigUpdateChannel channel = accountConfigUpdateChannel.get();
+      if (channel == null) {
+        channel = new AccountConfigUpdateChannel();
+        attach(channel);
+        accountConfigUpdateChannel.set(channel);
+      }
+      return channel;
     }
-    return accountConfigUpdateChannel;
   }
 
   @Override

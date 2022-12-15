@@ -6,6 +6,7 @@ import io.contek.invoker.commons.websocket.WebSocketContext;
 import io.contek.invoker.okx.api.websocket.WebSocketApi;
 import io.contek.invoker.security.ICredential;
 
+import javax.annotation.Nullable;
 import javax.annotation.concurrent.ThreadSafe;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,10 +24,10 @@ public final class UserWebSocketApi extends WebSocketApi {
     this.context = context;
   }
 
-  public OrdersChannel getOrdersChannel(String instId) {
+  public OrdersChannel getOrdersChannel(String type, @Nullable String instId) {
     synchronized (ordersChannels) {
       return ordersChannels.computeIfAbsent(
-          OrdersChannel.Id.of(instId),
+          OrdersChannel.Id.of(type, instId),
           k -> {
             OrdersChannel result = new OrdersChannel(k);
             attach(result);
@@ -35,10 +36,10 @@ public final class UserWebSocketApi extends WebSocketApi {
     }
   }
 
-  public PositionsChannel getPositionsChannel(String instId) {
+  public PositionsChannel getPositionsChannel(String type, @Nullable String instId) {
     synchronized (positionsChannels) {
       return positionsChannels.computeIfAbsent(
-          PositionsChannel.Id.of(instId),
+          PositionsChannel.Id.of(type, instId),
           k -> {
             PositionsChannel result = new PositionsChannel(k);
             attach(result);

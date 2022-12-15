@@ -20,31 +20,37 @@ public final class UserWebSocketApi extends WebSocketApi {
 
   public ExecutionChannel getExecutionChannel() {
     synchronized (executionChannel) {
-      if (executionChannel.get() == null) {
-        executionChannel.set(new ExecutionChannel());
-        attach(this.executionChannel.get());
+      ExecutionChannel channel = executionChannel.get();
+      if (channel == null) {
+        channel = new ExecutionChannel();
+        attach(channel);
+        executionChannel.set(channel);
       }
-      return executionChannel.get();
+      return channel;
     }
   }
 
   public OrderChannel getOrderChannel() {
     synchronized (orderChannel) {
-      if (orderChannel.get() == null) {
-        orderChannel.set(new OrderChannel());
-        attach(this.orderChannel.get());
+      OrderChannel channel = orderChannel.get();
+      if (channel == null) {
+        channel = new OrderChannel();
+        attach(channel);
+        orderChannel.set(channel);
       }
-      return orderChannel.get();
+      return channel;
     }
   }
 
   public PositionChannel getPositionChannel() {
     synchronized (positionChannel) {
-      if (positionChannel.get() == null) {
-        positionChannel.set(new PositionChannel());
-        attach(this.positionChannel.get());
+      PositionChannel channel = positionChannel.get();
+      if (channel == null) {
+        channel = new PositionChannel();
+        attach(channel);
+        positionChannel.set(channel);
       }
-      return positionChannel.get();
+      return channel;
     }
   }
 }

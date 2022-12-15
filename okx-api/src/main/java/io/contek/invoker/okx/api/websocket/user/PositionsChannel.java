@@ -3,6 +3,7 @@ package io.contek.invoker.okx.api.websocket.user;
 import io.contek.invoker.okx.api.common._Position;
 import io.contek.invoker.okx.api.websocket.common.WebSocketChannelPushData;
 
+import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
@@ -24,12 +25,12 @@ public final class PositionsChannel extends WebSocketUserChannel<PositionsChanne
   @Immutable
   public static final class Id extends WebSocketUserChannelId<Message> {
 
-    private Id(String instId) {
-      super(_positions, instId);
+    private Id(String type, @Nullable String instId) {
+      super(_positions, type, instId);
     }
 
-    public static Id of(String instId) {
-      return new Id(instId);
+    public static Id of(String type, @Nullable String instId) {
+      return new Id(type, instId);
     }
   }
 
