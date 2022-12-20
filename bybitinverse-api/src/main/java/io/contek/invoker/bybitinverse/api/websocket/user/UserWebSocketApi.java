@@ -12,6 +12,7 @@ public final class UserWebSocketApi extends WebSocketApi {
 
   private final AtomicReference<OrderChannel> orderChannel = new AtomicReference<>();
   private final AtomicReference<PositionChannel> positionChannel = new AtomicReference<>();
+  private final AtomicReference<ExecutionChannel> executionChannel = new AtomicReference<>();
 
   public UserWebSocketApi(IActor actor, WebSocketContext context) {
     super(actor, context);
@@ -35,7 +36,19 @@ public final class UserWebSocketApi extends WebSocketApi {
       if (channel == null) {
         channel = new PositionChannel();
         attach(channel);
-        positionChannel.set(new PositionChannel());
+        positionChannel.set(channel);
+      }
+      return channel;
+    }
+  }
+
+  public ExecutionChannel getExecutionChannel() {
+    synchronized (executionChannel) {
+      ExecutionChannel channel = executionChannel.get();
+      if (channel == null) {
+        channel = new ExecutionChannel();
+        attach(channel);
+        executionChannel.set(channel);
       }
       return channel;
     }

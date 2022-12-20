@@ -6,13 +6,19 @@ import javax.annotation.concurrent.NotThreadSafe;
 public class _Order {
 
   public String accFillSz;
+  public String amendResult;
   public String avgPx;
   public String cTime;
   public String category;
   public String ccy;
   public String clOrdId;
+  public String code;
+  public String execType;
   public String fee;
   public String feeCcy;
+  public String fillFee;
+  public String fillFeeCcy;
+  public String fillNotionalUsd;
   public String fillPx;
   public String fillSz;
   public String fillTime;
@@ -26,6 +32,8 @@ public class _Order {
   public String px;
   public String rebate;
   public String rebateCcy;
+  public String reduceOnly;
+  public String reqId;
   public String side;
   public String slOrdPx;
   public String slTriggerPx;
@@ -33,8 +41,8 @@ public class _Order {
   public String state;
   public String sz;
   public String tag;
-  public String tgtCcy;
   public String tdMode;
+  public String tgtCcy;
   public String source;
   public String tpOrdPx;
   public String tpTriggerPx;
