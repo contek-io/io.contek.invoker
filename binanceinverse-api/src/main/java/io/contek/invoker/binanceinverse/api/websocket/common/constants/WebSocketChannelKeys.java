@@ -24,6 +24,8 @@ public final class WebSocketChannelKeys {
 
   public static final String _forceOrder = "forceOrder";
 
+  public static final String _markPrice = "markPrice";
+
   public static String bookTicker(String symbol) {
     return channel(symbol, _bookTicker);
   }
@@ -51,6 +53,10 @@ public final class WebSocketChannelKeys {
 
   public static String forceOrder(String symbol) {
     return channel(symbol, _forceOrder);
+  }
+
+  public static String markPrice(String symbol, String interval) {
+    return channel(symbol, _markPrice, interval);
   }
 
   public static String channel(String symbol, String topic) {

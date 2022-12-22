@@ -8,7 +8,10 @@ import javax.annotation.concurrent.NotThreadSafe;
 public class MarkPriceUpdateEvent extends WebSocketEventData {
 
   public String s; // Symbol
-  public Double p; // Mark price
-  public Double r; // Funding rate
+  public String p; // Mark price
+  public String i; // Index price
+  public String
+      P; // Estimated Settle Price, only useful in the last hour before the settlement starts
+  public String r; // Funding rate
   public Long T; // Next funding time
 }

@@ -28,6 +28,7 @@ public final class MarketCombinedWebSocketApi extends BaseWebSocketApi
   private final Map<DepthPartialChannel.Id, DepthPartialChannel> depthPartialChannels =
       new HashMap<>();
   private final Map<ForceOrderChannel.Id, ForceOrderChannel> forceOrderChannels = new HashMap<>();
+  private final Map<MarkPriceChannel.Id, MarkPriceChannel> markPriceChannels = new HashMap<>();
 
   public MarketCombinedWebSocketApi(IActor actor, WebSocketContext context) {
     super(
@@ -111,6 +112,19 @@ public final class MarketCombinedWebSocketApi extends BaseWebSocketApi
           ForceOrderChannel.Id.of(symbol),
           k -> {
             ForceOrderChannel result = new ForceOrderChannel(k, requestIdGenerator);
+            attach(result);
+            return result;
+          });
+    }
+  }
+
+  @Override
+  public MarkPriceChannel getMarkPriceChannel(String symbol, String interval) {
+    synchronized (markPriceChannels) {
+      return markPriceChannels.computeIfAbsent(
+          MarkPriceChannel.Id.of(symbol, interval),
+          k -> {
+            MarkPriceChannel result = new MarkPriceChannel(k, requestIdGenerator);
             attach(result);
             return result;
           });

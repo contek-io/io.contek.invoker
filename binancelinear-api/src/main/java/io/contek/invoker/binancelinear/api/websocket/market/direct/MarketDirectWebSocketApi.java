@@ -27,6 +27,8 @@ public final class MarketDirectWebSocketApi implements IMarketWebSocketApi {
       new HashMap<>();
   private final Map<ForceOrderDirectStream.Id, ForceOrderDirectStream> forceOrderChannels =
       new HashMap<>();
+  private final Map<MarkPriceDirectStream.Id, MarkPriceDirectStream> markPriceChannels =
+      new HashMap<>();
 
   public MarketDirectWebSocketApi(IActor actor, WebSocketContext context) {
     this.actor = actor;
@@ -94,6 +96,18 @@ public final class MarketDirectWebSocketApi implements IMarketWebSocketApi {
           .computeIfAbsent(
               ForceOrderDirectStream.Id.of(symbol),
               k -> new ForceOrderDirectStream(k, actor, context))
+          .getChannel();
+    }
+  }
+
+  @Override
+  public IWebSocketChannel<MarkPriceUpdateEvent> getMarkPriceChannel(
+      String symbol, String interval) {
+    synchronized (markPriceChannels) {
+      return markPriceChannels
+          .computeIfAbsent(
+              MarkPriceDirectStream.Id.of(symbol, interval),
+              k -> new MarkPriceDirectStream(k, actor, context))
           .getChannel();
     }
   }

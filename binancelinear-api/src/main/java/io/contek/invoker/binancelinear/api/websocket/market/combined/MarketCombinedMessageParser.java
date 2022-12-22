@@ -60,6 +60,7 @@ final class MarketCombinedMessageParser extends WebSocketTextMessageParser {
       case _depth -> gson.fromJson(obj, DepthDiffChannel.Message.class);
       case _depth5, _depth10, _depth20 -> gson.fromJson(obj, DepthPartialChannel.Message.class);
       case _forceOrder -> gson.fromJson(obj, ForceOrderChannel.Message.class);
+      case _markPrice -> gson.fromJson(obj, MarkPriceChannel.Message.class);
       default -> throw new IllegalStateException();
     };
   }

@@ -1,12 +1,13 @@
 package io.contek.invoker.binancelinear.api.websocket.market.direct;
 
-import io.contek.invoker.binancelinear.api.websocket.common.constants.WebSocketChannelKeys;
 import io.contek.invoker.binancelinear.api.websocket.market.DepthUpdateEvent;
 import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.websocket.WebSocketContext;
 
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.ThreadSafe;
+
+import static io.contek.invoker.binancelinear.api.websocket.common.constants.WebSocketChannelKeys.depth;
 
 @ThreadSafe
 public final class DepthDiffDirectStream extends DirectStream<DepthUpdateEvent> {
@@ -19,7 +20,7 @@ public final class DepthDiffDirectStream extends DirectStream<DepthUpdateEvent> 
   public static final class Id extends MarketWebSocketDirectChannelId<DepthUpdateEvent> {
 
     private Id(String symbol, String interval) {
-      super(WebSocketChannelKeys.depth(symbol, interval));
+      super(depth(symbol, interval));
     }
 
     public static Id of(String symbol, String interval) {

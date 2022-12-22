@@ -1,12 +1,13 @@
 package io.contek.invoker.binancelinear.api.websocket.market.direct;
 
-import io.contek.invoker.binancelinear.api.websocket.common.constants.WebSocketChannelKeys;
 import io.contek.invoker.binancelinear.api.websocket.market.BookTickerEvent;
 import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.websocket.WebSocketContext;
 
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.ThreadSafe;
+
+import static io.contek.invoker.binancelinear.api.websocket.common.constants.WebSocketChannelKeys.bookTicker;
 
 @ThreadSafe
 public final class BookTickerDirectStream extends DirectStream<BookTickerEvent> {
@@ -19,7 +20,7 @@ public final class BookTickerDirectStream extends DirectStream<BookTickerEvent> 
   public static final class Id extends MarketWebSocketDirectChannelId<BookTickerEvent> {
 
     private Id(String symbol) {
-      super(WebSocketChannelKeys.bookTicker(symbol));
+      super(bookTicker(symbol));
     }
 
     public static Id of(String symbol) {

@@ -19,5 +19,7 @@ public interface IMarketWebSocketApi {
 
   IWebSocketChannel<ForceOrderEvent> getForceOrderChannel(String symbol);
 
+  IWebSocketChannel<MarkPriceUpdateEvent> getMarkPriceChannel(String symbol, String interval);
+
   IWebSocketChannel<TradeEvent> getTradeChannel(String symbol);
 }
