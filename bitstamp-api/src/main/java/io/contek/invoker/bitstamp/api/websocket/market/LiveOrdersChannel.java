@@ -3,27 +3,28 @@ package io.contek.invoker.bitstamp.api.websocket.market;
 import io.contek.invoker.bitstamp.api.websocket.WebSocketChannel;
 import io.contek.invoker.bitstamp.api.websocket.WebSocketChannelId;
 import io.contek.invoker.bitstamp.api.websocket.common.WebSocketChannelMessage;
+
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
 
 @ThreadSafe
 public final class LiveOrdersChannel
-    extends WebSocketChannel<LiveOrdersChannel.Id, LiveOrdersChannel.Message> {
+    extends WebSocketChannel<LiveOrdersChannel.Message, LiveOrdersChannel.Data> {
 
   public static final String PREFIX = "live_orders_";
 
-  LiveOrdersChannel(LiveOrdersChannel.Id id) {
+  LiveOrdersChannel(Id id) {
     super(id);
   }
 
   @Override
-  public Class<LiveOrdersChannel.Message> getMessageType() {
-    return LiveOrdersChannel.Message.class;
+  public Class<Message> getMessageType() {
+    return Message.class;
   }
 
   @Immutable
-  public static final class Id extends WebSocketChannelId<LiveOrdersChannel.Message> {
+  public static final class Id extends WebSocketChannelId<Message> {
 
     private Id(String currencyPair) {
       super(PREFIX + currencyPair);
@@ -39,6 +40,7 @@ public final class LiveOrdersChannel
 
   @NotThreadSafe
   public static final class Data {
+
     public Long id;
     public Double amount;
     public String amount_str;

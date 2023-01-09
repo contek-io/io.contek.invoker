@@ -16,17 +16,17 @@ public final class DiffOrderBookChannel
 
   public static final String PREFIX = "diff_order_book_";
 
-  DiffOrderBookChannel(DiffOrderBookChannel.Id id) {
+  DiffOrderBookChannel(Id id) {
     super(id);
   }
 
   @Override
-  public Class<DiffOrderBookChannel.Message> getMessageType() {
+  public Class<Message> getMessageType() {
     return Message.class;
   }
 
   @Immutable
-  public static final class Id extends WebSocketChannelId<DiffOrderBookChannel.Message> {
+  public static final class Id extends WebSocketChannelId<Message> {
 
     private Id(String currencyPair) {
       super(PREFIX + currencyPair);

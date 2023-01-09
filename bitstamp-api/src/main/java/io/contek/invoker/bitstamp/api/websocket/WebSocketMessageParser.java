@@ -1,23 +1,20 @@
 package io.contek.invoker.bitstamp.api.websocket;
 
-import static io.contek.invoker.bitstamp.api.websocket.common.constants.WebSocketEventKeys._bts;
-import static io.contek.invoker.bitstamp.api.websocket.common.constants.WebSocketEventKeys._data;
-import static io.contek.invoker.bitstamp.api.websocket.common.constants.WebSocketEventKeys._order;
-import static io.contek.invoker.bitstamp.api.websocket.common.constants.WebSocketEventKeys._trade;
-import static io.contek.invoker.bitstamp.api.websocket.common.constants.WebSocketFieldKeys._channel;
-import static io.contek.invoker.bitstamp.api.websocket.common.constants.WebSocketFieldKeys._event;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import io.contek.invoker.bitstamp.api.websocket.common.WebSocketRequestConfirmationMessage;
 import io.contek.invoker.bitstamp.api.websocket.market.DiffOrderBookChannel;
-import io.contek.invoker.bitstamp.api.websocket.market.LiveOrdersChannel;
 import io.contek.invoker.bitstamp.api.websocket.market.LiveTradesChannel;
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.IWebSocketComponent;
 import io.contek.invoker.commons.websocket.WebSocketTextMessageParser;
+
 import javax.annotation.concurrent.Immutable;
+
+import static io.contek.invoker.bitstamp.api.websocket.common.constants.WebSocketEventKeys.*;
+import static io.contek.invoker.bitstamp.api.websocket.common.constants.WebSocketFieldKeys._channel;
+import static io.contek.invoker.bitstamp.api.websocket.common.constants.WebSocketFieldKeys._event;
 
 @Immutable
 final class WebSocketMessageParser extends WebSocketTextMessageParser {
