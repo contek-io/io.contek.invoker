@@ -28,6 +28,10 @@ public final class UserRestApi {
     return new GetAccountConfig(actor, context);
   }
 
+  public GetAccountLeverageInfo getAccountLeverageInfo() {
+    return new GetAccountLeverageInfo(actor, context);
+  }
+
   public GetAccountPositions getAccountPositions() {
     return new GetAccountPositions(actor, context);
   }
