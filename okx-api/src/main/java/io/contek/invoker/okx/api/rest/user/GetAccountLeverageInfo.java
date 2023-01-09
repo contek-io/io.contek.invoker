@@ -15,6 +15,7 @@ import java.time.Duration;
 
 import static io.contek.invoker.commons.actor.ratelimit.LimitType.API_KEY;
 import static io.contek.invoker.commons.rest.RestMethod.GET;
+import static java.util.Objects.requireNonNull;
 
 @NotThreadSafe
 public final class GetAccountLeverageInfo extends UserRestRequest<GetAccountLeverageInfo.Response> {
@@ -30,8 +31,21 @@ public final class GetAccountLeverageInfo extends UserRestRequest<GetAccountLeve
   private static final ImmutableList<TypedPermitRequest> REQUIRED_QUOTA =
       ImmutableList.of(RATE_LIMIT_RULE.forPermits(1));
 
+  private String instId;
+  private String mgnMode;
+
   GetAccountLeverageInfo(IActor actor, RestContext context) {
     super(actor, context);
+  }
+
+  public GetAccountLeverageInfo setInstId(String instId) {
+    this.instId = instId;
+    return this;
+  }
+
+  public GetAccountLeverageInfo setMgnMode(String mgnMode) {
+    this.mgnMode = mgnMode;
+    return this;
   }
 
   @Override
@@ -46,7 +60,15 @@ public final class GetAccountLeverageInfo extends UserRestRequest<GetAccountLeve
 
   @Override
   protected RestParams getParams() {
-    return RestParams.empty();
+    RestParams.Builder builder = RestParams.newBuilder();
+
+    requireNonNull(instId);
+    builder.add("instId", instId);
+
+    requireNonNull(mgnMode);
+    builder.add("mgnMode", mgnMode);
+
+    return builder.build();
   }
 
   @Override
