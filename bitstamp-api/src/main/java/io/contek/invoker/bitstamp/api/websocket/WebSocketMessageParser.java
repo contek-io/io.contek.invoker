@@ -5,6 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import io.contek.invoker.bitstamp.api.websocket.common.WebSocketRequestConfirmationMessage;
 import io.contek.invoker.bitstamp.api.websocket.market.DiffOrderBookChannel;
+import io.contek.invoker.bitstamp.api.websocket.market.LiveOrdersChannel;
 import io.contek.invoker.bitstamp.api.websocket.market.LiveTradesChannel;
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.IWebSocketComponent;
