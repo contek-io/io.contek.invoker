@@ -20,15 +20,19 @@ public final class UserOrdersChannel
   }
 
   @Override
-  public Class<UserOrdersChannel.Message> getMessageType() {
-    return UserOrdersChannel.Message.class;
+  public Class<Message> getMessageType() {
+    return Message.class;
   }
 
   @Immutable
-  public static final class Id extends WebSocketChannelId<UserOrdersChannel.Message> {
+  public static final class Id extends WebSocketChannelId<Message> {
 
     private Id(String value) {
       super(value);
+    }
+
+    public static Id of(String kind, String currency, String interval) {
+      return new Id(format("user.orders.%s.%s.%s", kind, currency, interval));
     }
 
     public static Id of(String instrumentName, String interval) {

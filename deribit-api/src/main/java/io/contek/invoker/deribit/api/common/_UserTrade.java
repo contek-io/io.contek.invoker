@@ -3,7 +3,7 @@ package io.contek.invoker.deribit.api.common;
 import javax.annotation.concurrent.NotThreadSafe;
 
 @NotThreadSafe
-public class _Trade {
+public class _UserTrade {
 
   public Long amount;
   public String block_trade_id;
