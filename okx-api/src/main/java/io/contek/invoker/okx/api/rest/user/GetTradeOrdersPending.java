@@ -107,7 +107,7 @@ public final class GetTradeOrdersPending extends UserRestRequest<GetTradeOrdersP
     }
 
     if (instId != null) {
-      builder.add(instId, instId);
+      builder.add("instId", instId);
     }
 
     if (ordType != null) {
