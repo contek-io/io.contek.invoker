@@ -19,8 +19,8 @@ public final class UserWebSocketApi extends WebSocketApi {
   private final Map<OrdersChannel.Id, OrdersChannel> ordersChannels = new HashMap<>();
   private final Map<PositionsChannel.Id, PositionsChannel> positionsChannels = new HashMap<>();
 
-  public UserWebSocketApi(IActor actor, WebSocketContext context) {
-    super(actor);
+  public UserWebSocketApi(String name, IActor actor, WebSocketContext context) {
+    super(name, actor);
     this.context = context;
   }
 

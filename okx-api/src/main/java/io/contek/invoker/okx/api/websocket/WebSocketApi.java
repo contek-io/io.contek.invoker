@@ -30,12 +30,12 @@ public abstract class WebSocketApi extends BaseWebSocketApi {
   private static final ImmutableList<TypedPermitRequest> REQUIRED_QUOTA =
       ImmutableList.of(RATE_LIMIT_RULE.forPermits(1));
 
-  protected WebSocketApi(IActor actor) {
+  protected WebSocketApi(String name, IActor actor) {
     super(
         actor,
         WebSocketMessageParser.getInstance(),
         new WebSocketAuthenticator(actor.getCredential(), actor.getClock()),
-        new WebSocketLiveKeeper(actor.getClock()));
+        new WebSocketLiveKeeper(name, actor.getClock()));
   }
 
   @Override

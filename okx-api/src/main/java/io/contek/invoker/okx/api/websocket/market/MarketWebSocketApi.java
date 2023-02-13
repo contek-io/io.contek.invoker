@@ -19,8 +19,8 @@ public final class MarketWebSocketApi extends WebSocketApi {
   private final Map<TickersChannel.Id, TickersChannel> tickerChannels = new HashMap<>();
   private final Map<TradesChannel.Id, TradesChannel> tradesChannels = new HashMap<>();
 
-  public MarketWebSocketApi(IActor actor, WebSocketContext context) {
-    super(actor);
+  public MarketWebSocketApi(String name, IActor actor, WebSocketContext context) {
+    super(name, actor);
     this.context = context;
   }
 
