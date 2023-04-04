@@ -8,7 +8,7 @@ import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
 import io.contek.invoker.okx.api.common._Order;
-import io.contek.invoker.okx.api.rest.common.RestResponse;
+import io.contek.invoker.okx.api.rest.common.ResponseWrapper;
 
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.NotThreadSafe;
@@ -93,5 +93,5 @@ public final class GetTradeOrder extends UserRestRequest<GetTradeOrder.Response>
   }
 
   @NotThreadSafe
-  public static final class Response extends RestResponse<_Order> {}
+  public static final class Response extends ResponseWrapper<_Order> {}
 }

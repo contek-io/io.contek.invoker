@@ -5,6 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import io.contek.invoker.bitstamp.api.websocket.common.WebSocketRequestConfirmationMessage;
 import io.contek.invoker.bitstamp.api.websocket.market.DiffOrderBookChannel;
+import io.contek.invoker.bitstamp.api.websocket.market.LiveOrdersChannel;
 import io.contek.invoker.bitstamp.api.websocket.market.LiveTradesChannel;
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.IWebSocketComponent;
@@ -46,6 +47,11 @@ final class WebSocketMessageParser extends WebSocketTextMessageParser {
           return toLiveTradesMessage(obj);
         }
       }
+      if (eventValue.startsWith(_order)) {
+        if (channelValue.startsWith(LiveOrdersChannel.PREFIX)) {
+          return toLiveOrdersMessage(obj);
+        }
+      }
       if (eventValue.equals(_data)) {
         if (channelValue.startsWith(DiffOrderBookChannel.PREFIX)) {
           return toDiffOrderBookMessage(obj);
@@ -65,6 +71,10 @@ final class WebSocketMessageParser extends WebSocketTextMessageParser {
 
   private LiveTradesChannel.Message toLiveTradesMessage(JsonObject obj) {
     return gson.fromJson(obj, LiveTradesChannel.Message.class);
+  }
+
+  private LiveOrdersChannel.Message toLiveOrdersMessage(JsonObject obj) {
+    return gson.fromJson(obj, LiveOrdersChannel.Message.class);
   }
 
   private WebSocketMessageParser() {}

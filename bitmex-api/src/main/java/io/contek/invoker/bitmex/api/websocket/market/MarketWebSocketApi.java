@@ -24,10 +24,10 @@ public final class MarketWebSocketApi extends WebSocketApi {
     super(actor, context);
   }
 
-  public LiquidationChannel getLiquidationChannel(LiquidationChannel.Id id) {
+  public LiquidationChannel getLiquidationChannel(String instrument) {
     synchronized (liquidationChannels) {
       return liquidationChannels.computeIfAbsent(
-          id,
+          LiquidationChannel.Id.of(instrument),
           k -> {
             LiquidationChannel result = new LiquidationChannel(k);
             attach(result);
@@ -36,10 +36,10 @@ public final class MarketWebSocketApi extends WebSocketApi {
     }
   }
 
-  public OrderBookL2Channel getOrderBookL2Channel(OrderBookL2Channel.Id id) {
+  public OrderBookL2Channel getOrderBookL2Channel(String instrument) {
     synchronized (orderBookL2Channels) {
       return orderBookL2Channels.computeIfAbsent(
-          id,
+          OrderBookL2Channel.Id.of(instrument),
           k -> {
             OrderBookL2Channel result = new OrderBookL2Channel(k);
             attach(result);
@@ -48,10 +48,10 @@ public final class MarketWebSocketApi extends WebSocketApi {
     }
   }
 
-  public QuoteChannel getQuoteChannel(QuoteChannel.Id id) {
+  public QuoteChannel getQuoteChannel(String instrument) {
     synchronized (quoteChannels) {
       return quoteChannels.computeIfAbsent(
-          id,
+          QuoteChannel.Id.of(instrument),
           k -> {
             QuoteChannel result = new QuoteChannel(k);
             attach(result);
@@ -60,10 +60,10 @@ public final class MarketWebSocketApi extends WebSocketApi {
     }
   }
 
-  public TradeChannel getTradeChannel(TradeChannel.Id id) {
+  public TradeChannel getTradeChannel(String instrument) {
     synchronized (quoteChannels) {
       return tradeChannels.computeIfAbsent(
-          id,
+          TradeChannel.Id.of(instrument),
           k -> {
             TradeChannel result = new TradeChannel(k);
             attach(result);
@@ -72,10 +72,10 @@ public final class MarketWebSocketApi extends WebSocketApi {
     }
   }
 
-  public TradeBinChannel getTradeBinChannel(TradeBinChannel.Id id) {
+  public TradeBinChannel getTradeBinChannel(String binSize, String instrument) {
     synchronized (tradeBinChannels) {
       return tradeBinChannels.computeIfAbsent(
-          id,
+          TradeBinChannel.Id.of(binSize, instrument),
           k -> {
             TradeBinChannel result = new TradeBinChannel(k);
             attach(result);
@@ -84,10 +84,10 @@ public final class MarketWebSocketApi extends WebSocketApi {
     }
   }
 
-  public InstrumentChannel getInstrumentChannel(InstrumentChannel.Id id) {
+  public InstrumentChannel getInstrumentChannel(String instrument) {
     synchronized (instrumentChannels) {
       return instrumentChannels.computeIfAbsent(
-          id,
+          InstrumentChannel.Id.of(instrument),
           k -> {
             InstrumentChannel result = new InstrumentChannel(k);
             attach(result);

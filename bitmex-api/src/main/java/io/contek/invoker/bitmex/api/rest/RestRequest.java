@@ -3,6 +3,7 @@ package io.contek.invoker.bitmex.api.rest;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import io.contek.invoker.commons.actor.IActor;
+import io.contek.invoker.commons.actor.http.AnyHttpException;
 import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
 import io.contek.invoker.commons.rest.*;
 import io.contek.invoker.security.ICredential;
@@ -50,16 +51,15 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
   protected final RestCall createCall(ICredential credential) {
     RestMethod method = getMethod();
     switch (method) {
-      case GET:
-      case DELETE:
+      case GET, DELETE -> {
         String paramsString = buildParamsString();
         return RestCall.newBuilder()
             .setUrl(buildUrlString(paramsString))
             .setMethod(method)
             .setHeaders(generateHeaders(paramsString, "", credential))
             .build();
-      case POST:
-      case PUT:
+      }
+      case POST, PUT -> {
         RestMediaBody body = JSON.createBody(getParams());
         return RestCall.newBuilder()
             .setUrl(buildUrlString(""))
@@ -67,10 +67,13 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
             .setHeaders(generateHeaders("", body.getStringValue(), credential))
             .setBody(body)
             .build();
-      default:
-        throw new IllegalStateException(getMethod().name());
+      }
+      default -> throw new IllegalStateException(getMethod().name());
     }
   }
+
+  @Override
+  protected final void checkResult(R result, RestResponse response) throws AnyHttpException {}
 
   private ImmutableMap<String, String> generateHeaders(
       String paramsString, String bodyString, ICredential credential) {

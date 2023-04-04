@@ -106,6 +106,7 @@ public final class ApiFactory {
         GetAccountAccountPositionRisk.RATE_LIMIT_RULE,
         GetAccountBalance.RATE_LIMIT_RULE,
         GetAccountConfig.RATE_LIMIT_RULE,
+        GetAccountLeverageInfo.RATE_LIMIT_RULE,
         GetAccountPositions.RATE_LIMIT_RULE,
         GetAssetBalances.RATE_LIMIT_RULE,
         GetTradeFills.RATE_LIMIT_RULE,
@@ -150,15 +151,23 @@ public final class ApiFactory {
     private SelectingWebSocketApi() {}
 
     public MarketWebSocketApi market() {
+      return market("");
+    }
+
+    public MarketWebSocketApi market(String name) {
       WebSocketContext wsContext = context.getWebSocketContext();
       IActor actor = actorFactory.create(null, wsContext);
-      return new MarketWebSocketApi(actor, wsContext);
+      return new MarketWebSocketApi(name, actor, wsContext);
     }
 
     public UserWebSocketApi user(ApiKey apiKey) {
+      return user(apiKey.getId(), apiKey);
+    }
+
+    public UserWebSocketApi user(String name, ApiKey apiKey) {
       WebSocketContext wsContext = context.getWebSocketContext();
       IActor actor = actorFactory.create(apiKey, wsContext);
-      return new UserWebSocketApi(actor, wsContext);
+      return new UserWebSocketApi(name, actor, wsContext);
     }
   }
 }

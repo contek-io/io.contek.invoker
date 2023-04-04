@@ -20,10 +20,10 @@ public final class MarketWebSocketApi extends MarketDataWebSocketApi {
     super(actor, context);
   }
 
-  public IncrementalDepthChannel getIncrementalDepthChannel(IncrementalDepthChannel.Id id) {
+  public IncrementalDepthChannel getIncrementalDepthChannel(String contractCode, int size) {
     synchronized (incrementalDepthChannels) {
       return incrementalDepthChannels.computeIfAbsent(
-          id,
+          IncrementalDepthChannel.Id.of(contractCode, size),
           k -> {
             IncrementalDepthChannel result =
                 new IncrementalDepthChannel(k, getRequestIdGenerator());
@@ -33,10 +33,10 @@ public final class MarketWebSocketApi extends MarketDataWebSocketApi {
     }
   }
 
-  public TradeDetailChannel getTradeDetailChannel(TradeDetailChannel.Id id) {
+  public TradeDetailChannel getTradeDetailChannel(String contractCode) {
     synchronized (tradeDetailChannels) {
       return tradeDetailChannels.computeIfAbsent(
-          id,
+          TradeDetailChannel.Id.of(contractCode),
           k -> {
             TradeDetailChannel result = new TradeDetailChannel(k, getRequestIdGenerator());
             attach(result);

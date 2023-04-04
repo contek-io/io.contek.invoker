@@ -9,6 +9,7 @@ public class _Order {
   public Long orderId;
   public Long orderListId;
   public String clientOrderId;
+  public Long transactTime;
   public String price;
   public String origQty;
   public String executedQty;
@@ -22,6 +23,7 @@ public class _Order {
   public Long time;
   public Long updateTime;
   public Boolean isWorking;
+  public Long workingTime;
   public String origClientOrderId;
   public String origQuoteOrderQty;
 }

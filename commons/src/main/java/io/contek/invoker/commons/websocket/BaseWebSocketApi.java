@@ -117,7 +117,7 @@ public abstract class BaseWebSocketApi implements IWebSocketApi {
           components.onMessage(message, session);
         }
       }
-    } catch (IllegalStateException e) {
+    } catch (IllegalStateException | NullPointerException e) {
       log.error("Failed to handle message: {}.", result.getStringValue(), e);
       throw new WebSocketIllegalMessageException(e);
     }
@@ -274,8 +274,10 @@ public abstract class BaseWebSocketApi implements IWebSocketApi {
       }
 
       try {
+        log.info("Closing connection.");
         ws.cancel();
         afterDisconnect();
+        log.info("Component states reset.");
       } catch (Throwable t2) {
         log.error("Failed to handle failure.", t2);
       }

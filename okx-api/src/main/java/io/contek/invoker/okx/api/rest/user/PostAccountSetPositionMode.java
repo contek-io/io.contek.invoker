@@ -8,7 +8,7 @@ import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
 import io.contek.invoker.okx.api.common._PositionMode;
-import io.contek.invoker.okx.api.rest.common.RestResponse;
+import io.contek.invoker.okx.api.rest.common.ResponseWrapper;
 
 import javax.annotation.concurrent.NotThreadSafe;
 import java.time.Duration;
@@ -74,5 +74,5 @@ public final class PostAccountSetPositionMode
   }
 
   @NotThreadSafe
-  public static final class Response extends RestResponse<_PositionMode> {}
+  public static final class Response extends ResponseWrapper<_PositionMode> {}
 }

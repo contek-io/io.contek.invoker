@@ -21,15 +21,19 @@ import static io.contek.invoker.okx.api.websocket.common.constants.WebSocketInbo
 import static io.contek.invoker.okx.api.websocket.common.constants.WebSocketInboundKeys._unsubscribe;
 
 @ThreadSafe
-public abstract class WebSocketChannel<
-        Id extends WebSocketChannelId<Message>, Message extends WebSocketChannelPushData<?>>
-    extends BaseWebSocketChannel<Id, Message> {
+public abstract class WebSocketChannel<Message extends WebSocketChannelPushData<?>>
+    extends BaseWebSocketChannel<WebSocketChannelId<Message>, Message, Message> {
 
   private final AtomicReference<WebSocketSubscriptionRequest> pendingRequestHolder =
       new AtomicReference<>(null);
 
-  protected WebSocketChannel(Id id) {
+  protected WebSocketChannel(WebSocketChannelId<Message> id) {
     super(id);
+  }
+
+  @Override
+  protected Message getData(Message message) {
+    return message;
   }
 
   @Override
@@ -67,11 +71,10 @@ public abstract class WebSocketChannel<
   @Nullable
   @Override
   protected final SubscriptionState getState(AnyWebSocketMessage message) {
-    if (!(message instanceof WebSocketSubscriptionResponse)) {
+    if (!(message instanceof WebSocketSubscriptionResponse response)) {
       return null;
     }
 
-    WebSocketSubscriptionResponse response = (WebSocketSubscriptionResponse) message;
     synchronized (pendingRequestHolder) {
       WebSocketSubscriptionRequest request = pendingRequestHolder.get();
       if (request == null) {
@@ -88,14 +91,11 @@ public abstract class WebSocketChannel<
       }
 
       reset();
-      switch (response.event) {
-        case _subscribe:
-          return SUBSCRIBED;
-        case _unsubscribe:
-          return UNSUBSCRIBED;
-        default:
-          throw new IllegalArgumentException(response.event);
-      }
+      return switch (response.event) {
+        case _subscribe -> SUBSCRIBED;
+        case _unsubscribe -> UNSUBSCRIBED;
+        default -> throw new IllegalArgumentException(response.event);
+      };
     }
   }
 

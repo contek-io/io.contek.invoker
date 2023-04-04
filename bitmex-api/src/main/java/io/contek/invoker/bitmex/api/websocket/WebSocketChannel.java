@@ -15,17 +15,21 @@ import static io.contek.invoker.bitmex.api.websocket.common.constants.WebSocketR
 import static io.contek.invoker.commons.websocket.SubscriptionState.*;
 
 @ThreadSafe
-public abstract class WebSocketChannel<
-        Id extends WebSocketChannelId<Message>, Message extends WebSocketTableDataMessage<?>>
-    extends BaseWebSocketChannel<Id, Message> {
+public abstract class WebSocketChannel<Message extends WebSocketTableDataMessage<?>>
+    extends BaseWebSocketChannel<WebSocketChannelId<Message>, Message, Message> {
 
-  protected WebSocketChannel(Id id) {
+  protected WebSocketChannel(WebSocketChannelId<Message> id) {
     super(id);
   }
 
   @Override
+  protected final Message getData(Message message) {
+    return message;
+  }
+
+  @Override
   protected final SubscriptionState subscribe(WebSocketSession session) {
-    Id id = getId();
+    WebSocketChannelId<Message> id = getId();
     WebSocketOperationRequest request = new WebSocketOperationRequest();
     request.op = _subscribe;
     request.args = ImmutableList.of(id.getTopic());
@@ -35,7 +39,7 @@ public abstract class WebSocketChannel<
 
   @Override
   protected final SubscriptionState unsubscribe(WebSocketSession session) {
-    Id id = getId();
+    WebSocketChannelId<Message> id = getId();
     WebSocketOperationRequest request = new WebSocketOperationRequest();
     request.op = _unsubscribe;
     request.args = ImmutableList.of(id.getTopic());
@@ -46,23 +50,21 @@ public abstract class WebSocketChannel<
   @Nullable
   @Override
   protected final SubscriptionState getState(AnyWebSocketMessage message) {
-    if (message instanceof WebSocketSubscribeResponse) {
-      WebSocketSubscribeResponse confirmation = (WebSocketSubscribeResponse) message;
+    if (message instanceof WebSocketSubscribeResponse confirmation) {
       if (!confirmation.success) {
         throw new WebSocketIllegalMessageException(confirmation.ret_msg);
       }
-      Id id = getId();
+      WebSocketChannelId<Message> id = getId();
       if (confirmation.subscribe.equals(id.getTopic())) {
         return SUBSCRIBED;
       }
     }
 
-    if (message instanceof WebSocketUnsubscribeResponse) {
-      WebSocketUnsubscribeResponse confirmation = (WebSocketUnsubscribeResponse) message;
+    if (message instanceof WebSocketUnsubscribeResponse confirmation) {
       if (!confirmation.success) {
         throw new WebSocketIllegalMessageException(confirmation.ret_msg);
       }
-      Id id = getId();
+      WebSocketChannelId<Message> id = getId();
       if (confirmation.unsubscribe.equals(id.getTopic())) {
         reset();
         return UNSUBSCRIBED;

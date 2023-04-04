@@ -7,7 +7,7 @@ import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestParams;
 import io.contek.invoker.okx.api.common._Trade;
-import io.contek.invoker.okx.api.rest.common.RestResponse;
+import io.contek.invoker.okx.api.rest.common.ResponseWrapper;
 
 import javax.annotation.concurrent.NotThreadSafe;
 import java.time.Duration;
@@ -66,5 +66,5 @@ public final class GetMarketTrades extends MarketRestRequest<GetMarketTrades.Res
   }
 
   @NotThreadSafe
-  public static final class Response extends RestResponse<_Trade> {}
+  public static final class Response extends ResponseWrapper<_Trade> {}
 }

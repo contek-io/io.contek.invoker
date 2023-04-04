@@ -17,17 +17,21 @@ import static io.contek.invoker.bybitlinear.api.websocket.common.constants.WebSo
 import static io.contek.invoker.commons.websocket.SubscriptionState.*;
 
 @ThreadSafe
-public abstract class WebSocketChannel<
-        Id extends WebSocketChannelId<Message>, Message extends WebSocketTopicMessage>
-    extends BaseWebSocketChannel<Id, Message> {
+public abstract class WebSocketChannel<Message extends WebSocketTopicMessage>
+    extends BaseWebSocketChannel<WebSocketChannelId<Message>, Message, Message> {
 
-  protected WebSocketChannel(Id id) {
+  protected WebSocketChannel(WebSocketChannelId<Message> id) {
     super(id);
   }
 
   @Override
+  protected Message getData(Message message) {
+    return message;
+  }
+
+  @Override
   protected final SubscriptionState subscribe(WebSocketSession session) {
-    Id id = getId();
+    WebSocketChannelId<Message> id = getId();
     WebSocketOperationRequest request = new WebSocketOperationRequest();
     request.op = _subscribe;
     request.args = ImmutableList.of(id.getTopic());
@@ -37,7 +41,7 @@ public abstract class WebSocketChannel<
 
   @Override
   protected final SubscriptionState unsubscribe(WebSocketSession session) {
-    Id id = getId();
+    WebSocketChannelId<Message> id = getId();
     WebSocketOperationRequest request = new WebSocketOperationRequest();
     request.op = _unsubscribe;
     request.args = ImmutableList.of(id.getTopic());
@@ -48,8 +52,7 @@ public abstract class WebSocketChannel<
   @Nullable
   @Override
   protected final SubscriptionState getState(AnyWebSocketMessage message) {
-    if (message instanceof WebSocketOperationResponse) {
-      WebSocketOperationResponse confirmation = (WebSocketOperationResponse) message;
+    if (message instanceof WebSocketOperationResponse confirmation) {
       WebSocketOperationRequest request = confirmation.request;
       if (!request.args.contains(getId().getTopic())) {
         return null;
@@ -57,14 +60,11 @@ public abstract class WebSocketChannel<
       if (!confirmation.success) {
         throw new IllegalStateException();
       }
-      switch (request.op) {
-        case _subscribe:
-          return SUBSCRIBED;
-        case _unsubscribe:
-          return UNSUBSCRIBED;
-        default:
-          throw new IllegalStateException();
-      }
+      return switch (request.op) {
+        case _subscribe -> SUBSCRIBED;
+        case _unsubscribe -> UNSUBSCRIBED;
+        default -> throw new IllegalStateException();
+      };
     }
     return null;
   }

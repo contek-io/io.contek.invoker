@@ -12,8 +12,7 @@ import javax.annotation.concurrent.ThreadSafe;
 import static java.lang.String.format;
 
 @ThreadSafe
-public final class TradeBinChannel
-    extends WebSocketChannel<TradeBinChannel.Id, TradeBinChannel.Message> {
+public final class TradeBinChannel extends WebSocketChannel<TradeBinChannel.Message> {
 
   TradeBinChannel(TradeBinChannel.Id id) {
     super(id);

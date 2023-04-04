@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @ThreadSafe
-public final class Level2Channel extends WebSocketChannel<Level2Channel.Id, Level2Channel.Message> {
+public final class Level2Channel extends WebSocketChannel<Level2Channel.Message> {
 
   Level2Channel(Level2Channel.Id id) {
     super(id);
@@ -23,7 +23,7 @@ public final class Level2Channel extends WebSocketChannel<Level2Channel.Id, Leve
   }
 
   @Immutable
-  public static final class Id extends WebSocketChannelId<Level2Channel.Message> {
+  public static final class Id extends WebSocketChannelId<Message> {
 
     private Id(String productId) {
       super("level2_50", productId);

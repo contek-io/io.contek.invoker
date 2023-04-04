@@ -4,6 +4,7 @@ import io.contek.invoker.commons.websocket.*;
 
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.ThreadSafe;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static io.contek.invoker.commons.websocket.SubscriptionState.*;
@@ -12,9 +13,8 @@ import static io.contek.invoker.hbdminverse.api.websocket.user.constants.OpKeys.
 
 @ThreadSafe
 public abstract class NotificationWebSocketChannel<
-        Id extends NotificationWebSocketChannelId<Message>,
-        Message extends NotificationWebSocketChannelMessage>
-    extends BaseWebSocketChannel<Id, Message> {
+        Message extends NotificationWebSocketDataMessage<Data>, Data>
+    extends BaseWebSocketChannel<NotificationWebSocketChannelId<Message>, Message, List<Data>> {
 
   private final NotificationWebSocketRequestIdGenerator requestIdGenerator;
 
@@ -22,9 +22,15 @@ public abstract class NotificationWebSocketChannel<
       new AtomicReference<>(null);
 
   protected NotificationWebSocketChannel(
-      Id id, NotificationWebSocketRequestIdGenerator requestIdGenerator) {
+      NotificationWebSocketChannelId<Message> id,
+      NotificationWebSocketRequestIdGenerator requestIdGenerator) {
     super(id);
     this.requestIdGenerator = requestIdGenerator;
+  }
+
+  @Override
+  protected final List<Data> getData(Message message) {
+    return message.data;
   }
 
   @Override
@@ -34,7 +40,7 @@ public abstract class NotificationWebSocketChannel<
         throw new IllegalStateException();
       }
 
-      Id id = getId();
+      NotificationWebSocketChannelId<Message> id = getId();
       NotificationWebSocketSubscriptionRequest request =
           new NotificationWebSocketSubscriptionRequest();
       request.op = _sub;
@@ -54,7 +60,7 @@ public abstract class NotificationWebSocketChannel<
         throw new IllegalStateException();
       }
 
-      Id id = getId();
+      NotificationWebSocketChannelId<Message> id = getId();
       NotificationWebSocketSubscriptionRequest request =
           new NotificationWebSocketSubscriptionRequest();
       request.op = _unsub;
@@ -70,10 +76,9 @@ public abstract class NotificationWebSocketChannel<
   @Nullable
   @Override
   protected final SubscriptionState getState(AnyWebSocketMessage message) {
-    if (!(message instanceof NotificationWebSocketConfirmation)) {
+    if (!(message instanceof NotificationWebSocketConfirmation confirmation)) {
       return null;
     }
-    NotificationWebSocketConfirmation confirmation = (NotificationWebSocketConfirmation) message;
 
     synchronized (pendingRequestHolder) {
       NotificationWebSocketRequest request = pendingRequestHolder.get();
@@ -91,14 +96,11 @@ public abstract class NotificationWebSocketChannel<
       }
 
       reset();
-      switch (request.op) {
-        case _sub:
-          return SUBSCRIBED;
-        case _unsub:
-          return UNSUBSCRIBED;
-        default:
-          throw new IllegalStateException();
-      }
+      return switch (request.op) {
+        case _sub -> SUBSCRIBED;
+        case _unsub -> UNSUBSCRIBED;
+        default -> throw new IllegalStateException();
+      };
     }
   }
 

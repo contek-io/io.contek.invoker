@@ -28,4 +28,5 @@ public class _EquityBalance {
   public String upl;
   public String uplLiab;
   public String stgyEq;
+  public String spotInUseAmt;
 }

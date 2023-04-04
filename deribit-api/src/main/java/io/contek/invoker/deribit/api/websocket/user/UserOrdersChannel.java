@@ -13,22 +13,26 @@ import static java.lang.String.format;
 
 @ThreadSafe
 public final class UserOrdersChannel
-    extends UserWebSocketChannel<UserOrdersChannel.Id, UserOrdersChannel.Message> {
+    extends UserWebSocketChannel<UserOrdersChannel.Message, UserOrdersChannel.Data> {
 
   UserOrdersChannel(Id id, WebSocketRequestIdGenerator requestIdGenerator) {
     super(id, requestIdGenerator);
   }
 
   @Override
-  public Class<UserOrdersChannel.Message> getMessageType() {
-    return UserOrdersChannel.Message.class;
+  public Class<Message> getMessageType() {
+    return Message.class;
   }
 
   @Immutable
-  public static final class Id extends WebSocketChannelId<UserOrdersChannel.Message> {
+  public static final class Id extends WebSocketChannelId<Message> {
 
     private Id(String value) {
       super(value);
+    }
+
+    public static Id of(String kind, String currency, String interval) {
+      return new Id(format("user.orders.%s.%s.%s", kind, currency, interval));
     }
 
     public static Id of(String instrumentName, String interval) {

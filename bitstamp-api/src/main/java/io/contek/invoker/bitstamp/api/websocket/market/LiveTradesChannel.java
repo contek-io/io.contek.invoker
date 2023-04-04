@@ -10,21 +10,21 @@ import javax.annotation.concurrent.ThreadSafe;
 
 @ThreadSafe
 public final class LiveTradesChannel
-    extends WebSocketChannel<LiveTradesChannel.Id, LiveTradesChannel.Message> {
+    extends WebSocketChannel<LiveTradesChannel.Message, LiveTradesChannel.Data> {
 
   public static final String PREFIX = "live_trades_";
 
-  LiveTradesChannel(LiveTradesChannel.Id id) {
+  LiveTradesChannel(Id id) {
     super(id);
   }
 
   @Override
-  public Class<LiveTradesChannel.Message> getMessageType() {
-    return LiveTradesChannel.Message.class;
+  public Class<Message> getMessageType() {
+    return Message.class;
   }
 
   @Immutable
-  public static final class Id extends WebSocketChannelId<LiveTradesChannel.Message> {
+  public static final class Id extends WebSocketChannelId<Message> {
 
     private Id(String currencyPair) {
       super(PREFIX + currencyPair);

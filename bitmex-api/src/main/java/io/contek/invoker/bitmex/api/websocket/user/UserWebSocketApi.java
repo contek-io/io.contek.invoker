@@ -10,6 +10,7 @@ import java.util.concurrent.atomic.AtomicReference;
 @ThreadSafe
 public final class UserWebSocketApi extends WebSocketApi {
 
+  private final AtomicReference<ExecutionChannel> executionChannel = new AtomicReference<>();
   private final AtomicReference<OrderChannel> orderChannel = new AtomicReference<>();
   private final AtomicReference<PositionChannel> positionChannel = new AtomicReference<>();
 
@@ -17,23 +18,39 @@ public final class UserWebSocketApi extends WebSocketApi {
     super(actor, context);
   }
 
+  public ExecutionChannel getExecutionChannel() {
+    synchronized (executionChannel) {
+      ExecutionChannel channel = executionChannel.get();
+      if (channel == null) {
+        channel = new ExecutionChannel();
+        attach(channel);
+        executionChannel.set(channel);
+      }
+      return channel;
+    }
+  }
+
   public OrderChannel getOrderChannel() {
     synchronized (orderChannel) {
-      if (orderChannel.get() == null) {
-        orderChannel.set(new OrderChannel());
-        attach(this.orderChannel.get());
+      OrderChannel channel = orderChannel.get();
+      if (channel == null) {
+        channel = new OrderChannel();
+        attach(channel);
+        orderChannel.set(channel);
       }
-      return orderChannel.get();
+      return channel;
     }
   }
 
   public PositionChannel getPositionChannel() {
     synchronized (positionChannel) {
-      if (positionChannel.get() == null) {
-        positionChannel.set(new PositionChannel());
-        attach(this.positionChannel.get());
+      PositionChannel channel = positionChannel.get();
+      if (channel == null) {
+        channel = new PositionChannel();
+        attach(channel);
+        positionChannel.set(channel);
       }
-      return positionChannel.get();
+      return channel;
     }
   }
 }

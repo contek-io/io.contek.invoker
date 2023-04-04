@@ -17,21 +17,25 @@ import static io.contek.invoker.coinbasepro.api.websocket.common.constants.WebSo
 import static io.contek.invoker.commons.websocket.SubscriptionState.*;
 
 @ThreadSafe
-public abstract class WebSocketChannel<
-        Id extends WebSocketChannelId<Message>, Message extends WebSocketChannelMessage>
-    extends BaseWebSocketChannel<Id, Message> {
+public abstract class WebSocketChannel<Message extends WebSocketChannelMessage>
+    extends BaseWebSocketChannel<WebSocketChannelId<Message>, Message, Message> {
 
   private final AtomicReference<WebSocketSubscriptionMessage> pendingRequestHolder =
       new AtomicReference<>();
 
-  protected WebSocketChannel(Id id) {
+  protected WebSocketChannel(WebSocketChannelId<Message> id) {
     super(id);
+  }
+
+  @Override
+  protected final Message getData(Message message) {
+    return message;
   }
 
   @Override
   protected final SubscriptionState subscribe(WebSocketSession session) {
     synchronized (pendingRequestHolder) {
-      Id id = getId();
+      WebSocketChannelId<Message> id = getId();
       WebSocketSubscriptionMessage request = new WebSocketSubscriptionMessage();
       request.type = _subscribe;
       request.channels = ImmutableList.of(getChannelInfo(id));
@@ -44,7 +48,7 @@ public abstract class WebSocketChannel<
   @Override
   protected final SubscriptionState unsubscribe(WebSocketSession session) {
     synchronized (pendingRequestHolder) {
-      Id id = getId();
+      WebSocketChannelId<Message> id = getId();
       WebSocketSubscriptionMessage request = new WebSocketSubscriptionMessage();
       request.type = _unsubscribe;
       request.channels = ImmutableList.of(getChannelInfo(id));
@@ -62,15 +66,14 @@ public abstract class WebSocketChannel<
       if (pendingRequest == null) {
         return null;
       }
-      if (!(message instanceof WebSocketSubscriptionMessage)) {
+      if (!(message instanceof WebSocketSubscriptionMessage casted)) {
         return null;
       }
-      WebSocketSubscriptionMessage casted = (WebSocketSubscriptionMessage) message;
       if (!_subscriptions.equals(casted.type)) {
         return null;
       }
 
-      Id id = getId();
+      WebSocketChannelId<Message> id = getId();
       if (_subscribe.equals(pendingRequest.type)) {
         if (hasActiveChannel(casted, id)) {
           pendingRequestHolder.set(null);

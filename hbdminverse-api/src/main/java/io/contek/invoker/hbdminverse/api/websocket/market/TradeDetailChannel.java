@@ -21,7 +21,7 @@ public final class TradeDetailChannel
   }
 
   @Override
-  protected final SubscriptionState subscribe(WebSocketSession session) {
+  protected SubscriptionState subscribe(WebSocketSession session) {
     Id id = getId();
     SubscribeTradeDetailRequest request = new SubscribeTradeDetailRequest();
     request.sub = id.getChannel();

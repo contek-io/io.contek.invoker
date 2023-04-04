@@ -2,8 +2,7 @@ package io.contek.invoker.binancespot.api.websocket.user;
 
 import io.contek.invoker.binancespot.api.rest.user.PostListenKey;
 import io.contek.invoker.binancespot.api.rest.user.UserRestApi;
-import io.contek.invoker.commons.actor.http.HttpConnectionException;
-import io.contek.invoker.commons.actor.http.HttpInterruptedException;
+import io.contek.invoker.commons.actor.http.AnyHttpException;
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.IWebSocketLiveKeeper;
 import io.contek.invoker.commons.websocket.WebSocketSession;
@@ -23,7 +22,7 @@ final class UserWebSocketLiveKeeper implements IWebSocketLiveKeeper {
 
   private static final Logger log = getLogger(UserWebSocketLiveKeeper.class);
 
-  private static final Duration REFRESH_PERIOD = Duration.ofMinutes(10);
+  private static final Duration REFRESH_PERIOD = Duration.ofMinutes(30);
 
   private final UserRestApi userRestApi;
   private final Clock clock;
@@ -52,7 +51,7 @@ final class UserWebSocketLiveKeeper implements IWebSocketLiveKeeper {
       try {
         userRestApi.putListenKey().setListenKey(state.getListenKey()).submit();
         stateHolder.set(new State(state.getListenKey(), timestamp));
-      } catch (HttpConnectionException | HttpInterruptedException e) {
+      } catch (AnyHttpException e) {
         log.warn("Failed to refresh listen key.", e);
       }
     }

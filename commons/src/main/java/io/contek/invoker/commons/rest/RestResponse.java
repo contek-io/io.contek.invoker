@@ -33,7 +33,7 @@ public final class RestResponse {
     try {
       return stringValue == null ? null : gson.fromJson(stringValue, type);
     } catch (JsonSyntaxException e) {
-      throw new RestParsingException(this, type, e);
+      throw new RestParsingException(code, this, type, e);
     }
   }
 }

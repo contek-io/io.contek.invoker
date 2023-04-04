@@ -18,10 +18,10 @@ public final class MarketWebSocketApi extends WebSocketApi {
     super(actor, context);
   }
 
-  public BookChannel getBookChannel(BookChannel.Id id) {
+  public BookChannel getBookChannel(String pair, int depth) {
     synchronized (bookChannels) {
       return bookChannels.computeIfAbsent(
-          id,
+          BookChannel.Id.of(pair, depth),
           k -> {
             BookChannel result = new BookChannel(k, getRequestIdGenerator());
             attach(result);
@@ -30,10 +30,10 @@ public final class MarketWebSocketApi extends WebSocketApi {
     }
   }
 
-  public TradeChannel getTradeChannel(TradeChannel.Id id) {
+  public TradeChannel getTradeChannel(String pair) {
     synchronized (tradeChannels) {
       return tradeChannels.computeIfAbsent(
-          id,
+          TradeChannel.Id.of(pair),
           k -> {
             TradeChannel result = new TradeChannel(k, getRequestIdGenerator());
             attach(result);

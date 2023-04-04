@@ -6,6 +6,7 @@ import io.contek.invoker.commons.websocket.WebSocketContext;
 import io.contek.invoker.okx.api.websocket.WebSocketApi;
 import io.contek.invoker.security.ICredential;
 
+import javax.annotation.Nullable;
 import javax.annotation.concurrent.ThreadSafe;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,15 +19,15 @@ public final class UserWebSocketApi extends WebSocketApi {
   private final Map<OrdersChannel.Id, OrdersChannel> ordersChannels = new HashMap<>();
   private final Map<PositionsChannel.Id, PositionsChannel> positionsChannels = new HashMap<>();
 
-  public UserWebSocketApi(IActor actor, WebSocketContext context) {
-    super(actor);
+  public UserWebSocketApi(String name, IActor actor, WebSocketContext context) {
+    super(name, actor);
     this.context = context;
   }
 
-  public OrdersChannel getOrdersChannel(OrdersChannel.Id id) {
+  public OrdersChannel getOrdersChannel(String type, @Nullable String instId) {
     synchronized (ordersChannels) {
       return ordersChannels.computeIfAbsent(
-          id,
+          OrdersChannel.Id.of(type, instId),
           k -> {
             OrdersChannel result = new OrdersChannel(k);
             attach(result);
@@ -35,10 +36,10 @@ public final class UserWebSocketApi extends WebSocketApi {
     }
   }
 
-  public PositionsChannel getPositionsChannel(PositionsChannel.Id id) {
+  public PositionsChannel getPositionsChannel(String type, @Nullable String instId) {
     synchronized (positionsChannels) {
       return positionsChannels.computeIfAbsent(
-          id,
+          PositionsChannel.Id.of(type, instId),
           k -> {
             PositionsChannel result = new PositionsChannel(k);
             attach(result);

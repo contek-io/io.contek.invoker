@@ -9,14 +9,12 @@ import io.contek.invoker.hbdmlinear.api.websocket.common.notification.Notificati
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
-import java.util.ArrayList;
 
 import static java.lang.String.format;
 
 @ThreadSafe
 public final class LiquidationOrderChannel
-    extends NotificationWebSocketChannel<
-        LiquidationOrderChannel.Id, LiquidationOrderChannel.Message> {
+    extends NotificationWebSocketChannel<LiquidationOrderChannel.Message, _LiquidationOrder> {
 
   LiquidationOrderChannel(
       LiquidationOrderChannel.Id id, NotificationWebSocketRequestIdGenerator requestIdGenerator) {
@@ -42,9 +40,5 @@ public final class LiquidationOrderChannel
   }
 
   @NotThreadSafe
-  public static final class Message
-      extends NotificationWebSocketDataMessage<LiquidationOrderChannel.Data> {}
-
-  @NotThreadSafe
-  public static final class Data extends ArrayList<_LiquidationOrder> {}
+  public static final class Message extends NotificationWebSocketDataMessage<_LiquidationOrder> {}
 }

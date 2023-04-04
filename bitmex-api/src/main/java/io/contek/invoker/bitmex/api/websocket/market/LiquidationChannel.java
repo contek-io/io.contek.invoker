@@ -12,8 +12,7 @@ import javax.annotation.concurrent.ThreadSafe;
 import static java.lang.String.format;
 
 @ThreadSafe
-public final class LiquidationChannel
-    extends WebSocketChannel<LiquidationChannel.Id, LiquidationChannel.Message> {
+public final class LiquidationChannel extends WebSocketChannel<LiquidationChannel.Message> {
 
   LiquidationChannel(LiquidationChannel.Id id) {
     super(id);

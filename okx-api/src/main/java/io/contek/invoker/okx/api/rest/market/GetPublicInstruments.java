@@ -7,7 +7,7 @@ import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestParams;
 import io.contek.invoker.okx.api.common._Instrument;
-import io.contek.invoker.okx.api.rest.common.RestResponse;
+import io.contek.invoker.okx.api.rest.common.ResponseWrapper;
 
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.NotThreadSafe;
@@ -96,5 +96,5 @@ public final class GetPublicInstruments extends MarketRestRequest<GetPublicInstr
   }
 
   @NotThreadSafe
-  public static final class Response extends RestResponse<_Instrument> {}
+  public static final class Response extends ResponseWrapper<_Instrument> {}
 }

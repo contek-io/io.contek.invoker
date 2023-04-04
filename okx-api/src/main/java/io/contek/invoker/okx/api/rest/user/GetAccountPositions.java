@@ -8,7 +8,7 @@ import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
 import io.contek.invoker.okx.api.common._Position;
-import io.contek.invoker.okx.api.rest.common.RestResponse;
+import io.contek.invoker.okx.api.rest.common.ResponseWrapper;
 
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.NotThreadSafe;
@@ -94,5 +94,5 @@ public final class GetAccountPositions extends UserRestRequest<GetAccountPositio
   }
 
   @NotThreadSafe
-  public static final class Response extends RestResponse<_Position> {}
+  public static final class Response extends ResponseWrapper<_Position> {}
 }

@@ -14,8 +14,8 @@ import static io.contek.invoker.hbdminverse.api.websocket.common.constants.WebSo
 @ThreadSafe
 public abstract class MarketDataMarketWebSocketChannel<
         Id extends MarketDataWebSocketChannelId<Message>,
-        Message extends MarketDataWebSocketChannelMessage>
-    extends BaseWebSocketChannel<Id, Message> {
+        Message extends MarketDataWebSocketTickMessage<?>>
+    extends BaseWebSocketChannel<Id, Message, Message> {
 
   private final Class<Message> type;
   private final MarketDataWebSocketRequestIdGenerator requestIdGenerator;
@@ -33,6 +33,11 @@ public abstract class MarketDataMarketWebSocketChannel<
   }
 
   @Override
+  protected final Message getData(Message message) {
+    return message;
+  }
+
+  @Override
   protected final SubscriptionState unsubscribe(WebSocketSession session) {
     Id id = getId();
     MarketDataWebSocketUnsubscribeRequest request = new MarketDataWebSocketUnsubscribeRequest();
@@ -45,10 +50,8 @@ public abstract class MarketDataMarketWebSocketChannel<
   @Nullable
   @Override
   protected final SubscriptionState getState(AnyWebSocketMessage message) {
-    if (message instanceof MarketDataWebSocketSubscribeConfirmation) {
+    if (message instanceof MarketDataWebSocketSubscribeConfirmation confirmation) {
       Id id = getId();
-      MarketDataWebSocketSubscribeConfirmation confirmation =
-          (MarketDataWebSocketSubscribeConfirmation) message;
       if (confirmation.subbed.equals(id.getChannel())) {
         if (!_ok.equals(confirmation.status)) {
           throw new IllegalStateException(confirmation.status);
@@ -56,10 +59,8 @@ public abstract class MarketDataMarketWebSocketChannel<
         return SUBSCRIBED;
       }
     }
-    if (message instanceof MarketDataWebSocketUnsubscribeConfirmation) {
+    if (message instanceof MarketDataWebSocketUnsubscribeConfirmation confirmation) {
       Id id = getId();
-      MarketDataWebSocketUnsubscribeConfirmation confirmation =
-          (MarketDataWebSocketUnsubscribeConfirmation) message;
       if (confirmation.unsubbed.equals(id.getChannel())) {
         if (!_ok.equals(confirmation.status)) {
           throw new IllegalStateException(confirmation.status);

@@ -14,19 +14,19 @@ public final class SimpleCredential implements ICredential {
   private final SecretKeyAlgorithm algorithm;
   private final BaseEncoding encoding;
 
-  protected SimpleCredential(ApiKey apiKey, SecretKeyAlgorithm algorithm, BaseEncoding encoding) {
+  SimpleCredential(ApiKey apiKey, SecretKeyAlgorithm algorithm, BaseEncoding encoding) {
     this.apiKey = apiKey;
     this.algorithm = algorithm;
     this.encoding = encoding;
   }
 
   @Override
-  public final boolean isAnonymous() {
+  public boolean isAnonymous() {
     return false;
   }
 
   @Override
-  public final String getApiKeyId() {
+  public String getApiKeyId() {
     return apiKey.getId();
   }
 

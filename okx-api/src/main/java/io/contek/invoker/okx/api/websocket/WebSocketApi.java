@@ -27,12 +27,12 @@ public abstract class WebSocketApi extends BaseWebSocketApi {
   private static final ImmutableList<TypedPermitRequest> REQUIRED_QUOTA =
       ImmutableList.of(RATE_LIMIT_RULE.forPermits(1));
 
-  protected WebSocketApi(IActor actor) {
+  protected WebSocketApi(String name, IActor actor) {
     super(
         actor,
         WebSocketMessageParser.getInstance(),
         new WebSocketAuthenticator(actor.getCredential(), actor.getClock()),
-        new WebSocketLiveKeeper(actor.getClock()));
+        new WebSocketLiveKeeper(name, actor.getClock()));
   }
 
   @Override
@@ -43,8 +43,7 @@ public abstract class WebSocketApi extends BaseWebSocketApi {
   @Override
   protected final void checkErrorMessage(AnyWebSocketMessage message)
       throws WebSocketRuntimeException {
-    if (message instanceof WebSocketGeneralResponse) {
-      WebSocketGeneralResponse response = (WebSocketGeneralResponse) message;
+    if (message instanceof WebSocketGeneralResponse response) {
       if (_error.equals(response.event)) {
         throw new WebSocketIllegalStateException(response.code + ": " + response.msg);
       }

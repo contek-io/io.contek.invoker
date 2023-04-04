@@ -9,8 +9,7 @@ import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
 
 @ThreadSafe
-public final class MatchesChannel
-    extends WebSocketChannel<MatchesChannel.Id, MatchesChannel.Message> {
+public final class MatchesChannel extends WebSocketChannel<MatchesChannel.Message> {
 
   MatchesChannel(MatchesChannel.Id id) {
     super(id);

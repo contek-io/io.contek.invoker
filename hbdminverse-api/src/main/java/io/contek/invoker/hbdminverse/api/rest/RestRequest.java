@@ -2,8 +2,11 @@ package io.contek.invoker.hbdminverse.api.rest;
 
 import com.google.common.collect.ImmutableList;
 import io.contek.invoker.commons.actor.IActor;
+import io.contek.invoker.commons.actor.http.AnyHttpException;
+import io.contek.invoker.commons.actor.http.ParsedHttpException;
 import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
 import io.contek.invoker.commons.rest.*;
+import io.contek.invoker.hbdminverse.api.rest.common.ResponseWrapper;
 import io.contek.invoker.security.ICredential;
 
 import javax.annotation.concurrent.NotThreadSafe;
@@ -17,7 +20,7 @@ import static java.time.ZoneOffset.UTC;
 import static java.time.temporal.ChronoField.MILLI_OF_SECOND;
 
 @NotThreadSafe
-public abstract class RestRequest<R> extends BaseRestRequest<R> {
+public abstract class RestRequest<R extends ResponseWrapper> extends BaseRestRequest<R> {
 
   private static final DateTimeFormatter FORMATTER =
       DateTimeFormatter.ISO_LOCAL_DATE_TIME.withZone(UTC);
@@ -60,6 +63,15 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
       default:
         throw new IllegalStateException(getMethod().name());
     }
+  }
+
+  @Override
+  protected final void checkResult(R result, RestResponse response) throws AnyHttpException {
+    if (result.err_code == null) {
+      return;
+    }
+
+    throw new ParsedHttpException(response.getCode(), result, result.err_msg);
   }
 
   private String generateUrl(

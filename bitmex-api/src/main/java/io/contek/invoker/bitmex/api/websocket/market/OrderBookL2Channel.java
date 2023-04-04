@@ -12,8 +12,7 @@ import javax.annotation.concurrent.ThreadSafe;
 import static java.lang.String.format;
 
 @ThreadSafe
-public final class OrderBookL2Channel
-    extends WebSocketChannel<OrderBookL2Channel.Id, OrderBookL2Channel.Message> {
+public final class OrderBookL2Channel extends WebSocketChannel<OrderBookL2Channel.Message> {
 
   OrderBookL2Channel(Id id) {
     super(id);

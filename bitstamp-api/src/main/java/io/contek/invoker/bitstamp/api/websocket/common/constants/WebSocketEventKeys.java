@@ -13,6 +13,7 @@ public final class WebSocketEventKeys {
 
   public static final String _trade = "trade";
   public static final String _data = "data";
+  public static final String _order = "order_";
 
   private WebSocketEventKeys() {}
 }

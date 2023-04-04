@@ -1,7 +1,7 @@
 package io.contek.invoker.bybitlinear.api.rest.market;
 
 import io.contek.invoker.bybitlinear.api.common._Kline;
-import io.contek.invoker.bybitlinear.api.rest.common.RestResponse;
+import io.contek.invoker.bybitlinear.api.rest.common.ResponseWrapper;
 import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestParams;
@@ -80,5 +80,5 @@ public final class GetKlineList extends MarketRestRequest<Response> {
   }
 
   @NotThreadSafe
-  public static final class Response extends RestResponse<List<_Kline>> {}
+  public static final class Response extends ResponseWrapper<List<_Kline>> {}
 }
