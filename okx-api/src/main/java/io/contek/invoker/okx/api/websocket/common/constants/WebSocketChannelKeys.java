@@ -11,6 +11,10 @@ public final class WebSocketChannelKeys {
 
   public static final String _trades = "trades";
 
+  public static final String _mark_price = "mark-price";
+
+  public static final String _index_tickers = "index-tickers";
+
   public static final String _books = "books";
 
   public static final String _books5 = "books5";
