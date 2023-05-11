@@ -6,9 +6,7 @@ import com.google.gson.JsonObject;
 import io.contek.invoker.commons.websocket.IWebSocketComponent;
 import io.contek.invoker.commons.websocket.WebSocketTextMessageParser;
 import io.contek.invoker.okx.api.websocket.common.*;
-import io.contek.invoker.okx.api.websocket.market.OrderBookChannel;
-import io.contek.invoker.okx.api.websocket.market.TickersChannel;
-import io.contek.invoker.okx.api.websocket.market.TradesChannel;
+import io.contek.invoker.okx.api.websocket.market.*;
 import io.contek.invoker.okx.api.websocket.user.OrdersChannel;
 import io.contek.invoker.okx.api.websocket.user.PositionsChannel;
 
@@ -86,6 +84,8 @@ final class WebSocketMessageParser extends WebSocketTextMessageParser {
       case _tickers -> gson.fromJson(obj, TickersChannel.Message.class);
       case _orders -> gson.fromJson(obj, OrdersChannel.Message.class);
       case _positions -> gson.fromJson(obj, PositionsChannel.Message.class);
+      case _mark_price -> gson.fromJson(obj, MarkPriceChannel.Message.class);
+      case _index_tickers -> gson.fromJson(obj, IndexTickersChannel.Message.class);
       default -> throw new IllegalArgumentException(obj.toString());
     };
   }
