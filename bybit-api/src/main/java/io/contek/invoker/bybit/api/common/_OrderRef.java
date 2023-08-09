@@ -1,10 +1,10 @@
 package io.contek.invoker.bybit.api.common;
 
 import javax.annotation.concurrent.NotThreadSafe;
-import java.util.List;
 
 @NotThreadSafe
-public class _UserTradingRecords {
+public class _OrderRef {
 
-  public List<_UserTrade> trade_list;
+  public String orderId;
+  public String orderLinkId;
 }

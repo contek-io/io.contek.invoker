@@ -5,11 +5,11 @@ import javax.annotation.concurrent.Immutable;
 @Immutable
 public final class TimeInForceKeys {
 
-  public static final String _GoodTillCancel = "GoodTillCancel";
+  public static final String _GTC = "GTC";
 
-  public static final String _ImmediateOrCancel = "ImmediateOrCancel";
+  public static final String _IOC = "IOC";
 
-  public static final String _FillOrKill = "FillOrKill";
+  public static final String _FOK = "FOK";
 
   public static final String _PostOnly = "PostOnly";
 

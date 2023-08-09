@@ -2,7 +2,8 @@ package io.contek.invoker.bybit.api.rest.user;
 
 import com.google.common.collect.ImmutableList;
 import io.contek.invoker.bybit.api.ApiFactory;
-import io.contek.invoker.bybit.api.common._UserTradingRecords;
+import io.contek.invoker.bybit.api.common._ExecutionLog;
+import io.contek.invoker.bybit.api.rest.common.PageListResult;
 import io.contek.invoker.bybit.api.rest.common.ResponseWrapper;
 import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
@@ -42,7 +43,7 @@ public final class GetExecutionList extends UserRestRequest<Response> {
 
   @Override
   protected String getEndpointPath() {
-    return "/private/linear/trade/execution/list";
+    return "/v5/execution/list";
   }
 
   @Override
@@ -86,5 +87,11 @@ public final class GetExecutionList extends UserRestRequest<Response> {
   }
 
   @NotThreadSafe
-  public static final class Response extends ResponseWrapper<_UserTradingRecords> {}
+  public static final class Response extends ResponseWrapper<Result> {}
+
+  @NotThreadSafe
+  public static final class Result extends PageListResult<_ExecutionLog> {
+
+    public String category;
+  }
 }

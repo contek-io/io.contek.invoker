@@ -52,11 +52,11 @@ public abstract class RestRequest<R extends ResponseWrapper<?>> extends BaseRest
 
   @Override
   protected final void checkResult(R result, RestResponse response) throws AnyHttpException {
-    if (result.ret_code == 0) {
+    if (result.retCode == 0) {
       return;
     }
 
-    throw new ParsedHttpException(response.getCode(), result, result.ret_msg);
+    throw new ParsedHttpException(response.getCode(), result, result.retMsg);
   }
 
   private String buildUrlWithParams(ICredential credential) {

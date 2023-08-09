@@ -5,7 +5,8 @@ import javax.annotation.concurrent.NotThreadSafe;
 @NotThreadSafe
 public class _LotSizeFilter {
 
-  public double max_trading_qty;
-  public double min_trading_qty;
-  public double qty_step;
+  public String maxOrderQty;
+  public String minOrderQty;
+  public String qtyStep;
+  public String postOnlyMaxOrderQty;
 }

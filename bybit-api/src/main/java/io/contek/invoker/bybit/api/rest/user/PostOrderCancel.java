@@ -2,6 +2,7 @@ package io.contek.invoker.bybit.api.rest.user;
 
 import com.google.common.collect.ImmutableList;
 import io.contek.invoker.bybit.api.ApiFactory;
+import io.contek.invoker.bybit.api.common._OrderRef;
 import io.contek.invoker.bybit.api.rest.common.ResponseWrapper;
 import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
@@ -9,6 +10,7 @@ import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
 
+import javax.annotation.Nullable;
 import javax.annotation.concurrent.NotThreadSafe;
 
 import static io.contek.invoker.bybit.api.rest.user.PostOrderCancel.Response;
@@ -18,26 +20,38 @@ import static java.util.Objects.requireNonNull;
 @NotThreadSafe
 public final class PostOrderCancel extends UserRestRequest<Response> {
 
-  private String order_id;
-  private String order_link_id;
+  private String category;
   private String symbol;
+  private String orderId;
+  private String orderLinkId;
+  private String orderFilter;
 
   PostOrderCancel(IActor actor, RestContext context) {
     super(actor, context);
   }
 
-  public PostOrderCancel setOrderId(String order_id) {
-    this.order_id = order_id;
-    return this;
-  }
-
-  public PostOrderCancel setOrderLinkId(String order_link_id) {
-    this.order_link_id = order_link_id;
+  public PostOrderCancel setCategory(String category) {
+    this.category = category;
     return this;
   }
 
   public PostOrderCancel setSymbol(String symbol) {
     this.symbol = symbol;
+    return this;
+  }
+
+  public PostOrderCancel setOrderId(@Nullable String orderId) {
+    this.orderId = orderId;
+    return this;
+  }
+
+  public PostOrderCancel setOrderLinkId(@Nullable String orderLinkId) {
+    this.orderLinkId = orderLinkId;
+    return this;
+  }
+
+  public PostOrderCancel setOrderFilter(@Nullable String orderFilter) {
+    this.orderFilter = orderFilter;
     return this;
   }
 
@@ -48,25 +62,31 @@ public final class PostOrderCancel extends UserRestRequest<Response> {
 
   @Override
   protected String getEndpointPath() {
-    return "/private/linear/order/cancel";
+    return "/v5/order/cancel";
   }
 
   @Override
   protected RestParams getParams() {
     RestParams.Builder builder = RestParams.newBuilder();
 
-    if (order_id == null && order_link_id == null) {
-      throw new IllegalArgumentException();
-    }
-    if (order_id != null) {
-      builder.add("order_id", order_id);
-    }
-    if (order_link_id != null) {
-      builder.add("order_link_id", order_link_id);
-    }
+    requireNonNull(category);
+    builder.add("category", category);
 
     requireNonNull(symbol);
     builder.add("symbol", symbol);
+
+    if (orderId == null && orderLinkId == null) {
+      throw new IllegalArgumentException();
+    }
+    if (orderId != null) {
+      builder.add("orderId", orderId);
+    }
+    if (orderLinkId != null) {
+      builder.add("orderLinkId", orderLinkId);
+    }
+    if (orderFilter != null) {
+      builder.add("orderFilter", orderFilter);
+    }
 
     return builder.build();
   }
@@ -85,8 +105,5 @@ public final class PostOrderCancel extends UserRestRequest<Response> {
   public static final class Response extends ResponseWrapper<Result> {}
 
   @NotThreadSafe
-  public static final class Result {
-
-    public String order_id;
-  }
+  public static final class Result extends _OrderRef {}
 }

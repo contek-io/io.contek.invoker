@@ -13,11 +13,19 @@ public final class OrderStatusKeys {
 
   public static final String _PartiallyFilled = "PartiallyFilled";
 
+  public static final String _PartiallyFilledCanceled = "PartiallyFilledCanceled";
+
   public static final String _Filled = "Filled";
 
   public static final String _Cancelled = "Cancelled";
 
-  public static final String _PendingCancel = "PendingCancel";
+  public static final String _Untriggered = "Untriggered";
+
+  public static final String _Triggered = "Triggered";
+
+  public static final String _Deactivated = "Deactivated";
+
+  public static final String _Active = "Active";
 
   private OrderStatusKeys() {}
 }

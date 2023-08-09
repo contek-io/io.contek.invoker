@@ -19,12 +19,18 @@ import static java.util.Objects.requireNonNull;
 @NotThreadSafe
 public final class PostPositionSwitchMode extends UserRestRequest<Response> {
 
+  private String category;
   private String symbol;
   private String coin;
-  private String mode;
+  private Integer mode;
 
   PostPositionSwitchMode(IActor actor, RestContext context) {
     super(actor, context);
+  }
+
+  public PostPositionSwitchMode setCategory(String category) {
+    this.category = category;
+    return this;
   }
 
   public PostPositionSwitchMode setSymbol(@Nullable String symbol) {
@@ -37,7 +43,7 @@ public final class PostPositionSwitchMode extends UserRestRequest<Response> {
     return this;
   }
 
-  public PostPositionSwitchMode setMode(String mode) {
+  public PostPositionSwitchMode setMode(Integer mode) {
     this.mode = mode;
     return this;
   }
@@ -49,12 +55,18 @@ public final class PostPositionSwitchMode extends UserRestRequest<Response> {
 
   @Override
   protected String getEndpointPath() {
-    return "/private/linear/position/switch-mode";
+    return "/v5/position/switch-mode";
   }
 
   @Override
   protected RestParams getParams() {
     RestParams.Builder builder = RestParams.newBuilder();
+
+    requireNonNull(category);
+    builder.add("category", category);
+
+    requireNonNull(mode);
+    builder.add("mode", mode);
 
     if (symbol != null) {
       builder.add("symbol", symbol);
@@ -63,9 +75,6 @@ public final class PostPositionSwitchMode extends UserRestRequest<Response> {
     } else {
       throw new IllegalArgumentException();
     }
-
-    requireNonNull(mode);
-    builder.add("mode", mode);
 
     return builder.build();
   }

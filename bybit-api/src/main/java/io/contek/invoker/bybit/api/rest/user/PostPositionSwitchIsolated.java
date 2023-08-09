@@ -18,13 +18,19 @@ import static java.util.Objects.requireNonNull;
 @NotThreadSafe
 public final class PostPositionSwitchIsolated extends UserRestRequest<Response> {
 
+  private String category;
   private String symbol;
-  private Boolean is_isolated;
-  private Double buy_leverage;
-  private Double sell_leverage;
+  private Integer tradeMode;
+  private Double buyLeverage;
+  private Double sellLeverage;
 
   PostPositionSwitchIsolated(IActor actor, RestContext context) {
     super(actor, context);
+  }
+
+  public PostPositionSwitchIsolated setCategory(String category) {
+    this.category = category;
+    return this;
   }
 
   public PostPositionSwitchIsolated setSymbol(String symbol) {
@@ -32,18 +38,18 @@ public final class PostPositionSwitchIsolated extends UserRestRequest<Response> 
     return this;
   }
 
-  public PostPositionSwitchIsolated setIsIsolated(Boolean is_isolated) {
-    this.is_isolated = is_isolated;
+  public PostPositionSwitchIsolated setTradeMode(Integer tradeMode) {
+    this.tradeMode = tradeMode;
     return this;
   }
 
-  public PostPositionSwitchIsolated setBuyLeverage(Double buy_leverage) {
-    this.buy_leverage = buy_leverage;
+  public PostPositionSwitchIsolated setBuyLeverage(Double buyLeverage) {
+    this.buyLeverage = buyLeverage;
     return this;
   }
 
-  public PostPositionSwitchIsolated setSellLeverage(Double sell_leverage) {
-    this.sell_leverage = sell_leverage;
+  public PostPositionSwitchIsolated setSellLeverage(Double sellLeverage) {
+    this.sellLeverage = sellLeverage;
     return this;
   }
 
@@ -54,24 +60,27 @@ public final class PostPositionSwitchIsolated extends UserRestRequest<Response> 
 
   @Override
   protected String getEndpointPath() {
-    return "/private/linear/position/switch-isolated";
+    return "/v5/position/switch-isolated";
   }
 
   @Override
   protected RestParams getParams() {
     RestParams.Builder builder = RestParams.newBuilder();
 
+    requireNonNull(category);
+    builder.add("category", category);
+
     requireNonNull(symbol);
     builder.add("symbol", symbol);
 
-    requireNonNull(is_isolated);
-    builder.add("is_isolated", is_isolated);
+    requireNonNull(tradeMode);
+    builder.add("tradeMode", tradeMode);
 
-    requireNonNull(buy_leverage);
-    builder.add("buy_leverage", buy_leverage);
+    requireNonNull(buyLeverage);
+    builder.add("buyLeverage", buyLeverage);
 
-    requireNonNull(sell_leverage);
-    builder.add("sell_leverage", sell_leverage);
+    requireNonNull(sellLeverage);
+    builder.add("sellLeverage", sellLeverage);
 
     return builder.build();
   }

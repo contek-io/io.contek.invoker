@@ -16,24 +16,16 @@ public final class UserRestApi {
     this.context = context;
   }
 
-  public GetApiKey getApiKey() {
-    return new GetApiKey(actor, context);
-  }
-
   public GetExecutionList getExecutionList() {
     return new GetExecutionList(actor, context);
   }
 
-  public GetOrder getOrder() {
-    return new GetOrder(actor, context);
+  public GetOrderHistory getOrderHistory() {
+    return new GetOrderHistory(actor, context);
   }
 
-  public GetOrderList getOrderList() {
-    return new GetOrderList(actor, context);
-  }
-
-  public GetPosition getPosition() {
-    return new GetPosition(actor, context);
+  public GetOrderRealtime getOrderRealtime() {
+    return new GetOrderRealtime(actor, context);
   }
 
   public GetPositionList getPositionList() {

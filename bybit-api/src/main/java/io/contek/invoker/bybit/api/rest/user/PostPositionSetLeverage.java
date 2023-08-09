@@ -11,19 +11,25 @@ import io.contek.invoker.commons.rest.RestParams;
 
 import javax.annotation.concurrent.NotThreadSafe;
 
-import static io.contek.invoker.bybit.api.rest.user.PostPositionSetLeverage.Response;
 import static io.contek.invoker.commons.rest.RestMethod.POST;
 import static java.util.Objects.requireNonNull;
 
 @NotThreadSafe
-public final class PostPositionSetLeverage extends UserRestRequest<Response> {
+public final class PostPositionSetLeverage
+    extends UserRestRequest<PostPositionSetLeverage.Response> {
 
+  private String category;
   private String symbol;
-  private Double buy_leverage;
-  private Double sell_leverage;
+  private Double buyLeverage;
+  private Double sellLeverage;
 
   PostPositionSetLeverage(IActor actor, RestContext context) {
     super(actor, context);
+  }
+
+  public PostPositionSetLeverage setCategory(String category) {
+    this.category = category;
+    return this;
   }
 
   public PostPositionSetLeverage setSymbol(String symbol) {
@@ -31,13 +37,13 @@ public final class PostPositionSetLeverage extends UserRestRequest<Response> {
     return this;
   }
 
-  public PostPositionSetLeverage setBuyLeverage(Double buy_leverage) {
-    this.buy_leverage = buy_leverage;
+  public PostPositionSetLeverage setBuyLeverage(Double buyLeverage) {
+    this.buyLeverage = buyLeverage;
     return this;
   }
 
-  public PostPositionSetLeverage setSellLeverage(Double sell_leverage) {
-    this.sell_leverage = sell_leverage;
+  public PostPositionSetLeverage setSellLeverage(Double sellLeverage) {
+    this.sellLeverage = sellLeverage;
     return this;
   }
 
@@ -48,21 +54,24 @@ public final class PostPositionSetLeverage extends UserRestRequest<Response> {
 
   @Override
   protected String getEndpointPath() {
-    return "/private/linear/position/set-leverage";
+    return "/v5/position/set-leverage";
   }
 
   @Override
   protected RestParams getParams() {
     RestParams.Builder builder = RestParams.newBuilder();
 
+    requireNonNull(category);
+    builder.add("category", category);
+
     requireNonNull(symbol);
     builder.add("symbol", symbol);
 
-    requireNonNull(buy_leverage);
-    builder.add("buy_leverage", buy_leverage);
+    requireNonNull(buyLeverage);
+    builder.add("buyLeverage", buyLeverage);
 
-    requireNonNull(sell_leverage);
-    builder.add("sell_leverage", sell_leverage);
+    requireNonNull(sellLeverage);
+    builder.add("sellLeverage", sellLeverage);
 
     return builder.build();
   }

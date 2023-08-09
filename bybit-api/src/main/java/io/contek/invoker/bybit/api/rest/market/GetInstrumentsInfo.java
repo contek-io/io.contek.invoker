@@ -1,75 +1,65 @@
-package io.contek.invoker.bybit.api.rest.user;
+package io.contek.invoker.bybit.api.rest.market;
 
-import com.google.common.collect.ImmutableList;
-import io.contek.invoker.bybit.api.ApiFactory;
-import io.contek.invoker.bybit.api.common._Position;
+import io.contek.invoker.bybit.api.common._InstrumentInfo;
 import io.contek.invoker.bybit.api.rest.common.PageListResult;
 import io.contek.invoker.bybit.api.rest.common.ResponseWrapper;
 import io.contek.invoker.commons.actor.IActor;
-import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
 import io.contek.invoker.commons.rest.RestContext;
-import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
 
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.NotThreadSafe;
 import java.util.Objects;
 
-import static io.contek.invoker.bybit.api.rest.user.GetPositionList.Response;
-import static io.contek.invoker.commons.rest.RestMethod.GET;
+import static io.contek.invoker.bybit.api.rest.market.GetInstrumentsInfo.Response;
 
 @NotThreadSafe
-public final class GetPositionList extends UserRestRequest<Response> {
+public final class GetInstrumentsInfo extends MarketRestRequest<Response> {
 
   private String category;
   private String symbol;
+  private String status;
   private String baseCoin;
-  private String settleCoin;
   private Integer limit;
   private String cursor;
 
-  GetPositionList(IActor actor, RestContext context) {
+  GetInstrumentsInfo(IActor actor, RestContext context) {
     super(actor, context);
   }
 
-  public GetPositionList setCategory(String category) {
+  public GetInstrumentsInfo setCategory(String category) {
     this.category = category;
     return this;
   }
 
-  public GetPositionList setSymbol(@Nullable String symbol) {
+  public GetInstrumentsInfo setSymbol(@Nullable String symbol) {
     this.symbol = symbol;
     return this;
   }
 
-  public GetPositionList setBaseCoin(@Nullable String baseCoin) {
+  public GetInstrumentsInfo setStatus(@Nullable String status) {
+    this.status = status;
+    return this;
+  }
+
+  public GetInstrumentsInfo setBaseCoin(@Nullable String baseCoin) {
     this.baseCoin = baseCoin;
     return this;
   }
 
-  public GetPositionList setSettleCoin(@Nullable String settleCoin) {
-    this.settleCoin = settleCoin;
-    return this;
-  }
-
-  public GetPositionList setLimit(@Nullable Integer limit) {
+  public GetInstrumentsInfo setLimit(@Nullable Integer limit) {
     this.limit = limit;
     return this;
   }
 
-  public GetPositionList setCursor(@Nullable String cursor) {
+  public GetInstrumentsInfo setCursor(@Nullable String cursor) {
     this.cursor = cursor;
     return this;
   }
 
   @Override
-  protected RestMethod getMethod() {
-    return GET;
-  }
-
-  @Override
   protected String getEndpointPath() {
-    return "/v5/position/list";
+    return "/v5/market/instruments-info";
   }
 
   @Override
@@ -79,17 +69,14 @@ public final class GetPositionList extends UserRestRequest<Response> {
     Objects.requireNonNull(category);
     builder.add("category", category);
 
-    if (category != null) {
-      builder.add("category", category);
-    }
     if (symbol != null) {
       builder.add("symbol", symbol);
     }
+    if (status != null) {
+      builder.add("status", status);
+    }
     if (baseCoin != null) {
       builder.add("baseCoin", baseCoin);
-    }
-    if (settleCoin != null) {
-      builder.add("settleCoin", settleCoin);
     }
     if (limit != null) {
       builder.add("limit", limit);
@@ -102,11 +89,6 @@ public final class GetPositionList extends UserRestRequest<Response> {
   }
 
   @Override
-  protected ImmutableList<TypedPermitRequest> getRequiredQuotas() {
-    return ApiFactory.RateLimits.ONE_REST_PRIVATE_POSITION_READ_REQUEST;
-  }
-
-  @Override
   protected Class<Response> getResponseType() {
     return Response.class;
   }
@@ -115,7 +97,7 @@ public final class GetPositionList extends UserRestRequest<Response> {
   public static final class Response extends ResponseWrapper<Result> {}
 
   @NotThreadSafe
-  public static final class Result extends PageListResult<_Position> {
+  public static final class Result extends PageListResult<_InstrumentInfo> {
 
     public String category;
   }

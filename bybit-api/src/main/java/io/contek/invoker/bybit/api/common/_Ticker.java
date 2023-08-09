@@ -6,26 +6,27 @@ import javax.annotation.concurrent.NotThreadSafe;
 public class _Ticker {
 
   public String symbol;
-  public String bid_price; // Empty if none
-  public String ask_price; // Empty if none
-  public String last_price; // Empty if none
-  public String last_tick_direction;
-  public String prev_price_24h; // Empty if none
-  public String price_24h_pcnt; // Empty if none
-  public String high_price_24h; // Empty if none
-  public String low_price_24h; // Empty if none
-  public String prev_price_1h; // Empty if none
-  public String price_1h_pcnt; // Empty if none
-  public String mark_price; // Empty if none
-  public String index_price; // Empty if none
-  public String open_interest;
-  public String funding_rate;
-  public String predicted_funding_rate;
-  public String next_funding_time;
-  public String countdown_hour;
-  public String volume_24h;
-  public String turnover_24h;
-  public String open_value;
-  public String total_turnover;
-  public String total_volume;
+  public String lastPrice;
+  public String indexPrice;
+  public String markPrice;
+  public String prevPrice24h;
+  public String price24hPcnt;
+  public String highPrice24h;
+  public String lowPrice24h;
+  public String prevPrice1h;
+  public String openInterest;
+  public String openInterestValue;
+  public String turnover24h;
+  public String volume24h;
+  public String fundingRate;
+  public String nextFundingTime;
+  public String predictedDeliveryPrice;
+  public String basisRate;
+  public String deliveryFeeRate;
+  public String deliveryTime;
+  public String ask1Size;
+  public String bid1Price;
+  public String ask1Price;
+  public String bid1Size;
+  public String basis;
 }

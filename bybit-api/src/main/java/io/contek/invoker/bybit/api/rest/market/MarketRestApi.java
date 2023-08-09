@@ -16,20 +16,16 @@ public final class MarketRestApi {
     this.context = context;
   }
 
-  public GetAccountRatio getAccountRatio() {
-    return new GetAccountRatio(actor, context);
+  public GetKline getKlineList() {
+    return new GetKline(actor, context);
   }
 
-  public GetKlineList getKlineList() {
-    return new GetKlineList(actor, context);
+  public GetOrderBook getOrderBook() {
+    return new GetOrderBook(actor, context);
   }
 
-  public GetOrderBookL2 getOrderBookL2() {
-    return new GetOrderBookL2(actor, context);
-  }
-
-  public GetSymbols getSymbols() {
-    return new GetSymbols(actor, context);
+  public GetInstrumentsInfo getInstrumentsInfo() {
+    return new GetInstrumentsInfo(actor, context);
   }
 
   public GetTickers getTickers() {

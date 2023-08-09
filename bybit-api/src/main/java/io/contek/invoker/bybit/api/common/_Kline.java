@@ -1,17 +1,7 @@
 package io.contek.invoker.bybit.api.common;
 
 import javax.annotation.concurrent.NotThreadSafe;
+import java.util.ArrayList;
 
 @NotThreadSafe
-public class _Kline {
-
-  public String symbol;
-  public String interval;
-  public long open_time;
-  public double open;
-  public double high;
-  public double low;
-  public double close;
-  public double volume;
-  public double turnover;
-}
+public class _Kline extends ArrayList<String> {}
