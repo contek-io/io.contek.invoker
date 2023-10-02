@@ -93,7 +93,7 @@ public final class PostOrderCancel extends UserRestRequest<Response> {
 
   @Override
   protected ImmutableList<TypedPermitRequest> getRequiredQuotas() {
-    return ApiFactory.RateLimits.ONE_REST_PRIVATE_ORDER_WRITE_REQUEST;
+    return ApiFactory.RateLimits.ONE_REST_PRIVATE_ORDER_CREATE_REQUEST;
   }
 
   @Override

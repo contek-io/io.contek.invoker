@@ -78,7 +78,7 @@ public final class PostPositionSetLeverage
 
   @Override
   protected ImmutableList<TypedPermitRequest> getRequiredQuotas() {
-    return ApiFactory.RateLimits.ONE_REST_PRIVATE_POSITION_WRITE_REQUEST;
+    return ApiFactory.RateLimits.ONE_REST_REQUEST;
   }
 
   @Override

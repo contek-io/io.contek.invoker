@@ -90,16 +90,15 @@ public final class ApiFactory {
 
   private static LimiterManager createLimiterManager() {
     return LimiterManagers.forRules(
-        IP_REST_GET_REQUEST_RULE,
-        IP_REST_POST_REQUEST_RULE,
-        API_KEY_REST_ORDER_WRITE_RULE,
-        API_KEY_REST_ORDER_READ_RULE,
-        API_KEY_REST_TRADE_READ_RULE,
-        API_KEY_REST_POSITION_WRITE_RULE,
-        API_KEY_REST_POSITION_READ_RULE,
-        API_KEY_REST_FUNDING_READ_RULE,
-        API_KEY_REST_FUND_READ_RULE,
-        API_KEY_REST_KEY_INFO_READ_RULE);
+        IP_REST_REQUEST_RULE,
+        API_KEY_REST_ORDER_CREATE_RULE,
+        API_KEY_REST_ORDER_CANCEL_RULE,
+        API_KEY_REST_ORDER_CANCEL_ALL_RULE,
+        API_KEY_REST_ORDER_REALTIME_RULE,
+        API_KEY_REST_ORDER_HISTORY_RULE,
+        API_KEY_REST_POSITION_LIST_RULE,
+        API_KEY_REST_EXECUTION_LIST_RULE,
+        API_KEY_REST_ACCOUNT_WALLET_BALANCE_RULE);
   }
 
   @ThreadSafe
@@ -141,117 +140,119 @@ public final class ApiFactory {
   @Immutable
   public static final class RateLimits {
 
-    public static final RateLimitRule IP_REST_GET_REQUEST_RULE =
+    public static final RateLimitRule IP_REST_REQUEST_RULE =
         RateLimitRule.newBuilder()
-            .setName("ip_rest_get_request_rule")
+            .setName("ip_rest_request_rule")
             .setType(IP)
-            .setMaxPermits(50)
+            .setMaxPermits(120)
+            .setResetPeriod(Duration.ofSeconds(5))
+            .build();
+
+    public static final RateLimitRule API_KEY_REST_ORDER_CREATE_RULE =
+        RateLimitRule.newBuilder()
+            .setName("api_key_rest_order_create_rule")
+            .setType(API_KEY)
+            .setMaxPermits(10)
             .setResetPeriod(Duration.ofSeconds(1))
             .build();
 
-    public static final RateLimitRule IP_REST_POST_REQUEST_RULE =
+    public static final RateLimitRule API_KEY_REST_ORDER_CANCEL_RULE =
         RateLimitRule.newBuilder()
-            .setName("ip_rest_post_request_rule")
-            .setType(IP)
-            .setMaxPermits(20)
+            .setName("api_key_rest_order_cancel_rule")
+            .setType(API_KEY)
+            .setMaxPermits(10)
             .setResetPeriod(Duration.ofSeconds(1))
             .build();
 
-    public static final RateLimitRule API_KEY_REST_ORDER_WRITE_RULE =
+    public static final RateLimitRule API_KEY_REST_ORDER_CANCEL_ALL_RULE =
         RateLimitRule.newBuilder()
-            .setName("api_key_rest_order_write_rule")
+            .setName("api_key_rest_order_cancel_all_rule")
             .setType(API_KEY)
-            .setMaxPermits(100)
-            .setResetPeriod(Duration.ofMinutes(1))
+            .setMaxPermits(10)
+            .setResetPeriod(Duration.ofSeconds(1))
             .build();
 
-    public static final RateLimitRule API_KEY_REST_ORDER_READ_RULE =
+    public static final RateLimitRule API_KEY_REST_ORDER_REALTIME_RULE =
         RateLimitRule.newBuilder()
-            .setName("api_key_rest_order_read_rule")
+            .setName("api_key_rest_order_realtime_rule")
             .setType(API_KEY)
-            .setMaxPermits(600)
-            .setResetPeriod(Duration.ofMinutes(1))
+            .setMaxPermits(10)
+            .setResetPeriod(Duration.ofSeconds(1))
             .build();
 
-    public static final RateLimitRule API_KEY_REST_TRADE_READ_RULE =
+    public static final RateLimitRule API_KEY_REST_ORDER_HISTORY_RULE =
         RateLimitRule.newBuilder()
-            .setName("api_key_rest_trade_read_rule")
+            .setName("api_key_rest_order_history_rule")
             .setType(API_KEY)
-            .setMaxPermits(120)
-            .setResetPeriod(Duration.ofMinutes(1))
+            .setMaxPermits(10)
+            .setResetPeriod(Duration.ofSeconds(1))
             .build();
 
-    public static final RateLimitRule API_KEY_REST_POSITION_WRITE_RULE =
+    public static final RateLimitRule API_KEY_REST_POSITION_LIST_RULE =
         RateLimitRule.newBuilder()
-            .setName("api_key_rest_position_write_rule")
+            .setName("api_key_rest_position_list_rule")
             .setType(API_KEY)
-            .setMaxPermits(75)
-            .setResetPeriod(Duration.ofMinutes(1))
+            .setMaxPermits(10)
+            .setResetPeriod(Duration.ofSeconds(1))
             .build();
 
-    public static final RateLimitRule API_KEY_REST_POSITION_READ_RULE =
+    public static final RateLimitRule API_KEY_REST_EXECUTION_LIST_RULE =
         RateLimitRule.newBuilder()
-            .setName("api_key_rest_position_read_rule")
+            .setName("api_key_rest_execution_list_rule")
             .setType(API_KEY)
-            .setMaxPermits(120)
-            .setResetPeriod(Duration.ofMinutes(1))
+            .setMaxPermits(10)
+            .setResetPeriod(Duration.ofSeconds(1))
             .build();
 
-    public static final RateLimitRule API_KEY_REST_FUNDING_READ_RULE =
+    public static final RateLimitRule API_KEY_REST_ACCOUNT_WALLET_BALANCE_RULE =
         RateLimitRule.newBuilder()
-            .setName("api_key_rest_funding_read_rule")
+            .setName("api_key_rest_account_wallet_balance_rule")
             .setType(API_KEY)
-            .setMaxPermits(120)
-            .setResetPeriod(Duration.ofMinutes(1))
-            .build();
-
-    public static final RateLimitRule API_KEY_REST_FUND_READ_RULE =
-        RateLimitRule.newBuilder()
-            .setName("api_key_rest_wallet_read_rule")
-            .setType(API_KEY)
-            .setMaxPermits(120)
-            .setResetPeriod(Duration.ofMinutes(1))
-            .build();
-
-    public static final RateLimitRule API_KEY_REST_KEY_INFO_READ_RULE =
-        RateLimitRule.newBuilder()
-            .setName("api_key_rest_info_read_rule")
-            .setType(API_KEY)
-            .setMaxPermits(600)
-            .setResetPeriod(Duration.ofMinutes(1))
+            .setMaxPermits(10)
+            .setResetPeriod(Duration.ofSeconds(1))
             .build();
 
     public static final ImmutableList<TypedPermitRequest> ONE_REST_PUBLIC_GET_REQUEST =
-        ImmutableList.of(IP_REST_GET_REQUEST_RULE.forPermits(1));
+        ImmutableList.of(IP_REST_REQUEST_RULE.forPermits(1));
 
-    public static final ImmutableList<TypedPermitRequest> ONE_REST_PRIVATE_ORDER_WRITE_REQUEST =
+    public static final ImmutableList<TypedPermitRequest> ONE_REST_PRIVATE_ORDER_CREATE_REQUEST =
         ImmutableList.of(
-            IP_REST_POST_REQUEST_RULE.forPermits(1), API_KEY_REST_ORDER_WRITE_RULE.forPermits(1));
+            IP_REST_REQUEST_RULE.forPermits(1), API_KEY_REST_ORDER_CREATE_RULE.forPermits(1));
 
-    public static final ImmutableList<TypedPermitRequest> ONE_REST_PRIVATE_ORDER_READ_REQUEST =
+    public static final ImmutableList<TypedPermitRequest> ONE_REST_PRIVATE_ORDER_CANCEL_REQUEST =
         ImmutableList.of(
-            IP_REST_GET_REQUEST_RULE.forPermits(1), API_KEY_REST_ORDER_READ_RULE.forPermits(1));
+            IP_REST_REQUEST_RULE.forPermits(1), API_KEY_REST_ORDER_CANCEL_RULE.forPermits(1));
 
-    public static final ImmutableList<TypedPermitRequest> ONE_REST_PRIVATE_TRADE_READ_REQUEST =
-        ImmutableList.of(
-            IP_REST_GET_REQUEST_RULE.forPermits(1), API_KEY_REST_TRADE_READ_RULE.forPermits(1));
+    public static final ImmutableList<TypedPermitRequest>
+        ONE_REST_PRIVATE_ORDER_CANCEL_ALL_REQUEST =
+            ImmutableList.of(
+                IP_REST_REQUEST_RULE.forPermits(1),
+                API_KEY_REST_ORDER_CANCEL_ALL_RULE.forPermits(1));
 
-    public static final ImmutableList<TypedPermitRequest> ONE_REST_PRIVATE_POSITION_READ_REQUEST =
+    public static final ImmutableList<TypedPermitRequest> ONE_REST_PRIVATE_ORDER_REALTIME_REQUEST =
         ImmutableList.of(
-            IP_REST_GET_REQUEST_RULE.forPermits(1), API_KEY_REST_POSITION_READ_RULE.forPermits(1));
+            IP_REST_REQUEST_RULE.forPermits(1), API_KEY_REST_ORDER_REALTIME_RULE.forPermits(1));
 
-    public static final ImmutableList<TypedPermitRequest> ONE_REST_PRIVATE_POSITION_WRITE_REQUEST =
+    public static final ImmutableList<TypedPermitRequest> ONE_REST_PRIVATE_ORDER_HISTORY_REQUEST =
         ImmutableList.of(
-            IP_REST_POST_REQUEST_RULE.forPermits(1),
-            API_KEY_REST_POSITION_WRITE_RULE.forPermits(1));
+            IP_REST_REQUEST_RULE.forPermits(1), API_KEY_REST_ORDER_HISTORY_RULE.forPermits(1));
 
-    public static final ImmutableList<TypedPermitRequest> ONE_REST_PRIVATE_FUND_READ_REQUEST =
+    public static final ImmutableList<TypedPermitRequest> ONE_REST_PRIVATE_POSITION_LIST_REQUEST =
         ImmutableList.of(
-            IP_REST_GET_REQUEST_RULE.forPermits(1), API_KEY_REST_FUND_READ_RULE.forPermits(1));
+            IP_REST_REQUEST_RULE.forPermits(1), API_KEY_REST_POSITION_LIST_RULE.forPermits(1));
 
-    public static final ImmutableList<TypedPermitRequest> ONE_REST_PRIVATE_KEY_INFO_READ_REQUEST =
+    public static final ImmutableList<TypedPermitRequest> ONE_REST_PRIVATE_EXECUTION_LIST_REQUEST =
         ImmutableList.of(
-            IP_REST_GET_REQUEST_RULE.forPermits(1), API_KEY_REST_KEY_INFO_READ_RULE.forPermits(1));
+            IP_REST_REQUEST_RULE.forPermits(1), API_KEY_REST_EXECUTION_LIST_RULE.forPermits(1));
+
+    public static final ImmutableList<TypedPermitRequest>
+        ONE_REST_PRIVATE_ACCOUNT_WALLET_BALANCE_REQUEST =
+            ImmutableList.of(
+                IP_REST_REQUEST_RULE.forPermits(1),
+                API_KEY_REST_ACCOUNT_WALLET_BALANCE_RULE.forPermits(1));
+
+    public static final ImmutableList<TypedPermitRequest> ONE_REST_REQUEST =
+        ImmutableList.of(IP_REST_REQUEST_RULE.forPermits(1));
 
     private RateLimits() {}
   }

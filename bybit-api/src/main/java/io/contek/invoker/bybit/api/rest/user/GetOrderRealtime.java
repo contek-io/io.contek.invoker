@@ -136,7 +136,7 @@ public final class GetOrderRealtime extends UserRestRequest<Response> {
 
   @Override
   protected ImmutableList<TypedPermitRequest> getRequiredQuotas() {
-    return ApiFactory.RateLimits.ONE_REST_PRIVATE_ORDER_READ_REQUEST;
+    return ApiFactory.RateLimits.ONE_REST_PRIVATE_ORDER_REALTIME_REQUEST;
   }
 
   @Override

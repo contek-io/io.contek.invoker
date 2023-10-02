@@ -78,7 +78,7 @@ public final class GetExecutionList extends UserRestRequest<Response> {
 
   @Override
   protected ImmutableList<TypedPermitRequest> getRequiredQuotas() {
-    return ApiFactory.RateLimits.ONE_REST_PRIVATE_TRADE_READ_REQUEST;
+    return ApiFactory.RateLimits.ONE_REST_PRIVATE_EXECUTION_LIST_REQUEST;
   }
 
   @Override
