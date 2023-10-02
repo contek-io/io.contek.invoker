@@ -5,7 +5,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import io.contek.invoker.bybit.api.websocket.common.WebSocketOperationResponse;
 import io.contek.invoker.bybit.api.websocket.common.WebSocketTopicMessage;
-import io.contek.invoker.bybit.api.websocket.market.OrderBookChannel;
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.IWebSocketComponent;
 import io.contek.invoker.commons.websocket.WebSocketTextMessageParser;
@@ -14,15 +13,12 @@ import javax.annotation.concurrent.ThreadSafe;
 import java.util.HashMap;
 import java.util.Map;
 
-import static io.contek.invoker.bybit.api.websocket.common.constants.WebSocketDataMessageTypeKeys._delta;
-import static io.contek.invoker.bybit.api.websocket.common.constants.WebSocketDataMessageTypeKeys._snapshot;
-
 @ThreadSafe
 final class WebSocketMessageParser extends WebSocketTextMessageParser {
 
   private final Gson gson = new Gson();
 
-  private final Map<String, Class<? extends WebSocketTopicMessage>> channelMessageTypes =
+  private final Map<String, Class<? extends WebSocketTopicMessage<?>>> channelMessageTypes =
       new HashMap<>();
 
   @Override
@@ -54,17 +50,9 @@ final class WebSocketMessageParser extends WebSocketTextMessageParser {
   private AnyWebSocketMessage toTopicMessage(JsonObject obj) {
     String topic = obj.get("topic").getAsString();
     synchronized (channelMessageTypes) {
-      Class<? extends WebSocketTopicMessage> type = channelMessageTypes.get(topic);
+      Class<? extends WebSocketTopicMessage<?>> type = channelMessageTypes.get(topic);
       if (type == null) {
         throw new IllegalArgumentException(topic);
-      }
-
-      if (type.equals(OrderBookChannel.Message.class)) {
-        return switch (obj.get("type").getAsString()) {
-          case _snapshot -> gson.fromJson(obj, OrderBookChannel.SnapshotMessage.class);
-          case _delta -> gson.fromJson(obj, OrderBookChannel.DeltaMessage.class);
-          default -> throw new IllegalStateException();
-        };
       }
 
       return gson.fromJson(obj, type);

@@ -7,7 +7,7 @@ import io.contek.invoker.bybit.api.websocket.common.WebSocketTopicMessage;
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
-import java.util.List;
+import java.util.ArrayList;
 
 @ThreadSafe
 public final class PositionChannel extends WebSocketChannel<PositionChannel.Message> {
@@ -32,13 +32,13 @@ public final class PositionChannel extends WebSocketChannel<PositionChannel.Mess
   }
 
   @NotThreadSafe
-  public static final class Message extends WebSocketTopicMessage {
-
-    public List<Data> data;
-  }
+  public static final class Message extends WebSocketTopicMessage<Data> {}
 
   @NotThreadSafe
-  public static final class Data {
+  public static final class Data extends ArrayList<Position> {}
+
+  @NotThreadSafe
+  public static final class Position {
 
     public Long user_id; // user ID
     public String symbol; // the contract for this position

@@ -11,37 +11,21 @@ import java.util.Map;
 @ThreadSafe
 public final class MarketWebSocketApi extends WebSocketApi {
 
-  private final Map<OrderBook25Channel.Id, OrderBook25Channel> orderBook25Channels =
-      new HashMap<>();
-  private final Map<OrderBook200Channel.Id, OrderBook200Channel> orderBook200Channels =
-      new HashMap<>();
+  private final Map<OrderbookChannel.Id, OrderbookChannel> orderbookChannels = new HashMap<>();
   private final Map<TradeChannel.Id, TradeChannel> tradeChannels = new HashMap<>();
-  private final Map<InstrumentInfoChannel.Id, InstrumentInfoChannel> instrumentInfoChannels =
-      new HashMap<>();
-  private final Map<KlineV2Channel.Id, KlineV2Channel> klineV2Channels = new HashMap<>();
+  private final Map<TickerChannel.Id, TickerChannel> tickerChannels = new HashMap<>();
+  private final Map<KlineChannel.Id, KlineChannel> klineChannels = new HashMap<>();
 
   public MarketWebSocketApi(IActor actor, WebSocketContext context) {
     super(actor, context);
   }
 
-  public OrderBook25Channel getOrderBook25Channel(String symbol) {
-    synchronized (orderBook25Channels) {
-      return orderBook25Channels.computeIfAbsent(
-          OrderBook25Channel.Id.of(symbol),
+  public OrderbookChannel getOrderbookChannel(int depth, String symbol) {
+    synchronized (orderbookChannels) {
+      return orderbookChannels.computeIfAbsent(
+          OrderbookChannel.Id.of(depth, symbol),
           k -> {
-            OrderBook25Channel result = new OrderBook25Channel(k);
-            attach(result);
-            return result;
-          });
-    }
-  }
-
-  public OrderBook200Channel getOrderBook200Channel(String symbol) {
-    synchronized (orderBook200Channels) {
-      return orderBook200Channels.computeIfAbsent(
-          OrderBook200Channel.Id.of(symbol),
-          k -> {
-            OrderBook200Channel result = new OrderBook200Channel(k);
+            OrderbookChannel result = new OrderbookChannel(k);
             attach(result);
             return result;
           });
@@ -60,24 +44,24 @@ public final class MarketWebSocketApi extends WebSocketApi {
     }
   }
 
-  public InstrumentInfoChannel getInstrumentInfoChannel(String symbol) {
-    synchronized (instrumentInfoChannels) {
-      return instrumentInfoChannels.computeIfAbsent(
-          InstrumentInfoChannel.Id.of(symbol),
+  public TickerChannel getTickerChannel(String symbol) {
+    synchronized (tickerChannels) {
+      return tickerChannels.computeIfAbsent(
+          TickerChannel.Id.of(symbol),
           k -> {
-            InstrumentInfoChannel result = new InstrumentInfoChannel(k);
+            TickerChannel result = new TickerChannel(k);
             attach(result);
             return result;
           });
     }
   }
 
-  public KlineV2Channel getKlineV2Channel(String interval, String symbol) {
-    synchronized (klineV2Channels) {
-      return klineV2Channels.computeIfAbsent(
-          KlineV2Channel.Id.of(interval, symbol),
+  public KlineChannel getKlineChannel(String interval, String symbol) {
+    synchronized (klineChannels) {
+      return klineChannels.computeIfAbsent(
+          KlineChannel.Id.of(interval, symbol),
           k -> {
-            KlineV2Channel result = new KlineV2Channel(k);
+            KlineChannel result = new KlineChannel(k);
             attach(result);
             return result;
           });

@@ -17,7 +17,7 @@ import static io.contek.invoker.bybit.api.websocket.common.constants.WebSocketOp
 import static io.contek.invoker.commons.websocket.SubscriptionState.*;
 
 @ThreadSafe
-public abstract class WebSocketChannel<Message extends WebSocketTopicMessage>
+public abstract class WebSocketChannel<Message extends WebSocketTopicMessage<?>>
     extends BaseWebSocketChannel<WebSocketChannelId<Message>, Message, Message> {
 
   protected WebSocketChannel(WebSocketChannelId<Message> id) {

@@ -10,9 +10,9 @@ import javax.annotation.concurrent.ThreadSafe;
 import java.util.ArrayList;
 
 @ThreadSafe
-public final class TradeChannel extends WebSocketChannel<TradeChannel.Message> {
+public final class OrderbookChannel extends WebSocketChannel<OrderbookChannel.Message> {
 
-  TradeChannel(TradeChannel.Id id) {
+  OrderbookChannel(WebSocketChannelId<Message> id) {
     super(id);
   }
 
@@ -28,27 +28,27 @@ public final class TradeChannel extends WebSocketChannel<TradeChannel.Message> {
       super(topic);
     }
 
-    public static Id of(String symbol) {
-      return new Id(String.format("trade.%s", symbol));
+    public static Id of(int depth, String symbol) {
+      return new Id(String.format("orderbook.%d.%s", depth, symbol));
     }
   }
 
   @NotThreadSafe
-  public static final class Message extends WebSocketTopicMessage<Data> {}
+  public abstract static class Message extends WebSocketTopicMessage<Orderbook> {}
 
   @NotThreadSafe
-  public static final class Data extends ArrayList<Trade> {}
+  public static final class Orderbook {
 
-  @NotThreadSafe
-  public static final class Trade {
-
-    public Long t;
     public String s;
-    public String S;
-    public String v;
-    public String p;
-    public String L;
-    public String i;
-    public Boolean BT;
+    public Side b;
+    public Side a;
+    public Long u;
+    public Long seq;
   }
+
+  @NotThreadSafe
+  public static final class Side extends ArrayList<Level> {}
+
+  @NotThreadSafe
+  public static final class Level extends ArrayList<String> {}
 }
