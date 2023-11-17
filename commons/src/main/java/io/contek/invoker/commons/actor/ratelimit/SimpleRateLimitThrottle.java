@@ -17,7 +17,7 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 @ThreadSafe
 public final class SimpleRateLimitThrottle implements IRateLimitThrottle {
 
-  private static final Duration TIMEOUT = Duration.ofMinutes(1);
+  private static final Duration TIMEOUT = Duration.ofSeconds(5);
 
   private final String boundLocalAddress;
   private final String apiKeyId;
