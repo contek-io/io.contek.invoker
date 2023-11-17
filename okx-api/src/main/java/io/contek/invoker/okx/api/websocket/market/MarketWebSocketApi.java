@@ -89,6 +89,7 @@ public final class MarketWebSocketApi extends WebSocketApi {
 
   @Override
   protected WebSocketCall createCall(ICredential credential) {
-    return WebSocketCall.fromUrl(context.getBaseUrl() + "/ws/v5/public");
+      String suffix = adaptWebSocketSuffix(context,"/ws/v5/public");
+      return WebSocketCall.fromUrl(context.getBaseUrl() + suffix);
   }
 }

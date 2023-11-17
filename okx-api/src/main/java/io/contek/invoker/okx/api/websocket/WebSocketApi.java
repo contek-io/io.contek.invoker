@@ -4,10 +4,7 @@ import com.google.common.collect.ImmutableList;
 import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.actor.ratelimit.RateLimitRule;
 import io.contek.invoker.commons.actor.ratelimit.TypedPermitRequest;
-import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
-import io.contek.invoker.commons.websocket.BaseWebSocketApi;
-import io.contek.invoker.commons.websocket.WebSocketIllegalStateException;
-import io.contek.invoker.commons.websocket.WebSocketRuntimeException;
+import io.contek.invoker.commons.websocket.*;
 import io.contek.invoker.okx.api.websocket.common.WebSocketGeneralResponse;
 
 import javax.annotation.concurrent.ThreadSafe;
@@ -52,4 +49,12 @@ public abstract class WebSocketApi extends BaseWebSocketApi {
       }
     }
   }
+  protected String adaptWebSocketSuffix(WebSocketContext context, String baseSuffix){
+    String suffix = baseSuffix;
+    if(context.isDemo()){
+      suffix = new StringBuilder(suffix).append("?brokerId=9999").toString();
+    }
+    return suffix;
+  }
+
 }

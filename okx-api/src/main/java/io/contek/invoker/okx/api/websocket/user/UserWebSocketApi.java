@@ -50,6 +50,7 @@ public final class UserWebSocketApi extends WebSocketApi {
 
   @Override
   protected WebSocketCall createCall(ICredential credential) {
-    return WebSocketCall.fromUrl(context.getBaseUrl() + "/ws/v5/private");
+      String suffix = adaptWebSocketSuffix(context, "/ws/v5/private");
+    return WebSocketCall.fromUrl(context.getBaseUrl() + suffix);
   }
 }
